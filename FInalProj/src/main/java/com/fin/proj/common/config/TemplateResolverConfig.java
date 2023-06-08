@@ -24,7 +24,6 @@ public class TemplateResolverConfig {
 	}
 	
 	@Bean
-<<<<<<< Updated upstream
 	public ClassLoaderTemplateResolver dotBoResolver() {
 		ClassLoaderTemplateResolver dotBo = new ClassLoaderTemplateResolver();
 		dotBo.setPrefix("templates/views/board/");
@@ -36,7 +35,9 @@ public class TemplateResolverConfig {
 		dotBo.setCheckExistence(true);
 		
 		return dotBo;
-=======
+	}
+	
+	@Bean
 	public ClassLoaderTemplateResolver dotMeResolver() {
 		ClassLoaderTemplateResolver dotMe = new ClassLoaderTemplateResolver();
 		
@@ -49,6 +50,5 @@ public class TemplateResolverConfig {
 		dotMe.setCheckExistence(true);
 		
 		return dotMe;
->>>>>>> Stashed changes
 	}
 }
