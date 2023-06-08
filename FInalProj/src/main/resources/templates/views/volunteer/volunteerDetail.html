@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>봉사 신청</title>
+    <link rel="stylesheet" href="css/volunteerDetail.css">
+</head>
+<body>
+    <section id="v-title-section">
+        <div>
+            <div id="v-title">봉사 조회</div>
+        </div>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/화살표.png">
+            <a class="middle" href="#">봉사</a>
+            <img class="sub iconSize" src="image/화살표.png">
+            <a class="middle" href="#">봉사 조회</a>
+        </div>
+
+        <div class="va-prev-next-btn-div">
+            <a href="#" class="btn-gradient yellow mini prev">이전</a>
+            <a href="#" class="btn-gradient yellow mini next">다음</a>
+        </div>
+
+        <section class="v-apply-info">
+            <div class="v-apply-title">
+                <span class="v-locale-icon">경기도</span>
+                <span class="v-org">오산시 함께자람센터(재능기부 봉사자 모집)</span>
+                <span class="v-recruitment-status">(모집중)</span>
+                <button type="button" class="btn-gradient mini v-list-btn" onclick="javascript:location.href='volunteerView.vo'">목록</button>
+            </div>
+            <table>
+                <tr>
+                    <td width="15%">봉사기간</td>
+                    <td width="35%">2023.03.01~2023.05.31</td>
+                    <td width="15%">봉사시간</td>
+                    <td width="35%">15시 30분 ~ 17시 0분</td>
+                </tr>
+                <tr>
+                    <td>모집기간</td>
+                    <td>2023.02.01~2023.05.12</td>
+                    <td>활동요일</td>
+                    <td>월, 화, 수, 목, 금</td>
+                </tr>
+                <tr>
+                    <td>모집인원</td>
+                    <td>1명/일</td>
+                    <td>신청인원</td>
+                    <td>0명</td>
+                </tr>
+                <tr>
+                    <td>봉사분야</td>
+                    <td>교육 > 학습지도교육</td>
+                    <td>활동구분</td>
+                    <td>오프라인</td>
+                </tr>
+                <tr>
+                    <td>모집기관</td>
+                    <td>오산시함께자람센터19호점</td>
+                    <td>봉사대상</td>
+                    <td>아동·청소년</td>
+                </tr>
+                <tr>
+                    <td>봉사장소</td>
+                    <td colspan="3">오산시 동부대로 332-14 (청호, 자이아파트) 오산시 함께자람센터 19호점</td>
+                </tr>
+                <tr>
+                    <td>첨부파일</td>
+                    <td colspan="3">첨부파일이 없습니다.</td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <p>
+                            오산시 함께자람센터19호점 초등학교 학생들을 대상으로 운영하는 돌봄센터입니다.<br/>
+                            우리 아이들에게 재능기부해 주실 봉사자분들을 모십니다.<br/>
+                            우리 아이들에게 좋은 영향력을 줄 수 있는 다양한 재능기부를 기다립니다.<br/>
+                            많은 관심부탁드립니다 ~~ ^^<br/>
+                            (요일, 시간 조절 가능 / 문의전화 언제든 환영)
+                        </p>
+                        <div>
+                            <div>[수요처지도]</div>
+                            <div id="map"></div>
+                            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=144e8e9bda1bec907d87788df99a299d"></script>
+                            <script>
+                                var container = document.getElementById('map');
+                                var options = {
+                                    center: new kakao.maps.LatLng(33.450701, 126.570667),
+                                    level: 3
+                                };
+
+                                var map = new kakao.maps.Map(container, options);
+                            </script>
+
+                            <div>
+                                <span class="v-charge-name">담당자명 : 임춘휘</span>
+                                <span class="v-charge-phone">전화번호 : 031-665-3019</span>
+                            </div>
+                            <div class="v-charge-address-div">
+                                <span class="v-charge-address">주소 : 경기도 오산시 동부대로 332-14(청호동, 오산자이아파트) 생활지원센터 지하1층</span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="v-apply-btn-div">
+                <button type="button" class="learn-more v-apply-btn" onclick="location.href='volunteerApplyView.vo'">신청하기</button>
+            </div>
+        </section>
+    </section>
+    <br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>
