@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<style>
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+	--body-background-color: #f5f6f7;
+	--font-color: #4e4e4e;
+	--border-gray-color: #dadada;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "SUITE-Regular", sans-serif;
+}
+
+.enroll {
+	width: 360px;
+	margin: 0px auto;
+	display: block;
+}
+
+.enroll-title {
+	font-size: 30px;
+	margin-bottom: 75px;
+	text-decoration: #9DC08B wavy underline;
+	margin-left: 113px;
+}
+
+/* hr { */
+/* 	border: 1px solid #609966; */
+/* 	width: 335px; */
+/* } */
+
+.title {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: bold;
+	word-break: keep-all;
+	color: #4e4e4e;
+}
+
+.insert {
+	margin-top: 40px;
+}
+
+.input {
+	margin-top: 15px;
+}
+
+#short-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 233px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+.short-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 100px;
+	height: 40px;
+	font-size: 15px;
+	color: white;
+	background-color: #609966;
+	border: 1px solid #609966;
+}
+
+#normal-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 333px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+#ssn-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 154px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+#email-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 149px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+#email-select {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 150px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+.nothing {
+	margin-left: 9px;
+	margin-right: 9px;
+}
+
+.normal-btn {
+	margin-top: 8px;
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 333px;
+	height: 40px;
+	font-size: 15px;
+	color: white;
+	background-color: #609966;
+	border: 1px solid #609966;
+}
+
+.enroll-btn {
+	margin-bottom: 40px;
+}
+
+.learn-more {
+	margin-top:10px;	
+	margin-left: 113px;		
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	outline: none;
+	border: 0;
+	vertical-align: middle;
+	text-decoration: none;
+	font-size: 15px;
+	font-family: inherit;
+	width:100px;
+	height:32px;
+	font-weight: 600;
+	color: #382b22;
+	text-transform: uppercase;
+	background: #EDF1D6;
+	border: 2px solid #609966;
+	border-radius: 0.75em;
+	transform-style: preserve-3d;
+	transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.learn-more::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #9DC08B;
+  border-radius: inherit;
+  box-shadow: 0 0 0 2px #609966, 0 0.625em 0 0 #EDF1D6;
+  transform: translate3d(0, 0.75em, -1em);
+  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.learn-more:hover {
+  background: #EDF1D6;
+  transform: translate(0, 0.25em);
+}
+
+.learn-more:hover::before {
+  box-shadow: 0 0 0 2px #609966, 0 0.5em 0 0 #EDF1D6;
+  transform: translate3d(0, 0.5em, -1em);
+}
+
+.learn-more:active {
+  background: #EDF1D6;
+  transform: translate(0em, 0.75em);
+}
+
+.learn-more:active::before {
+  box-shadow: 0 0 0 2px #b18597, 0 0 #EDF1D6;
+  transform: translate3d(0, 0, -1em);
+}
+
+.pwd-comment {
+	font-size: 14px;
+	color: gray;
+}
+
+.enroll-comment {
+	font-size: 14px;
+	color: gray;
+	margin-left: 75px;
+}
+
+.last {
+	padding-top: 20px;
+	text-align: center;
+}
+
+a {
+	text-decoration: none;
+	font-size: 14px;
+	color: #4e4e4e;
+	font-weight: bold;
+}
+
+/* 모달 */
+#modal { width: 350px; height: 200px; border: 1px solid #eee; padding: 40px; margin: auto; display: none;
+		 border-radius: 20px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);  text-align: center; background-color: white;
+ 		 position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;}
+
+.modal-comment {
+	font-size: 20px;
+}
+
+#use-id-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 100px;
+	height: 35px;
+	font-size: 15px;
+	color: #609966;
+	background-color: #fff;
+	border: 1.5px solid #609966;
+}
+
+.radio-comment {
+	font-size: 15px;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+#user-type {
+	accent-color: #609966;
+	width: 14px;
+	height: 14px;
+}
+		 
+</style>
+<body>
+<div th:replace="~{views/common/header :: header}"></div>
+<br><br><br><br>
+
+<div class="enroll">
+	<div class="enroll-title">회원가입</div>
+	
+	<form>
+		<div class="insert id">
+			<label class="title">아이디</label>
+			<div class="input">
+				<input type="text" id="short-input" placeholder="아이디"/>
+				<button class="short-btn" id="double-check">중복 확인</button>
+			</div>
+		</div>
+		
+		<div class="insert pwd">
+			<label class="title">비밀번호</label><br>
+			<span class="pwd-comment">영문, 숫자를 포함한 8자리 이상의 비밀번호를 입력해주세요.</span>
+			<div class="input">
+				<input type="password" id="normal-input" placeholder="비밀번호"/>
+			</div>
+		</div>
+		
+		<div class="insert pwd">
+			<label class="title">비밀번호 확인</label>
+			<div class="input">
+				<input type="password" id="normal-input" placeholder="비밀번호 확인"/>
+			</div>
+		</div>
+		
+		<div class="insert name">
+			<label class="title">이름</label>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="이름"/>
+			</div>
+		</div>
+	
+		<div class="insert agency-name">
+			<label class="title">회원 유형</label><br>
+			<span class="pwd-comment">단체 회원일 경우 기관명을 입력해주세요.</span>
+			<div class="input">
+				<input type="radio" id="user-type" name="user-type"/><span class="radio-comment">일반</span>
+				<input type="radio" id="user-type" name="user-type"/><span class="radio-comment">단체</span>
+				<input type="text" id="ssn-input" placeholder="기관명"/>
+			</div>
+		</div>
+	
+		<div class="insert ssn">
+			<label class="title">주민등록번호</label>
+			<div class="input">
+				<input type="text" id="ssn-input" placeholder="앞 자리" maxlength="6"/><span class="nothing">-</span><input type="password" id="ssn-input" placeholder="뒷 자리" maxlength="7"/>
+			</div>
+		</div>
+		
+		<div class="insert address">
+			<label class="title">주소</label>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="주소"/>
+			</div>
+			<div class="address-btn">
+				<button class="normal-btn" id="search-ad">주소 검색</button>
+			</div>
+		</div>
+		
+		<div class="insert phone">
+			<label class="title">전화번호</label>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="전화번호"/>
+			</div>
+		</div>
+		
+		<div class="insert email">
+			<label class="title">이메일</label>
+			<div class="input">
+				<input type="text" id="email-input" placeholder="이메일"/><span class="nothing">@</span>
+				<select name="email" id="email-select">
+					<option>naver.com</option>
+					<option>gmail.com</option>
+					<option>daum.net</option>
+					<option>nate.com</option>
+					<option>직접입력</option>
+				</select>
+				
+			<div class="input">
+				<input type="text" id="short-input" placeholder="인증번호"/>
+				<button class="short-btn">메일 전송</button>
+			</div>					
+			</div>
+		</div>
+		
+		<div class="insert nickName">
+			<label class="title">닉네임</label>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="닉네임"/>
+			</div>
+		</div>
+
+		<div class="insert enroll-btn">
+			<button class="learn-more">가입하기</button>
+		</div>							
+	</form>	
+	
+		<div class="enroll-comment">이미 아이디가 있으신가요? <a href="login">로그인</a></div>
+
+		<div id="modal"><br>
+			<span class="modal-comment">입력한 아이디 : user01</span><br>
+			<span class="modal-comment">해당 아이디는 사용이 가능합니다.</span><br><br>
+			<button id="use-id-btn">사용하기</button>
+		</div>
+		
+	</div>
+	
+<br><br><br><br>
+<div th:replace="~{views/common/footer :: footer}"></div>
+
+<script>
+	const doubleCheckBtn = document.getElementById('double-check');
+	const useBtn = document.getElementById('use-id-btn');
+	const modal = document.getElementById('modal');
+	
+	doubleCheckBtn.addEventListener('click', () => {
+		event.preventDefault();
+	    modal.style.display = 'block';
+	});
+	
+	useBtn.addEventListener('click', () => {
+	    modal.style.display = 'none';
+	});
+</script>
+</body>
+</html>
