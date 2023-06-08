@@ -22,4 +22,18 @@ public class TemplateResolverConfig {
 		
 		return dotDo;
 	}
+	
+	@Bean
+	public ClassLoaderTemplateResolver dotBoResolver() {
+		ClassLoaderTemplateResolver dotBo = new ClassLoaderTemplateResolver();
+		dotBo.setPrefix("templates/views/board/");
+		dotBo.setSuffix(".html");
+		dotBo.setTemplateMode(TemplateMode.HTML);
+		dotBo.setCharacterEncoding("UTF-8");
+		dotBo.setOrder(1);
+		dotBo.setCacheable(false);
+		dotBo.setCheckExistence(true);
+		
+		return dotBo;
+	}
 }
