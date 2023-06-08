@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>봉사 수정</title>
+    <link rel="stylesheet" href="css/volunteerEdit.css">
+</head>
+<body>
+    <section id="v-title-section">
+        <div>
+            <div id="v-title">봉사 수정</div>
+        </div>
+
+        <section class="v-apply-info">
+            <table>
+                <tr>
+                    <td>지역</td>
+                    <td colspan="3">
+                        <button class="dropdown-btn" id="areabtn">서울</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>제목</td>
+                    <td colspan="3">
+                        <input type="text"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="15%">봉사기간</td>
+                    <td width="35%">
+                        <div class="dateDiv">
+                            <input type="date" id="startDate"/><span class="date-delimeter"></span><input type="date" id="endDate"/>
+                        </div>
+                    </td>
+                    <td width="15%">봉사시간</td>
+                    <td width="35%">
+                        <div class="dateDiv">
+                            <input type="time" id="startTime"/><span class="date-delimeter"></span><input type="time" id="endTime"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>모집기간</td>
+                    <td>
+                        <div class="dateDiv">
+                            <input type="date" id="startDate"/><span class="date-delimeter"></span><input type="date" id="endDate"/>
+                        </div>
+                    </td>
+                    <td>활동요일</td>
+                    <td>
+                        <span class="v-day">월</span><span class="v-day">화</span><span class="v-day">수</span><span class="v-day">목</span><span class="v-day">금</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>모집인원</td>
+                    <td><input type="number"/>명</td>
+                    <td>활동구분</td>
+                    <td>
+                        <span class="dropdown" id="onoffLine-dropdown">
+                            <button class="dropdown-btn" id="on-offLineBtn">선택</button>
+                            <input type="hidden" id="onoffLine" name="onoffLine" value="none"/>
+                            <div class="dropdown-content" id="onoffLine-content">
+                                <span class="selectOnOffLine">온라인</span>
+                                <span class="selectOnOffLine">오프라인</span>
+                            </div>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>봉사분야</td>
+                    <td>
+                        <span class="dropdown" id="mainCategory-dropdown">
+                            <button class="dropdown-btn" id="mainCategoryBtn">선택</button>
+                            <input type="hidden" id="mainCategory" name="mainCategory" value="none"/>
+                            <div class="dropdown-content" id="mainCategory-content">
+                                <span class="selectMainCategory">생활편의지원</span>
+                                <span class="selectMainCategory">주거환경</span>
+                                <span class="selectMainCategory">상담</span>
+                                <span class="selectMainCategory">교육</span>
+                                <span class="selectMainCategory">문화행사</span>
+                                <span class="selectMainCategory">환경보호</span>
+                                <span class="selectMainCategory">안전·예방</span>
+                                <span class="selectMainCategory">재해·재난</span>
+                            </div>
+                        </span>
+                        <span class="subCategoryDelimiter">></span>
+                        <span class="dropdown" id="subCategory-dropdown">
+                            <button class="dropdown-btn" id="subCategoryBtn">선택</button>
+                            <input type="hidden" id="subCategory" name="subCategory" value="none"/>
+                            <div class="dropdown-content" id="subCategory-content">
+                            </div>
+                        </span>
+                    </td>
+                    <td>봉사대상</td>
+                    <td>
+                        <span class="dropdown" id="object-dropdown">
+                            <button class="dropdown-btn" id="objectBtn">선택</button>
+                            <input type="hidden" id="object" name="object" value="none"/>
+                            <div class="dropdown-content" id="object-content">
+                                <span class="selectObject">아동·청소년</span>
+                                <span class="selectObject">장애인</span>
+                                <span class="selectObject">노인</span>
+                                <span class="selectObject">여성</span>
+                                <span class="selectObject">환경</span>
+                                <span class="selectObject">기타</span>
+                            </div>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>모집기관</td>
+                    <td class="td-padding">오산시함께자람센터19호점</td>
+                    <td>담당자명</td>
+                    <td><input type="text"/></td>
+                </tr>
+                <tr>
+                    <td>봉사장소</td>
+                    <td colspan="3" class="td-padding">오산시 동부대로 332-14 (청호, 자이아파트) 오산시 함께자람센터 19호점</td>
+                </tr>
+                <!-- <tr>
+                    <td>첨부파일</td>
+                    <td colspan="3"><input type="file"/></td>
+                </tr> -->
+                <tr>
+                    <td colspan="4">
+                        <!-- 썸머 노트? -->
+                        <p>
+                            오산시 함께자람센터19호점 초등학교 학생들을 대상으로 운영하는 돌봄센터입니다.<br/>
+                            우리 아이들에게 재능기부해 주실 봉사자분들을 모십니다.<br/>
+                            우리 아이들에게 좋은 영향력을 줄 수 있는 다양한 재능기부를 기다립니다.<br/>
+                            많은 관심부탁드립니다 ~~ ^^<br/>
+                            (요일, 시간 조절 가능 / 문의전화 언제든 환영)
+                        </p>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="v-apply-btn-div">
+                <button type="button" class="learn-more-green v-apply-btn" onclick="location.href='#'">수정하기</button>
+            </div>
+        </section>
+    </section>
+    <br><br><br><br><br><br><br><br><br><br><br>
+
+    <script>
+        window.onload = () => {
+            const selectOnOffLines = document.getElementsByClassName("selectOnOffLine");
+            const selectObjects = document.getElementsByClassName("selectObject");
+            const selectMainCategories = document.getElementsByClassName("selectMainCategory");
+            let checkMain = false;
+
+            document.getElementById("subCategory-dropdown").style.display = "none";
+
+            document.getElementById("on-offLineBtn").addEventListener("click", () => {
+                document.getElementById("onoffLine-content").style.display = "block";
+            });
+
+            for(const selectOnOffLine of selectOnOffLines) {
+                selectOnOffLine.addEventListener("click", function() {
+                    document.getElementById("on-offLineBtn").innerText = this.innerText;
+                    document.getElementById("onoffLine").value = this.innerText;
+                    document.getElementById("onoffLine-content").style.display = "none";
+                });
+            }
+
+            document.getElementById("objectBtn").addEventListener("click", () => {
+                document.getElementById("object-content").style.display = "block";
+            });
+
+            for(const selectObject of selectObjects) {
+                selectObject.addEventListener("click", function() {
+                    document.getElementById("objectBtn").innerText = this.innerText;
+                    document.getElementById("object").value = this.innerText;
+                    document.getElementById("object-content").style.display = "none";
+                });
+            }
+
+            document.getElementById("mainCategoryBtn").addEventListener("click", () => {
+                document.getElementById("mainCategory-content").style.display = "block";
+            });
+
+            for(const selectMainCategory of selectMainCategories) {
+                selectMainCategory.addEventListener("click", function() {
+                    document.getElementById("mainCategoryBtn").innerText = this.innerText;
+                    document.getElementById("mainCategory").value = this.innerText;
+                    document.getElementById("mainCategory-content").style.display = "none";
+                    document.querySelector('.subCategoryDelimiter').style.display = "inline-block";
+                    document.getElementById("subCategory-dropdown").style.display = "inline-block";
+                    if(checkMain) {
+                        deleteSubCategory();
+                    }
+                    createSubCategory(this.innerText);
+                    subCategoryEvent();
+                    checkMain = true;
+                });
+            }
+
+            const vDays = document.getElementsByClassName("v-day");
+            for(const vDay of vDays) {
+                vDay.addEventListener("click", function() {
+                    this.classList.toggle("v-day-select");
+                });
+            }
+        }
+
+        const convenienceSupport = ['활동보조', '이동지원', '청결지도', '급식지원', '식사·반찬지원', '기타'];
+        const residentalEnvironment = ['주거개선', '마을공동체활동', '기타'];
+        const consultation = ['말벗·상담', '전문상담', '기타'];
+        const education = ['방과후 교육', '학습지도 교육', '특수교육', '평생교육', '전문교육', '진로체험지도', '기타'];
+        const cultureEvent = ['행사보조', '공연활동', '캠페인', '관광안내', '사진촬영', '기타'];
+        const environmentalProtection = ['환경정화', '환경감시', '기타'];
+        const safetyPevention = ['지역안전', '교통안전', '어린이 안전', '청소년 안전', '취약계층 안전', '안전신고·활동', '기타'];
+        const disaster = ['피해복구', '긴급구조', '예방접종지원', '기타'];
+
+        const deleteSubCategory = () => {
+            const subCategoryContent = document.getElementById("subCategory-content");
+            while (subCategoryContent.firstChild) {
+                subCategoryContent.removeChild(subCategoryContent.firstChild);
+                document.getElementById("subCategoryBtn").innerText = "선택";
+                document.getElementById("subCategory").value = "none";
+            }
+        }
+
+        const createSubCategory = (category) => {
+            let subCateName = '';
+            if(category == '생활편의지원') {
+                subCateName = convenienceSupport;
+            } else if(category == '주거환경') {
+                subCateName = residentalEnvironment;
+            } else if(category == '상담') {
+                subCateName = consultation;
+            } else if(category == '교육') {
+                subCateName = education;
+            } else if(category == '문화행사') {
+                subCateName = cultureEvent;
+            } else if(category == '환경보호') {
+                subCateName = environmentalProtection;
+            } else if(category == '안전·예방') {
+                subCateName = safetyPevention;
+            } else if(category == '재해·재난') {
+                subCateName = disaster;
+            }
+            
+            for(let i=0; i < subCateName.length; i++) {
+                let spanElement = document.createElement("span");
+                spanElement.classList.add("selectSubCategory");
+                spanElement.textContent = subCateName[i];
+                document.getElementById("subCategory-content").appendChild(spanElement);
+            }
+        }
+
+        const subCategoryEvent = () => {
+            let selectSubCategories = document.getElementsByClassName("selectSubCategory");
+            for(const selectSubCategory of selectSubCategories) {
+                selectSubCategory.addEventListener("click", function() {
+                    document.getElementById("subCategoryBtn").innerText = this.innerText;
+                    document.getElementById("subCategory").value = this.innerText;
+                    document.getElementById("subCategory-content").style.display = "none";
+                });
+            }
+
+            document.getElementById("subCategoryBtn").addEventListener("click", () => {
+                document.getElementById("subCategory-content").style.display = "block";
+            });
+        } 
+    </script>
+</body>
+</html>
