@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자주 묻는 질문</title>
+<link rel="stylesheet" href="css/faq_style.css">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<style>
+	@font-face {
+	    font-family: 'SUITE-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+	    font-weight: 400;
+	    font-style: normal;
+	}
+	* {
+	  margin: 0;
+	  padding: 0;
+	  box-sizing: border-box;
+	  font-family: "SUITE-Regular", sans-serif;
+	} 
+</style>
+</head>
+<body>
+	<div th:replace="~{../common/header :: header}"></div>
+	
+	<section id="faqSection">
+        <div>
+            <div id="faqTitle">자주 묻는 질문</div>
+        </div>
+
+        <div class="path">
+            <a class="middle" href="/"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/arrow.png">
+            <a class="middle" href="#">커뮤니티</a>
+            <img class="sub iconSize" src="image/arrow.png">
+            <a class="middle">자주 묻는 질문</a>
+        </div>
+
+        <div class="actionArea">
+            <div class="writeArea">
+                <button class="writeFaqBtn learn-more" onclick="location.href='faq_form.bo'">글쓰기</button>
+            </div>
+            <div class="searchArea">
+                <input class="searchInput" type="text" placeholder="검색"/>
+                <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
+            </div>
+        </div>
+
+        <table class="faqTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th style="width: 300px;">제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>자주 묻는 질문입니다❔</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>자주 묻는 질문입니다❔</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>자주 묻는 질문입니다❔</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>자주 묻는 질문입니다❔</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>자주 묻는 질문입니다❔</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>자주 묻는 질문입니다❔</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>자주 묻는 질문입니다❔</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>자주 묻는 질문입니다❔</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>자주 묻는 질문입니다❔</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>자주 묻는 질문입니다❔</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page">
+            <ul class="pagination">
+                <li><a href="#" class="first"><img class="arrowKey" src="image/before.png"></a></li>
+                <li><a href="#" class="num">1</a></li>
+                <li><a href="#" class="num">2</a></li>
+                <li><a href="#" class="num">3</a></li>
+                <li><a href="#" class="num">4</a></li>
+                <li><a href="#" class="num">5</a></li>
+                <li><a href="#" class="last"><img class="arrowKey" src="image/next.png"></a></li>
+            </ul>
+        </div>
+    </section>
+    <div th:replace="~{views/common/footer :: footer}"></div>
+    <script>
+    	window.onload = () =>{
+			const tbody = document.querySelector('tbody');
+			const tds = tbody.querySelectorAll('td');
+			
+			for(const td of tds){	// for of 배열 안 요소, for in 배열 안 인덱스(객체는 키)
+// 				console.log(td);
+				td.addEventListener('click', function(){
+					// 부모 요소로 올라가 자식 중 0번째(글번호), 2번째(작성자) 가져오기
+					console.log(this.parentElement); // <tr>...</tr> 반환
+					
+					location.href="faq_detail.bo";
+// 					const trTds= this.parentElement.children; // = querySelectorAll
+// 					const boardId = trTds[0].innerText;
+// 					const writer = trTds[2].innerText;			// url에 들어가기 때문에 = 양쪽에 띄어쓰기 금지
+// 					location.href='${contextPath}/selectBoard.bo?bId=' + boardId 
+// 							+ '&writer=' + writer + '&page=' + ${pi.currentPage};
+				});
+			}
+    	}
+    </script>
+</body>
+</html>
