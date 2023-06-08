@@ -24,6 +24,7 @@ public class TemplateResolverConfig {
 	}
 	
 	@Bean
+<<<<<<< Updated upstream
 	public ClassLoaderTemplateResolver dotBoResolver() {
 		ClassLoaderTemplateResolver dotBo = new ClassLoaderTemplateResolver();
 		dotBo.setPrefix("templates/views/board/");
@@ -35,5 +36,19 @@ public class TemplateResolverConfig {
 		dotBo.setCheckExistence(true);
 		
 		return dotBo;
+=======
+	public ClassLoaderTemplateResolver dotMeResolver() {
+		ClassLoaderTemplateResolver dotMe = new ClassLoaderTemplateResolver();
+		
+		dotMe.setPrefix("templates/views/member/");
+		dotMe.setSuffix(".html");
+		dotMe.setTemplateMode(TemplateMode.HTML);
+		dotMe.setCharacterEncoding("UTF-8");
+		dotMe.setOrder(1);
+		dotMe.setCacheable(false);
+		dotMe.setCheckExistence(true);
+		
+		return dotMe;
+>>>>>>> Stashed changes
 	}
 }

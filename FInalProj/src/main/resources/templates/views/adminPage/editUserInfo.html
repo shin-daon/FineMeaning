@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자주 묻는 질문</title>
+<link rel="stylesheet" href="faq_style.css">
+<style>
+@font-face {
+   font-family: 'SUITE-Regular';
+   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+   font-weight: 400;
+   font-style: normal;
+}
+        
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: "SUITE-Regular", sans-serif;
+} 
+
+#faqSection {
+    margin-top: 80px;
+    margin-left: 13%;
+    display: flex;
+
+    align-items: center;
+    flex-direction: column; /* 세로 방향, row는 가로 방향 */
+}
+
+#faqTitle {
+    font-size: 30px;
+    border-bottom: 2px solid #40513B;
+}
+
+.path {
+    margin-top: 30px;
+    width: 740px;
+    font-size: 14px;
+}
+
+.middle {
+    vertical-align: middle;
+    text-decoration: none;
+    color: black;
+}
+
+.iconSize {
+    block-size: 12px;
+}
+
+.homeIconSize {
+    block-size: 14px;
+}
+
+.sub {
+    vertical-align: sub;
+}
+
+.writeFaqBtn {
+    width: 80px;
+    height: 30px;
+    background-color: #9DC08B;
+    color: white;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    border: 1px solid black;
+    font-size: 14px;
+}
+
+.actionArea {
+    margin-top: 30px;
+    width: 750px;
+}
+
+.writeArea {
+    float: left;
+}
+
+.searchArea {
+    float: right;
+}
+
+.searchInput {
+    float: right;
+    width: 160px;
+    height: 30px;
+    padding: 10px 12px;
+    padding-right: 20px;
+    border-radius: 0.4rem;
+    background-color: #f3f3f3;
+}
+
+.searchIcon {
+    width: 15px;
+}
+
+.searchIconATag {
+    position: relative;
+    left: 155px;
+    top: 6px;
+}
+
+.faqTable {
+    width: 750px;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+th, td {
+    padding: 10px;
+}
+
+.faqTable thead tr th {
+    border-bottom: 1px dotted black;
+    background-color: #EDF1D6;
+}
+
+.faqTable thead tr th:nth-child(1) {
+    border-radius: 10px 0px 0px 0px;
+}
+
+.faqTable thead tr th:nth-child(5) {
+    border-radius: 0px 10px 0px 0px;
+}
+
+.page {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: row;
+}
+
+.pagination > li {
+    list-style-type: none;
+    float: left;
+}
+
+.pagination > li > .num {
+    margin: 10px;
+    width: 20px;
+    height: 20px;
+    text-decoration-line: none;
+    color: black;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center
+}
+
+.pagination > li > .num:hover {
+    color: white;
+    background-color: #40513B;
+    border-radius: 100%;
+}
+
+.arrowKey {
+    margin-top: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
+    block-size: 14px;
+    display: block;
+}
+
+.faqTable > tbody > tr:hover{
+    background-color: #f9fceb;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div th:replace="~{views/common/header :: header}"></div>
+
+<div>
+    <section style="display: flex;">
+	<div th:replace="~{views/common/adminSidebar :: adminSidebar}"></div>
+	
+	<section id="faqSection">
+        <div>
+            <div id="faqTitle">회원 목록</div>
+        </div>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="resources/image/home.png"></a>
+            <img class="sub iconSize" src="resources/image/화살표.png">
+            <a class="middle" href="#">관리자 페이지</a>
+            <img class="sub iconSize" src="resources/image/화살표.png">
+            <a class="middle">회원</a>
+        </div>
+
+        <div class="actionArea">
+            <div class="writeArea">
+                <button class="writeFaqBtn" onclick="location.href='#'">글쓰기</button>
+            </div>
+            <div class="searchArea">
+                <input class="searchInput" type="text" placeholder="검색"/>
+                <a class="searchIconATag" href="#"><img class="searchIcon" src="resources/image/search.png"></a>
+            </div>
+        </div>
+
+        <table class="faqTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>아이디</th>
+                    <th>이름</th>
+                    <th>생년월일</th>
+                    <th>전화번호</th>
+                    <th>닉네임</th>
+                    <th>가입유형</th>
+                    <th>활동상태</th>
+                    <th>회원구분</th>
+                    <th>등록기관</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>user01</td>
+                    <td>강건강</td>
+                    <td>990525</td>
+                    <td>010-0000-0000</td>
+                    <td>건강최고</td>
+                    <td>카카오</td>
+                    <td>Y</td>
+                    <td>일반</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>user01</td>
+                    <td>강건강</td>
+                    <td>990525</td>
+                    <td>010-0000-0000</td>
+                    <td>건강최고</td>
+                    <td>카카오</td>
+                    <td>Y</td>
+                    <td>일반</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>user01</td>
+                    <td>강건강</td>
+                    <td>990525</td>
+                    <td>010-0000-0000</td>
+                    <td>건강최고</td>
+                    <td>카카오</td>
+                    <td>Y</td>
+                    <td>관리자</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page">
+            <ul class="pagination">
+                <li><a href="#" class="first"><img class="arrowKey" src="resources/image/왼쪽페이지.png"></a></li>
+                <li><a href="#" class="num">1</a></li>
+                <li><a href="#" class="num">2</a></li>
+                <li><a href="#" class="num">3</a></li>
+                <li><a href="#" class="num">4</a></li>
+                <li><a href="#" class="num">5</a></li>
+                <li><a href="#" class="last"><img class="arrowKey" src="resources/image/오른쪽페이지.png"></a></li>
+            </ul>
+        </div>
+        </section>
+    </section>
+  </div>
+  
+<br><br><br><br>
+<div th:replace="~{views/common/footer :: footer}"></div>
+</body>
+</html>
