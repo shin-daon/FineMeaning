@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="header">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="css/header.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://kit.fontawesome.com/1c67f557d9.js" crossorigin="anonymous"></script>
+<style>
+#main > ul {
+    display: flex;
+    justify-content: center;
+    padding:0;
+}
+
+</style>
+</head>
+<body>
+	<header id="header">
+        <a href="/"><img src="image/logo.png"/></a>
+        <nav id="main">
+            <ul class="menu SMN_effect-6">
+                <li><a href="#" data-hover="선뜻">선뜻</a></li>
+                <li><a href="#" data-hover="봉사">봉사</a></li>
+                <li><a href="#" data-hover="후원">후원</a></li>
+                <li><a href="#" data-hover="커뮤니티">커뮤니티</a></li>
+                <li><a href="#" data-hover="MY">MY</a></li>
+            </ul>
+        </nav>
+        <div class="bar">
+            <i class="fa-solid fa-bars"></i>
+            <div class="hamburgerMenu">
+                <ul class="menu">
+                    <li><a href="#" data-hover="선뜻">선뜻</a></li>
+                    <li><a href="#" data-hover="봉사">봉사</a></li>
+                    <li><a href="#" data-hover="후원">후원</a></li>
+                    <li><a href="#" data-hover="커뮤니티">커뮤니티</a></li>
+                    <li><a href="#" data-hover="MY">MY</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <section id="subMenu">
+        <div>
+            <div><a href="#">NOTICE</a></div>
+            <div><a href="#">선한 뉴스</a></div>
+            <div><a href="#">선뜻한 사람</a></div>
+            <div><a href="#">결실</a></div>
+        </div>
+        <div>
+            <div><a href="#">봉사</a></div>
+        </div>
+        <div>
+            <div><a href="supportMain.su">모금함</a></div>
+        </div>
+        <div>
+            <div><a href="editMyInfo">TALK</a></div>
+            <div><a href="editUserInfo">자주 묻는 질문</a></div>
+            <div><a href="etc">Q&A</a></div>
+        </div>
+        <div>
+            <!-- 비 로그인 -->
+            <div><a href="login">로그인</a></div>
+            <div><a href="enroll">회원가입</a></div>
+            <div><a href="findId">아이디 찾기</a></div>
+            <div><a href="findPwd">비밀번호 찾기</a></div>
+
+            <!-- 로그인 -->
+            <!-- <div><a href="#">로그아웃</a></div>
+            <div><a href="#">내 정보 수정</a></div>
+            <div><a href="#">후원 내역</a></div>
+            <div><a href="#">자원 봉사 내역</a></div>
+            <div><a href="#">작성 글</a></div>
+            <div><a href="#">작성 댓글</a></div> -->
+        </div>
+    </section>
+    <script>
+        $(document).ready(function() {
+            $(".hamburgerMenu").hide();
+
+            $(".bar i").click(function() {
+                $(".hamburgerMenu").toggle();
+                $(".bar").toggleClass('background');
+                $(".bar i").toggleClass('hamburger');
+            });
+
+            $('#subMenu > div:nth-child(1)').hover(function() {
+                $('#main > ul > li:nth-child(1) > a').css({
+                    'border-bottom': '2px solid #40513B',
+                    'color': '#40513B'
+                });
+            }, function() {
+                $('#main a:nth-child(1)').css({
+                'border-bottom': '',
+                'color': ''
+                });
+            });
+
+            $('#subMenu > div:nth-child(2)').hover(function() {
+                $('#main > ul > li:nth-child(2) > a').css({
+                    'border-bottom': '2px solid #40513B',
+                    'color': '#40513B'
+                });
+            }, function() {
+                $('#main > ul > li:nth-child(2) > a').css({
+                'border-bottom': '',
+                'color': ''
+                });
+            });
+
+            $('#subMenu > div:nth-child(3)').hover(function() {
+                $('#main > ul > li:nth-child(3) > a').css({
+                    'border-bottom': '2px solid #40513B',
+                    'color': '#40513B'
+                });
+            }, function() {
+                $('#main > ul > li:nth-child(3) > a').css({
+                'border-bottom': '',
+                'color': ''
+                });
+            });
+
+            $('#subMenu > div:nth-child(4)').hover(function() {
+                $('#main > ul > li:nth-child(4) > a').css({
+                    'border-bottom': '2px solid #40513B',
+                    'color': '#40513B'
+                });
+            }, function() {
+                $('#main > ul > li:nth-child(4) > a').css({
+                'border-bottom': '',
+                'color': ''
+                });
+            });
+
+            $('#subMenu > div:nth-child(5)').hover(function() {
+                $('#main > ul > li:nth-child(5) > a').css({
+                    'border-bottom': '2px solid #40513B',
+                    'color': '#40513B'
+                });
+            }, function() {
+                $('#main > ul > li:nth-child(5) > a').css({
+                'border-bottom': '',
+                'color': ''
+                });
+            });
+
+            var $firstmenu = $('#header');
+            var $subMenu = $('#subMenu');
+
+            $firstmenu.mouseenter(function() {
+                $subMenu.stop().slideDown(300);
+            }).mouseleave(function() {
+                $subMenu.stop().slideUp(300);
+            });
+
+            $subMenu.mouseenter(function() {
+                $subMenu.stop().slideDown(300);
+            }).mouseleave(function() {
+                $subMenu.stop().slideUp(300);
+            });
+        });
+    </script>
+</body>
+</html>
