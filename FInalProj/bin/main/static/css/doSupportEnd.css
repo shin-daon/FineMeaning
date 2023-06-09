@@ -54,10 +54,13 @@
 }
 
 .doSupportTitleSection{
-    width:400px;
+	padding-top:50px;
+    width:600px;
     height: 400px;
     margin-top: 70px;
-    border:1px solid black;
+    border:1px dotted black;
+    border-radius:1em;
+    background-color: rgb(255,255,255,0.7);
     
 }
 
@@ -70,9 +73,6 @@
 
 .doSupportTitle{
     font-size:30px;
-    width:200px;
-    height:200px;
-    border:1px solid black;
 }
 
 .doSupportGroup{
@@ -174,4 +174,10 @@
 .learn-more:active::before {
   box-shadow: 0 0 0 2px #b18597, 0 0 #EDF1D6;
   transform: translate3d(0, 0, -1em);
+}
+
+.thanks{
+	margin-top:70px;
+	text-align:center;
+	font-size:25px;
 }
