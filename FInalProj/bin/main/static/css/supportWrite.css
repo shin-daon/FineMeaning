@@ -99,15 +99,13 @@ textarea:hover{
 }
 
 #supportListSection {
-    margin-top: 50px;
     display: flex;
     /* justify-content(가로 가운데)랑 align-items(세로 가운데) 쓰기 위해 선언!
         ≫ column을 하는 순간 반대로 다 바뀜 */
     align-items: center;
     flex-direction: column; /* 세로 방향, row는 가로 방향 */
    	margin-top:100px;
-	margin-left:25%;
-	margin-right:auto;
+	margin-left:18%;
     
 }
 
