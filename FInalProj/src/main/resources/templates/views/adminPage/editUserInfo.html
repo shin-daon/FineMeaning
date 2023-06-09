@@ -304,7 +304,7 @@ input:checked + .switch:after {
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>user01</td>
+                    <td class="td">user01</td>
                     <td>강건강</td>
                     <td>990525</td>
                     <td>010-0000-0000</td>
@@ -434,5 +434,35 @@ input:checked + .switch:after {
   
 <br><br><br><br>
 <div th:replace="~{views/common/footer :: footer}"></div>
+
+<script>
+	const isStatusUser = document.getElementsByClassName('is-status-user')[0];
+	const adminUser = document.getElementsByClassName('admin-user')[0];
+	
+	isStatusUser.addEventListener('click', () => {
+	  toggleStyle(isStatusUser);
+	});
+	
+	adminUser.addEventListener('click', () => {
+	  toggleStyle(adminUser);
+	});
+	
+	function toggleStyle(element) {
+	  if (element.style.background === '' || element.style.background === 'none') {
+	    element.style.background = '#9DC08B';
+	    element.style.color = '#fff';
+	  } else {
+	    element.style.background = '';
+	    element.style.color = '';
+	  }
+	}
+	
+	
+	const tdElement = document.querySelector('td.td');
+
+	tdElement.addEventListener('click', () => {
+	  window.location.href = 'userInfoDetail';
+	});
+</script>
 </body>
 </html>
