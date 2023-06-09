@@ -22,7 +22,7 @@
     align-items: center;
     flex-direction: column; /* 세로 방향, row는 가로 방향 */
     margin-top:100px;
-	margin-left:30%;
+	margin-left:18%;
 }
 
 #supportList {
@@ -145,10 +145,6 @@ th, td {
     margin-left: 10px;
     margin-right: 10px;
     block-size: 12px;
-}
-
-#supportTable td:hover{
-    background-color: 
 }
 
 
