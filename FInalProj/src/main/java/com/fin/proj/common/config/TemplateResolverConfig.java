@@ -9,18 +9,33 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 public class TemplateResolverConfig {
 	
 	@Bean
+	public ClassLoaderTemplateResolver dotVoResolver() {
+		ClassLoaderTemplateResolver dotVo = new ClassLoaderTemplateResolver();
+		
+		dotVo.setPrefix("templates/views/volunteer/");
+		dotVo.setSuffix(".html");
+		dotVo.setTemplateMode(TemplateMode.HTML);
+		dotVo.setCharacterEncoding("UTF-8");
+		dotVo.setOrder(1);
+		dotVo.setCacheable(false);
+		dotVo.setCheckExistence(true);
+		
+		return dotVo;
+	}
+	
+	@Bean
 	public ClassLoaderTemplateResolver dotSuResolver() {
-		ClassLoaderTemplateResolver dotDo = new ClassLoaderTemplateResolver();
+		ClassLoaderTemplateResolver dotSu = new ClassLoaderTemplateResolver();
 		
-		dotDo.setPrefix("templates/views/support/");
-		dotDo.setSuffix(".html");
-		dotDo.setTemplateMode(TemplateMode.HTML);
-		dotDo.setCharacterEncoding("UTF-8");
-		dotDo.setOrder(1);
-		dotDo.setCacheable(false);
-		dotDo.setCheckExistence(true);
+		dotSu.setPrefix("templates/views/support/");
+		dotSu.setSuffix(".html");
+		dotSu.setTemplateMode(TemplateMode.HTML);
+		dotSu.setCharacterEncoding("UTF-8");
+		dotSu.setOrder(1);
+		dotSu.setCacheable(false);
+		dotSu.setCheckExistence(true);
 		
-		return dotDo;
+		return dotSu;
 	}
 	
 	@Bean
