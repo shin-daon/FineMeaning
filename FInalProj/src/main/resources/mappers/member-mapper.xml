@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fin.proj.member.model.dao.MemberDAO">
+	
+	<select id="login" resultMap="memberResultSet">
+		select *
+		from users
+		where u_id = #{uId} and u_pwd = #{uPwd} and u_status = 'Y'
+	</select>
+	
+	<resultMap type="Member" id="memberResultSet">
+		<id column="U_NO" property="uNo" />		
+		<result column="U_ID" property="uId" />
+		<result column="U_PWD" property="uPwd" />
+		<result column="U_NAME" property="uName" />
+		<result column="RESIDENT_NO" property="residentNo" />
+		<result column="ADDRESS" property="address" />
+		<result column="PHONE" property="phone" />
+		<result column="EMAIL" property="email" />
+		<result column="U_NICKNAME" property="uNickName" />
+		<result column="LOGIN_TYPE" property="loginType" />
+		<result column="KAKAO_ID" property="kakaoId" />
+		<result column="U_STATUS" property="uStatus" />
+		<result column="U_TYPE" property="uType" />
+		<result column="REGISTRAR" property="registrar" />
+		<result column="ENROLL_DATE" property="enrollDate" />
+	</resultMap>
+	
+</mapper>

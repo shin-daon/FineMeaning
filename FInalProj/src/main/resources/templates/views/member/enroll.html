@@ -249,7 +249,7 @@ a {
 	width: 14px;
 	height: 14px;
 }
-		 
+
 </style>
 <body>
 <div th:replace="~{views/common/header :: header}"></div>
@@ -362,24 +362,15 @@ a {
 			<button id="use-id-btn">사용하기</button>
 		</div>
 		
+
+		
 	</div>
 	
 <br><br><br><br>
 <div th:replace="~{views/common/footer :: footer}"></div>
 
 <script>
-	const doubleCheckBtn = document.getElementById('double-check');
-	const useBtn = document.getElementById('use-id-btn');
-	const modal = document.getElementById('modal');
-	
-	doubleCheckBtn.addEventListener('click', () => {
-		event.preventDefault();
-	    modal.style.display = 'block';
-	});
-	
-	useBtn.addEventListener('click', () => {
-	    modal.style.display = 'none';
-	});
+
 </script>
 </body>
 </html>

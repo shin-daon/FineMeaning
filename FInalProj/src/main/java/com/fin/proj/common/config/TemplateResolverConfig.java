@@ -50,8 +50,10 @@ public class TemplateResolverConfig {
 		dotBo.setCheckExistence(true);
 		
 		return dotBo;
+
+		
 	}
-	
+
 	@Bean
 	public ClassLoaderTemplateResolver dotMeResolver() {
 		ClassLoaderTemplateResolver dotMe = new ClassLoaderTemplateResolver();

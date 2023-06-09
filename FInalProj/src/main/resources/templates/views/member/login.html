@@ -225,27 +225,29 @@ div.login-input-wrap input:focus + span.placeholder-span {
 		<div class="main-wrap">
 			<header>
 				<div class="logo-wrap">
-					<img src="resources/image/logo.jpg" width="120px" height="120px"/>
+					<img src="image/logo.jpg" width="120px" height="120px"/>
 				</div>
 			</header>
+			<form action="login.me">
 			<section class="login-input-section-wrap">
+			
 				<div class="login-input-wrap">
-					<input  type="text" name="input-text" id="input-text" required spellcheck="false"/>
+					<input  type="text" name="uId" id="input-text" required spellcheck="false"/>
 					  <span class="placeholder-span">
 					    id
 					  </span>
 				</div>
 				<div class="login-input-wrap password-wrap">
-					<input  type="password" name="input-text" id="input-text" required spellcheck="false"/>
+					<input  type="password" name="uPwd" id="input-text" required spellcheck="false"/>
 					  <span class="placeholder-span">
 					    password
 					  </span>
 				</div>
 				<div class="login-button-wrap">
-					<button>로그인</button>
+					<button type="submit">로그인</button>
 				</div>
 				<div class="login-stay-sign-in">
-					<img src="resources/image/check_gray.png" id="changeImage" onclick="changeImage()"/>
+					<img src="image/check_gray.png" id="changeImage" onclick="changeImage()"/>
 					<span>로그인 상태 유지</span>
 				</div>
 				<div class="others">
@@ -261,9 +263,10 @@ div.login-input-wrap input:focus + span.placeholder-span {
 			    <hr class="line-right">
 			  </div>
 			  <button>
-			    <img src="resources/image/kakao_login.png" class="kakao-logo" />
+			    <img src="image/kakao_login.png" class="kakao-logo" />
 			  </button>
 			</section>
+			</form>
 		</div>
 	</div>
 <br>
@@ -274,9 +277,9 @@ div.login-input-wrap input:focus + span.placeholder-span {
 	  var image = document.getElementById("changeImage");
 	  
 	  if (image.src.endsWith("check_gray.png")) {
-	    image.src = "resources/image/check.png";
+	    image.src = "image/check.png";
 	  } else {
-	    image.src = "resources/image/check_gray.png";
+	    image.src = "image/check_gray.png";
 	  }
 	}
 </script>
