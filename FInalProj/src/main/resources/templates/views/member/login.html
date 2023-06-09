@@ -228,21 +228,23 @@ div.login-input-wrap input:focus + span.placeholder-span {
 					<img src="image/logo.jpg" width="120px" height="120px"/>
 				</div>
 			</header>
+			<form action="login.me">
 			<section class="login-input-section-wrap">
+			
 				<div class="login-input-wrap">
-					<input  type="text" name="input-text" id="input-text" required spellcheck="false"/>
+					<input  type="text" name="uId" id="input-text" required spellcheck="false"/>
 					  <span class="placeholder-span">
 					    id
 					  </span>
 				</div>
 				<div class="login-input-wrap password-wrap">
-					<input  type="password" name="input-text" id="input-text" required spellcheck="false"/>
+					<input  type="password" name="uPwd" id="input-text" required spellcheck="false"/>
 					  <span class="placeholder-span">
 					    password
 					  </span>
 				</div>
 				<div class="login-button-wrap">
-					<button>로그인</button>
+					<button type="submit">로그인</button>
 				</div>
 				<div class="login-stay-sign-in">
 					<img src="image/check_gray.png" id="changeImage" onclick="changeImage()"/>
@@ -264,6 +266,7 @@ div.login-input-wrap input:focus + span.placeholder-span {
 			    <img src="image/kakao_login.png" class="kakao-logo" />
 			  </button>
 			</section>
+			</form>
 		</div>
 	</div>
 <br>

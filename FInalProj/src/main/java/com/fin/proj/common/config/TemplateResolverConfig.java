@@ -38,9 +38,7 @@ public class TemplateResolverConfig {
 
 		
 	}
-	
 
-	
 	@Bean
 	public ClassLoaderTemplateResolver dotMeResolver() {
 		ClassLoaderTemplateResolver dotMe = new ClassLoaderTemplateResolver();
