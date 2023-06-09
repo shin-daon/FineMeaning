@@ -10,9 +10,8 @@
 <title>Document</title>
 <style>
 
-      </style>
-      
-		
+
+</style>
 </head>
 <body>
 	<div th:replace="~{../common/header :: header}"></div>
@@ -133,7 +132,11 @@
             </tbody>
         </table>
 		
-		<button class="writeFaqBtn learn-more" onclick="location.href='supportWrite.su'">후원 신청하기</button>
+		<div class="buttonArea">
+	        <div class="buttonSection">
+				<button class="learn-more" onclick="location.href='supportWrite.su'">후원 신청하기</button>
+			</div>
+        </div>
 		
         <div class="page">
             <ul class="pagination">

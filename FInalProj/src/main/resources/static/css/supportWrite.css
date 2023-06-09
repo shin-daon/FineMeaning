@@ -35,10 +35,15 @@ input:hover{
 
 
 
-#supportPic{
-  width: 100%;
-  border:1px solid black;
-  border-radius: 0.5em;
+.supportPic{
+  	width: 80%;
+  	border:1px solid black;
+  	border-radius: 0.5em;
+  	padding: 8px 15px 9px;
+	border-radius: 4px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
 }
 .writeTitle{
   font-size: 30px;
@@ -57,6 +62,14 @@ input:hover{
   width: 25px;
   height: 25px;
 }
+
+#plusInput2{
+  background-color: #9DC08B;
+  border-radius: 0.3em;
+  width: 25px;
+  height: 25px;
+}
+
 .supportButtons{
   width: 80px;
   height: 30px;

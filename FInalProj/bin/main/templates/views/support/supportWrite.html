@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="css/supportWrite.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/supportWrite.css">
 
 <title>Document</title>
 <style>
@@ -48,6 +48,8 @@ textarea:hover{
 }
 
 
+
+
 </style>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
@@ -76,6 +78,7 @@ textarea:hover{
 
 
 		<div >
+			<form id="supportApply" method="post" action="supportApply.su" >
 			<table>
 	            <tr>
 	                <td colspan="2"> 
@@ -123,8 +126,14 @@ textarea:hover{
 	            <tr>
 	                <td colspan="2">
 	                  <div class="supportContent">
-	                    <input type="file" name="file" id="supportPic">
+	                    <input type="file" name="file" class="supportPic">
+	                    <span class="plusRoute">    	
+		                    <button id="plusInput2">+</button>
+	                    </span>
 	                  </div>  
+	                </td>
+	                <td>
+	                
 	                </td>
 	            </tr>
 	            <tr>    
@@ -155,7 +164,7 @@ textarea:hover{
 	                    </div>
 	                </td>
 	                <td style="padding-left:13px;">
-	                    <input type="text" placeholder="목표 금액 입력">
+	                    <input type="number" min="1000000" step="100000" th:value="5000000" placeholder="목표 금액 입력"> 원
 	                </td>
 	            </tr>
 	            <tr>
@@ -194,6 +203,7 @@ textarea:hover{
 	                </td>
 	            </tr>
 	        </table>
+	        </form>
 		</div>
 
         <div>
@@ -220,7 +230,7 @@ textarea:hover{
         <div class="body-content">
           <div class="body-titlebox">
           	<img src="image/heart2.png" id="modal-emoticon"><br>
-            <h2>신청 완료</h2>
+            <h2>신청을 완료하시겠습니까?</h2>
           </div>
           <div class="body-contentbox">
             <p> 모금함 게시에는 다소 시간이 소요될 수 있습니다. </p>
@@ -237,11 +247,9 @@ textarea:hover{
 <script>
 $(function(){
 	  $("#confirm").click(function(){
-	      modalClose(); //모달 닫기 함수 호출
-	      
-	      //컨펌 이벤트 처리
+	      document.getElementById('supportApply').submit();
 	  });
-	  $("#modal-open").click(function(){        
+	  $("#modal-open").click(function(){   
 	      $("#popup").css('display','flex').hide().fadeIn();
 	      //팝업을 flex속성으로 바꿔준 후 hide()로 숨기고 다시 fadeIn()으로 효과
 	  });
@@ -286,6 +294,18 @@ $(function(){
 	 		plusButton.parentElement.append(newPrice);
 // 			this.parentElement.innerHTML += '<br><input type="text" placeholder="예상 사용 목록 입력"> <input type="number" placeholder="예상 사용 비 입력">';
 		})
+		
+		const plusButton2 = document.getElementById('plusInput2');
+		document.getElementById('plusInput2').addEventListener('click',function(){
+			console.log(123);
+			const newPic = document.createElement('input');
+	 		newPic.setAttribute("type", "file");
+	 		newPic.setAttribute("name", "file");
+	 		newPic.setAttribute("class", "supportPic");
+			
+	 		plusButton2.parentElement.append(document.createElement('br'));
+	 		plusButton2.parentElement.append(newPic);
+		})
 	}	
 </script>
 
@@ -305,10 +325,9 @@ $(function(){
 		document.getElementsByClassName('dropdown-content')[0].style.display='block';	
 	})
 
-	document.getElementById("supportSubmit").addEventListener('click',()=>{
-		console.log(123);
-		swal("신청 완료", "신청 결과에 대해서는 다소 시간이 소요될 수 있습니다.");
-	})
+	
+	
+	
 	
 </script>
 
