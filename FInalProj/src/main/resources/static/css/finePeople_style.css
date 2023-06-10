@@ -1,8 +1,7 @@
 @charset "UTF-8";
 
-#faqSection {
-    margin-top: 50px;
-    margin-bottom: 50px;
+#finePeopleSection {
+	margin-top: 50px;
     display: flex;
     /* justify-content(가로 가운데)랑 align-items(세로 가운데) 쓰기 위해 선언!
         ≫ column을 하는 순간 반대로 다 바뀜 */
@@ -10,20 +9,24 @@
     flex-direction: column; /* 세로 방향, row는 가로 방향 */
 }
 
-#faqTitle {
+#finePeopleTitle {
     font-size: 30px;
     border-bottom: 2px solid #40513B;
 }
 
 .path {
     margin-top: 30px;
-    width: 740px;
+    width: 750px;
     font-size: 14px;
 }
 
 .middle {
     vertical-align: middle;
     text-decoration: none;
+    color: black;
+}
+
+.middle:hover {
     color: black;
 }
 
@@ -37,12 +40,12 @@
 }
 
 .actionArea {
-    margin-top: 30px;
+    margin-top: 20px;
     width: 750px;
 }
 
 .writeArea {
-    float: left;
+    float: right;
 }
 
 .writeFaqBtn {
@@ -53,114 +56,76 @@
     border-radius: 0.4rem;
     cursor: pointer;
     border: 1px solid black;
-    font-size: 13px;
+    font-size: 14px;
     margin-bottom: 15px;
 }
 
-.searchArea {
-    float: right;
-    margin-top: 20px;
-}
-
-.searchInput {
-    float: right;
-    width: 160px;
-    height: 30px;
-    padding: 10px 12px;
-    padding-right: 20px;
-    border-radius: 0.4rem;
-    background-color: #f3f3f3;
-    border: 1px solid black;
-}
-
-.searchIcon {
-    width: 15px;
-}
-
-.searchIconATag {
-    position: relative;
-    left: 155px;
-    top: 6px;
-}
-
-.faqTable {
-    width: 750px;
+.card {
     margin-top: 10px;
-    padding: 10px;
-    text-align: center;
-    border-width: 1px;
-    border-style: solid;
-    border-color: black;
-    border-collapse: separate;
-    border-spacing: 0;
-    font-size: 15px;
-    border-radius: 10px;
+    max-width: 750px;
+    height: 250px;
+    border-radius: 8px;
 }
 
-th, td {
-    padding: 10px;
+.card:hover {
+    box-shadow: 0 2px 10px rgba(99, 96, 96, 0.3);
 }
 
-.faqTable thead tr th {
-    border-bottom: 1px dotted black;
-    background-color: #EDF1D6;
+.col-md-4 {
+    border-radius: 50px;
 }
 
-.faqTable thead tr th:nth-child(1) {
-    border-radius: 10px 0px 0px 0px;
+.img-fluid {
+    block-size: 250px;
+    min-width: 250px;
+    min-height: 250px;
+    padding: 15px;
+    border-radius: 50px;
 }
 
-.faqTable thead tr th:nth-child(5) {
-    border-radius: 0px 10px 0px 0px;
+.peopleInfo h5{
+    display: inline;
+    margin: 0px;
 }
 
-.faqTable > tbody > tr:hover{
-    background-color: #e1e4d2;
-    cursor: pointer;
+.card-body {
+    margin: 18px 10px 8px 10px;
+
 }
 
-.faqTable > tbody td:first-child {
-    border-radius: 8px 0px 0px 8px;
+#peopleIcon {
+    block-size: 20px;
+    margin-left: 7px;
+    margin-bottom: 4px;
 }
 
-.faqTable > tbody td:last-child {
-    border-radius: 0px 8px 8px 0px;
+.card-title {
+    font-size: 23px;
+    font-weight: 600;
+    vertical-align: sub;
 }
 
-.page {
-    margin-top: 35px;
-    display: flex;
-    flex-direction: row;
-}
-
-.pagination > li {
-    list-style-type: none;
-    float: left;
-}
-
-.pagination > li > .num {
-    margin: 10px;
-    width: 20px;
-    height: 20px;
-    text-decoration-line: none;
-    color: black;
+.card-name {
     font-size: 16px;
-    display: inline-block;
-    text-align: center
+    vertical-align: middle;
+    text-decoration: 1px underline lightgray;
 }
 
-.pagination > li > .num:hover {
-    color: white;
-    background-color: #40513B;
-    border-radius: 100%;
+.card-text {
+    margin-top: 10px;
+    font-size: 16px;
+    text-align: justify;
+    height: 120px;
 }
 
-.arrowKey {
-    margin-top: 12px;
-    margin-left: 10px;
-    margin-right: 10px;
-    block-size: 14px;
-    display: block;
+.card-date {
+    width: 455px;
+    font-size: 13px;
+    font-style: italic;
+}
+
+.date {
+    float: right;
 }
 
 
@@ -220,4 +185,51 @@ button {
 .learn-more:active::before {
     box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
     transform: translate3d(0, 0, -1em);
+}
+
+
+/* 이전 다음 버튼 */
+.btn-gradient:hover {
+    color: #40513B;
+}
+
+.btn-gradient {
+	margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.next {
+    margin-left: 10px;
+}
+
+.prev {
+    margin-right: 10px;
+}
+
+.btn-gradient.mini {
+  padding: 4px 20px;  
+  font-size: 16px;
+}
+
+/* Gradient buttons */
+.btn-gradient {
+	text-decoration: none;
+	color: white;
+	padding: 10px 30px;
+	display: inline-block;
+	position: relative;
+	border: 1px solid rgba(0,0,0,0.21);
+	border-bottom: 4px solid rgba(0,0,0,0.21);
+	border-radius: 17px;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+.btn-gradient.yellow {
+	background: #609966;
+}
+
+.arrowBtn {
+    width: 750px;
+    display: flex;
+    justify-content: space-between;
 }

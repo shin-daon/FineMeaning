@@ -20,4 +20,14 @@ public class BoardController {
 	public String faqDetail() {
 		return "faq_detail";
 	}
+	
+	@GetMapping("finePeopleMain.bo")
+	public String finePeopleMain() {
+		return "finePeople";
+	}
+	
+	@GetMapping("finePeople_form.bo")
+	public String finePeopleForm() {
+		return "finePeople_form";
+	}
 }
