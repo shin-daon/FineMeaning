@@ -17,12 +17,10 @@
 #supportListSection {
     margin-top: 50px;
     display: flex;
-    /* justify-content(가로 가운데)랑 align-items(세로 가운데) 쓰기 위해 선언!
-        ≫ column을 하는 순간 반대로 다 바뀜 */
     align-items: center;
-    flex-direction: column; /* 세로 방향, row는 가로 방향 */
+    flex-direction: column;
     margin-top:100px;
-	margin-left:30%;
+	margin-left:19%;
 }
 
 #supportList {
@@ -192,7 +190,6 @@ button {
   font-weight: 600;
   color: #382b22;
   text-transform: uppercase;
-/*   padding: 1.25em 2em; */
   background: #EDF1D6;
   border: 2px solid #609966;
   border-radius: 0.75em;
@@ -234,10 +231,9 @@ button {
   transform: translate3d(0, 0, -1em);
 }
 
-.buttonSection{
-	display:flex;
+.buttonArea{
 	width:750px;
 }
-
-
-
+.buttonSection{
+	float:right;
+}
