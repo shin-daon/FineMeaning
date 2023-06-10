@@ -1,10 +1,141 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>자주 묻는 질문</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>자주 묻는 질문 작성</title>
+	<link rel="stylesheet" href="css/faq_form_style.css">
+	
+	<!-- include libraries(jQuery, bootstrap) -->
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+	<!-- include summernote css/js-->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+	<!-- include summernote-ko-KR -->
+	<script src="js/summernote-ko-KR.js"></script>
+	<style>
+	@font-face {
+	    font-family: 'SUITE-Regular';
+	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+	    font-weight: 400;
+	}
+	* {
+	  margin: 0;
+	  padding: 0;
+	  box-sizing: border-box;
+	  font-family: "SUITE-Regular", sans-serif;
+	}
+	
+	/* 모달 */
+
+	#modal { width: 300px; height: 350px; border: 1px solid #eee; padding: 30px; margin: auto; display: none;
+		border-radius: 20px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);  text-align: center; background-color: white;
+ 		position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;}
+	
+	.modal-comment {
+		font-size: 16px;
+	}
+	
+	#withdrawal-btn {
+		border-radius: 4px;
+		width: 90px;
+		height: 35px;
+		font-size: 15px;
+		color: #fff;
+		background-color: #609966;
+		border: 1.5px solid #609966;
+	}
+	
+	#rollback-btn {
+		border-radius: 4px;
+		width: 90px;
+		height: 35px;
+		font-size: 15px;
+		color: #609966;
+		background-color: #fff;
+		border: 1.5px solid #609966;
+	}
+	
+	.modal-comment2 {
+		font-weight: bold;
+		font-size: 17px;
+	}
+	
+	#heartImage {
+		block-size: 120px;
+	}
+	</style>
 </head>
 <body>
 	<div th:replace="~{../common/header :: header}"></div>
+	
+	<section id="faq_write_section">
+		<div>
+	        <div id="faq_write_title">자주 묻는 질문</div>
+	    </div>
+        
+        <div id="faq_write_title2">게시글 작성✏️</div>
+		
+		<div id="formDiv">
+	        <form method="post" action="/faqForm.bo">
+	            <div id="writeForm">
+	                <input type="text" id="title" name="title" placeholder="제목을 입력하세요.">
+	                <textarea id="summernote" name="content"></textarea>
+	            </div>
+	            <div class="btnArea">
+	                <button type="button" class="writeFaqBtn learn-more" onclick="location.href='${ contextPath }/writeFaq.bo'">글쓰기</button>
+	                <button type="button" class="backBtn learn-more-back">취소</button>
+	            </div>    
+	        </form>
+        </div>
+	</section>
+	
+	<div th:replace="~{views/common/footer :: footer}"></div>
+	
+	<!-- 모달창 -->
+	<div id="modal"><br>
+		<img id="heartImage" src="resources/image/heart2.png"/><br><br>
+		<span class="modal-comment modal-comment2">글 작성을 취소하시겠어요?</span><br>
+		<span class="modal-comment">확인 선택 시 작성한 글 내용은</span><br>
+		<span class="modal-comment">절대 복구되지 않습니다.</span><br><br>
+		<button id="rollback-btn">취소</button>
+		<button id="withdrawal-btn">확인</button>
+	</div>
+	
+	<script>
+		$(document).ready(function() {
+			
+			const backBtn = document.getElementsByClassName('backBtn')[0];
+			const yesBtn = document.getElementById('withdrawal-btn');
+			const noBtn = document.getElementById('rollback-btn');
+			const modal = document.getElementById('modal');
+			
+			backBtn.addEventListener('click', () => {
+				event.preventDefault();
+			    modal.style.display = 'block';
+			});
+			
+			yesBtn.addEventListener('click', () => {
+			    modal.style.display = 'none';
+			    location.href="${ contextPath }/faqList.bo";
+			});
+			
+			noBtn.addEventListener('click', () => {
+			    modal.style.display = 'none';
+			});
+			
+			$('#summernote').summernote({
+				placeholder: '내용을 입력하세요.',
+				minHeight: 370,
+				maxHeight: null,
+				focus: true, 
+				lang : 'ko-KR'
+			});
+			
+		});
+	</script>
 </body>
 </html>

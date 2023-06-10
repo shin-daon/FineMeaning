@@ -10,4 +10,9 @@ public class BoardController {
 	public String faqMain() {
 		return "faq";
 	}
+	
+	@GetMapping("faq_form.bo")
+	public String faqForm() {
+		return "faq_form";
+	}
 }
