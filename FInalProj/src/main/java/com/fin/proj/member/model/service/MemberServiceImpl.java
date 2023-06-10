@@ -13,8 +13,8 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDAO mDAO;
 	
 	@Override
-	public Member login(String uId, String uPwd) {
-		return mDAO.login(uId, uPwd);
+	public Member login(Member m) {
+		return mDAO.login(m);
 	}
 
 }

@@ -7,7 +7,7 @@ import com.fin.proj.member.model.vo.Member;
 @Mapper
 public interface MemberDAO {
 
-	Member login(String uId, String uPwd);
+	Member login(Member m);
 
 
 
