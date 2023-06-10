@@ -15,4 +15,9 @@ public class BoardController {
 	public String faqForm() {
 		return "faq_form";
 	}
+	
+	@GetMapping("faq_detail.bo")
+	public String faqDetail() {
+		return "faq_detail";
+	}
 }
