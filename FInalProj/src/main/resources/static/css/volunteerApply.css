@@ -14,6 +14,7 @@ font-family: "SUITE-Regular", sans-serif;
 
 #v-title-section {
   margin-top: 100px;
+  margin-bottom: 30px;
   display: flex;
   align-items: center;
   flex-direction: column; 

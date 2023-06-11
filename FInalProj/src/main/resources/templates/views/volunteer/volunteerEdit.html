@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/volunteerEdit.css">
 </head>
 <body>
+	<div th:replace="~{../common/header :: header}"></div>
+	
     <section id="v-title-section">
         <div>
             <div id="v-title">봉사 수정</div>
@@ -50,7 +52,7 @@
                     </td>
                     <td>활동요일</td>
                     <td>
-                        <span class="v-day">월</span><span class="v-day">화</span><span class="v-day">수</span><span class="v-day">목</span><span class="v-day">금</span>
+                        <span class="v-day">월</span><span class="v-day">화</span><span class="v-day">수</span><span class="v-day">목</span><span class="v-day">금</span><span class="v-day">토</span><span class="v-day">일</span>
                     </td>
                 </tr>
                 <tr>
@@ -142,7 +144,8 @@
             </div>
         </section>
     </section>
-    <br><br><br><br><br><br><br><br><br><br><br>
+    
+    <div th:replace="~{../common/footer :: footer}"></div>  
 
     <script>
         window.onload = () => {

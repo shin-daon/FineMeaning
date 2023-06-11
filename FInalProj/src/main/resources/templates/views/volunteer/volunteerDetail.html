@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/volunteerDetail.css">
 </head>
 <body>
+	<div th:replace="~{../common/header :: header}"></div>
+	
     <section id="v-title-section">
         <div>
             <div id="v-title">봉사 조회</div>
@@ -31,7 +33,7 @@
                 <span class="v-locale-icon">경기도</span>
                 <span class="v-org">오산시 함께자람센터(재능기부 봉사자 모집)</span>
                 <span class="v-recruitment-status">(모집중)</span>
-                <button type="button" class="btn-gradient mini v-list-btn" onclick="javascript:location.href='volunteerView.vo'">목록</button>
+                <button type="button" class="btn-gradient mini v-list-btn" onclick="javascript:location.href='volunteer.vo'">목록</button>
             </div>
             <table>
                 <tr>
@@ -108,10 +110,14 @@
             </table>
 
             <div class="v-apply-btn-div">
-                <button type="button" class="learn-more v-apply-btn" onclick="location.href='volunteerApplyView.vo'">신청하기</button>
+                <button type="button" class="learn-more v-apply-btn" onclick="location.href='volunteerApply.vo'">신청하기</button>
+                <button type="button" class="learn-more v-delete-btn">삭제</button>
+                <button type="button" class="learn-more-green v-modify-btn" onclick="location.href='volunteerEdit.vo'">수정</button>
             </div>
         </section>
     </section>
-    <br><br><br><br><br><br><br><br><br><br><br>
+    
+    <div th:replace="~{../common/footer :: footer}"></div>  
+    
 </body>
 </html>

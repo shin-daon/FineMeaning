@@ -11,7 +11,7 @@
 	<div th:replace="~{../common/header :: header}"></div>
 	
 	<section style="display: flex;">
-		<!-- <div th:replace="~{../common/sidebar :: sidebar}"></div> -->
+		<div th:replace="~{../common/sidebar :: sidebar}"></div>
 		
 		
 		<section id="volunteerListSection">
@@ -214,6 +214,9 @@
 			</div>
 		</section>
 	</section>
+	
+	<div th:replace="~{../common/footer :: footer}"></div>  
+	
 	<script>
 		window.onload = () => {
 			const selectObjects = document.getElementsByClassName("selectObject");

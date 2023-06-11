@@ -14,6 +14,7 @@ font-family: "SUITE-Regular", sans-serif;
 
 #v-title-section {
   margin-top: 100px;
+  margin-bottom: 30px;
   display: flex;
   align-items: center;
   flex-direction: column; 
@@ -208,13 +209,21 @@ background: #609966;
   text-align: center;
 }
 
-.v-apply-btn {
+.v-apply-btn, .v-modify-btn, .v-delete-btn {
   width: 90px;
   height: 30px;
   margin-top: 10px;
   font-size: 15px;
   cursor: pointer;
   float: right;
+}
+
+.v-modify-btn, .v-delete-btn {
+  width: 60px;
+}
+
+.v-delete-btn {
+  margin-left: 5px;
 }
 
 .learn-more {

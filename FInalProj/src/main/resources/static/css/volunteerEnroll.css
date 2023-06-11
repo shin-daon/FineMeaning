@@ -97,12 +97,16 @@ input[type="date"]:focus, input[type="time"]:focus {
 
 .v-day {
     display: inline-block;
-    width: 40px;
+    width: calc(100% / 7);
     text-align: center;
     height: 100%;
     padding: 10px;
     border-right: 1px solid black;
     cursor: pointer;
+}
+
+.v-day:last-child {
+    border-right: 0;
 }
 
 .v-day-select {
@@ -147,6 +151,7 @@ input[type="number"]:focus {
 
 #v-title-section {
     margin-top: 100px;
+    margin-bottom: 30px;
     display: flex;
     align-items: center;
     flex-direction: column; 
@@ -193,7 +198,7 @@ input[type="number"]:focus {
     height: 40px;
 }
 
-.v-apply-info table tr:last-child :last-child {
+.v-apply-info table tr:last-child td:last-child {
     text-align: left;
     background-color: white;
 }

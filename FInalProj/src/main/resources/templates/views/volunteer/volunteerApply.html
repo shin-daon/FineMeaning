@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="css/volunteerApply.css">
 </head>
 <body>
+	<div th:replace="~{../common/header :: header}"></div>
+	
     <section id="v-title-section">
         <div>
             <div id="v-title">봉사 신청</div>
@@ -25,7 +27,7 @@
         </div>
 
         <div class="va-prev-next-btn-div">
-            <a href="#" class="btn-gradient yellow mini prev">이전</a>
+            <a href="#" class="btn-gradient yellow mini prev" onclick="location.href='volunteerDetail.vo'">이전</a>
         </div>
 
         <section class="v-apply-info">
@@ -83,12 +85,12 @@
 				</div>
 			</div>
             <div class="v-apply-btn-div">
-                <button type="button" class="learn-more v-apply-btn">신청하기</button>
+                <button type="button" class="learn-more v-apply-btn" onclick="location.href='volunteerHistory.vo'">신청하기</button>
             </div>
         </section>
     </section>
     
-    <br><br><br><br><br><br><br><br><br><br><br>
+    <div th:replace="~{../common/footer :: footer}"></div>  
     
     <script>
 		/* 달력 출처 https://songsong.dev/11*/

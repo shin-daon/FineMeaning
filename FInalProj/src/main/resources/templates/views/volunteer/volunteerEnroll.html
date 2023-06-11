@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/volunteerEnroll.css">
 </head>
 <body>
+	<div th:replace="~{../common/header :: header}"></div>
+	
     <section id="v-title-section">
         <div>
             <div id="v-title">봉사 등록</div>
@@ -69,7 +71,7 @@
                     </td>
                     <td>활동요일</td>
                     <td>
-                        <span class="v-day">월</span><span class="v-day">화</span><span class="v-day">수</span><span class="v-day">목</span><span class="v-day">금</span>
+                        <span class="v-day">월</span><span class="v-day">화</span><span class="v-day">수</span><span class="v-day">목</span><span class="v-day">금</span><span class="v-day">토</span><span class="v-day">일</span>
                     </td>
                 </tr>
                 <tr>
@@ -157,11 +159,12 @@
             </table>
 
             <div class="v-apply-btn-div">
-                <button type="button" class="learn-more-green v-apply-btn" onclick="location.href='#'">등록하기</button>
+                <button type="button" class="learn-more-green v-apply-btn" onclick="location.href='volunteerEnrollHistory.vo'">등록하기</button>
             </div>
         </section>
     </section>
-    <br><br><br><br><br><br><br><br><br><br><br>
+    
+   	<div th:replace="~{../common/footer :: footer}"></div>  
 
     <script>
         window.onload = () => {
