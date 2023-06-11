@@ -45,4 +45,14 @@ public class BoardController {
 	public String fruitDetail() {
 		return "fruit_detail";
 	}
+	
+	@GetMapping("fineNewsMain.bo")
+	public String fineNewsMain() {
+		return "fineNews";
+	}
+	
+	@GetMapping("fineNews_form.bo")
+	public String fineNewsForm() {
+		return "fineNews_form";
+	}
 }
