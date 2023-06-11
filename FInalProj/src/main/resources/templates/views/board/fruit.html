@@ -2,36 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>자주 묻는 질문</title>
-<link rel="stylesheet" href="css/faq_style.css">
-<style>
-</style>
+<title>결실</title>
+<link rel="stylesheet" href="css/fruit_style.css">
 </head>
 <body>
 	<div th:replace="~{../common/header :: header}"></div>
-	
-	<section id="faqSection">
+    <section id="fruitSection">
         <div>
-            <div id="faqTitle">자주 묻는 질문</div>
+            <div id="mainFruitTitle">결실</div>
         </div>
+        <p id="subFruitTitle">선한 뜻으로 함께합니다.</p>
 
         <div class="path">
-            <a class="middle" href="/"><img class="homeIconSize" src="image/home.png"></a>
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
             <img class="sub iconSize" src="image/arrow.png">
-            <a class="middle" href="#">커뮤니티</a>
+            <a class="middle" href="#">선뜻</a>
             <img class="sub iconSize" src="image/arrow.png">
-            <a class="middle">자주 묻는 질문</a>
+            <a class="middle">결실</a>
         </div>
 
         <div class="actionArea">
             <div class="writeArea">
-                <button class="writeFaqBtn learn-more" onclick="location.href='faq_form.bo'">글쓰기</button>
+                <button class="writeFaqBtn learn-more" onclick="location.href='fruit_form.bo'">글쓰기</button>
             </div>
             <div class="searchArea">
                 <input class="searchInput" type="text" placeholder="검색"/>
                 <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
+            </div>
+            <div class="dropdown">
+                <button id="dropbtn"> 
+                    🕊️카테고리
+                </button>
+                <input type="hidden" name="category" value="none">
+                <div class="dropdown-content">
+                    <span class="selectCate">선택없음</span>
+                    <span class="selectCate">후원</span>
+                    <span class="selectCate">봉사</span>
+                </div>
             </div>
         </div>
 
@@ -40,70 +47,70 @@
                 <tr>
                     <th>No</th>
                     <th style="width: 300px;">제목</th>
-                    <th>작성자</th>
                     <th>작성일</th>
+                    <th>조회수</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>자주 묻는 질문입니다❔</td>
-                    <td>작성자</td>
+                    <td>후원금 기부 내역 안내</td>
                     <td>2023-05-31</td>
+                    <td>0</td>
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>자주 묻는 질문입니다❔</td>
-                    <td>작성자</td>
+                    <td>후원금 기부 내역 안내</td>
                     <td>2023-05-31</td>
+                    <td>0</td>
                 </tr>
                 <tr>
                     <td>3</td>
-                    <td>자주 묻는 질문입니다❔</td>
-                    <td>작성자</td>
+                    <td>후원금 기부 내역 안내</td>
                     <td>2023-05-31</td>
+                    <td>0</td>
                 </tr>
                 <tr>
                     <td>4</td>
-                    <td>자주 묻는 질문입니다❔</td>
-                    <td>작성자</td>
+                    <td>봉사 참여단 후기</td>
                     <td>2023-05-31</td>
+                    <td>0</td>
                 </tr>
                 <tr>
                     <td>5</td>
-                    <td>자주 묻는 질문입니다❔</td>
-                    <td>작성자</td>
+                    <td>봉사 참여단 후기</td>
                     <td>2023-05-31</td>
+                    <td>0</td>
                 </tr>
                 <tr>
                     <td>6</td>
-                    <td>자주 묻는 질문입니다❔</td>
-                    <td>작성자</td>
+                    <td>봉사 참여단 후기</td>
                     <td>2023-05-31</td>
+                    <td>0</td>
                 </tr>
                 <tr>
                     <td>7</td>
-                    <td>자주 묻는 질문입니다❔</td>
-                    <td>작성자</td>
+                    <td>기부금 사용처 알림</td>
                     <td>2023-05-31</td>
+                    <td>0</td>
                 </tr>
                 <tr>
                     <td>8</td>
-                    <td>자주 묻는 질문입니다❔</td>
-                    <td>작성자</td>
+                    <td>기부금 사용처 알림</td>
                     <td>2023-05-31</td>
+                    <td>0</td>
                 </tr>
                 <tr>
                     <td>9</td>
-                    <td>자주 묻는 질문입니다❔</td>
-                    <td>작성자</td>
+                    <td>기부금 사용처 알림</td>
                     <td>2023-05-31</td>
+                    <td>0</td>
                 </tr>
                 <tr>
                     <td>10</td>
-                    <td>자주 묻는 질문입니다❔</td>
-                    <td>작성자</td>
+                    <td>청소년 관련 서포트 후기</td>
                     <td>2023-05-31</td>
+                    <td>0</td>
                 </tr>
             </tbody>
         </table>
@@ -121,10 +128,27 @@
         </div>
     </section>
     <div th:replace="~{views/common/footer :: footer}"></div>
+    
     <script>
-    	window.onload = () =>{
+    	window.onload = () => {
     		
-    		// 게시글 선택
+    		// 카테고리 선택
+			const selectCates = document.getElementsByClassName('selectCate');
+			for(const selectCate of selectCates){
+				selectCate.addEventListener('click', function(){
+					document.getElementById('dropbtn').innerText = this.innerHTML;
+					document.getElementsByName('category')[0].value= this.innerHTML;
+					console.log(document.getElementsByClassName('dropdown-content')[0])
+					document.getElementsByClassName('dropdown-content')[0].style.display='none';
+				});
+			}
+			
+			document.getElementById('dropbtn').addEventListener('click', ()=>{
+				document.getElementsByClassName('dropdown-content')[0].style.display='block';	
+			});
+			
+			
+			// 게시글 선택 
 			const tbody = document.querySelector('tbody');
 			const tds = tbody.querySelectorAll('td');
 			
@@ -134,7 +158,7 @@
 					// 부모 요소로 올라가 자식 중 0번째(글번호), 2번째(작성자) 가져오기
 					console.log(this.parentElement); // <tr>...</tr> 반환
 					
-					location.href="faq_detail.bo";
+					location.href="fruit_detail.bo";
 // 					const trTds= this.parentElement.children; // = querySelectorAll
 // 					const boardId = trTds[0].innerText;
 // 					const writer = trTds[2].innerText;			// url에 들어가기 때문에 = 양쪽에 띄어쓰기 금지
