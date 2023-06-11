@@ -30,4 +30,19 @@ public class BoardController {
 	public String finePeopleForm() {
 		return "finePeople_form";
 	}
+	
+	@GetMapping("fruitMain.bo")
+	public String fruitMain() {
+		return "fruit";
+	}
+	
+	@GetMapping("fruit_form.bo")
+	public String fruitForm() {
+		return "fruit_form";
+	}
+	
+	@GetMapping("fruit_detail.bo")
+	public String fruitDetail() {
+		return "fruit_detail";
+	}
 }
