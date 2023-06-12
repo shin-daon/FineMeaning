@@ -1,0 +1,241 @@
+#faqSection {
+    margin-top: 50px;
+    display: flex;
+    /* justify-content(가로 가운데)랑 align-items(세로 가운데) 쓰기 위해 선언!
+        ≫ column을 하는 순간 반대로 다 바뀜 */
+    align-items: center;
+    flex-direction: column; /* 세로 방향, row는 가로 방향 */
+}
+
+#faqTitle {
+    font-size: 30px;
+    border-bottom: 2px solid #40513B;
+}
+
+.path {
+    margin-top: 30px;
+    width: 740px;
+    font-size: 14px;
+}
+
+.middle {
+    vertical-align: middle;
+    text-decoration: none;
+    color: black;
+}
+
+.iconSize {
+    block-size: 12px;
+}
+
+.homeIconSize {
+    block-size: 14px;
+}
+
+.sub {
+    vertical-align: sub;
+}
+
+.writeFaqBtn {
+    width: 80px;
+    height: 30px;
+    background-color: #9DC08B;
+    color: white;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    border: 1px solid black;
+    font-size: 14px;
+}
+
+.writeFaqBtnSmall {
+    width: 60px;
+    height: 20px;
+    background-color: #9DC08B;
+    color: white;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    border: 1px solid black;
+    font-size: 14px;
+}
+
+.actionArea {
+    margin-top: 30px;
+    width: 750px;
+}
+
+.replytable{
+	width: 750px;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.replyTitle{
+	text-align: right;
+	text-decoration: underline;
+	background-color: lightgray;
+}
+
+.titleTable{
+	width: 750px;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.contentTable{
+	width: 750px;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+#attatchName{
+	text-decoration: underline;
+}
+
+.form-control{
+	width: 500px;
+	height: 100px;
+	
+}
+
+.writeArea {
+    float: left;
+}
+
+.searchArea {
+    float: right;
+}
+
+.searchInput {
+    float: right;
+    width: 160px;
+    height: 30px;
+    padding: 10px 12px;
+    padding-right: 20px;
+    border-radius: 0.4rem;
+    background-color: #f3f3f3;
+}
+
+.searchIcon {
+    width: 15px;
+}
+
+.searchIconATag {
+    position: relative;
+    left: 155px;
+    top: 6px;
+}
+
+.faqTable {
+    width: 750px;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.faqTable1 {
+    width: 750px;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.qaInfo {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+th, td {
+    padding: 10px;
+}
+
+.faqTable thead tr th {
+    border-bottom: 1px dotted black;
+    background-color: #EDF1D6;
+}
+
+.faqTable thead tr th:nth-child(1) {
+    border-radius: 10px 0px 0px 0px;
+}
+
+.faqTable thead tr th:nth-child(5) {
+    border-radius: 0px 10px 0px 0px;
+}
+
+.page {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: row;
+}
+
+.pagination > li {
+    list-style-type: none;
+    float: left;
+}
+
+.pagination > li > .num {
+    margin: 10px;
+    width: 20px;
+    height: 20px;
+    text-decoration-line: none;
+    color: black;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center
+}
+
+.pagination > li > .num:hover {
+    color: white;
+    background-color: #40513B;
+    border-radius: 100%;
+}
+
+.arrowKey {
+    margin-top: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
+    block-size: 14px;
+    display: block;
+}
+
+.faqTable > tbody > tr:hover{
+    background-color: #f9fceb;
+    cursor: pointer;
+}
