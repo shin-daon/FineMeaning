@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/community.css">
+<link rel="stylesheet" href="resources/css/style.css">
+<script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://kit.fontawesome.com/1c67f557d9.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:replace="~{../common/header :: header}"></div>
+<section id="faqSection">
+
+        <div>
+            <div id="faqTitle">TALK</div>
+        </div>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle" href="#">커뮤니티</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">TALK</a>
+        </div>
+
+        <div class="actionArea">
+            <div class="writeArea">
+                <button class="writeFaqBtn" onclick="location.href='writeComm.bo'">글쓰기</button>
+            </div>
+            <div class="searchArea">
+                <input class="searchInput" type="text" placeholder="검색"/>
+                <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
+            </div>
+        </div>
+
+        <table class="faqTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th style="width: 300px;">제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>좋은아침입니다~</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>갈매동 후원소식이에요</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>행복하세요 다들~</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>슬아트공방 다녀왔어요</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>6월6일 사친방지 모임있어요</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>이디야 봉화산점 많은이용 바랍니다.</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>지혜누나는 이제 봄이 올 것 같아요</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>은채누나는 베트남에 가 있어요</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>도빈이형을 4달만에 보네요!</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>지호형, 형주형, 형민이형도 못 뵌지 꽤 됬네요!</td>
+                    <td>작성자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page">
+            <ul class="pagination">
+                <li><a href="#" class="first"><img class="arrowKey" src="image/before.png"></a></li>
+                <li><a href="#" class="num">1</a></li>
+                <li><a href="#" class="num">2</a></li>
+                <li><a href="#" class="num">3</a></li>
+                <li><a href="#" class="num">4</a></li>
+                <li><a href="#" class="num">5</a></li>
+                <li><a href="#" class="last"><img class="arrowKey" src="image/next.png"></a></li>
+            </ul>
+        </div>
+    </section>
+    <div th:replace="~{../common/footer :: footer}"></div>
+</body>
+</html>

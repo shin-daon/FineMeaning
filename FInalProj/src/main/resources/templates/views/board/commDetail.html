@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/community.css">
+<link rel="stylesheet" href="resources/css/style.css">
+<script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://kit.fontawesome.com/1c67f557d9.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<div th:replace="~{../common/header :: header}"></div>
+<section id="faqSection">
+
+        <div>
+            <div id="faqTitle">TALK 상세보기</div>
+        </div>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle" href="#">커뮤니티</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">TALK</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">TALK 상세보기</a>
+        </div>
+
+
+        <table class="titleTable">
+            <tr>
+            <td align="left">글번호: <a>1</a></td>
+            <td align="left">작성날짜: <a>2023-06-08</a></td>
+            </tr>
+            
+            <tr>
+            <td align="left">작성자: <a>기훈</a></td>
+             <td align="left">조회수: <a>24</a></td>
+            </tr>
+        </table>
+        <table class="titleTable">
+       		<tr>
+            <td align="left">제목:<a> 행복한 나날</a>
+            </td>
+            </tr>
+        </table>
+         <table class="contentTable">
+			<tr>
+            <td align="left">내용: <a>오늘 참 좋은일만 일어나네요 로또 사야 할까봐요</a>
+            </td>
+            <td></td>
+            </tr>
+        </table>
+        <table class="contentTable">
+			<tr>
+            <td align="left">첨부파일: <p>대왕확성기.png</p><br><img alt="" src="image/alert.png"/>
+            </td>
+            <td></td>
+            </tr>
+        </table>
+       	
+        
+       <div class="replyArea">
+       					<br><br>
+						<span class="input-group-text">REPLY CONTENT<br></span>
+						<textarea class="form-control" rows="3" id="replyContent" style="resize: none;"></textarea>
+						<button class="writeFaqBtnSmall" id="replySubmit" type="button" > 댓글등록</button>
+					</div>
+					<br>
+					<table class="replytable">
+						<thead>
+							<h3>댓글</h3>
+							<tr>
+								<th width="130px">작성자</th>
+								<th>작성내용</th>
+								<th width="130px">작성일자</th>
+								<th width="130px">댓글 수정/삭제</th>
+							</tr>
+						</thead>
+						<tbody>
+								<tr>
+									<td width="130px"><a>종각역피바라기</a></td>
+									<td><a>제가 다 기분이 좋네요~~~</a></td>
+									<td width="130px"><a>23-07-12</a></td>
+									<td>
+									<button class="writeFaqBtnSmall" id="replySubmit" type="button" >댓글수정</button>
+									<br><br><button class="writeFaqBtnSmall" id="replySubmit" type="button">댓글삭제</button>
+									</td>
+								</tr>
+						</tbody>
+					</table>
+        
+         <div class="actionArea">
+            <div class="writeArea">
+                <button class="writeFaqBtn" onclick="location.href='commList.bo'">목록으로</button>
+                <button class="writeFaqBtn" onclick="location.href='editComm.bo'">수정하기</button>
+                <button class="writeFaqBtn" onclick="location.href='commList.bo'">삭제하기</button>
+            </div>
+			</div>
+    </section>
+<div th:replace="~{../common/footer :: footer}"></div>
+
+</body>
+</html>
