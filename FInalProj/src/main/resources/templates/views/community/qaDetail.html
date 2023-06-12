@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/community.css">
+<script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://kit.fontawesome.com/1c67f557d9.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:replace="~{../common/header :: header}"></div>
+<section id="faqSection">
+
+        <div>
+            <div id="faqTitle">1:1 상세보기</div>
+        </div>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle" href="#">커뮤니티</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">1:1문의</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">1:1문의 상세보기</a>
+        </div>
+
+
+        <table class="faqTable">
+            <tr>
+            <td align="left">문의번호:</td>
+            <td align="left">작성날짜:</td>
+            </tr>
+            
+            <tr>
+            <td align="left">작성자:</td>
+            </tr>
+        </table>
+        <table class="faqTable">
+       		<tr>
+            <td align="left">제목:</td>
+            </tr>
+        </table>
+         <table class="faqTable">
+			<tr>
+            <td align="left">내용:
+            </td>
+            </tr>
+        </table>
+         <div class="actionArea">
+            <div class="writeArea">
+                <button class="writeFaqBtn" onclick="location.href='qaList.co'">목록으로</button>
+                <button class="writeFaqBtn" onclick="location.href='editQa.co'">수정하기</button>
+                <button class="writeFaqBtn" onclick="location.href='commList.co'">삭제하기</button>
+                <button class="writeFaqBtn" onclick="location.href='replyQa.co'">답글달기</button>
+            </div>
+			</div>
+    </section>
+<div th:replace="~{../common/footer :: footer}"></div>
+</body>
+</html>
