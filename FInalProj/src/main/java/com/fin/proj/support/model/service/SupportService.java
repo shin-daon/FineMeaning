@@ -13,5 +13,12 @@ public interface SupportService {
 
 	ArrayList<Support> selectApplyListUser(int uNo);
 
+	Support supportDetail(int supportNo);
+
+	ArrayList<SupportDetail> supportUsageDetail(int supportNo);
+
+	int getListCount();
+
+
 
 }

@@ -16,4 +16,10 @@ public interface SupportDAO {
 
 	ArrayList<Support> selectApplayListUser(int uNo);
 
+	Support supportDetail(int supportNo);
+
+	ArrayList<SupportDetail> supportUsageDetail(int supportNo);
+
+	int getListCount();
+
 }
