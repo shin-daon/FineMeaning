@@ -93,10 +93,10 @@ textarea:hover{
 	            <tr>
 	                <td colspan="2">
 	                    <div class="dropdown">
-						      <button id="dropbtn"> 
+						      <button id="dropbtn" type="button"> 
 						        선택
 						      </button>
-   					          <input type="hidden" name="category" value="none">
+   					          <input type="hidden" name="supportCategory" value="none" id="category">
 						      <div class="dropdown-content">
 						        <span class="selectCate">사람</span>
 						        <span class="selectCate">동물</span>
@@ -128,7 +128,7 @@ textarea:hover{
 	                  <div class="supportContent">
 	                    <input type="file" name="file" class="supportPic">
 	                    <span class="plusRoute">    	
-		                    <button id="plusInput2">+</button>
+		                    <button id="plusInput2" type="button">+</button>
 	                    </span>
 	                  </div>  
 	                </td>
@@ -146,7 +146,7 @@ textarea:hover{
 	            <tr>
 	                <td colspan="2">
 	                    <div class="supportContent">
-	                        <textarea name="supportDetailContent"></textarea>   
+	                        <textarea name="supportContent"></textarea>   
 	                    </div>
 	                </td>   
 	            </tr>
@@ -164,7 +164,7 @@ textarea:hover{
 	                    </div>
 	                </td>
 	                <td style="padding-left:13px;">
-	                    <input type="number" min="1000000" step="100000" th:value="5000000" placeholder="목표 금액 입력"> 원
+	                    <input type="number" min="1000000" step="100000" th:value="5000000" name="targetAmount" placeholder="목표 금액 입력"> 원
 	                </td>
 	            </tr>
 	            <tr>
@@ -175,9 +175,9 @@ textarea:hover{
 	                </td>
 	                <td>
 		            	<div class="plusRoute">    	
-		                    <input type="text" placeholder="예상 사용 목록 입력">
-		                    <input type="number" placeholder="예상 사용 비 입력">
-		                    <button id="plusInput">+</button>
+		                    <input type="text" placeholder="예상 사용 목록 입력" name="supportDetailContent">
+		                    <input type="number" placeholder="예상 사용 비 입력" name="supportDetailAmount">
+		                    <button id="plusInput" type="button">+</button>
 	                    </div>
 	                </td>
 	            </tr>
@@ -191,7 +191,7 @@ textarea:hover{
 	                <div class="supportContent">후원 진행 기간</div>
 	                </td>
 	                <td>
-	                    <input type="date"> 부터 &nbsp;&nbsp; <input type="date"> 까지
+	                    <input type="date" name="startDate"> 부터 &nbsp;&nbsp; <input type="date" name="endDate"> 까지
 	                </td>    
 	            </tr>
 	            <tr>
@@ -199,7 +199,7 @@ textarea:hover{
 	                <div class="supportContent">후원 신청자</div>
 	                </td>
 	                <td>
-	                    <input type="text" placeholder="신청자 이름 or 단체 명 입력"> 
+	                    <input type="text" placeholder="신청자 이름 or 단체 명 입력" th:value="${session.loginUser.registrar}"> 
 	                </td>
 	            </tr>
 	        </table>
@@ -208,7 +208,7 @@ textarea:hover{
 
         <div>
             <button class="learn-more" id="modal-open">신청하기</button>
-            <button class="learn-more">취소하기</button>
+            <button class="learn-more" type="button" onclick="supportApplicationListUser.su">취소하기</button>
         </div> 
 		
 			
@@ -230,15 +230,17 @@ textarea:hover{
         <div class="body-content">
           <div class="body-titlebox">
           	<img src="image/heart2.png" id="modal-emoticon"><br>
-            <h2>신청을 완료하시겠습니까?</h2>
+            <h2>신청하시겠습니까?</h2>
           </div>
           <div class="body-contentbox">
-            <p> 모금함 게시에는 다소 시간이 소요될 수 있습니다. </p>
+            <p> 수정이 불가능하니 한번 더 확인해주세요 </p>
+            <p> 모금함 게시에는 다소 시간이 소요될 수 있습니다.</p><br>
           </div>
         </div>
       </div>
       <div class="popup-foot">
-        <span class="pop-btn confirm" id="confirm">확인</span>
+        <span class="pop-btn confirm" id="confirm">신청</span>
+        <span class="pop-btn confirm" id="close">취소</span>
       </div>
     </div>
 </div>
@@ -282,8 +284,10 @@ $(function(){
 	 		const newPrice = document.createElement('input');
 	 		newList.setAttribute("type", "text");
 	 		newList.setAttribute("placeholder", "예상 사용 목록 입력");
+	 		newList.setAttribute("name", "supportDetailContent");
 	 		newPrice.setAttribute("type", "number");
 	 		newPrice.setAttribute("placeholder", "예상 사용 비 입력");
+	 		newPrice.setAttribute("name","supportDetailAmount");
 	 		console.log(newList);
 	 		console.log(newPrice);
 			
@@ -307,28 +311,19 @@ $(function(){
 	 		plusButton2.parentElement.append(newPic);
 		})
 	}	
-</script>
-
-<script>
+	
 	const selectCates = document.getElementsByClassName('selectCate');
 	for(const selectCate of selectCates){
 		selectCate.addEventListener('click', function(){
 			document.getElementById('dropbtn').innerText = this.innerHTML;
-			document.getElementsByName('category')[0].value= this.innerHTML;
-			console.log(document.getElementsByClassName('dropdown-content')[0])
+			document.getElementsByName('supportCategory')[0].value= this.innerHTML;
 			document.getElementsByClassName('dropdown-content')[0].style.display='none';
-			
 		})
 	}
 	
 	document.getElementById('dropbtn').addEventListener('click', ()=>{
 		document.getElementsByClassName('dropdown-content')[0].style.display='block';	
 	})
-
-	
-	
-	
-	
 </script>
 
 <div th:replace="~{../common/footer :: footer}"></div>

@@ -95,6 +95,8 @@
     margin-right: 1px;
 }
 
+/* 글자 수 카운트 */
+
 #counter {
     position: absolute;
     right: 22px;

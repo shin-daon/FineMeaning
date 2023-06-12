@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/community.css">
+<script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://kit.fontawesome.com/1c67f557d9.js" crossorigin="anonymous"></script>
+    <style>
+        @font-face {
+            font-family: 'SUITE-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+        }
+        
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: "SUITE-Regular", sans-serif;
+        } 
+        
+        /* 초기 상태에서 숨겨진 행 */
+        .hidden {
+            display: none;
+        }
+        
+        .writeFaqBtnSmall {
+        	float: right;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{../common/header :: header}"></div>
+<section id="faqSection">
+
+        <div>
+            <div id="faqTitle">공지사항</div>
+        </div>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle" href="#">커뮤니티</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">공지사항</a>
+        </div>
+
+        <div class="actionArea">
+            <div class="writeArea">
+                <button class="writeFaqBtn" onclick="location.href='writeNotice.co'">작성하기</button>
+            </div>
+            <div class="searchArea">
+                <input class="searchInput" type="text" placeholder="검색"/>
+                <a class="searchIconATag" href="#"><img class="searchIcon" src="image/scope.png"></a>
+            </div>
+        </div>
+
+        <table class="faqTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th style="width: 300px;">제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="toggle-row">
+                    <td>1</td>
+                    <td><img class="sub iconSize" src="image/alert.png">7월 후원자 추첨 이벤트 당첨자 명단 공지</td>
+                    <td>관리자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr class="hidden">
+	                <td colspan="5">
+	                    <p>7월 후원자 추첨 이벤트 당첨자 명단 공지 합니다. 도대담님, 성윤모님 축하드립니다.</p>
+	                    <button class="writeFaqBtnSmall" onclick="location.href='/editNotice.co'">수정하기</button>
+	                </td>
+            	</tr>
+            	
+                <tr class="toggle-row">
+                    <td>2</td>
+                    <td><img class="sub iconSize" src="image/alert.png">6월 후원자 추첨 이벤트 당첨자 명단 공지</td>
+                    <td>관리자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr class="hidden">
+	                <td colspan="5">
+	                    <p>6월 후원자 추첨 이벤트 당첨자 명단 공지 합니다. 도대담님, 성윤모님 축하드립니다.</p>
+	                    <button class="writeFaqBtnSmall" onclick="location.href='editNotice.co'">수정하기</button>
+	                </td>
+            	</tr>
+                
+                <tr class="toggle-row">
+                    <td>3</td>
+                    <td><img class="sub iconSize" src="resources/image/alert.png">5월 후원왕 공지</div></td>
+                    <td>관리자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr class="hidden">
+	                <td colspan="5">
+	                    <p>5월 최다액 후원자 공지드립니다. <br>'슬아트' 강슬기사장님 갈매보육원에 <br>2억 후원해주셨습니다. 감사합니다.</p>
+	                    <button class="writeFaqBtnSmall" onclick="location.href='editNotice.co'">수정하기</button>
+	                </td>
+            	</tr>
+                
+                <tr class="toggle-row">
+                    <td>4</td>
+                    <td><img class="sub iconSize" src="image/alert.png">4월 후원자 추첨 이벤트 당첨자 명단 공지</td>
+                    <td>관리자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr class="hidden">
+	                <td colspan="5">
+	                    <p>4월 후원자 추첨 이벤트 당첨자 명단 공지 합니다. 도대담님, 성윤모님 축하드립니다.</p>
+	                    <button class="writeFaqBtnSmall" onclick="location.href='editNotice.co'">수정하기</button>
+	                </td>
+            	</tr>
+                
+                <tr class="toggle-row">
+                    <td>5</td>
+                    <td><img class="sub iconSize" src="image/alert.png">3월 후원자 추첨 이벤트 당첨자 명단 공지</td>
+                    <td>관리자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr class="hidden">
+	                <td colspan="5">
+	                    <p>3월 후원자 추첨 이벤트 당첨자 명단 공지 합니다. 도대담님, 성윤모님 축하드립니다.</p>
+	                    <button class="writeFaqBtnSmall" onclick="location.href='editNotice.co'">수정하기</button>
+	                </td>
+            	</tr>
+                
+                <tr class="toggle-row">
+                    <td>6</td>
+                    <td><img class="sub iconSize" src="image/alert.png">2월 후원자 추첨 이벤트 당첨자 명단 공지</td>
+                    <td>관리자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr class="hidden">
+	                <td colspan="5">
+	                    <p>2월 후원자 추첨 이벤트 당첨자 명단 공지 합니다. 도대담님, 성윤모님 축하드립니다.</p>
+	                    <button class="writeFaqBtnSmall" onclick="location.href='editNotice.co'">수정하기</button>
+	                </td>
+            	</tr>
+                
+                <tr class="toggle-row">
+                    <td>7</td>
+                    <td><img class="sub iconSize" src="image/alert.png">1월 후원자 추첨 이벤트 당첨자 명단 공지</td>
+                    <td>관리자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr class="hidden">
+	                <td colspan="5">
+	                    <p>1월 후원자 추첨 이벤트 당첨자 명단 공지 합니다. 도대담님, 성윤모님 축하드립니다.</p>
+	                    <button class="writeFaqBtnSmall" onclick="location.href='editNotice.co'">수정하기</button>
+	                </td>
+            	</tr>
+                
+                <tr class="toggle-row">
+                    <td>8</td>
+                    <td><img class="sub iconSize" src="image/alert.png">22/12월 후원자 추첨 이벤트 당첨자 명단 공지</td>
+                    <td>관리자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr class="hidden">
+	                <td colspan="5">
+	                    <p>12월 후원자 추첨 이벤트 당첨자 명단 공지 합니다. 도대담님, 성윤모님 축하드립니다.</p>
+	                    <button class="writeFaqBtnSmall" onclick="location.href='editNotice.co'">수정하기</button>
+	                </td>
+            	</tr>
+                
+                <tr class="toggle-row">
+                    <td>9</td>
+                    <td><img class="sub iconSize" src="image/alert.png">22/11월 후원자 추첨 이벤트 당첨자 명단 공지</td>
+                    <td>관리자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr class="hidden">
+	                <td colspan="5">
+	                    <p>11월 후원자 추첨 이벤트 당첨자 명단 공지 합니다. 도대담님, 성윤모님 축하드립니다.</p>
+	                    <button class="writeFaqBtnSmall" onclick="location.href='editNotice.co'">수정하기</button>
+	                </td>
+            	</tr>
+                
+                <tr class="toggle-row">
+                    <td>10</td>
+                    <td><img class="sub iconSize" src="image/alert.png">22/10월 후원자 추첨 이벤트 당첨자 명단 공지</td>
+                    <td>관리자</td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr class="hidden">
+	                <td colspan="5">
+	                    <p>10월 후원자 추첨 이벤트 당첨자 명단 공지 합니다. 도대담님, 성윤모님 축하드립니다.</p>
+	                    <button class="writeFaqBtnSmall" onclick="location.href='editNotice.co'">수정하기</button>
+	                </td>
+            	</tr>
+                
+            </tbody>
+        </table>
+
+        <div class="page">
+            <ul class="pagination">
+                <li><a href="#" class="first"><img class="arrowKey" src="image/before.png"></a></li>
+                <li><a href="#" class="num">1</a></li>
+                <li><a href="#" class="num">2</a></li>
+                <li><a href="#" class="num">3</a></li>
+                <li><a href="#" class="num">4</a></li>
+                <li><a href="#" class="num">5</a></li>
+                <li><a href="#" class="last"><img class="arrowKey" src="image/next.png"></a></li>
+            </ul>
+        </div>
+    </section>
+    <div th:replace="~{../common/footer :: footer}"></div>
+</body>
+ <script>
+        // 토글 기능을 위한 JavaScript 코드
+        // 모든 toggle-row 클래스를 가진 요소에 클릭 이벤트 리스너를 추가
+        var toggleRows = document.querySelectorAll('.toggle-row');
+        toggleRows.forEach(function(row) {
+            row.addEventListener('click', function() {
+                // 클릭한 행의 다음 요소를 가져옴 (펼치거나 접을 내용)
+                var content = row.nextElementSibling;
+
+                // 숨겨져 있을 경우 펼치고, 보이고 있을 경우 접음
+                if (content.classList.contains('hidden')) {
+                    content.classList.remove('hidden');
+                } else {
+                    content.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</html>

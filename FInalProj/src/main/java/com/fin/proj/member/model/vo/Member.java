@@ -18,7 +18,7 @@ public class Member {
 	private Integer uType;
 	private String registrar;
 	private Date enrollDate;
-	
+
 	public Member(Integer uNo, String uId, String uPwd, String uName, String residentNo, String address, Integer phone,
 			String email, String uNickName, String loginType, Integer kakaoId, String uStatus, Integer uType,
 			String registrar, Date enrollDate) {
