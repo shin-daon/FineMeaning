@@ -1,6 +1,7 @@
 package com.fin.proj.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,17 +21,20 @@ public class MemberController {
 	@Autowired
 	private MemberService mService;
 	
+	@Autowired
+	private BCryptPasswordEncoder bcrypt;
+	
 	@RequestMapping("loginView.me")
 	public String loginView() {
 		return "login";
 	}
 	
-	@PostMapping(value="login.me")
+	@PostMapping("login.me")
 	public String login(Member m, Model model, HttpSession session) {
 		
 		Member loginUser = mService.login(m);
 		
-		if(loginUser != null) {
+		if(bcrypt.matches(m.getuPwd(), loginUser.getuPwd())) {
 			model.addAttribute("loginUser", loginUser);
 			System.out.println("로그인 성공");
 			return "redirect:/";

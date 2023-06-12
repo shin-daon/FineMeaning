@@ -5,7 +5,7 @@
 	<select id="login" resultMap="memberResultSet">
 		select *
 		from users
-		where u_id = #{uId} and u_pwd = #{uPwd} and u_status = 'Y'
+		where u_id = #{uId} and u_status = 'Y'
 	</select>
 	
 	<resultMap type="Member" id="memberResultSet">
