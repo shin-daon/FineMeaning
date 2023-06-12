@@ -217,6 +217,11 @@ div.login-input-wrap input:focus + span.placeholder-span {
 	color: #4e4e4e;
 }
 
+.login-input-wrap input:focus {
+  outline: none; /* 포커스 시 아웃라인 제거 */
+  background-color: transparent; /* 배경색 제거 */
+}
+
 </style>
 <body>
 <div th:replace="~{views/common/header :: header}"></div>
@@ -273,14 +278,18 @@ div.login-input-wrap input:focus + span.placeholder-span {
 <div th:replace="~{views/common/footer :: footer}"></div>
 </body>
 <script>
-	function changeImage() {
-	  var image = document.getElementById("changeImage");
-	  
+	const changeImage = () => {
+	  const image = document.getElementById("changeImage");
+
 	  if (image.src.endsWith("check_gray.png")) {
 	    image.src = "image/check.png";
 	  } else {
 	    image.src = "image/check_gray.png";
 	  }
-	}
+	};
+
+	const imageElement = document.getElementById("changeImage");
+	imageElement.addEventListener("click", changeImage);
+
 </script>
 </html>
