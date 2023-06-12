@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/volunteer.css"/>
 </head>
 <body>
+	<div th:replace="~{../common/header :: header}"></div>
+	
     <section id="v-title-section">
         <div>
             <div id="v-title">봉사</div>
@@ -112,12 +114,12 @@
         </section>
 
         <div class="v-enroll-btn-div">
-            <button type="button" id="v-enroll-btn" class="learn-more">등록하기</button>
+            <button type="button" id="v-enroll-btn" class="learn-more" onclick="location.href='volunteerEnroll.vo'">등록하기</button>
             <button id="v-category-reset-btn" class="learn-more-gray">초기화</button>
         </div>
 
         <section class="v-list">
-            <div class="v-list-box" onclick="javascript:location.href='volunteerDetailView.vo'">
+            <div class="v-list-box" onclick="javascript:location.href='volunteerDetail.vo'">
                 <div class="v-list-item">
                     <span class="v-locale-icon">경기</span>
                     <span class="v-recruitment-status">모집중</span>
@@ -220,100 +222,102 @@
             </ul>
         </div>
     </section>
+	
+	<div th:replace="~{../common/footer :: footer}"></div>  
 
     <script>
-    window.onload = () => {
-	    const now = new Date();
-	    const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
-	    
-	    const startDate = document.querySelector("#startDate");		
-	    const endDate = document.querySelector("#endDate");
-	    const volunteerName = document.querySelector("#volunteerName");
-	    const recipientName = document.querySelector("#recipientName");
-	
-	    startDate.setAttribute("min", today);
-	    endDate.setAttribute("min", today); 
-	
-	    // if(${ empty startDate }) {
-	    // 	startDate.value = today;
-	    // 	endDate.value = today;
-	    // }
-	            
-	    startDate.addEventListener('change', function() {
-	        if(endDate.value != '') {
-	            if(this.value > endDate.value) {
-	                this.value = today;
-	                alert("봉사 시작일은 봉사 종료일 이전이어야 합니다.");
-	            }
-	        }
-	        endDate.setAttribute("min", startDate.value);
-	    });
-	
-	    document.querySelector("#v-reset-btn").addEventListener("click", () => {
-	        startDate.value = "";
-	        endDate.value = "";
-	        volunteerName.value = "";
-	        recipientName.value = "";
-	    });
-	    
-		const ulList = document.querySelector(".v-sub-category").querySelectorAll("ul");
+	    window.onload = () => {
+		    const now = new Date();
+		    const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
+		    
+		    const startDate = document.querySelector("#startDate");		
+		    const endDate = document.querySelector("#endDate");
+		    const volunteerName = document.querySelector("#volunteerName");
+		    const recipientName = document.querySelector("#recipientName");
 		
-	    const locations = document.getElementsByName("location");
-	    const categories = document.getElementsByName("category");
-	    const onoffLines = document.getElementsByName("onoff-line");
-	    const objects = document.getElementsByName("object");
-	    const statuses = document.getElementsByName("status");
+		    startDate.setAttribute("min", today);
+		    endDate.setAttribute("min", today); 
+		
+		    // if(${ empty startDate }) {
+		    // 	startDate.value = today;
+		    // 	endDate.value = today;
+		    // }
+		            
+		    startDate.addEventListener('change', function() {
+		        if(endDate.value != '') {
+		            if(this.value > endDate.value) {
+		                this.value = today;
+		                alert("봉사 시작일은 봉사 종료일 이전이어야 합니다.");
+		            }
+		        }
+		        endDate.setAttribute("min", startDate.value);
+		    });
+		
+		    document.querySelector("#v-reset-btn").addEventListener("click", () => {
+		        startDate.value = "";
+		        endDate.value = "";
+		        volunteerName.value = "";
+		        recipientName.value = "";
+		    });
+		    
+			const ulList = document.querySelector(".v-sub-category").querySelectorAll("ul");
+			
+		    const locations = document.getElementsByName("location");
+		    const categories = document.getElementsByName("category");
+		    const onoffLines = document.getElementsByName("onoff-line");
+		    const objects = document.getElementsByName("object");
+		    const statuses = document.getElementsByName("status");
+		    
+			document.querySelector("#v-category-reset-btn").addEventListener("click", () => {
+		    	clickCategory(locations[0], locations);
+		    	clickCategory(categories[0], categories);
+		    	clickCategory(onoffLines[0], onoffLines);
+		    	clickCategory(objects[0], objects);
+		    	clickCategory(statuses[0], statuses);
+		    	
+		    	for(ul of ulList) {
+		    		ul.scrollTop = 0;
+		    	}
+		    });
+		
+		    for(const location of locations) {
+		        location.addEventListener("click", function() {
+		        	clickCategory(this, locations);
+		        });
+		    }
+		
+		    for(const category of categories) {
+		        category.addEventListener("click", function() {
+		        	clickCategory(this, categories);
+		        });
+		    }
+		
+		    for(const onoffLine of onoffLines) {
+		        onoffLine.addEventListener("click", function() {
+		        	clickCategory(this, onoffLines);
+		        });
+		    }
+		
+		    for(const object of objects) {
+		        object.addEventListener("click", function() {
+		        	clickCategory(this, objects);
+		        });
+		    }
+		
+		    for(const status of statuses) {
+		        status.addEventListener("click", function() {
+		        	clickCategory(this, statuses);
+		        });
+		    }
+	    }
 	    
-		document.querySelector("#v-category-reset-btn").addEventListener("click", () => {
-	    	clickCategory(locations[0], locations);
-	    	clickCategory(categories[0], categories);
-	    	clickCategory(onoffLines[0], onoffLines);
-	    	clickCategory(objects[0], objects);
-	    	clickCategory(statuses[0], statuses);
-	    	
-	    	for(ul of ulList) {
-	    		ul.scrollTop = 0;
+	    const clickCategory = function(clickObj, category) {
+	    	for(const obj of category) {
+	    		obj.style.background = 'none';
 	    	}
-	    });
-	
-	    for(const location of locations) {
-	        location.addEventListener("click", function() {
-	        	clickCategory(this, locations);
-	        });
+	    	clickObj.style.backgroundColor = '#d7f1c8';
+	    	clickObj.style.borderRadius = '8px';
 	    }
-	
-	    for(const category of categories) {
-	        category.addEventListener("click", function() {
-	        	clickCategory(this, categories);
-	        });
-	    }
-	
-	    for(const onoffLine of onoffLines) {
-	        onoffLine.addEventListener("click", function() {
-	        	clickCategory(this, onoffLines);
-	        });
-	    }
-	
-	    for(const object of objects) {
-	        object.addEventListener("click", function() {
-	        	clickCategory(this, objects);
-	        });
-	    }
-	
-	    for(const status of statuses) {
-	        status.addEventListener("click", function() {
-	        	clickCategory(this, statuses);
-	        });
-	    }
-    }
-    
-    const clickCategory = function(clickObj, category) {
-    	for(const obj of category) {
-    		obj.style.background = 'none';
-    	}
-    	clickObj.style.backgroundColor = '#d7f1c8';
-    	clickObj.style.borderRadius = '8px';
-    }
     </script>
 </body>
 </html>

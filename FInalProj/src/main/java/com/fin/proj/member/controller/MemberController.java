@@ -36,7 +36,6 @@ public class MemberController {
 		
 		if(bcrypt.matches(m.getuPwd(), loginUser.getuPwd())) {
 			model.addAttribute("loginUser", loginUser);
-			session.setAttribute("loginUser", loginUser);
 			System.out.println("로그인 성공");
 			return "redirect:/";
 		} else {
