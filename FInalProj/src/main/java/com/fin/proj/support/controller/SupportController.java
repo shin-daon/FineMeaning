@@ -1,7 +1,6 @@
 package com.fin.proj.support.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +12,7 @@ import com.fin.proj.member.model.vo.Member;
 import com.fin.proj.support.model.exception.SupportException;
 import com.fin.proj.support.model.service.SupportService;
 import com.fin.proj.support.model.vo.Support;
+import com.fin.proj.support.model.vo.SupportDetail;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -60,17 +60,21 @@ public class SupportController {
 	@RequestMapping("supportApply.su")
 	public String supportApply(HttpSession session, @ModelAttribute Support s, @RequestParam("supportDetailContent") ArrayList<String> sdcList,
 								@RequestParam("supportDetailAmount") ArrayList<String> sdaList) {
+		
+		
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		String registar = ((Member)session.getAttribute("loginUser")).getRegistrar();
 		s.setUserNo(uNo);
 		s.setRegistar(registar);
-		ArrayList<HashMap> sdList = new ArrayList();
-		System.out.println(sdcList);
-		System.out.println(sdaList);
+
 		int result1 = suService.supportApply(s);
+
 		int result2 = 0;
-		for(int i=0; i < sdList.size(); i++) {
-//			result2 = suService.insertSupportDetail(sdList.get(i));
+		for(int i = 0; i < sdcList.size(); i++ ) {
+			SupportDetail sd = new SupportDetail();
+			sd.setSupportDetailContent(sdcList.get(i));
+			sd.setSupportDetailAmount(Integer.parseInt(sdaList.get(i)));
+			result2 = suService.insertSupportDetail(sd);
 		}
 		
 		if(result1 + result2>0) {
