@@ -391,6 +391,20 @@ a {
 <div th:replace="~{views/common/footer :: footer}"></div>
 
 <script>
+	// 중복 확인
+	const doubleCheckBtn = document.getElementById('double-check');
+	const useBtn = document.getElementById('use-id-btn');
+	const modal = document.getElementById('modal');
+
+	doubleCheckBtn.addEventListener('click', () => {
+		event.preventDefault();
+	    modal.style.display = 'block';
+	});
+
+	useBtn.addEventListener('click', () => {
+	    modal.style.display = 'none';
+	});
+
 	// 이메일
     const emailSelect = document.getElementById('email-select');
     const customEmailInput = document.getElementById('custom-email-input');

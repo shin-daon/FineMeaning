@@ -240,7 +240,11 @@ input[type="radio"]:checked + span:before{
     height: 40px;
     border: 1px solid lightgray;
     outline: none;
-    position: relative;
+	position: relative;
+}
+
+.input.email-input {
+    position: relative; /* 추가: 위치를 고정하기 위해 부모 요소에 position: relative 적용 */
 }
 
 .x-btn {
@@ -249,9 +253,10 @@ input[type="radio"]:checked + span:before{
 	width: 25px;
 	height: 25px;
 	position: absolute;
-	left: 1075px;
-	top: 2px;
-	z-index: 999;
+/* 	right: 795px; */
+/* 	top: 694px; */
+	top: 10px;
+    left: 315px;
 }
 
 </style>
@@ -341,6 +346,9 @@ input[type="radio"]:checked + span:before{
 <div th:replace="~{views/common/footer :: footer}"></div>
 
 <script>
+
+	// 이메일 or 전화번호 선택
+	
 	const emailRadio = document.getElementById('email');
 	const phoneRadio = document.getElementById('phone-number');
 	
