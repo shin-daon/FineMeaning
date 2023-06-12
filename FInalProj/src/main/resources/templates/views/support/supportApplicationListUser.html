@@ -58,88 +58,36 @@
                 </tr>
             </thead>
             <tbody>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>9,000,000원</td>
-	                    <td>2023-05-31</td>
-	                    <td>미승인</td>
+	                <tr th:each="s : ${sList}" th:if="${ sList != null }">
+	                    <td th:text="${s.supportNo}"></td>
+	                    <td th:text="${s.supportTitle}"></td>
+	                    <td th:text="${s.targetAmount}"></td>
+	                    <td th:text="${s.createDate}"></td>
+	                    <td>
+		                    <th:block th:switch="${s.status}">
+		                    	<span th:case="W">승인 대기</span>
+		                    	<span th:case="Y">승인 완료</span>
+		                    	<span th:case="N">승인 반려</span>
+		                    </th:block>
+		                </td>    
 	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>9,000,000원</td>
-	                    <td>2023-05-31</td>
-	                    <td>미승인</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>9,000,000원</td>
-	                    <td>2023-05-31</td>
-	                    <td>미승인</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>9,000,000원</td>
-	                    <td>2023-05-31</td>
-	                    <td>미승인</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>9,000,000원</td>
-	                    <td>2023-05-31</td>
-	                    <td>미승인</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>9,000,000원</td>
-	                    <td>2023-05-31</td>
-	                    <td>미승인</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>9,000,000원</td>
-	                    <td>2023-05-31</td>
-	                    <td>미승인</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>9,000,000원</td>
-	                    <td>2023-05-31</td>
-	                    <td>미승인</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>9,000,000원</td>
-	                    <td>2023-05-31</td>
-	                    <td>미승인</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>9,000,000원</td>
-	                    <td>2023-05-31</td>
-	                    <td>미승인</td>
+	                <tr th:if="${ sList == null }">
+	                    <td colspan="5">조회 결과가 없습니다.</td>
 	                </tr>
 	                
             </tbody>
         </table>
 		
 		<div class="buttonArea">
-<!-- 	        <div th:if="${session.loginUser.registrar ==null}" class="buttonSection"> -->
+	        <div th:if="${session.loginUser.registrar ==null}" class="buttonSection">
 	        <div class="buttonSection">
 				<button class="learn-more" id="notLogin">후원 신청하기</button>
 			</div>
-<!-- 			<div th:if="${session.loginUser.registrar != null}" class="buttonSection"> -->
+			</div>
+			<div th:if="${session.loginUser.registrar != null}" class="buttonSection">
 			<div class="buttonSection">
 				<button class="learn-more" onclick="location.href='supportWrite.su'">후원 신청하기</button>
+			</div>
 			</div>
         </div>
 		

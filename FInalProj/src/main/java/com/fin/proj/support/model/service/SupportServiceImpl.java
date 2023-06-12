@@ -1,5 +1,7 @@
 package com.fin.proj.support.model.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,11 @@ public class SupportServiceImpl implements SupportService{
 	@Override
 	public int insertSupportDetail(SupportDetail supportDetail) {
 		return suDAO.insertSupportDetail(supportDetail);
+	}
+
+	@Override
+	public ArrayList<Support> selectApplyListUser(int uNo) {
+		return suDAO.selectApplayListUser(uNo);
 	}
 
 	
