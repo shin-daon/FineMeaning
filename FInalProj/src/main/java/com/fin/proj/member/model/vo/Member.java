@@ -3,25 +3,25 @@ package com.fin.proj.member.model.vo;
 import java.sql.Date;
 
 public class Member {
-	private int uNo;
+	private Integer uNo;
 	private String uId;
 	private String uPwd;
 	private String uName;
 	private String residentNo;
 	private String address;
-	private int phone;
+	private Integer phone;
 	private String email;
 	private String uNickName;
 	private String loginType;
-	private int kakaoId;
-	private char uStatus;
-	private int uType;
+	private Integer kakaoId;
+	private String uStatus;
+	private Integer uType;
 	private String registrar;
 	private Date enrollDate;
-	
-	public Member(int uNo, String uId, String uPwd, String uName, String residentNo, String address, int phone,
-			String email, String uNickName, String loginType, int kakaoId, char uStatus, int uType, String registrar,
-			Date enrollDate) {
+
+	public Member(Integer uNo, String uId, String uPwd, String uName, String residentNo, String address, Integer phone,
+			String email, String uNickName, String loginType, Integer kakaoId, String uStatus, Integer uType,
+			String registrar, Date enrollDate) {
 		super();
 		this.uNo = uNo;
 		this.uId = uId;
@@ -40,121 +40,180 @@ public class Member {
 		this.enrollDate = enrollDate;
 	}
 
-	public int getuNo() {
+
+	public Integer getuNo() {
 		return uNo;
 	}
 
-	public void setuNo(int uNo) {
+
+
+	public void setuNo(Integer uNo) {
 		this.uNo = uNo;
 	}
+
+
 
 	public String getuId() {
 		return uId;
 	}
 
+
+
 	public void setuId(String uId) {
 		this.uId = uId;
 	}
+
+
 
 	public String getuPwd() {
 		return uPwd;
 	}
 
+
+
 	public void setuPwd(String uPwd) {
 		this.uPwd = uPwd;
 	}
+
+
 
 	public String getuName() {
 		return uName;
 	}
 
+
+
 	public void setuName(String uName) {
 		this.uName = uName;
 	}
+
+
 
 	public String getResidentNo() {
 		return residentNo;
 	}
 
+
+
 	public void setResidentNo(String residentNo) {
 		this.residentNo = residentNo;
 	}
+
+
 
 	public String getAddress() {
 		return address;
 	}
 
+
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-	public int getPhone() {
+
+
+	public Integer getPhone() {
 		return phone;
 	}
 
-	public void setPhone(int phone) {
+
+
+	public void setPhone(Integer phone) {
 		this.phone = phone;
 	}
+
+
 
 	public String getEmail() {
 		return email;
 	}
 
+
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
 
 	public String getuNickName() {
 		return uNickName;
 	}
 
+
+
 	public void setuNickName(String uNickName) {
 		this.uNickName = uNickName;
 	}
+
+
 
 	public String getLoginType() {
 		return loginType;
 	}
 
+
+
 	public void setLoginType(String loginType) {
 		this.loginType = loginType;
 	}
 
-	public int getKakaoId() {
+
+
+	public Integer getKakaoId() {
 		return kakaoId;
 	}
 
-	public void setKakaoId(int kakaoId) {
+
+
+	public void setKakaoId(Integer kakaoId) {
 		this.kakaoId = kakaoId;
 	}
 
-	public char getuStatus() {
+
+
+	public String getuStatus() {
 		return uStatus;
 	}
 
-	public void setuStatus(char uStatus) {
+
+
+	public void setuStatus(String uStatus) {
 		this.uStatus = uStatus;
 	}
 
-	public int getuType() {
+
+
+	public Integer getuType() {
 		return uType;
 	}
 
-	public void setuType(int uType) {
+
+
+	public void setuType(Integer uType) {
 		this.uType = uType;
 	}
+
+
 
 	public String getRegistrar() {
 		return registrar;
 	}
 
+
+
 	public void setRegistrar(String registrar) {
 		this.registrar = registrar;
 	}
 
+
+
 	public Date getEnrollDate() {
 		return enrollDate;
 	}
+
+
 
 	public void setEnrollDate(Date enrollDate) {
 		this.enrollDate = enrollDate;
