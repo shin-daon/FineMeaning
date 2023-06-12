@@ -55,11 +55,11 @@ text-align : center;
 <!-- include summernote-ko-KR -->
 <script src="/resources/js/summernote-ko-KR.js"></script>
 
-<title>글 작성</title>
+<title>수정</title>
 </head>
 <body>
 <div th:replace="~{../common/header :: header}"></div>
-<br><br><br><h2 style="text-align: center;" class="title">1:1질문 수정하기</h2><br><br><br>
+<br><br><br><h2 style="text-align: center;" class="title">공지사항 수정하기</h2><br><br><br>
 
 <div style="width: 60%; margin: auto;">
 	<form method="post" action="/write">
@@ -67,8 +67,8 @@ text-align : center;
 		<br><br> 
 		<textarea id="summernote" name="content"></textarea><br>
 		<div class="button-container">
-		<input id="subBtn" type="button" value="수정취소" style="float: right;" onclick = "location.href='${ contextPath }/qaList.co'"/>
-		<input id="subBtn" type="button" value="수정완료" style="float: right;" onclick="goWrite(this.form)"/>
+		<input id="subBtn" type="button" value="수정취소" style="float: right;" onclick = "location.href='noticeList.bo'"/>
+		<input id="subBtn" type="button" value="수정하기" style="float: right;" onclick="goWrite(this.form)"/>
 		</div>
 	</form>
 </div>

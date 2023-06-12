@@ -49,9 +49,7 @@ public class TemplateResolverConfig {
 		dotBo.setCacheable(false);
 		dotBo.setCheckExistence(true);
 		
-		return dotBo;
-
-		
+		return dotBo;	
 	}
 
 	@Bean
