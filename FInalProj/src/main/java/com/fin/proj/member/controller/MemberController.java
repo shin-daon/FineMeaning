@@ -5,11 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fin.proj.member.model.exception.MemberException;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MemberController {
@@ -23,17 +24,13 @@ public class MemberController {
 	}
 	
 	@GetMapping(value="login.me")
-	public String login(@RequestParam("uId") String uId, @RequestParam("uPwd") String uPwd,
-						Member m, Model model) {
-		
-		m.setuId(uId);
-		m.setuPwd(uPwd);
+	public String login(Member m, Model model, HttpSession session) {
 		
 		Member loginUser = mService.login(m);
 		
 		if(loginUser != null) {
 			System.out.println("로그인 성공");
-			return "redirect:home.do";
+			return "redirect:/";
 		} else {
 			System.out.println("로그인 실패");
 			throw new MemberException("로그인에 실패하였습니다.");
