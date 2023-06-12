@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,7 +49,12 @@ public class SupportController {
 		return "supportListUser";
 	}
 	@RequestMapping("supportApplicationListUser.su")
-	public String supportApplicationListUser() {
+	public String supportApplicationListUser(HttpSession session, Model model) {
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		ArrayList<Support> sList = suService.selectApplyListUser(uNo);
+		System.out.println(sList);
+		System.out.println(sList.get(0).getStatus());
+		model.addAttribute("sList",sList);
 		return "supportApplicationListUser";
 	}
 	

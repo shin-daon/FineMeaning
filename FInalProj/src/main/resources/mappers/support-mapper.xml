@@ -9,4 +9,29 @@
 	<insert id="insertSupportDetail">
 		insert into supportdetail values(SEQ_SDID.NEXTVAL, #{supportDetailContent}, #{supportDetailAmount}, seq_suid.currval)
 	</insert>
+	
+	<select id="selectApplayListUser" resultMap="supportResultSet">
+		select * from support join users using(u_no) where u_no = #{uNo}
+	</select>
+	
+	<resultMap type="Support" id="supportResultSet">
+		<id column="S_NO" property="supportNo" />		
+		<result column="U_NO" property="userNo" />
+		<result column="S_CATEGORY" property="supportCategory" />
+		<result column="S_TITLE" property="supportTitle" />
+		<result column="S_CONTENT" property="supportContent" />
+		<result column="S_CREATE_DATE" property="createDate" />
+		<result column="S_START_DATE" property="startDate" />
+		<result column="S_END_DATE" property="endDate" />
+		<result column="TARGET_AMOUNT" property="targetAmount" />
+		<result column="FUND_AMOUNT" property="fundAmount" />
+		<result column="S_COUNT" property="supportCount" />
+		<result column="S_STATUS" property="status" />
+		<result column="PHONE" property="phone" />
+		<result column="EMAIL" property="email" />
+		<result column="REGISTRAR" property="registar" />
+		<result column="U_ID" property="userId" />
+		<result column="ENROLL_DATE" property="enrollDate" />
+	</resultMap>
+	
 </mapper>
