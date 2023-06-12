@@ -1,4 +1,6 @@
-#finePeople_write_section {
+@charset "UTF-8";
+
+#fineNews_write_section {
     margin-top: 50px;
     display: flex;
     /* justify-content(가로 가운데)랑 align-items(세로 가운데) 쓰기 위해 선언!
@@ -7,13 +9,13 @@
     flex-direction: column; /* 세로 방향, row는 가로 방향 */
 }
 
-#finePeople_title {
+#fineNews_title {
     font-size: 30px;
     border-bottom: 2px solid #40513B;
     margin-bottom: 70px;
 }
 
-#finePeople_write_title {
+#fineNews_write_title {
     font-size: 25px;
     margin-bottom: 30px;
     color: #40513B;
@@ -28,7 +30,6 @@
     border: 1px dashed #40513B;
     border-radius: 60px 10px 60px 10px;
 }
-
 
 /* 이미지 첨부 */
 
@@ -60,8 +61,8 @@
 	display: none;
 }
 
-.finePeopleTitle {
-    width: 380px;
+.fineNewsTitle {
+    width: 300px;
     height: 38px;
     border-radius: 0.6em;
     padding-left: 11px;
@@ -69,8 +70,8 @@
     border: 1px solid black;
 }
 
-.finePeopleName {
-    width: 116px;
+.fineNewsURL {
+    width: 196px;
     height: 38px;
     border-radius: 0.6em;
     padding-left: 6px;
@@ -82,11 +83,11 @@
     height: 50px;
 }
 
-.finePeopleContentContainer{
+.fineNewsContentContainer{
     position: relative;
 }
 
-.finePeopleContent {
+.fineNewsContent {
     width: 500px;
     height: 170px;
     margin-bottom: 29px;
