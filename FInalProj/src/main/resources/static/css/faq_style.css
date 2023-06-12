@@ -83,6 +83,22 @@
     top: 6px;
 }
 
+/* 목록 */
+
+.faq_title_wrap {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1; /* 표시할 줄 수 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.faq_title {
+    word-break: break-all;
+    font-size: 15px;
+    text-align: center;
+}
+
 .faqTable {
     width: 750px;
     margin-top: 10px;

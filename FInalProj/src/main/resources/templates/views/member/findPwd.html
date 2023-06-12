@@ -259,6 +259,30 @@ input[type="radio"]:checked + span:before{
     left: 315px;
 }
 
+.last-button {
+	margin-top: 20px;
+	
+}
+
+.new-pwd {
+	margin-top: 15px; 
+	margin-bottom: 15px;
+}
+
+.pwd-area {
+	margin-top: 30px;
+}
+
+.result-div {
+	display: none;
+	width: 360px;
+	margin: 0px auto;
+}
+
+#complete{
+	margin-left: 300px; 
+}
+
 </style>
 <body>
 <div th:replace="~{views/common/header :: header}"></div>
@@ -327,21 +351,16 @@ input[type="radio"]:checked + span:before{
 	</form>
 </div>
 
-<div class="result">
-	<div class="insert name">
-		<label class="title">아이디 확인</label><br>
-		<span class="pwd-comment">회원님의 정보와 일치하는 아이디입니다.</span>
-		<div class="result-nemo">
-			<div class="result-user-id">user01</div><div class="result-user-date">(가입일 : 2020. 05. 25)</div>
-		</div>
+	<div class="insert result-div">
+		<label class="title new-pwd-title">비밀번호 재설정</label><br>
+		<div class="pwd-area">
+			새 비밀번호 <input type="password" id="normal-input" class="new-pwd" placeholder="비밀번호"/><br>
+			비밀번호 확인 <input type="password" id="normal-input" class="new-pwd" placeholder="비밀번호 확인"/><br>
+			<button class="normal-btn" id="search-ad">확인</button>
+		</div>	
 	</div>
-	
-	<div class="last-button">
-		<button id="rollback-btn" >로그인</button> &nbsp;
-		<button id="withdrawal-btn">비밀번호 찾기</button>	
-	</div>	
-</div>
-	
+
+
 <br><br><br><br>
 <div th:replace="~{views/common/footer :: footer}"></div>
 
@@ -373,7 +392,7 @@ input[type="radio"]:checked + span:before{
 	const nextBtn = document.getElementById('search-ad');
 	
 	const firstDiv = document.getElementsByClassName('enroll')[0];
-	const nextDiv = document.getElementsByClassName('result')[0];
+	const nextDiv = document.getElementsByClassName('result-div')[0];
 	
 	nextBtn.addEventListener('click', () => {
 		event.preventDefault();

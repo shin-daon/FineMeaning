@@ -76,7 +76,6 @@ public class SupportController {
 			sd.setSupportDetailAmount(Integer.parseInt(sdaList.get(i)));
 			result2 = suService.insertSupportDetail(sd);
 		}
-				
 		
 		if(result1 + result2>0) {
 			return "redirect:supportApplicationListUser.su";
