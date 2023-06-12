@@ -16,7 +16,7 @@ text-align : center;
 }
 #subBtn {
   /* 생략 */
-  width: 120px;
+  width: 80px;
     height: 30px;
     background-color: #9DC08B;
     color: white;
@@ -41,8 +41,6 @@ text-align : center;
   justify-content: flex-end;
   gap: 10px;
 }
-
-
 </style>
 <link rel="stylesheet" href="resources/css/style.css">
 <script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
@@ -57,12 +55,11 @@ text-align : center;
 <!-- include summernote-ko-KR -->
 <script src="/resources/js/summernote-ko-KR.js"></script>
 
-
-<title>공지사항 작성</title>
+<title>수정</title>
 </head>
 <body>
 <div th:replace="~{../common/header :: header}"></div>
-<br><br><br><h2 style="text-align: center;" class="title">공지사항 작성</h2><br><br><br>
+<br><br><br><h2 style="text-align: center;" class="title">일반 게시판 글 수정하기</h2><br><br><br>
 
 <div style="width: 60%; margin: auto;">
 	<form method="post" action="/write">
@@ -70,8 +67,8 @@ text-align : center;
 		<br><br> 
 		<textarea id="summernote" name="content"></textarea><br>
 		<div class="button-container">
-		<input id="subBtn" type="button" value="목록으로" style="float: right;" onclick = "location.href='qaList.co'"/>
-		<input id="subBtn" type="button" value="공지사항 등록" style="float: right;" onclick="goWrite(this.form)"/>
+		<input id="subBtn" type="button" value="수정취소" style="float: right;" onclick = "location.href='commList.bo'"/>
+		<input id="subBtn" type="button" value="수정완료" style="float: right;" onclick="goWrite(this.form)"/>
 		</div>
 	</form>
 </div>
@@ -88,26 +85,5 @@ $(document).ready(function() {
 	        lang : 'ko-KR'
 	  });
 	});
-	
-$(document).ready(function() {
-	  // 썸머노트 초기화
-	  $('#summernote').summernote({
-	    placeholder: 'content',
-	    minHeight: 370,
-	    maxHeight: null,
-	    focus: true, 
-	    lang : 'ko-KR'
-	  });
-
-	  // 썸머노트 에디터의 폰트 패밀리 변경
-	  $('.note-editable').css('font-family', 'Arial, sans-serif');
-
-	  // 썸머노트 에디터의 배경색 변경
-	  $('.note-editable').css('background-color', 'lightgray');
-
-	  // 자체 CSS 클래스에 스타일 추가
-	  $('.title').addClass('custom-title');
-	});
-
 </script>
 </html>

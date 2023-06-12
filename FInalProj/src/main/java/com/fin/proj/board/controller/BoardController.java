@@ -55,4 +55,64 @@ public class BoardController {
 	public String fineNewsForm() {
 		return "fineNews_form";
 	}
+	
+	@GetMapping("commList.bo")
+	public String commList() {
+		return "commList";
+	}
+	
+	@GetMapping("writeComm.bo")
+	public String writeComm() {
+		return "writeComm";
+	}
+	
+	@GetMapping("noticeList.bo")
+	public String noticeList() {
+		return "noticeList";
+	}
+	
+	@GetMapping("writeNotice.bo")
+	public String writeNotice() {
+		return "writeNotice";
+	}
+	
+	@GetMapping("qaList.bo")
+	public String qaList() {
+		return "qaList";
+	}
+	
+	@GetMapping("writeQa.bo")
+	public String writeQa() {
+		return "writeQa";
+	}
+	
+	@GetMapping("commDetail.bo")
+	public String commDetail() {
+		return "commDetail";
+	}
+	
+	@GetMapping("qaDetail.bo")
+	public String qaDetail() {
+		return "qaDetail";
+	}
+	
+	@GetMapping("replyQa.bo")
+	public String replyQa() {
+		return "replyQa";
+	}
+	
+	@GetMapping("editComm.bo")
+	public String editComm() {
+		return "editComm";
+	}
+	
+	@GetMapping("editQa.bo")
+	public String editQa() {
+		return "editQa";
+	}
+	
+	@GetMapping("editNotice.bo")
+	public String editNotice() {
+		return "editNotice";
+	}
 }
