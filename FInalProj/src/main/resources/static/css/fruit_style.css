@@ -140,7 +140,7 @@
     color:white;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown:active .dropdown-content {
     display: block;
 }
 
@@ -149,7 +149,6 @@
     height: 35px;
     background-color: #e3c2c2;
 }
-
 
 /* 귀여운 버튼 */
 
