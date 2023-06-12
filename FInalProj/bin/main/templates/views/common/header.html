@@ -4,14 +4,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 	<link href="css/header.css" rel="stylesheet">
-	<script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
-<style>
-#main > ul {
-    display: flex;
-    justify-content: center;
-    padding:0;
-}
-</style>
+	<script src="https://kit.fontawesome.com/1c67f557d9.js" crossorigin="anonymous"></script>
 </head>
 <body>
 	<header id="header">
@@ -73,90 +66,65 @@
         </div>
     </section>
     <script>
-        $(document).ready(function() {
-            $(".hamburgerMenu").hide();
+		const hamburgerMenu = document.querySelector(".hamburgerMenu");
+		const barIcon = document.querySelector(".bar i");
+		const mainLinks = document.querySelectorAll("#main > ul > li > a");
 
-            $(".bar i").click(function() {
-                $(".hamburgerMenu").toggle();
-                $(".bar").toggleClass('background');
-                $(".bar i").toggleClass('hamburger');
-            });
+	    barIcon.addEventListener("click", function() {
+	        hamburgerMenu.style.display = hamburgerMenu.style.display === "flex" ? "none" : "flex";
+	        hamburgerMenu.classList.toggle("background");
+	        barIcon.classList.toggle("hamburger");
+	    });
 
-            $('#subMenu > div:nth-child(1)').hover(function() {
-                $('#main > ul > li:nth-child(1) > a').css({
-                    'border-bottom': '2px solid #40513B',
-                    'color': '#40513B'
-                });
-            }, function() {
-                $('#main a:nth-child(1)').css({
-                'border-bottom': '',
-                'color': ''
-                });
-            });
+	    function setLinkStyle(index) {
+	        mainLinks[index].style.borderBottom = '2px solid #40513B';
+	        mainLinks[index].style.color = '#40513B';
+	    }
 
-            $('#subMenu > div:nth-child(2)').hover(function() {
-                $('#main > ul > li:nth-child(2) > a').css({
-                    'border-bottom': '2px solid #40513B',
-                    'color': '#40513B'
-                });
-            }, function() {
-                $('#main > ul > li:nth-child(2) > a').css({
-                'border-bottom': '',
-                'color': ''
-                });
-            });
+	    function resetLinkStyle(index) {
+	        mainLinks[index].style.borderBottom = '';
+	        mainLinks[index].style.color = '';
+	    }
 
-            $('#subMenu > div:nth-child(3)').hover(function() {
-                $('#main > ul > li:nth-child(3) > a').css({
-                    'border-bottom': '2px solid #40513B',
-                    'color': '#40513B'
-                });
-            }, function() {
-                $('#main > ul > li:nth-child(3) > a').css({
-                'border-bottom': '',
-                'color': ''
-                });
-            });
+	    var subMenuDivs = document.querySelectorAll("#subMenu > div");
+	    var mainListItems = document.querySelectorAll("#main > ul > li");
 
-            $('#subMenu > div:nth-child(4)').hover(function() {
-                $('#main > ul > li:nth-child(4) > a').css({
-                    'border-bottom': '2px solid #40513B',
-                    'color': '#40513B'
-                });
-            }, function() {
-                $('#main > ul > li:nth-child(4) > a').css({
-                'border-bottom': '',
-                'color': ''
-                });
-            });
+	    for (var i = 0; i < subMenuDivs.length; i++) {
+	        subMenuDivs[i].addEventListener("mouseenter", (function(index) {
+	            return function() {
+	                setLinkStyle(index);
+	            };
+	        })(i));
 
-            $('#subMenu > div:nth-child(5)').hover(function() {
-                $('#main > ul > li:nth-child(5) > a').css({
-                    'border-bottom': '2px solid #40513B',
-                    'color': '#40513B'
-                });
-            }, function() {
-                $('#main > ul > li:nth-child(5) > a').css({
-                'border-bottom': '',
-                'color': ''
-                });
-            });
+	        subMenuDivs[i].addEventListener("mouseleave", (function(index) {
+	            return function() {
+	                resetLinkStyle(index);
+	            };
+	        })(i));
+	    }
 
-            var $firstmenu = $('#header');
-            var $subMenu = $('#subMenu');
+	    const header = document.getElementById("header");
+	    const subMenu = document.getElementById("subMenu");
 
-            $firstmenu.mouseenter(function() {
-                $subMenu.stop().slideDown(300);
-            }).mouseleave(function() {
-                $subMenu.stop().slideUp(300);
-            });
+	    if(subMenu.style.display == "flex") {
+	    	subMenu.style.display = "none";
+	    }
+	    
+	    function slideDownSubMenu() {
+	        subMenu.style.display = "flex";
+	    }
 
-            $subMenu.mouseenter(function() {
-                $subMenu.stop().slideDown(300);
-            }).mouseleave(function() {
-                $subMenu.stop().slideUp(300);
-            });
-        });
+	    function slideUpSubMenu() {
+	        subMenu.style.display = "none";
+	    }
+	    
+	    
+
+	    header.addEventListener("mouseenter", slideDownSubMenu);
+	    header.addEventListener("mouseleave", slideUpSubMenu);
+
+	    subMenu.addEventListener("mouseenter", slideDownSubMenu);
+	    subMenu.addEventListener("mouseleave", slideUpSubMenu);
     </script>
 </body>
 </html>
