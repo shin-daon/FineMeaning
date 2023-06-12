@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 #faqSection {
-    margin-top: 80px;
+	margin-top: 50px;
     margin-bottom: 50px;
     display: flex;
     /* justify-content(가로 가운데)랑 align-items(세로 가운데) 쓰기 위해 선언!
@@ -13,7 +13,6 @@
 #faqTitle {
     font-size: 30px;
     border-bottom: 2px solid #40513B;
-    margin-top: 30px;
 }
 
 .path {

@@ -40,7 +40,6 @@ public class Member {
 		this.enrollDate = enrollDate;
 	}
 
-
 	public Integer getuNo() {
 		return uNo;
 	}
@@ -218,6 +217,8 @@ public class Member {
 	public void setEnrollDate(Date enrollDate) {
 		this.enrollDate = enrollDate;
 	}
+
+
 
 	@Override
 	public String toString() {

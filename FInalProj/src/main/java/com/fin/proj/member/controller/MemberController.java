@@ -32,7 +32,6 @@ public class MemberController {
 		
 		if(loginUser != null) {
 			model.addAttribute("loginUser", loginUser);
-			session.setAttribute("loginUser", loginUser);
 			System.out.println("로그인 성공");
 			return "redirect:/";
 		} else {
