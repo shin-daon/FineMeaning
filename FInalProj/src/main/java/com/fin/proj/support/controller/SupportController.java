@@ -70,7 +70,7 @@ public class SupportController {
 		int result1 = suService.supportApply(s);
 		int result2 = 0;
 		for(int i=0; i < sdList.size(); i++) {
-			result2 = suService.insertSupportDetail(sdList.get(i));
+//			result2 = suService.insertSupportDetail(sdList.get(i));
 		}
 		
 		if(result1 + result2>0) {
