@@ -42,8 +42,8 @@
 
 			<div class="actionArea">
             <div class="searchArea">
-                <input class="searchInput" type="text" placeholder="검색"/>
-                <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
+                <input class="searchInput" type="text" placeholder="제목으로 검색" name="searchWord"/>
+                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
             </div>
         	</div>
 
@@ -80,14 +80,15 @@
 		
 		<div class="buttonArea">
 	        <div th:if="${session.loginUser.registrar ==null}" class="buttonSection">
-	        <div class="buttonSection">
-				<button class="learn-more" id="notLogin">후원 신청하기</button>
+		        <div class="buttonSection">
+					<button class="learn-more" id="notLogin">후원 신청하기</button>
+				</div>
 			</div>
-			</div>
+			
 			<div th:if="${session.loginUser.registrar != null}" class="buttonSection">
-			<div class="buttonSection">
-				<button class="learn-more" onclick="location.href='supportWrite.su'">후원 신청하기</button>
-			</div>
+				<div class="buttonSection">
+					<button class="learn-more" onclick="location.href='supportWrite.su'">후원 신청하기</button>
+				</div>
 			</div>
         </div>
 		
@@ -108,11 +109,29 @@
 
 <div th:replace="~{../common/footer :: footer}"></div>  
 <script>
-	document.getElementById('notLogin').addEventListener('click',()=>{
-		alert('기관을 먼저 등록해주세요');
-		location.href="/";
-	})
-
+	
+	window.onload=()=>{
+		document.getElementById('notLogin').addEventListener('click',()=>{
+			alert('기관을 먼저 등록해주세요');
+			location.href="/";
+		})
+		const searchButton = document.querySelector('.searchIcon');
+		console.log(searchButton);
+		searchButton.addEventListener('click', ()=>{
+			
+			const searchWord = document.querySelector('.searchInput').value;
+			console.log(searchWord);
+	// 		location.href="searchMySupportApplyList.su?searchWord=" + searchWord;
+		})
+	}
+	
+	const trs = document.getElementsByClassName('supportTable')[0].querySelectorAll('tr');
+	for(const tr of trs){
+		tr.addEventListener('click', function(){
+			const supportNo = this.querySelector('td').innerText;
+			location.href= "supportDetail.su?supportNo=" + supportNo;
+		})
+	}
 </script>
 </body>
 </html>

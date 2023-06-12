@@ -34,4 +34,25 @@
 		<result column="ENROLL_DATE" property="enrollDate" />
 	</resultMap>
 	
+	
+	<resultMap type="SupportDetail" id="supportDetailResultSet">
+		<id column="S_DETAIL_NO" property="supportDetailNo" />		
+		<result column="S_DETAIL_CONTENT" property="supportDetailContent" />
+		<result column="S_DETAIL_AMOUNT" property="supportDetailAmount" />
+		<result column="S_NO" property="supportNo" />
+	</resultMap>
+	
+	<select id="supportDetail" resultMap="supportResultSet">
+		select * from support join users where s_no = #{supportNo}
+	</select>
+	
+	<select id="supportUsageDetail" resultMap="supportDetailResultSet">
+		select * from supportdetail where s_no = #{supportNo}
+	</select>
+	
+	<select id="getListCount" resultType="_int">
+		select count(*) from support where status = 'Y' 
+	</select>
+	
+	
 </mapper>

@@ -26,12 +26,23 @@ public class SupportController {
 	
 	@RequestMapping("supportMain.su")
 	public String supportMain() {
+		int result = suService.getListCount();
+//		ArrayList<Support> sList = suService.selectSupportList();
 		return "supportMain";
 	}
 	
 	@RequestMapping("supportDetail.su")
-	public String supportDetail() {
-		return "supportDetail";
+	public String supportDetail(@RequestParam(value="supportNo", required=false) int supportNo, Model model) {
+		Support s = suService.supportDetail(supportNo);
+		ArrayList<SupportDetail> sdList = suService.supportUsageDetail(supportNo);
+		
+		if(s != null && !sdList.isEmpty()) {
+			model.addAttribute("s", s);
+			model.addAttribute("sdList",sdList);
+			return "supportDetail";
+		} else {
+			throw new SupportException("후원 상세보기에 실패하였습니다.");
+		}
 	}
 	
 	@RequestMapping("doSupport.su")

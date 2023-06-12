@@ -30,5 +30,23 @@ public class SupportServiceImpl implements SupportService{
 		return suDAO.selectApplayListUser(uNo);
 	}
 
+	@Override
+	public Support supportDetail(int supportNo) {
+		return suDAO.supportDetail(supportNo);
+	}
+
+	@Override
+	public ArrayList<SupportDetail> supportUsageDetail(int supportNo) {
+		return suDAO.supportUsageDetail(supportNo);
+	}
+
+	@Override
+	public int getListCount() {
+		return suDAO.getListCount();
+	}
+
+
+
+
 	
 }
