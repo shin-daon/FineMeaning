@@ -5,7 +5,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자주 묻는 질문</title>
-<link rel="stylesheet" href="faq_style.css">
 <style>
 @font-face {
    font-family: 'SUITE-Regular';
@@ -126,11 +125,11 @@ th, td {
     background-color: #EDF1D6;
 }
 
-.faqTable thead tr th:nth-child(1) {
+.faqTable thead tr th:first-child {
     border-radius: 10px 0px 0px 0px;
 }
 
-.faqTable thead tr th:nth-child(5) {
+.faqTable thead tr th:last-child {
     border-radius: 0px 10px 0px 0px;
 }
 
@@ -193,7 +192,6 @@ input[type=checkbox] {
   position: relative;
   justify-content: center;
   align-items: center;
-  vertical-align: middle;
   top: -8px;
 }
 
@@ -262,16 +260,17 @@ input:checked + .switch:after {
         </div>
 
         <div class="path">
-            <a class="middle" href="#"><img class="homeIconSize" src="resources/image/home.png"></a>
-            <img class="sub iconSize" src="resources/image/화살표.png">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/화살표.png">
             <a class="middle" href="#">관리자 페이지</a>
-            <img class="sub iconSize" src="resources/image/화살표.png">
+            <img class="sub iconSize" src="image/화살표.png">
             <a class="middle">회원</a>
         </div>
 
 		<div class="actionArea">
-			<button class="cate-btn">활동중인 회원</button>
+            <button class="cate-btn">활동중인 회원</button>
 			<button class="cate-btn">관리자만 보기</button>
+			<button class="cate-btn">기관 승인하기</button>
 		
             <div class="searchArea">
             <select class="select-cate">
@@ -282,7 +281,7 @@ input:checked + .switch:after {
 			</select>
             
                 <input class="searchInput" type="text" placeholder="검색"/>
-                <a class="searchIconATag" href="#"><img class="searchIcon" src="resources/image/search.png"></a>
+                <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
             </div>
         </div>
 
@@ -296,7 +295,8 @@ input:checked + .switch:after {
                     <th>전화번호</th>
                     <th>닉네임</th>
                     <th>가입유형</th>  
-                    <th>등록기관</th>      
+                    <th>등록기관</th>    
+                    <th>봉사관리자</th>  
                     <th>회원구분</th>                    
                     <th>활동상태</th>
                 </tr>
@@ -311,6 +311,9 @@ input:checked + .switch:after {
                     <td>건강최고</td>
                     <td>카카오</td>
                     <td>-</td>
+                    <td><div style="margin:0 auto;" class="switch-div">
+                    	<input type="checkbox" id="switchv1" /><label for="switchv1" class="switch">Toggle</label>
+                    	</div></td>
                     <td>일반</td>
                     <td><div style="margin:0 auto;" class="switch-div">
                     	<input type="checkbox" id="switch1" /><label for="switch1" class="switch">Toggle</label>
@@ -325,6 +328,9 @@ input:checked + .switch:after {
                     <td>건강최고</td>
                     <td>카카오</td>
                     <td>-</td>
+                    <td><div style="margin:0 auto;" class="switch-div">
+                    	<input type="checkbox" id="switchv2" /><label for="switchv2" class="switch">Toggle</label>
+                    	</div></td>
                     <td>일반</td>
                     <td><div style="margin:0 auto;" class="switch-div">
                     	<input type="checkbox" id="switch2" /><label for="switch2" class="switch">Toggle</label>
@@ -339,6 +345,9 @@ input:checked + .switch:after {
                     <td>건강최고</td>
                     <td>카카오</td>
                     <td>-</td>
+                    <td><div style="margin:0 auto;" class="switch-div">
+                    	<input type="checkbox" id="switchv3" /><label for="switchv3" class="switch">Toggle</label>
+                    	</div></td>
                     <td>관리자</td>
                     <td><div style="margin:0 auto;" class="switch-div">
                     	<input type="checkbox" id="switch3" /><label for="switch3" class="switch">Toggle</label>
@@ -353,6 +362,9 @@ input:checked + .switch:after {
                     <td>건강최고</td>
                     <td>카카오</td>
                     <td>-</td>
+                    <td><div style="margin:0 auto;" class="switch-div">
+                    	<input type="checkbox" id="switchv4" /><label for="switchv4" class="switch">Toggle</label>
+                    	</div></td>
                     <td>관리자</td>
                     <td><div style="margin:0 auto;" class="switch-div">
                     	<input type="checkbox" id="switch4" /><label for="switch4" class="switch">Toggle</label>
@@ -367,6 +379,9 @@ input:checked + .switch:after {
                     <td>건강최고</td>
                     <td>카카오</td>
                     <td>-</td>
+                    <td><div style="margin:0 auto;" class="switch-div">
+                    	<input type="checkbox" id="switchv5" /><label for="switchv5" class="switch">Toggle</label>
+                    	</div></td>
                     <td>관리자</td>
                     <td><div style="margin:0 auto;" class="switch-div">
                     	<input type="checkbox" id="switch5" /><label for="switch5" class="switch">Toggle</label>
@@ -381,6 +396,9 @@ input:checked + .switch:after {
                     <td>건강최고</td>
                     <td>카카오</td>
                     <td>-</td>
+                    <td><div style="margin:0 auto;" class="switch-div">
+                    	<input type="checkbox" id="switchv6" /><label for="switchv6" class="switch">Toggle</label>
+                    	</div></td>
                     <td>관리자</td>
                     <td><div style="margin:0 auto;" class="switch-div">
                     	<input type="checkbox" id="switch6" /><label for="switch6" class="switch">Toggle</label>
@@ -395,6 +413,9 @@ input:checked + .switch:after {
                     <td>건강최고</td>
                     <td>일반</td>
                     <td>-</td>
+                    <td><div style="margin:0 auto;" class="switch-div">
+                    	<input type="checkbox" id="switchv7" /><label for="switchv7" class="switch">Toggle</label>
+                    	</div></td>
                     <td>관리자</td>
                     <td><div style="margin:0 auto;" class="switch-div">
                     	<input type="checkbox" id="switch7" /><label for="switch7" class="switch">Toggle</label>
@@ -409,6 +430,9 @@ input:checked + .switch:after {
                     <td>건강최고</td>
                     <td>일반</td>
                     <td>-</td>
+                    <td><div style="margin:0 auto;" class="switch-div">
+                    	<input type="checkbox" id="switchv8" /><label for="switchv8" class="switch">Toggle</label>
+                    	</div></td>
                     <td>관리자</td>
                     <td><div style="margin:0 auto;" class="switch-div">
                     	<input type="checkbox" id="switch8" /><label for="switch8" class="switch">Toggle</label>
@@ -419,13 +443,13 @@ input:checked + .switch:after {
 
         <div class="page">
             <ul class="pagination">
-                <li><a href="#" class="first"><img class="arrowKey" src="resources/image/왼쪽페이지.png"></a></li>
+                <li><a href="#" class="first"><img class="arrowKey" src="image/왼쪽페이지.png"></a></li>
                 <li><a href="#" class="num">1</a></li>
                 <li><a href="#" class="num">2</a></li>
                 <li><a href="#" class="num">3</a></li>
                 <li><a href="#" class="num">4</a></li>
                 <li><a href="#" class="num">5</a></li>
-                <li><a href="#" class="last"><img class="arrowKey" src="resources/image/오른쪽페이지.png"></a></li>
+                <li><a href="#" class="last"><img class="arrowKey" src="image/오른쪽페이지.png"></a></li>
             </ul>
         </div>
         </section>
