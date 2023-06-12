@@ -233,6 +233,26 @@ input[type="radio"]:checked + span:before{
 	margin-top: 40px;
 }
 
+#custom-email-input {
+	padding: 8px 15px 9px;
+    border-radius: 4px;
+    width: 150px;
+    height: 40px;
+    border: 1px solid lightgray;
+    outline: none;
+    position: relative;
+}
+
+.x-btn {
+	background: none;
+	border: none;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	left: 1075px;
+	top: 2px;
+	z-index: 999;
+}
 
 </style>
 <body>
@@ -264,8 +284,9 @@ input[type="radio"]:checked + span:before{
 			
 		<div class="insert email-div">
 			<label class="title">이메일</label>
-			<div class="input">
+			<div class="input email-input">
 				<input type="text" id="email-input" placeholder="이메일"/><span class="nothing">@</span>
+				
 				<select name="email" id="email-select">
 					<option>naver.com</option>
 					<option>gmail.com</option>
@@ -273,9 +294,13 @@ input[type="radio"]:checked + span:before{
 					<option>nate.com</option>
 					<option>직접입력</option>
 				</select>
-			</div>
-		</div>	
 				
+           		<input type="text" id="custom-email-input" style="display: none;" />
+           		<span class="x-btn" style="display: none;"><img src="image/x.png"></span>
+			</div>			
+		</div>
+			
+			
 		<div class="insert phone-div">
 			<label class="title">전화번호</label>
 			<div class="input">
@@ -348,6 +373,36 @@ input[type="radio"]:checked + span:before{
 		firstDiv.style.display = 'none';
 	});
 	
+	// 이메일
+
+    const emailSelect = document.getElementById('email-select');
+    const customEmailInput = document.getElementById('custom-email-input');
+    const emailInput = document.getElementsByClassName('email-input')[0];
+    const xBtn = document.getElementsByClassName('x-btn')[0];
+
+    emailSelect.addEventListener('change', function() {
+        if (emailSelect.value === '직접입력') {
+            emailSelect.style.display = 'none';
+            customEmailInput.style.display = 'inline-block';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'block';
+        }
+    });
+
+    customEmailInput.addEventListener('input', function() {
+        if (customEmailInput.value === '') {
+            emailSelect.style.display = 'none';
+            emailSelect.selectedIndex = 0;
+        }
+    });
+    
+    xBtn.addEventListener('click', function() {
+            emailSelect.style.display = 'inline-block';
+            customEmailInput.style.display = 'none';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'none';
+            emailSelect.value = 'naver.com';
+    });
 </script>
 </body>
 </html>
