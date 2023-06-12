@@ -133,7 +133,12 @@
         </table>
 		
 		<div class="buttonArea">
+<!-- 	        <div th:if="${session.loginUser.registrar ==null}" class="buttonSection"> -->
 	        <div class="buttonSection">
+				<button class="learn-more" id="notLogin">후원 신청하기</button>
+			</div>
+<!-- 			<div th:if="${session.loginUser.registrar != null}" class="buttonSection"> -->
+			<div class="buttonSection">
 				<button class="learn-more" onclick="location.href='supportWrite.su'">후원 신청하기</button>
 			</div>
         </div>
@@ -154,6 +159,12 @@
 </section>
 
 <div th:replace="~{../common/footer :: footer}"></div>  
-        
+<script>
+	document.getElementById('notLogin').addEventListener('click',()=>{
+		alert('기관을 먼저 등록해주세요');
+		location.href="/";
+	})
+
+</script>
 </body>
 </html>
