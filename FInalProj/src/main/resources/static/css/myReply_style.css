@@ -3,6 +3,7 @@
 #myReplySection {
     margin-top: 80px;
     margin-bottom: 50px;
+    margin-left: 200px;
     display: flex;
     /* justify-content(가로 가운데)랑 align-items(세로 가운데) 쓰기 위해 선언!
         ≫ column을 하는 순간 반대로 다 바뀜 */
@@ -30,27 +31,27 @@
 .checkBtn {
     width: 80px;
     height: 30px;
-    background-color: #f4ecb7;
-    color: #786947;
+    background-color: #9DC08B;
+    color: white;
     border-radius: 0.9rem;
     cursor: pointer;
-    border: 1px solid #b4ae88;
+    border: 1px dashed black;
     font-size: 13px;
 }
 
 .deleteReplyBtn {
     width: 50px;
     height: 30px;
-    background-color: #f4ecb7;
-    color: #786947;
+    background-color: #9DC08B;
+    color: white;
     border-radius: 0.9rem;
     cursor: pointer;
-    border: 1px solid #b4ae88;
+    border: 1px dashed black;
     font-size: 13px;
 }
 
 .deleteReplyBtn:active, .checkBtn:active {
-    background-color: #e6c170;
+    background-color: #5c754a;
 }
 
 .myBoardTitle_wrap, .myReply_wrap {
@@ -88,20 +89,24 @@ th, td {
 
 .myReplyTable thead tr th {
     border-bottom: 1px dotted black;
-    background-color: #f8f3d5;
+    background-color: #EDF1D6;
 }
 
 .myReplyTable thead tr th:nth-child(1) {
     border-radius: 10px 0px 0px 0px;
 }
 
-.myReplyTable thead tr th:nth-child(5) {
+.myReplyTable thead tr th:last-child {
     border-radius: 0px 10px 0px 0px;
 }
 
 .myReplyTable > tbody > tr:hover{
-    background-color: #f8ea9b;
+    background-color: #e1e4d2;
     cursor: pointer;
+}
+
+.myReplyTable > tbody > tr:active{
+	background-color: #c4caa8;
 }
 
 .myReplyTable > tbody td:first-child {
@@ -138,7 +143,7 @@ th, td {
 
 .pagination > li > .num:hover {
     color: white;
-    background-color: #c5aeae;
+    background-color: #f2c866;
     border-radius: 100%;
 }
 

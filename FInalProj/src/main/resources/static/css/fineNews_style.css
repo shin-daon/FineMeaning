@@ -140,6 +140,7 @@ button {
     width: 275px;
     height: 230px;
     overflow: hidden;
+    padding: 1px;
 }
   
 .cardImage img {
