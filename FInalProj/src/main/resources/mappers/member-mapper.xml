@@ -24,6 +24,7 @@
 		<result column="U_TYPE" property="uType" />
 		<result column="REGISTRAR" property="registrar" />
 		<result column="ENROLL_DATE" property="enrollDate" />
+		<result column="IS_ADMIN" property="isAdmin" />
 	</resultMap>
 	
 </mapper>
