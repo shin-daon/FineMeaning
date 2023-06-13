@@ -1,5 +1,7 @@
 package com.fin.proj.board.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fin.proj.board.model.service.BoardService;
+import com.fin.proj.board.model.vo.Board;
+import com.fin.proj.common.Pagination;
+import com.fin.proj.common.model.vo.PageInfo;
 
 @Controller
 public class BoardController {
@@ -17,7 +22,27 @@ public class BoardController {
 	@GetMapping("faqMain.bo")
 	public String faqMain(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
 		
-		return "faq";
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = bService.getListCount(6);
+		
+//		System.out.println(listCount);
+		
+		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, 6);
+		
+		System.out.println(list);
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			return "faq";
+		} else {
+			return null;
+		}
 	}
 	
 	@GetMapping("faq_form.bo")
