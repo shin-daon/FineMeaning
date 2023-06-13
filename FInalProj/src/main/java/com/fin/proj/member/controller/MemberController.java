@@ -41,13 +41,13 @@ public class MemberController {
 		
 		if(bcrypt.matches(m.getuPwd(), loginUser.getuPwd())) {
 			model.addAttribute("loginUser", loginUser);
-			System.out.println("로그인 성공");
 			
 			if(loginUser.getIsAdmin() == 0) {
 				return "editUserInfo";
 			} else {
 				return "redirect:/";
-			}						
+			}
+			
 		} else {
 			throw new MemberException("로그인 실패");
 		}
@@ -59,10 +59,28 @@ public class MemberController {
 	}
 	
 	@GetMapping("insertUser.me")
-	public String insertUser(@ModelAttribute Member m, 
+	public String insertUser(@ModelAttribute Member m,
 			   				 @RequestParam("emailId") String emailId,
-			   				 @RequestParam("emailDomain") String emailDomain) {
-		return null;
+			   				 @RequestParam("emailDomain") String emailDomain,
+			   				 @RequestParam("first-ssn") String firstSsn,
+			   				 @RequestParam("two-ssn") String twoSsn) {
+		
+		if(!emailId.trim().equals("")) {
+			m.setEmail(emailId + "@" + emailDomain);
+		}
+		
+		m.setResidentNo(firstSsn + "-" + twoSsn);
+		
+		String encPwd = bcrypt.encode(m.getuPwd());
+		m.setuPwd(encPwd);
+
+		int result = mService.insertUser(m);
+		
+		if(result > 0) {
+			return "redirect:/";
+		} else {
+			throw new MemberException("회원가입 실패");
+		}	
 	}
 	
 	@RequestMapping("findId.me")

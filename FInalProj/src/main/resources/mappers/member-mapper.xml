@@ -27,4 +27,10 @@
 		<result column="IS_ADMIN" property="isAdmin" />
 	</resultMap>
 	
+	<insert id="insertUser">
+		insert into users
+		values(seq_uid.nextval, #{uId}, #{uPwd}, #{uName}, #{residentNo}, #{address}, #{phone}, #{email},
+				#{uNickName}, default, null, default, #{uType}, #{registrar}, sysdate, default)
+	</insert>
+	
 </mapper>

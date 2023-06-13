@@ -9,6 +9,8 @@ public interface MemberDAO {
 
 	Member login(Member m);
 
+	int insertUser(Member m);
+
 
 
 }
