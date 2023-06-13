@@ -16,5 +16,10 @@ public class MemberServiceImpl implements MemberService {
 	public Member login(Member m) {
 		return mDAO.login(m);
 	}
+	
+	@Override
+	public int insertUser(Member m) {
+		return mDAO.insertUser(m);
+	}
 
 }
