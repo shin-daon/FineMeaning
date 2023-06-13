@@ -8,4 +8,8 @@ public interface MemberService {
 
 	int insertUser(Member m);
 
+	int checkId(String uId);
+
+	int checkNickName(String uNickName);
+
 }
