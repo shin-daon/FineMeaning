@@ -32,14 +32,23 @@ public class SupportController {
 	}
 	
 	@RequestMapping("supportDetail.su")
-	public String supportDetail(@RequestParam(value="supportNo", required=false) int supportNo, Model model) {
+	public String supportDetail(HttpSession session, @RequestParam("supportNo") int supportNo, Model model) {
 		Support s = suService.supportDetail(supportNo);
 		ArrayList<SupportDetail> sdList = suService.supportUsageDetail(supportNo);
 		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		if(s != null && !sdList.isEmpty()) {
 			model.addAttribute("s", s);
 			model.addAttribute("sdList",sdList);
-			return "supportDetail";
+			if(s.getStatus()!='Y') {
+				if(uNo != s.getUserNo()) {
+					throw new SupportException("잘못된 접근입니다.");
+				} else {			
+					return "supportApplyDetail";
+				}
+			} else {				
+				return "supportDetail";
+			}
 		} else {
 			throw new SupportException("후원 상세보기에 실패하였습니다.");
 		}

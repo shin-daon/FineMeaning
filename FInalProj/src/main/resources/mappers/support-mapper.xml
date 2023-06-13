@@ -43,7 +43,7 @@
 	</resultMap>
 	
 	<select id="supportDetail" resultMap="supportResultSet">
-		select * from support join users where s_no = #{supportNo}
+		select * from support join users using(u_no) where s_no = #{supportNo}
 	</select>
 	
 	<select id="supportUsageDetail" resultMap="supportDetailResultSet">
@@ -51,7 +51,7 @@
 	</select>
 	
 	<select id="getListCount" resultType="_int">
-		select count(*) from support where status = 'Y' 
+		select count(*) from support where s_status = 'Y' 
 	</select>
 	
 	
