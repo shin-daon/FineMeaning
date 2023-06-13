@@ -29,14 +29,14 @@
         </div>
 
         <section class="v-apply-info">
-        	<form action="insertVolunteer.vo" method="post">
+        	<form id="vForm" action="insertVolunteer.vo" method="post">
 	            <table class="v-table">
 	                <tr>
 	                    <td>지역</td>
 	                    <td colspan="3">
 	                        <span class="dropdown" id="area-dropdown">
 	                            <button type="button" class="dropdown-btn" id="areabtn">선택</button>
-	                            <input type="hidden" id="area" name="area" value="none"/>
+	                            <input type="hidden" id="area" name="vArea" value="none" required/>
 	                            <div class="dropdown-content" id="area-content">
 	                                <span class="selectArea">서울</span>
 	                                <span class="selectArea">세종</span>
@@ -59,20 +59,20 @@
 	                <tr>
 	                    <td>제목</td>
 	                    <td colspan="3">
-	                        <input type="text" name=""/>
+	                        <input type="text" name="vName" maxlength="40" required/>
 	                    </td>
 	                </tr>
 	                <tr>
 	                    <td width="15%">봉사기간</td>
 	                    <td width="35%">
 	                        <div class="dateDiv">
-	                            <input type="date" id="startDate"/><span class="date-delimeter"></span><input type="date" id="endDate"/>
+	                            <input type="date" id="startDate" name="vStartDate" required/><span class="date-delimeter"></span><input type="date" id="endDate" name="vEndDate" required/>
 	                        </div>
 	                    </td>
 	                    <td width="15%">봉사시간</td>
 	                    <td width="35%">
 	                        <div class="dateDiv">
-	                            <input type="time" id="startTime"/><span class="date-delimeter"></span><input type="time" id="endTime"/>
+	                            <input type="time" id="startTime" name="vStartTime" required/><span class="date-delimeter"></span><input type="time" id="endTime" name="vEndTime" required/>
 	                        </div>
 	                    </td>
 	                </tr>
@@ -80,22 +80,23 @@
 	                    <td>모집기간</td>
 	                    <td>
 	                        <div class="dateDiv">
-	                            <input type="date" id="startDate"/><span class="date-delimeter"></span><input type="date" id="endDate"/>
+	                            <input type="date" id="rStartDate" name="vRecruitmentStartDate" required/><span class="date-delimeter"></span><input type="date" id="rEndDate" name="vRecruitmentEndDate" required/>
 	                        </div>
 	                    </td>
 	                    <td>활동요일</td>
 	                    <td>
+	                    	<input type="hidden" id="vDay" name="vDay"/>
 	                        <span class="v-day">월</span><span class="v-day">화</span><span class="v-day">수</span><span class="v-day">목</span><span class="v-day">금</span><span class="v-day">토</span><span class="v-day">일</span>
 	                    </td>
 	                </tr>
 	                <tr>
 	                    <td>모집인원</td>
-	                    <td><input type="number"/>명</td>
+	                    <td><input type="number" id="vCountAll" name="vCountAll" min="1" max="100" required/>명</td>
 	                    <td>활동구분</td>
 	                    <td>
 	                        <span class="dropdown" id="onoffLine-dropdown">
 	                            <button type="button" class="dropdown-btn" id="on-offLineBtn">선택</button>
-	                            <input type="hidden" id="onoffLine" name="onoffLine" value="none"/>
+	                            <input type="hidden" id="onoffLine" name="vActivityType" value="none" required/>
 	                            <div class="dropdown-content" id="onoffLine-content">
 	                                <span class="selectOnOffLine">온라인</span>
 	                                <span class="selectOnOffLine">오프라인</span>
@@ -108,22 +109,22 @@
 	                    <td>
 	                        <span class="dropdown" id="mainCategory-dropdown">
 	                            <button type="button" class="dropdown-btn" id="mainCategoryBtn">선택</button>
-	                            <input type="hidden" id="mainCategory" name="mainCategory" value="none"/>
+	                            <input type="hidden" id="mainCategory" name="vMainCategoryNo" value="none" required/>
 	                            <div class="dropdown-content" id="mainCategory-content">
-	                                <span class="selectMainCategory">생활편의지원</span>
-	                                <span class="selectMainCategory">주거환경</span>
-	                                <span class="selectMainCategory">상담</span>
-	                                <span class="selectMainCategory">교육</span>
-	                                <span class="selectMainCategory">문화행사</span>
-	                                <span class="selectMainCategory">환경보호</span>
-	                                <span class="selectMainCategory">안전·예방</span>
-	                                <span class="selectMainCategory">재해·재난</span>
-	                            </div>
+	                                <span class="selectMainCategory" data-value="1">생활편의지원</span>
+	                                <span class="selectMainCategory" data-value="2">주거환경</span>
+	                                <span class="selectMainCategory" data-value="3">상담</span>
+	                                <span class="selectMainCategory" data-value="4">교육</span>
+	                                <span class="selectMainCategory" data-value="5">문화행사</span>
+	                                <span class="selectMainCategory" data-value="6">환경보호</span>
+	                                <span class="selectMainCategory" data-value="7">안전·예방</span>
+	                                <span class="selectMainCategory" data-value="8">재해·재난</span>
+	                            </div>                              
 	                        </span>
 	                        <span class="subCategoryDelimiter">></span>
 	                        <span class="dropdown" id="subCategory-dropdown">
 	                            <button type="button" class="dropdown-btn" id="subCategoryBtn">선택</button>
-	                            <input type="hidden" id="subCategory" name="subCategory" value="none"/>
+	                            <input type="hidden" id="subCategory" name="vSubCategoryNo" value="none" required/>
 	                            <div class="dropdown-content" id="subCategory-content"></div>
 	                        </span>
 	                    </td>
@@ -131,43 +132,42 @@
 	                    <td>
 	                        <span class="dropdown" id="object-dropdown">
 	                            <button type="button" class="dropdown-btn" id="objectBtn">선택</button>
-	                            <input type="hidden" id="object" name="object" value="none"/>
+	                            <input type="hidden" id="object" name="vTargetCategoryNo" value="none" required/>
 	                            <div class="dropdown-content" id="object-content">
-	                                <span class="selectObject">아동·청소년</span>
-	                                <span class="selectObject">장애인</span>
-	                                <span class="selectObject">노인</span>
-	                                <span class="selectObject">여성</span>
-	                                <span class="selectObject">환경</span>
-	                                <span class="selectObject">기타</span>
+	                                <span class="selectObject" data-value="1">아동·청소년</span>
+	                                <span class="selectObject" data-value="2">장애인</span>
+	                                <span class="selectObject" data-value="3">노인</span>
+	                                <span class="selectObject" data-value="4">여성</span>
+	                                <span class="selectObject" data-value="5">환경</span>
+	                                <span class="selectObject" data-value="6">기타</span>
 	                            </div>
 	                        </span>
 	                    </td>
 	                </tr>
 	                <tr>
 	                    <td>모집기관</td>
-	                    <td class="td-padding">오산시함께자람센터19호점</td>
-	                    <td>담당자명</td>
-	                    <td><input type="text"/></td>
+	                    <td colspan="3" class="td-padding">오산시함께자람센터19호점</td>
 	                </tr>
 	                <tr>
 	                    <td>봉사장소</td>
-	                    <td colspan="3" class="td-padding">오산시 동부대로 332-14 (청호, 자이아파트) 오산시 함께자람센터 19호점</td>
+	                    <td colspan="3"><input type="text" name="chargeAddress" maxlength="40" required/></td>
 	                </tr>
-	                <!-- <tr>
-	                    <td>첨부파일</td>
-	                    <td colspan="3"><input type="file"/></td>
-	                </tr> -->
+	                <tr>
+	                	<td>담당자명</td>
+	                    <td><input type="text" name="chargeName" maxlength="6" required/></td>
+	                    <td>담당자 전화번호</td>
+	                    <td><input type="text" name="chargePhone" required/></td>
+	                </tr>
 	                <tr>
 	                    <td colspan="4">
-	                        <textarea id="summernote" name="content"></textarea>
+	                        <textarea id="summernote" name="vContent" required></textarea>
 	                    </td>
 	                </tr>
 	            </table>
+	            <div class="v-apply-btn-div">
+	                <button type="submit" id="enrollbtn" class="learn-more-green v-apply-btn">등록하기</button>
+	            </div>
             </form>
-
-            <div class="v-apply-btn-div">
-                <button type="submit" class="learn-more-green v-apply-btn">등록하기</button>
-            </div>
         </section>
     </section>
     
@@ -201,6 +201,41 @@
                     }
                 }
             });
+        	
+        	document.querySelector("#vCountAll").parentElement.addEventListener("click", () => {
+        		document.querySelector("#vCountAll").focus();
+        	});
+        	
+        	const startDate = document.querySelector("#startDate");
+        	const endDate = document.querySelector("#endDate");
+        	const rStartDate = document.querySelector("#rStartDate");
+        	const rEndDate = document.querySelector("#rEndDate");
+        	const startTime = document.querySelector("#startTime");
+        	const endTime = document.querySelector("#endTime");
+        	
+        	const now = new Date();
+			const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
+			
+			startDate.setAttribute("min", today);
+			endDate.setAttribute("min", today);
+			rStartDate.setAttribute("min", today);
+			rEndDate.setAttribute("min", today);
+			
+        	startDate.addEventListener("change", function() {
+        		endDate.setAttribute("min", this.value);
+        		rStartDate.setAttribute("max", this.value);
+        		rEndDate.setAttribute("max", this.value);
+        	});
+        	
+        	endDate.addEventListener("change", function() {
+        		rEndDate.setAttribute("max", this.value);
+        	});
+        	
+        	rStartDate.addEventListener("change", function() {
+        		rEndDate.setAttribute("min", this.value);
+        		startDate.setAttribute("min", this.value);
+        		endDate.setAttribute("min", this.value);
+        	});
         	
             const selectAreas = document.getElementsByClassName("selectArea");
             const selectOnOffLines = document.getElementsByClassName("selectOnOffLine");
@@ -241,7 +276,7 @@
             for(const selectObject of selectObjects) {
                 selectObject.addEventListener("click", function() {
                     document.getElementById("objectBtn").innerText = this.innerText;
-                    document.getElementById("object").value = this.innerText;
+                    document.getElementById("object").value = this.getAttribute("data-value");
                     document.getElementById("object-content").style.display = "none";
                 });
             }
@@ -253,7 +288,7 @@
             for(const selectMainCategory of selectMainCategories) {
                 selectMainCategory.addEventListener("click", function() {
                     document.getElementById("mainCategoryBtn").innerText = this.innerText;
-                    document.getElementById("mainCategory").value = this.innerText;
+                    document.getElementById("mainCategory").value = this.getAttribute("data-value");
                     document.getElementById("mainCategory-content").style.display = "none";
                     document.querySelector('.subCategoryDelimiter').style.display = "inline-block";
                     document.getElementById("subCategory-dropdown").style.display = "inline-block";
@@ -265,13 +300,45 @@
                     checkMain = true;
                 });
             }
-
+			
             const vDays = document.getElementsByClassName("v-day");
             for(const vDay of vDays) {
                 vDay.addEventListener("click", function() {
                     this.classList.toggle("v-day-select");
                 });
             }
+            
+            let vDayVal = '';
+            let checkAllVal = false;
+            document.querySelector("#enrollbtn").addEventListener("click", () => {
+            	for(const vDay of vDays) {
+                    if(vDay.classList.contains("v-day-select")) {
+                    	vDayVal += vDay.innerText + ", ";
+                    }
+                }
+            	vDayVal = vDayVal.substr(0, vDayVal.length - 2);
+            	document.querySelector("#vDay").value = vDayVal;
+            	if(document.querySelector("#area").value === "none") {
+            		alert("지역을 선택해주세요");
+            	} else if(vDayVal === '') {
+            		alert("요일을 선택해주세요");
+            	} else if(document.querySelector("#onoffLine").value === "none") {
+            		alert("활동구분을 선택해주세요");	
+            	} else if(document.querySelector("#mainCategory").value === "none") {
+            		alert("봉사분야를 선택해주세요");
+            	} else if(document.querySelector("#subCategory").value === "none") {
+            		alert("봉사분야(하위)를 선택해주세요");
+            	} else if(document.querySelector("#object").value === "none") {
+            		alert("봉사대상을 선택해주세요");
+            	} else {
+            		checkAllVal = true;
+            	}
+            	
+            	if(!checkAllVal) {
+            		event.preventDefault();
+            	}
+            	vDayVal = '';
+            })
         }
 
         const convenienceSupport = ['활동보조', '이동지원', '청결지도', '급식지원', '식사·반찬지원', '기타'];
@@ -291,31 +358,41 @@
                 document.getElementById("subCategory").value = "none";
             }
         }
-
+		
+        let subValue = 1;
         const createSubCategory = (category) => {
             let subCateName = '';
             if(category == '생활편의지원') {
                 subCateName = convenienceSupport;
+                subValue = 1;
             } else if(category == '주거환경') {
                 subCateName = residentalEnvironment;
+                subValue = 7;
             } else if(category == '상담') {
                 subCateName = consultation;
+                subValue = 10;
             } else if(category == '교육') {
                 subCateName = education;
+                subValue = 13;
             } else if(category == '문화행사') {
                 subCateName = cultureEvent;
+                subValue = 20;
             } else if(category == '환경보호') {
                 subCateName = environmentalProtection;
+                subValue = 26;
             } else if(category == '안전·예방') {
                 subCateName = safetyPevention;
+                subValue = 29;
             } else if(category == '재해·재난') {
                 subCateName = disaster;
+                subValue = 36;
             }
             
             for(let i=0; i < subCateName.length; i++) {
                 let spanElement = document.createElement("span");
                 spanElement.classList.add("selectSubCategory");
                 spanElement.textContent = subCateName[i];
+                spanElement.setAttribute("data-value", subValue + i);
                 document.getElementById("subCategory-content").appendChild(spanElement);
             }
         }
@@ -325,7 +402,7 @@
             for(const selectSubCategory of selectSubCategories) {
                 selectSubCategory.addEventListener("click", function() {
                     document.getElementById("subCategoryBtn").innerText = this.innerText;
-                    document.getElementById("subCategory").value = this.innerText;
+                    document.getElementById("subCategory").value = this.getAttribute("data-value");
                     document.getElementById("subCategory-content").style.display = "none";
                 });
             }
