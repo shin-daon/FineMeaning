@@ -116,4 +116,17 @@ public class BoardController {
 		return "editNotice";
 	}
 	
+	
+	// my page
+	@GetMapping("myBoard.bo")
+	public String myBoard() {
+		return "myBoard";
+	}
+	
+	@GetMapping("myReply.bo")
+	public String myReply() {
+		return "myReply";
+	}
+	
+	
 }
