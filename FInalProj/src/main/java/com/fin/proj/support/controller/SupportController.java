@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fin.proj.common.Pagination;
+import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.member.model.vo.Member;
 import com.fin.proj.support.model.exception.SupportException;
 import com.fin.proj.support.model.service.SupportService;
@@ -107,6 +109,29 @@ public class SupportController {
 			return "redirect:supportApplicationListUser.su";
 		} else {
 			throw new SupportException("신청에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("supportListAdmin.su")
+	public String supportListAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+		
+		if(currentPage == null) {
+			currentPage = 1; 
+		}
+		
+		int listCount = suService.getListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Support> sList = suService.selectSupportList(pi);
+		
+		if(sList != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("sList", sList);
+			System.out.println(sList);
+			return "supportListAdmin";
+		} else {
+			throw new SupportException("없음");
 		}
 	}
 	
