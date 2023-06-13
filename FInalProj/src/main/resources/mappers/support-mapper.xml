@@ -54,5 +54,8 @@
 		select count(*) from support where s_status = 'Y' 
 	</select>
 	
+	<select id="selectSupportList" resultMap="supportResultSet">
+		select * from support join users using(u_no) where s_status = 'Y'
+	</select>
 	
 </mapper>
