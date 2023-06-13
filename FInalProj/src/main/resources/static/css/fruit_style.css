@@ -254,7 +254,7 @@ th, td {
     border-radius: 10px 0px 0px 0px;
 }
 
-.faqTable thead tr th:nth-child(5) {
+.faqTable thead tr th:last-child {
     border-radius: 0px 10px 0px 0px;
 }
 
