@@ -33,4 +33,16 @@
 				#{uNickName}, default, null, default, #{uType}, #{registrar}, sysdate, default)
 	</insert>
 	
+	<select id="checkId" resultType="_int">
+		select count(*)
+		from users
+		where u_id = #{uId}
+	</select>
+	
+	<select id="checkNickName" resultType="_int">
+		select count(*)
+		from users
+		where u_NickName = #{uNickName}
+	</select>
+	
 </mapper>

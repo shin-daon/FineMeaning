@@ -1,5 +1,7 @@
 package com.fin.proj.member.controller;
 
+import java.io.PrintWriter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,6 @@ import com.fin.proj.member.model.exception.MemberException;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
 
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import jakarta.servlet.http.HttpSession;
 
 @SessionAttributes("loginUser")
@@ -104,7 +105,20 @@ public class MemberController {
 		return "editMyInfo";
 	}
 	
+	@GetMapping("checkId.me")
+	public void checkId(@RequestParam("uId") String uId, PrintWriter out) {
+		int count = mService.checkId(uId);
+			
+		String result = count == 0 ? "yes" : "no";
+		out.print(result);
+			
+	}
 	
-	
-
+	@GetMapping("checkNickName.me")
+	public void checkNickName(@RequestParam("uNickName") String uNickName, PrintWriter out) {
+		int count = mService.checkNickName(uNickName);
+		
+		String result = count == 0 ? "yes" : "no";
+		out.print(result);	
+	}
 }
