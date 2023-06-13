@@ -28,11 +28,9 @@
         <div class="path">
             <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
             <img class="sub iconSize" src="image/onenext.png">
-            <a class="middle" href="#">마이페이지</a>
+            <a class="middle" href="#">관리자 페이지</a>
             <img class="sub iconSize" src="image/onenext.png">
             <a class="middle">후원 내역</a>
-            <img class="sub iconSize" src="image/onenext.png">
-            <a class="middle">후원 신청 내역</a>
         </div>
 
 
@@ -51,22 +49,23 @@
             <thead>
                 <tr>
                     <th>No</th>
+                    <th>카테고리</th>                    
                     <th style="width: 250px;">후원 프로젝트 제목</th>
                     <th>희망 모금액</th>
-                    <th>희망 모금 기간</th>
+                    <th>신청 날짜</th>
                     <th>승인 상태</th>
                 </tr>
             </thead>
             <tbody>
 	                <tr th:each="s : ${sList}" th:if="${ sList != null }">
 	                    <td th:text="${s.supportNo}"></td>
+	                    <td th:text="${s.supportCategory}"></td>
 	                    <td th:text="${s.supportTitle}"></td>
 	                    <td th:text="${s.targetAmount}"></td>
 	                    <td th:text="${s.createDate}"></td>
 	                    <td>
 		                    <th:block th:switch="${s.status}">
 		                    	<span th:case="W">승인 대기</span>
-		                    	<span th:case="Y">승인 완료</span>
 		                    	<span th:case="N">승인 반려</span>
 		                    </th:block>
 		                </td>    
