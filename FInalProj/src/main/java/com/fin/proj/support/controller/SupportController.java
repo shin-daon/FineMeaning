@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fin.proj.common.Pagination;
 import com.fin.proj.common.model.vo.PageInfo;
@@ -42,15 +44,17 @@ public class SupportController {
 		if(s != null && !sdList.isEmpty()) {
 			model.addAttribute("s", s);
 			model.addAttribute("sdList",sdList);
-			if(s.getStatus()!='Y') {
-				if(uNo != s.getUserNo()) {
-					throw new SupportException("잘못된 접근입니다.");
-				} else {			
-					return "supportApplyDetail";
-				}
-			} else {				
+			
+			if(s.getStatus()=='Y') {
 				return "supportDetail";
+			} else {
+				if(uNo==s.getUserNo()) {
+					return "supportApplyDetail";
+				} else {
+					throw new SupportException("잘못된 접근입니다.");
+				}
 			}
+			
 		} else {
 			throw new SupportException("후원 상세보기에 실패하였습니다.");
 		}
@@ -170,4 +174,41 @@ public class SupportController {
 		return "supportApplicationListAdmin";
 		
 	}
+	
+	@RequestMapping("supportDetailAdmin.su")
+	public String supportDetailAdmin(@RequestParam("supportNo") int supportNo, Model model) {
+		Support s = suService.supportDetail(supportNo);
+		ArrayList<SupportDetail> sdList = suService.supportUsageDetail(supportNo);
+		
+		if(s != null && !sdList.isEmpty()) {
+			model.addAttribute("s", s);
+			model.addAttribute("sdList",sdList);
+			if(s.getStatus()!='Y') {
+					return "supportApplyDetailAdmin";
+			} else {				
+				return "supportDetail";
+			}
+			
+		} else {
+			throw new SupportException("후원 상세보기에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("updateApplyStatus.su")
+	public ModelAndView updateApplyStatus(@RequestParam("supportNo") int supportNo,
+									@RequestParam("status") String status, ModelMap model) {
+		Support s = new Support();
+		
+		s.setStatus(status.charAt(0));
+		s.setSupportNo(supportNo);
+		int result = suService.updateApplyStatus(s);
+		if(result>0) {
+			model.addAttribute("supportNo", supportNo);
+			return new ModelAndView("redirect:supportDetail.su", model);
+		} else {
+			throw new SupportException("후원 상태 수정에 실패하였습니다.");
+		}
+	}
+	
+	
 }

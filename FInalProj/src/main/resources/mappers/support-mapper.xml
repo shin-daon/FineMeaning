@@ -73,4 +73,8 @@
 		select * from support join users using(u_no) where s_status= #{devision} order by S_CREATE_DATE desc
 	</select>
 	
+	<update id="updateApplyStatus">
+		update support set s_status= #{status} where s_no = #{supportNo}
+	</update>
+	
 </mapper>

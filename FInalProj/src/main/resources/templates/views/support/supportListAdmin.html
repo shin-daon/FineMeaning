@@ -58,7 +58,7 @@
 	                    <td th:text="${s.supportNo}"></td>
 	                    <td th:text="${s.supportCategory}"></td>
 	                    <td th:text="${s.supportTitle}"></td>
-	                    <td th:text="${(s.fundAmount/s.targetAmount)*100}+%"></td>
+	                    <td th:text="${(s.fundAmount/s.targetAmount)*100}+'%'"></td>
 	                    <td th:text="${s.supportCount}"></td>
 	                    <td th:text="${s.startDate}"></td>
 	                    <td th:text="${s.endDate}"></td>
@@ -68,7 +68,7 @@
         </table>
         <div class="buttonArea">
 	        <div class="buttonSection">
-	        	<button class="learn-more" onclick="location.href='supportApplicationListUser.su'">후원 신청 내역</button>
+	        	<button class="learn-more" onclick="location.href='supportApplyListAdmin.su'">후원 신청 내역</button>
 			</div>
         </div>
         <div class="page">
