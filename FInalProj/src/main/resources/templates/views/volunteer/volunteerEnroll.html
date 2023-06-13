@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>봉사 등록</title>
     <link rel="stylesheet" href="css/volunteerEnroll.css">
+    
+    <!-- include libraries(jQuery, bootstrap) -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	
+	<!-- include summernote css/js -->
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 </head>
 <body>
 	<div th:replace="~{../common/header :: header}"></div>
@@ -14,152 +23,150 @@
         <div>
             <div id="v-title">봉사 등록</div>
         </div>
+        
+        <div class="va-prev-next-btn-div">
+            <a href="javascript:history.back()" class="btn-gradient yellow mini prev">이전</a>
+        </div>
 
         <section class="v-apply-info">
-            <table>
-                <tr>
-                    <td>지역</td>
-                    <td colspan="3">
-                        <span class="dropdown" id="area-dropdown">
-                            <button class="dropdown-btn" id="areabtn">선택</button>
-                            <input type="hidden" id="area" name="area" value="none"/>
-                            <div class="dropdown-content" id="area-content">
-                                <span class="selectArea">서울</span>
-                                <span class="selectArea">세종</span>
-                                <span class="selectArea">경기</span>
-                                <span class="selectArea">인천</span>
-                                <span class="selectArea">부산</span>
-                                <span class="selectArea">광주</span>
-                                <span class="selectArea">울산</span>
-                                <span class="selectArea">대전</span>
-                                <span class="selectArea">대구</span>
-                                <span class="selectArea">충청</span>
-                                <span class="selectArea">강원</span>
-                                <span class="selectArea">경상</span>
-                                <span class="selectArea">전라</span>
-                                <span class="selectArea">제주</span>
-                            </div>
-                        </span>  
-                    </td>
-                </tr>
-                <tr>
-                    <td>제목</td>
-                    <td colspan="3">
-                        <input type="text"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="15%">봉사기간</td>
-                    <td width="35%">
-                        <div class="dateDiv">
-                            <input type="date" id="startDate"/><span class="date-delimeter"></span><input type="date" id="endDate"/>
-                        </div>
-                    </td>
-                    <td width="15%">봉사시간</td>
-                    <td width="35%">
-                        <div class="dateDiv">
-                            <input type="time" id="startTime"/><span class="date-delimeter"></span><input type="time" id="endTime"/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>모집기간</td>
-                    <td>
-                        <div class="dateDiv">
-                            <input type="date" id="startDate"/><span class="date-delimeter"></span><input type="date" id="endDate"/>
-                        </div>
-                    </td>
-                    <td>활동요일</td>
-                    <td>
-                        <span class="v-day">월</span><span class="v-day">화</span><span class="v-day">수</span><span class="v-day">목</span><span class="v-day">금</span><span class="v-day">토</span><span class="v-day">일</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>모집인원</td>
-                    <td><input type="number"/>명</td>
-                    <td>활동구분</td>
-                    <td>
-                        <span class="dropdown" id="onoffLine-dropdown">
-                            <button class="dropdown-btn" id="on-offLineBtn">선택</button>
-                            <input type="hidden" id="onoffLine" name="onoffLine" value="none"/>
-                            <div class="dropdown-content" id="onoffLine-content">
-                                <span class="selectOnOffLine">온라인</span>
-                                <span class="selectOnOffLine">오프라인</span>
-                            </div>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>봉사분야</td>
-                    <td>
-                        <span class="dropdown" id="mainCategory-dropdown">
-                            <button class="dropdown-btn" id="mainCategoryBtn">선택</button>
-                            <input type="hidden" id="mainCategory" name="mainCategory" value="none"/>
-                            <div class="dropdown-content" id="mainCategory-content">
-                                <span class="selectMainCategory">생활편의지원</span>
-                                <span class="selectMainCategory">주거환경</span>
-                                <span class="selectMainCategory">상담</span>
-                                <span class="selectMainCategory">교육</span>
-                                <span class="selectMainCategory">문화행사</span>
-                                <span class="selectMainCategory">환경보호</span>
-                                <span class="selectMainCategory">안전·예방</span>
-                                <span class="selectMainCategory">재해·재난</span>
-                            </div>
-                        </span>
-                        <span class="subCategoryDelimiter">></span>
-                        <span class="dropdown" id="subCategory-dropdown">
-                            <button class="dropdown-btn" id="subCategoryBtn">선택</button>
-                            <input type="hidden" id="subCategory" name="subCategory" value="none"/>
-                            <div class="dropdown-content" id="subCategory-content">
-                            </div>
-                        </span>
-                    </td>
-                    <td>봉사대상</td>
-                    <td>
-                        <span class="dropdown" id="object-dropdown">
-                            <button class="dropdown-btn" id="objectBtn">선택</button>
-                            <input type="hidden" id="object" name="object" value="none"/>
-                            <div class="dropdown-content" id="object-content">
-                                <span class="selectObject">아동·청소년</span>
-                                <span class="selectObject">장애인</span>
-                                <span class="selectObject">노인</span>
-                                <span class="selectObject">여성</span>
-                                <span class="selectObject">환경</span>
-                                <span class="selectObject">기타</span>
-                            </div>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>모집기관</td>
-                    <td class="td-padding">오산시함께자람센터19호점</td>
-                    <td>담당자명</td>
-                    <td><input type="text"/></td>
-                </tr>
-                <tr>
-                    <td>봉사장소</td>
-                    <td colspan="3" class="td-padding">오산시 동부대로 332-14 (청호, 자이아파트) 오산시 함께자람센터 19호점</td>
-                </tr>
-                <!-- <tr>
-                    <td>첨부파일</td>
-                    <td colspan="3"><input type="file"/></td>
-                </tr> -->
-                <tr>
-                    <td colspan="4">
-                        <!-- 썸머 노트? -->
-                        <p>
-                            오산시 함께자람센터19호점 초등학교 학생들을 대상으로 운영하는 돌봄센터입니다.<br/>
-                            우리 아이들에게 재능기부해 주실 봉사자분들을 모십니다.<br/>
-                            우리 아이들에게 좋은 영향력을 줄 수 있는 다양한 재능기부를 기다립니다.<br/>
-                            많은 관심부탁드립니다 ~~ ^^<br/>
-                            (요일, 시간 조절 가능 / 문의전화 언제든 환영)
-                        </p>
-                    </td>
-                </tr>
-            </table>
+        	<form action="insertVolunteer.vo" method="post">
+	            <table class="v-table">
+	                <tr>
+	                    <td>지역</td>
+	                    <td colspan="3">
+	                        <span class="dropdown" id="area-dropdown">
+	                            <button type="button" class="dropdown-btn" id="areabtn">선택</button>
+	                            <input type="hidden" id="area" name="area" value="none"/>
+	                            <div class="dropdown-content" id="area-content">
+	                                <span class="selectArea">서울</span>
+	                                <span class="selectArea">세종</span>
+	                                <span class="selectArea">경기</span>
+	                                <span class="selectArea">인천</span>
+	                                <span class="selectArea">부산</span>
+	                                <span class="selectArea">광주</span>
+	                                <span class="selectArea">울산</span>
+	                                <span class="selectArea">대전</span>
+	                                <span class="selectArea">대구</span>
+	                                <span class="selectArea">충청</span>
+	                                <span class="selectArea">강원</span>
+	                                <span class="selectArea">경상</span>
+	                                <span class="selectArea">전라</span>
+	                                <span class="selectArea">제주</span>
+	                            </div>
+	                        </span>  
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td>제목</td>
+	                    <td colspan="3">
+	                        <input type="text" name=""/>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td width="15%">봉사기간</td>
+	                    <td width="35%">
+	                        <div class="dateDiv">
+	                            <input type="date" id="startDate"/><span class="date-delimeter"></span><input type="date" id="endDate"/>
+	                        </div>
+	                    </td>
+	                    <td width="15%">봉사시간</td>
+	                    <td width="35%">
+	                        <div class="dateDiv">
+	                            <input type="time" id="startTime"/><span class="date-delimeter"></span><input type="time" id="endTime"/>
+	                        </div>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td>모집기간</td>
+	                    <td>
+	                        <div class="dateDiv">
+	                            <input type="date" id="startDate"/><span class="date-delimeter"></span><input type="date" id="endDate"/>
+	                        </div>
+	                    </td>
+	                    <td>활동요일</td>
+	                    <td>
+	                        <span class="v-day">월</span><span class="v-day">화</span><span class="v-day">수</span><span class="v-day">목</span><span class="v-day">금</span><span class="v-day">토</span><span class="v-day">일</span>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td>모집인원</td>
+	                    <td><input type="number"/>명</td>
+	                    <td>활동구분</td>
+	                    <td>
+	                        <span class="dropdown" id="onoffLine-dropdown">
+	                            <button type="button" class="dropdown-btn" id="on-offLineBtn">선택</button>
+	                            <input type="hidden" id="onoffLine" name="onoffLine" value="none"/>
+	                            <div class="dropdown-content" id="onoffLine-content">
+	                                <span class="selectOnOffLine">온라인</span>
+	                                <span class="selectOnOffLine">오프라인</span>
+	                            </div>
+	                        </span>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td>봉사분야</td>
+	                    <td>
+	                        <span class="dropdown" id="mainCategory-dropdown">
+	                            <button type="button" class="dropdown-btn" id="mainCategoryBtn">선택</button>
+	                            <input type="hidden" id="mainCategory" name="mainCategory" value="none"/>
+	                            <div class="dropdown-content" id="mainCategory-content">
+	                                <span class="selectMainCategory">생활편의지원</span>
+	                                <span class="selectMainCategory">주거환경</span>
+	                                <span class="selectMainCategory">상담</span>
+	                                <span class="selectMainCategory">교육</span>
+	                                <span class="selectMainCategory">문화행사</span>
+	                                <span class="selectMainCategory">환경보호</span>
+	                                <span class="selectMainCategory">안전·예방</span>
+	                                <span class="selectMainCategory">재해·재난</span>
+	                            </div>
+	                        </span>
+	                        <span class="subCategoryDelimiter">></span>
+	                        <span class="dropdown" id="subCategory-dropdown">
+	                            <button type="button" class="dropdown-btn" id="subCategoryBtn">선택</button>
+	                            <input type="hidden" id="subCategory" name="subCategory" value="none"/>
+	                            <div class="dropdown-content" id="subCategory-content"></div>
+	                        </span>
+	                    </td>
+	                    <td>봉사대상</td>
+	                    <td>
+	                        <span class="dropdown" id="object-dropdown">
+	                            <button type="button" class="dropdown-btn" id="objectBtn">선택</button>
+	                            <input type="hidden" id="object" name="object" value="none"/>
+	                            <div class="dropdown-content" id="object-content">
+	                                <span class="selectObject">아동·청소년</span>
+	                                <span class="selectObject">장애인</span>
+	                                <span class="selectObject">노인</span>
+	                                <span class="selectObject">여성</span>
+	                                <span class="selectObject">환경</span>
+	                                <span class="selectObject">기타</span>
+	                            </div>
+	                        </span>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td>모집기관</td>
+	                    <td class="td-padding">오산시함께자람센터19호점</td>
+	                    <td>담당자명</td>
+	                    <td><input type="text"/></td>
+	                </tr>
+	                <tr>
+	                    <td>봉사장소</td>
+	                    <td colspan="3" class="td-padding">오산시 동부대로 332-14 (청호, 자이아파트) 오산시 함께자람센터 19호점</td>
+	                </tr>
+	                <!-- <tr>
+	                    <td>첨부파일</td>
+	                    <td colspan="3"><input type="file"/></td>
+	                </tr> -->
+	                <tr>
+	                    <td colspan="4">
+	                        <textarea id="summernote" name="content"></textarea>
+	                    </td>
+	                </tr>
+	            </table>
+            </form>
 
             <div class="v-apply-btn-div">
-                <button type="button" class="learn-more-green v-apply-btn" onclick="location.href='volunteerEnrollHistory.vo'">등록하기</button>
+                <button type="submit" class="learn-more-green v-apply-btn">등록하기</button>
             </div>
         </section>
     </section>
@@ -167,7 +174,34 @@
    	<div th:replace="~{../common/footer :: footer}"></div>  
 
     <script>
-        window.onload = () => {
+        window.onload = () => {      	
+        	$('#summernote').summernote({
+				placeholder: '내용을 입력하세요.',
+				minHeight: 350,
+				maxHeight: 350,
+				lang : 'ko-KR',
+				 toolbar: [
+			          ['style', ['style']],
+			          ['font', ['bold', 'underline', 'clear']],
+			          ['color', ['color']],
+			          ['para', ['paragraph']],
+			          ['table', ['table']],
+			          ['insert', ['link', 'picture', 'video']],
+			          ['view', ['help']]
+		        ]
+			});
+        	
+        	document.addEventListener('click', (event) => {
+                const target = event.target;
+                const dropdownContents = document.querySelectorAll('.dropdown-content');
+                const dropbtns = document.querySelectorAll('.dropdown-btn');
+                for(let i=0; i<dropbtns.length; i++) {
+                	if (target !== dropdownContents[i] && target !== dropbtns[i]) {
+                        dropdownContents[i].style.display = 'none';
+                    }
+                }
+            });
+        	
             const selectAreas = document.getElementsByClassName("selectArea");
             const selectOnOffLines = document.getElementsByClassName("selectOnOffLine");
             const selectObjects = document.getElementsByClassName("selectObject");
