@@ -10,6 +10,61 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "SUITE-Regular", sans-serif;
+}
+
+.va-prev-next-btn-div {
+	width: 750px;
+	display: flex;
+} 
+
+.btn-gradient:hover {
+ 	color: #40513B;
+}
+
+.btn-gradient {
+	margin-top: 30px;
+	margin-bottom: 30px;	
+}
+
+.btn-gradient.mini {
+	padding: 4px 20px;  
+	font-size: 16px;
+}
+
+/* Gradient buttons */
+.btn-gradient {
+	text-decoration: none;
+	color: white;
+	padding: 10px 30px;
+	display: inline-block;
+	position: relative;
+	border: 1px solid rgba(0,0,0,0.21);
+	border-bottom: 4px solid rgba(0,0,0,0.21);
+	border-radius: 17px;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+.btn-gradient {
+	background: #999;
+}
+
+.dropdown{
+    position : relative;
+    display : inline-block;
+}
+
+.dropdown-btn {
+    border : none;
+    border-right: 1px solid black;
+    background-color: #EDF1D6;
+  /*   font-weight: 400; */
+    color : rgb(37, 37, 37);
+    padding : 10px;
+    width :100px;
+    height:40px;
+    cursor : pointer;
+    font-size : 13px;
+    text-align: center;
 } 
 
 .dropdown{
@@ -176,7 +231,7 @@ input[type="number"]:focus {
     border-radius: 8px;
     box-shadow: 0 0 0 1px #000;
     width: 750px;
-    margin-top: 70px;
+    margin-top: 20px;
     border-collapse: collapse;
 }
 
@@ -206,11 +261,6 @@ input[type="number"]:focus {
 .v-apply-info table tr:last-child td:last-child {
     text-align: left;
     background-color: white;
-}
-
-.v-apply-info table p {
-    padding: 20px;
-    line-height: 25px;
 }
 
 .v-apply-btn-div {
