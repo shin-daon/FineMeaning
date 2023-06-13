@@ -115,4 +115,5 @@ public class BoardController {
 	public String editNotice() {
 		return "editNotice";
 	}
+	
 }
