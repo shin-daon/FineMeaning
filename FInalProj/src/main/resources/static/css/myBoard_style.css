@@ -3,6 +3,7 @@
 #myBoardSection {
     margin-top: 80px;
     margin-bottom: 50px;
+    margin-left: 200px;
     display: flex;
     /* justify-content(가로 가운데)랑 align-items(세로 가운데) 쓰기 위해 선언!
         ≫ column을 하는 순간 반대로 다 바뀜 */
@@ -192,7 +193,7 @@ th, td {
 
 .pagination > li > .num:hover {
     color: white;
-    background-color: #c5aeae;
+    background-color: #f2c866;
     border-radius: 100%;
 }
 
