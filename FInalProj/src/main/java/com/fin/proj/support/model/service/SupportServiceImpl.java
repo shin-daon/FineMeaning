@@ -52,8 +52,34 @@ public class SupportServiceImpl implements SupportService{
 		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return suDAO.selectSupportList(pi);
+		return suDAO.selectSupportList(rowBounds);
 	}
+
+	@Override
+	public int getWListCount() {
+		return suDAO.getWListCount();
+	}
+
+	@Override
+	public ArrayList<Support> selectApplyList(PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return suDAO.selectApplyList(rowBounds);
+	}
+
+	@Override
+	public int getDListCount(String devision) {
+		return suDAO.getDListCount(devision);
+	}
+
+	@Override
+	public ArrayList<Support> applyDevision(PageInfo pi, String devision) {
+		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return suDAO.selectApplyDevision(rowBounds, devision);
+	}
+
 
 
 
