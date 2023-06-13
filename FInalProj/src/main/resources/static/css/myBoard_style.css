@@ -56,7 +56,7 @@
 }
 
 #dropbtn{
-    border: 1px solid #b4ae88;
+    border: 1px solid #40513B;
     border-radius: 8px;
     background-color: #f3f3f3;
     color: gray;
@@ -94,7 +94,7 @@
 
 .dropdown-content span:hover{
     cursor: pointer;
-    background-color : #f7df59;
+    background-color : #609966;
     color:white;
 }
 
@@ -105,7 +105,7 @@
 .selectCate{
     width: 80px;
     height: 35px;
-    background-color: #f9efb7;
+    background-color: #dde4af;
 }
 
 .myBoardTitle_wrap {
@@ -143,7 +143,7 @@ th, td {
 
 .myBoardTable thead tr th {
     border-bottom: 1px dotted black;
-    background-color: #f8f3d5;
+    background-color: #EDF1D6;
 }
 
 .myBoardTable thead tr th:nth-child(1) {
@@ -155,8 +155,12 @@ th, td {
 }
 
 .myBoardTable > tbody > tr:hover{
-    background-color: #f8ea9b;
+    background-color: #e1e4d2;
     cursor: pointer;
+}
+
+.myBoardTable > tbody > tr:active{
+	background-color: #c4caa8;
 }
 
 .myBoardTable > tbody td:first-child {
@@ -193,7 +197,7 @@ th, td {
 
 .pagination > li > .num:hover {
     color: white;
-    background-color: #f2c866;
+    background-color: #40513B;
     border-radius: 100%;
 }
 

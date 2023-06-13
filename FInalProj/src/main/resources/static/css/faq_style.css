@@ -135,6 +135,10 @@ th, td {
     cursor: pointer;
 }
 
+.faqTable > tbody > tr:active{
+	background-color: #c4caa8;
+}
+
 .faqTable > tbody td:first-child {
     border-radius: 8px 0px 0px 8px;
 }
@@ -234,6 +238,6 @@ button {
     transform: translate(0em, 0.75em);
 }
 .learn-more:active::before {
-    box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
+    box-shadow: 0 0 0 2px #609966, 0 0 #EDF1D6;
     transform: translate3d(0, 0, -1em);
 }

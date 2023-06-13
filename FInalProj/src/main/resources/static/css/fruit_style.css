@@ -136,7 +136,7 @@
 
 .dropdown-content span:hover{
     cursor: pointer;
-    background-color : #9f8080;
+    background-color : #609966;
     color:white;
 }
 
@@ -147,7 +147,7 @@
 .selectCate{
     width: 80px;
     height: 35px;
-    background-color: #e3c2c2;
+    background-color: #dde4af;
 }
 
 /* 귀여운 버튼 */
@@ -170,8 +170,8 @@ button {
     color: #382b22;
     text-transform: uppercase;
     /*   padding: 1.25em 2em; */
-    background: #E4D0D0;
-    border: 2px solid #867070;
+    background: #EDF1D6;
+    border: 2px solid #609966;
     border-radius: 0.75em;
     transform-style: preserve-3d;
     transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
@@ -185,26 +185,26 @@ button {
     left: 0;
     right: 0;
     bottom: 0;
-    background: #9f8080;
+    background: #9DC08B;
     border-radius: inherit;
-    box-shadow: 0 0 0 2px #867070, 0 0.625em 0 0 #e0dcdc;
+    box-shadow: 0 0 0 2px #609966, 0 0.625em 0 0 #EDF1D6;
     transform: translate3d(0, 0.75em, -1em);
     transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
 }
 .learn-more:hover {
-    background: #F5EBEB;
+    background: #EDF1D6;
     transform: translate(0, 0.25em);
 }
 .learn-more:hover::before {
-    box-shadow: 0 0 0 2px #867070, 0 0.5em 0 0 #e0dcdc;
+    box-shadow: 0 0 0 2px #609966, 0 0.5em 0 0 #EDF1D6;
     transform: translate3d(0, 0.5em, -1em);
 }
 .learn-more:active {
-    background: #F5EBEB;
+    background: #EDF1D6;
     transform: translate(0em, 0.75em);
 }
 .learn-more:active::before {
-    box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
+    box-shadow: 0 0 0 2px #609966, 0 0 #EDF1D6;
     transform: translate3d(0, 0, -1em);
 }
 
@@ -227,7 +227,7 @@ button {
 
 /* 테이블 */
 
-.faqTable {
+.fruitTable {
     width: 750px;
     margin-top: 10px;
     padding: 10px;
@@ -245,29 +245,33 @@ th, td {
     padding: 10px;
 }
 
-.faqTable thead tr th {
+.fruitTable thead tr th {
     border-bottom: 1px dotted black;
-    background-color: #F5EBEB;
+    background-color: #EDF1D6;
 }
 
-.faqTable thead tr th:nth-child(1) {
+.fruitTable thead tr th:nth-child(1) {
     border-radius: 10px 0px 0px 0px;
 }
 
-.faqTable thead tr th:last-child {
+.fruitTable thead tr th:last-child {
     border-radius: 0px 10px 0px 0px;
 }
 
-.faqTable > tbody > tr:hover{
-    background-color: #ebe4e4;
+.fruitTable > tbody > tr:hover{
+    background-color: #e1e4d2;
     cursor: pointer;
 }
 
-.faqTable > tbody td:first-child {
+.fruitTable > tbody > tr:active{
+	background-color: #c4caa8;
+}
+
+.fruitTable > tbody td:first-child {
     border-radius: 8px 0px 0px 8px;
 }
 
-.faqTable > tbody td:last-child {
+.fruitTable > tbody td:last-child {
     border-radius: 0px 8px 8px 0px;
 }
 
@@ -298,7 +302,7 @@ th, td {
 
 .pagination > li > .num:hover {
     color: white;
-    background-color: #c5aeae;
+    background-color: #40513B;
     border-radius: 100%;
 }
 
