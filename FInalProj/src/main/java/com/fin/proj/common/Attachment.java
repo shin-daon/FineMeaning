@@ -1,4 +1,4 @@
-package com.fin.proj.support.model.vo;
+package com.fin.proj.common;
 
 public class Attachment {
 	private int attmNo;
@@ -69,8 +69,5 @@ public class Attachment {
 				+ attmName + ", attmReName=" + attmReName + ", attmText=" + attmText + ", attmClassify=" + attmClassify
 				+ "]";
 	}
-	
-	
-	
 	
 }

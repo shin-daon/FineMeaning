@@ -1,13 +1,22 @@
 package com.fin.proj.board.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fin.proj.board.model.service.BoardService;
 
 @Controller
 public class BoardController {
+	
+	@Autowired
+	private BoardService bService;
 
 	@GetMapping("faqMain.bo")
-	public String faqMain() {
+	public String faqMain(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+		
 		return "faq";
 	}
 	
@@ -115,4 +124,17 @@ public class BoardController {
 	public String editNotice() {
 		return "editNotice";
 	}
+	
+	
+	// my page
+	@GetMapping("myBoard.bo")
+	public String myBoard() {
+		return "myBoard";
+	}
+	
+	@GetMapping("myReply.bo")
+	public String myReply() {
+		return "myReply";
+	}
+	
 }

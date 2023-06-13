@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fin.proj.common.Pagination;
+import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.member.model.vo.Member;
 import com.fin.proj.support.model.exception.SupportException;
 import com.fin.proj.support.model.service.SupportService;
@@ -32,14 +34,23 @@ public class SupportController {
 	}
 	
 	@RequestMapping("supportDetail.su")
-	public String supportDetail(@RequestParam(value="supportNo", required=false) int supportNo, Model model) {
+	public String supportDetail(HttpSession session, @RequestParam("supportNo") int supportNo, Model model) {
 		Support s = suService.supportDetail(supportNo);
 		ArrayList<SupportDetail> sdList = suService.supportUsageDetail(supportNo);
 		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		if(s != null && !sdList.isEmpty()) {
 			model.addAttribute("s", s);
 			model.addAttribute("sdList",sdList);
-			return "supportDetail";
+			if(s.getStatus()!='Y') {
+				if(uNo != s.getUserNo()) {
+					throw new SupportException("잘못된 접근입니다.");
+				} else {			
+					return "supportApplyDetail";
+				}
+			} else {				
+				return "supportDetail";
+			}
 		} else {
 			throw new SupportException("후원 상세보기에 실패하였습니다.");
 		}
@@ -98,6 +109,29 @@ public class SupportController {
 			return "redirect:supportApplicationListUser.su";
 		} else {
 			throw new SupportException("신청에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("supportListAdmin.su")
+	public String supportListAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+		
+		if(currentPage == null) {
+			currentPage = 1; 
+		}
+		
+		int listCount = suService.getListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Support> sList = suService.selectSupportList(pi);
+		
+		if(sList != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("sList", sList);
+			System.out.println(sList);
+			return "supportListAdmin";
+		} else {
+			throw new SupportException("없음");
 		}
 	}
 	
