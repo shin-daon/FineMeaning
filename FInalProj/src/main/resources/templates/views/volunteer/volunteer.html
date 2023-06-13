@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/volunteer.css"/>
 </head>
 <body>
+	<div th:replace="~{../common/header :: header}"></div>
+	
     <section id="v-title-section">
         <div>
             <div id="v-title">봉사</div>
@@ -112,12 +114,12 @@
         </section>
 
         <div class="v-enroll-btn-div">
-            <button type="button" id="v-enroll-btn" class="learn-more">등록하기</button>
+            <button type="button" id="v-enroll-btn" class="learn-more" onclick="location.href='volunteerEnroll.vo'">등록하기</button>
             <button id="v-category-reset-btn" class="learn-more-gray">초기화</button>
         </div>
 
         <section class="v-list">
-            <div class="v-list-box" onclick="javascript:location.href='volunteerDetailView.vo'">
+            <div class="v-list-box" onclick="javascript:location.href='volunteerDetail.vo'">
                 <div class="v-list-item">
                     <span class="v-locale-icon">경기</span>
                     <span class="v-recruitment-status">모집중</span>
@@ -220,6 +222,8 @@
             </ul>
         </div>
     </section>
+	
+	<div th:replace="~{../common/footer :: footer}"></div>  
 
     <script>
     window.onload = () => {

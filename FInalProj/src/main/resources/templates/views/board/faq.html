@@ -6,20 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자주 묻는 질문</title>
 <link rel="stylesheet" href="css/faq_style.css">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <style>
-	@font-face {
-	    font-family: 'SUITE-Regular';
-	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
-	    font-weight: 400;
-	    font-style: normal;
-	}
-	* {
-	  margin: 0;
-	  padding: 0;
-	  box-sizing: border-box;
-	  font-family: "SUITE-Regular", sans-serif;
-	} 
 </style>
 </head>
 <body>
@@ -136,6 +123,8 @@
     <div th:replace="~{views/common/footer :: footer}"></div>
     <script>
     	window.onload = () =>{
+    		
+    		// 게시글 선택
 			const tbody = document.querySelector('tbody');
 			const tds = tbody.querySelectorAll('td');
 			

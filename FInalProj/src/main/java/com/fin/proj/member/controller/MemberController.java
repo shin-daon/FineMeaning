@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fin.proj.member.model.exception.MemberException;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
 
@@ -24,14 +25,17 @@ public class MemberController {
 	}
 	
 	@GetMapping(value="login.me")
-	public String login(@RequestParam(value="uId") String uId,
-						@RequestParam(value="uPwd") String uPwd,
-						Model model, HttpSession session) {
+	public String login(Member m, Model model, HttpSession session) {
 		
-		Member loginUser = mService.login(uId, uPwd);
-		System.out.println(loginUser);
+		Member loginUser = mService.login(m);
 		
-		return "로그인 성공";
+		if(loginUser != null) {
+			model.addAttribute("loginUser", loginUser);
+			System.out.println("로그인 성공");
+			return "redirect:/";
+		} else {
+			throw new MemberException("로그인 실패");
+		}
 	}
 	
 	@RequestMapping("enroll.me")
