@@ -59,7 +59,7 @@ public class MemberController {
 		return "enroll";
 	}
 	
-	@GetMapping("insertUser.me")
+	@PostMapping("insertUser.me")
 	public String insertUser(@ModelAttribute Member m,
 			   				 @RequestParam("emailId") String emailId,
 			   				 @RequestParam("emailDomain") String emailDomain,
