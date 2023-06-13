@@ -4,12 +4,10 @@ import java.sql.Date;
 
 public class Volunteer {
 	private int vNo;
-	private String chargeName;
-	private String chargePhone;
-	private String chargeAddress;
-	private String vMainCategoryName;
-	private String vSubCategoryName;
-	private String vTargetCategoryName;
+	private int uNo;
+	private int vMainCategoryNo;
+	private int vSubCategoryNo;
+	private int vTargetCategoryNo;
 	private String vArea;
 	private String vName;
 	private String vContent;
@@ -27,6 +25,14 @@ public class Volunteer {
 	private Date vCreateDate;
 	private char vStatus;
 	
+	// ▼ 카테고리
+	private String vMainCategoryName;
+	private String vSubCategoryName;
+	private String vTargetCategoryName;
+	// ▼ 담당자
+	private String chargeName;
+	private String chargePhone;
+	private String chargeAddress;
 	// ▼ 봉사 내역
 	private Date vHisDate;
 	private String vHisStatus; 
