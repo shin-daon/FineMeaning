@@ -118,94 +118,22 @@
             <button id="v-category-reset-btn" class="learn-more-gray">초기화</button>
         </div>
 
-        <section class="v-list">
+        <section class="v-list" th:each="v : ${ list }">
             <div class="v-list-box" onclick="javascript:location.href='volunteerDetail.vo'">
                 <div class="v-list-item">
-                    <span class="v-locale-icon">경기</span>
+                    <span class="v-locale-icon">[[${v.vArea}]]</span>
                     <span class="v-recruitment-status">모집중</span>
-                    <span class="v-list-category">(교육 > 학습지도 교육)</span>
-                    <div class="v-list-title">오산시 함께자람센터 (재능기부 봉사자 모집)</div>
+                    <span class="v-list-category">([[${v.vMainCategoryName}]] > [[${v.vSubCategoryName}]])</span>
+                    <div class="v-list-title">[[${v.vName}]]</div>
                     <div class="v-list-info">
-                        <span class="v-bold">[모집기관]</span>오산시함께자람센터19호점
-                        <span class="v-bold">[모집기간]</span>2023-02-01~2023-05-12
-                        <span class="v-bold">[봉사기간]</span>2023-03-01~2023-05-31
+                        <span class="v-bold">[모집기관]</span>[[${v.registrar}]]
+                        <span class="v-bold">[모집기간]</span>[[${v.vRecruitmentStartDate}]]~[[${v.vRecruitmentEndDate}]]
+                        <span class="v-bold">[봉사기간]</span>[[${v.vStartDate}]]~[[${v.vEndDate}]]
                     </div>
                 </div>
                 <div class="v-end-box">
                     마감
-                    <div><span class="v-end-date">58</span>일전</div>
-                </div>
-            </div>
-
-            <div class="v-list-box">
-                <div class="v-list-item">
-                    <span class="v-locale-icon">경기</span>
-                    <span class="v-recruitment-status">모집중</span>
-                    <span class="v-list-category">(교육 > 학습지도 교육)</span>
-                    <div class="v-list-title">오산시 함께자람센터 (재능기부 봉사자 모집)</div>
-                    <div class="v-list-info">
-                        <span class="v-bold">[모집기관]</span>오산시함께자람센터19호점
-                        <span class="v-bold">[모집기간]</span>2023-02-01~2023-05-12
-                        <span class="v-bold">[봉사기간]</span>2023-03-01~2023-05-31
-                    </div>
-                </div>
-                <div class="v-end-box">
-                    마감
-                    <div><span class="v-end-date">58</span>일전</div>
-                </div>
-            </div>
-
-            <div class="v-list-box">
-                <div class="v-list-item">
-                    <span class="v-locale-icon">경기</span>
-                    <span class="v-recruitment-status">모집중</span>
-                    <span class="v-list-category">(교육 > 학습지도 교육)</span>
-                    <div class="v-list-title">오산시 함께자람센터 (재능기부 봉사자 모집)</div>
-                    <div class="v-list-info">
-                        <span class="v-bold">[모집기관]</span>오산시함께자람센터19호점
-                        <span class="v-bold">[모집기간]</span>2023-02-01~2023-05-12
-                        <span class="v-bold">[봉사기간]</span>2023-03-01~2023-05-31
-                    </div>
-                </div>
-                <div class="v-end-box">
-                    마감
-                    <div><span class="v-end-date">58</span>일전</div>
-                </div>
-            </div>
-
-            <div class="v-list-box">
-                <div class="v-list-item">
-                    <span class="v-locale-icon">경기</span>
-                    <span class="v-recruitment-status">모집중</span>
-                    <span class="v-list-category">(교육 > 학습지도 교육)</span>
-                    <div class="v-list-title">오산시 함께자람센터 (재능기부 봉사자 모집)</div>
-                    <div class="v-list-info">
-                        <span class="v-bold">[모집기관]</span>오산시함께자람센터19호점
-                        <span class="v-bold">[모집기간]</span>2023-02-01~2023-05-12
-                        <span class="v-bold">[봉사기간]</span>2023-03-01~2023-05-31
-                    </div>
-                </div>
-                <div class="v-end-box">
-                    마감
-                    <div><span class="v-end-date">58</span>일전</div>
-                </div>
-            </div>
-
-            <div class="v-list-box">
-                <div class="v-list-item">
-                    <span class="v-locale-icon">경기</span>
-                    <span class="v-recruitment-status">모집중</span>
-                    <span class="v-list-category">(교육 > 학습지도 교육)</span>
-                    <div class="v-list-title">오산시 함께자람센터 (재능기부 봉사자 모집)</div>
-                    <div class="v-list-info">
-                        <span class="v-bold">[모집기관]</span>오산시함께자람센터19호점
-                        <span class="v-bold">[모집기간]</span>2023-02-01~2023-05-12
-                        <span class="v-bold">[봉사기간]</span>2023-03-01~2023-05-31
-                    </div>
-                </div>
-                <div class="v-end-box">
-                    마감
-                    <div><span class="v-end-date">58</span>일전</div>
+                    <div><span class="v-end-date">[[${v.vRecruitmentEndDate}]]</span>일전</div>
                 </div>
             </div>
         </section>
@@ -225,10 +153,22 @@
 	
 	<div th:replace="~{../common/footer :: footer}"></div>  
 
-    <script>
+    <script th:inline="javascript">
 	    window.onload = () => {
 		    const now = new Date();
 		    const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
+		    
+		    const endDates = document.querySelectorAll(".v-end-date");
+		    for(const endDate of endDates) {
+		    	if(endDate.innerText != today) {
+		    		const newDate = new Date(endDate.innerText);
+		    		let diff = Math.abs(now.getTime() - newDate.getTime());
+		    		diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
+		    		endDate.innerText = diff;
+		    	} else {
+		    		endDate.parentElement.parentElement.innerHTML = "<span class='v-end-date'>금일<br/>마감</span>";
+		    	}
+		    }
 		    
 		    const startDate = document.querySelector("#startDate");		
 		    const endDate = document.querySelector("#endDate");

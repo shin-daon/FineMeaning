@@ -1,11 +1,17 @@
 package com.fin.proj.volunteer.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fin.proj.common.Pagination;
+import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.member.model.vo.Member;
 import com.fin.proj.volunteer.model.service.VolunteerService;
 import com.fin.proj.volunteer.model.vo.Volunteer;
@@ -19,8 +25,25 @@ public class VolunteerController {
 	private VolunteerService vService;
 	
 	@GetMapping("volunteer.vo")
-	public String volunteer() {
-		return "volunteer";
+	public String volunteer(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int volunteerCount = vService.getVolunteerCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, volunteerCount, 5);
+		ArrayList<Volunteer> list = vService.selectVolunteerList(pi);
+		
+		System.out.println(volunteerCount);
+		System.out.println(list);
+		
+		if(list != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("list", list);
+			
+			return "volunteer";
+		}
+		return null;
 	}
 	
 	@GetMapping("volunteerDetail.vo")

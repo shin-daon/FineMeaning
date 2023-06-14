@@ -25,6 +25,9 @@ public class Volunteer {
 	private Date vCreateDate;
 	private char vStatus;
 	
+	// ▼ 모집기관
+	private String registrar;
+	
 	// ▼ 카테고리
 	private String vMainCategoryName;
 	private String vSubCategoryName;
@@ -43,9 +46,9 @@ public class Volunteer {
 	public Volunteer(int vNo, int uNo, int vMainCategoryNo, int vSubCategoryNo, int vTargetCategoryNo, String vArea,
 			String vName, String vContent, Date vStartDate, Date vEndDate, String vStartTime, String vEndTime,
 			Date vRecruitmentStartDate, Date vRecruitmentEndDate, String vDay, int vCountAll, int vCount,
-			String vLocation, String vActivityType, Date vCreateDate, char vStatus, String vMainCategoryName,
-			String vSubCategoryName, String vTargetCategoryName, String vChargeName, String vChargePhone, Date vHisDate,
-			String vHisStatus) {
+			String vLocation, String vActivityType, Date vCreateDate, char vStatus, String registrar,
+			String vMainCategoryName, String vSubCategoryName, String vTargetCategoryName, String vChargeName,
+			String vChargePhone, Date vHisDate, String vHisStatus) {
 		super();
 		this.vNo = vNo;
 		this.uNo = uNo;
@@ -68,6 +71,7 @@ public class Volunteer {
 		this.vActivityType = vActivityType;
 		this.vCreateDate = vCreateDate;
 		this.vStatus = vStatus;
+		this.registrar = registrar;
 		this.vMainCategoryName = vMainCategoryName;
 		this.vSubCategoryName = vSubCategoryName;
 		this.vTargetCategoryName = vTargetCategoryName;
@@ -245,6 +249,14 @@ public class Volunteer {
 		this.vStatus = vStatus;
 	}
 
+	public String getRegistrar() {
+		return registrar;
+	}
+
+	public void setRegistrar(String registrar) {
+		this.registrar = registrar;
+	}
+
 	public String getvMainCategoryName() {
 		return vMainCategoryName;
 	}
@@ -309,10 +321,10 @@ public class Volunteer {
 				+ vStartTime + ", vEndTime=" + vEndTime + ", vRecruitmentStartDate=" + vRecruitmentStartDate
 				+ ", vRecruitmentEndDate=" + vRecruitmentEndDate + ", vDay=" + vDay + ", vCountAll=" + vCountAll
 				+ ", vCount=" + vCount + ", vLocation=" + vLocation + ", vActivityType=" + vActivityType
-				+ ", vCreateDate=" + vCreateDate + ", vStatus=" + vStatus + ", vMainCategoryName=" + vMainCategoryName
-				+ ", vSubCategoryName=" + vSubCategoryName + ", vTargetCategoryName=" + vTargetCategoryName
-				+ ", vChargeName=" + vChargeName + ", vChargePhone=" + vChargePhone + ", vHisDate=" + vHisDate
-				+ ", vHisStatus=" + vHisStatus + "]";
+				+ ", vCreateDate=" + vCreateDate + ", vStatus=" + vStatus + ", registrar=" + registrar
+				+ ", vMainCategoryName=" + vMainCategoryName + ", vSubCategoryName=" + vSubCategoryName
+				+ ", vTargetCategoryName=" + vTargetCategoryName + ", vChargeName=" + vChargeName + ", vChargePhone="
+				+ vChargePhone + ", vHisDate=" + vHisDate + ", vHisStatus=" + vHisStatus + "]";
 	}
-	
+
 }
