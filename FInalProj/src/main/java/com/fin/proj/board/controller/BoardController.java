@@ -8,11 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-<<<<<<< HEAD
-import com.fin.proj.board.exception.BoardException;
-=======
 import com.fin.proj.board.model.exception.BoardException;
->>>>>>> faa96e4ed078bd644b4428db640f49636f441cd9
 import com.fin.proj.board.model.service.BoardService;
 import com.fin.proj.board.model.vo.Board;
 import com.fin.proj.board.model.vo.Reply;
