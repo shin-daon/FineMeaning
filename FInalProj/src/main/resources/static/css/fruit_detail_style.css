@@ -167,6 +167,8 @@
 	display: flex;
 	flex-direction: column;
 	margin-top: 20px;
+	margin-bottom: 10px;
+	padding-bottom: 20px;
 	border-radius: 15px;
 	width: 600px;
 	min-height: 130px;
@@ -213,7 +215,7 @@
 	width: 40px;
 	height: 50px;
 	border-radius: 12px;
-	background-color: #cad6c7;
+	background-color: #c7d7b0;
 	border: 1px solid black;
 }
 
@@ -223,25 +225,65 @@
 
 .reply {
 	align-self: center;
-	width: 550px;
+	width: 540px;
 	min-height: 50px;
 	height: auto;
-	background-color: rgb(227, 227, 227);
+	background-color: #f3f5ed;
 	border: 1px dashed black;
 	border-radius: 15px;
 	display: flex;
+	flex-direction: column;
+	margin-bottom: 10px;
+}
+
+.replyRow1 {
+	width: 540px;
+	height: 40px;
+	display: flex;
+	justify-content: space-between; /* 추가된 부분 */
+	align-items: center; /* 추가된 부분 */
+	padding: 15px 15px 10px 15px;
+}
+
+.replyInfo {
+	display: flex;
+}
+
+.replyWriter {
+	margin-right: 10px;
+	font-size: 15px;
+	text-decoration: #9DC08B wavy underline;
+}
+
+.replyDate {
+	height: 20px;
+	font-size: 13px;
+	margin-top: 1px;
+}
+
+.replyRow2 {
+	width: 540px;
+	min-height: 40px;
+	height: auto;
+	display: flex;
 	align-items: center;
+	padding: 8px 15px 15px 15px;
 }
 
-.replyTable {
-	width: 550px;
-	border-collapse: collapse;
+.replyContent {
+	text-align: justify;
+	font-size: 14px;
 }
 
-td {
-	border: 1px solid black;
+.aTags {
+	text-decoration: none;
+	color: black;
+	font-size: 14px;
 }
 
+.aTags:active {
+	text-decoration: #9DC08B wavy underline;
+}
 /* 버튼 */
 .btnArea {
     width: 750px;
@@ -252,6 +294,7 @@ td {
 }
 
 /* 글쓰기 버튼 */
+
 /* button { */
 /* 	margin-top:10px;			 */
 /* 	position: relative; */

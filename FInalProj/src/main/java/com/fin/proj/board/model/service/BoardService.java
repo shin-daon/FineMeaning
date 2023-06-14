@@ -18,4 +18,6 @@ public interface BoardService {
 
 	int insertBoard(Board b);
 
+	void insertReply(Reply r);
+
 }
