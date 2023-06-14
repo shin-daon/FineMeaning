@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import com.fin.proj.board.model.vo.Board;
+import com.fin.proj.board.model.vo.Reply;
 
 @Mapper
 public interface BoardDAO {
@@ -14,4 +15,9 @@ public interface BoardDAO {
 
 	ArrayList<Board> selectBoardList(int i, RowBounds rowbounds);
 
+	int countUp(int bNo);
+
+	Board selectBoard(int bNo);
+
+	ArrayList<Reply> selectReply(int bNo);
 }

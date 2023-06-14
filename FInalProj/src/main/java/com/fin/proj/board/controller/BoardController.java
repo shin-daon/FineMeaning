@@ -8,10 +8,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+<<<<<<< HEAD
+import com.fin.proj.board.exception.BoardException;
+=======
+import com.fin.proj.board.model.exception.BoardException;
+>>>>>>> faa96e4ed078bd644b4428db640f49636f441cd9
 import com.fin.proj.board.model.service.BoardService;
 import com.fin.proj.board.model.vo.Board;
+import com.fin.proj.board.model.vo.Reply;
 import com.fin.proj.common.Pagination;
 import com.fin.proj.common.model.vo.PageInfo;
+import com.fin.proj.member.model.vo.Member;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class BoardController {
@@ -27,21 +36,55 @@ public class BoardController {
 		}
 		
 		int listCount = bService.getListCount(6);
-		
 //		System.out.println(listCount);
 		
 		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
 		
 		ArrayList<Board> list = bService.selectBoardList(pageInfo, 6);
-		
-		System.out.println(list);
+//		System.out.println(list);
 		
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
 			model.addAttribute("list", list);
 			return "faq";
 		} else {
-			return null;
+			throw new BoardException("게시글 목록 조회 실패");
+		}
+	}
+	
+	@GetMapping("faq_detail.bo")
+	public String faqDetail(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer,
+							@RequestParam("page") int page, HttpSession session, Model model) {
+//		System.out.println(bNo + ", " + writer + ", "+ page);
+		// 상세보기의 경우 조회수 +1, but 내 글 클릭 시 조회수 +0 (로그인 유저 정보 가져와서 비교)
+		// 파라미터로 받은 page를 통해 목록으로 돌아갔을 시 원래 보던 페이지 노출
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		System.out.println(m);
+		
+		String readerNickName = null;
+		if(m != null) {
+			readerNickName = m.getuNickName();
+		}
+		
+		boolean countYN = false;
+		if(!writer.equals(readerNickName)) {
+			countYN = true;
+		}
+		
+		Board board = bService.selectBoard(bNo, countYN);
+		System.out.println(board);
+		
+		ArrayList<Reply> replyList = bService.selectReply(bNo);
+		System.out.println(replyList);
+		
+		if(board != null) {
+			model.addAttribute("board", board);
+			model.addAttribute("page", page);
+//			model.addAttribute("replyList", replyList);
+			return "faq_Detail";
+		} else {
+			throw new BoardException("게시글 상세 조회 실패");
 		}
 	}
 	
@@ -50,10 +93,6 @@ public class BoardController {
 		return "faq_form";
 	}
 	
-	@GetMapping("faq_detail.bo")
-	public String faqDetail() {
-		return "faq_detail";
-	}
 	
 	@GetMapping("finePeopleMain.bo")
 	public String finePeopleMain() {
