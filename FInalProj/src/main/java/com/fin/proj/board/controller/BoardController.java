@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fin.proj.board.exception.BoardException;
+import com.fin.proj.board.model.exception.BoardException;
 import com.fin.proj.board.model.service.BoardService;
 import com.fin.proj.board.model.vo.Board;
 import com.fin.proj.board.model.vo.Reply;
