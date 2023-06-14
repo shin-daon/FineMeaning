@@ -141,11 +141,16 @@ button {
     border-radius: 10px;
 }
 
-.replyTitle{
-	text-align: right;
-	text-decoration: underline;
-	background-color: lightgray;
+.replytable th{
+	text-align: center;
 }
+
+
+.replyArea{
+	width: 750px;
+	text-align: center;
+}
+
 
 .titleTable{
 	width: 750px;
@@ -288,6 +293,12 @@ th, td {
 .pagination > li > .num:hover {
     color: white;
     background-color: #40513B;
+    border-radius: 100%;
+}
+
+.currentPage{
+	color: white;
+    background-color: #9bc08d;
     border-radius: 100%;
 }
 
