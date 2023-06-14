@@ -6,13 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-<<<<<<< HEAD
 import com.fin.proj.board.exception.BoardException;
-=======
-import com.fin.proj.board.model.exception.BoardException;
->>>>>>> faa96e4ed078bd644b4428db640f49636f441cd9
 import com.fin.proj.board.model.service.BoardService;
 import com.fin.proj.board.model.vo.Board;
 import com.fin.proj.board.model.vo.Reply;
@@ -130,13 +128,75 @@ public class BoardController {
 	}
 	
 	@GetMapping("commList.bo")
-	public String commList() {
-		return "commList";
+		public String CommMain(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = bService.getListCount(1);
+		
+		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, 1);
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			return "commList";
+		} else {
+			throw new BoardException("게시글 목록 조회 실패");
+		}
 	}
 	
 	@GetMapping("writeComm.bo")
 	public String writeComm() {
 		return "writeComm";
+	}
+	
+	@GetMapping("commDetailPage.bo")
+	public String CommDetail(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer,
+							@RequestParam("page") int page, HttpSession session, Model model) {
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		String readerNickName = null;
+		if(m != null) {
+			readerNickName = m.getuNickName();
+		}
+		
+		boolean countYN = false;
+		if(!writer.equals(readerNickName)) {
+			countYN = true;
+		}
+		
+		Board board = bService.selectBoard(bNo, countYN);
+		
+		ArrayList<Reply> replyList = bService.selectReply(bNo);
+		System.out.println(replyList);
+		
+		if(board != null) {
+			model.addAttribute("board", board);
+			model.addAttribute("page", page);
+//			model.addAttribute("replyList", replyList);
+			return "commDetail";
+		} else {
+			throw new BoardException("게시글 상세 조회 실패");
+		}
+	}
+	
+	@PostMapping("insertBoard.bo")
+	public String insertCommBoard(@ModelAttribute Board b, HttpSession session) {
+		String id = ((Member)session.getAttribute("loginUser")).getuId();
+		b.setuId(id);
+		b.setBoardType(1);
+		
+		int result = bService.insertBoard(b);
+		if(result > 0) {
+			return "redirect:commList.bo";
+			
+		} else {
+			throw new BoardException("게시글 작성 실패 ㅠ");
+		}
 	}
 	
 	@GetMapping("noticeList.bo")
