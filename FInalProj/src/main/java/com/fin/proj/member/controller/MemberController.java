@@ -105,7 +105,7 @@ public class MemberController {
 		return "editMyInfo";
 	}
 	
-	@GetMapping("checkId.me")
+	@RequestMapping(value="checkId.me") 
 	public void checkId(@RequestParam("uId") String uId, PrintWriter out) {
 		int count = mService.checkId(uId);
 			
@@ -114,7 +114,7 @@ public class MemberController {
 			
 	}
 	
-	@GetMapping("checkNickName.me")
+	@RequestMapping(value="checkNickName.me") 
 	public void checkNickName(@RequestParam("uNickName") String uNickName, PrintWriter out) {
 		int count = mService.checkNickName(uNickName);
 		
