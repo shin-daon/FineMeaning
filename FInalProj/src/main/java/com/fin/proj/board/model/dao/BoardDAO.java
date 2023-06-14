@@ -22,4 +22,7 @@ public interface BoardDAO {
 	ArrayList<Reply> selectReply(int bNo);
 
 	int insertBoard(Board b);
+
+	void insertReply(Reply r);
+
 }
