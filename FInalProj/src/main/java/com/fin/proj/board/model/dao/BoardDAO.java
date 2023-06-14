@@ -20,4 +20,6 @@ public interface BoardDAO {
 	Board selectBoard(int bNo);
 
 	ArrayList<Reply> selectReply(int bNo);
+
+	int insertBoard(Board b);
 }
