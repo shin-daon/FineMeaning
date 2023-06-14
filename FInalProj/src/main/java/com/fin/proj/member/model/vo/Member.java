@@ -9,7 +9,7 @@ public class Member {
 	private String uName;
 	private String residentNo;
 	private String address;
-	private Integer phone;
+	private String phone;
 	private String email;
 	private String uNickName;
 	private String loginType;
@@ -20,7 +20,7 @@ public class Member {
 	private Date enrollDate;
 	private Integer isAdmin;
 	
-	public Member(Integer uNo, String uId, String uPwd, String uName, String residentNo, String address, Integer phone,
+	public Member(Integer uNo, String uId, String uPwd, String uName, String residentNo, String address, String phone,
 			String email, String uNickName, String loginType, Integer kakaoId, String uStatus, String uType,
 			String registrar, Date enrollDate, Integer isAdmin) {
 		super();
@@ -90,11 +90,11 @@ public class Member {
 		this.address = address;
 	}
 
-	public Integer getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(Integer phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 

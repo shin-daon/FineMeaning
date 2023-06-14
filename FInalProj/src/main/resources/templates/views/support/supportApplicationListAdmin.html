@@ -17,7 +17,7 @@
 	<div th:replace="~{../common/header :: header}"></div>
 	
 	<section style="display: flex;">
-    <div th:replace="~{../common/sidebar :: sidebar}"></div>
+    <div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
     
 		<section id="supportListSection">
 
@@ -28,9 +28,11 @@
         <div class="path">
             <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
             <img class="sub iconSize" src="image/onenext.png">
-            <a class="middle" href="#">관리자 페이지</a>
+            <a class="middle" href="#">마이페이지</a>
             <img class="sub iconSize" src="image/onenext.png">
             <a class="middle">후원 내역</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">후원 신청 내역</a>
         </div>
 
 
@@ -40,6 +42,10 @@
 
 			<div class="actionArea">
             <div class="searchArea">
+            	<div class="clickArea">
+	            	<a href="applyDevision.su?division=W">승인 대기</a> |
+	            	<a href="applyDevision.su?division=N">승인 반려</a> 
+            	</div>
                 <input class="searchInput" type="text" placeholder="제목으로 검색" name="searchWord"/>
                 <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
             </div>
@@ -49,7 +55,7 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>카테고리</th>                    
+                    <th>카테고리</th>
                     <th style="width: 250px;">후원 프로젝트 제목</th>
                     <th>희망 모금액</th>
                     <th>신청 날짜</th>
@@ -66,6 +72,7 @@
 	                    <td>
 		                    <th:block th:switch="${s.status}">
 		                    	<span th:case="W">승인 대기</span>
+		                    	<span th:case="Y">승인 완료</span>
 		                    	<span th:case="N">승인 반려</span>
 		                    </th:block>
 		                </td>    
@@ -76,20 +83,6 @@
 	                
             </tbody>
         </table>
-		
-		<div class="buttonArea">
-	        <div th:if="${session.loginUser.registrar ==null}" class="buttonSection">
-		        <div class="buttonSection">
-					<button class="learn-more" id="notLogin">후원 신청하기</button>
-				</div>
-			</div>
-			
-			<div th:if="${session.loginUser.registrar != null}" class="buttonSection">
-				<div class="buttonSection">
-					<button class="learn-more" onclick="location.href='supportWrite.su'">후원 신청하기</button>
-				</div>
-			</div>
-        </div>
 		
         <div class="page">
             <ul class="pagination">
@@ -128,7 +121,7 @@
 	for(const tr of trs){
 		tr.addEventListener('click', function(){
 			const supportNo = this.querySelector('td').innerText;
-			location.href= "supportDetail.su?supportNo=" + supportNo;
+			location.href= "supportDetailAdmin.su?supportNo=" + supportNo;
 		})
 	}
 </script>

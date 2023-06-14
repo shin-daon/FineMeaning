@@ -37,13 +37,13 @@
 
         <div class="titleAndMore">
             <div class="titleWrap">
-                <div class="faq_write_title">글 제목입니다.</div>
+                <div class="faq_write_title">[[${ board.boardTitle }]]</div>
             </div>    
             <div class="dropdown">
                 <img class="seeMore" src="image/seeMore.png">
                 <input type="hidden" name="category" value="none">
                 <div class="dropdown-content">
-                    <span class="selectCate">수정</span>
+                    <span class="selectCate">수정</span>	<!-- onclick -->
                     <span class="selectCate">삭제</span>
                 </div>
             </div>
@@ -52,13 +52,14 @@
         <div class="detailArea">
             <hr class="hr">
             <div class="contentArea backgroundImage">
-                <p class="contentMain">글 내용입니다.</p>
+	            <p class="boardDate">[[${ board.boardDate }]]</p>
+                <p class="contentMain">[[${ board.boardContent }]]</p>
             </div>
             <hr class="hr">
         </div>
         
         <div class="btnArea">
-            <button type="button" class="backBtn learn-more-back" onclick="location.href='faqMain.bo'">메인으로</button>
+            <button type="button" class="backBtn learn-more-back" onclick="location.href='faqMain.bo'">목록으로</button>
         </div>
             
 	</section>

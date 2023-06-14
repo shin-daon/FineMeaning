@@ -55,8 +55,8 @@ font-family: "SUITE-Regular", sans-serif;
 }
 
 .btn-gradient {
-margin-top: 30px;
-  margin-bottom: 30px;
+	margin-top: 30px;
+	margin-bottom: 30px;	
 }
 
 .btn-gradient.mini {
@@ -78,7 +78,7 @@ text-shadow: 0 1px 0 rgba(0,0,0,0.15);
 }
 
 .btn-gradient {
-background: #999;
+	background: #999;
 }
 
 .va-prev-next-btn-div {

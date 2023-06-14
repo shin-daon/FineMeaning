@@ -8,10 +8,12 @@ public class Attachment {
 	private String attmReName;
 	private String attmText;
 	private int attmClassify;
+	private int attmLevel; // 썸네일용!
 	
 	public Attachment() {}
+	
 	public Attachment(int attmNo, int refBoardNo, String attmUrl, String attmName, String attmReName, String attmText,
-			int attmClassify) {
+			int attmClassify, int attmLevel) {
 		super();
 		this.attmNo = attmNo;
 		this.refBoardNo = refBoardNo;
@@ -20,7 +22,9 @@ public class Attachment {
 		this.attmReName = attmReName;
 		this.attmText = attmText;
 		this.attmClassify = attmClassify;
+		this.attmLevel = attmLevel;
 	}
+
 	public int getAttmNo() {
 		return attmNo;
 	}
@@ -63,11 +67,20 @@ public class Attachment {
 	public void setAttmClassify(int attmClassify) {
 		this.attmClassify = attmClassify;
 	}
+
+	public int getAttmLevel() {
+		return attmLevel;
+	}
+
+	public void setAttmLevel(int attmLevel) {
+		this.attmLevel = attmLevel;
+	}
+
 	@Override
 	public String toString() {
 		return "Attachment [attmNo=" + attmNo + ", refBoardNo=" + refBoardNo + ", attmUrl=" + attmUrl + ", attmName="
 				+ attmName + ", attmReName=" + attmReName + ", attmText=" + attmText + ", attmClassify=" + attmClassify
-				+ "]";
+				+ ", attmLevel=" + attmLevel + "]";
 	}
 	
 }

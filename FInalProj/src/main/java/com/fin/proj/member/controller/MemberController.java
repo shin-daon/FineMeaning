@@ -1,5 +1,7 @@
 package com.fin.proj.member.controller;
 
+import java.io.PrintWriter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,6 @@ import com.fin.proj.member.model.exception.MemberException;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
 
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import jakarta.servlet.http.HttpSession;
 
 @SessionAttributes("loginUser")
@@ -41,13 +42,13 @@ public class MemberController {
 		
 		if(bcrypt.matches(m.getuPwd(), loginUser.getuPwd())) {
 			model.addAttribute("loginUser", loginUser);
-			System.out.println("로그인 성공");
 			
 			if(loginUser.getIsAdmin() == 0) {
 				return "editUserInfo";
 			} else {
 				return "redirect:/";
-			}						
+			}
+			
 		} else {
 			throw new MemberException("로그인 실패");
 		}
@@ -58,11 +59,29 @@ public class MemberController {
 		return "enroll";
 	}
 	
-	@GetMapping("insertUser.me")
-	public String insertUser(@ModelAttribute Member m, 
+	@PostMapping("insertUser.me")
+	public String insertUser(@ModelAttribute Member m,
 			   				 @RequestParam("emailId") String emailId,
-			   				 @RequestParam("emailDomain") String emailDomain) {
-		return null;
+			   				 @RequestParam("emailDomain") String emailDomain,
+			   				 @RequestParam("first-ssn") String firstSsn,
+			   				 @RequestParam("two-ssn") String twoSsn) {
+		
+		if(!emailId.trim().equals("")) {
+			m.setEmail(emailId + "@" + emailDomain);
+		}
+		
+		m.setResidentNo(firstSsn + "-" + twoSsn);
+		
+		String encPwd = bcrypt.encode(m.getuPwd());
+		m.setuPwd(encPwd);
+
+		int result = mService.insertUser(m);
+		
+		if(result > 0) {
+			return "redirect:/";
+		} else {
+			throw new MemberException("회원가입 실패");
+		}	
 	}
 	
 	@RequestMapping("findId.me")
@@ -86,7 +105,20 @@ public class MemberController {
 		return "editMyInfo";
 	}
 	
+	@GetMapping("checkId.me")
+	public void checkId(@RequestParam("uId") String uId, PrintWriter out) {
+		int count = mService.checkId(uId);
+			
+		String result = count == 0 ? "yes" : "no";
+		out.print(result);
+			
+	}
 	
-	
-
+	@GetMapping("checkNickName.me")
+	public void checkNickName(@RequestParam("uNickName") String uNickName, PrintWriter out) {
+		int count = mService.checkNickName(uNickName);
+		
+		String result = count == 0 ? "yes" : "no";
+		out.print(result);	
+	}
 }

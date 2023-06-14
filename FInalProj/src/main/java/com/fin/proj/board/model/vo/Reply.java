@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Reply {
 	private int replyNo;
-	private int uNo;
+	private int replyWriter;
 	private String nickName;
 	private int boardNo;
 	private String boardTitle;
@@ -14,11 +14,11 @@ public class Reply {
 	
 	public Reply() {}
 
-	public Reply(int replyNo, int uNo, String nickName, int boardNo, String boardTitle, String replyContent,
+	public Reply(int replyNo, int replyWriter, String nickName, int boardNo, String boardTitle, String replyContent,
 			Date replyDate, char replyStatus) {
 		super();
 		this.replyNo = replyNo;
-		this.uNo = uNo;
+		this.replyWriter = replyWriter;
 		this.nickName = nickName;
 		this.boardNo = boardNo;
 		this.boardTitle = boardTitle;
@@ -35,12 +35,12 @@ public class Reply {
 		this.replyNo = replyNo;
 	}
 
-	public int getuNo() {
-		return uNo;
+	public int getreplyWriter() {
+		return replyWriter;
 	}
 
-	public void setuNo(int uNo) {
-		this.uNo = uNo;
+	public void setreplyWriter(int replyWriter) {
+		this.replyWriter = replyWriter;
 	}
 
 	public String getNickName() {
@@ -93,7 +93,7 @@ public class Reply {
 
 	@Override
 	public String toString() {
-		return "Reply [replyNo=" + replyNo + ", uNo=" + uNo + ", nickName=" + nickName + ", boardNo=" + boardNo
+		return "Reply [replyNo=" + replyNo + ", replyWriter=" + replyWriter + ", nickName=" + nickName + ", boardNo=" + boardNo
 				+ ", boardTitle=" + boardTitle + ", replyContent=" + replyContent + ", replyDate=" + replyDate
 				+ ", replyStatus=" + replyStatus + "]";
 	}

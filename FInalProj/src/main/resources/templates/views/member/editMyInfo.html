@@ -57,7 +57,7 @@
 #short-input {
 	padding: 8px 15px 9px;
 	border-radius: 4px;
-	width: 233px;
+	width: 215px;
 	height: 40px;
 	border: 1px solid lightgray;
 	outline: none;
@@ -74,7 +74,8 @@
 	border: 1px solid #609966;
 }
 
-#normal-input {
+#normal-input,
+#sample6_address {
 	padding: 8px 15px 9px;
 	border-radius: 4px;
 	width: 333px;
@@ -266,6 +267,39 @@ a {
 	width: 14px;
 	height: 14px;
 }
+
+#custom-email-input {
+	padding: 8px 15px 9px;
+    border-radius: 4px;
+    width: 150px;
+    height: 40px;
+    border: 1px solid lightgray;
+    outline: none;
+    position: relative;
+}
+
+.email-input .insert {
+    position: relative; /* 추가: 위치를 고정하기 위해 부모 요소에 position: relative 적용 */
+}
+
+.x-btn {
+	background: none;
+	border: none;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+    top: 10px;
+    left: 315px;
+    cursor: pointer;
+}
+
+#nickNameCheckResult {
+	font-size: 14px;
+} 
+
+.check-div {
+	margin-top: 7px; 
+}
 </style>
 <body>
 <div th:replace="~{views/common/header :: header}"></div>
@@ -281,7 +315,7 @@ a {
 			<div class="insert id">
 				<label class="title">아이디</label>
 				<div class="input">
-					<input type="text" id="normal-input" value="아이디" readonly/>
+					<input type="text" id="normal-input" th:value="${ loginUser.uId }" readonly/>
 				</div>
 			</div>
 			
@@ -289,21 +323,21 @@ a {
 				<label class="title">비밀번호</label><br>
 				<span class="pwd-comment">영문, 숫자를 포함한 8자리 이상의 비밀번호를 입력해주세요.</span>
 				<div class="input">
-					<input type="password" id="normal-input" value="비밀번호"/>
+					<input type="password" id="normal-input"/>
 				</div>
 			</div>
 			
 			<div class="insert pwd">
 				<label class="title">비밀번호 확인</label>
 				<div class="input">
-					<input type="password" id="normal-input" value="비밀번호 확인"/>
+					<input type="password" id="normal-input"/>
 				</div>
 			</div>
 			
 			<div class="insert name">
 				<label class="title">이름</label>
 				<div class="input">
-					<input type="text" id="normal-input" value="이름" readonly/>
+					<input type="text" id="normal-input" th:value="${ loginUser.uName }" readonly/>
 				</div>
 			</div>
 			
@@ -312,7 +346,7 @@ a {
 				<div class="input">
 					<input type="radio" id="user-type" name="user-type"/><span class="radio-comment">일반</span>
 					<input type="radio" id="user-type" name="user-type"/><span class="radio-comment">단체</span>
-					<input type="text" id="ssn-input" value="기관명" readonly/>
+					<input type="text" id="short-input" th:value="${ loginUser.registrar }" readonly/>
 				</div>
 			</div>
 		
@@ -326,10 +360,10 @@ a {
 			<div class="insert address">
 				<label class="title">주소</label>
 				<div class="input">
-					<input type="text" id="normal-input" value="주소"/>
+					<input type="text" id="sample6_address" value="주소"/>
 				</div>
 				<div class="address-btn">
-					<button class="normal-btn" id="search-ad">주소 검색</button>
+					<button class="normal-btn" type="button" onclick="sample6_execDaumPostcode()" id="search-ad">주소 검색</button>
 				</div>
 			</div>
 			
@@ -340,18 +374,21 @@ a {
 				</div>
 			</div>
 			
-			<div class="insert email">
+			<div class="insert email-input">
 				<label class="title">이메일</label>
 				<div class="input">
-					<input type="text" id="email-input" value="이메일"/><span class="nothing">@</span>
-					<select name="email" id="email-select">
+					<input type="text" id="email-input" name="emailId" value="이메일"/><span class="nothing">@</span>
+					
+					<select name="emailDomain" id="email-select">
 						<option>naver.com</option>
 						<option>gmail.com</option>
 						<option>daum.net</option>
 						<option>nate.com</option>
 						<option>직접입력</option>
 					</select>
-			
+					
+					<input type="text" id="custom-email-input" style="display: none;" name="emailDomain"/>
+           			<span class="x-btn" style="display: none;"><img src="image/x.png"></span>
 				</div>
 			</div>
 			
@@ -385,7 +422,10 @@ a {
 <br><br><br><br>
 <div th:replace="~{views/common/footer :: footer}"></div>
 
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+
+	// 탈퇴
 	const withdrawalBtn = document.getElementsByClassName('enroll-comment')[0];
 	const yesBtn = document.getElementById('withdrawal-btn');
 	const noBtn = document.getElementById('rollback-btn');
@@ -403,6 +443,118 @@ a {
 	noBtn.addEventListener('click', () => {
 	    modal.style.display = 'none';
 	});
+	
+	// 이메일
+    const emailSelect = document.getElementById('email-select');
+    const customEmailInput = document.getElementById('custom-email-input');
+    const emailInput = document.getElementsByClassName('email-input')[0];
+    const xBtn = document.getElementsByClassName('x-btn')[0];
+
+    emailSelect.addEventListener('change', function() {
+        if (emailSelect.value === '직접입력') {
+            emailSelect.style.display = 'none';
+            customEmailInput.style.display = 'inline-block';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'block';
+        }
+    });
+
+    customEmailInput.addEventListener('input', function() {
+        if (customEmailInput.value === '') {
+            emailSelect.style.display = 'none';
+            emailSelect.selectedIndex = 0;
+        }
+    });
+    
+    xBtn.addEventListener('click', function() {
+            emailSelect.style.display = 'inline-block';
+            customEmailInput.style.display = 'none';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'none';
+            emailSelect.value = 'naver.com';
+            customEmailInput.value = '';
+    });
+    
+    // 유효성 검사   
+    window.onload = () => {
+    		const nickName = document.getElementsByName('uNickName')[0];
+    		const nickNameResult = document.getElementById('nickNameCheckResult');
+    		
+    		nickName.addEventListener('change', function(){				
+				if(this.value.trim() == ''){
+					nickNameResult.innerText = '아이디를 입력해주세요.';
+					nickNameResult.style.color = 'gray';
+					nickName.style.outline = '';
+					nickName.style.boxShadow = '';
+				} else {
+					$.ajax({
+						url: 'checkNickName.me',
+						data: {uNickName:this.value.trim()},
+						success: data => {
+							console.log(data);
+							if(data == 'yes'){
+								nickNameResult.innerText = '사용 가능한 아이디입니다.';
+								nickNameResult.style.color = '#609966';
+								nickName.style.outline = '1px solid #609966';
+								nickName.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+							} else if(data == 'no'){
+								nickNameResult.innerText = "사용 불가능한 아이디입니다.";
+								nickNameResult.style.color = 'red';
+								nickName.style.outline = '1px solid red';
+								nickName.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+							}
+						},
+						error: data => {
+							console.log(data);
+						}
+					});
+				}
+				
+			});
+    	}
+    
+    // 폼
+	const form = document.querySelector('form');
+
+	form.addEventListener('submit', function(event) {
+  		if (customEmailInput.value === '') {
+  			customEmailInput.setAttribute('name', '');
+    		emailSelect.setAttribute('name', 'emailDomain');
+  		} else {
+  			customEmailInput.setAttribute('name', 'emailDomain');
+   			emailSelect.setAttribute('name', '');
+  		}
+	});
+	
+	// 주소 찾기
+    function sample6_execDaumPostcode() {
+    	var width = 500; //팝업의 너비
+    	var height = 600; //팝업의 높이
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById("sample6_address").value = addr;
+                
+            }
+        }).open({
+            left: (window.screen.width / 1.35) - (width / 2), 
+            top: (window.screen.height / 2) - (height / 2)
+        });
+    }
 	
 </script>
 </body>
