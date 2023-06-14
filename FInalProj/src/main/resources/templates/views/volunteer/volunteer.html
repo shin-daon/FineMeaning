@@ -118,8 +118,8 @@
             <button id="v-category-reset-btn" class="learn-more-gray">초기화</button>
         </div>
 
-        <section class="v-list" th:each="v : ${ list }">
-            <div class="v-list-box">
+        <section class="v-list">
+            <div class="v-list-box" th:each="v : ${ list }">
             	<input type="hidden" th:value="${ v.vNo }"/>
                 <div class="v-list-item">
                     <span class="v-locale-icon">[[${v.vArea}]]</span>
