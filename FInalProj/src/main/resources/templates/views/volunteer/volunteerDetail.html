@@ -40,48 +40,44 @@
         <section class="v-apply-info">
             <div class="v-apply-title">
                 <span class="v-locale-icon">[[${ v.vArea }]]</span>
-                <span class="v-org">오산시 함께자람센터(재능기부 봉사자 모집)</span>
+                <span class="v-org">[[${v.vName}]]</span>
                 <span class="v-recruitment-status">(모집중)</span>
                 <button type="button" class="btn-gradient mini v-list-btn" onclick="javascript:location.href='volunteer.vo'">목록</button>
             </div>
             <table>
                 <tr>
                     <td width="15%">봉사기간</td>
-                    <td width="35%">2023.03.01~2023.05.31</td>
+                    <td width="35%">[[${v.vStartDate}]]~[[${v.vEndDate}]]</td>
                     <td width="15%">봉사시간</td>
-                    <td width="35%">15시 30분 ~ 17시 0분</td>
+                    <td width="35%">[[${#strings.arraySplit(v.vStartTime, ":")[0]}]]시 [[${#strings.arraySplit(v.vStartTime, ":")[1]}]]분 ~ [[${#strings.arraySplit(v.vEndTime, ":")[0]}]]시 [[${#strings.arraySplit(v.vEndTime, ":")[1]}]]분</td>
                 </tr>
                 <tr>
                     <td>모집기간</td>
-                    <td>2023.02.01~2023.05.12</td>
+                    <td>[[${v.vRecruitmentStartDate}]]~[[${v.vRecruitmentEndDate}]]</td>
                     <td>활동요일</td>
-                    <td>월, 화, 수, 목, 금</td>
+                    <td>[[${v.vDay}]]</td>
                 </tr>
                 <tr>
                     <td>모집인원</td>
-                    <td>1명/일</td>
+                    <td>[[${v.vCountAll}]]명/일</td>
                     <td>신청인원</td>
-                    <td>0명</td>
+                    <td>[[${v.vCount}]]명</td>
                 </tr>
                 <tr>
                     <td>봉사분야</td>
-                    <td>교육 > 학습지도교육</td>
+                    <td>[[${v.vMainCategoryName}]] > [[${v.vSubCategoryName}]]</td>
                     <td>활동구분</td>
-                    <td>오프라인</td>
+                    <td>[[${v.vActivityType}]]</td>
                 </tr>
                 <tr>
                     <td>모집기관</td>
-                    <td>오산시함께자람센터19호점</td>
+                    <td>[[${v.registrar}]]</td>
                     <td>봉사대상</td>
-                    <td>아동·청소년</td>
+                    <td>[[${v.vTargetCategoryName}]]</td>
                 </tr>
                 <tr>
                     <td>봉사장소</td>
-                    <td colspan="3">오산시 동부대로 332-14 (청호, 자이아파트) 오산시 함께자람센터 19호점</td>
-                </tr>
-                <tr>
-                    <td>첨부파일</td>
-                    <td colspan="3">첨부파일이 없습니다.</td>
+                    <td colspan="3">[[${v.vLocation}]]</td>
                 </tr>
                 <tr>
                     <td colspan="4">
@@ -101,8 +97,8 @@
                             </script>
 
                             <div>
-                                <span class="v-charge-name">담당자명 : 임춘휘</span>
-                                <span class="v-charge-phone">전화번호 : 031-665-3019</span>
+                                <span class="v-charge-name">담당자명 : [[${v.vChargeName}]]</span>
+                                <span class="v-charge-phone">전화번호 : [[${v.vChargePhone}]]</span>
                             </div>
                             <div class="v-charge-address-div">
                                 <span class="v-charge-address">주소 : 경기도 오산시 동부대로 332-14(청호동, 오산자이아파트) 생활지원센터 지하1층</span>
