@@ -28,8 +28,8 @@ public class VolunteerServiceImpl implements VolunteerService {
 
 	@Override
 	public ArrayList<Volunteer> selectVolunteerList(PageInfo pi) {
-		int offset = (pi.getListCount() - 1) * pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return vDAO.selectVolunteerList(rowBounds);
+		return vDAO.selectVolunteerList(1, rowBounds);
 	}
 }
