@@ -10,9 +10,13 @@
 	<resultMap type="Volunteer" id="volunteerResultSet">
 		<id column="V_NO" property="vNo"/>
 		<result column="U_NO" property="uNo"/>
+		<result column="REGISTRAR" property="registrar"/>
 		<result column="V_MAIN_CATEGORY_NO" property="vMainCategoryNo"/>
 		<result column="V_SUB_CATEGORY_NO" property="vSubCategoryNo"/>
 		<result column="V_TARGET_CATEGORY_NO" property="vTargetCategoryNo"/>
+		<result column="V_MAIN_CATEGORY_NAME" property="vMainCategoryName"/>
+		<result column="V_SUB_CATEGORY_NAME" property="vSubCategoryName"/>
+		<result column="V_TARGET_CATEGORY_NAME" property="vTargetCategoryName"/>
 		<result column="V_AREA" property="vArea"/>
 		<result column="V_NAME" property="vName"/>
 		<result column="V_CONTENT" property="vContent"/>
@@ -32,4 +36,40 @@
 		<result column="V_CHARGE_NAME" property="vChargeName"/>
 		<result column="V_CHARGE_PHONE" property="vChargePhone"/>
 	</resultMap>
+	
+	<select id="getVolunteerCount" resultType="_int">
+		<![CDATA[
+			select count(*)
+			from volunteer
+			where v_status='Y' 
+			      and to_date(to_char(sysdate, 'YYMMDD')) <= to_date(to_char(v_recruitment_end_date, 'YYMMDD'))
+		]]>
+	</select>
+	
+	<select id="selectVolunteerList" resultMap="volunteerResultSet">
+		<![CDATA[
+			select * 
+			from volunteer
+				 join users using(u_no)
+				 join v_main_category using(v_main_category_no)
+				 join v_sub_category using(v_sub_category_no)
+				 join v_target_category using(v_target_category_no)
+			where v_status='Y' 
+				  and to_date(to_char(sysdate, 'YYMMDD')) <= to_date(to_char(v_recruitment_end_date, 'YYMMDD'))
+			order by v_no desc
+		]]>
+	</select>
+	
+	<select id="selectVolunteer" resultMap="volunteerResultSet">
+		<![CDATA[
+			select * 
+			from volunteer
+				 join users using(u_no)
+				 join v_main_category using(v_main_category_no)
+				 join v_sub_category using(v_sub_category_no)
+				 join v_target_category using(v_target_category_no)
+			where v_status='Y' 
+				  and v_no = #{vNo}
+		]]>
+	</select>
 </mapper>

@@ -307,6 +307,7 @@
 
 .v-end-date {
     color: rgb(252, 48, 48);
+    margin-right: 1px;
 }
 
 /* 페이징 */
