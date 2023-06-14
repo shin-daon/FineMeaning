@@ -47,8 +47,15 @@ public class VolunteerController {
 	}
 	
 	@GetMapping("volunteerDetail.vo")
-	public String volunteerDetail() {
-		return "volunteerDetail";
+	public String volunteerDetail(@RequestParam("vNo") int vNo, @RequestParam("page") int page, Model model) {
+		Volunteer v = vService.selectVolunteer(vNo);
+		System.out.println(v);
+		if(v != null) {
+			model.addAttribute("v", v);
+			model.addAttribute("page", page);
+			return "volunteerDetail";
+		}
+		return null;
 	}
 	
 	@GetMapping("volunteerApply.vo")

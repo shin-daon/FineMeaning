@@ -32,4 +32,9 @@ public class VolunteerServiceImpl implements VolunteerService {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return vDAO.selectVolunteerList(1, rowBounds);
 	}
+
+	@Override
+	public Volunteer selectVolunteer(int vNo) {
+		return vDAO.selectVolunteer(vNo);
+	}
 }

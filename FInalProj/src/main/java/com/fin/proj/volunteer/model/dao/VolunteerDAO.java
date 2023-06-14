@@ -14,8 +14,8 @@ public interface VolunteerDAO {
 
 	int getVolunteerCount();
 
-//	ArrayList<Volunteer> selectVolunteerList(RowBounds rowBounds);
-
 	ArrayList<Volunteer> selectVolunteerList(int i, RowBounds rowBounds);
+
+	Volunteer selectVolunteer(int vNo);
 
 }

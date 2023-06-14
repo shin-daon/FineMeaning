@@ -119,7 +119,8 @@
         </div>
 
         <section class="v-list" th:each="v : ${ list }">
-            <div class="v-list-box" onclick="javascript:location.href='volunteerDetail.vo'">
+            <div class="v-list-box">
+            	<input type="hidden" th:value="${ v.vNo }"/>
                 <div class="v-list-item">
                     <span class="v-locale-icon">[[${v.vArea}]]</span>
                     <span class="v-recruitment-status">모집중</span>
@@ -157,6 +158,16 @@
 	    window.onload = () => {
 		    const now = new Date();
 		    const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
+		    
+		    /*<![CDATA[*/
+		    const vboxes = document.querySelectorAll(".v-list-box");
+		    for(const vbox of vboxes) {
+		    	vbox.addEventListener("click", function() {
+		    		const vNo = this.querySelector("input").value;
+		    		location.href="volunteerDetail.vo?vNo=" + vNo + "&page=" + /*[[${pi.currentPage}]]*/1;
+		    	});
+		    }
+		    /*]]>*/
 		    
 		    const endDates = document.querySelectorAll(".v-end-date");
 		    for(const endDate of endDates) {
