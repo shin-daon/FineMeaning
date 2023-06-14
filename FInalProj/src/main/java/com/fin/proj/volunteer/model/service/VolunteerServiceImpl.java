@@ -14,6 +14,6 @@ public class VolunteerServiceImpl implements VolunteerService {
 
 	@Override
 	public int insertVolunteer(Volunteer v) {
-		return vDAO.insertVolunteer();
+		return vDAO.insertVolunteer(v);
 	}
 }
