@@ -58,4 +58,19 @@
 		select * from support join users using(u_no) where s_status = 'Y'
 	</select>
 	
+	<select id="getWListCount" resultType="_int">
+		select count(*) from support where s_status = 'W' or s_status = 'N'
+	</select>
+	
+	<select id="selectApplyList" resultMap="supportResultSet">
+		select * from support join users using(u_no) where s_status='W' or s_status ='N' order by S_CREATE_DATE desc
+	</select>
+	<select id="getDListCount" resultType="_int">
+		select count(*) from support where s_status = #{devision}
+	</select>
+	
+	<select id="selectApplyDevision" resultMap="supportResultSet">
+		select * from support join users using(u_no) where s_status= #{devision} order by S_CREATE_DATE desc
+	</select>
+	
 </mapper>

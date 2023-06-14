@@ -22,6 +22,15 @@ public interface SupportService {
 
 	ArrayList<Support> selectSupportList(PageInfo pi);
 
+	int getWListCount();
+
+	ArrayList<Support> selectApplyList(PageInfo pi);
+
+	int getDListCount(String devision);
+
+	ArrayList<Support> applyDevision(PageInfo pi, String devision);
+
+
 
 
 }

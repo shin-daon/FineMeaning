@@ -128,12 +128,46 @@ public class SupportController {
 		if(sList != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("sList", sList);
-			System.out.println(sList);
 			return "supportListAdmin";
 		} else {
 			throw new SupportException("없음");
 		}
 	}
 	
+	@RequestMapping("supportApplyListAdmin.su")
+	public String supportApplyListAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+		if(currentPage == null) {
+			currentPage = 1; 
+		}
+		
+		int listCount = suService.getWListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Support> sList = suService.selectApplyList(pi);
+		
+		if(sList != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("sList", sList);
+			return "supportApplicationListAdmin";
+		} else {
+			throw new SupportException("신청 내역이 없음");
+		}
+	}
 	
+	@RequestMapping("applyDevision.su")
+	public String applyDevision(@RequestParam(value="page", required=false) Integer currentPage, 
+								@RequestParam("division") String division, Model model) {
+		if(currentPage == null) {
+			currentPage = 1; 
+		}
+		
+		int listCount = suService.getDListCount(division);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Support> sList = suService.applyDevision(pi, division);
+		
+		model.addAttribute("sList", sList);
+		model.addAttribute("pi", pi);
+		return "supportApplicationListAdmin";
+		
+	}
 }
