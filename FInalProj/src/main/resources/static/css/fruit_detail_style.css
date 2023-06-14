@@ -133,6 +133,12 @@
     z-index: 1;
 }
 
+.boardDate {
+	float: right;
+	font-size: 12px;
+	margin-top: -7px;
+}
+
 .backgroundImage::after {
     background-image: url("image/sight3.jpg");
     width: 100%;

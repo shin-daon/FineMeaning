@@ -3,6 +3,7 @@ package com.fin.proj.board.model.service;
 import java.util.ArrayList;
 
 import com.fin.proj.board.model.vo.Board;
+import com.fin.proj.board.model.vo.Reply;
 import com.fin.proj.common.model.vo.PageInfo;
 
 public interface BoardService {
@@ -10,5 +11,9 @@ public interface BoardService {
 	int getListCount(int i);
 
 	ArrayList<Board> selectBoardList(PageInfo pi, int i);
+
+	Board selectBoard(int bNo, boolean countYN);
+
+	ArrayList<Reply> selectReply(int bNo);
 
 }
