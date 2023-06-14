@@ -18,6 +18,7 @@ import com.fin.proj.support.model.exception.SupportException;
 import com.fin.proj.support.model.service.SupportService;
 import com.fin.proj.support.model.vo.Support;
 import com.fin.proj.support.model.vo.SupportDetail;
+import com.fin.proj.support.model.vo.SupportHistory;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -41,23 +42,21 @@ public class SupportController {
 		ArrayList<SupportDetail> sdList = suService.supportUsageDetail(supportNo);
 		
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
-		if(s != null && !sdList.isEmpty()) {
+		int isAdmin = ((Member)session.getAttribute("loginUser")).getIsAdmin();
+		
 			model.addAttribute("s", s);
 			model.addAttribute("sdList",sdList);
 			
 			if(s.getStatus()=='Y') {
 				return "supportDetail";
 			} else {
-				if(uNo==s.getUserNo()) {
+				if(uNo==s.getUserNo() || isAdmin==0) {
 					return "supportApplyDetail";
 				} else {
 					throw new SupportException("잘못된 접근입니다.");
 				}
 			}
-			
-		} else {
-			throw new SupportException("후원 상세보기에 실패하였습니다.");
-		}
+		
 	}
 	
 	@RequestMapping("doSupport.su")
@@ -180,7 +179,6 @@ public class SupportController {
 		Support s = suService.supportDetail(supportNo);
 		ArrayList<SupportDetail> sdList = suService.supportUsageDetail(supportNo);
 		
-		if(s != null && !sdList.isEmpty()) {
 			model.addAttribute("s", s);
 			model.addAttribute("sdList",sdList);
 			if(s.getStatus()!='Y') {
@@ -188,10 +186,7 @@ public class SupportController {
 			} else {				
 				return "supportDetail";
 			}
-			
-		} else {
-			throw new SupportException("후원 상세보기에 실패하였습니다.");
-		}
+		
 	}
 	
 	@RequestMapping("updateApplyStatus.su")
@@ -203,12 +198,92 @@ public class SupportController {
 		s.setSupportNo(supportNo);
 		int result = suService.updateApplyStatus(s);
 		if(result>0) {
-			model.addAttribute("supportNo", supportNo);
-			return new ModelAndView("redirect:supportDetail.su", model);
+			if(status.equals('Y')) {
+				model.addAttribute("supportNo", supportNo);
+				return new ModelAndView("redirect:supportDetail.su", model);				
+			} else {
+				return new ModelAndView("redirect:supportApplyListAdmin.su");
+			}
 		} else {
 			throw new SupportException("후원 상태 수정에 실패하였습니다.");
 		}
 	}
 	
+	@RequestMapping("supportEndListAdmin.su")
+	public String supportEndListAdmin(@RequestParam(value = "page", required = false) Integer currentPage, Model model) {
+
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+
+		int listCount = suService.getEListCount();
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+
+		ArrayList<Support> sList = suService.selectEndSupportList(pi);
+
+		if (sList != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("sList", sList);
+			return "supportEndListAdmin";
+		} else {
+			throw new SupportException("없음");
+		}
+	}
 	
+	@RequestMapping("searchSupportListAdmin.su")
+	public String searchSupportListAdmin(@RequestParam(value = "page", required = false) Integer currentPage, @RequestParam("searchWord") String searchWord, Model model) {
+		
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+		int listCount = suService.getSeachListCount(searchWord);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Support> sList = suService.selectSearchListAdmin(pi, searchWord);
+		System.out.println(searchWord);
+		System.out.println(sList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("sList", sList);
+		
+		return "supportListAdmin";
+	}
+	
+	@RequestMapping("supporterListEach.su")
+	public String supporterListEach(@RequestParam(value = "page", required = false) Integer currentPage, 
+									@RequestParam("supportNo") int supportNo, Model model) {
+
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = suService.getSupporterListCount(supportNo);
+		System.out.println("supportNo 넘어옴?" + supportNo);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<SupportHistory> shList = suService.selectSupporterListEach(pi, supportNo);
+		System.out.println("이게 널널ㄴ러널잉라고?" + shList);
+		model.addAttribute("shList", shList);
+		model.addAttribute("pi", pi);
+		return "supporterList";
+		
+	}
+	
+	@RequestMapping("supporterListAdmin.su")
+	public String supporterListAdmin(@RequestParam(value = "page", required = false) Integer currentPage, Model model) {
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = suService.getSupporterListAllCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<SupportHistory> shList = suService.selectSupporterList(pi);
+		model.addAttribute("shList", shList);
+		model.addAttribute("pi", pi);
+		return "supporterList";
+		
+		
+	}
 }

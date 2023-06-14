@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -61,22 +61,9 @@ body {
 
 
                 <div>
-                    <div class="supportTitle">
-                        아픈 손자를 키우는 할머니 이야기
-                    </div>
+                    <div class="supportTitle" th:text="${s.supportTitle}"></div>
                     <div class="supportSubTitle">모금함 소개</div>
                     <div id="slideShow" class="supportImageDiv">
-                        <!-- <ul class="slides">
-                          <li><div class="slidePic"><img class="slidePicture" src="donation.jpg" alt=""></div></li>
-                          <li><div class="slidePic"><img class="slidePicture" src="donation2.jpg" alt=""></div></li>
-                          <li><div class="slidePic"><img class="slidePicture" src="donation3.jpg" alt=""></div></li>
-                          <li><div class="slidePic"><img class="slidePicture" src="donation5.jpeg" alt=""></div></li>
-                        </ul>  
-                        <p class="controller">
-                          <span class="prev">&lang;</span>  
-                          <span class="next">&rang;</span>
-                        </p> -->
-
                         <div id="myCarousel" class="carousel slide mar" data-bs-ride="carousel">
                             <div class="carousel-indicators">
                                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -123,10 +110,7 @@ body {
                         </div>
                       </div>
                     
-                    <div class="supportDetailContent">
-                        충북 보은군에 거주하는 박숙희(59) 씨는, 현재 흙으로 된 집에서 거주하고 있습니다. 며느리는 바람이 나 도망가고 아들은 치매로 인해 정신병원에 입원한 이후, 손주 세 명을 도맡아 키우는 할머니의 유일한 생계수단은 산에서 나물을 캐는 것입니다. 당뇨와 불편한 다리로도 굳이 산을 올라 나물을 캐는 이유는, 당장 산에 가서 나물이라도 뜯어야 아이들에게 조금이라도 보태 쓸 수 있기 때문입니다. 기초수급비는 아이 셋을 먹여 살리기에 턱없이 부족하고, 아이들이 성인이 되면 당장 기초수급도 받을 수 없습니다. 갓난아기 손주를 10년 넘게 키워온 박숙희 씨, 하나는 업고 둘은 빨래 소쿠리 가방에 양쪽으로 앉혀서 나물 캐러 다닌 지 오래입니다. 어느덧 초등학교 고학년이 된 손주들, 그러나 점점 악화되는 건강과 재정 상태에 숙희 씨는 늘 마음이 무겁습니다.
-
-                    </div>
+                    <div class="supportDetailContent" th:text="${s.supportContent}"></div>
 
                     <div class="supportSubTitle">기부금 사용 내역</div>
                     <div class="supportUsage supportSubTitle" >
@@ -134,30 +118,57 @@ body {
                             <thead>
                                 <tr>
                                     <th colspan="2" style="text-align: left; padding-left:25px;">총 집행 금액</th>
-                                    <th>9,900,000원</th>
+                                    <th th:text="${s.targetAmount}+'원'"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                    <tr>
+                                    <tr th:each="l:${sdList}" th:if="${sdList !=null}">
                                         <td>사업비</td>
-                                        <td class="contentDetail">생계비 월 40만원 * 12개월</td>
-                                        <td>4,800,000원</td>
-                                    </tr>
-                                    <tr>
-                                        <td>사업비</td>
-                                        <td class="contentDetail">치료비 및 약제비</td>
-                                        <td>2,000,000원</td>
-                                    </tr>
-                                    <tr>
-                                        <td>사업비</td>
-                                        <td class="contentDetail">추가비</td>
-                                        <td>3,100,000원</td>
-                                    </tr>
-                                
+                                        <td class="contentDetail" th:text="${l.supportDetailContent}"/>
+                                        <td th:text="${l.supportDetailAmount} + 원"></td>
+                                    </tr>                                   
                             </tbody>
                         </table>
                     </div>
 
+
+                </div>
+            </section>
+        </div>
+        
+        <div class="supDetailSection supDetailSection2">
+            <section id="supportSummarySection">
+                <div id="progressPercent" th:text="${s.fundAmount/s.targetAmount*100}+'%'"></div>
+
+                <div>
+                    <progress id="supportProgress" value="50" min="0" max="100"></progress>
+                </div>
+
+                <div class="supportDuration" th:text="${s.startDate} + '~' + ${s.endDate}">
+<!--                     2023.06.12 ~ 2023.07.13 -->
+                </div>
+
+                <div class="supportDeadline">
+                    D-5
+                </div>
+
+                <div class="totalDonation">
+                    18,888,900원     
+                </div>
+
+                <div class="donationButton">
+                    <button class="learn-more supportButton" onclick="location.href='doSupport.su'">모금함 기부하기</button>
+                </div>
+
+                <div class="supportSubTitle2">
+                	모금 단체<br><span th:text="${s.registar}"></span>
+                </div>
+                <div class="supportSubTitle2 groupInfo">
+                	<b>선뜻 가입일</b> &nbsp;&nbsp; <span th:text="${s.enrollDate}"></span><br>
+                	<b>문의 전화</b>&nbsp;&nbsp; <span th:text="'0'+${s.phone}"></span>
+                </div>
+                
+                
                     <div class="supportSubTitle">참여 내역</div>
 
                     <div class="supportDate">
@@ -180,48 +191,11 @@ body {
                     <div class="sponsor">
                         숨은 천사 5000원 참여
                     </div><br><br><br>
-
-                </div>
-            </section>
-        </div>
-        <div class="supDetailSection supDetailSection2">
-            <section id="supportSummarySection">
-                <div id="progressPercent">
-                    72%
-                </div>
-
-                <div>
-                    <progress id="supportProgress" value="50" min="0" max="100"></progress>
-                </div>
-
-                <div class="supportDuration">
-                    2023.06.12 ~ 2023.07.13
-                </div>
-
-                <div class="supportDeadline">
-                    D-5
-                </div>
-
-                <div class="totalDonation">
-                    18,888,900원     
-                </div>
-
-                <div class="donationButton">
-                    <button class="learn-more supportButton" onclick="location.href='doSupport.su'">모금함 기부하기</button>
-                </div>
-
-                <div class="supportSubTitle2">
-                	모금 단체<br>한국 복지관</div>
-                <div>
-                <div class="supportSubTitle2 groupInfo">
-                	<b>선뜻 가입일</b> &nbsp;&nbsp; 2023.06.13<br>
-                	<b>문의 전화</b>&nbsp;&nbsp; 010-2222-3333
-                </div>
                 
             </section>
         </div>
     </div>
-</div>       
+       
 <div th:replace="~{../common/footer :: footer}"></div>
 </body>
 </html>

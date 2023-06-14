@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+<<<<<<< HEAD
+import com.fin.proj.board.exception.BoardException;
+=======
 import com.fin.proj.board.model.exception.BoardException;
+>>>>>>> f6c2e0f2fdb24ed08e0a2176dad8bb186e8b73b8
 import com.fin.proj.board.model.service.BoardService;
 import com.fin.proj.board.model.vo.Board;
 import com.fin.proj.board.model.vo.Reply;
