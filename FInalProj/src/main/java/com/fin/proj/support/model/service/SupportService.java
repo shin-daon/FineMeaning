@@ -30,6 +30,8 @@ public interface SupportService {
 
 	ArrayList<Support> applyDevision(PageInfo pi, String devision);
 
+	int updateApplyStatus(Support s);
+
 
 
 

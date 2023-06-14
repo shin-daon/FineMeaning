@@ -34,5 +34,7 @@ public interface SupportDAO {
 
 	ArrayList<Support> selectApplyDevision(RowBounds rowBounds, String devision);
 
+	int updateApplyStatus(Support s);
+
 
 }

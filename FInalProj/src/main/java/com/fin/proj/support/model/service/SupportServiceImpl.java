@@ -80,6 +80,11 @@ public class SupportServiceImpl implements SupportService{
 		return suDAO.selectApplyDevision(rowBounds, devision);
 	}
 
+	@Override
+	public int updateApplyStatus(Support s) {
+		return suDAO.updateApplyStatus(s);
+	}
+
 
 
 
