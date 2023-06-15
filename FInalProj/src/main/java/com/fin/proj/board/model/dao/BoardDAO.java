@@ -25,4 +25,8 @@ public interface BoardDAO {
 
 	void insertReply(Reply r);
 
+	int updateBoard(Board b);
+
+	int deleteBoard(int bId);
+
 }
