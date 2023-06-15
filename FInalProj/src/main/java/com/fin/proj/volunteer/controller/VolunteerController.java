@@ -1,6 +1,7 @@
 package com.fin.proj.volunteer.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.fin.proj.common.Pagination;
 import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.member.model.vo.Member;
+import com.fin.proj.volunteer.Map;
 import com.fin.proj.volunteer.model.service.VolunteerService;
 import com.fin.proj.volunteer.model.vo.Volunteer;
 
@@ -34,8 +36,8 @@ public class VolunteerController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, volunteerCount, 5);
 		ArrayList<Volunteer> list = vService.selectVolunteerList(pi);
 		
-		System.out.println(volunteerCount);
-		System.out.println(list);
+//		System.out.println(volunteerCount);
+//		System.out.println(list);
 		
 		if(list != null) {
 			model.addAttribute("pi", pi);
@@ -49,10 +51,13 @@ public class VolunteerController {
 	@GetMapping("volunteerDetail.vo")
 	public String volunteerDetail(@RequestParam("vNo") int vNo, @RequestParam("page") int page, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
-		System.out.println(v);
+//		System.out.println(v);
 		if(v != null) {
+			HashMap<String, Double> map = Map.getLongitudeAndLatitude(v.getAddress());
+			System.out.println(map);
 			model.addAttribute("v", v);
 			model.addAttribute("page", page);
+			model.addAttribute("map", map);
 			return "volunteerDetail";
 		}
 		return null;
