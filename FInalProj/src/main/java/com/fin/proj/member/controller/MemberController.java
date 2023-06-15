@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.fin.proj.member.model.exception.MemberException;
-import com.fin.proj.member.model.service.EmailService;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
 
@@ -31,9 +30,6 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
-	
-	@Autowired
-	private EmailService emailService;
 	
 	@RequestMapping("loginView.me")
 	public String loginView() {
@@ -125,14 +121,6 @@ public class MemberController {
 		
 		String result = count == 0 ? "yes" : "no";
 		out.print(result);	
-	}
-	
-	@PostMapping("emailConfirm.me")
-	public String emailConfirm(@RequestParam String email) throws Exception {
-
-	  String confirm = emailService.sendSimpleMessage(email);
-
-	  return confirm;
 	}
 
 }
