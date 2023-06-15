@@ -10,6 +10,7 @@
 	<resultMap type="Volunteer" id="volunteerResultSet">
 		<id column="V_NO" property="vNo"/>
 		<result column="U_NO" property="uNo"/>
+		<result column="ADDRESS" property="address"/>
 		<result column="REGISTRAR" property="registrar"/>
 		<result column="V_MAIN_CATEGORY_NO" property="vMainCategoryNo"/>
 		<result column="V_SUB_CATEGORY_NO" property="vSubCategoryNo"/>

@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Volunteer {
 	private int vNo;
 	private int uNo;
+	private String address;
 	private int vMainCategoryNo;
 	private int vSubCategoryNo;
 	private int vTargetCategoryNo;
@@ -43,15 +44,16 @@ public class Volunteer {
 		super();
 	}
 
-	public Volunteer(int vNo, int uNo, int vMainCategoryNo, int vSubCategoryNo, int vTargetCategoryNo, String vArea,
-			String vName, String vContent, Date vStartDate, Date vEndDate, String vStartTime, String vEndTime,
-			Date vRecruitmentStartDate, Date vRecruitmentEndDate, String vDay, int vCountAll, int vCount,
-			String vLocation, String vActivityType, Date vCreateDate, char vStatus, String registrar,
+	public Volunteer(int vNo, int uNo, String address, int vMainCategoryNo, int vSubCategoryNo, int vTargetCategoryNo,
+			String vArea, String vName, String vContent, Date vStartDate, Date vEndDate, String vStartTime,
+			String vEndTime, Date vRecruitmentStartDate, Date vRecruitmentEndDate, String vDay, int vCountAll,
+			int vCount, String vLocation, String vActivityType, Date vCreateDate, char vStatus, String registrar,
 			String vMainCategoryName, String vSubCategoryName, String vTargetCategoryName, String vChargeName,
 			String vChargePhone, Date vHisDate, String vHisStatus) {
 		super();
 		this.vNo = vNo;
 		this.uNo = uNo;
+		this.address = address;
 		this.vMainCategoryNo = vMainCategoryNo;
 		this.vSubCategoryNo = vSubCategoryNo;
 		this.vTargetCategoryNo = vTargetCategoryNo;
@@ -81,6 +83,8 @@ public class Volunteer {
 		this.vHisStatus = vHisStatus;
 	}
 
+
+
 	public int getvNo() {
 		return vNo;
 	}
@@ -95,6 +99,14 @@ public class Volunteer {
 
 	public void setuNo(int uNo) {
 		this.uNo = uNo;
+	}
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public int getvMainCategoryNo() {
@@ -315,16 +327,16 @@ public class Volunteer {
 
 	@Override
 	public String toString() {
-		return "Volunteer [vNo=" + vNo + ", uNo=" + uNo + ", vMainCategoryNo=" + vMainCategoryNo + ", vSubCategoryNo="
-				+ vSubCategoryNo + ", vTargetCategoryNo=" + vTargetCategoryNo + ", vArea=" + vArea + ", vName=" + vName
-				+ ", vContent=" + vContent + ", vStartDate=" + vStartDate + ", vEndDate=" + vEndDate + ", vStartTime="
-				+ vStartTime + ", vEndTime=" + vEndTime + ", vRecruitmentStartDate=" + vRecruitmentStartDate
-				+ ", vRecruitmentEndDate=" + vRecruitmentEndDate + ", vDay=" + vDay + ", vCountAll=" + vCountAll
-				+ ", vCount=" + vCount + ", vLocation=" + vLocation + ", vActivityType=" + vActivityType
-				+ ", vCreateDate=" + vCreateDate + ", vStatus=" + vStatus + ", registrar=" + registrar
-				+ ", vMainCategoryName=" + vMainCategoryName + ", vSubCategoryName=" + vSubCategoryName
-				+ ", vTargetCategoryName=" + vTargetCategoryName + ", vChargeName=" + vChargeName + ", vChargePhone="
-				+ vChargePhone + ", vHisDate=" + vHisDate + ", vHisStatus=" + vHisStatus + "]";
+		return "Volunteer [vNo=" + vNo + ", uNo=" + uNo + ", address=" + address + ", vMainCategoryNo="
+				+ vMainCategoryNo + ", vSubCategoryNo=" + vSubCategoryNo + ", vTargetCategoryNo=" + vTargetCategoryNo
+				+ ", vArea=" + vArea + ", vName=" + vName + ", vContent=" + vContent + ", vStartDate=" + vStartDate
+				+ ", vEndDate=" + vEndDate + ", vStartTime=" + vStartTime + ", vEndTime=" + vEndTime
+				+ ", vRecruitmentStartDate=" + vRecruitmentStartDate + ", vRecruitmentEndDate=" + vRecruitmentEndDate
+				+ ", vDay=" + vDay + ", vCountAll=" + vCountAll + ", vCount=" + vCount + ", vLocation=" + vLocation
+				+ ", vActivityType=" + vActivityType + ", vCreateDate=" + vCreateDate + ", vStatus=" + vStatus
+				+ ", registrar=" + registrar + ", vMainCategoryName=" + vMainCategoryName + ", vSubCategoryName="
+				+ vSubCategoryName + ", vTargetCategoryName=" + vTargetCategoryName + ", vChargeName=" + vChargeName
+				+ ", vChargePhone=" + vChargePhone + ", vHisDate=" + vHisDate + ", vHisStatus=" + vHisStatus + "]";
 	}
 
 }
