@@ -1,6 +1,7 @@
 package com.fin.proj.volunteer.model.vo;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 public class Volunteer {
 	private int vNo;
@@ -11,18 +12,18 @@ public class Volunteer {
 	private String vArea;
 	private String vName;
 	private String vContent;
-	private Date vStartDate;
-	private Date vEndDate;
+	private LocalDateTime vStartDate;
+	private LocalDateTime vEndDate;
 	private String vStartTime;
 	private String vEndTime;
-	private Date vRecruitmentStartDate;
-	private Date vRecruitmentEndDate;
+	private LocalDateTime vRecruitmentStartDate;
+	private LocalDateTime vRecruitmentEndDate;
 	private String vDay;
 	private int vCountAll;
 	private int vCount;
 	private String vLocation;
 	private String vActivityType;
-	private Date vCreateDate;
+	private LocalDateTime vCreateDate;
 	private char vStatus;
 	
 	// ▼ 모집기관
@@ -44,11 +45,11 @@ public class Volunteer {
 	}
 
 	public Volunteer(int vNo, int uNo, int vMainCategoryNo, int vSubCategoryNo, int vTargetCategoryNo, String vArea,
-			String vName, String vContent, Date vStartDate, Date vEndDate, String vStartTime, String vEndTime,
-			Date vRecruitmentStartDate, Date vRecruitmentEndDate, String vDay, int vCountAll, int vCount,
-			String vLocation, String vActivityType, Date vCreateDate, char vStatus, String registrar,
-			String vMainCategoryName, String vSubCategoryName, String vTargetCategoryName, String vChargeName,
-			String vChargePhone, Date vHisDate, String vHisStatus) {
+			String vName, String vContent, LocalDateTime vStartDate, LocalDateTime vEndDate, String vStartTime,
+			String vEndTime, LocalDateTime vRecruitmentStartDate, LocalDateTime vRecruitmentEndDate, String vDay,
+			int vCountAll, int vCount, String vLocation, String vActivityType, LocalDateTime vCreateDate, char vStatus,
+			String registrar, String vMainCategoryName, String vSubCategoryName, String vTargetCategoryName,
+			String vChargeName, String vChargePhone, Date vHisDate, String vHisStatus) {
 		super();
 		this.vNo = vNo;
 		this.uNo = uNo;
@@ -145,19 +146,19 @@ public class Volunteer {
 		this.vContent = vContent;
 	}
 
-	public Date getvStartDate() {
+	public LocalDateTime getvStartDate() {
 		return vStartDate;
 	}
 
-	public void setvStartDate(Date vStartDate) {
+	public void setvStartDate(LocalDateTime vStartDate) {
 		this.vStartDate = vStartDate;
 	}
 
-	public Date getvEndDate() {
+	public LocalDateTime getvEndDate() {
 		return vEndDate;
 	}
 
-	public void setvEndDate(Date vEndDate) {
+	public void setvEndDate(LocalDateTime vEndDate) {
 		this.vEndDate = vEndDate;
 	}
 
@@ -177,19 +178,19 @@ public class Volunteer {
 		this.vEndTime = vEndTime;
 	}
 
-	public Date getvRecruitmentStartDate() {
+	public LocalDateTime getvRecruitmentStartDate() {
 		return vRecruitmentStartDate;
 	}
 
-	public void setvRecruitmentStartDate(Date vRecruitmentStartDate) {
+	public void setvRecruitmentStartDate(LocalDateTime vRecruitmentStartDate) {
 		this.vRecruitmentStartDate = vRecruitmentStartDate;
 	}
 
-	public Date getvRecruitmentEndDate() {
+	public LocalDateTime getvRecruitmentEndDate() {
 		return vRecruitmentEndDate;
 	}
 
-	public void setvRecruitmentEndDate(Date vRecruitmentEndDate) {
+	public void setvRecruitmentEndDate(LocalDateTime vRecruitmentEndDate) {
 		this.vRecruitmentEndDate = vRecruitmentEndDate;
 	}
 
@@ -233,11 +234,11 @@ public class Volunteer {
 		this.vActivityType = vActivityType;
 	}
 
-	public Date getvCreateDate() {
+	public LocalDateTime getvCreateDate() {
 		return vCreateDate;
 	}
 
-	public void setvCreateDate(Date vCreateDate) {
+	public void setvCreateDate(LocalDateTime vCreateDate) {
 		this.vCreateDate = vCreateDate;
 	}
 
