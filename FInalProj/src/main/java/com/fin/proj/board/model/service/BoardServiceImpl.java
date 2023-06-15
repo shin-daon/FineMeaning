@@ -49,4 +49,14 @@ public class BoardServiceImpl implements BoardService {
 		return bDAO.selectReply(bNo);
 	}
 
+	@Override
+	public int insertBoard(Board b) {
+		return bDAO.insertBoard(b);
+	}
+
+	@Override
+	public void insertReply(Reply r) {
+		bDAO.insertReply(r);
+	}
+
 }

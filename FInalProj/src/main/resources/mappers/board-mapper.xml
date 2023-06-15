@@ -43,6 +43,11 @@
 		where board_no = #{bNo}
 	</select>
 	
+	<insert id="insertBoard">
+		insert into board
+		values(seq_bid.nextval, #{uNo},  #{boardType}, #{boardTitle},  #{boardContent}, sysdate, default, default, null, null, null)
+	</insert>
+	
 	<select id="selectReply" resultMap="replyResultSet">
 		select *
 		from reply
@@ -61,4 +66,11 @@
 		<result column="RE_CREATE_DATE" property="replyDate"/>
 		<result column="RE_STATUS" property="replyStatus"/>
 	</resultMap>
+
+	
+	<insert id="insertReply">
+		insert into reply
+		values(seq_rid.nextval, #{replyWriter}, #{boardNo}, #{replyContent},
+			   default, default)
+	</insert>
 </mapper>

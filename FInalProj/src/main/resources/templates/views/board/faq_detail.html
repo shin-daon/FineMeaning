@@ -53,7 +53,7 @@
             <hr class="hr">
             <div class="contentArea backgroundImage">
 	            <p class="boardDate">[[${ board.boardDate }]]</p>
-                <p class="contentMain">[[${ board.boardContent }]]</p>
+                <p class="contentMain"></p>
             </div>
             <hr class="hr">
         </div>
@@ -64,5 +64,10 @@
             
 	</section>
 	<div th:replace="~{views/common/footer :: footer}"></div>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		   document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/5;
+		/*]]>*/	
+	</script>
 </body>
 </html>
