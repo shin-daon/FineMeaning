@@ -100,7 +100,10 @@ width: 80px;
             <img class="sub iconSize" src="image/onenext.png">
             <a class="middle">TALK 상세보기</a>
         </div>
-
+		
+		<form class="needs-validation" action="updateForm.bo" method="POST">
+					<input type="hidden" th:value="${ board.boardNo }" name="bNo">
+					<input type="hidden" th:value="${ page }" name="page">
 
         <table class="titleTable">
             <tr>
@@ -121,18 +124,12 @@ width: 80px;
         </table>
          <table class="contentTable">
 			<tr>
-            <td align="left">내용: [[${board.boardContent}]]
+            <td th:utext="${board.boardContent}">
             </td>
             <td></td>
             </tr>
         </table>
-        <table class="contentTable">
-			<tr>
-            <td align="left">첨부파일: <p>대왕확성기.png</p><br><img alt="" src="image/alert.png"/>
-            </td>
-            <td></td>
-            </tr>
-        </table>
+        
        	
         
        <div class="replyArea">
@@ -164,6 +161,7 @@ width: 80px;
 								</tr>
 						</tbody>
 					</table>
+				
         
          <div class="actionArea">
             <div class="writeArea">
@@ -172,54 +170,14 @@ width: 80px;
                 <button class="writeFaqBtn learn-more" onclick="location.href='commList.bo'">삭제하기</button>
             </div>
 			</div>
+		</form>
     </section>
 <div th:replace="~{../common/footer :: footer}"></div>
-<script th:inline="javascript">
-    	/*<![CDATA[*/
-	    document.getElementById('summernote').innerHTML = /*[[${board.boardContent}]]*/1;
-    	/*]]>*/
     	
-    	
-    	/*<![CDATA[*/
-			document.getElementById('replySubmit').addEventListener('click', ()=> {
-				$.ajax({
-					url: 'insertReply.bo',
-					data: {
-							replyContent:document.getElementById('replyContent').value,
-// 							변수로 인지못하게 ''로 감싼다
-						 	replyWriter:/*[[${session.login == null ? '' : session.loginUser.id}]]*/'user01',
-// 						 	얘는 숫자라 상관없음
-						 	refBoardId:/*[[${b.boardId}]]*/1
-					},
-					success: data => {
-						console.log(data);
-						const tbody = document.querySelector('tbody');
-						tbody.innerHTML = '';
-						
-						for(const r of data) {
-							const tr = document.createElement('tr');
-							
-							const writerTd = document.createElement('td');
-							writerTd.innerText = r.nickName;
-							const contentTd = document.createElement('td');
-							contentTd.innerText = r.replyContent;
-							const dateTd = document.createElement('td');
-							dateTd.innerText = r.replyModifyDate;
-							
-							tr.append(writerTd);
-							tr.append(contentTd);
-							tr.append(dateTd)
-							
-							tbody.append(tr);
-						}
-						document.getElementById('replyContent').value = '';
-					},
-					error: data => {
-						console.log(data);
-					}
-				});
-			})
-			/*]]>*/
+  	<script th:inline="javascript">
+		/*<![CDATA[*/
+		   document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/5;
+		/*]]>*/	
 	</script>
 </body>
 </html>

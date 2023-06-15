@@ -38,15 +38,28 @@
 	</update>
 	
 	<select id="selectBoard" resultMap="boardResultSet">
-		select *
-		from board
-		where board_no = #{bNo}
-	</select>
+	    SELECT b.*, u.u_nickname
+	    FROM board b
+	    INNER JOIN users u ON u.u_No = b.u_No
+	    WHERE b.board_no = #{bNo}
+</select>
 	
 	<insert id="insertBoard">
 		insert into board
 		values(seq_bid.nextval, #{uNo},  #{boardType}, #{boardTitle},  #{boardContent}, sysdate, default, default, null, null, null)
 	</insert>
+	
+	<update id="updateBoard">
+		update board
+		set board_title = #{boardTitle}, board_content=#{boardContent}, board_type=#{boardType}
+		where board_No= #{boardNo}
+	</update>
+	
+	<update id="deleteBoard">
+		update board
+		set board_status = 'N'
+		where board_id = #{bId}
+	</update>
 	
 	<select id="selectReply" resultMap="replyResultSet">
 		select *
