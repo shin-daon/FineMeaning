@@ -36,8 +36,8 @@
 
 			<div class="actionArea">
             <div class="searchArea">
-                <input class="searchInput" type="text" name="searchWord" placeholder="제목으로 검색"/>
-                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
+                <input class="searchInput" type="text" placeholder="검색"/>
+                <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
             </div>
         	</div>
 
@@ -68,7 +68,7 @@
         </table>
         <div class="buttonArea">
 	        <div class="buttonSection">
-	        	<button class="learn-more" onclick="location.href='supportEndListAdmin.su'">종료된 후원 보기</button>
+	        	<button class="learn-more" onclick="location.href='supportListAdmin.su'">진행 중인 후원 보기</button>
 			</div>
         </div>
         <div class="page">
@@ -85,23 +85,17 @@
     </section>
 		
 </section>
-
-<div th:replace="~{../common/footer :: footer}"></div>
 <script>
 	const trs = document.getElementsByClassName('supportTable')[0].querySelectorAll('tr');
 	for(const tr of trs){
 		tr.addEventListener('click', function(){
 			const supportNo = this.querySelector('td').innerText;
-			location.href="supporterListEach.su?supportNo=" + supportNo;
+			location.href="supportDetail.su?supportNo=" + supportNo;
 		})
 	}
-	
-	document.getElementsByClassName('searchIcon')[0].addEventListener('click', ()=>{
-		const searchWord = document.getElementsByClassName('searchArea')[0].querySelector('input').value;
-		location.href="searchSupportListAdmin.su?searchWord=" + searchWord;
-	})
-	
 </script>
+<div th:replace="~{../common/footer :: footer}"></div>
+
         
 </body>
 </html>

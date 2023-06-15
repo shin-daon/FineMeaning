@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.support.model.vo.Support;
 import com.fin.proj.support.model.vo.SupportDetail;
+import com.fin.proj.support.model.vo.SupportHistory;
 
 public interface SupportService {
 
@@ -31,6 +32,23 @@ public interface SupportService {
 	ArrayList<Support> applyDevision(PageInfo pi, String devision);
 
 	int updateApplyStatus(Support s);
+
+	int getEListCount();
+
+	ArrayList<Support> selectEndSupportList(PageInfo pi);
+
+	int getSeachListCount(String searchWord);
+
+	ArrayList<Support> selectSearchListAdmin(PageInfo pi, String searchWord);
+
+	int getSupporterListCount(int supportNo);
+
+	ArrayList<SupportHistory> selectSupporterListEach(PageInfo pi, int supportNo);
+
+	int getSupporterListAllCount();
+
+	ArrayList<SupportHistory> selectSupporterList(PageInfo pi);
+
 
 
 
