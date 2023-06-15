@@ -3,12 +3,13 @@ package com.fin.proj.member.controller;
 import java.io.PrintWriter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -105,7 +106,7 @@ public class MemberController {
 		return "editMyInfo";
 	}
 	
-	@GetMapping("checkId.me")
+	@RequestMapping(value="checkId.me") 
 	public void checkId(@RequestParam("uId") String uId, PrintWriter out) {
 		int count = mService.checkId(uId);
 			
@@ -114,11 +115,12 @@ public class MemberController {
 			
 	}
 	
-	@GetMapping("checkNickName.me")
+	@RequestMapping(value="checkNickName.me") 
 	public void checkNickName(@RequestParam("uNickName") String uNickName, PrintWriter out) {
 		int count = mService.checkNickName(uNickName);
 		
 		String result = count == 0 ? "yes" : "no";
 		out.print(result);	
 	}
+
 }
