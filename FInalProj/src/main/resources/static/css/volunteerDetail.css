@@ -165,11 +165,6 @@ background: #609966;
   background-color: white;
 }
 
-.v-apply-info table p {
-  padding: 20px;
-  line-height: 25px;
-}
-
 .v-apply-info table td > div {
   padding: 20px;
 }

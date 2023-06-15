@@ -4,10 +4,84 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="css/community.css">
-<link rel="stylesheet" href="resources/css/style.css">
 <script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<!-- include libraries(jQuery, bootstrap) -->
+   <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/1c67f557d9.js" crossorigin="anonymous"></script>
+<style type="text/css">
+button.writeFaqBtn.learn-more {
+width: 80px;
+    height: 30px;
+    background-color: #9DC08B;
+    color: white;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    border: 1px solid black;
+    font-size: 14px;
+    margin-bottom: 15px;
+    /* 추가로 learn-more 클래스 스타일을 더 구체적으로 지정합니다 */
+    font-weight: 600;
+    color: #382b22;
+    text-transform: uppercase;
+    background: #EDF1D6;
+    border: 2px solid #609966;
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+.learn-more {
+    font-weight: 600;
+    color: #382b22;
+    text-transform: uppercase;
+    /*   padding: 1.25em 2em; */
+    background: #EDF1D6;
+    border: 2px solid #609966;
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
 
+.learn-more::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #9DC08B;
+    border-radius: inherit;
+    box-shadow: 0 0 0 2px #609966, 0 0.625em 0 0 #EDF1D6;
+    transform: translate3d(0, 0.75em, -1em);
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.learn-more:hover {
+    background: #EDF1D6;
+    transform: translate(0, 0.25em);
+}
+
+.learn-more:hover::before {
+    box-shadow: 0 0 0 2px #609966, 0 0.5em 0 0 #EDF1D6;
+    transform: translate3d(0, 0.5em, -1em);
+}
+
+.learn-more:active {
+    background: #EDF1D6;
+    transform: translate(0em, 0.75em);
+}
+
+.learn-more:active::before {
+    box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
+    transform: translate3d(0, 0, -1em);
+}
+</style>
 </head>
 <body>
 <div th:replace="~{../common/header :: header}"></div>
@@ -30,24 +104,24 @@
 
         <table class="titleTable">
             <tr>
-            <td align="left">글번호: <a>1</a></td>
-            <td align="left">작성날짜: <a>2023-06-08</a></td>
+            <td align="left">글번호: [[${board.boardNo}]] </td>
+            <td align="left">작성날짜: [[${board.boardDate}]] </td>
             </tr>
             
             <tr>
-            <td align="left">작성자: <a>기훈</a></td>
-             <td align="left">조회수: <a>24</a></td>
+            <td align="left">작성자: [[${board.nickName}]] </td>
+             <td align="left">조회수: [[${board.boardCount}]] </td>
             </tr>
         </table>
         <table class="titleTable">
        		<tr>
-            <td align="left">제목:<a> 행복한 나날</a>
+            <td align="left">제목: [[${board.boardTitle}]]
             </td>
             </tr>
         </table>
          <table class="contentTable">
 			<tr>
-            <td align="left">내용: <a>오늘 참 좋은일만 일어나네요 로또 사야 할까봐요</a>
+            <td align="left">내용: [[${board.boardContent}]]
             </td>
             <td></td>
             </tr>
@@ -65,27 +139,27 @@
        					<br><br>
 						<span class="input-group-text">REPLY CONTENT<br></span>
 						<textarea class="form-control" rows="3" id="replyContent" style="resize: none;"></textarea>
-						<button class="writeFaqBtnSmall" id="replySubmit" type="button" > 댓글등록</button>
+						<button class="writeFaqBtnSmall learn-more" id="replySubmit" type="button" th:disabled="${ session.loginUser == null }">댓글등록</button>
 					</div>
 					<br>
 					<table class="replytable">
-						<thead>
-							<h3>댓글</h3>
+						<thead class="replyhead">
 							<tr>
-								<th width="130px">작성자</th>
+								<th align="center">작성자</th>
 								<th>작성내용</th>
-								<th width="130px">작성일자</th>
-								<th width="130px">댓글 수정/삭제</th>
+								<th>작성일자</th>
+								<th>댓글 수정/삭제</th>
 							</tr>
 						</thead>
 						<tbody>
 								<tr>
-									<td width="130px"><a>종각역피바라기</a></td>
-									<td><a>제가 다 기분이 좋네요~~~</a></td>
-									<td width="130px"><a>23-07-12</a></td>
+									<td width="130px">종각역피바라기</td>
+									<td>제가 다 기분이 좋네요~~</td>
+									<td width="130px">23-07-12</td>
 									<td>
-									<button class="writeFaqBtnSmall" id="replySubmit" type="button" >댓글수정</button>
-									<br><br><button class="writeFaqBtnSmall" id="replySubmit" type="button">댓글삭제</button>
+									<button class="writeFaqBtnSmall learn-more" id="replyedit" type="button">댓글수정</button>
+									<button class="writeFaqBtnSmall learn-more" id="replydelete" type="button">댓글삭제</button>
+									<br><br>
 									</td>
 								</tr>
 						</tbody>
@@ -93,13 +167,59 @@
         
          <div class="actionArea">
             <div class="writeArea">
-                <button class="writeFaqBtn" onclick="location.href='commList.bo'">목록으로</button>
-                <button class="writeFaqBtn" onclick="location.href='editComm.bo'">수정하기</button>
-                <button class="writeFaqBtn" onclick="location.href='commList.bo'">삭제하기</button>
+                <button class="writeFaqBtn learn-more" onclick="location.href='commList.bo'">목록으로</button>
+                <button class="writeFaqBtn learn-more" onclick="location.href='editComm.bo'">수정하기</button>
+                <button class="writeFaqBtn learn-more" onclick="location.href='commList.bo'">삭제하기</button>
             </div>
 			</div>
     </section>
 <div th:replace="~{../common/footer :: footer}"></div>
-
+<script th:inline="javascript">
+    	/*<![CDATA[*/
+	    document.getElementById('summernote').innerHTML = /*[[${board.boardContent}]]*/1;
+    	/*]]>*/
+    	
+    	
+    	/*<![CDATA[*/
+			document.getElementById('replySubmit').addEventListener('click', ()=> {
+				$.ajax({
+					url: 'insertReply.bo',
+					data: {
+							replyContent:document.getElementById('replyContent').value,
+// 							변수로 인지못하게 ''로 감싼다
+						 	replyWriter:/*[[${session.login == null ? '' : session.loginUser.id}]]*/'user01',
+// 						 	얘는 숫자라 상관없음
+						 	refBoardId:/*[[${b.boardId}]]*/1
+					},
+					success: data => {
+						console.log(data);
+						const tbody = document.querySelector('tbody');
+						tbody.innerHTML = '';
+						
+						for(const r of data) {
+							const tr = document.createElement('tr');
+							
+							const writerTd = document.createElement('td');
+							writerTd.innerText = r.nickName;
+							const contentTd = document.createElement('td');
+							contentTd.innerText = r.replyContent;
+							const dateTd = document.createElement('td');
+							dateTd.innerText = r.replyModifyDate;
+							
+							tr.append(writerTd);
+							tr.append(contentTd);
+							tr.append(dateTd)
+							
+							tbody.append(tr);
+						}
+						document.getElementById('replyContent').value = '';
+					},
+					error: data => {
+						console.log(data);
+					}
+				});
+			})
+			/*]]>*/
+	</script>
 </body>
 </html>

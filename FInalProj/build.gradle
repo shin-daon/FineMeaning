@@ -39,12 +39,18 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools
 	implementation 'org.springframework.boot:spring-boot-devtools:3.1.0'
 	
+<<<<<<< HEAD
 	// 이메일
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
 	implementation 'org.springframework.boot:spring-boot-starter-mail:3.1.0'
     implementation 'javax.mail:javax.mail-api:1.6.2'
     implementation 'com.sun.mail:javax.mail:1.6.2'
 
+=======
+	// https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-java8time
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE'
+	
+>>>>>>> 0e3939bb1a6b779fba0d66477d64afef4faed3b9
 }
 
 tasks.named('test') {

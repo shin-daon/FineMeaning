@@ -2,47 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<style type="text/css">
-.title{
-font-family: 'KyoboHandwriting2021sjy';
-text-align : center;
-}
-
-@font-face {
-    font-family: 'KyoboHandwriting2021sjy';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KyoboHandwriting2021sjy.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-#subBtn {
-  /* 생략 */
-  width: 80px;
-    height: 30px;
-    background-color: #9DC08B;
-    color: white;
-    border-radius: 0.4rem;
-    cursor: pointer;
-    border: 1px solid black;
-    font-size: 14px;
-}
-#subBtn:active,
-#subBtn:hover,
-#subBtn:focus {
-  background: green;
-  color: white;
-  outline: 0;
-}
-#subBtn:disabled {
-  opacity: 0.5;
-}
-
-.button-container {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-</style>
-<link rel="stylesheet" href="resources/css/style.css">
+<link rel="stylesheet" href="css/community.css">
 <script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script src="https://kit.fontawesome.com/1c67f557d9.js" crossorigin="anonymous"></script>
 <!-- include libraries(jQuery, bootstrap) -->
@@ -67,8 +27,8 @@ text-align : center;
 		<br><br> 
 		<textarea id="summernote" name="content"></textarea><br>
 		<div class="button-container">
-		<input id="subBtn" type="button" value="수정취소" style="float: right;" onclick = "location.href='commList.bo'"/>
-		<input id="subBtn" type="button" value="수정완료" style="float: right;" onclick="goWrite(this.form)"/>
+		<input id="writeFaqBtn.learn-more" type="button" value="수정취소" style="float: right;" onclick = "location.href='commList.bo'"/>
+		<input id="writeFaqBtn.learn-more" type="button" value="수정완료" style="float: right;" onclick="goWrite(this.form)"/>
 		</div>
 	</form>
 </div>

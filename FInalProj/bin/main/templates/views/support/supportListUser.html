@@ -52,75 +52,12 @@
                 </tr>
             </thead>
             <tbody>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>신용카드</td>
-	                    <td>100원</td>
-	                    <td>2023-05-13</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>신용카드</td>
-	                    <td>100원</td>
-	                    <td>2023-05-13</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>신용카드</td>
-	                    <td>100원</td>
-	                    <td>2023-05-13</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>신용카드</td>
-	                    <td>100원</td>
-	                    <td>2023-05-13</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>신용카드</td>
-	                    <td>100원</td>
-	                    <td>2023-05-13</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>신용카드</td>
-	                    <td>100원</td>
-	                    <td>2023-05-13</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>신용카드</td>
-	                    <td>100원</td>
-	                    <td>2023-05-13</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>신용카드</td>
-	                    <td>100원</td>
-	                    <td>2023-05-13</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>신용카드</td>
-	                    <td>100원</td>
-	                    <td>2023-05-13</td>
-	                </tr>
-	                <tr>
-	                    <td>1</td>
-	                    <td>후원 제목입니다.</td>
-	                    <td>신용카드</td>
-	                    <td>100원</td>
-	                    <td>2023-05-13</td>
+	                <tr th:each="sh:${shList}" th:if="${shList!=null}">
+	                    <td>[[${sh.supportHistoryNo}]]</td>
+	                    <td>[[${sh.supportTitle}]]</td>
+	                    <td>[[${sh.payType}]]</td>
+	                    <td>[[${sh.supportAmount}]]</td>
+	                    <td>[[${sh.payDate}]]</td>
 	                </tr>
             </tbody>
         </table>

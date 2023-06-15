@@ -147,6 +147,8 @@ th, td {
     border-radius: 0px 8px 8px 0px;
 }
 
+/* 페이징 처리 */
+
 .page {
     margin-top: 35px;
     display: flex;
@@ -175,12 +177,22 @@ th, td {
     border-radius: 100%;
 }
 
+.currentPage{
+	color: white;
+    background-color: #9bc08d;
+    border-radius: 100%;
+}
+
 .arrowKey {
     margin-top: 12px;
     margin-left: 10px;
     margin-right: 10px;
     block-size: 14px;
     display: block;
+}
+
+.disabled {
+	opacity: 0.3;
 }
 
 

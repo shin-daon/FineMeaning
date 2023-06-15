@@ -28,5 +28,49 @@
 		from board
 			join users using(u_no)
 		where board_status='Y' and board_type=#{i}
+		order by board_no desc
 	</select>
+	
+	<update id="countUp">
+		update board
+		set board_count = board_count + 1
+		where board_no = #{bNo}
+	</update>
+	
+	<select id="selectBoard" resultMap="boardResultSet">
+		select *
+		from board
+		where board_no = #{bNo}
+	</select>
+	
+	<insert id="insertBoard">
+		insert into board
+		values(seq_bid.nextval, #{uNo},  #{boardType}, #{boardTitle},  #{boardContent}, sysdate, default, default, null, null, null)
+	</insert>
+	
+	<select id="selectReply" resultMap="replyResultSet">
+		select *
+		from reply
+			 join users on(re_writer = u_no)
+		where board_no = #{bNo} and re_status = 'Y'
+		order by re_no desc
+	</select>
+
+	<resultMap type="Reply" id="replyResultSet">
+		<id column="RE_NO" property="replyNo"/>
+		<result column="RE_WRITER" property="replyWriter"/>
+		<result column="U_NICKNAME" property="nickName"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="RE_CONTENT" property="replyContent"/>
+		<result column="RE_CREATE_DATE" property="replyDate"/>
+		<result column="RE_STATUS" property="replyStatus"/>
+	</resultMap>
+
+	
+	<insert id="insertReply">
+		insert into reply
+		values(seq_rid.nextval, #{replyWriter}, #{boardNo}, #{replyContent},
+			   default, default)
+	</insert>
 </mapper>

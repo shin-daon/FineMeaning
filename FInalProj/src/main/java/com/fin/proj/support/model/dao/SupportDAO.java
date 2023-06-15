@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.support.model.vo.Support;
 import com.fin.proj.support.model.vo.SupportDetail;
+import com.fin.proj.support.model.vo.SupportHistory;
 
 @Mapper
 public interface SupportDAO {
@@ -35,6 +36,26 @@ public interface SupportDAO {
 	ArrayList<Support> selectApplyDevision(RowBounds rowBounds, String devision);
 
 	int updateApplyStatus(Support s);
+
+	int getEListCount();
+
+	ArrayList<Support> selectEndSupportList(RowBounds rowBounds);
+
+	int getSearchListCount(String searchWord);
+
+	ArrayList<Support> selectSearchListAdmin(RowBounds rowBounds, String searchWord);
+
+	int getSupporterListCount(int supportNo);
+
+	ArrayList<SupportHistory> selectSupporterListEach(RowBounds rowBounds, int supportNo);
+
+	int getSupporterListAllCount();
+
+	ArrayList<SupportHistory> selectSupporterList(RowBounds rowBounds);
+
+	int getMListCount(int uNo);
+
+	ArrayList<SupportHistory> selectMySupportList(RowBounds rowBounds, int uNo);
 
 
 }

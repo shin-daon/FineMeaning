@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>결실</title>
 <link rel="stylesheet" href="css/fruit_detail_style.css">
+<script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
 <style>
 	.backgroundImage::after {
 	    width: 100%;
@@ -37,7 +38,7 @@
 
         <div class="titleAndMore">
             <div class="titleWrap">
-                <div class="fruit_write_title">글 제목입니다.</div>
+                <div class="fruit_write_title" th:text="${board.boardTitle}"></div>
             </div>    
             <div class="dropdown">
                 <img class="seeMore" src="image/seeMore.png">
@@ -52,16 +53,70 @@
         <div class="detailArea">
             <hr class="hr">
             <div class="contentArea backgroundImage">
-                <p class="contentMain">글 내용입니다.</p>
+            	<p class="boardDate"></p>
+                <p class="contentMain" th:text="${board.boardContent}"></p>
             </div>
             <hr class="hr">
         </div>
         
+		<div class="replyArea">
+	 		<div class="replyTitle">댓글</div>
+	 		<div class="replyWriteArea">
+			 	<input type="text" class="replyInput" required/>
+			 	<button type="submit" class="replyBtn">작성</button>
+	 		</div>
+		 	<div class="reply" th:each=" r : ${ replyList }">
+		 		<div class="replyRow1">
+		 			<div class="replyInfo">
+			 			<div class="replyWriter" th:text="${ r.replyWriter }"></div>
+			 			<div class="replyDate" th:text="${ r.replyDate }"></div>
+		 			</div>
+		 			<div class="replyInfo2">
+	 					<div class="replySet">
+	 						<a class="aTags" href="#">수정</a> | <a class="aTags" href="#">삭제</a>
+	 					</div>
+	 				</div>
+		 		</div>
+		 		<div class="replyRow2">
+		 			<div class="replyContent" th:text="${ r.replyContent }"></div>
+		 		</div>
+	 		</div>
+		</div>
+		
         <div class="btnArea">
-            <button type="button" class="backBtn learn-more-back" onclick="location.href='fruitMain.bo'">메인으로</button>
+            <button type="button" class="backBtn learn-more-back" onclick="location.href='fruitMain.bo'">목록으로</button>
         </div>
-            
 	</section>
 	<div th:replace="~{views/common/footer :: footer}"></div>
+	<script th:inline="javascript">
+		window.onload = () => {
+			
+			document.getElementsByClassName('replyBtn')[0].addEventListener('click', ()=>{
+				const replyInput = document.getElementsByClassName('replyInput')[0].value;
+				if(replyInput != '') {
+					/* <![CDATA[ */
+					$.ajax({
+						url:'insertReply.bo',
+						data: {
+							replyContent:document.getElementsByClassName('replyInput')[0].value,
+							replyWriter:/*${loginUser.uId}*/1,
+							BoardNo:/*${b.boardNo}*/1,
+							BoardTitle:/*${b.boardTitle}*/1
+						},
+						success: data =>{
+							console.log(data);
+							document.getElementsByClassName('replyInput')[0].value = '';
+						},
+						error: data => {
+							console.log(data);
+						}
+					});
+					/* ]]> */
+				} else if(replyInput == '') {
+					document.getElementsByClassName('replyInput')[0].focus();
+				}
+			});
+		}
+	</script>
 </body>
 </html>
