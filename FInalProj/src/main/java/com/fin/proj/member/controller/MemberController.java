@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.fin.proj.member.model.exception.MemberException;
+import com.fin.proj.member.model.service.EmailService;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
 
@@ -29,6 +29,9 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
+	
+	@Autowired
+	private EmailService eService;
 	
 	@RequestMapping("loginView.me")
 	public String loginView() {
@@ -105,7 +108,7 @@ public class MemberController {
 		return "editMyInfo";
 	}
 	
-	@GetMapping("checkId.me")
+	@RequestMapping(value="checkId.me") 
 	public void checkId(@RequestParam("uId") String uId, PrintWriter out) {
 		int count = mService.checkId(uId);
 			
@@ -114,11 +117,23 @@ public class MemberController {
 			
 	}
 	
-	@GetMapping("checkNickName.me")
+	@RequestMapping(value="checkNickName.me") 
 	public void checkNickName(@RequestParam("uNickName") String uNickName, PrintWriter out) {
 		int count = mService.checkNickName(uNickName);
 		
 		String result = count == 0 ? "yes" : "no";
 		out.print(result);	
 	}
+	
+	@RequestMapping(value="checkEmail.me") 
+	public void checkEmail(@RequestParam("emailAddress") String emailAddress,
+						   PrintWriter out) {
+		
+		System.out.println("보낼 이메일 : " + emailAddress);
+		int count = eService.checkEmail(emailAddress);
+		
+		String result = Integer.toString(count);
+		out.print(result);	
+	}
+
 }
