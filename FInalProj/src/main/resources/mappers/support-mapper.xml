@@ -123,4 +123,13 @@
 		select * from s_history left join support using(s_no) order by S_HIS_PAYDATE desc
 	</select>
 	
+	
+	<select id="getMListCount" resultType="_int">
+		select count(*) from s_history sh left join support using(s_no) where sh.u_no = #{uNo}
+	</select>
+	
+	<select id="selectMySupportList" resultMap="supportHistoryResultSet">
+		select * from s_history sh left join support using(s_no) where sh.u_no = 1 order by s_his_paydate desc
+	</select>
+	
 </mapper>

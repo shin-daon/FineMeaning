@@ -65,20 +65,39 @@ public class SupportController {
 	}
 	
 	@RequestMapping("doSupportEnd.su")
-	public String doSupportEnd() {
+	public String doSupportEnd(HttpSession session) {	
 		return "doSupportEnd";
 	}
 	
 	@RequestMapping("supportListUser.su")
-	public String supportListUser() {
+	public String supportListUser(@RequestParam(value="page", required=false) Integer currentPage, HttpSession session, Model model) {
+		
+		
+		if(currentPage == null) {
+			currentPage = 1; 
+		}
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+		
+		
+		int listCount = suService.getMListCount(uNo);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<SupportHistory> shList = suService.selectMySupportList(pi, uNo);
+		
+		model.addAttribute("shList", shList);
+		model.addAttribute("pi", pi);
+		
 		return "supportListUser";
 	}
+	
+	
 	@RequestMapping("supportApplicationListUser.su")
 	public String supportApplicationListUser(HttpSession session, Model model) {
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		ArrayList<Support> sList = suService.selectApplyListUser(uNo);
-		System.out.println(sList);
-		System.out.println(sList.get(0).getStatus());
 		model.addAttribute("sList",sList);
 		return "supportApplicationListUser";
 	}
