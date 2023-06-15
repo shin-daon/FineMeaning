@@ -392,6 +392,7 @@ select:focus {
 			<div class="input">
 				<input type="text" id="number-input" placeholder="인증번호" name="randomNumInput"/>
 				<button class="short-btn" id="emailBtn">메일 전송</button>
+				<button class="short-btn" id="emailBtn2" style="display:none";>확인</button>
 				<div class="check-div"><label id="emailCheckResult"></label></div>
 			</div>					
 			</div>
@@ -716,9 +717,11 @@ select:focus {
 		});
 		
 	// 이메일 인증		
-	const emailBtn = document.getElementById('emailBtn');	
+	const emailBtn = document.getElementById('emailBtn');
+	const emailBtn2 = document.getElementById('emailBtn2');	
 	
 	emailBtn.addEventListener("click", function() {
+		event.preventDefault();
 		const emailId = document.getElementsByName("emailId")[0].value;
 		const emailDomain = document.getElementById("email-select").value;
 		const customEmailDomain = document.getElementById("custom-email-input").value;
@@ -739,29 +742,17 @@ select:focus {
 			emailId.style.outline = '';
 			emailId.style.boxShadow = '';
 			enrollButton.disabled = true;
-		} else {
-			emailBtn.innerText = '번호 입력';
+		} else {			
 			console.log(emailAddress);
 			$.ajax({
 	            url: 'checkEmail.me',
 	            data: { emailAddress: emailAddress },
 	            success: function(response) {
 	                data = response; // 데이터 변수에 서버 응답값을 할당합니다.
-	                console.log("데이터 전송 성공: " + data);
-	                
-	                if (data === randomNumInput) {
-	                    emailCheckResult.innerText = '인증이 완료되었습니다.';
-	                    emailCheckResult.style.color = '#609966';
-	                    emailId.style.outline = '1px solid #609966';
-	                    emailId.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
-	                    enrollButton.disabled = false;
-	                } else {
-	                    emailCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
-	                    emailCheckResult.style.color = 'red';
-	                    emailId.style.outline = '1px solid red';
-	                    emailId.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-	                    enrollButton.disabled = true;
-	                }
+	                console.log("데이터 전송 성공: " + data);	
+	                emailBtn.style.display = 'none';
+	                emailBtn2.style.display = 'inline-block';
+	                emailCheckResult.innerText = '메일이 전송되었습니다. 인증번호를 입력해주세요.';
 	            },
 	            error: function() {
 	                console.log("데이터 전송 실패");
@@ -769,6 +760,32 @@ select:focus {
 	        });
 	    }        
 	});
+		
+		emailBtn2.addEventListener("click", function() {
+			event.preventDefault();
+			const emailId = document.getElementsByName("emailId")[0];
+			const emailDomain = document.getElementById("email-select");
+			const customEmailDomain = document.getElementById("custom-email-input");
+			const randomNum = document.getElementsByName("randomNumInput")[0].value;
+			const randomNumInput = document.getElementsByName("randomNumInput")[0];
+			const emailCheckResult = document.getElementById('emailCheckResult');
+			
+			if (data === randomNum) {
+		        emailCheckResult.innerText = '인증이 완료되었습니다.';
+		        emailCheckResult.style.color = '#609966';
+		        randomNumInput.style.outline = '1px solid #609966';
+		        randomNumInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+		        emailBtn2.innerHTML = '인증 완료';
+		        enrollButton.disabled = false;
+		    } else {
+		        emailCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
+		        emailCheckResult.style.color = 'red';
+		        randomNumInput.style.outline = '1px solid red';
+		        randomNumInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+		        emailBtn2.innerHTML = '확인';
+		        enrollButton.disabled = true;
+		    }
+		});
     		
 </script>
 </body>
