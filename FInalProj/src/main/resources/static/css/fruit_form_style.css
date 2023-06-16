@@ -82,6 +82,7 @@
     flex-direction: column;
     color : rgb(37, 37, 37);
     font-size: 13px;
+    cursor: pointer;
 }
 
 .dropdown-content span:nth-child(1) {
@@ -93,12 +94,11 @@
 }
 
 .dropdown-content span:hover{
-    cursor: pointer;
     background-color : #609966;
-    color:white;
+    color: white;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown:active .dropdown-content {
     display: block;
 }
 

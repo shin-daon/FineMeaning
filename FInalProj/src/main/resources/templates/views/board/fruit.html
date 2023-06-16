@@ -135,9 +135,7 @@
 					const trTds= this.parentElement.children; // = querySelectorAll
 					const boardNo = trTds[0].innerText;
 					/* <![CDATA[ */
-					const writer = [[${session.loginUser.isAdmin}]]; // 로그인 안 한 사람 1 (조회수 올려야해서)
-					location.href='fruit_detail.bo?bNo=' + boardNo 
-							+ '&writer=' + writer + '&page=' + /*${pi.currentPage}*/1;
+					location.href='fruit_detail.bo?bNo=' + boardNo + '&page=' + /*${pi.currentPage}*/1;
 					/* ]]> */
 				});
 			}

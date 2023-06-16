@@ -61,7 +61,7 @@
 	        <div id="fruit_title">결실</div>
 	    </div>
         
-        <div id="fruit_write_title">게시글 작성🌳</div>
+        <div id="fruit_write_title">게시글 수정🌳</div>
 		
 		<div id="formDiv">
 	        <form method="post" action="#">
@@ -71,15 +71,15 @@
                             <button type="button" id="dropbtn"> 
                                 🕊️카테고리
                             </button>
-                            <input type="hidden" name="boardCate" value="none">
+                            <input type="hidden" name="category" value="none">
                             <div class="dropdown-content">
                                 <span class="selectCate">후원</span>
                                 <span class="selectCate">봉사</span>
                             </div>
                         </div>
-                        <input type="text" id="title" name="boardTitle" placeholder="제목을 입력하세요.">
+                        <input type="text" id="title" name="title" placeholder="제목을 입력하세요.">
                     </div>
-	                <textarea id="summernote" name="boardContent"></textarea>
+	                <textarea id="summernote" name="content"></textarea>
 	            </div>
 	            <div class="btnArea">
 	                <button type="button" class="writeFaqBtn learn-more" onclick="goWrite(this.form)">글쓰기</button>
@@ -105,8 +105,8 @@
 			for(const selectCate of selectCates){
 				selectCate.addEventListener('click', function(){
 					document.getElementById('dropbtn').innerText = this.innerHTML;
-					document.getElementsByName('boardCate')[0].value= this.innerHTML;
-// 					console.log(document.getElementsByClassName('dropdown-content')[0])
+					document.getElementsByName('category')[0].value= this.innerHTML;
+					console.log(document.getElementsByClassName('dropdown-content')[0])
 					document.getElementsByClassName('dropdown-content')[0].style.display='none';
 				});
 			}
@@ -114,28 +114,6 @@
 			document.getElementById('dropbtn').addEventListener('click', ()=>{
 				document.getElementsByClassName('dropdown-content')[0].style.display='block';	
 			});
-			
-			// dropbtn 이나 dropdownContent 외의 다른 영역 클릭 시 none
-			document.addEventListener('click', (event) => {
-                const target = event.target;
-                const dropdownContent = document.getElementsByClassName('dropdown-content')[0];
-                const dropbtn = document.getElementById('dropbtn');
-                if (target !== dropdownContent && target !== dropbtn) {
-                    dropdownContent.style.display = 'none';
-                }
-            });
-			
-			// span selectCate를 선택하면 name boardCate value에 해당 값이 들어가게 하기.
-			
-			const categories = document.querySelectorAll('.selectCate');
-			for(const category of categories){
-				category.addEventListener('click', function(){
-					const cate = this.innerText;
-					const boardCate = document.getElementsByName('boardCate');
-					boardCate.value = cate;
-				});
-			}
-			
 			
 			const backBtn = document.getElementsByClassName('backBtn')[0];
 			const yesBtn = document.getElementById('withdrawal-btn');

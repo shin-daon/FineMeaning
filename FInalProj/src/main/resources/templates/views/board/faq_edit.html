@@ -61,18 +61,18 @@
 	        <div id="faq_write_title">자주 묻는 질문</div>
 	    </div>
         
-        <div id="faq_write_title2">게시글 작성🌳</div>
+        <div id="faq_write_title2">게시글 수정🌳</div>
 		
 		<div id="formDiv">
-	        <form method="post" action="insert_faq.bo">
+	        <form method="post" action="writeBoard.bo">
 	            <div id="writeForm">
-	                <input type="text" id="title" name="boardTitle" placeholder="제목을 입력하세요." required>
-	                <textarea id="summernote" name="boardContent" required></textarea>
+	                <input type="text" id="title" name="title" placeholder="제목을 입력하세요." required>
+	                <textarea id="summernote" name="content" required></textarea>
 	            </div>
 	            <div class="btnArea">
-	                <button type="submit" class="writeFaqBtn learn-more">글쓰기</button>
+	                <button class="writeFaqBtn learn-more">글쓰기</button>
 	                <button type="button" class="backBtn learn-more-back">취소</button>
-	            </div>
+	            </div>    
 	        </form>
         </div>
         
