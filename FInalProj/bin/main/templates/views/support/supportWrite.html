@@ -15,6 +15,21 @@
 	<!-- include summernote css/js -->
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+	<style>
+		.v-apply-info  > form > table > tbody > tr:first-child td:nth-child(even) {
+    		text-align: center;
+    		background-color: rgb(224, 224, 224);
+		}
+		.v-apply-info  > form > table > tbody > tr:first-child td:nth-child(odd) {
+    		text-align: center;
+    		background-color: #ffffff;
+		}
+		.v-apply-info  > form > table > tbody > tr:first-child td:last-child {
+    		text-align:left;
+		}
+		
+	</style>
+
 </head>
 <body>
 	<div th:replace="~{../common/header :: header}"></div>
@@ -44,9 +59,9 @@
         	<form id="vForm" action="insertVolunteer.vo" method="post">
 	            <table class="v-table">
 	                <tr>
-	                	<td colspan="2" rowspan="5">사진 첨부</td>
+	                	<td colspan="2" rowspan="5" width="30%">사진 첨부</td>
 	                    <td>카테고리</td>
-	                    <td colspan="3">
+	                    <td>
 	                        <span class="dropdown" id="area-dropdown">
 	                            <button type="button" class="dropdown-btn" id="areabtn">선택</button>
 	                            <input type="hidden" id="area" name="supportCategory" value="none" required/>
@@ -61,13 +76,13 @@
 	                </tr>
 	                <tr>
 	                    <td>제목</td>
-	                    <td colspan="3">
+	                    <td>
 	                        <input type="text" name="supportTitle" maxlength="40" required/>
 	                    </td>
 	                </tr>
 	                <tr>
 	                    <td width="15%">후원기간</td>
-	                    <td width="35%">
+	                    <td width="55%">
 	                        <div class="dateDiv">
 	                            <input type="date" id="startDate" name="startDate" required/><span class="date-delimeter"></span><input type="date" id="endDate" name="endDate" required/>
 	                        </div>
@@ -76,7 +91,7 @@
 	                </tr>
 	                <tr>
 	                    <td>목표 금액</td>
-	                    <td><input type="number" id="vCountAll" name="vCountAll" min="1" max="100" value="5000000" required/>원</td>
+	                    <td><input type="number" id="vCountAll" name="vCountAll" min="0" step="100000" value="5000000" required/>원</td>
 	                </tr>
 	                <tr>
 	                    <td>후원 기관</td>
