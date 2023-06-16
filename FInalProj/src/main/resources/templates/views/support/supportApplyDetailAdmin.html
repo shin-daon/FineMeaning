@@ -90,7 +90,7 @@
                         </div>
                       </div>
                     
-                    <div class="supportDetailContent" th:text="${s.supportContent}"></div>
+                    <div class="supportDetailContent" id="summernote"></div>
 
                     <div class="supportSubTitle">기부금 사용 내역</div>
                     <div class="supportUsage supportSubTitle" >
@@ -150,6 +150,12 @@
 	}
 	/*]]>*/
 	
+</script>
+
+<script th:inline="javascript">
+    	/*<![CDATA[*/
+	    document.getElementById('summernote').innerHTML = /*[[${s.supportContent}]]*/5;
+    	/*]]>*/
 </script>
 </body>
 </html>

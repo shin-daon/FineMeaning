@@ -197,5 +197,11 @@ body {
     </div>
        
 <div th:replace="~{../common/footer :: footer}"></div>
+
+<script th:inline="javascript">
+    	/*<![CDATA[*/
+	    document.getElementById('summernote').innerHTML = /*[[${v.vContent}]]*/5;
+    	/*]]>*/
+</script>
 </body>
 </html>
