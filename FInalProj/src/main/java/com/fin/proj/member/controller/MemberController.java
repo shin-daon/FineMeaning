@@ -108,6 +108,11 @@ public class MemberController {
 		return "editMyInfo";
 	}
 	
+	@RequestMapping("userInfoDetail.me")
+	public String userInfoDetail() {
+		return "userInfoDetail";
+	}
+	
 	@RequestMapping(value="checkId.me") 
 	public void checkId(@RequestParam("uId") String uId, PrintWriter out) {
 		int count = mService.checkId(uId);
@@ -126,8 +131,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="checkEmail.me") 
-	public void checkEmail(@RequestParam("emailAddress") String emailAddress,
-						   PrintWriter out) {
+	public void checkEmail(@RequestParam("emailAddress") String emailAddress, PrintWriter out) {
 		
 		System.out.println("보낼 이메일 : " + emailAddress);
 		int count = eService.checkEmail(emailAddress);
