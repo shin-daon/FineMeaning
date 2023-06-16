@@ -10,12 +10,13 @@ public class Reply {
 	private String boardTitle;
 	private String replyContent;
 	private Date replyDate;
+	private String replyTime;
 	private char replyStatus;
 	
 	public Reply() {}
 
 	public Reply(int replyNo, int replyWriter, String nickName, int boardNo, String boardTitle, String replyContent,
-			Date replyDate, char replyStatus) {
+			Date replyDate, String replyTime, char replyStatus) {
 		super();
 		this.replyNo = replyNo;
 		this.replyWriter = replyWriter;
@@ -24,6 +25,7 @@ public class Reply {
 		this.boardTitle = boardTitle;
 		this.replyContent = replyContent;
 		this.replyDate = replyDate;
+		this.replyTime = replyTime;
 		this.replyStatus = replyStatus;
 	}
 
@@ -35,11 +37,11 @@ public class Reply {
 		this.replyNo = replyNo;
 	}
 
-	public int getreplyWriter() {
+	public int getReplyWriter() {
 		return replyWriter;
 	}
 
-	public void setreplyWriter(int replyWriter) {
+	public void setReplyWriter(int replyWriter) {
 		this.replyWriter = replyWriter;
 	}
 
@@ -83,6 +85,14 @@ public class Reply {
 		this.replyDate = replyDate;
 	}
 
+	public String getReplyTime() {
+		return replyTime;
+	}
+
+	public void setReplyTime(String replyTime) {
+		this.replyTime = replyTime;
+	}
+
 	public char getReplyStatus() {
 		return replyStatus;
 	}
@@ -93,10 +103,9 @@ public class Reply {
 
 	@Override
 	public String toString() {
-		return "Reply [replyNo=" + replyNo + ", replyWriter=" + replyWriter + ", nickName=" + nickName + ", boardNo=" + boardNo
-				+ ", boardTitle=" + boardTitle + ", replyContent=" + replyContent + ", replyDate=" + replyDate
-				+ ", replyStatus=" + replyStatus + "]";
+		return "Reply [replyNo=" + replyNo + ", replyWriter=" + replyWriter + ", nickName=" + nickName + ", boardNo="
+				+ boardNo + ", boardTitle=" + boardTitle + ", replyContent=" + replyContent + ", replyDate=" + replyDate
+				+ ", replyTime=" + replyTime + ", replyStatus=" + replyStatus + "]";
 	}
-	
 	
 }

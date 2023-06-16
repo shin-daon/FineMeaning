@@ -18,6 +18,10 @@
 	    z-index: -1;
 	    opacity: 0.4;
 	}
+	
+	#meaningless {
+		align-self: center;
+	}
 </style>
 </head>
 <body>
@@ -65,22 +69,26 @@
 			 	<input type="text" class="replyInput" required/>
 			 	<button type="submit" class="replyBtn">작성</button>
 	 		</div>
-		 	<div class="reply" th:each=" r : ${ replyList }">
-		 		<div class="replyRow1">
-		 			<div class="replyInfo">
-			 			<div class="replyWriter" th:text="${ r.replyWriter }"></div>
-			 			<div class="replyDate" th:text="${ r.replyDate }"></div>
-		 			</div>
-		 			<div class="replyInfo2">
-	 					<div class="replySet">
-	 						<a class="aTags" href="#">수정</a> | <a class="aTags" href="#">삭제</a>
-	 					</div>
-	 				</div>
-		 		</div>
-		 		<div class="replyRow2">
-		 			<div class="replyContent" th:text="${ r.replyContent }"></div>
+	 		
+	 		<div id="meaningless">
+			 	<div class="reply" th:each=" r : ${replyList}">
+			 		<div class="replyRow1">
+			 			<div class="replyInfo">
+				 			<div class="replyWriter" th:text="${ r.nickName }"></div>
+				 			<div class="replyDate" th:text="${ r.replyTime }"></div>
+			 			</div>
+			 			<div class="replyInfo2">
+		 					<div class="replySet">
+		 						<a class="aTags" href="deleteReply.bo">삭제</a>
+		 					</div>
+		 				</div>
+			 		</div>
+			 		<div class="replyRow2">
+			 			<div class="replyContent" th:text="${ r.replyContent }"></div>
+			 		</div>
 		 		</div>
 	 		</div>
+	 		
 		</div>
 		
         <div class="btnArea">
@@ -88,6 +96,7 @@
         </div>
 	</section>
 	<div th:replace="~{views/common/footer :: footer}"></div>
+	
 	<script th:inline="javascript">
 		window.onload = () => {
 			
@@ -99,16 +108,71 @@
 						url:'insertReply.bo',
 						data: {
 							replyContent:document.getElementsByClassName('replyInput')[0].value,
-							replyWriter:/*${loginUser.uId}*/1,
-							BoardNo:/*${b.boardNo}*/1,
-							BoardTitle:/*${b.boardTitle}*/1
+							nickName:/*[[${session.login == null ? '' : session.loginUser.uNickName}]]*/1,
+							boardNo:/*[[${board.boardNo}]]*/1,
+							boardTitle:/*[[${board.boardTitle}]]*/1
 						},
 						success: data =>{
 							console.log(data);
+							const meaningless = document.querySelector('#meaningless');
+							meaningless.innerHTML = '';
+							
+							for(const r of data) {
+								const reply = document.createElement('div');
+								reply.classList.add('reply');
+								
+								const replyRow1 = document.createElement('div');
+								replyRow1.classList.add('replyRow1');
+								
+								const replyInfo = document.createElement('div');
+								replyInfo.classList.add('replyInfo');
+								
+								const replyWriter = document.createElement('div');
+								replyWriter.classList.add('replyWriter');
+								replyWriter.innerText = r.nickName;
+								replyInfo.appendChild(replyWriter);
+								
+								const replyDate = document.createElement('div');
+								replyDate.classList.add('replyDate');
+								replyDate.innerText = r.replyTime;
+								replyInfo.appendChild(replyDate);
+								
+								replyRow1.appendChild(replyInfo);
+								
+								const replyInfo2 = document.createElement('div');
+								replyInfo2.classList.add('replyInfo2');
+								
+								const replySet = document.createElement('div');
+								replySet.classList.add('replySet');
+
+								const deleteLink = document.createElement('a');
+								deleteLink.classList.add('aTags');
+								deleteLink.setAttribute('href', 'deleteReply.bo');
+								deleteLink.innerText = '삭제';
+								replySet.appendChild(deleteLink);
+								
+								replyInfo2.appendChild(replySet);
+								
+								replyRow1.appendChild(replyInfo2);
+								
+								const replyRow2 = document.createElement('div');
+								replyRow2.classList.add('replyRow2');
+								
+								const replyContent = document.createElement('div');
+								replyContent.classList.add('replyContent');
+								replyContent.innerText = r.replyContent;
+								
+								replyRow2.appendChild(replyContent);
+								
+								reply.appendChild(replyRow1);
+								reply.appendChild(replyRow2);
+								
+								meaningless.appendChild(reply);
+							}
+							
 							document.getElementsByClassName('replyInput')[0].value = '';
 						},
 						error: data => {
-							console.log(data);
 						}
 					});
 					/* ]]> */

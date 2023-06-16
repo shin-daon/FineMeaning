@@ -139,23 +139,22 @@ public class BoardController {
 	}
 	
 	@GetMapping("fruit_detail.bo")
-	public String fruitDetail(@RequestParam("bNo") int bNo, @RequestParam("writer") int writer,
-							  @RequestParam("page") int page, HttpSession session, Model model) {
+	public String fruitDetail(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
+							  HttpSession session, Model model) {
 		
-		System.out.println(writer);
 		Member m = (Member)session.getAttribute("loginUser");
-//		System.out.println(m);
+		System.out.println(m);
 		
 		boolean countYN = false;
-		if(writer == 1) {
+		if(m == null || m.getIsAdmin() == 1) {
 			countYN = true;
 		}
 		
 		Board board = bService.selectBoard(bNo, countYN);
-		System.out.println(board);
+//		System.out.println(board);
 		
 		ArrayList<Reply> replyList = bService.selectReply(bNo);
-//		System.out.println(replyList);
+		System.out.println(replyList);
 		
 		if(board != null) {
 			model.addAttribute("board", board);
@@ -222,7 +221,7 @@ public class BoardController {
 		Board board = bService.selectBoard(bNo, countYN);
 		
 		ArrayList<Reply> replyList = bService.selectReply(bNo);
-		System.out.println(replyList);
+//		System.out.println(replyList);
 		
 		if(board != null) {
 			model.addAttribute("board", board);
@@ -262,7 +261,7 @@ public class BoardController {
 		
 		b.setBoardType(1);
 		int result = bService.updateBoard(b);
-		System.out.println(result);
+//		System.out.println(result);
 		
 		if(result > 0) {
 			model.addAttribute("bNo", b.getBoardNo());
@@ -357,11 +356,13 @@ public class BoardController {
 	// 댓글
 	@RequestMapping("insertReply.bo")
 	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
-		bService.insertReply(r);
-		ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
 		
+		bService.insertReply(r);
+		System.out.println(r);
+		
+		ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
 		response.setContentType("application/json; charset=UTF-8");
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssX").create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd / HH:mm:ss").create();
 		try {
 			gson.toJson(list, response.getWriter());
 		} catch (JsonIOException | IOException e) {

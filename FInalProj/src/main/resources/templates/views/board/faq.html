@@ -103,7 +103,7 @@
 					const writer = trTds[2].innerText;			// url에 들어가기 때문에 = 양쪽에 띄어쓰기 금지
 					/* <![CDATA[ */
 					location.href='faq_detail.bo?bNo=' + boardNo 
-							+ '&writer=' + writer + '&page=' + /*${pi.currentPage}*/1;
+							+ '&writer=' + writer + '&page=' + /*[[${pi.currentPage}]]*/1;
 					/* ]]> */
 				});
 			}

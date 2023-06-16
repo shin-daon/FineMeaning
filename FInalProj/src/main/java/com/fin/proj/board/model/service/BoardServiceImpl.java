@@ -37,7 +37,7 @@ public class BoardServiceImpl implements BoardService {
 		int result = 0;
 		if(countYN) {
 			result = bDAO.countUp(bNo);
-			System.out.println(result);
+//			System.out.println(result);
 		}
 		Board board = bDAO.selectBoard(bNo);
 //		System.out.println(board);
