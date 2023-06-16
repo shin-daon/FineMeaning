@@ -58,7 +58,7 @@
             <hr class="hr">
             <div class="contentArea backgroundImage">
             	<p class="boardDate"></p>
-                <p class="contentMain" th:text="${board.boardContent}"></p>
+                <div class="contentMain"></div>
             </div>
             <hr class="hr">
         </div>
@@ -100,10 +100,12 @@
 	<script th:inline="javascript">
 		window.onload = () => {
 			
+			/* <![CDATA[ */
+			document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/1;
+			
 			document.getElementsByClassName('replyBtn')[0].addEventListener('click', ()=>{
 				const replyInput = document.getElementsByClassName('replyInput')[0].value;
 				if(replyInput != '') {
-					/* <![CDATA[ */
 					$.ajax({
 						url:'insertReply.bo',
 						data: {

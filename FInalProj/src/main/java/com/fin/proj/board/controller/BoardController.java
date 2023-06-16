@@ -81,7 +81,7 @@ public class BoardController {
 		Board board = bService.selectBoard(bNo, countYN);
 //		System.out.println(board);
 		
-		ArrayList<Reply> replyList = bService.selectReply(bNo);
+//		ArrayList<Reply> replyList = bService.selectReply(bNo);
 //		System.out.println(replyList);
 		
 		if(board != null) {
@@ -97,6 +97,11 @@ public class BoardController {
 	@GetMapping("faq_form.bo")
 	public String faqForm() {
 		return "faq_form";
+	}
+	
+	@GetMapping("faq_edit.bo")
+	public String faqEdit() {
+		return "faq_edit";
 	}
 	
 	@GetMapping("finePeopleMain.bo")
@@ -174,6 +179,34 @@ public class BoardController {
 	@GetMapping("fineNews_form.bo")
 	public String fineNewsForm() {
 		return "fineNews_form";
+	}
+	
+	// my page
+	@GetMapping("myBoard.bo")
+	public String myBoard() {
+		return "myBoard";
+	}
+	
+	@GetMapping("myReply.bo")
+	public String myReply() {
+		return "myReply";
+	}
+	
+	// 댓글
+	@RequestMapping("insertReply.bo")
+	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
+		
+		bService.insertReply(r);
+		System.out.println(r);
+		
+		ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
+		response.setContentType("application/json; charset=UTF-8");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd / HH:mm:ss").create();
+		try {
+			gson.toJson(list, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		} 
 	}
 	
 	@GetMapping("commList.bo")
@@ -341,32 +374,4 @@ public class BoardController {
 		return "editNotice";
 	}
 	
-	
-	// my page
-	@GetMapping("myBoard.bo")
-	public String myBoard() {
-		return "myBoard";
-	}
-	
-	@GetMapping("myReply.bo")
-	public String myReply() {
-		return "myReply";
-	}
-	
-	// 댓글
-	@RequestMapping("insertReply.bo")
-	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
-		
-		bService.insertReply(r);
-		System.out.println(r);
-		
-		ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
-		response.setContentType("application/json; charset=UTF-8");
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd / HH:mm:ss").create();
-		try {
-			gson.toJson(list, response.getWriter());
-		} catch (JsonIOException | IOException e) {
-			e.printStackTrace();
-		} 
-	}
 }
