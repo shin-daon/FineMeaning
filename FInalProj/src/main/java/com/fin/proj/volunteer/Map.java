@@ -35,11 +35,12 @@ public class Map {
 		headers.add("Authorization", "KakaoAK " + API_KEY);
 		
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity(headers), String.class);
+		ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
 		
-		JsonParser jsonParser = new JsonParser();
-		JsonObject body = (JsonObject) jsonParser.parse(result.getBody());
+		JsonObject body = (JsonObject) JsonParser.parseString(result.getBody());
 		JsonArray documents = (JsonArray)body.get("documents");
+		
+		System.out.println(documents);
 		
 		JsonObject local = (JsonObject)documents.get(0);
 		JsonObject addressArr = (JsonObject)local.get("address");
