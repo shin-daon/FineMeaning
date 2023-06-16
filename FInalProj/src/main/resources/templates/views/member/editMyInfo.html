@@ -339,7 +339,8 @@ a {
 			<div class="insert ssn">
 				<label class="title">주민등록번호</label>
 				<div class="input">
-					<input type="text" id="ssn-input" value="앞 자리" maxlength="6" readonly/><span class="nothing" readonly>-</span><input type="password" id="ssn-input" value="뒷 자리" maxlength="7" readonly/>
+					<input type="text" id="ssn-input" value="앞 자리" maxlength="6" th:value="${loginUser.residentNo != null ? loginUser.residentNo.substring(0, loginUser.residentNo.indexOf('-')) : ''}" readonly/><span class="nothing" readonly>-</span>
+					<input type="password" id="ssn-input" value="뒷 자리" maxlength="7" th:value="${loginUser.residentNo != null ? loginUser.residentNo.substring(loginUser.residentNo.indexOf('-') + 1) : ''}" readonly/>
 				</div>
 			</div>
 			
@@ -361,21 +362,23 @@ a {
 			</div>
 			
 			<div class="insert email-input">
-				<label class="title">이메일</label>
-				<div class="input email-input">
-					<input type="text" id="email-input" name="emailId" th:value="${loginUser.email}"/><span class="nothing">@</span>
-					
-					<select name="emailDomain" id="email-select">
-						<option>naver.com</option>
-						<option>gmail.com</option>
-						<option>daum.net</option>
-						<option>nate.com</option>
-						<option>직접입력</option>
-					</select>
-					
-					<input type="text" id="custom-email-input" style="display: none;" name="emailDomain"/>
-           			<span class="x-btn" style="display: none;"><img src="image/x.png"></span>
-				</div>
+			    <label class="title">이메일</label>
+			    <div class="input email-input">
+			        <input type="text" id="email-input" name="emailId" th:value="${loginUser.email != null ? loginUser.email.substring(0, loginUser.email.indexOf('@')) : ''}"><span class="nothing">@</span>
+			        
+			        <th:block th:with="emailDomain=${loginUser.email != null ? loginUser.email.substring(loginUser.email.indexOf('@') + 1) : ''}">
+			            <select name="emailDomain" id="email-select">
+			                <option th:selected="${emailDomain == 'naver.com'}">naver.com</option>
+			                <option th:selected="${emailDomain == 'gmail.com'}">gmail.com</option>
+			                <option th:selected="${emailDomain == 'daum.net'}">daum.net</option>
+			                <option th:selected="${emailDomain == 'nate.com'}">nate.com</option>
+			                <option th:selected="${emailDomain == ''}">직접입력</option> <!-- 직접입력 옵션은 emailDomain이 비어 있을 때 선택되도록 수정 -->
+			            </select>
+			
+			            <input type="text" id="custom-email-input" style="display: none;" name="emailDomain" th:value="${emailDomain}"/> <!-- emailDomain 값 설정 -->
+			            <span class="x-btn" style="display: none;"><img src="image/x.png"></span>
+			        </th:block>
+			    </div>
 			</div>
 			
 			<div class="insert nickName">
@@ -409,8 +412,7 @@ a {
 <div th:replace="~{views/common/footer :: footer}"></div>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-
+<script th:inline="javascript">
 	// 탈퇴
 	const withdrawalBtn = document.getElementsByClassName('enroll-comment')[0];
 	const yesBtn = document.getElementById('withdrawal-btn');
@@ -435,7 +437,19 @@ a {
     const customEmailInput = document.getElementById('custom-email-input');
     const emailInput = document.getElementsByClassName('email-input')[0];
     const xBtn = document.getElementsByClassName('x-btn')[0];
-
+	
+    /*<![CDATA[*/
+    const emailDomain = /*[[${loginUser.email != null ? loginUser.email.substring(loginUser.email.indexOf('@') + 1) : ''}]]*/'';
+    /*]]>*/
+    
+    if (!['naver.com', 'gmail.com', 'daum.net', 'nate.com'].includes(emailDomain)) {
+        customEmailInput.value = emailDomain;
+        emailSelect.style.display = 'none';
+        customEmailInput.style.display = 'inline-block';
+        emailInput.style.display = 'block';
+        xBtn.style.display = 'block';
+    }
+    
     emailSelect.addEventListener('change', function() {
         if (emailSelect.value === '직접입력') {
             emailSelect.style.display = 'none';

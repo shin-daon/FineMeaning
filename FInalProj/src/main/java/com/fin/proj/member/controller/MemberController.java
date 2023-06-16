@@ -108,6 +108,11 @@ public class MemberController {
 		return "editMyInfo";
 	}
 	
+	@RequestMapping("userInfoDetail.me")
+	public String userInfoDetail() {
+		return "userInfoDetail";
+	}
+	
 	@RequestMapping(value="checkId.me") 
 	public void checkId(@RequestParam("uId") String uId, PrintWriter out) {
 		int count = mService.checkId(uId);
