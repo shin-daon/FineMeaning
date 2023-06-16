@@ -65,30 +65,6 @@
     cursor : pointer;
     font-size : 13px;
     text-align: center;
-} 
-
-.dropdown{
-    position : relative;
-    display : inline-block;
-}
-
-.dropdown-btn {
-    border : none;
-    border-right: 1px solid black;
-    background-color: #EDF1D6;
-  /*   font-weight: 400; */
-    color : rgb(37, 37, 37);
-    padding : 10px;
-    width :100px;
-    height:40px;
-    cursor : pointer;
-    font-size : 13px;
-    text-align: center;
-}
-
-#areabtn {
-    cursor: unset;
-    background-color: rgb(240, 240, 240);
 }
 
 .dropdown-content {
@@ -202,7 +178,7 @@ input[type="number"]:focus {
     content: ">";
     margin: 10px;
     font-weight: bold;   
-    display: none; 
+    display: inline-block; 
 }
 
 #subCategoryBtn {
@@ -226,7 +202,7 @@ input[type="number"]:focus {
     width: 750px;
 }
 
-.v-apply-info table {
+.v-apply-info > form > table {
     border-style: hidden;
     border-radius: 8px;
     box-shadow: 0 0 0 1px #000;
@@ -235,33 +211,33 @@ input[type="number"]:focus {
     border-collapse: collapse;
 }
 
-.v-apply-info table tr:first-child td:first-child {
+.v-apply-info  > form > table > tbody > tr:first-child td:first-child {
     border-radius: 8px 0 0 0;
 }
 
-.v-apply-info table tr:first-child td:last-child {
+.v-apply-info  > form > table > tbody > tr:first-child td:last-child {
     border-radius: 0 8px 0 0;
 }
 
-.v-apply-info table tr:last-child td:last-child {
-    border-radius: 0 0 8px 8px;
-}
+/* .v-apply-info  > form > table tr:last-child td:last-child { */
+/*     border-radius: 0 0 8px 8px; */
+/* } */
 
-.v-apply-info table td:nth-child(odd) {
+.v-apply-info  > form > table > tbody > tr:not(:last-child) td:nth-child(odd) {
     text-align: center;
     background-color: rgb(224, 224, 224);
 }
 
-.v-apply-info table td {
+.v-apply-info  > form > table > tbody > tr:not(:last-child) td {
     font-size: 14px;
     border: 1px solid black;
     height: 40px;
 }
 
-.v-apply-info table tr:last-child td:last-child {
-    text-align: left;
-    background-color: white;
-}
+/* .v-apply-info  > form > table tr:last-child td:last-child { */
+/*     text-align: left; */
+/*     background-color: white; */
+/* } */
 
 .v-apply-btn-div {
     margin-top: 20px;
