@@ -53,5 +53,9 @@ public interface SupportDAO {
 
 	ArrayList<SupportHistory> selectSupporterList(RowBounds rowBounds);
 
+	int getMListCount(int uNo);
+
+	ArrayList<SupportHistory> selectMySupportList(RowBounds rowBounds, int uNo);
+
 
 }

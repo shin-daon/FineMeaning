@@ -45,7 +45,6 @@
 	            <table class="v-table">
 	                <tr>
 	                	<td colspan="2" rowspan="5">사진 첨부</td>
-	                	
 	                    <td>카테고리</td>
 	                    <td colspan="3">
 	                        <span class="dropdown" id="area-dropdown">
@@ -75,28 +74,15 @@
 	                    </td>
 	                    
 	                </tr>
-<!-- 	                <tr> -->
-<!-- 	                    <td>모집기간</td> -->
-<!-- 	                    <td> -->
-<!-- 	                        <div class="dateDiv"> -->
-<!-- 	                            <input type="date" id="rStartDate" name="vRecruitmentStartDate" required/><span class="date-delimeter"></span><input type="date" id="rEndDate" name="vRecruitmentEndDate" required/> -->
-<!-- 	                        </div> -->
-<!-- 	                    </td> -->
-<!-- 	                    <td>활동요일</td> -->
-	                    
-<!-- 	                    <td> -->
-<!-- 	                    	<input type="hidden" id="vDay" name="vDay"/> -->
-<!-- 	                        <span class="v-day">월</span><span class="v-day">화</span><span class="v-day">수</span><span class="v-day">목</span><span class="v-day">금</span><span class="v-day">토</span><span class="v-day">일</span> -->
-<!-- 	                    </td> -->
-<!-- 	                </tr> -->
 	                <tr>
 	                    <td>목표 금액</td>
-	                    <td><input type="number" id="vCountAll" name="vCountAll" min="1" max="100" required/>원</td>
+	                    <td><input type="number" id="vCountAll" name="vCountAll" min="1" max="100" value="5000000" required/>원</td>
 	                </tr>
 	                <tr>
 	                    <td>후원 기관</td>
-	                    <td class="td-padding" >
+	                    <td class="td-padding">
 	                       [[${session.loginUser.registrar}]]
+	                       <input type="hidden" th:value="${session.loginUser.uNo}" name="userNo">
 	                    </td>
 	                </tr>
 	   				<tr>
@@ -105,9 +91,9 @@
 	                    </td>
 	                </tr>
 	            </table>
-		        <div>
-		            <button class="learn-more" id="modal-open" type="button">신청하기</button>
-		            <button class="learn-more" type="button" onclick="supportApplicationListUser.su">취소하기</button>
+		        <div class="applyButton">
+		            <button class="learn-more-green" type="button" onclick="supportApplicationListUser.su">취소하기</button>
+		            <button class="learn-more-green" id="modal-open" type="button">신청하기</button>
 		        </div> 
             </form>
 		
@@ -184,17 +170,24 @@ window.onload = () => {
         ]
 	});
 	
-	document.addEventListener('click', (event) => {
-        const target = event.target;
-        const dropdownContents = document.querySelectorAll('.dropdown-content');
-        const dropbtns = document.querySelectorAll('.dropdown-btn');
-        for(let i=0; i<dropbtns.length; i++) {
-        	if (target !== dropdownContents[i] && target !== dropbtns[i]) {
-                dropdownContents[i].style.display = 'none';
-            }
-        }
-    });
-	
+	 
+   	const categoryButton = document.querySelector('#areabtn')
+   	categoryButton.addEventListener('click', ()=>{
+   		document.querySelector('#area-content').style.display='block';
+   		
+   	})
+   	
+   	const categorys = document.querySelectorAll('.selectArea');
+   	if(categorys !=null) {
+   		for(const category of categorys){
+	   		category.addEventListener('click', function(){
+	   			categoryButton.innerText = this.innerHTML;
+	   			document.querySelector('#area').value = this.innerHTML;
+	   			document.querySelector('#area-content').style.display='none';
+	   		})
+   		}
+   	}
+    
 	document.querySelector("#vCountAll").parentElement.addEventListener("click", () => {
 		document.querySelector("#vCountAll").focus();
 	});
@@ -274,136 +267,9 @@ window.onload = () => {
         });
     }
 
-    document.getElementById("mainCategoryBtn").addEventListener("click", () => {
-        document.getElementById("mainCategory-content").style.display = "block";
-    });
-
-    for(const selectMainCategory of selectMainCategories) {
-        selectMainCategory.addEventListener("click", function() {
-            document.getElementById("mainCategoryBtn").innerText = this.innerText;
-            document.getElementById("mainCategory").value = this.getAttribute("data-value");
-            document.getElementById("mainCategory-content").style.display = "none";
-            document.querySelector('.subCategoryDelimiter').style.display = "inline-block";
-            document.getElementById("subCategory-dropdown").style.display = "inline-block";
-            if(checkMain) {
-                deleteSubCategory();
-            }
-            createSubCategory(this.innerText);
-            subCategoryEvent();
-            checkMain = true;
-        });
-    }
 	
-    const vDays = document.getElementsByClassName("v-day");
-    for(const vDay of vDays) {
-        vDay.addEventListener("click", function() {
-            this.classList.toggle("v-day-select");
-        });
-    }
     
-    let vDayVal = '';
-    let checkAllVal = false;
-    document.querySelector("#enrollbtn").addEventListener("click", () => {
-    	for(const vDay of vDays) {
-            if(vDay.classList.contains("v-day-select")) {
-            	vDayVal += vDay.innerText + ", ";
-            }
-        }
-    	vDayVal = vDayVal.substr(0, vDayVal.length - 2);
-    	document.querySelector("#vDay").value = vDayVal;
-    	if(document.querySelector("#area").value === "none") {
-    		alert("지역을 선택해주세요");
-    	} else if(vDayVal === '') {
-    		alert("요일을 선택해주세요");
-    	} else if(document.querySelector("#onoffLine").value === "none") {
-    		alert("활동구분을 선택해주세요");	
-    	} else if(document.querySelector("#mainCategory").value === "none") {
-    		alert("봉사분야를 선택해주세요");
-    	} else if(document.querySelector("#subCategory").value === "none") {
-    		alert("봉사분야(하위)를 선택해주세요");
-    	} else if(document.querySelector("#object").value === "none") {
-    		alert("봉사대상을 선택해주세요");
-    	} else {
-    		checkAllVal = true;
-    	}
-    	
-    	if(!checkAllVal) {
-    		event.preventDefault();
-    	}
-    	vDayVal = '';
-    })
 }
-
-const convenienceSupport = ['활동보조', '이동지원', '청결지도', '급식지원', '식사·반찬지원', '기타'];
-const residentalEnvironment = ['주거개선', '마을공동체활동', '기타'];
-const consultation = ['말벗·상담', '전문상담', '기타'];
-const education = ['방과후 교육', '학습지도 교육', '특수교육', '평생교육', '전문교육', '진로체험지도', '기타'];
-const cultureEvent = ['행사보조', '공연활동', '캠페인', '관광안내', '사진촬영', '기타'];
-const environmentalProtection = ['환경정화', '환경감시', '기타'];
-const safetyPevention = ['지역안전', '교통안전', '어린이 안전', '청소년 안전', '취약계층 안전', '안전신고·활동', '기타'];
-const disaster = ['피해복구', '긴급구조', '예방접종지원', '기타'];
-
-const deleteSubCategory = () => {
-    const subCategoryContent = document.getElementById("subCategory-content");
-    while (subCategoryContent.firstChild) {
-        subCategoryContent.removeChild(subCategoryContent.firstChild);
-        document.getElementById("subCategoryBtn").innerText = "선택";
-        document.getElementById("subCategory").value = "none";
-    }
-}
-
-let subValue = 1;
-const createSubCategory = (category) => {
-    let subCateName = '';
-    if(category == '생활편의지원') {
-        subCateName = convenienceSupport;
-        subValue = 1;
-    } else if(category == '주거환경') {
-        subCateName = residentalEnvironment;
-        subValue = 7;
-    } else if(category == '상담') {
-        subCateName = consultation;
-        subValue = 10;
-    } else if(category == '교육') {
-        subCateName = education;
-        subValue = 13;
-    } else if(category == '문화행사') {
-        subCateName = cultureEvent;
-        subValue = 20;
-    } else if(category == '환경보호') {
-        subCateName = environmentalProtection;
-        subValue = 26;
-    } else if(category == '안전·예방') {
-        subCateName = safetyPevention;
-        subValue = 29;
-    } else if(category == '재해·재난') {
-        subCateName = disaster;
-        subValue = 36;
-    }
-    
-    for(let i=0; i < subCateName.length; i++) {
-        let spanElement = document.createElement("span");
-        spanElement.classList.add("selectSubCategory");
-        spanElement.textContent = subCateName[i];
-        spanElement.setAttribute("data-value", subValue + i);
-        document.getElementById("subCategory-content").appendChild(spanElement);
-    }
-}
-
-const subCategoryEvent = () => {
-    let selectSubCategories = document.getElementsByClassName("selectSubCategory");
-    for(const selectSubCategory of selectSubCategories) {
-        selectSubCategory.addEventListener("click", function() {
-            document.getElementById("subCategoryBtn").innerText = this.innerText;
-            document.getElementById("subCategory").value = this.getAttribute("data-value");
-            document.getElementById("subCategory-content").style.display = "none";
-        });
-    }
-
-    document.getElementById("subCategoryBtn").addEventListener("click", () => {
-        document.getElementById("subCategory-content").style.display = "block";
-    });
-} 
 
 </script>
 

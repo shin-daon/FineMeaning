@@ -138,6 +138,19 @@ public class SupportServiceImpl implements SupportService{
 	}
 
 
+	@Override
+	public int getMListCount(int uNo) {
+		return suDAO.getMListCount(uNo);
+	}
+
+	@Override
+	public ArrayList<SupportHistory> selectMySupportList(PageInfo pi, int uNo) {
+		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return suDAO.selectMySupportList(rowBounds, uNo);
+	}
+
 
 
 

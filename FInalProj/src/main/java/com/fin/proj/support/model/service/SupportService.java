@@ -49,6 +49,11 @@ public interface SupportService {
 
 	ArrayList<SupportHistory> selectSupporterList(PageInfo pi);
 
+	int getMListCount(int uNo);
+
+	ArrayList<SupportHistory> selectMySupportList(PageInfo pi, int uNo);
+
+
 
 
 
