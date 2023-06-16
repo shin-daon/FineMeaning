@@ -30,7 +30,7 @@ public class EmailService {
 		
 		String setFrom = "finemeaning.kh@gmail.com"; // email-config에 설정한 자신의 이메일 주소를 입력 
 		String toMail = emailAddress;
-		String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목 
+		String title = "선뜻 - 회원 가입 인증 이메일 입니다."; // 이메일 제목 
 		String content = 
 				"홈페이지를 방문해주셔서 감사합니다." + 	//html 형식으로 작성 ! 
                 "<br><br>" + 
