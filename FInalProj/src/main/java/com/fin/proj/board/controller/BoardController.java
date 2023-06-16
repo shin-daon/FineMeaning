@@ -99,6 +99,22 @@ public class BoardController {
 		return "faq_form";
 	}
 	
+	@PostMapping("insert_faq.bo")
+	public String insertFaq(@ModelAttribute Board b, HttpSession session) {
+		
+		String id = ((Member)session.getAttribute("loginUser")).getuId();
+		b.setuId(id);
+		b.setBoardType(6);
+		
+		int result = bService.insertBoard(b);
+		
+		if(result > 0) {
+			return "redirect:faqMain.bo";
+		} else {
+			throw new BoardException("게시글 작성 실패");
+		}
+	}
+	
 	@GetMapping("faq_edit.bo")
 	public String faqEdit() {
 		return "faq_edit";
@@ -138,11 +154,6 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("fruit_form.bo")
-	public String fruitForm() {
-		return "fruit_form";
-	}
-	
 	@GetMapping("fruit_detail.bo")
 	public String fruitDetail(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
 							  HttpSession session, Model model) {
@@ -169,6 +180,16 @@ public class BoardController {
 		} else {
 			throw new BoardException("게시글 상세 조회 실패");
 		}
+	}
+	
+	@GetMapping("fruit_form.bo")
+	public String fruitForm() {
+		return "fruit_form";
+	}
+	
+	@GetMapping("fruit_edit.bo")
+	public String fruitEdit() {
+		return "fruit_edit"; 
 	}
 	
 	@GetMapping("fineNewsMain.bo")

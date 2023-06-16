@@ -46,7 +46,7 @@
 	
 	<insert id="insertBoard">
 		insert into board
-		values(seq_bid.nextval, #{uNo},  #{boardType}, #{boardTitle},  #{boardContent}, sysdate, default, default, null, null, null)
+		values(seq_bid.nextval, #{uNo}, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, default, default, null, null, null)
 	</insert>
 	
 	<update id="updateBoard">
