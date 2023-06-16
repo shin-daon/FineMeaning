@@ -20,4 +20,8 @@ public interface BoardService {
 
 	void insertReply(Reply r);
 
+	int updateBoard(Board b);
+
+	int deleteBoard(int bId);
+
 }

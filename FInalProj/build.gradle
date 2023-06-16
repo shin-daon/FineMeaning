@@ -38,13 +38,13 @@ dependencies {
 	
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools
 	implementation 'org.springframework.boot:spring-boot-devtools:3.1.0'
-<<<<<<< HEAD
 
 	// https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-java8time
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE'
 	
-=======
->>>>>>> 850714022793ebb2cf09a803adfb2a98f47aaa3c
+	// email
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 }
 
 tasks.named('test') {

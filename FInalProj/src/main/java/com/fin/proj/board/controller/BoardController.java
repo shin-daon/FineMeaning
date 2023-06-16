@@ -2,6 +2,8 @@ package com.fin.proj.board.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -246,6 +248,49 @@ public class BoardController {
 			throw new BoardException("게시글 작성 실패 ㅠ");
 		}
 	}
+	
+	@RequestMapping("updateForm.bo")
+	public String updateForm(@RequestParam("bNo") int boardNo, @RequestParam("page") int page, Model model) {
+		Board board = bService.selectBoard(boardNo, false);
+		model.addAttribute("board", board);
+		model.addAttribute("page", page);
+		return "editComm";
+	}
+	
+	@PostMapping("updateBoard.bo")
+	public String updateCommBoard(@ModelAttribute Board b, @RequestParam("page") int page, Model model, HttpSession session) {
+		
+		b.setBoardType(1);
+		int result = bService.updateBoard(b);
+		System.out.println(result);
+		
+		if(result > 0) {
+			model.addAttribute("bNo", b.getBoardNo());
+			model.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuId());
+			model.addAttribute("page", page);
+			return "redirect:selectBoard.bo";
+			
+		} else {
+			throw new BoardException("게시글 수정을 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("delete.bo")
+	public String deleteCommBoard(@RequestParam("bId") String encode) {
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(encode);
+		String decode = new String(byteArr);
+		int bId = Integer.parseInt(decode);
+		
+		int result = bService.deleteBoard(bId);
+		if(result > 0) {
+			return "redirect:list.bo";
+		} else {
+			throw new BoardException("게시글 삭제 실패했습니다유ㅠ");
+		}
+	}
+	
 	
 	@GetMapping("noticeList.bo")
 	public String noticeList() {
