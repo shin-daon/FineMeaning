@@ -162,19 +162,47 @@ width: 80px;
 						</tbody>
 					</table>
 				
-        
+       <th:block th:if="${session.loginUser != null && session.loginUser.uNo eq board.uNo}"> 
          <div class="actionArea">
             <div class="writeArea">
-                <button class="writeFaqBtn learn-more" onclick="location.href='commList.bo'">목록으로</button>
                 <button class="writeFaqBtn learn-more" onclick="location.href='editComm.bo'">수정하기</button>
-                <button class="writeFaqBtn learn-more" onclick="location.href='commList.bo'">삭제하기</button>
-            </div>
+                <button class="writeFaqBtn learn-more" type="button" id="deleteModal">삭제하기</button>
 			</div>
+			</div>
+		</th:block>
+		<button class="writeFaqBtn learn-more" onclick="location.href='commList.bo'">목록으로</button>
 		</form>
+		
+		
+			<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
+			<div class="modal-dialog" role="document">
+	    		<div class="modal-content rounded-3 shadow">
+	      			<div class="modal-body p-4 text-center">
+	        			<h3 class="mb-0">정말로 삭제하시겠습니까?</h3>
+	        			<p class="mb-0">삭제 후 게시글은 되돌릴 수 없습니다.</p>
+	      			</div>
+	      			<div class="modal-footer flex-nowrap p-0">
+	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" th:onclick="location.href='Commdelete.bo?bId='+btoa([[${board.boardNo}]])">
+	        				<strong>네</strong>
+	        			</button>
+	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+	      			</div>
+	    		</div>
+	  		</div>
+		</div>
     </section>
 <div th:replace="~{../common/footer :: footer}"></div>
     	
   	<script th:inline="javascript">
+		  	window.onload = () =>{
+				const deleteModal = document.getElementById('deleteModal');
+				if(deleteModal != null){
+					deleteModal.addEventListener('click', ()=>{
+						$('#modalChoice').modal('show');
+					})
+			}
+		}
+  	
 		/*<![CDATA[*/
 		   document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/5;
 		/*]]>*/	
