@@ -126,8 +126,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="checkEmail.me") 
-	public void checkEmail(@RequestParam("emailAddress") String emailAddress,
-						   PrintWriter out) {
+	public void checkEmail(@RequestParam("emailAddress") String emailAddress, PrintWriter out) {
 		
 		System.out.println("보낼 이메일 : " + emailAddress);
 		int count = eService.checkEmail(emailAddress);
