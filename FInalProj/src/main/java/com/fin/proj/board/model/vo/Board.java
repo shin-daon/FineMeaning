@@ -2,6 +2,8 @@ package com.fin.proj.board.model.vo;
 
 import java.sql.Date;
 
+import com.fin.proj.member.model.vo.Member;
+
 public class Board {
 	private int boardNo;
 	private int uNo;
@@ -16,6 +18,7 @@ public class Board {
 	private String newsURL;
 	private String fpName;
 	private String boardCate;
+	private Member member;
 	
 	public Board() {}
 

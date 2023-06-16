@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fin.proj.board.model.exception.BoardException;
 import com.fin.proj.board.model.service.BoardService;
@@ -246,6 +247,7 @@ public class BoardController {
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
 			model.addAttribute("list", list);
+			System.out.println(list);
 			return "commList";
 		} else {
 			throw new BoardException("게시글 목록 조회 실패");
@@ -261,7 +263,6 @@ public class BoardController {
 	public String CommDetail(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer,
 							@RequestParam("page") int page, HttpSession session, Model model) {
 		Member m = (Member)session.getAttribute("loginUser");
-		
 		String readerNickName = null;
 		if(m != null) {
 			readerNickName = m.getuNickName();
@@ -289,8 +290,10 @@ public class BoardController {
 	
 	@PostMapping("insertBoard.bo")
 	public String insertCommBoard(@ModelAttribute Board b, HttpSession session) {
-		String id = ((Member)session.getAttribute("loginUser")).getuId();
-		b.setuId(id);
+		int id = ((Member)session.getAttribute("loginUser")).getuNo();
+		System.out.println("id=" + id);
+		b.setuNo(id);
+		System.out.println("들어간 id" + id);
 		b.setBoardType(1);
 		
 		int result = bService.insertBoard(b);
@@ -311,24 +314,24 @@ public class BoardController {
 	}
 	
 	@PostMapping("updateBoard.bo")
-	public String updateCommBoard(@ModelAttribute Board b, @RequestParam("page") int page, Model model, HttpSession session) {
+	public String updateCommBoard(@ModelAttribute Board b, @RequestParam("page") int page, RedirectAttributes ra, HttpSession session) {
 		
 		b.setBoardType(1);
 		int result = bService.updateBoard(b);
 //		System.out.println(result);
 		
 		if(result > 0) {
-			model.addAttribute("bNo", b.getBoardNo());
-			model.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuId());
-			model.addAttribute("page", page);
-			return "redirect:selectBoard.bo";
+			ra.addAttribute("bNo", b.getBoardNo());
+			ra.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuId());
+			ra.addAttribute("page", page);
+			return "redirect:commDetailPage.bo";
 			
 		} else {
 			throw new BoardException("게시글 수정을 실패하였습니다.");
 		}
 	}
 	
-	@RequestMapping("delete.bo")
+	@RequestMapping("Commdelete.bo")
 	public String deleteCommBoard(@RequestParam("bId") String encode) {
 		
 		Decoder decoder = Base64.getDecoder();
@@ -338,7 +341,7 @@ public class BoardController {
 		
 		int result = bService.deleteBoard(bId);
 		if(result > 0) {
-			return "redirect:list.bo";
+			return "redirect:commList.bo";
 		} else {
 			throw new BoardException("게시글 삭제 실패했습니다유ㅠ");
 		}

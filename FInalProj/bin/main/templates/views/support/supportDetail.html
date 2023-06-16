@@ -125,7 +125,7 @@ body {
                                     <tr th:each="l:${sdList}" th:if="${sdList !=null}">
                                         <td>사업비</td>
                                         <td class="contentDetail" th:text="${l.supportDetailContent}"/>
-                                        <td th:text="${l.supportDetailAmount} + 원"></td>
+                                        <td th:text="${l.supportDetailAmount} + '원'"></td>
                                     </tr>                                   
                             </tbody>
                         </table>
@@ -157,7 +157,7 @@ body {
                 </div>
 
                 <div class="donationButton">
-                    <button class="learn-more supportButton" onclick="location.href='doSupport.su'">모금함 기부하기</button>
+                    <button class="learn-more supportButton" th:onclick="|location.href='doSupport.su'|">모금함 기부하기</button>
                 </div>
 
                 <div class="supportSubTitle2">

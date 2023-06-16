@@ -25,9 +25,9 @@
 	
 	<select id="selectBoardList" resultMap="boardResultSet">
 		select *
-		from board
-			join users using(u_no)
-		where board_status='Y' and board_type=#{i}
+		from board b
+			join USERS u on(b.u_NO = u.u_NO)
+		where board_status = 'Y' and board_type = #{i}
 		order by board_no desc
 	</select>
 	
@@ -38,7 +38,7 @@
 	</update>
 	
 	<select id="selectBoard" resultMap="boardResultSet">
-	    SELECT b.*, u.u_nickname
+	    SELECT b.*, u.u_nickname, u.u_id
 	    FROM board b
 	    INNER JOIN users u ON u.u_No = b.u_No
 	    WHERE b.board_no = #{bNo}
@@ -58,7 +58,7 @@
 	<update id="deleteBoard">
 		update board
 		set board_status = 'N'
-		where board_id = #{bId}
+		where board_no = #{bId}
 	</update>
 	
 	<select id="selectReply" resultMap="replyResultSet">

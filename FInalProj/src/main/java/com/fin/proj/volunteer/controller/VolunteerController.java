@@ -84,8 +84,11 @@ public class VolunteerController {
 		return "volunteerEnrollHistory";
 	}
 	
-	@GetMapping("volunteerEdit.vo")
-	public String volunteerEdit() {
+	@PostMapping("volunteerEdit.vo")
+	public String volunteerEdit(@RequestParam("vNo") int vNo, @RequestParam("page") int page, Model model) {
+		Volunteer v = vService.selectVolunteer(vNo);
+		model.addAttribute("v", v);
+		model.addAttribute("page", page);
 		return "volunteerEdit";
 	}
 	
