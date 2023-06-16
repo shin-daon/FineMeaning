@@ -385,6 +385,7 @@ a {
 				<label class="title">닉네임</label>
 				<div class="input">
 					<input type="text" id="normal-input" name="uNickName" th:value="${loginUser.uNickName}"/>
+					<div class="check-div"><label id="nickNameCheckResult"></label></div>
 				</div>
 			</div>
 	
@@ -482,7 +483,7 @@ a {
     		
     		nickName.addEventListener('change', function(){				
 				if(this.value.trim() == ''){
-					nickNameResult.innerText = '아이디를 입력해주세요.';
+					nickNameResult.innerText = '닉네임을 입력해주세요.';
 					nickNameResult.style.color = 'gray';
 					nickName.style.outline = '';
 					nickName.style.boxShadow = '';
@@ -493,12 +494,12 @@ a {
 						success: data => {
 							console.log(data);
 							if(data == 'yes'){
-								nickNameResult.innerText = '사용 가능한 아이디입니다.';
+								nickNameResult.innerText = '사용 가능한 닉네임입니다.';
 								nickNameResult.style.color = '#609966';
 								nickName.style.outline = '1px solid #609966';
 								nickName.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
 							} else if(data == 'no'){
-								nickNameResult.innerText = "사용 불가능한 아이디입니다.";
+								nickNameResult.innerText = "사용 불가능한 닉네임입니다.";
 								nickNameResult.style.color = 'red';
 								nickName.style.outline = '1px solid red';
 								nickName.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
