@@ -18,4 +18,6 @@ public interface VolunteerDAO {
 
 	Volunteer selectVolunteer(int vNo);
 
+	int updateVolunteer(Volunteer v);
+
 }

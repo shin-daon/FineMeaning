@@ -14,4 +14,6 @@ public interface VolunteerService {
 	ArrayList<Volunteer> selectVolunteerList(PageInfo pi);
 
 	Volunteer selectVolunteer(int vNo);
+
+	int updateVolunteer(Volunteer v);
 }

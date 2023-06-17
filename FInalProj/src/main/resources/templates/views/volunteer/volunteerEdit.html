@@ -30,6 +30,8 @@
 
         <section class="v-apply-info">
         	<form id="vForm" action="updateVolunteer.vo" method="post">
+        		<input type="hidden" name="vNo" th:value="${v.vNo}">
+        		<input type="hidden" name="page" th:value="${page}">
 	            <table class="v-table">
 	                <tr>
 	                    <td>지역</td>

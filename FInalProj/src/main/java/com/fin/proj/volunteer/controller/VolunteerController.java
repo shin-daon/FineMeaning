@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fin.proj.common.Pagination;
 import com.fin.proj.common.model.vo.PageInfo;
@@ -54,7 +55,7 @@ public class VolunteerController {
 //		System.out.println(v);
 		if(v != null) {
 			HashMap<String, Double> map = Map.getLongitudeAndLatitude(v.getAddress());
-			System.out.println(map);
+//			System.out.println(map);
 			model.addAttribute("v", v);
 			model.addAttribute("page", page);
 			model.addAttribute("map", map);
@@ -96,10 +97,23 @@ public class VolunteerController {
 	public String insertVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
 //		System.out.println((Member)session.getAttribute("loginUser"));
 		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
-		System.out.println(v);
+//		System.out.println(v);
 		int result = vService.insertVolunteer(v);
 		if(result > 0) {
 			return "redirect:volunteerEnrollHistory.vo";
+		}
+		return null;
+	}
+	
+	@PostMapping("updateVolunteer.vo")
+	public String updateVolunteer(@ModelAttribute Volunteer v, @RequestParam("page") int page, HttpSession session, RedirectAttributes ra) {
+		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
+//		System.out.println(v);
+		int result = vService.updateVolunteer(v);
+		if(result > 0) {
+			ra.addAttribute("vNo", v.getvNo());
+			ra.addAttribute("page", page);
+			return "redirect:volunteerDetail.vo";
 		}
 		return null;
 	}
