@@ -103,8 +103,8 @@ public class BoardController {
 	@PostMapping("insert_faq.bo")
 	public String insertFaq(@ModelAttribute Board b, HttpSession session) {
 		
-		String id = ((Member)session.getAttribute("loginUser")).getuId();
-		b.setuId(id);
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		b.setuNo(uNo);
 		b.setBoardType(6);
 		
 		int result = bService.insertBoard(b);
@@ -188,6 +188,22 @@ public class BoardController {
 		return "fruit_form";
 	}
 	
+	@PostMapping("insert_fruit.bo")
+	public String insertFruit(@ModelAttribute Board b, HttpSession session) {
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		b.setuNo(uNo);
+		b.setBoardType(5);
+		
+		int result = bService.insertBoard(b);
+		
+		if(result > 0) {
+			return "redirect:fruitMain.bo";
+		} else {
+			throw new BoardException("게시글 작성 실패");
+		}
+	}
+	
 	@GetMapping("fruit_edit.bo")
 	public String fruitEdit() {
 		return "fruit_edit"; 
@@ -201,17 +217,6 @@ public class BoardController {
 	@GetMapping("fineNews_form.bo")
 	public String fineNewsForm() {
 		return "fineNews_form";
-	}
-	
-	// my page
-	@GetMapping("myBoard.bo")
-	public String myBoard() {
-		return "myBoard";
-	}
-	
-	@GetMapping("myReply.bo")
-	public String myReply() {
-		return "myReply";
 	}
 	
 	// 댓글
@@ -230,6 +235,18 @@ public class BoardController {
 			e.printStackTrace();
 		} 
 	}
+	
+	// my page
+	@GetMapping("myBoard.bo")
+	public String myBoard() {
+		return "myBoard";
+	}
+	
+	@GetMapping("myReply.bo")
+	public String myReply() {
+		return "myReply";
+	}
+	
 	
 	@GetMapping("commList.bo")
 		public String CommMain(@RequestParam(value="page", required=false) Integer currentPage, Model model) {

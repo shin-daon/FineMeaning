@@ -2,8 +2,6 @@ package com.fin.proj.board.model.vo;
 
 import java.sql.Date;
 
-import com.fin.proj.member.model.vo.Member;
-
 public class Board {
 	private int boardNo;
 	private int uNo;
@@ -17,14 +15,13 @@ public class Board {
 	private int boardCount;
 	private String newsURL;
 	private String fpName;
-	private String boardCate;
-	private Member member;
+	private int boardCate;
 	
 	public Board() {}
 
 	public Board(int boardNo, int uNo, String uId, String nickName, int boardType, String boardTitle,
 			String boardContent, Date boardDate, char boardStatus, int boardCount, String newsURL, String fpName,
-			String boardCate) {
+			int boardCate) {
 		super();
 		this.boardNo = boardNo;
 		this.uNo = uNo;
@@ -137,11 +134,11 @@ public class Board {
 		this.fpName = fpName;
 	}
 
-	public String getBoardCate() {
+	public int getBoardCate() {
 		return boardCate;
 	}
 
-	public void setBoardCate(String boardCate) {
+	public void setBoardCate(int boardCate) {
 		this.boardCate = boardCate;
 	}
 

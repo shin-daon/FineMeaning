@@ -64,7 +64,7 @@
         <div id="fruit_write_title">게시글 작성🌳</div>
 		
 		<div id="formDiv">
-	        <form method="post" action="#">
+	        <form method="post" action="insert_fruit.bo">
 	            <div id="writeForm">
                     <div class="titleArea">
                         <div class="dropdown">
@@ -82,8 +82,8 @@
 	                <textarea id="summernote" name="boardContent"></textarea>
 	            </div>
 	            <div class="btnArea">
-	                <button type="button" class="writeFaqBtn learn-more" onclick="goWrite(this.form)">글쓰기</button>
-	                <button type="button" class="backBtn learn-more-back" onclick="goWrite(this.form)">취소</button>
+	                <button type="submit" class="writeFaqBtn learn-more">글쓰기</button>
+	                <button type="button" class="backBtn learn-more-back">취소</button>
 	            </div>    
 	        </form>
         </div>
@@ -125,14 +125,22 @@
                 }
             });
 			
+			
 			// span selectCate를 선택하면 name boardCate value에 해당 값이 들어가게 하기.
 			
 			const categories = document.querySelectorAll('.selectCate');
 			for(const category of categories){
 				category.addEventListener('click', function(){
 					const cate = this.innerText;
-					const boardCate = document.getElementsByName('boardCate');
-					boardCate.value = cate;
+					
+					const boardCate = document.getElementsByName('boardCate')[0];
+					
+					if(cate == '후원'){
+						boardCate.value = 1;
+					} else {
+						boardCate.value = 2;
+					}
+// 					console.log(boardCate.value);
 				});
 			}
 			
