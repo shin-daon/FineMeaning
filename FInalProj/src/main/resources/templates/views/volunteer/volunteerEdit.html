@@ -29,7 +29,7 @@
         </div>
 
         <section class="v-apply-info">
-        	<form id="vForm" action="insertVolunteer.vo" method="post">
+        	<form id="vForm" action="updateVolunteer.vo" method="post">
 	            <table class="v-table">
 	                <tr>
 	                    <td>지역</td>
@@ -175,7 +175,7 @@
     
    	<div th:replace="~{../common/footer :: footer}"></div>  
 
-    <script>
+    <script th:inline="javascript">
         window.onload = () => {      	
         	$('#summernote').summernote({
 				placeholder: '내용을 입력하세요.',
@@ -219,10 +219,15 @@
         	const now = new Date();
 			const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
 			
-			startDate.setAttribute("min", today);
-			endDate.setAttribute("min", today);
-			rStartDate.setAttribute("min", today);
-			rEndDate.setAttribute("min", today);
+			/*<![CDATA[*/
+			startDate.setAttribute("min", /*[[${v.vStartDate}]]*/today);
+			endDate.setAttribute("min", /*[[${v.vStartDate}]]*/today);
+			rStartDate.setAttribute("min", /*[[${v.vRecruitmentStartDate}]]*/today);
+			rEndDate.setAttribute("min", /*[[${v.vRecruitmentStartDate}]]*/today);
+			
+			createSubCategory(/*[[${v.vMainCategoryName}]]*/);
+            subCategoryEvent();
+			/*]]>*/
 			
         	startDate.addEventListener("change", function() {
         		endDate.setAttribute("min", this.value);
@@ -342,7 +347,6 @@
             	vDayVal = '';
             });
             
-            console.log(document.querySelector("#subCategory").value);
             createSubCategory(document.querySelector("#subCategory").value);
             subCategoryEvent();
         }
