@@ -236,6 +236,21 @@ public class BoardController {
 		} 
 	}
 	
+	@RequestMapping("deleteReply.bo")
+	public String deleteReply(@RequestParam("rNo") int replyNo,
+							  @RequestParam("bNo") int boardNo) {
+		System.out.println(replyNo);
+		System.out.println(boardNo);
+		
+		// replyNo 이용해 해당 댓글 삭제한 후,
+		// boardNo 받아와서 selectReply 한 후 해당 디테일 페이지 띄워주기
+		// RedirectAttribute 이용!
+		
+//		ArrayList<Reply> replyList = bService.selectReply(bNo);
+		
+		return null;
+	}
+	
 	// my page
 	@GetMapping("myBoard.bo")
 	public String myBoard() {
