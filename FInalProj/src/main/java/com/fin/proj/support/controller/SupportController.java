@@ -108,26 +108,16 @@ public class SupportController {
 	}
 	
 	@RequestMapping("supportApply.su")
-	public String supportApply(HttpSession session, @ModelAttribute Support s, @RequestParam("supportDetailContent") ArrayList<String> sdcList,
-								@RequestParam("supportDetailAmount") ArrayList<String> sdaList) {
-		
+	public String supportApply(HttpSession session, @ModelAttribute Support s) {
 		
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		String registar = ((Member)session.getAttribute("loginUser")).getRegistrar();
 		s.setUserNo(uNo);
 		s.setRegistar(registar);
 
-		int result1 = suService.supportApply(s);
+		int result = suService.supportApply(s);
 
-		int result2 = 0;
-		for(int i = 0; i < sdcList.size(); i++ ) {
-			SupportDetail sd = new SupportDetail();
-			sd.setSupportDetailContent(sdcList.get(i));
-			sd.setSupportDetailAmount(Integer.parseInt(sdaList.get(i)));
-			result2 = suService.insertSupportDetail(sd);
-		}
-		
-		if(result1 + result2>0) {
+		if(result >0) {
 			return "redirect:supportApplicationListUser.su";
 		} else {
 			throw new SupportException("신청에 실패하였습니다.");

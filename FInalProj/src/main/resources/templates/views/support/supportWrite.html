@@ -28,6 +28,11 @@
     		text-align:left;
 		}
 		
+		.supportPicTd:hover{
+			background-color: rgb(224, 224, 224);
+			color:darkgreen;
+		}
+		
 	</style>
 
 </head>
@@ -56,10 +61,15 @@
 
 
         <section class="v-apply-info">
-        	<form id="vForm" action="insertVolunteer.vo" method="post">
+        	<form id="supportApply" action="supportApply.su" method="post">
 	            <table class="v-table">
 	                <tr>
-	                	<td colspan="2" rowspan="5" width="30%">사진 첨부</td>
+	                	<td colspan="2" rowspan="5" width="30%" class="supportPicTd">
+	                		<div style="display:none" class="supportPicDiv">
+		                		<input type="file" name="file" id="supportPicInput">
+		                	</div>
+		                		사진 첨부
+	                	</td>
 	                    <td>카테고리</td>
 	                    <td>
 	                        <span class="dropdown" id="area-dropdown">
@@ -91,7 +101,7 @@
 	                </tr>
 	                <tr>
 	                    <td>목표 금액</td>
-	                    <td><input type="number" id="vCountAll" name="vCountAll" min="0" step="100000" value="5000000" required/>원</td>
+	                    <td><input type="number" id="vCountAll" name="targetAmount" min="0" step="100000" value="5000000" required/>원</td>
 	                </tr>
 	                <tr>
 	                    <td>후원 기관</td>
@@ -202,6 +212,10 @@ window.onload = () => {
 	   		})
    		}
    	}
+   	
+   	document.querySelector('.supportPicTd').addEventListener('click', ()=>{
+   		document.querySelector('#supportPicInput').click();
+   	})
     
 	document.querySelector("#vCountAll").parentElement.addEventListener("click", () => {
 		document.querySelector("#vCountAll").focus();
