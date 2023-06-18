@@ -191,11 +191,12 @@ public class BoardController {
 	@PostMapping("insert_fruit.bo")
 	public String insertFruit(@ModelAttribute Board b, HttpSession session) {
 		
+		System.out.println(b);
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		b.setuNo(uNo);
 		b.setBoardType(5);
 		
-		int result = bService.insertBoard(b);
+		int result = bService.insertFruit(b);
 		
 		if(result > 0) {
 			return "redirect:fruitMain.bo";
@@ -239,6 +240,7 @@ public class BoardController {
 	@RequestMapping("deleteReply.bo")
 	public String deleteReply(@RequestParam("rNo") int replyNo,
 							  @RequestParam("bNo") int boardNo) {
+		
 		System.out.println(replyNo);
 		System.out.println(boardNo);
 		

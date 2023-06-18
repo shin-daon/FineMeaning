@@ -127,7 +127,6 @@
 			
 			
 			// span selectCate를 선택하면 name boardCate value에 해당 값이 들어가게 하기.
-			
 			const categories = document.querySelectorAll('.selectCate');
 			for(const category of categories){
 				category.addEventListener('click', function(){
@@ -145,6 +144,18 @@
 			}
 			
 			
+			// 카테고리 연관된 input="hidden"에 값이 없을 경우 submit 막기
+			const submitBtn = document.querySelector('.writeFaqBtn');
+			submitBtn.addEventListener('click', function(){
+				const boardCate = document.getElementsByName('boardCate')[0];
+				if(boardCate.value === 'none'){
+					event.preventDefault(); // 폼 제출 막기
+					alert('글 작성 시 카테고리 선택은 필수입니다.');
+				}
+			});
+			
+			
+			// 모달
 			const backBtn = document.getElementsByClassName('backBtn')[0];
 			const yesBtn = document.getElementById('withdrawal-btn');
 			const noBtn = document.getElementById('rollback-btn');
@@ -164,8 +175,8 @@
 			    modal.style.display = 'none';
 			});
 			
-			// 썸머노트
 			
+			// 썸머노트
 			$('#summernote').summernote({
 		        placeholder: '내용을 입력해주세요🍀',
 		        tabsize: 2,

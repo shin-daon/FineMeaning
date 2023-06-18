@@ -24,4 +24,6 @@ public interface BoardService {
 
 	int deleteBoard(int bId);
 
+	int insertFruit(Board b);
+
 }
