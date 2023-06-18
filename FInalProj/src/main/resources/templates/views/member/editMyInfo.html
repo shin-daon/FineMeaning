@@ -312,7 +312,7 @@ a {
 	<div class="enroll">
 		<div class="enroll-title">내 정보 수정</div>
 		
-		<form>
+		<form action="updateMyInfo.me" method="post">
 			<div class="insert id">
 				<label class="title">아이디</label>
 				<div class="input">
@@ -330,17 +330,17 @@ a {
 			<div class="insert agency-name">
 				<label class="title">회원 유형</label><br>
 				<div class="input">
-					<input type="radio" id="user-type" name="uType" th:checked="${loginUser.uType == '일반'}" /><span class="radio-comment">일반</span>
-					<input type="radio" id="user-type" name="uType" th:checked="${loginUser.uType == '단체'}" /><span class="radio-comment">단체</span>
-					<input type="text" id="short-input" th:value="${loginUser.registrar}" readonly/>
+					<input type="radio" id="user-type" name="uType" value="일반" th:checked="${loginUser.uType == '일반'}" /><span class="radio-comment">일반</span>
+					<input type="radio" id="user-type" name="uType" value="단체" th:checked="${loginUser.uType == '단체'}" /><span class="radio-comment">단체</span>
+					<input type="text" id="short-input" name="registrar" th:value="${loginUser.registrar}" readonly/>
 				</div>
 			</div>
 		
 			<div class="insert ssn">
 				<label class="title">주민등록번호</label>
 				<div class="input">
-					<input type="text" id="ssn-input" value="앞 자리" maxlength="6" th:value="${loginUser.residentNo != null ? loginUser.residentNo.substring(0, loginUser.residentNo.indexOf('-')) : ''}" readonly/><span class="nothing" readonly>-</span>
-					<input type="password" id="ssn-input" value="뒷 자리" maxlength="7" th:value="${loginUser.residentNo != null ? loginUser.residentNo.substring(loginUser.residentNo.indexOf('-') + 1) : ''}" readonly/>
+					<input type="text" id="ssn-input" maxlength="6" name="first-ssn" th:value="${loginUser.residentNo != null ? loginUser.residentNo.substring(0, loginUser.residentNo.indexOf('-')) : ''}" readonly/><span class="nothing" readonly>-</span>
+					<input type="password" id="ssn-input" maxlength="7" name="two-ssn" th:value="${loginUser.residentNo != null ? loginUser.residentNo.substring(loginUser.residentNo.indexOf('-') + 1) : ''}" readonly/>
 				</div>
 			</div>
 			
@@ -402,7 +402,7 @@ a {
 			<span class="modal-comment">탈퇴 버튼 선택 시, 계정은 삭제되며</span><br>
 			<span class="modal-comment">복구되지 않습니다.</span><br><br>
 			<button id="rollback-btn">취소</button>
-			<button id="withdrawal-btn">탈퇴</button>			
+			<button id="withdrawal-btn" onClick="location.href='deleteUser.me'">탈퇴</button>			
 		</div>
 						
 		</div>
@@ -426,7 +426,7 @@ a {
 	});
 	
 	yesBtn.addEventListener('click', () => {
-	    modal.style.display = 'none';
+		alert("정상적으로 탈퇴가 완료되었습니다.")
 	});
 	
 	noBtn.addEventListener('click', () => {
