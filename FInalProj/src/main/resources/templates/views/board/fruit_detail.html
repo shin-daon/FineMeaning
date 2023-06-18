@@ -65,10 +65,18 @@
         
 		<div class="replyArea">
 	 		<div class="replyTitle">댓글</div>
-	 		<div class="replyWriteArea">
-			 	<input type="text" class="replyInput" required/>
-			 	<button type="submit" class="replyBtn">작성</button>
-	 		</div>
+	 		<th:block th:if="${ session.loginUser != null }">
+		 		<div class="replyWriteArea">
+				 	<input type="text" class="replyInput" required/>
+				 	<button type="submit" class="replyBtn">작성</button>
+		 		</div>
+	 		</th:block>
+	 		<th:block th:if="${ session.loginUser == null }">
+	 			<div class="replyWriteArea">
+				 	<input type="text" class="replyInput" placeholder="로그인 후 댓글을 남겨주세요." disabled required/>
+				 	<button type="submit" class="replyBtn" disabled>작성</button>
+		 		</div>
+	 		</th:block>
 	 		
 	 		<div id="meaningless">
 			 	<div class="reply" th:each=" r : ${replyList}">
@@ -98,7 +106,6 @@
         </div>
 	</section>
 	<div th:replace="~{views/common/footer :: footer}"></div>
-	
 	<script th:inline="javascript">
 		window.onload = () => {
 			
@@ -112,7 +119,8 @@
 						url:'insertReply.bo',
 						data: {
 							replyContent:document.getElementsByClassName('replyInput')[0].value,
-							nickName:/*[[${session.login == null ? '' : session.loginUser.uNickName}]]*/1,
+							replyWriter:/*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/1,
+							nickName:/*[[${session.loginUser == null ? '' : session.loginUser.uNickName}]]*/1,
 							boardNo:/*[[${board.boardNo}]]*/1,
 							boardTitle:/*[[${board.boardTitle}]]*/1
 						},
@@ -148,7 +156,7 @@
 								
 								const replySet = document.createElement('div');
 								replySet.classList.add('replySet');
-
+								
 								const deleteLink = document.createElement('a');
 								deleteLink.classList.add('aTags');
 								deleteLink.setAttribute('href', 'deleteReply.bo');

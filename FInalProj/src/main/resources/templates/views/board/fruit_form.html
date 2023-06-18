@@ -77,9 +77,9 @@
                                 <span class="selectCate">봉사</span>
                             </div>
                         </div>
-                        <input type="text" id="title" name="boardTitle" placeholder="제목을 입력하세요.">
+                        <input type="text" id="title" name="boardTitle" placeholder="제목을 입력하세요." required>
                     </div>
-	                <textarea id="summernote" name="boardContent"></textarea>
+	                <textarea id="summernote" name="boardContent" required></textarea>
 	            </div>
 	            <div class="btnArea">
 	                <button type="submit" class="writeFaqBtn learn-more">글쓰기</button>
@@ -114,6 +114,7 @@
 			document.getElementById('dropbtn').addEventListener('click', ()=>{
 				document.getElementsByClassName('dropdown-content')[0].style.display='block';	
 			});
+			
 			
 			// dropbtn 이나 dropdownContent 외의 다른 영역 클릭 시 none
 			document.addEventListener('click', (event) => {

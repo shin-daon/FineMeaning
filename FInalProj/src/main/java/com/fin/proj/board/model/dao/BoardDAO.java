@@ -31,4 +31,5 @@ public interface BoardDAO {
 
 	int insertFruit(Board b);
 
+	int deleteReply(int replyNo);
 }

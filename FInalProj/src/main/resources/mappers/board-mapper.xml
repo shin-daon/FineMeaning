@@ -87,7 +87,6 @@
 		<result column="re_create_date" property="replyDate"/>
 		<result column="RE_STATUS" property="replyStatus"/>
 	</resultMap>
-
 	
 	<insert id="insertReply">
 		insert into reply
@@ -95,5 +94,9 @@
 			   default, default)
 	</insert>
 	
-	
+	<update id="deleteReply">
+		update reply
+		set re_status = 'N'
+		where re_no = #{replyNo}
+	</update>
 </mapper>

@@ -26,4 +26,6 @@ public interface BoardService {
 
 	int insertFruit(Board b);
 
+	int deleteReply(int replyNo);
+
 }

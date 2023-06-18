@@ -171,7 +171,7 @@ public class BoardController {
 //		System.out.println(board);
 		
 		ArrayList<Reply> replyList = bService.selectReply(bNo);
-		System.out.println(replyList);
+//		System.out.println(replyList);
 		
 		if(board != null) {
 			model.addAttribute("board", board);
@@ -224,8 +224,8 @@ public class BoardController {
 	@RequestMapping("insertReply.bo")
 	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
 		
-		bService.insertReply(r);
 		System.out.println(r);
+		bService.insertReply(r);
 		
 		ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
 		response.setContentType("application/json; charset=UTF-8");
@@ -244,13 +244,17 @@ public class BoardController {
 		System.out.println(replyNo);
 		System.out.println(boardNo);
 		
+		int result = bService.deleteReply(replyNo);
+
+		if(result > 0) {
+			return "redirect:fruit_detail.bo";
+		} else {
+			throw new BoardException("댓글 삭제에 실패하였습니다.");
+		}
+		
 		// replyNo 이용해 해당 댓글 삭제한 후,
 		// boardNo 받아와서 selectReply 한 후 해당 디테일 페이지 띄워주기
 		// RedirectAttribute 이용!
-		
-//		ArrayList<Reply> replyList = bService.selectReply(bNo);
-		
-		return null;
 	}
 	
 	// my page

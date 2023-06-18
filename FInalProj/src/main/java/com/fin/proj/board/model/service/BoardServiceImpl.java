@@ -74,4 +74,9 @@ public class BoardServiceImpl implements BoardService {
 		return bDAO.insertFruit(b);
 	}
 
+	@Override
+	public int deleteReply(int replyNo) {
+		return bDAO.deleteReply(replyNo);
+	}
+
 }
