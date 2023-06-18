@@ -15,6 +15,8 @@ public interface MemberDAO {
 
 	int checkNickName(String uNickName);
 
+	int updateMyInfo(Member m);
 
+	int deleteUser(String uId);
 
 }

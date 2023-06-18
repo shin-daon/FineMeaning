@@ -45,4 +45,16 @@
 		where u_NickName = #{uNickName}
 	</select>
 	
+	<update id="updateMyInfo">
+		update users
+		set u_name = #{uName}, u_type = #{uType}, registrar = #{registrar}, resident_no = #{residentNo},
+			address = #{address}, phone = #{phone}, email = #{email}, u_nickname = #{uNickName}
+		where u_id = #{uId}
+	</update>
+	
+	<update id="deleteUser">
+		update users
+		set u_status = 'N'
+		where u_id = #{uId}
+	</update>
 </mapper>

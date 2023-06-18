@@ -140,4 +140,40 @@ public class MemberController {
 		out.print(result);	
 	}
 
+	@PostMapping("updateMyInfo.me")
+	public String updateMyInfo(@ModelAttribute Member m,
+			   				   @RequestParam("emailId") String emailId,
+			   				   @RequestParam("emailDomain") String emailDomain,
+			   				   @RequestParam("first-ssn") String firstSsn,
+			   				   @RequestParam("two-ssn") String twoSsn, Model model) {
+		
+		if(!emailId.trim().equals("")) {
+			m.setEmail(emailId + "@" + emailDomain);
+		}
+		
+		m.setResidentNo(firstSsn + "-" + twoSsn);
+
+		int result = mService.updateMyInfo(m);
+		
+		if(result > 0) {
+			model.addAttribute("loginUser", mService.login(m));
+			return "redirect:/editMyInfo.me";
+		} else {
+			throw new MemberException("회원정보 수정 실패");
+		}	
+	}
+	
+	@RequestMapping(value="deleteUser.me")
+	public String deleteUser(Model model) {
+		
+		String uId = ((Member)model.getAttribute("loginUser")).getuId();
+		
+		int result = mService.deleteUser(uId);
+		
+		if(result > 0) {
+			return "redirect:logout.me";
+		} else {
+			throw new MemberException("회원 탈퇴에 실패하였습니다.");
+		}
+	}
 }
