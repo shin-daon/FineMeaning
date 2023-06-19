@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class SupportHistory {
 	private int supportHistoryNo;
-	private int UserNo;
+	private Integer userNo;
 	private int supportNo;
 	private String supporterName;
 	private int supportAmount;
@@ -15,11 +15,11 @@ public class SupportHistory {
 	
 	public SupportHistory() {}
 
-	public SupportHistory(int supportHistoryNo, int userNo, int supportNo, String supporterName, int supportAmount,
+	public SupportHistory(int supportHistoryNo, Integer userNo, int supportNo, String supporterName, int supportAmount,
 			Date payDate, String payType, String supporterType, String supportTitle) {
 		super();
 		this.supportHistoryNo = supportHistoryNo;
-		UserNo = userNo;
+		this.userNo = userNo;
 		this.supportNo = supportNo;
 		this.supporterName = supporterName;
 		this.supportAmount = supportAmount;
@@ -27,14 +27,6 @@ public class SupportHistory {
 		this.payType = payType;
 		this.supporterType = supporterType;
 		this.supportTitle = supportTitle;
-	}
-
-	public Date getPayDate() {
-		return payDate;
-	}
-
-	public void setPayDate(Date payDate) {
-		this.payDate = payDate;
 	}
 
 	public int getSupportHistoryNo() {
@@ -45,12 +37,12 @@ public class SupportHistory {
 		this.supportHistoryNo = supportHistoryNo;
 	}
 
-	public int getUserNo() {
-		return UserNo;
+	public Integer getUserNo() {
+		return userNo;
 	}
 
-	public void setUserNo(int userNo) {
-		UserNo = userNo;
+	public void setUserNo(Integer userNo) {
+		this.userNo = userNo;
 	}
 
 	public int getSupportNo() {
@@ -75,6 +67,14 @@ public class SupportHistory {
 
 	public void setSupportAmount(int supportAmount) {
 		this.supportAmount = supportAmount;
+	}
+
+	public Date getPayDate() {
+		return payDate;
+	}
+
+	public void setPayDate(Date payDate) {
+		this.payDate = payDate;
 	}
 
 	public String getPayType() {
@@ -103,13 +103,13 @@ public class SupportHistory {
 
 	@Override
 	public String toString() {
-		return "SupportHistory [supportHistoryNo=" + supportHistoryNo + ", UserNo=" + UserNo + ", supportNo="
+		return "SupportHistory [supportHistoryNo=" + supportHistoryNo + ", userNo=" + userNo + ", supportNo="
 				+ supportNo + ", supporterName=" + supporterName + ", supportAmount=" + supportAmount + ", payDate="
 				+ payDate + ", payType=" + payType + ", supporterType=" + supporterType + ", supportTitle="
 				+ supportTitle + "]";
 	}
-	 
-	 
+
+	
 	
 
 	

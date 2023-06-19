@@ -42,12 +42,12 @@ public class BoardController {
 			currentPage = 1;
 		}
 		
-		int listCount = bService.getListCount(6);
+		int listCount = bService.getListCount("자주 묻는 질문");
 //		System.out.println(listCount);
 		
 		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
 		
-		ArrayList<Board> list = bService.selectBoardList(pageInfo, 6);
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, "자주 묻는 질문");
 //		System.out.println(list);
 		
 		if(list != null) {
@@ -103,9 +103,10 @@ public class BoardController {
 	@PostMapping("insert_faq.bo")
 	public String insertFaq(@ModelAttribute Board b, HttpSession session) {
 		
-		String id = ((Member)session.getAttribute("loginUser")).getuId();
-		b.setuId(id);
-		b.setBoardType(6);
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		b.setuNo(uNo);
+		b.setBoardType("자주 묻는 질문");
+		b.setImageUrl(null);
 		
 		int result = bService.insertBoard(b);
 		
@@ -138,12 +139,12 @@ public class BoardController {
 			currentPage = 1;
 		}
 		
-		int listCount = bService.getListCount(5);
+		int listCount = bService.getListCount("결실");
 //		System.out.println(listCount);
 		
 		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
 		
-		ArrayList<Board> list = bService.selectBoardList(pageInfo, 5);
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, "결실");
 //		System.out.println(list);
 		
 		if(list != null) {
@@ -171,7 +172,7 @@ public class BoardController {
 //		System.out.println(board);
 		
 		ArrayList<Reply> replyList = bService.selectReply(bNo);
-		System.out.println(replyList);
+//		System.out.println(replyList);
 		
 		if(board != null) {
 			model.addAttribute("board", board);
@@ -186,6 +187,23 @@ public class BoardController {
 	@GetMapping("fruit_form.bo")
 	public String fruitForm() {
 		return "fruit_form";
+	}
+	
+	@PostMapping("insert_fruit.bo")
+	public String insertFruit(@ModelAttribute Board b, HttpSession session) {
+		
+		System.out.println(b);
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		b.setuNo(uNo);
+		b.setBoardType("결실");
+		
+		int result = bService.insertFruit(b);
+		
+		if(result > 0) {
+			return "redirect:fruitMain.bo";
+		} else {
+			throw new BoardException("게시글 작성 실패");
+		}
 	}
 	
 	@GetMapping("fruit_edit.bo")
@@ -203,6 +221,47 @@ public class BoardController {
 		return "fineNews_form";
 	}
 	
+	// 댓글
+	@RequestMapping("insertReply.bo")
+	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
+		
+		System.out.println(r);
+		bService.insertReply(r);
+		
+		ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
+		response.setContentType("application/json; charset=UTF-8");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd / HH:mm:ss").create();
+		try {
+			gson.toJson(list, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	@RequestMapping("deleteReply.bo")
+	public String deleteReply(@RequestParam("rNo") int replyNo,
+							  @RequestParam("bNo") int boardNo,
+							  @RequestParam("page") int page,
+							  RedirectAttributes ra) {
+		
+		System.out.println(replyNo);
+		System.out.println(boardNo);
+		
+		int result = bService.deleteReply(replyNo);
+
+		if(result > 0) {
+			ra.addAttribute("bNo", boardNo);
+			ra.addAttribute("page", page);
+			return "redirect:fruit_detail.bo";
+		} else {
+			throw new BoardException("댓글 삭제에 실패하였습니다.");
+		}
+		
+		// replyNo 이용해 해당 댓글 삭제한 후,
+		// boardNo 받아와서 selectReply 한 후 해당 디테일 페이지 띄워주기
+		// RedirectAttribute 이용!
+	}
+	
 	// my page
 	@GetMapping("myBoard.bo")
 	public String myBoard() {
@@ -214,22 +273,6 @@ public class BoardController {
 		return "myReply";
 	}
 	
-	// 댓글
-	@RequestMapping("insertReply.bo")
-	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
-		
-		bService.insertReply(r);
-		System.out.println(r);
-		
-		ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
-		response.setContentType("application/json; charset=UTF-8");
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd / HH:mm:ss").create();
-		try {
-			gson.toJson(list, response.getWriter());
-		} catch (JsonIOException | IOException e) {
-			e.printStackTrace();
-		} 
-	}
 	
 	@GetMapping("commList.bo")
 		public String CommMain(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
@@ -294,7 +337,7 @@ public class BoardController {
 		System.out.println("id=" + id);
 		b.setuNo(id);
 		System.out.println("들어간 id" + id);
-		b.setBoardType(1);
+//		b.setBoardType(1);
 		
 		int result = bService.insertBoard(b);
 		if(result > 0) {
@@ -316,7 +359,7 @@ public class BoardController {
 	@PostMapping("updateBoard.bo")
 	public String updateCommBoard(@ModelAttribute Board b, @RequestParam("page") int page, RedirectAttributes ra, HttpSession session) {
 		
-		b.setBoardType(1);
+//		b.setBoardType(1);
 		int result = bService.updateBoard(b);
 //		System.out.println(result);
 		

@@ -16,4 +16,6 @@ public interface MemberService {
 
 	int deleteUser(String uId);
 
+	int checkNickNameModify(Member m);
+
 }

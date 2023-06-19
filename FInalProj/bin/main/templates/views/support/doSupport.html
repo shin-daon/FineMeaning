@@ -4,11 +4,143 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>후원</title>
     <link rel="stylesheet" href="css/doSupport.css">
+    <!-- jQuery -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+	<!-- iamport.payment.js -->
+	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+	
+	
+    <script th:inline="javascript">
+        var IMP = window.IMP; 
+        IMP.init("imp65262372"); 
+        
+        var today = new Date();   
+        var hours = today.getHours(); // 시
+        var minutes = today.getMinutes();  // 분
+        var seconds = today.getSeconds();  // 초
+        var milliseconds = today.getMilliseconds();
+        var makeMerchantUid = hours +  minutes + seconds + milliseconds;
+    
+        /*<![CDATA[*/
+        function requestkakaoPay() {
+        	IMP.request_pay({
+            	pg: "kakaopay", // pg사
+                merchant_uid: "IMP"+makeMerchantUid, 
+                name : /*[[${s.supportTitle }]]*/'uName',
+                amount : document.getElementsByClassName('supportPrice')[0].value,
+                buyer_email : /*[[${session.loginUser.uName }]]*/'email',
+                buyer_name : /*[[${session.loginUser.uName }]]*/'uName',
+                buyer_tel : /*[[${session.loginUser.phone }]]*/'phone',
+            }, function (rsp) { // callback
+                if (rsp.success) {
+                    $.ajax({
+                    	url: 'insertSupporter.su',
+        				data: {
+        						userNo :/*[[${session.loginUser.uNo }]]*/'loginUser', 
+        						supportNo:/*[[${ s.supportNo }]]*/'supportNo',
+        						supporterName:/*[[${session.loginUser.uName }]]*/'uName',
+        						supporterType:document.getElementsByClassName('doSupporterName')[0].innerText,
+        						supportAmount:document.getElementsByClassName('supportPrice')[0].value,
+        						payType:'카카오페이'
+        						
+        				},
+        				success: data=>{
+        					if(data=='yes'){
+								location.href="doSupportEnd.su";
+							}
+        				},
+        				error: data=>{
+        					console.log(data);
+        				}
+                    })
+                } else {
+	                alert('결제 실패');
+                }
+            });
+        }
+        
+        function requestPay() {
+            IMP.request_pay({
+            	pg: "kcp", // pg사
+                merchant_uid: "IMP"+makeMerchantUid, 
+                name : '당근 10kg',
+                amount : document.getElementsByClassName('supportPrice')[0].value,
+                buyer_email : 'Iamport@chai.finance',
+                buyer_name : '아임포트 기술지원팀',
+                buyer_tel : '010-1234-5678',
+            }, function (rsp) { // callback
+                if (rsp.success) {
+                	$.ajax({
+                    	url: 'insertSupporter.su',
+        				data: {
+        						userNo :/*[[${session.loginUser.uNo }]]*/'loginUser', 
+        						supportNo:/*[[${ s.supportNo }]]*/'supportNo',
+        						supporterName:/*[[${session.loginUser.uName }]]*/'uName',
+        						supporterType:document.getElementsByClassName('doSupporterName')[0].innerText,
+        						supportAmount:document.getElementsByClassName('supportPrice')[0].value,
+        						payType:'신용카드'
+        						
+        				},
+        				success: data=>{
+							if(data=='yes'){
+								location.href="doSupportEnd.su";
+							}
+        				},
+        				error: data=>{
+        					console.log(data);
+        				}
+                    })
+                } else {
+	                alert('결제 실패');
+                }
+            });
+        }
+        
+        function requestNaverPay() {
+            IMP.request_pay({
+            	pg: "paycopay", // pg사
+                merchant_uid: "IMP"+makeMerchantUid, 
+                name : '당근 10kg',
+                amount : document.getElementsByClassName('supportPrice')[0].value,
+                buyer_email : 'Iamport@chai.finance',
+                buyer_name : '아임포트 기술지원팀',
+                buyer_tel : '010-1234-5678',
+            }, function (rsp) { // callback
+                if (rsp.success) {
+                	$.ajax({
+                    	url: 'insertSupporter.su',
+        				data: {
+        						userNo:/*[[${session.loginUser.uNo}]]*/'loginUser', 
+        						supportNo:/*[[${ s.supportNo }]]*/'supportNo',
+        						supporterName:/*[[${session.loginUser.uName }]]*/'uName',
+        						supporterType:document.getElementsByClassName('doSupporterName')[0].innerText,
+        						supportAmount:document.getElementsByClassName('supportPrice')[0].value,
+        						payType:'카카오페이'
+        				},
+        				success: data=>{
+        					if(data == 'yes'){
+        						location.href="doSupportEnd.su";
+        					}					
+        				},
+        				error: data=>{
+        					console.log(data);
+        				}
+                    })
+                } else {
+	                alert('결제 실패');
+                }
+            });
+        }
+        
+    	/*]]>*/
+    </script>
+	
 </head>
 <body>
 <div th:replace="~{../common/header :: header}"></div>
+   
     <section id="supportListSection">
 
         <div>
@@ -33,7 +165,9 @@
             <div class="doSupportTit">
                 <div class="doSupportTitle">
                     <a href="javascript:history.back()"><img class="doSupportBefore" src="image/onebefore.png"></a>
-                    아픈 손자들을 키우는 할머니<br>
+                    [[${s.supportTitle}]]
+                    <br>
+                    <input type="hidden" name="supportNo" class="supportNo" th:value="${s.supportNo}">
                     <div class="doSupportGroup">by 사회복지공동모금회</div>
                 </div>
             </div>
@@ -173,6 +307,7 @@
    
    
     <!-- 후원 결제 정보-->
+    
     <div id="paySection">
             <div class="payTitle">결제 정보</div>
             <div class="payContent">
@@ -196,9 +331,9 @@
                 <div class="payTitleS">
                     <div class="supportContent">결제 방법</div>
                     <div class="supportContent insert" style="font-size:15px;">
-                       	<input type="radio" class="payRadio" name="wayToPay" value="kakaopay" checked>카카오페이
-                       	<input type="radio" class="payRadio" name="wayToPay" value="creditCard">신용카드
-                       	<input type="radio" class="payRadio" name="wayToPay" value="phonePay">휴대폰 결제
+                       	<input type="radio" class="payRadio" name="wayToPay" value="카카오페이" checked>카카오페이
+                       	<input type="radio" class="payRadio" name="wayToPay" value="신용카드">신용카드
+                       	<input type="radio" class="payRadio" name="wayToPay" value="네이버">네이버페이
                     </div>    
                 </div>
 
@@ -235,9 +370,9 @@
 	    <div class="payContent">
 	        <div class="payTitleS">
 	            <div class="supportContent">후원자 이름</div>
-	            <div class="supportContent doSupporterName">강건강</div>
+	            <div class="supportContent doSupporterName">[[${session.loginUser.uName}]]</div>
 	            <div style="margin-left: 10px;">
-	                <input type="radio" class="payRadio supporterRadio" name="supporterName" value="강건강" checked> 본명
+	                <input type="radio" class="payRadio supporterRadio" name="supporterName" th:value="${session.loginUser.uName}" checked> 본명
 	                <input type="radio" class="payRadio supporterRadio" name="supporterName" value="익명"> 숨은 천사(익명)
 	            </div>
 	        </div>
@@ -245,11 +380,12 @@
 	        <div class="payTitleS">
 	            <div class="supportContent">후원자 번호</div>
 	            <div class="supportContent" style="font-size:15px; margin-top: 2px;">
-	                010-2222-3333
+	                [[${session.loginUser.phone}]]
 	            </div>
 	        </div>
 	    </div>
 	</div>
+	</form>
 
     
     <script>
@@ -281,8 +417,15 @@
     </div>
     
     <script>
-    	document.getElementById('doSupportEnd').addEventListener('click',()=>{
-    		location.href="doSupportEnd.su"
+    	document.getElementById('doSupportEnd').addEventListener('click', ()=>{
+    		const payRadios = document.getElementsByClassName('payRadio')
+    		if(payRadios[0].checked){
+    			requestkakaoPay();
+    		} else if(payRadios[1].checked){
+    			requestPay();
+    		} else if(payRadio[2].checked){
+    			requestNaverPay();
+    		}
     	})
     </script>
 </body>

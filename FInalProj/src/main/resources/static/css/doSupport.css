@@ -13,7 +13,9 @@
 	box-sizing: border-box;
 	font-family: "SUITE-Regular", sans-serif;
 }
-
+.doSupporterName{
+	color:grey;
+}
 #supportListSection {
     margin-top: 50px;
     display: flex;
@@ -22,6 +24,10 @@
     align-items: center;
     flex-direction: column; /* 세로 방향, row는 가로 방향 */
     margin-top:100px;;
+}
+
+radio{
+	color:red;
 }
 
 #supportList {

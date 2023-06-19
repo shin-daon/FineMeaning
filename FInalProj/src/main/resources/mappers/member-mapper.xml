@@ -57,4 +57,12 @@
 		set u_status = 'N'
 		where u_id = #{uId}
 	</update>
+	
+	<select id="checkNickNameModify" resultType="_int">
+	<![CDATA[
+		select count(*)
+		from users
+		where u_nickname = #{uNickName} AND u_id <> #{uId}
+	]]>
+	</select>
 </mapper>

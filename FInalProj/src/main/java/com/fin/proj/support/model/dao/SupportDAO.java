@@ -57,5 +57,11 @@ public interface SupportDAO {
 
 	ArrayList<SupportHistory> selectMySupportList(RowBounds rowBounds, int uNo);
 
+	int getsearchApplyListCount(Support s);
+
+	ArrayList<Support> selectApplySearchList(RowBounds rowBounds, Support s);
+
+	int insertSupporter(SupportHistory sh);
+
 
 }
