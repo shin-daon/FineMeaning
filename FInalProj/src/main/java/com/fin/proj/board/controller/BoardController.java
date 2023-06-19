@@ -281,11 +281,11 @@ public class BoardController {
 			currentPage = 1;
 		}
 		
-		int listCount = bService.getListCount(1);
+		int listCount = bService.getListCount("일반");
 		
 		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
 		
-		ArrayList<Board> list = bService.selectBoardList(pageInfo, 1);
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, "일반");
 		
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
@@ -331,11 +331,13 @@ public class BoardController {
 		}
 	}
 	
-	@PostMapping("insertBoard.bo")
+	@PostMapping("insertCommBoard.bo")
 	public String insertCommBoard(@ModelAttribute Board b, HttpSession session) {
 		int id = ((Member)session.getAttribute("loginUser")).getuNo();
 		System.out.println("id=" + id);
 		b.setuNo(id);
+		b.setBoardType("일반");
+		b.setImageUrl(null);
 		System.out.println("들어간 id" + id);
 //		b.setBoardType(1);
 		
