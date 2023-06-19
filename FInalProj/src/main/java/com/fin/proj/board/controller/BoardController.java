@@ -198,7 +198,7 @@ public class BoardController {
 							  HttpSession session, Model model) {
 		
 		Member m = (Member)session.getAttribute("loginUser");
-		System.out.println(m);
+//		System.out.println(m);
 		
 		boolean countYN = false;
 		if(m == null || m.getIsAdmin() == 1) {
@@ -276,7 +276,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping("deleteReply.bo")
-	public String deleteReply(@RequestParam("rNo") int replyNo,
+	public String deleteReply(@RequestParam("rNo") String replyNo,
 							  @RequestParam("bNo") int boardNo,
 							  @RequestParam("page") int page,
 							  RedirectAttributes ra) {
@@ -284,7 +284,12 @@ public class BoardController {
 		System.out.println(replyNo);
 		System.out.println(boardNo);
 		
-		int result = bService.deleteReply(replyNo);
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(replyNo);
+		String decode = new String(byteArr);
+		int rNo = Integer.parseInt(decode);
+		
+		int result = bService.deleteReply(rNo);
 
 		if(result > 0) {
 			ra.addAttribute("bNo", boardNo);
