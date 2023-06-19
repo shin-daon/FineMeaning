@@ -7,7 +7,7 @@ public class Board {
 	private int uNo;
 	private String uId;
 	private String nickName;
-	private int boardType;
+	private String boardType;
 	private String boardTitle;
 	private String boardContent;
 	private Date boardDate;
@@ -16,12 +16,13 @@ public class Board {
 	private String newsURL;
 	private String fpName;
 	private int boardCate;
+	private String imageUrl;
 	
 	public Board() {}
 
-	public Board(int boardNo, int uNo, String uId, String nickName, int boardType, String boardTitle,
+	public Board(int boardNo, int uNo, String uId, String nickName, String boardType, String boardTitle,
 			String boardContent, Date boardDate, char boardStatus, int boardCount, String newsURL, String fpName,
-			int boardCate) {
+			int boardCate, String imageUrl) {
 		super();
 		this.boardNo = boardNo;
 		this.uNo = uNo;
@@ -36,6 +37,7 @@ public class Board {
 		this.newsURL = newsURL;
 		this.fpName = fpName;
 		this.boardCate = boardCate;
+		this.imageUrl = imageUrl;
 	}
 
 	public int getBoardNo() {
@@ -70,11 +72,11 @@ public class Board {
 		this.nickName = nickName;
 	}
 
-	public int getBoardType() {
+	public String getBoardType() {
 		return boardType;
 	}
 
-	public void setBoardType(int boardType) {
+	public void setBoardType(String boardType) {
 		this.boardType = boardType;
 	}
 
@@ -142,12 +144,20 @@ public class Board {
 		this.boardCate = boardCate;
 	}
 
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
 	@Override
 	public String toString() {
-		return "Board [boardNo=" + boardNo + ", uNo=" + uNo + ", uId=" + uId + ", nickName=" + nickName
-				+ ", boardType=" + boardType + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent
-				+ ", boardDate=" + boardDate + ", boardStatus=" + boardStatus + ", boardCount=" + boardCount
-				+ ", newsURL=" + newsURL + ", fpName=" + fpName + ", boardCate=" + boardCate + "]";
+		return "Board [boardNo=" + boardNo + ", uNo=" + uNo + ", uId=" + uId + ", nickName=" + nickName + ", boardType="
+				+ boardType + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent + ", boardDate="
+				+ boardDate + ", boardStatus=" + boardStatus + ", boardCount=" + boardCount + ", newsURL=" + newsURL
+				+ ", fpName=" + fpName + ", boardCate=" + boardCate + ", imageUrl=" + imageUrl + "]";
 	}
-	
+
 }

@@ -8,9 +8,9 @@ import com.fin.proj.common.model.vo.PageInfo;
 
 public interface BoardService {
 	
-	int getListCount(int i);
+	int getListCount(String string);
 
-	ArrayList<Board> selectBoardList(PageInfo pi, int i);
+	ArrayList<Board> selectBoardList(PageInfo pi, String i);
 
 	Board selectBoard(int bNo, boolean countYN);
 

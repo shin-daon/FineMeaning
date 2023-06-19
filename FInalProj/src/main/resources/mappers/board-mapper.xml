@@ -15,6 +15,7 @@
 		<result column="NEWS_URL" property="newsURL"/>
 		<result column="FP_NAME" property="fpName"/>
 		<result column="BOARD_CATE" property="boardCate"/>
+		<result column="IMAGE_URL" property="imageUrl"/>
 	</resultMap>
 	
 	<select id="getListCount" resultType="_int">
@@ -40,18 +41,18 @@
 	<select id="selectBoard" resultMap="boardResultSet">
 	    SELECT b.*, u.u_nickname, u.u_id
 	    FROM board b
-	    INNER JOIN users u ON u.u_No = b.u_No
+	    INNER JOIN users u on(u.u_no = b.u_no)
 	    WHERE b.board_no = #{bNo}
 	</select>
 	
 	<insert id="insertBoard">
 		insert into board
-		values(seq_bid.nextval, #{uNo}, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, default, default, null, null, null)
+		values(seq_bid.nextval, #{uNo}, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, default, default, null, null, null, #{imageUrl, jdbcType=VARCHAR})
 	</insert>
 	
 	<insert id="insertFruit">
 		insert into board
-		values(seq_bid.nextval, #{uNo}, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, default, default, null, null, #{boardCate})
+		values(seq_bid.nextval, #{uNo}, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, default, default, null, null, #{boardCate}, null)
 	</insert>
 	
 	<update id="updateBoard">
