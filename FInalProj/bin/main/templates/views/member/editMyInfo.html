@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+	--body-background-color: #f5f6f7;
+	--font-color: #4e4e4e;
+	--border-gray-color: #dadada;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "SUITE-Regular", sans-serif;
+}
+
+.enroll {
+ 	width: 360px;
+  	margin-left: 27%;
+  	margin-top: 80px;
+}
+
+.enroll-title {
+	font-size: 30px;
+	margin-bottom: 75px;
+	border-bottom: 2px solid #40513B;
+	margin-left: 95px;
+	width: 145px;
+}
+
+.title {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: bold;
+	word-break: keep-all;
+	color: #4e4e4e;
+}
+
+.insert {
+	margin-top: 40px;
+}
+
+.input {
+	margin-top: 15px;
+}
+
+#short-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 215px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+.short-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 100px;
+	height: 40px;
+	font-size: 15px;
+	color: white;
+	background-color: #609966;
+	border: 1px solid #609966;
+}
+
+#normal-input,
+#sample6_address {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 333px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+#ssn-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 154px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+#email-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 149px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+#email-select {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 150px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+.nothing {
+	margin-left: 9px;
+	margin-right: 9px;
+}
+
+.normal-btn {
+	margin-top: 8px;
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 333px;
+	height: 40px;
+	font-size: 15px;
+	color: white;
+	background-color: #609966;
+	border: 1px solid #609966;
+}
+
+.enroll-btn {
+	margin-bottom: 40px;
+}
+
+.learn-more {
+	margin-top:10px;	
+	margin-left: 113px;		
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	outline: none;
+	border: 0;
+	vertical-align: middle;
+	text-decoration: none;
+	font-size: 15px;
+	font-family: inherit;
+	width:100px;
+	height:32px;
+	font-weight: 600;
+	color: #382b22;
+	text-transform: uppercase;
+	background: #EDF1D6;
+	border: 2px solid #609966;
+	border-radius: 0.75em;
+	transform-style: preserve-3d;
+	transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.learn-more::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #9DC08B;
+  border-radius: inherit;
+  box-shadow: 0 0 0 2px #609966, 0 0.625em 0 0 #EDF1D6;
+  transform: translate3d(0, 0.75em, -1em);
+  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.learn-more:hover {
+  background: #EDF1D6;
+  transform: translate(0, 0.25em);
+}
+
+.learn-more:hover::before {
+  box-shadow: 0 0 0 2px #609966, 0 0.5em 0 0 #EDF1D6;
+  transform: translate3d(0, 0.5em, -1em);
+}
+
+.learn-more:active {
+  background: #EDF1D6;
+  transform: translate(0em, 0.75em);
+}
+
+.learn-more:active::before {
+  box-shadow: 0 0 0 2px #b18597, 0 0 #EDF1D6;
+  transform: translate3d(0, 0, -1em);
+}
+
+.pwd-comment {
+	font-size: 14px;
+	color: gray;
+}
+
+.enroll-comment {
+	font-size: 15px;
+	color: #4e4e4e;
+	text-align: right;
+	margin-right: 30px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.last {
+	padding-top: 20px;
+	text-align: center;
+}
+
+a {
+	text-decoration: none;
+	font-size: 14px;
+	color: #4e4e4e;
+	font-weight: bold;
+}
+
+/* 모달 */
+#modal { width: 300px; height: 350px; border: 1px solid #eee; padding: 30px; margin: auto; display: none;
+		 border-radius: 20px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);  text-align: center; background-color: white;
+ 		 position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;}
+
+.modal-comment {
+	font-size: 16px;
+}
+
+#withdrawal-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 90px;
+	height: 35px;
+	font-size: 15px;
+	color: #fff;
+	background-color: #609966;
+	border: 1.5px solid #609966;
+}
+
+#rollback-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 90px;
+	height: 35px;
+	font-size: 15px;
+	color: #609966;
+	background-color: #fff;
+	border: 1.5px solid #609966;
+	margin-top: 3px;
+	margin-bottom: 40px;
+}
+
+.modal-comment2 {
+	font-weight: bold;
+	font-size: 17px;
+}
+
+.radio-comment {
+	font-size: 15px;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+#user-type {
+	accent-color: #609966;
+	width: 14px;
+	height: 14px;
+}
+
+#custom-email-input {
+	padding: 8px 15px 9px;
+    border-radius: 4px;
+    width: 150px;
+    height: 40px;
+    border: 1px solid lightgray;
+    outline: none;
+    position: relative;
+}
+
+.input.email-input {
+    position: relative; /* 추가: 위치를 고정하기 위해 부모 요소에 position: relative 적용 */
+}
+
+.x-btn {	
+	background: none;
+	border: none;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+    top: 10px;
+    left: 315px;
+    cursor: pointer;
+}
+
+#nickNameCheckResult {
+	font-size: 14px;
+} 
+
+.check-div {
+	margin-top: 7px; 
+}
+
+</style>
+<body>
+<div th:replace="~{views/common/header :: header}"></div>
+
+<div>
+	<section style="display: flex;">
+	<div th:replace="~{views/common/sidebar :: sidebar}"></div>
+	
+	<div class="enroll">
+		<div class="enroll-title">내 정보 수정</div>
+		
+		<form action="updateMyInfo.me" method="post">
+			<div class="insert id">
+				<label class="title">아이디</label>
+				<div class="input">
+					<input type="text" id="normal-input" th:value="${ loginUser.uId }" name="uId" readonly/>
+				</div>
+			</div>
+			
+			<div class="insert name">
+				<label class="title">이름</label>
+				<div class="input">
+					<input type="text" id="normal-input" th:value="${ loginUser.uName }" name="uName" readonly/>
+				</div>
+			</div>
+			
+			<div class="insert agency-name">
+				<label class="title">회원 유형</label><br>
+				<div class="input">
+					<input type="radio" id="user-type" name="uType" value="일반" th:checked="${loginUser.uType == '일반'}" /><span class="radio-comment">일반</span>
+					<input type="radio" id="user-type" name="uType" value="단체" th:checked="${loginUser.uType == '단체'}" /><span class="radio-comment">단체</span>
+					<input type="text" id="short-input" name="registrar" th:value="${loginUser.registrar}" readonly/>
+				</div>
+			</div>
+		
+			<div class="insert ssn">
+				<label class="title">주민등록번호</label>
+				<div class="input">
+					<input type="text" id="ssn-input" maxlength="6" name="first-ssn" th:value="${loginUser.residentNo != null ? loginUser.residentNo.substring(0, loginUser.residentNo.indexOf('-')) : ''}" readonly/><span class="nothing" readonly>-</span>
+					<input type="password" id="ssn-input" maxlength="7" name="two-ssn" th:value="${loginUser.residentNo != null ? loginUser.residentNo.substring(loginUser.residentNo.indexOf('-') + 1) : ''}" readonly/>
+				</div>
+			</div>
+			
+			<div class="insert address">
+				<label class="title">주소</label>
+				<div class="input">
+					<input type="text" id="sample6_address" th:value="${loginUser.address}" name="address"/>
+				</div>
+				<div class="address-btn">
+					<button class="normal-btn" type="button" onclick="sample6_execDaumPostcode()" id="search-ad">주소 검색</button>
+				</div>
+			</div>
+			
+			<div class="insert phone">
+				<label class="title">전화번호</label>
+				<div class="input">
+					<input type="text" id="normal-input" th:value="${loginUser.phone}" name="phone" maxlength="11"/>
+				</div>
+			</div>
+			
+			<div class="insert email-input">
+			    <label class="title">이메일</label>
+			    <div class="input email-input">
+			        <input type="text" id="email-input" name="emailId" th:value="${loginUser.email != null ? loginUser.email.substring(0, loginUser.email.indexOf('@')) : ''}"><span class="nothing">@</span>
+			        
+			        <th:block th:with="emailDomain=${loginUser.email != null ? loginUser.email.substring(loginUser.email.indexOf('@') + 1) : ''}">
+			            <select name="emailDomain" id="email-select">
+			                <option th:selected="${emailDomain == 'naver.com'}">naver.com</option>
+			                <option th:selected="${emailDomain == 'gmail.com'}">gmail.com</option>
+			                <option th:selected="${emailDomain == 'daum.net'}">daum.net</option>
+			                <option th:selected="${emailDomain == 'nate.com'}">nate.com</option>
+			                <option th:selected="${emailDomain == ''}">직접입력</option> <!-- 직접입력 옵션은 emailDomain이 비어 있을 때 선택되도록 수정 -->
+			            </select>
+			
+			            <input type="text" id="custom-email-input" style="display: none;" name="emailDomain" th:value="${emailDomain}"/> <!-- emailDomain 값 설정 -->
+			            <span class="x-btn" style="display: none;"><img src="image/x.png"></span>
+			        </th:block>
+			    </div>
+			</div>
+			
+			<div class="insert nickName">
+				<label class="title">닉네임</label>
+				<div class="input">
+					<input type="text" id="normal-input" name="uNickName" th:value="${loginUser.uNickName}"/>
+					<div class="check-div"><label id="nickNameCheckResult"></label></div>
+				</div>
+			</div>
+	
+			<div class="insert enroll-btn">
+				<button class="learn-more" id="modify-btn">수정하기</button>
+			</div>							
+		</form>
+		
+		<div class="enroll-comment">탈퇴하기</div>
+				
+		<div id="modal"><br>
+			<img src="image/trash.png"/><br><br>
+			<span class="modal-comment modal-comment2">정말 탈퇴하시겠어요?</span><br>
+			<span class="modal-comment">탈퇴 버튼 선택 시, 계정은 삭제되며</span><br>
+			<span class="modal-comment">복구되지 않습니다.</span><br><br>
+			<button id="rollback-btn">취소</button>
+			<button id="withdrawal-btn" onClick="location.href='deleteUser.me'">탈퇴</button>			
+		</div>
+						
+		</div>
+	</section>
+</div>
+	
+<br><br><br><br>
+<div th:replace="~{views/common/footer :: footer}"></div>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script th:inline="javascript">
+	// 탈퇴
+	const withdrawalBtn = document.getElementsByClassName('enroll-comment')[0];
+	const yesBtn = document.getElementById('withdrawal-btn');
+	const noBtn = document.getElementById('rollback-btn');
+	const modal = document.getElementById('modal');
+	
+	withdrawalBtn.addEventListener('click', () => {
+		event.preventDefault();
+	    modal.style.display = 'block';
+	});
+	
+	yesBtn.addEventListener('click', () => {
+		alert("정상적으로 탈퇴가 완료되었습니다.")
+	});
+	
+	noBtn.addEventListener('click', () => {
+	    modal.style.display = 'none';
+	});
+	
+	// 이메일
+    const emailSelect = document.getElementById('email-select');
+    const customEmailInput = document.getElementById('custom-email-input');
+    const emailInput = document.getElementsByClassName('email-input')[0];
+    const xBtn = document.getElementsByClassName('x-btn')[0];
+	
+    /*<![CDATA[*/
+    const emailDomain = /*[[${loginUser.email != null ? loginUser.email.substring(loginUser.email.indexOf('@') + 1) : ''}]]*/'';
+    /*]]>*/
+    
+    if (!['naver.com', 'gmail.com', 'daum.net', 'nate.com'].includes(emailDomain)) {
+        customEmailInput.value = emailDomain;
+        emailSelect.style.display = 'none';
+        customEmailInput.style.display = 'inline-block';
+        emailInput.style.display = 'block';
+        xBtn.style.display = 'block';
+    }
+    
+    emailSelect.addEventListener('change', function() {
+        if (emailSelect.value === '직접입력') {
+            emailSelect.style.display = 'none';
+            customEmailInput.style.display = 'inline-block';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'block';
+        }
+    });
+
+    customEmailInput.addEventListener('input', function() {
+        if (customEmailInput.value === '') {
+            emailSelect.style.display = 'none';
+            emailSelect.selectedIndex = 0;
+        }
+    });
+    
+    xBtn.addEventListener('click', function() {
+            emailSelect.style.display = 'inline-block';
+            customEmailInput.style.display = 'none';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'none';
+            emailSelect.value = 'naver.com';
+            customEmailInput.value = '';
+    });
+    
+    // 유효성 검사   
+    window.onload = () => {
+    		const nickName = document.getElementsByName('uNickName')[0];
+    		const nickNameResult = document.getElementById('nickNameCheckResult');
+    		const modifyBtn = document.getElementById('modify-btn');
+    		
+    		nickName.addEventListener('input', function(){				
+				if(nickName.value.trim() == ''){
+					nickNameResult.innerText = '닉네임을 입력해주세요.';
+					nickNameResult.style.color = 'gray';
+					nickName.style.outline = '';
+					nickName.style.boxShadow = '';
+				} else {
+					$.ajax({
+						url: 'checkNickNameModify.me',
+						data: {uNickName:nickName.value.trim()},
+						success: data => {
+							console.log(data);
+							if(data == 'yes'){
+								nickNameResult.innerText = '사용 가능한 닉네임입니다.';
+								nickNameResult.style.color = '#609966';
+								nickName.style.outline = '1px solid #609966';
+								modifyBtn.disabled = false;
+							} else if(data == 'no'){
+								nickNameResult.innerText = "사용 불가능한 닉네임입니다.";
+								nickNameResult.style.color = 'red';
+								nickName.style.outline = '1px solid red';
+								modifyBtn.disabled = true;
+								
+							}
+						},
+						error: data => {
+							console.log(data);
+						}
+					});
+				}
+				
+			});
+    	}
+    
+    // 폼
+	const form = document.querySelector('form');
+
+	form.addEventListener('submit', function(event) {
+  		if (customEmailInput.value === '') {
+  			customEmailInput.setAttribute('name', '');
+    		emailSelect.setAttribute('name', 'emailDomain');
+  		} else {
+  			customEmailInput.setAttribute('name', 'emailDomain');
+   			emailSelect.setAttribute('name', '');
+  		}
+	});
+	
+	// 주소 찾기
+    function sample6_execDaumPostcode() {
+    	var width = 500; //팝업의 너비
+    	var height = 600; //팝업의 높이
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById("sample6_address").value = addr;
+                
+            }
+        }).open({
+            left: (window.screen.width / 1.35) - (width / 2), 
+            top: (window.screen.height / 2) - (height / 2)
+        });
+    }
+	
+	// 회원 유형
+	const normalRadio = document.querySelector('input[name="uType"][value="일반"]');
+	const agencyRadio = document.querySelector('input[name="uType"][value="단체"]');
+	const agencyNameInput = document.getElementsByName('registrar')[0];
+		
+	normalRadio.addEventListener('change', toggleAgencyNameInput);
+	agencyRadio.addEventListener('change', toggleAgencyNameInput);
+		
+	function toggleAgencyNameInput() {
+		if (agencyRadio.checked) {
+		  agencyNameInput.readOnly = false;
+		} else {
+		  agencyNameInput.readOnly = true;
+		  agencyNameInput.value = '';
+		}
+	}
+	
+</script>
+</body>
+</html>
