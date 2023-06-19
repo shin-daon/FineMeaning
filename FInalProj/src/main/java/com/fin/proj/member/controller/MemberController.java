@@ -194,5 +194,18 @@ public class MemberController {
 			}
 		}
 	}
+	
+	@RequestMapping(value="checkNickNameModify.me") 
+	public void checkNickNameModify(Member m, Model model, @RequestParam("uNickName") String uNickName, PrintWriter out) {
+		
+		String uId = ((Member)model.getAttribute("loginUser")).getuId();
+		m.setuId(uId);
+		m.setuNickName(uNickName);
+		
+		int count = mService.checkNickNameModify(m);
+		
+		String result = count == 0 ? "yes" : "no";
+		out.print(result);	
+	}
 }
 

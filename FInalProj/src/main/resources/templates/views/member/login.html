@@ -226,11 +226,11 @@ div.login-input-wrap input:focus + span.placeholder-span {
 
 #loginCheckResult {
 	font-size: 15px;
-	color: red;    
+	color: #609966;    
 } 
 
 .check-div {
-	margin-top: 7px; 
+	margin-top: 22px; 
 }
 
 </style>
@@ -262,10 +262,10 @@ div.login-input-wrap input:focus + span.placeholder-span {
 				<div class="login-button-wrap">
 					<button type="submit" name="loginBtn">로그인</button>
 				</div>
-				<div class="login-stay-sign-in">
-					<img src="image/check_gray.png" id="changeImage" onclick="changeImage()"/>
-					<span>로그인 상태 유지</span>
-				</div>
+<!-- 				<div class="login-stay-sign-in"> -->
+<!-- 					<img src="image/check_gray.png" id="changeImage" onclick="changeImage()"/> -->
+<!-- 					<span>로그인 상태 유지</span> -->
+<!-- 				</div> -->
 				<div class="check-div"><label id="loginCheckResult"></label></div>
 				<div class="others">
 				<a class="forget-msg" href="findId.me">아이디 찾기 · </a>
@@ -289,20 +289,20 @@ div.login-input-wrap input:focus + span.placeholder-span {
 <br>
 <div th:replace="~{views/common/footer :: footer}"></div>
 </body>
-<script>
+<script th:inline="javascript">
 	// 로그인 유지하기
-	const changeImage = () => {
-	  const image = document.getElementById("changeImage");
+// 	const changeImage = () => {
+// 	  const image = document.getElementById("changeImage");
 
-	  if (image.src.endsWith("check_gray.png")) {
-	    image.src = "image/check.png";
-	  } else {
-	    image.src = "image/check_gray.png";
-	  }
-	};
+// 	  if (image.src.endsWith("check_gray.png")) {
+// 	    image.src = "image/check.png";
+// 	  } else {
+// 	    image.src = "image/check_gray.png";
+// 	  }
+// 	};
 
-	const imageElement = document.getElementById("changeImage");
-	imageElement.addEventListener("click", changeImage);
+// 	const imageElement = document.getElementById("changeImage");
+// 	imageElement.addEventListener("click", changeImage);
 	
 	// 유효성 검사
 	const uId = document.getElementsByName('uId')[0];
@@ -329,7 +329,8 @@ div.login-input-wrap input:focus + span.placeholder-span {
 	                console.log("데이터 전송 성공: " + data);
 	                
 	                if(data.trim() !== ''){
-	                	loginCheckResult.innerHTML = '아이디 또는 비밀번호가 일치하지 않습니다.';	             
+	                	loginCheckResult.innerHTML = '아이디 또는 비밀번호가 일치하지 않습니다. (' + errorCount + '/5)';
+	                	errorCount++;
 	                } else {
 	                	loginForm.submit();
 	                }
