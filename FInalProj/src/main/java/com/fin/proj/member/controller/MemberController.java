@@ -215,7 +215,10 @@ public class MemberController {
 	
 	@RequestMapping("checkPwd.me")
 	public void checkPwd(Member m, Model model, @RequestParam("uPwd") String uPwd, PrintWriter out) {
+		int count = mService.checkId(uPwd);
 		
+		String result = count == 0 ? "yes" : "no";
+		out.print(result);
 		
 		
 	}
