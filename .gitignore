@@ -15,8 +15,8 @@ build/
 .springBeans
 .sts4-cache
 #bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+# !**/src/main/**/bin/
+# !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
 .idea
@@ -43,7 +43,7 @@ out/
 .metadata/
 #bin/
 .settings/
-*.class
+# *.class
 *.war
 *.nar
 *.ear
