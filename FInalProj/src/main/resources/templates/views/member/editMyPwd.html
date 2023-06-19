@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 @font-face {
     font-family: 'SUITE-Regular';
@@ -36,7 +37,7 @@
 	font-size: 30px;
 	margin-bottom: 75px;
 	border-bottom: 2px solid #40513B;
-	margin-left: 85px;
+	margin-left: 84px;
 	width: 160px;
 }
 
@@ -158,6 +159,15 @@
   transform: translate3d(0, 0, -1em);
 }
 
+#pwdCheckResult {
+	font-size: 14px;
+	color: #609966;
+} 
+
+.check-div {
+	margin-top: 7px; 
+}
+
 </style>
 <body>
 <div th:replace="~{views/common/header :: header}"></div>
@@ -169,13 +179,15 @@
 		<div class="enroll">
 			<div class="enroll-title">비밀번호 수정</div>
 				
-			<form>
+			<form action="updateMyPwd.me">
 				<div class="insert result-div">
 					
 					<div class="pwd-area">
 						원래 비밀번호 <input type="password" id="normal-input" class="new-pwd" name="uPwd" placeholder="비밀번호"/><br>
 						새 비밀번호 <input type="password" id="normal-input" class="new-pwd" name="newPwd" placeholder="새 비밀번호"/><br>
-						비밀번호 확인 <input type="password" id="normal-input" class="new-pwd" name="newPwd" placeholder="비밀번호 확인"/><br>
+						비밀번호 확인 <input type="password" id="normal-input" class="new-pwd" name="newPwdCheck" placeholder="비밀번호 확인"/><br>
+						
+						<div class="check-div"><label id="pwdCheckResult"></label></div>
 						
 						<div class="insert enroll-btn">
 						<button class="learn-more" id="modify-btn">수정하기</button>
@@ -192,6 +204,43 @@
 <div th:replace="~{views/common/footer :: footer}"></div>
 
 <script>
+//유효성 검사   
+window.onload = () => {
+    const uPwd = document.getElementsByName('uPwd')[0];
+    const newPwd = document.getElementsByName('newPwd')[0];
+    const newPwdCheck = document.getElementsByName('newPwdCheck')[0];
+    const pwdResult = document.getElementById('pwdCheckResult');
+    const modifyBtn = document.getElementById('modify-btn');
+
+    modifyBtn.addEventListener('click', function () {
+        if (uPwd.value.trim() == '') {
+            pwdResult.innerText = '현재 비밀번호를 입력해주세요.';
+        } else if (newPwd.value.trim() == '') {
+            pwdResult.innerText = '새 비밀번호를 입력해주세요.';
+        } else if (newPwdCheck.value.trim() == '') {
+            pwdResult.innerText = '비밀번호 확인을 입력해주세요.';
+        } else {
+            $.ajax({
+                url: 'checkPwd.me',
+                data: { uPwd: uPwd.value.trim() },
+                success: data => {
+                    console.log(data);
+                    if (data == 'yes') {
+                        // 유효성 검사 통과한 경우 updateMyPwd로 넘어감
+                        updateMyPwd();
+                    } else if (data == 'no') {
+                        pwdResult.innerText = "입력한 현재 비밀번호가 올바르지 않습니다.";
+                        pwdResult.style.color = 'red';
+                        modifyBtn.disabled = true;
+                    }
+                },
+                error: data => {
+                    console.log(data);
+                }
+            });
+        }
+    });
+};
 
 </script>
 </body>
