@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 @font-face {
     font-family: 'SUITE-Regular';
@@ -390,7 +391,7 @@ a {
 			</div>
 	
 			<div class="insert enroll-btn">
-				<button class="learn-more">수정하기</button>
+				<button class="learn-more" id="modify-btn">수정하기</button>
 			</div>							
 		</form>
 		
@@ -480,29 +481,31 @@ a {
     window.onload = () => {
     		const nickName = document.getElementsByName('uNickName')[0];
     		const nickNameResult = document.getElementById('nickNameCheckResult');
+    		const modifyBtn = document.getElementById('modify-btn');
     		
-    		nickName.addEventListener('change', function(){				
-				if(this.value.trim() == ''){
+    		nickName.addEventListener('input', function(){				
+				if(nickName.value.trim() == ''){
 					nickNameResult.innerText = '닉네임을 입력해주세요.';
 					nickNameResult.style.color = 'gray';
 					nickName.style.outline = '';
 					nickName.style.boxShadow = '';
 				} else {
 					$.ajax({
-						url: 'checkNickName.me',
-						data: {uNickName:this.value.trim()},
+						url: 'checkNickNameModify.me',
+						data: {uNickName:nickName.value.trim()},
 						success: data => {
 							console.log(data);
 							if(data == 'yes'){
 								nickNameResult.innerText = '사용 가능한 닉네임입니다.';
 								nickNameResult.style.color = '#609966';
 								nickName.style.outline = '1px solid #609966';
-								nickName.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+								modifyBtn.disabled = false;
 							} else if(data == 'no'){
 								nickNameResult.innerText = "사용 불가능한 닉네임입니다.";
 								nickNameResult.style.color = 'red';
 								nickName.style.outline = '1px solid red';
-								nickName.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+								modifyBtn.disabled = true;
+								
 							}
 						},
 						error: data => {
@@ -556,6 +559,23 @@ a {
             top: (window.screen.height / 2) - (height / 2)
         });
     }
+	
+	// 회원 유형
+	const normalRadio = document.querySelector('input[name="uType"][value="일반"]');
+	const agencyRadio = document.querySelector('input[name="uType"][value="단체"]');
+	const agencyNameInput = document.getElementsByName('registrar')[0];
+		
+	normalRadio.addEventListener('change', toggleAgencyNameInput);
+	agencyRadio.addEventListener('change', toggleAgencyNameInput);
+		
+	function toggleAgencyNameInput() {
+		if (agencyRadio.checked) {
+		  agencyNameInput.readOnly = false;
+		} else {
+		  agencyNameInput.readOnly = true;
+		  agencyNameInput.value = '';
+		}
+	}
 	
 </script>
 </body>

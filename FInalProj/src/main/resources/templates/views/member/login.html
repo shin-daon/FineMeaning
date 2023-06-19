@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>로그인</title>
 <script src="https://kit.fontawesome.com/51db22a717.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <style>
 @font-face {
@@ -215,11 +216,21 @@ div.login-input-wrap input:focus + span.placeholder-span {
 .forget-msg {
 	text-decoration: none;
 	color: #4e4e4e;
+	font-size: 15px;
 }
 
 .login-input-wrap input:focus {
   outline: none; /* 포커스 시 아웃라인 제거 */
   background-color: transparent; /* 배경색 제거 */
+}
+
+#loginCheckResult {
+	font-size: 15px;
+	color: #609966;    
+} 
+
+.check-div {
+	margin-top: 22px; 
 }
 
 </style>
@@ -233,7 +244,7 @@ div.login-input-wrap input:focus + span.placeholder-span {
 					<img src="image/logo.jpg" width="120px" height="120px"/>
 				</div>
 			</header>
-			<form action="login.me" method="post">
+			<form action="login.me" method="post" name="loginForm">
 			<section class="login-input-section-wrap">
 			
 				<div class="login-input-wrap">
@@ -249,12 +260,13 @@ div.login-input-wrap input:focus + span.placeholder-span {
 					  </span>
 				</div>
 				<div class="login-button-wrap">
-					<button type="submit">로그인</button>
+					<button type="submit" name="loginBtn">로그인</button>
 				</div>
-				<div class="login-stay-sign-in">
-					<img src="image/check_gray.png" id="changeImage" onclick="changeImage()"/>
-					<span>로그인 상태 유지</span>
-				</div>
+<!-- 				<div class="login-stay-sign-in"> -->
+<!-- 					<img src="image/check_gray.png" id="changeImage" onclick="changeImage()"/> -->
+<!-- 					<span>로그인 상태 유지</span> -->
+<!-- 				</div> -->
+				<div class="check-div"><label id="loginCheckResult"></label></div>
 				<div class="others">
 				<a class="forget-msg" href="findId.me">아이디 찾기 · </a>
 				<a class="forget-msg" href="findPwd.me">비밀번호 찾기 · </a>
@@ -277,19 +289,58 @@ div.login-input-wrap input:focus + span.placeholder-span {
 <br>
 <div th:replace="~{views/common/footer :: footer}"></div>
 </body>
-<script>
-	const changeImage = () => {
-	  const image = document.getElementById("changeImage");
+<script th:inline="javascript">
+	// 로그인 유지하기
+// 	const changeImage = () => {
+// 	  const image = document.getElementById("changeImage");
 
-	  if (image.src.endsWith("check_gray.png")) {
-	    image.src = "image/check.png";
-	  } else {
-	    image.src = "image/check_gray.png";
-	  }
-	};
+// 	  if (image.src.endsWith("check_gray.png")) {
+// 	    image.src = "image/check.png";
+// 	  } else {
+// 	    image.src = "image/check_gray.png";
+// 	  }
+// 	};
 
-	const imageElement = document.getElementById("changeImage");
-	imageElement.addEventListener("click", changeImage);
+// 	const imageElement = document.getElementById("changeImage");
+// 	imageElement.addEventListener("click", changeImage);
+	
+	// 유효성 검사
+	const uId = document.getElementsByName('uId')[0];
+	const uPwd = document.getElementsByName('uPwd')[0];
+	const loginBtn = document.querySelector('[name="loginBtn"]');
+	const loginForm = document.querySelector('[name="loginForm"]');
+	let errorCount = 1;
+	
+	loginBtn.addEventListener("click", function() {
+		event.preventDefault();
+		const idInput = uId.value;
+		const pwdInput = uPwd.value;
+		const loginCheckResult = document.getElementById('loginCheckResult');
+		
+		if(idInput.trim() == ''){
+			loginCheckResult.innerText = '아이디를 입력해주세요.';
+		} else if(pwdInput.trim() == '') {
+			loginCheckResult.innerText = '비밀번호를 입력해주세요.';	
+		} else {			
+			$.ajax({
+	            url: 'checkLogin.me',
+	            data: { uId:idInput.trim(), uPwd:pwdInput.trim() },
+	            success: data => {
+	                console.log("데이터 전송 성공: " + data);
+	                
+	                if(data.trim() !== ''){
+	                	loginCheckResult.innerHTML = '아이디 또는 비밀번호가 일치하지 않습니다. (' + errorCount + '/5)';
+	                	errorCount++;
+	                } else {
+	                	loginForm.submit();
+	                }
+	            },
+	            error: data => {
+	                console.log("데이터 전송 실패");
+	            }
+	        });
+	    }        
+	});
 
 </script>
 </html>

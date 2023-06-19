@@ -69,4 +69,14 @@ public class BoardServiceImpl implements BoardService {
 		return bDAO.deleteBoard(boardNo);
 	}
 
+	@Override
+	public int insertFruit(Board b) {
+		return bDAO.insertFruit(b);
+	}
+
+	@Override
+	public int deleteReply(int replyNo) {
+		return bDAO.deleteReply(replyNo);
+	}
+
 }
