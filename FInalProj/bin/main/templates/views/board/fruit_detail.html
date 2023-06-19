@@ -85,10 +85,18 @@
 				 			<div class="replyWriter" th:text="${ r.nickName }"></div>
 				 			<div class="replyDate" th:text="${ r.replyTime }"></div>
 			 			</div>
+			 			<script>
+		 					function deleteReply(rNo, bNo, page){
+		 						console.log(rNo);
+		 						console.log(bNo);
+		 						location.href = 'deleteReply.bo?rNo=' + btoa(rNo) + '&bNo=' + bNo + '&page=' + page;
+		 					}
+	 					</script>
 			 			<div class="replyInfo2">
 		 					<div class="replySet">
 				 				<th:block th:if="${ session.loginUser != null && session.loginUser.uNo == r.replyWriter }">
-			 						<a class="aTags" th:href="'deleteReply.bo?rNo=' + ${r.replyNo} + '&bNo=' + ${r.boardNo} + '&page=' + ${page}">삭제</a>
+<!-- 			 						<a class="aTags" th:href="'deleteReply.bo?rNo=' + ${r.replyNo} + '&bNo=' + ${r.boardNo} + '&page=' + ${page}">삭제</a> -->
+			 						<a class="aTags" th:onclick="deleteReply([[${r.replyNo}]], [[${r.boardNo}]], [[${page}]])">삭제</a>
 			 										<!-- th:onclick에 함수 걸어두고 돌아가는 방향으로 해야 함  -->
 			 					</th:block>
 		 					</div>
@@ -203,7 +211,9 @@
 					document.getElementsByClassName('replyInput')[0].focus();
 				}
 			});
+			
 			/* ]]> */
+			
 		}
 	</script>
 </body>

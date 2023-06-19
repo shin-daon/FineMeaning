@@ -44,7 +44,7 @@
 	            <div class="v-apply-title">
 	                <span class="v-locale-icon">[[${ v.vArea }]]</span>
 	                <span class="v-org">[[${v.vName}]]</span>
-	                <span class="v-recruitment-status">(모집중)</span>
+	                <span class="v-recruitment-status">[[${v.vRecruitmentEndDate}]]</span>
 	                <button type="button" class="btn-gradient mini v-list-btn" th:onclick="|location.href='volunteer.vo?page=${page}'|">목록</button>
 	            </div>
 	            <table>
@@ -123,7 +123,7 @@
 	
 	            <div class="v-apply-btn-div">
 	                <button type="button" id="applyBtn" class="learn-more v-apply-btn" th:if="${session.loginUser == null || (session.loginUser.uNo != v.uNo && session.loginUser.isAdmin != 0)}">신청하기</button>
-	                <button type="button" id="deleteBtn" class="learn-more v-delete-btn" th:if="${(session.loginUser != null && session.loginUser.uNo == v.uNo) || (session.loginUser != null && session.loginUser.isAdmin == 0)}">삭제</button>
+	                <button type="button" id="deleteBtn" class="learn-more v-delete-btn" th:if="${(session.loginUser != null && session.loginUser.uNo == v.uNo) || (session.loginUser != null && session.loginUser.isAdmin == 0)}" th:onclick="location.href='deleteVolunteer.vo?vNo=' + btoa([[${v.vNo}]])">삭제</button>
 	                <button type="submit" id="modifyBtn" class="learn-more-green v-modify-btn" th:if="${(session.loginUser != null && session.loginUser.uNo == v.uNo) || (session.loginUser != null && session.loginUser.isAdmin == 0)}">수정</button>
 	            </div>
             </form>
@@ -135,13 +135,36 @@
     	/*<![CDATA[*/
 	    document.getElementById('summernote').innerHTML = /*[[${v.vContent}]]*/'내용';
     	
-    	document.querySelector("#deleteBtn").addEventListener("click", () => {
-    		
-    	});
+	    const now = new Date();
+    	const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
     	
-    	document.querySelector("#modifyBtn").addEventListener("click", () => {
-    		
-    	});
+    	const recruitmentStatuses = document.querySelectorAll(".v-recruitment-status");
+	    const applyBtn = document.querySelector("#applyBtn");
+	    let check = false;
+	    
+	    for(const recruitmentStatus of recruitmentStatuses) {
+	    	if(recruitmentStatus.innerText <= today) {
+	    		recruitmentStatus.innerText = "(모집중)";
+	    	} else {
+	    		recruitmentStatus.innerText = "(모집완료)";
+	    		recruitmentStatus.style.color = "black";
+	    		if(applyBtn != null) {
+	    			applyBtn.display.style = "none";
+	    		}
+	    		check = true;
+	    	}
+	    }
+	    
+    	if(applyBtn != null) {
+    		applyBtn.addEventListener("click", () => {
+        		if(check) {
+        			alert("비정상적인 접근입니다.");
+        			event.preventDefault();
+        		} else {
+        			location.href='volunteerApply.vo?vNo=' + /*[[${v.vNo}]]*/1;
+        		}
+        	});
+    	}
     	/*]]>*/
     </script>
 </body>

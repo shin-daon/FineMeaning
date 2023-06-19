@@ -42,8 +42,7 @@
 		<![CDATA[
 			select count(*)
 			from volunteer
-			where v_status='Y' 
-			      and to_date(to_char(sysdate, 'YYMMDD')) <= to_date(to_char(v_recruitment_end_date, 'YYMMDD'))
+			where v_status='Y'
 		]]>
 	</select>
 	
@@ -55,9 +54,8 @@
 				 join v_main_category using(v_main_category_no)
 				 join v_sub_category using(v_sub_category_no)
 				 join v_target_category using(v_target_category_no)
-			where v_status='Y' 
-				  and to_date(to_char(sysdate, 'YYMMDD')) <= to_date(to_char(v_recruitment_end_date, 'YYMMDD'))
-			order by v_no desc
+			where v_status='Y'
+			order by v_no
 		]]>
 	</select>
 	
@@ -73,4 +71,23 @@
 				  and v_no = #{vNo}
 		]]>
 	</select>
+	
+	<update id="updateVolunteer">
+		update volunteer
+		set V_MAIN_CATEGORY_NO = #{vMainCategoryNo}, V_SUB_CATEGORY_NO = #{vSubCategoryNo}, V_TARGET_CATEGORY_NO = #{vTargetCategoryNo},
+			V_AREA = #{vArea}, V_NAME = #{vName}, V_CONTENT = #{vContent}, V_START_DATE = #{vStartDate}, V_END_DATE = #{vEndDate},
+			V_START_TIME = #{vStartTime}, V_END_TIME = #{vEndTime}, V_RECRUITMENT_START_DATE = #{vRecruitmentStartDate}, V_RECRUITMENT_END_DATE = #{vRecruitmentEndDate},
+			V_DAY = #{vDay}, V_COUNTALL = #{vCountAll}, V_LOCATION = #{vLocation}, V_ACTIVITY_TYPE = #{vActivityType}, V_CHARGE_NAME = #{vChargeName}, V_CHARGE_PHONE = #{vChargePhone}
+		where v_no = #{vNo}
+	</update>
+	
+	<update id="deleteVolunteer">
+		update volunteer
+		set v_status = 'N'
+		where v_no = #{vNo}
+	</update>
+	
+	<insert id="applyVolunteer">
+		insert into v_history values(SEQ_VHISID.NEXTVAL, #{uNo}, #{vNo}, default, default)
+	</insert>
 </mapper>
