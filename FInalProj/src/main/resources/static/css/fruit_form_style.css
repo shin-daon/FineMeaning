@@ -63,8 +63,11 @@
     width :80px;
     height: 35px;
     text-align: center;
-    cursor : pointer;
     font-size : 13px;
+}
+
+#dropbtn:hover {
+	cursor : pointer;
 }
 
 .dropdown-content{

@@ -64,7 +64,7 @@
         <div id="fruit_write_title">게시글 작성🌳</div>
 		
 		<div id="formDiv">
-	        <form method="post" action="#">
+	        <form method="post" action="insert_fruit.bo">
 	            <div id="writeForm">
                     <div class="titleArea">
                         <div class="dropdown">
@@ -77,13 +77,13 @@
                                 <span class="selectCate">봉사</span>
                             </div>
                         </div>
-                        <input type="text" id="title" name="boardTitle" placeholder="제목을 입력하세요.">
+                        <input type="text" id="title" name="boardTitle" placeholder="제목을 입력하세요." required>
                     </div>
-	                <textarea id="summernote" name="boardContent"></textarea>
+	                <textarea id="summernote" name="boardContent" required></textarea>
 	            </div>
 	            <div class="btnArea">
-	                <button type="button" class="writeFaqBtn learn-more" onclick="goWrite(this.form)">글쓰기</button>
-	                <button type="button" class="backBtn learn-more-back" onclick="goWrite(this.form)">취소</button>
+	                <button type="submit" class="writeFaqBtn learn-more">글쓰기</button>
+	                <button type="button" class="backBtn learn-more-back">취소</button>
 	            </div>    
 	        </form>
         </div>
@@ -115,6 +115,7 @@
 				document.getElementsByClassName('dropdown-content')[0].style.display='block';	
 			});
 			
+			
 			// dropbtn 이나 dropdownContent 외의 다른 영역 클릭 시 none
 			document.addEventListener('click', (event) => {
                 const target = event.target;
@@ -125,18 +126,37 @@
                 }
             });
 			
-			// span selectCate를 선택하면 name boardCate value에 해당 값이 들어가게 하기.
 			
+			// span selectCate를 선택하면 name boardCate value에 해당 값이 들어가게 하기.
 			const categories = document.querySelectorAll('.selectCate');
 			for(const category of categories){
 				category.addEventListener('click', function(){
 					const cate = this.innerText;
-					const boardCate = document.getElementsByName('boardCate');
-					boardCate.value = cate;
+					
+					const boardCate = document.getElementsByName('boardCate')[0];
+					
+					if(cate == '후원'){
+						boardCate.value = 1;
+					} else {
+						boardCate.value = 2;
+					}
+// 					console.log(boardCate.value);
 				});
 			}
 			
 			
+			// 카테고리 연관된 input="hidden"에 값이 없을 경우 submit 막기
+			const submitBtn = document.querySelector('.writeFaqBtn');
+			submitBtn.addEventListener('click', function(){
+				const boardCate = document.getElementsByName('boardCate')[0];
+				if(boardCate.value === 'none'){
+					event.preventDefault(); // 폼 제출 막기
+					alert('글 작성 시 카테고리 선택은 필수입니다.');
+				}
+			});
+			
+			
+			// 모달
 			const backBtn = document.getElementsByClassName('backBtn')[0];
 			const yesBtn = document.getElementById('withdrawal-btn');
 			const noBtn = document.getElementById('rollback-btn');
@@ -156,8 +176,8 @@
 			    modal.style.display = 'none';
 			});
 			
-			// 썸머노트
 			
+			// 썸머노트
 			$('#summernote').summernote({
 		        placeholder: '내용을 입력해주세요🍀',
 		        tabsize: 2,

@@ -29,4 +29,7 @@ public interface BoardDAO {
 
 	int deleteBoard(int bId);
 
+	int insertFruit(Board b);
+
+	int deleteReply(int replyNo);
 }
