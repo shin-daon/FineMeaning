@@ -123,7 +123,7 @@
             	<input type="hidden" th:value="${ v.vNo }"/>
                 <div class="v-list-item">
                     <span class="v-locale-icon">[[${v.vArea}]]</span>
-                    <span class="v-recruitment-status">모집중</span>
+                    <span class="v-recruitment-status">[[${v.vRecruitmentEndDate}]]</span>
                     <span class="v-list-category">([[${v.vMainCategoryName}]] > [[${v.vSubCategoryName}]])</span>
                     <div class="v-list-title">[[${v.vName}]]</div>
                     <div class="v-list-info">
@@ -181,6 +181,17 @@
 		    	});
 		    }
 		    /*]]>*/
+		    
+		    const recruitmentStatuses = document.querySelectorAll(".v-recruitment-status");
+		    for(const recruitmentStatus of recruitmentStatuses) {
+		    	if(recruitmentStatus.innerText <= today) {
+		    		recruitmentStatus.innerText = "모집중";
+		    		recruitmentStatus.style.color = "blue";
+		    	} else {
+		    		recruitmentStatus.innerText = "모집완료";
+		    	}
+		    }
+		    
 		    
 		    const endDates = document.querySelectorAll(".v-end-date");
 		    for(const endDate of endDates) {

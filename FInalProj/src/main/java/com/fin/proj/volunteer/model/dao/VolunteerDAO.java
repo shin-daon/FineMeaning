@@ -22,4 +22,6 @@ public interface VolunteerDAO {
 
 	int deleteVolunteer(String vNo);
 
+	int applyVolunteer(Volunteer v);
+
 }

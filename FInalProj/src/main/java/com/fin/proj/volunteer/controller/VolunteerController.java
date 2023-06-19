@@ -67,7 +67,12 @@ public class VolunteerController {
 	}
 	
 	@GetMapping("volunteerApply.vo")
-	public String volunteerApply() {
+	public String volunteerApply(@RequestParam("vNo") int vNo, HttpSession session, Model model) {
+		Volunteer v = vService.selectVolunteer(vNo);
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		model.addAttribute("v", v);
+		model.addAttribute("m", m);
 		return "volunteerApply";
 	}
 	
@@ -129,6 +134,17 @@ public class VolunteerController {
 		int result = vService.deleteVolunteer(vNo);
 		if(result > 0) {
 			return "redirect:volunteer.vo";
+		}
+		return null;
+	}
+	
+	@PostMapping("applyVolunteer.vo")
+	public String applyVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
+		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
+		
+		int result = vService.applyVolunteer(v);
+		if(result > 0) {
+			return "redirect:volunteerHistory.vo";
 		}
 		return null;
 	}

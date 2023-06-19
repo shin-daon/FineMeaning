@@ -47,4 +47,9 @@ public class VolunteerServiceImpl implements VolunteerService {
 	public int deleteVolunteer(String vNo) {
 		return vDAO.deleteVolunteer(vNo);
 	}
+
+	@Override
+	public int applyVolunteer(Volunteer v) {
+		return vDAO.applyVolunteer(v);
+	}
 }

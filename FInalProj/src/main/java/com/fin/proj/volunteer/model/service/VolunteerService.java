@@ -18,4 +18,6 @@ public interface VolunteerService {
 	int updateVolunteer(Volunteer v);
 
 	int deleteVolunteer(String vNo);
+
+	int applyVolunteer(Volunteer v);
 }

@@ -86,4 +86,8 @@
 		set v_status = 'N'
 		where v_no = #{vNo}
 	</update>
+	
+	<insert id="applyVolunteer">
+		insert into v_history values(SEQ_VHISID.NEXTVAL, #{uNo}, #{vNo}, default, default)
+	</insert>
 </mapper>
