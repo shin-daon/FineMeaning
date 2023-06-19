@@ -105,7 +105,7 @@
 	
 	<resultMap type="SupportHistory" id="supportHistoryResultSet">
 		<id column="S_HIS_NO" property="supportHistoryNo" />		
-		<result column="U_NO" property="UserNo" />
+		<result column="U_NO" property="userNo" />
 		<result column="S_NO" property="supportNo" />
 		<result column="S_HIS_NAME" property="supporterName" />
 		<result column="S_HIS_AMOUNT" property="supportAmount" />
@@ -129,7 +129,19 @@
 	</select>
 	
 	<select id="selectMySupportList" resultMap="supportHistoryResultSet">
-		select * from s_history sh left join support using(s_no) where sh.u_no = 1 order by s_his_paydate desc
+		select * from s_history sh left join support using(s_no) where sh.u_no = #{uNo} order by s_his_paydate desc
 	</select>
 	
+	<select id="getsearchApplyListCount" resultType="_int">
+		select count(*) from support where u_no= #{userNo} and S_TITLE like '%${supportTitle}%'
+	</select>
+	
+	<select id="selectApplySearchList" resultMap="supportResultSet">
+		select * from support join users using(u_no) where u_no= #{userNo} and S_TITLE like '%${supportTitle}%'
+	</select>
+	
+	<insert id="insertSupporter">
+		insert into s_history values(seq_shid.nextval, #{userNo}, #{supportNo}, #{supporterName}, #{supportAmount}, sysdate, #{payType}, #{supporterType})
+		  
+	</insert>
 </mapper>

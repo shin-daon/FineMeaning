@@ -65,10 +65,18 @@
         
 		<div class="replyArea">
 	 		<div class="replyTitle">댓글</div>
-	 		<div class="replyWriteArea">
-			 	<input type="text" class="replyInput" required/>
-			 	<button type="submit" class="replyBtn">작성</button>
-	 		</div>
+	 		<th:block th:if="${ session.loginUser != null }">
+		 		<div class="replyWriteArea">
+				 	<input type="text" class="replyInput" required/>
+				 	<button type="submit" class="replyBtn">작성</button>
+		 		</div>
+	 		</th:block>
+	 		<th:block th:if="${ session.loginUser == null }">
+	 			<div class="replyWriteArea">
+				 	<input type="text" class="replyInput" placeholder="로그인 후 댓글을 남겨주세요." disabled required/>
+				 	<button type="submit" class="replyBtn" disabled>작성</button>
+		 		</div>
+	 		</th:block>
 	 		
 	 		<div id="meaningless">
 			 	<div class="reply" th:each=" r : ${replyList}">
@@ -79,7 +87,10 @@
 			 			</div>
 			 			<div class="replyInfo2">
 		 					<div class="replySet">
-		 						<a class="aTags" href="deleteReply.bo">삭제</a>
+				 				<th:block th:if="${ session.loginUser != null && session.loginUser.uNo == r.replyWriter }">
+			 						<a class="aTags" th:href="'deleteReply.bo?rNo=' + ${r.replyNo} + '&bNo=' + ${r.boardNo} + '&page=' + ${page}">삭제</a>
+<!-- 			 						<a class="aTags" th:href='deleteReply.bo?bNo=${r.boardNo}&page=${page}'>삭0제</a> -->
+			 					</th:block>
 		 					</div>
 		 				</div>
 			 		</div>
@@ -91,12 +102,11 @@
 	 		
 		</div>
 		
-        <div class="btnArea">
-            <button type="button" class="backBtn learn-more-back" onclick="location.href='fruitMain.bo'">목록으로</button>
+        <div class="btnArea">		
+            <button type="button" class="backBtn learn-more-back" th:onclick="|location.href='fruitMain.bo?page='+${page}|">목록으로</button>
         </div>
 	</section>
 	<div th:replace="~{views/common/footer :: footer}"></div>
-	
 	<script th:inline="javascript">
 		window.onload = () => {
 			
@@ -110,7 +120,8 @@
 						url:'insertReply.bo',
 						data: {
 							replyContent:document.getElementsByClassName('replyInput')[0].value,
-							nickName:/*[[${session.login == null ? '' : session.loginUser.uNickName}]]*/1,
+							replyWriter:/*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/1,
+							nickName:/*[[${session.loginUser == null ? '' : session.loginUser.uNickName}]]*/1,
 							boardNo:/*[[${board.boardNo}]]*/1,
 							boardTitle:/*[[${board.boardTitle}]]*/1
 						},
@@ -146,12 +157,23 @@
 								
 								const replySet = document.createElement('div');
 								replySet.classList.add('replySet');
-
-								const deleteLink = document.createElement('a');
-								deleteLink.classList.add('aTags');
-								deleteLink.setAttribute('href', 'deleteReply.bo');
-								deleteLink.innerText = '삭제';
-								replySet.appendChild(deleteLink);
+								
+								// 자바스크립트에서 if문 안 1이면 true, 0이면 false
+								
+								const loginUser = /*[[${session.loginUser}]]*/1;
+// 								console.log(loginUser);
+								const loginUserNo = /*[[${session.loginUser.uNo}]]*/1;
+// 								console.log(loginUserNo);
+								
+								if(loginUser != null && loginUserNo == r.replyWriter) {
+									const deleteLink = document.createElement('a');
+									deleteLink.classList.add('aTags');
+									const replyNo = r.replyNo;
+									const replyBoardNo = r.boardNo;
+									deleteLink.setAttribute('href', 'deleteReply.bo?rNo=' + replyNo + '&bNo=' + replyBoardNo + '&page=' + /*[[${ page }]]*/0);
+									deleteLink.innerText = '삭제';
+									replySet.appendChild(deleteLink);
+								}
 								
 								replyInfo2.appendChild(replySet);
 								
@@ -177,11 +199,11 @@
 						error: data => {
 						}
 					});
-					/* ]]> */
 				} else if(replyInput == '') {
 					document.getElementsByClassName('replyInput')[0].focus();
 				}
 			});
+			/* ]]> */
 		}
 	</script>
 </body>

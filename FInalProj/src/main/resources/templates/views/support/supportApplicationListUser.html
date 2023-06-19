@@ -132,6 +132,11 @@
 			location.href= "supportDetail.su?supportNo=" + supportNo;
 		})
 	}
+	
+	const searchButton = document.getElementsByClassName('searchIcon')[0].addEventListener('click',()=>{
+		const searchWord = document.getElementsByClassName('searchInput')[0].value;
+		location.href="searchApplyList.su?searchWord=" + searchWord
+	})
 </script>
 </body>
 </html>

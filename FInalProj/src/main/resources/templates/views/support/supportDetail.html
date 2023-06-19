@@ -61,84 +61,84 @@ body {
 
 
                 <div>
-                    <div class="supportTitle" th:text="${s.supportTitle}"></div>
+                    <div class="supportTitle">[[${s.supportTitle}]]</div>
                     <div class="supportSubTitle">모금함 소개</div>
-                    <div id="slideShow" class="supportImageDiv">
-                        <div id="myCarousel" class="carousel slide mar" data-bs-ride="carousel">
-                            <div class="carousel-indicators">
-                                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                            </div>
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                <img src="image/donation.jpg" class="d-block w-100" alt="..." >
-                                    <div class="container">
-                                        <div class="carousel-caption text-start"></div>
-                                    </div>
-                                </div>
-                                <div class="carousel-item">
-                                <img src="image/donation2.jpg" class="d-block w-100" alt="..." >
-                                    <div class="container">
-                                        <div class="carousel-caption"></div>
-                                    </div>
-                                </div>
-                                <div class="carousel-item" >
-                                <img src="image/donation3.jpg" class="d-block w-100" alt="..." >
-                                    <div class="container">
-                                        <div class="carousel-caption text-end">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="carousel-item" >
-                                <img src="image/donation5.jpeg" class="d-block w-100" alt="..." >
-                                    <div class="container">
-                                        <div class="carousel-caption text-end">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                      </div>
+<!--                     <div id="slideShow" class="supportImageDiv"> -->
+<!--                         <div id="myCarousel" class="carousel slide mar" data-bs-ride="carousel"> -->
+<!--                             <div class="carousel-indicators"> -->
+<!--                                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button> -->
+<!--                                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button> -->
+<!--                                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button> -->
+<!--                                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button> -->
+<!--                             </div> -->
+<!--                             <div class="carousel-inner"> -->
+<!--                                 <div class="carousel-item active"> -->
+<!--                                 <img src="image/donation.jpg" class="d-block w-100" alt="..." > -->
+<!--                                     <div class="container"> -->
+<!--                                         <div class="carousel-caption text-start"></div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                                 <div class="carousel-item"> -->
+<!--                                 <img src="image/donation2.jpg" class="d-block w-100" alt="..." > -->
+<!--                                     <div class="container"> -->
+<!--                                         <div class="carousel-caption"></div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                                 <div class="carousel-item" > -->
+<!--                                 <img src="image/donation3.jpg" class="d-block w-100" alt="..." > -->
+<!--                                     <div class="container"> -->
+<!--                                         <div class="carousel-caption text-end"> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                                 <div class="carousel-item" > -->
+<!--                                 <img src="image/donation5.jpeg" class="d-block w-100" alt="..." > -->
+<!--                                     <div class="container"> -->
+<!--                                         <div class="carousel-caption text-end"> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                             <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev"> -->
+<!--                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span> -->
+<!--                                 <span class="visually-hidden">Previous</span> -->
+<!--                             </button> -->
+<!--                             <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next"> -->
+<!--                                 <span class="carousel-control-next-icon" aria-hidden="true"></span> -->
+<!--                                 <span class="visually-hidden">Next</span> -->
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                       </div> -->
                     
-                    <div class="supportDetailContent" th:text="${s.supportContent}"></div>
+<!--                     <div class="supportDetailContent" th:text="${s.supportContent}"></div> -->
 
-                    <div class="supportSubTitle">기부금 사용 내역</div>
-                    <div class="supportUsage supportSubTitle" >
-                        <table class="supportTable">
-                            <thead>
-                                <tr>
-                                    <th colspan="2" style="text-align: left; padding-left:25px;">총 집행 금액</th>
-                                    <th th:text="${s.targetAmount}+'원'"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                    <tr th:each="l:${sdList}" th:if="${sdList !=null}">
-                                        <td>사업비</td>
-                                        <td class="contentDetail" th:text="${l.supportDetailContent}"/>
-                                        <td th:text="${l.supportDetailAmount} + '원'"></td>
-                                    </tr>                                   
-                            </tbody>
-                        </table>
-                    </div>
+<!--                     <div class="supportSubTitle">기부금 사용 내역</div> -->
+<!--                     <div class="supportUsage supportSubTitle" > -->
+<!--                         <table class="supportTable"> -->
+<!--                             <thead> -->
+<!--                                 <tr> -->
+<!--                                     <th colspan="2" style="text-align: left; padding-left:25px;">총 집행 금액</th> -->
+<!--                                     <th th:text="${s.targetAmount}+'원'"></th> -->
+<!--                                 </tr> -->
+<!--                             </thead> -->
+<!--                             <tbody> -->
+<!--                                     <tr th:each="l:${sdList}" th:if="${sdList !=null}"> -->
+<!--                                         <td>사업비</td> -->
+<!--                                         <td class="contentDetail" th:text="${l.supportDetailContent}"/> -->
+<!--                                         <td th:text="${l.supportDetailAmount} + '원'"></td> -->
+<!--                                     </tr>                                    -->
+<!--                             </tbody> -->
+<!--                         </table> -->
+<!--                     </div> -->
 
-
+				<div id="summernote"></div>
                 </div>
             </section>
         </div>
         
         <div class="supDetailSection supDetailSection2">
             <section id="supportSummarySection">
-                <div id="progressPercent" th:text="${s.fundAmount/s.targetAmount*100}+'%'"></div>
+                <div id="progressPercent" th:text="${(s.fundAmount/s.targetAmount)*100}+'%'"></div>
 
                 <div>
                     <progress id="supportProgress" value="50" min="0" max="100"></progress>
@@ -157,15 +157,15 @@ body {
                 </div>
 
                 <div class="donationButton">
-                    <button class="learn-more supportButton" th:onclick="|location.href='doSupport.su'|">모금함 기부하기</button>
+                    <button class="learn-more supportButton" th:onclick="|location.href='doSupport.su?supportNo=${s.supportNo}'|">모금함 기부하기</button>
                 </div>
 
                 <div class="supportSubTitle2">
-                	모금 단체<br><span th:text="${s.registar}"></span>
+                	모금 단체<br><span>[[${s.registar}]]</span>
                 </div>
                 <div class="supportSubTitle2 groupInfo">
-                	<b>선뜻 가입일</b> &nbsp;&nbsp; <span th:text="${s.enrollDate}"></span><br>
-                	<b>문의 전화</b>&nbsp;&nbsp; <span th:text="'0'+${s.phone}"></span>
+                	<b>선뜻 가입일</b> &nbsp;&nbsp; <span>[[${s.enrollDate}]]</span><br>
+                	<b>문의 전화</b>&nbsp;&nbsp; <span>0[[${s.phone}]]</span>
                 </div>
                 
                 
@@ -200,7 +200,7 @@ body {
 
 <script th:inline="javascript">
     	/*<![CDATA[*/
-	    document.getElementById('summernote').innerHTML = /*[[${v.vContent}]]*/5;
+	    document.getElementById('summernote').innerHTML = /*[[${s.supportContent}]]*/5;
     	/*]]>*/
 </script>
 </body>

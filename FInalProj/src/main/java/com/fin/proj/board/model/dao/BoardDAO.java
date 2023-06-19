@@ -11,9 +11,9 @@ import com.fin.proj.board.model.vo.Reply;
 @Mapper
 public interface BoardDAO {
 
-	int getListCount(int i);
+	int getListCount(String i);
 
-	ArrayList<Board> selectBoardList(int i, RowBounds rowbounds);
+	ArrayList<Board> selectBoardList(String i, RowBounds rowbounds);
 
 	int countUp(int bNo);
 
@@ -29,4 +29,7 @@ public interface BoardDAO {
 
 	int deleteBoard(int bId);
 
+	int insertFruit(Board b);
+
+	int deleteReply(int replyNo);
 }

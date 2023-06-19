@@ -41,6 +41,10 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteUser(String uId) {
 		return mDAO.deleteUser(uId);
 	}
-
+	
+	@Override
+	public int checkNickNameModify(Member m) {
+		return mDAO.checkNickNameModify(m);
+	}
 
 }
