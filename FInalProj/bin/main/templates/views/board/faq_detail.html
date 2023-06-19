@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>자주 묻는 질문</title>
+<link rel="stylesheet" href="css/faq_detail_style.css">
+<style>
+	.backgroundImage::after {
+	    background-image: url("image/sight3.jpg");
+	    width: 100%;
+	    height: 100%;
+	    border-radius: 15px;
+	    content: "";
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    z-index: -1;
+	    opacity: 0.4;
+	}
+</style>
+</head>
+<body>	
+	<div th:replace="~{../common/header :: header}"></div>
+	<section id="faq_write_section">
+        
+		<div>
+	        <div id="faq_title">자주 묻는 질문</div>
+	    </div>
+        
+        <div class="path">
+            <a class="middle" href="/"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/arrow.png">
+            <a class="middle" href="#">커뮤니티</a>
+            <img class="sub iconSize" src="image/arrow.png">
+            <a class="middle">자주 묻는 질문</a>
+        </div>
+
+        <div class="titleAndMore">
+            <div class="titleWrap">
+                <div class="faq_write_title">[[${ board.boardTitle }]]</div>
+            </div>    
+            <div class="dropdown">
+                <img class="seeMore" src="image/seeMore.png">
+                <input type="hidden" name="category" value="none">
+                <div class="dropdown-content">
+                    <span class="selectCate" onclick="location.href='faq_edit.bo'">수정</span>	<!-- onclick -->
+                    <span class="selectCate">삭제</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="detailArea">
+            <hr class="hr">
+            <div class="contentArea backgroundImage">
+	            <p class="boardDate">[[${ board.boardDate }]]</p>
+                <div class="contentMain"></div>
+            </div>
+            <hr class="hr">
+        </div>
+        
+        <div class="btnArea">
+            <button type="button" class="backBtn learn-more-back" onclick="location.href='faqMain.bo'">목록으로</button>
+        </div>
+            
+	</section>
+	<div th:replace="~{views/common/footer :: footer}"></div>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		   document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/5;
+		/*]]>*/	
+	</script>
+</body>
+</html>
