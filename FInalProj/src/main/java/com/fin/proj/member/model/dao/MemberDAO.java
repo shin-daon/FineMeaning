@@ -19,4 +19,6 @@ public interface MemberDAO {
 
 	int deleteUser(String uId);
 
+	int checkNickNameModify(Member m);
+
 }
