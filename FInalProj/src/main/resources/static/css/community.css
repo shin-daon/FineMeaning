@@ -310,6 +310,10 @@ th, td {
     display: block;
 }
 
+.disabled {
+	opacity: 0.3;
+}
+
 .faqTable > tbody > tr:hover{
     background-color: #f9fceb;
     cursor: pointer;
