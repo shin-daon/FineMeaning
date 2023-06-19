@@ -19,12 +19,12 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDAO bDAO;
 	
 	@Override
-	public int getListCount(int i) {
+	public int getListCount(String i) {
 		return bDAO.getListCount(i);
 	}
 
 	@Override
-	public ArrayList<Board> selectBoardList(PageInfo pi, int i) {
+	public ArrayList<Board> selectBoardList(PageInfo pi, String i) {
 		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
 		RowBounds rowbounds = new RowBounds(offset, pi.getBoardLimit());
 		

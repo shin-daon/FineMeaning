@@ -42,12 +42,12 @@ public class BoardController {
 			currentPage = 1;
 		}
 		
-		int listCount = bService.getListCount(6);
+		int listCount = bService.getListCount("자주 묻는 질문");
 //		System.out.println(listCount);
 		
 		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
 		
-		ArrayList<Board> list = bService.selectBoardList(pageInfo, 6);
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, "자주 묻는 질문");
 //		System.out.println(list);
 		
 		if(list != null) {
@@ -105,7 +105,8 @@ public class BoardController {
 		
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		b.setuNo(uNo);
-		b.setBoardType(6);
+		b.setBoardType("자주 묻는 질문");
+		b.setImageUrl(null);
 		
 		int result = bService.insertBoard(b);
 		
@@ -138,12 +139,12 @@ public class BoardController {
 			currentPage = 1;
 		}
 		
-		int listCount = bService.getListCount(5);
+		int listCount = bService.getListCount("결실");
 //		System.out.println(listCount);
 		
 		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
 		
-		ArrayList<Board> list = bService.selectBoardList(pageInfo, 5);
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, "결실");
 //		System.out.println(list);
 		
 		if(list != null) {
@@ -194,7 +195,7 @@ public class BoardController {
 		System.out.println(b);
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		b.setuNo(uNo);
-		b.setBoardType(5);
+		b.setBoardType("결실");
 		
 		int result = bService.insertFruit(b);
 		
@@ -336,7 +337,7 @@ public class BoardController {
 		System.out.println("id=" + id);
 		b.setuNo(id);
 		System.out.println("들어간 id" + id);
-		b.setBoardType(1);
+//		b.setBoardType(1);
 		
 		int result = bService.insertBoard(b);
 		if(result > 0) {
@@ -358,7 +359,7 @@ public class BoardController {
 	@PostMapping("updateBoard.bo")
 	public String updateCommBoard(@ModelAttribute Board b, @RequestParam("page") int page, RedirectAttributes ra, HttpSession session) {
 		
-		b.setBoardType(1);
+//		b.setBoardType(1);
 		int result = bService.updateBoard(b);
 //		System.out.println(result);
 		
