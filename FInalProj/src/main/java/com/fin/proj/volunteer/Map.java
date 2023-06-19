@@ -40,8 +40,6 @@ public class Map {
 		JsonObject body = (JsonObject) JsonParser.parseString(result.getBody());
 		JsonArray documents = (JsonArray)body.get("documents");
 		
-		System.out.println(documents);
-		
 		JsonObject local = (JsonObject)documents.get(0);
 		JsonObject addressArr = (JsonObject)local.get("address");
 

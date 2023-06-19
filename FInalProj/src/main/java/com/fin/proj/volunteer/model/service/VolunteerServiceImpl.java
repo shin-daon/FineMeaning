@@ -37,4 +37,19 @@ public class VolunteerServiceImpl implements VolunteerService {
 	public Volunteer selectVolunteer(int vNo) {
 		return vDAO.selectVolunteer(vNo);
 	}
+
+	@Override
+	public int updateVolunteer(Volunteer v) {
+		return vDAO.updateVolunteer(v);
+	}
+
+	@Override
+	public int deleteVolunteer(String vNo) {
+		return vDAO.deleteVolunteer(vNo);
+	}
+
+	@Override
+	public int applyVolunteer(Volunteer v) {
+		return vDAO.applyVolunteer(v);
+	}
 }

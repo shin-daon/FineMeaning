@@ -1,6 +1,8 @@
 package com.fin.proj.volunteer.controller;
 
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fin.proj.common.Pagination;
 import com.fin.proj.common.model.vo.PageInfo;
@@ -54,7 +57,7 @@ public class VolunteerController {
 //		System.out.println(v);
 		if(v != null) {
 			HashMap<String, Double> map = Map.getLongitudeAndLatitude(v.getAddress());
-			System.out.println(map);
+//			System.out.println(map);
 			model.addAttribute("v", v);
 			model.addAttribute("page", page);
 			model.addAttribute("map", map);
@@ -64,7 +67,12 @@ public class VolunteerController {
 	}
 	
 	@GetMapping("volunteerApply.vo")
-	public String volunteerApply() {
+	public String volunteerApply(@RequestParam("vNo") int vNo, HttpSession session, Model model) {
+		Volunteer v = vService.selectVolunteer(vNo);
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		model.addAttribute("v", v);
+		model.addAttribute("m", m);
 		return "volunteerApply";
 	}
 	
@@ -96,10 +104,47 @@ public class VolunteerController {
 	public String insertVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
 //		System.out.println((Member)session.getAttribute("loginUser"));
 		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
-		System.out.println(v);
+//		System.out.println(v);
 		int result = vService.insertVolunteer(v);
 		if(result > 0) {
 			return "redirect:volunteerEnrollHistory.vo";
+		}
+		return null;
+	}
+	
+	@PostMapping("updateVolunteer.vo")
+	public String updateVolunteer(@ModelAttribute Volunteer v, @RequestParam("page") int page, HttpSession session, RedirectAttributes ra) {
+		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
+//		System.out.println(v);
+		int result = vService.updateVolunteer(v);
+		if(result > 0) {
+			ra.addAttribute("vNo", v.getvNo());
+			ra.addAttribute("page", page);
+			return "redirect:volunteerDetail.vo";
+		}
+		return null;
+	}
+	
+	@GetMapping("deleteVolunteer.vo")
+	public String deleteVolunteer(@RequestParam("vNo") String encodedVNo) {
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(encodedVNo);
+		String vNo = new String(byteArr);
+		
+		int result = vService.deleteVolunteer(vNo);
+		if(result > 0) {
+			return "redirect:volunteer.vo";
+		}
+		return null;
+	}
+	
+	@PostMapping("applyVolunteer.vo")
+	public String applyVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
+		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
+		
+		int result = vService.applyVolunteer(v);
+		if(result > 0) {
+			return "redirect:volunteerHistory.vo";
 		}
 		return null;
 	}

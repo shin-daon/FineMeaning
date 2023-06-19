@@ -331,6 +331,8 @@
             		alert("봉사분야(하위)를 선택해주세요");
             	} else if(document.querySelector("#object").value === "none") {
             		alert("봉사대상을 선택해주세요");
+            	} else if(startTime.value > endTime.value) {
+            		alert("봉사 시간을 올바르게 설정해주세요");
             	} else {
             		checkAllVal = true;
             	}
