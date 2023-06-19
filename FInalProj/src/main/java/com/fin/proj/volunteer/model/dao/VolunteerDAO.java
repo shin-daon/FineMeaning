@@ -20,4 +20,6 @@ public interface VolunteerDAO {
 
 	int updateVolunteer(Volunteer v);
 
+	int deleteVolunteer(String vNo);
+
 }

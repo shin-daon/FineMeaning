@@ -1,6 +1,8 @@
 package com.fin.proj.volunteer.controller;
 
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,6 +116,19 @@ public class VolunteerController {
 			ra.addAttribute("vNo", v.getvNo());
 			ra.addAttribute("page", page);
 			return "redirect:volunteerDetail.vo";
+		}
+		return null;
+	}
+	
+	@GetMapping("deleteVolunteer.vo")
+	public String deleteVolunteer(@RequestParam("vNo") String encodedVNo) {
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(encodedVNo);
+		String vNo = new String(byteArr);
+		
+		int result = vService.deleteVolunteer(vNo);
+		if(result > 0) {
+			return "redirect:volunteer.vo";
 		}
 		return null;
 	}

@@ -80,4 +80,10 @@
 			V_DAY = #{vDay}, V_COUNTALL = #{vCountAll}, V_LOCATION = #{vLocation}, V_ACTIVITY_TYPE = #{vActivityType}, V_CHARGE_NAME = #{vChargeName}, V_CHARGE_PHONE = #{vChargePhone}
 		where v_no = #{vNo}
 	</update>
+	
+	<update id="deleteVolunteer">
+		update volunteer
+		set v_status = 'N'
+		where v_no = #{vNo}
+	</update>
 </mapper>

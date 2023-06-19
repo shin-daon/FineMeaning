@@ -16,4 +16,6 @@ public interface VolunteerService {
 	Volunteer selectVolunteer(int vNo);
 
 	int updateVolunteer(Volunteer v);
+
+	int deleteVolunteer(String vNo);
 }

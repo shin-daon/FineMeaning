@@ -184,7 +184,7 @@
 		    
 		    const endDates = document.querySelectorAll(".v-end-date");
 		    for(const endDate of endDates) {
-		    	if(endDate.innerText > today) {
+		    	if(endDate.innerText < today) {
 		    		const newDate = new Date(endDate.innerText);
 		    		let diff = Math.abs(now.getTime() - newDate.getTime());
 		    		diff = Math.ceil(diff / (1000 * 60 * 60 * 24));

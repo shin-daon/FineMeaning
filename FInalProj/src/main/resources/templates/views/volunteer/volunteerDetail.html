@@ -123,7 +123,7 @@
 	
 	            <div class="v-apply-btn-div">
 	                <button type="button" id="applyBtn" class="learn-more v-apply-btn" th:if="${session.loginUser == null || (session.loginUser.uNo != v.uNo && session.loginUser.isAdmin != 0)}">신청하기</button>
-	                <button type="button" id="deleteBtn" class="learn-more v-delete-btn" th:if="${(session.loginUser != null && session.loginUser.uNo == v.uNo) || (session.loginUser != null && session.loginUser.isAdmin == 0)}">삭제</button>
+	                <button type="button" id="deleteBtn" class="learn-more v-delete-btn" th:if="${(session.loginUser != null && session.loginUser.uNo == v.uNo) || (session.loginUser != null && session.loginUser.isAdmin == 0)}" th:onclick="location.href='deleteVolunteer.vo?vNo=' + btoa([[${v.vNo}]])">삭제</button>
 	                <button type="submit" id="modifyBtn" class="learn-more-green v-modify-btn" th:if="${(session.loginUser != null && session.loginUser.uNo == v.uNo) || (session.loginUser != null && session.loginUser.isAdmin == 0)}">수정</button>
 	            </div>
             </form>
@@ -134,14 +134,6 @@
     <script th:inline="javascript">
     	/*<![CDATA[*/
 	    document.getElementById('summernote').innerHTML = /*[[${v.vContent}]]*/'내용';
-    	
-    	document.querySelector("#deleteBtn").addEventListener("click", () => {
-    		
-    	});
-    	
-    	document.querySelector("#modifyBtn").addEventListener("click", () => {
-    		
-    	});
     	/*]]>*/
     </script>
 </body>
