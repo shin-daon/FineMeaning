@@ -213,6 +213,11 @@ public class MemberController {
 		out.print(result);	
 	}
 	
-	
+	@RequestMapping("checkPwd.me")
+	public void checkPwd(Member m, Model model, @RequestParam("uPwd") String uPwd, PrintWriter out) {
+		
+		
+		
+	}
 }
 
