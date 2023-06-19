@@ -184,13 +184,15 @@
 		    
 		    const endDates = document.querySelectorAll(".v-end-date");
 		    for(const endDate of endDates) {
-		    	if(endDate.innerText != today) {
+		    	if(endDate.innerText > today) {
 		    		const newDate = new Date(endDate.innerText);
 		    		let diff = Math.abs(now.getTime() - newDate.getTime());
 		    		diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
 		    		endDate.innerText = diff;
-		    	} else {
+		    	} else if(endDate.innerText == today) {
 		    		endDate.parentElement.parentElement.innerHTML = "<span class='v-end-date'>금일<br/>마감</span>";
+		    	} else {
+		    		endDate.parentElement.parentElement.innerHTML = "마감";
 		    	}
 		    }
 		    

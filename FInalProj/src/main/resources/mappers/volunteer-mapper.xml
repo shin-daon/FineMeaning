@@ -42,8 +42,7 @@
 		<![CDATA[
 			select count(*)
 			from volunteer
-			where v_status='Y' 
-			      and to_date(to_char(sysdate, 'YYMMDD')) <= to_date(to_char(v_recruitment_end_date, 'YYMMDD'))
+			where v_status='Y'
 		]]>
 	</select>
 	
@@ -55,9 +54,8 @@
 				 join v_main_category using(v_main_category_no)
 				 join v_sub_category using(v_sub_category_no)
 				 join v_target_category using(v_target_category_no)
-			where v_status='Y' 
-				  and to_date(to_char(sysdate, 'YYMMDD')) <= to_date(to_char(v_recruitment_end_date, 'YYMMDD'))
-			order by v_no desc
+			where v_status='Y'
+			order by v_no
 		]]>
 	</select>
 	
