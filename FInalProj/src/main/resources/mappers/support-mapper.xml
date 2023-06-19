@@ -160,4 +160,11 @@
 	<select id="selectSearchEndList" resultMap="supportResultSet">
 		select * from support join users using(u_no) where (s_status='Y' or s_status ='N') and sysdate &gt;= s_end_date and s_title like '%${supportTitle}%' order by S_CREATE_DATE desc
 	</select>
+	
+	<select id="getCategoryCount" resultType="_int">
+		select count(*) from support where S_CATEGORY = #{category}
+	</select>
+	<select id="selectCategoryListAdmin" resultMap="supportResultSet">
+		select * from support where S_CATEGORY = #{category}
+	</select>
 </mapper>

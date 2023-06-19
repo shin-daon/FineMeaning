@@ -67,6 +67,10 @@ public interface SupportService {
 
 	ArrayList<Support> selectSearchEndSupportList(PageInfo pi, String searchWord);
 
+	int getCategoryCount(String category);
+
+	ArrayList<Support> selectCategoryListAdmin(PageInfo pi, String category);
+
 
 
 

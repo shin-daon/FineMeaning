@@ -194,4 +194,17 @@ public class SupportServiceImpl implements SupportService {
 		return suDAO.selectSearchEndList(rowBounds, searchWord);
 	}
 
+	@Override
+	public int getCategoryCount(String category) {
+		return suDAO.getCategoryCount(category);
+	}
+
+	@Override
+	public ArrayList<Support> selectCategoryListAdmin(PageInfo pi, String category) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return suDAO.selectCategoryListAdmin(rowBounds, category);
+	}
+
 }
