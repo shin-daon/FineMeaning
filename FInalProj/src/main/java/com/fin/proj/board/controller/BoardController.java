@@ -239,7 +239,9 @@ public class BoardController {
 	
 	@RequestMapping("deleteReply.bo")
 	public String deleteReply(@RequestParam("rNo") int replyNo,
-							  @RequestParam("bNo") int boardNo) {
+							  @RequestParam("bNo") int boardNo,
+							  @RequestParam("page") int page,
+							  RedirectAttributes ra) {
 		
 		System.out.println(replyNo);
 		System.out.println(boardNo);
@@ -247,6 +249,8 @@ public class BoardController {
 		int result = bService.deleteReply(replyNo);
 
 		if(result > 0) {
+			ra.addAttribute("bNo", boardNo);
+			ra.addAttribute("page", page);
 			return "redirect:fruit_detail.bo";
 		} else {
 			throw new BoardException("댓글 삭제에 실패하였습니다.");

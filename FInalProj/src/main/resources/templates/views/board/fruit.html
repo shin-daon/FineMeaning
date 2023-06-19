@@ -55,7 +55,7 @@
             <tbody>
                 <tr th:each="b : ${ list }">
                     <td th:text="${ b.boardNo }"></td>
-                    <td th:text="${ b.boardCate == 1 ? '후원' : (b.boardCate == 2 ? '봉사' : '')}"></td>
+                    <td th:text="${ b.boardCate == 1 ? '후원' : (b.boardCate == 2 ? '봉사' : '없음')}"></td>
                     <td>
 						<div class="fruit_title_wrap">
 							<p class="fruit_title" th:text="${ b.boardTitle }"></p>
