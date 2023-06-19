@@ -40,6 +40,13 @@
                 <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
             </div>
         	</div>
+        	
+        	<script>
+	        	document.getElementsByClassName('searchIcon')[0].addEventListener('click', ()=>{
+					const searchWord = document.getElementsByClassName('searchInput')[0].value
+					location.href="searchEndList.su?searchWord="+searchWord
+				})
+        	</script>
 
         <table class="supportTable">
             <thead>
@@ -90,7 +97,7 @@
 	for(const tr of trs){
 		tr.addEventListener('click', function(){
 			const supportNo = this.querySelector('td').innerText;
-			location.href="supportDetail.su?supportNo=" + supportNo;
+			location.href="supporterListEach.su?supportNo=" + supportNo;
 		})
 	}
 </script>

@@ -113,6 +113,7 @@
 		<result column="S_HIS_PAYTYPE" property="payType" />
 		<result column="S_HIS_TYPE" property="supporterType" />
 		<result column="S_title" property="supportTitle" />
+		<result column="S_CATEGORY" property="category" />
 	</resultMap>
 	
 	<select id="getSupporterListAllCount" resultType="_int">
@@ -142,6 +143,21 @@
 	
 	<insert id="insertSupporter">
 		insert into s_history values(seq_shid.nextval, #{userNo}, #{supportNo}, #{supporterName}, #{supportAmount}, sysdate, #{payType}, #{supporterType})
-		  
 	</insert>
+	
+	<select id="getSearchMyListCount" resultType="_int">
+		select count(*) from s_history sh left join support using(s_no) where sh.u_no = #{userNo} and s_title like '%${supportTitle}%'
+	</select>
+	
+	<select id="searchMyList" resultMap="supportHistoryResultSet">
+		select * from s_history sh left join support using(s_no) where sh.u_no = #{userNo} and s_title like '%${supportTitle}%'
+	</select>
+	
+	<select id="searchEListCount" resultType="_int">
+		select count(*) from support where s_status = 'Y' and sysdate &gt;= s_end_date and s_title like '%${supportTitle}%'
+	</select>
+	
+	<select id="selectSearchEndList" resultMap="supportResultSet">
+		select * from support join users using(u_no) where (s_status='Y' or s_status ='N') and sysdate &gt;= s_end_date and s_title like '%${supportTitle}%' order by S_CREATE_DATE desc
+	</select>
 </mapper>
