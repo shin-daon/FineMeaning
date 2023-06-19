@@ -31,5 +31,16 @@ public class MemberServiceImpl implements MemberService {
 	public int checkNickName(String uNickName) {
 		return mDAO.checkNickName(uNickName);
 	}
+	
+	@Override
+	public int updateMyInfo(Member m) {
+		return mDAO.updateMyInfo(m);
+	}
+	
+	@Override
+	public int deleteUser(String uId) {
+		return mDAO.deleteUser(uId);
+	}
+
 
 }

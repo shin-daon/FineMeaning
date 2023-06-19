@@ -11,5 +11,9 @@ public interface MemberService {
 	int checkId(String uId);
 
 	int checkNickName(String uNickName);
+	
+	int updateMyInfo(Member m);
+
+	int deleteUser(String uId);
 
 }
