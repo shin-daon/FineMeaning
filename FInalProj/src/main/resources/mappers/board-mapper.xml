@@ -47,7 +47,7 @@
 	
 	<insert id="insertBoard">
 		insert into board
-		values(seq_bid.nextval, #{uNo}, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, default, default, null, null, null, #{imageUrl, jdbcType=VARCHAR})
+		values(seq_bid.nextval, #{uNo}, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, default, default, #{newsURL, jdbcType=VARCHAR}, #{fpName, jdbcType=VARCHAR}, null, #{imageUrl, jdbcType=VARCHAR})
 	</insert>
 	
 	<insert id="insertFruit">

@@ -89,7 +89,7 @@
 		 					<div class="replySet">
 				 				<th:block th:if="${ session.loginUser != null && session.loginUser.uNo == r.replyWriter }">
 			 						<a class="aTags" th:href="'deleteReply.bo?rNo=' + ${r.replyNo} + '&bNo=' + ${r.boardNo} + '&page=' + ${page}">삭제</a>
-<!-- 			 						<a class="aTags" th:href='deleteReply.bo?bNo=${r.boardNo}&page=${page}'>삭0제</a> -->
+			 										<!-- th:onclick에 함수 걸어두고 돌아가는 방향으로 해야 함  -->
 			 					</th:block>
 		 					</div>
 		 				</div>

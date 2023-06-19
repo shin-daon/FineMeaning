@@ -67,3 +67,5 @@ MANIFEST.MF
 *.log
 .factorypath
 settings.json
+
+FInalProj/src/main/resources/application.properties
