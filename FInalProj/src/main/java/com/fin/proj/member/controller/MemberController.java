@@ -109,6 +109,11 @@ public class MemberController {
 		return "editMyInfo";
 	}
 	
+	@RequestMapping("editMyPwd.me")
+	public String editMyPwd() {
+		return "editMyPwd";
+	}
+	
 	@RequestMapping("userInfoDetail.me")
 	public String userInfoDetail() {
 		return "userInfoDetail";
@@ -207,5 +212,7 @@ public class MemberController {
 		String result = count == 0 ? "yes" : "no";
 		out.print(result);	
 	}
+	
+	
 }
 
