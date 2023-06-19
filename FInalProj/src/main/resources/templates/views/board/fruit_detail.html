@@ -88,7 +88,8 @@
 			 			<div class="replyInfo2">
 		 					<div class="replySet">
 				 				<th:block th:if="${ session.loginUser != null && session.loginUser.uNo == r.replyWriter }">
-			 						<a class="aTags" th:href="'deleteReply.bo?rNo=' + btoa(${ r.replyNo }) + '&bNo=' + ${ r.boardNo } + '&page=' + ${ page }">삭제</a>
+			 						<a class="aTags" th:href="'deleteReply.bo?rNo=' + ${r.replyNo} + '&bNo=' + ${r.boardNo} + '&page=' + ${page}">삭제</a>
+<!-- 			 						<a class="aTags" th:href='deleteReply.bo?bNo=${r.boardNo}&page=${page}'>삭0제</a> -->
 			 					</th:block>
 		 					</div>
 		 				</div>
