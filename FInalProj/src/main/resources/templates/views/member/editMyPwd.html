@@ -177,9 +177,9 @@
 	<div th:replace="~{views/common/sidebar :: sidebar}"></div>
 
 		<div class="enroll">
-			<div class="enroll-title">비밀번호 수정</div>
+			<div class="enroll-title">비밀번호 변경</div>
 				
-			<form action="updateMyPwd.me" method="post">
+			<form action="updateMyPwd.me" method="post" id="editMyPwdForm">
 				<div class="insert result-div">
 					
 					<div class="pwd-area">
@@ -204,43 +204,78 @@
 <div th:replace="~{views/common/footer :: footer}"></div>
 
 <script>
-//유효성 검사   
-// window.onload = () => {
-//     const uPwd = document.getElementsByName('uPwd')[0];
-//     const newPwd = document.getElementsByName('newPwd')[0];
-//     const newPwdCheck = document.getElementsByName('newPwdCheck')[0];
-//     const pwdResult = document.getElementById('pwdCheckResult');
-//     const modifyBtn = document.getElementById('modify-btn');
+// 유효성 검사   
+window.onload = () => {
+    const uPwd = document.getElementsByName('uPwd')[0];
+    const newPwd = document.getElementsByName('newPwd')[0];
+    const newPwdCheck = document.getElementsByName('newPwdCheck')[0];
+    const pwdResult = document.getElementById('pwdCheckResult');
+    const modifyBtn = document.getElementById('modify-btn');
+    const editMyPwdForm = document.getElementById('editMyPwdForm');
+    
+	 uPwd.addEventListener('input', () => {
+	        if (uPwd.value.trim() === '') {
+	            pwdResult.innerText = '현재 비밀번호를 입력해주세요.';
+	        } else {
+	            pwdResult.innerText = '';
+	        }
+	    });
 
-//     modifyBtn.addEventListener('click', function () {
-//         if (uPwd.value.trim() == '') {
-//             pwdResult.innerText = '현재 비밀번호를 입력해주세요.';
-//         } else if (newPwd.value.trim() == '') {
-//             pwdResult.innerText = '새 비밀번호를 입력해주세요.';
-//         } else if (newPwdCheck.value.trim() == '') {
-//             pwdResult.innerText = '비밀번호 확인을 입력해주세요.';
-//         } else {
-//             $.ajax({
-//                 url: 'checkPwd.me',
-//                 data: { uPwd: uPwd.value.trim() },
-//                 success: data => {
-//                     console.log(data);
-//                     if (data == 'yes') {
-//                         // 유효성 검사 통과한 경우 updateMyPwd로 넘어감
-//                         updateMyPwd();
-//                     } else if (data == 'no') {
-//                         pwdResult.innerText = "입력한 현재 비밀번호가 올바르지 않습니다.";
-//                         pwdResult.style.color = 'red';
-//                         modifyBtn.disabled = true;
-//                     }
-//                 },
-//                 error: data => {
-//                     console.log(data);
-//                 }
-//             });
-//         }
-//     });
-// };
+	    newPwd.addEventListener('input', () => {
+	        if (newPwd.value.trim() === '') {
+	            pwdResult.innerText = '새 비밀번호를 입력해주세요.';
+	        } else {
+	            pwdResult.innerText = '';
+	        }
+	    });
+
+	    newPwdCheck.addEventListener('input', () => {
+	        if (newPwdCheck.value.trim() === '') {
+	            pwdResult.innerText = '비밀번호 확인을 입력해주세요.';
+	        } else {
+	            pwdResult.innerText = '';
+	        }
+	    }); 
+	
+    modifyBtn.addEventListener('click', function () {
+    	event.preventDefault();
+            $.ajax({
+                url: 'checkPwd.me',
+                data: { uPwd: uPwd.value.trim() },
+                success: data => {
+                    console.log(data);
+                    if (data == 'yes') {
+                        console.log("비밀번호 일치");
+                        pwdResult.innerText = "";
+                        
+                        if (newPwd.value.trim() !== newPwdCheck.value.trim()) {
+                            pwdResult.innerText = "새 비밀번호와 확인 값이 일치하지 않습니다.";
+                        } else if (!newPwd.value || newPwd.value.trim() === '') {
+                        	pwdResult.innerText = "새 비밀번호를 입력해주세요.";
+                        } else {
+                        	editMyPwdForm.submit();   
+                        	alert("비밀번호가 성공적으로 변경되었습니다.");
+                        }
+                        
+                    } else if (data == 'no') {
+                    	console.log("비밀번호 불일치");
+                        pwdResult.innerText = "입력한 현재 비밀번호가 올바르지 않습니다.";
+                        
+                        if (newPwd.value.trim() !== newPwdCheck.value.trim()) {
+                            pwdResult.innerText = "새 비밀번호와 확인 값이 일치하지 않습니다.";
+                        } else if (!newPwd.value || newPwd.value.trim() === '') {
+                        	pwdResult.innerText = "새 비밀번호를 입력해주세요.";
+                        } else {
+                        	pwdResult.innerText = "입력한 현재 비밀번호가 올바르지 않습니다.";
+                        }
+                    }
+                },
+                error: data => {
+                    console.log(data);
+                }
+            });
+        });
+	}
 
 </script>
 </body>

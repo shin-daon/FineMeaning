@@ -69,6 +69,13 @@
 	<update id="updatePwd">
 		update users
 		set u_pwd = #{newPwd}
-		where u_id = #{id}
+		where u_id = #{uId}
 	</update>
+	
+	<select id="selectPwd">
+		select u_pwd
+		from users
+		where u_id = #{uId}
+	</select>
+	
 </mapper>

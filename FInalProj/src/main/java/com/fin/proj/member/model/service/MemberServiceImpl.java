@@ -53,5 +53,10 @@ public class MemberServiceImpl implements MemberService {
 	public int updatePwd(HashMap<String, String> map) {
 		return mDAO.updatePwd(map);
 	}
+	
+	@Override
+	public String selectPwd(String uId) {
+		return mDAO.selectPwd(uId);
+	}
 
 }

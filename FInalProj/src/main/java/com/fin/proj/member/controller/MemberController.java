@@ -213,13 +213,21 @@ public class MemberController {
 		out.print(result);	
 	}
 	
-	@RequestMapping("checkPwd.me")
+	@RequestMapping(value="checkPwd.me")
 	public void checkPwd(Member m, Model model, @RequestParam("uPwd") String uPwd, PrintWriter out) {
-		int count = mService.checkId(uPwd);
 		
-		String result = count == 0 ? "yes" : "no";
-		out.print(result);
-				
+		String uId = ((Member)model.getAttribute("loginUser")).getuId();
+		String password = mService.selectPwd(uId);
+		
+		String result = null;
+		
+		if(bcrypt.matches(uPwd, password)) {
+			result = "yes";
+		} else {
+			result = "no";
+		}
+			
+		out.print(result);			
 	}
 	
 	@PostMapping("updateMyPwd.me")
@@ -229,12 +237,11 @@ public class MemberController {
 			   				  Model model) {
 		
 		Member m = (Member)model.getAttribute("loginUser");
-		String password = m.getuPwd();
-		String id = m.getuId();
+		String uId = m.getuId();
 	      
 	    if(bcrypt.matches(uPwd, m.getuPwd())) {
 	    	HashMap<String, String> map = new HashMap<String, String>();
-	    	map.put("id", m.getuId());
+	    	map.put("uId", m.getuId());
 	    	map.put("newPwd", bcrypt.encode(newPwd));
 	    	  
 	    	int result = mService.updatePwd(map);

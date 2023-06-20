@@ -25,4 +25,6 @@ public interface MemberDAO {
 
 	int updatePwd(HashMap<String, String> map);
 
+	String selectPwd(String uId);
+
 }
