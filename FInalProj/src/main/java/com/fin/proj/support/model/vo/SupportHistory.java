@@ -12,11 +12,12 @@ public class SupportHistory {
 	private String payType;
 	private String supporterType;
 	private String supportTitle;
+	private String category;
 	
 	public SupportHistory() {}
 
 	public SupportHistory(int supportHistoryNo, Integer userNo, int supportNo, String supporterName, int supportAmount,
-			Date payDate, String payType, String supporterType, String supportTitle) {
+			Date payDate, String payType, String supporterType, String supportTitle, String category) {
 		super();
 		this.supportHistoryNo = supportHistoryNo;
 		this.userNo = userNo;
@@ -27,6 +28,7 @@ public class SupportHistory {
 		this.payType = payType;
 		this.supporterType = supporterType;
 		this.supportTitle = supportTitle;
+		this.category = category;
 	}
 
 	public int getSupportHistoryNo() {
@@ -101,12 +103,20 @@ public class SupportHistory {
 		this.supportTitle = supportTitle;
 	}
 
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
 	@Override
 	public String toString() {
 		return "SupportHistory [supportHistoryNo=" + supportHistoryNo + ", userNo=" + userNo + ", supportNo="
 				+ supportNo + ", supporterName=" + supporterName + ", supportAmount=" + supportAmount + ", payDate="
 				+ payDate + ", payType=" + payType + ", supporterType=" + supporterType + ", supportTitle="
-				+ supportTitle + "]";
+				+ supportTitle + ", category=" + category + "]";
 	}
 
 	

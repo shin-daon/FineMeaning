@@ -41,6 +41,13 @@
             </div>
         	</div>
 
+			<script>
+				document.getElementsByClassName('searchIcon')[0].addEventListener('click', ()=>{
+					const searchWord = document.getElementsByClassName('searchInput')[0].value
+					location.href="searchMyList.su?searchWord="+searchWord
+				})
+			</script>
+
         <table class="supportTable">
             <thead>
                 <tr>

@@ -13,11 +13,11 @@ import com.fin.proj.support.model.vo.SupportDetail;
 import com.fin.proj.support.model.vo.SupportHistory;
 
 @Service
-public class SupportServiceImpl implements SupportService{
+public class SupportServiceImpl implements SupportService {
 
 	@Autowired
 	private SupportDAO suDAO;
-	
+
 	@Override
 	public int supportApply(Support s) {
 		return suDAO.supportApply(s);
@@ -50,9 +50,9 @@ public class SupportServiceImpl implements SupportService{
 
 	@Override
 	public ArrayList<Support> selectSupportList(PageInfo pi) {
-		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
+
 		return suDAO.selectSupportList(rowBounds);
 	}
 
@@ -63,9 +63,9 @@ public class SupportServiceImpl implements SupportService{
 
 	@Override
 	public ArrayList<Support> selectApplyList(PageInfo pi) {
-		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
+
 		return suDAO.selectApplyList(rowBounds);
 	}
 
@@ -76,7 +76,7 @@ public class SupportServiceImpl implements SupportService{
 
 	@Override
 	public ArrayList<Support> applyDevision(PageInfo pi, String devision) {
-		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return suDAO.selectApplyDevision(rowBounds, devision);
 	}
@@ -93,7 +93,7 @@ public class SupportServiceImpl implements SupportService{
 
 	@Override
 	public ArrayList<Support> selectEndSupportList(PageInfo pi) {
-		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return suDAO.selectEndSupportList(rowBounds);
 	}
@@ -105,9 +105,9 @@ public class SupportServiceImpl implements SupportService{
 
 	@Override
 	public ArrayList<Support> selectSearchListAdmin(PageInfo pi, String searchWord) {
-		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
+
 		return suDAO.selectSearchListAdmin(rowBounds, searchWord);
 	}
 
@@ -118,9 +118,9 @@ public class SupportServiceImpl implements SupportService{
 
 	@Override
 	public ArrayList<SupportHistory> selectSupporterListEach(PageInfo pi, int supportNo) {
-		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
+
 		return suDAO.selectSupporterListEach(rowBounds, supportNo);
 	}
 
@@ -131,12 +131,11 @@ public class SupportServiceImpl implements SupportService{
 
 	@Override
 	public ArrayList<SupportHistory> selectSupporterList(PageInfo pi) {
-		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
+
 		return suDAO.selectSupporterList(rowBounds);
 	}
-
 
 	@Override
 	public int getMListCount(int uNo) {
@@ -145,9 +144,9 @@ public class SupportServiceImpl implements SupportService{
 
 	@Override
 	public ArrayList<SupportHistory> selectMySupportList(PageInfo pi, int uNo) {
-		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
+
 		return suDAO.selectMySupportList(rowBounds, uNo);
 	}
 
@@ -158,9 +157,9 @@ public class SupportServiceImpl implements SupportService{
 
 	@Override
 	public ArrayList<Support> selectApplySearchList(PageInfo pi, Support s) {
-		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
+
 		return suDAO.selectApplySearchList(rowBounds, s);
 	}
 
@@ -169,9 +168,30 @@ public class SupportServiceImpl implements SupportService{
 		return suDAO.insertSupporter(sh);
 	}
 
+	@Override
+	public int getSearchMyListCount(SupportHistory sh) {
+		return suDAO.getSearchMyListCount(sh);
+	}
 
+	@Override
+	public ArrayList<SupportHistory> searchMyList(PageInfo pi, SupportHistory sh) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 
+		return suDAO.searchMyList(rowBounds, sh);
+	}
 
+	@Override
+	public int getSearchEListCount(String searchWord) {
+		return suDAO.searchEListCount(searchWord);
+	}
 
-	
+	@Override
+	public ArrayList<Support> selectSearchEndSupportList(PageInfo pi, String searchWord) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return suDAO.selectSearchEndList(rowBounds, searchWord);
+	}
+
 }

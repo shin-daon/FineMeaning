@@ -63,5 +63,13 @@ public interface SupportDAO {
 
 	int insertSupporter(SupportHistory sh);
 
+	int getSearchMyListCount(SupportHistory sh);
+
+	ArrayList<SupportHistory> searchMyList(RowBounds rowBounds, SupportHistory sh);
+
+	int searchEListCount(String searchWord);
+
+	ArrayList<Support> selectSearchEndList(RowBounds rowBounds, String searchWord);
+
 
 }

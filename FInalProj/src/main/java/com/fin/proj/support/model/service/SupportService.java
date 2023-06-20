@@ -59,6 +59,14 @@ public interface SupportService {
 
 	int insertSupporter(SupportHistory sh);
 
+	int getSearchMyListCount(SupportHistory sh);
+
+	ArrayList<SupportHistory> searchMyList(PageInfo pi, SupportHistory sh);
+
+	int getSearchEListCount(String searchWord);
+
+	ArrayList<Support> selectSearchEndSupportList(PageInfo pi, String searchWord);
+
 
 
 
