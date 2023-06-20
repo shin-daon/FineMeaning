@@ -1,5 +1,7 @@
 package com.fin.proj.member.model.service;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +47,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int checkNickNameModify(Member m) {
 		return mDAO.checkNickNameModify(m);
+	}
+	
+	@Override
+	public int updatePwd(HashMap<String, String> map) {
+		return mDAO.updatePwd(map);
+	}
+	
+	@Override
+	public String selectPwd(String uId) {
+		return mDAO.selectPwd(uId);
 	}
 
 }
