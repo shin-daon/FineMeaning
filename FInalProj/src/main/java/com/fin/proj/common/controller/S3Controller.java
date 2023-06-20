@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/s3")
 public class S3Controller {
 	
-    private final S3Service S3Service = new S3Service();
+    private final S3Service S3Service;
     
     @Autowired
     ImageService iService;
