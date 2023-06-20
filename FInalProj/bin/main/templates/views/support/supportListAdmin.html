@@ -84,7 +84,7 @@
 	                    <td th:text="${s.supportNo}"></td>
 	                    <td th:text="${s.supportCategory}"></td>
 	                    <td th:text="${s.supportTitle}"></td>
-	                    <td th:text="${(s.fundAmount/s.targetAmount)*100}+'%'"></td>
+	                    <td th:text="${(s.fundAmount*100/s.targetAmount)}+'%'"></td>
 	                    <td th:text="${s.supportCount}"></td>
 	                    <td th:text="${s.startDate}"></td>
 	                    <td th:text="${s.endDate}"></td>

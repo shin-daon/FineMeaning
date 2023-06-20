@@ -159,6 +159,6 @@
 	</select>
 	
 	<update id="updateFundAmount">
-		update support set FUND_AMOUNT += #{supportAmount} where s_no = #{supportNo}
+		update support set FUND_AMOUNT = FUND_AMOUNT + #{supportAmount}, S_COUNT = S_COUNT +1 where s_no = #{supportNo}
 	</update>
 </mapper>
