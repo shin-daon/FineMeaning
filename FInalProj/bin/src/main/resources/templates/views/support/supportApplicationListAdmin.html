@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/supportApplicationListAdmin.css">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Document</title>
+<style>
+
+
+</style>
+</head>
+<body>
+	<div th:replace="~{../common/header :: header}"></div>
+	
+	<section style="display: flex;">
+    <div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
+    
+		<section id="supportListSection">
+
+        <div>
+            <div id="supportList">후원 신청 내역</div>
+        </div>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle" href="#">마이페이지</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">후원 내역</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">후원 신청 내역</a>
+        </div>
+
+
+			
+
+
+
+			<div class="actionArea">
+            <div class="searchArea">
+            	<div class="clickArea">
+	            	<a href="applyDevision.su?division=W">승인 대기</a> |
+	            	<a href="applyDevision.su?division=N">승인 반려</a> 
+            	</div>
+                <input class="searchInput" type="text" placeholder="제목으로 검색" name="searchWord"/>
+                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
+            </div>
+        	</div>
+
+        <table class="supportTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>카테고리</th>
+                    <th style="width: 250px;">후원 프로젝트 제목</th>
+                    <th>희망 모금액</th>
+                    <th>신청 날짜</th>
+                    <th>승인 상태</th>
+                </tr>
+            </thead>
+            <tbody>
+	                <tr th:each="s : ${sList}" th:if="${ sList != null }">
+	                    <td th:text="${s.supportNo}"></td>
+	                    <td th:text="${s.supportCategory}"></td>
+	                    <td th:text="${s.supportTitle}"></td>
+	                    <td th:text="${s.targetAmount}"></td>
+	                    <td th:text="${s.createDate}"></td>
+	                    <td>
+		                    <th:block th:switch="${s.status}">
+		                    	<span th:case="W">승인 대기</span>
+		                    	<span th:case="Y">승인 완료</span>
+		                    	<span th:case="N">승인 반려</span>
+		                    </th:block>
+		                </td>    
+	                </tr>
+	                <tr th:if="${ sList == null }">
+	                    <td colspan="5">조회 결과가 없습니다.</td>
+	                </tr>
+	                
+            </tbody>
+        </table>
+		
+        <div class="page">
+            <ul class="pagination">
+                <li><a href="#" class="first"><img class="arrowKey" src="image/before.png"></a></li>
+                <li><a href="#" class="num">1</a></li>
+                <li><a href="#" class="num">2</a></li>
+                <li><a href="#" class="num">3</a></li>
+                <li><a href="#" class="num">4</a></li>
+                <li><a href="#" class="num">5</a></li>
+                <li><a href="#" class="last"><img class="arrowKey" src="image/next.png"></a></li>
+            </ul>
+        </div>
+    </section>
+		
+</section>
+
+<div th:replace="~{../common/footer :: footer}"></div>  
+<script>
+	
+	window.onload=()=>{
+		document.getElementById('notLogin').addEventListener('click',()=>{
+			alert('기관을 먼저 등록해주세요');
+			location.href="/";
+		})
+		const searchButton = document.querySelector('.searchIcon');
+		console.log(searchButton);
+		searchButton.addEventListener('click', ()=>{
+			
+			const searchWord = document.querySelector('.searchInput').value;
+			console.log(searchWord);
+	// 		location.href="searchMySupportApplyList.su?searchWord=" + searchWord;
+		})
+	}
+	
+	const trs = document.getElementsByClassName('supportTable')[0].querySelectorAll('tr');
+	for(const tr of trs){
+		tr.addEventListener('click', function(){
+			const supportNo = this.querySelector('td').innerText;
+			location.href= "supportDetailAdmin.su?supportNo=" + supportNo;
+		})
+	}
+</script>
+</body>
+</html>

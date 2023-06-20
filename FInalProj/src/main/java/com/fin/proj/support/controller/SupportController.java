@@ -400,23 +400,23 @@ public class SupportController {
 		}
 	}
 	
-	@RequestMapping("categoryListAdmin.su")
-	public String categoryListAdmin(@RequestParam("category") String category,
-									@RequestParam(value = "page", required = false) Integer currentPage,
-									Model model) {
-		if (currentPage == null) {
-			currentPage = 1;
-		}
-
-		int listCount = suService.getCategoryCount(category);
-
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
-		
-		ArrayList<Support> sList = suService.selectCategoryListAdmin(pi, category);
-
-		model.addAttribute("pi", pi);
-		model.addAttribute("sList", sList);
-		return "supportListAdmin";
-
-	}
+//	@RequestMapping("searchEndList.su")
+//	public String categoryListAdmin(@RequestParam("category") String category,
+//									@RequestParam(value = "page", required = false) Integer currentPage,
+//									Model model) {
+//		if (currentPage == null) {
+//			currentPage = 1;
+//		}
+//
+//		int listCount = suService.getCategoryCount(category);
+//
+//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+//		
+//		ArrayList<Support> sList = suService.selectCategoryListAdmin(pi, category);
+//
+//		model.addAttribute("pi", pi);
+//		model.addAttribute("sList", sList);
+//		return "supportListAdmin";
+//
+//	}
 }
