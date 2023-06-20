@@ -15,6 +15,7 @@ public class Support {
 	private int fundAmount;
 	private int supportCount;
 	private char status;
+	private String imageUrl;
 	
 	private int phone;
 	private String email;
@@ -28,7 +29,7 @@ public class Support {
 
 	public Support(int supportNo, int userNo, String supportCategory, String supportTitle, String supportContent,
 			Date createDate, Date startDate, Date endDate, int targetAmount, int fundAmount, int supportCount,
-			char status, int phone, String email, String registar, String userId, Date enrollDate) {
+			char status, String imageUrl, int phone, String email, String registar, String userId, Date enrollDate) {
 		super();
 		this.supportNo = supportNo;
 		this.userNo = userNo;
@@ -42,6 +43,7 @@ public class Support {
 		this.fundAmount = fundAmount;
 		this.supportCount = supportCount;
 		this.status = status;
+		this.imageUrl = imageUrl;
 		this.phone = phone;
 		this.email = email;
 		this.registar = registar;
@@ -170,6 +172,16 @@ public class Support {
 	}
 
 
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+
 	public int getPhone() {
 		return phone;
 	}
@@ -225,17 +237,12 @@ public class Support {
 		return "Support [supportNo=" + supportNo + ", userNo=" + userNo + ", supportCategory=" + supportCategory
 				+ ", supportTitle=" + supportTitle + ", supportContent=" + supportContent + ", createDate=" + createDate
 				+ ", startDate=" + startDate + ", endDate=" + endDate + ", targetAmount=" + targetAmount
-				+ ", fundAmount=" + fundAmount + ", supportCount=" + supportCount + ", status=" + status + ", phone="
-				+ phone + ", email=" + email + ", registar=" + registar + ", userId=" + userId + ", enrollDate="
-				+ enrollDate + "]";
+				+ ", fundAmount=" + fundAmount + ", supportCount=" + supportCount + ", status=" + status + ", imageUrl="
+				+ imageUrl + ", phone=" + phone + ", email=" + email + ", registar=" + registar + ", userId=" + userId
+				+ ", enrollDate=" + enrollDate + "]";
 	}
-	
 
-	
-	
-	
-	
-	
+
 	
 	
 }

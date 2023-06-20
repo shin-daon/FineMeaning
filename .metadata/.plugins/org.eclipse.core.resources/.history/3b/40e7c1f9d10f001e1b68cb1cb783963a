@@ -1,0 +1,15 @@
+package com.fin.proj.common.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class WebMvcConfig implements WebMvcConfigurer {
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new CheckLoginInterceptor())
+				.addPathPatterns("/myInfo.me", "/editMyInfo.me", "updateMember.me", "/updatePassword.me", "/deleteMember.me")
+				.addPathPatterns("/*.bo", "/*.at")
+				.excludePathPatterns("/list.bo", "/list.at");
+	}
+}

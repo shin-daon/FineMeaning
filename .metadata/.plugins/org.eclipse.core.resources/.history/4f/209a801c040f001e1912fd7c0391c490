@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/supportDetail.css">    
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+<style>
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+body {
+	min-height: 100%;
+}
+
+.login {
+	margin-left: 300px;
+}
+	
+ .carousel {
+	width: 90%;
+	height: 90%; /* 원하는 크기로 조절 */
+	position: relative;
+	overflow: hidden;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.carousel img {
+	width: auto;
+	height: 100%;
+	object-fit: cover;
+}
+
+</style>
+
+<body>
+<div th:replace="~{../common/header :: header}"></div>
+<div class="supportBigBigSection">
+    <div class="supportBigSection">
+        <div class="supDetailSection supDetailSection1">
+            <section id="supportDetailSection">
+
+
+                <div class="path">
+                    <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+                    <img class="sub iconSize" src="image/onenext.png">
+                    <a class="middle" href="#">모금함</a>
+                    <img class="sub iconSize" src="image/onenext.png">
+                    <a class="middle">후원 상세</a>
+                </div>
+
+
+                <div>
+                    <div class="supportTitle">[[${s.supportTitle}]]</div>
+                    <div class="supportSubTitle">모금함 소개</div>
+<!--                     <div id="slideShow" class="supportImageDiv"> -->
+<!--                         <div id="myCarousel" class="carousel slide mar" data-bs-ride="carousel"> -->
+<!--                             <div class="carousel-indicators"> -->
+<!--                                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button> -->
+<!--                                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button> -->
+<!--                                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button> -->
+<!--                                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button> -->
+<!--                             </div> -->
+<!--                             <div class="carousel-inner"> -->
+<!--                                 <div class="carousel-item active"> -->
+<!--                                 <img src="image/donation.jpg" class="d-block w-100" alt="..." > -->
+<!--                                     <div class="container"> -->
+<!--                                         <div class="carousel-caption text-start"></div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                                 <div class="carousel-item"> -->
+<!--                                 <img src="image/donation2.jpg" class="d-block w-100" alt="..." > -->
+<!--                                     <div class="container"> -->
+<!--                                         <div class="carousel-caption"></div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                                 <div class="carousel-item" > -->
+<!--                                 <img src="image/donation3.jpg" class="d-block w-100" alt="..." > -->
+<!--                                     <div class="container"> -->
+<!--                                         <div class="carousel-caption text-end"> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                                 <div class="carousel-item" > -->
+<!--                                 <img src="image/donation5.jpeg" class="d-block w-100" alt="..." > -->
+<!--                                     <div class="container"> -->
+<!--                                         <div class="carousel-caption text-end"> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                             <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev"> -->
+<!--                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span> -->
+<!--                                 <span class="visually-hidden">Previous</span> -->
+<!--                             </button> -->
+<!--                             <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next"> -->
+<!--                                 <span class="carousel-control-next-icon" aria-hidden="true"></span> -->
+<!--                                 <span class="visually-hidden">Next</span> -->
+<!--                             </button> -->
+<!--                         </div> -->
+<!--                       </div> -->
+                    
+<!--                     <div class="supportDetailContent" th:text="${s.supportContent}"></div> -->
+
+<!--                     <div class="supportSubTitle">기부금 사용 내역</div> -->
+<!--                     <div class="supportUsage supportSubTitle" > -->
+<!--                         <table class="supportTable"> -->
+<!--                             <thead> -->
+<!--                                 <tr> -->
+<!--                                     <th colspan="2" style="text-align: left; padding-left:25px;">총 집행 금액</th> -->
+<!--                                     <th th:text="${s.targetAmount}+'원'"></th> -->
+<!--                                 </tr> -->
+<!--                             </thead> -->
+<!--                             <tbody> -->
+<!--                                     <tr th:each="l:${sdList}" th:if="${sdList !=null}"> -->
+<!--                                         <td>사업비</td> -->
+<!--                                         <td class="contentDetail" th:text="${l.supportDetailContent}"/> -->
+<!--                                         <td th:text="${l.supportDetailAmount} + '원'"></td> -->
+<!--                                     </tr>                                    -->
+<!--                             </tbody> -->
+<!--                         </table> -->
+<!--                     </div> -->
+
+
+                </div>
+            </section>
+        </div>
+        
+        <div class="supDetailSection supDetailSection2">
+            <section id="supportSummarySection">
+                <div id="progressPercent" th:text="${(s.fundAmount/s.targetAmount)*100}+'%'"></div>
+
+                <div>
+                    <progress id="supportProgress" value="50" min="0" max="100"></progress>
+                </div>
+
+                <div class="supportDuration" th:text="${s.startDate} + '~' + ${s.endDate}">
+<!--                     2023.06.12 ~ 2023.07.13 -->
+                </div>
+
+                <div class="supportDeadline">
+                    D-5
+                </div>
+
+                <div class="totalDonation">
+                    18,888,900원     
+                </div>
+
+                <div class="donationButton">
+                    <button class="learn-more supportButton" th:onclick="|location.href='doSupport.su'|">모금함 기부하기</button>
+                </div>
+
+                <div class="supportSubTitle2">
+                	모금 단체<br><span>[[${s.registar}]]</span>
+                </div>
+                <div class="supportSubTitle2 groupInfo">
+                	<b>선뜻 가입일</b> &nbsp;&nbsp; <span>[[${s.enrollDate}]]</span><br>
+                	<b>문의 전화</b>&nbsp;&nbsp; <span>0[[${s.phone}]]</span>
+                </div>
+                
+                
+                    <div class="supportSubTitle">참여 내역</div>
+
+                    <div class="supportDate">
+                        2023.06.02 15:03
+                    </div>
+                    <div class="sponsor">
+                        숨은 천사 100원 참여
+                    </div>
+
+                    <div class="supportDate">
+                        2023.06.01 09:15
+                    </div>
+                    <div class="sponsor">
+                        강건강 100원 참여
+                    </div>
+
+                    <div class="supportDate">
+                        2023.05.31 18:53
+                    </div>
+                    <div class="sponsor">
+                        숨은 천사 5000원 참여
+                    </div><br><br><br>
+                
+            </section>
+        </div>
+    </div>
+       
+<div th:replace="~{../common/footer :: footer}"></div>
+
+<script th:inline="javascript">
+    	/*<![CDATA[*/
+	    document.getElementById('summernote').innerHTML = /*[[${s.supportContent}]]*/5;
+    	/*]]>*/
+</script>
+</body>
+</html>
