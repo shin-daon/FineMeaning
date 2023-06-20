@@ -65,4 +65,10 @@
 		where u_nickname = #{uNickName} AND u_id <> #{uId}
 	]]>
 	</select>
+	
+	<update id="updatePwd">
+		update users
+		set u_pwd = #{newPwd}
+		where u_id = #{id}
+	</update>
 </mapper>
