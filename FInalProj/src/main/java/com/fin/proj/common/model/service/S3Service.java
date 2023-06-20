@@ -25,7 +25,7 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    private final AmazonS3 amazonS3;
+    private final AmazonS3 amazonS3 = null;
 
     public String uploadFile(MultipartFile multipartFile) {
         String fileName = createFileName(multipartFile.getOriginalFilename());
