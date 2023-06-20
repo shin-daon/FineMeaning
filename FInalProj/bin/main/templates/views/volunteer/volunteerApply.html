@@ -67,7 +67,7 @@
 				<div class="v-detail-title">활동구분</div>
 				<div class="v-detail-content">[[${v.vActivityType}]]</div>
 			</div>
-			<form action="applyVolunteer.vo" method="POST">
+			<form id="applyForm" action="applyVolunteer.vo" method="POST">
 				<input type="hidden" name="vNo" th:value="${v.vNo}"/>
 				<div>
 					<span class="v-detail-title">신청자 정보</span>
@@ -87,7 +87,7 @@
 					</div>
 				</div>
 	            <div class="v-apply-btn-div">
-	                <button id="applyBtn" class="learn-more v-apply-btn">신청하기</button>
+	                <button type="button" id="applyBtn" class="learn-more v-apply-btn">신청하기</button>
 	            </div>
             </form>
         </section>
@@ -123,7 +123,23 @@
 	    		applyBtn.addEventListener("click", () => {
 	        		if(check) {
 	        			alert("비정상적인 접근입니다.");
-	        			event.preventDefault();
+	        		} else {
+	        			$.ajax({
+	        				url: 'checkVolunteerApply.vo',
+	        				type: 'post',
+	        				data: {
+	        					vNo: /*[[${v.vNo}]]*/1,
+	        					uNo: /*[[${session.loginUser == null? '' : session.loginUser.uNo}]]*/1
+	        				}, success: data => {
+	        					if(data === "no") {
+	        						alert("이미 신청한 봉사입니다.");
+	        					} else if(data === "yes") {
+	        						$('#applyForm').submit();
+	        					}
+	        				}, error: data => {
+	        					
+	        				}
+	        			});
 	        		}
 	        	});
 	    	}
