@@ -66,6 +66,8 @@ public interface SupportService {
 
 	ArrayList<Support> selectCategoryListAdmin(PageInfo pi, String category);
 
+	int updateFundAmount(SupportHistory sh);
+
 
 
 

@@ -197,4 +197,10 @@ public class SupportServiceImpl implements SupportService {
 		return suDAO.selectCategoryListAdmin(rowBounds, category);
 	}
 
+
+	@Override
+	public int updateFundAmount(SupportHistory sh) {
+		return suDAO.updateFundAmount(sh);
+	}
+
 }

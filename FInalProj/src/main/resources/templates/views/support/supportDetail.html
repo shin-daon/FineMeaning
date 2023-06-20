@@ -74,10 +74,10 @@ body {
         
         <div class="supDetailSection supDetailSection2">
             <section id="supportSummarySection">
-                <div id="progressPercent" th:text="${(s.fundAmount/s.targetAmount)*100}+'%'"></div>
+                <div id="progressPercent" th:text="${(s.fundAmount*100/s.targetAmount)}+'%'"></div>
 
                 <div>
-                    <progress id="supportProgress" value="50" min="0" max="100"></progress>
+                    <progress id="supportProgress" th:value="${(s.fundAmount*100/s.targetAmount)}" min="0" max="100"></progress>
                 </div>
 
                 <div class="supportDuration" th:text="${s.startDate} + '~' + ${s.endDate}">
@@ -89,7 +89,7 @@ body {
                 </div>
 
                 <div class="totalDonation">
-                    18,888,900원     
+                    [[${s.fundAmount}]]원     
                 </div>
 
                 <div class="donationButton">
