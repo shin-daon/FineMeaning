@@ -20,6 +20,7 @@ import com.fin.proj.support.model.vo.Support;
 import com.fin.proj.support.model.vo.SupportDetail;
 import com.fin.proj.support.model.vo.SupportHistory;
 
+import jakarta.mail.Multipart;
 import jakarta.servlet.http.HttpSession;
 
 //import com.fin.proj.support.model.service.SupportService;
@@ -108,7 +109,7 @@ public class SupportController {
 	}
 	
 	@RequestMapping("supportApply.su")
-	public String supportApply(HttpSession session, @ModelAttribute Support s) {
+	public String supportApply(HttpSession session, @ModelAttribute Support s, @RequestParam("file") Multipart file) {
 		
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		String registar = ((Member)session.getAttribute("loginUser")).getRegistrar();
@@ -116,13 +117,33 @@ public class SupportController {
 		s.setRegistar(registar);
 
 		int result = suService.supportApply(s);
-
+		
 		if(result >0) {
 			return "redirect:supportApplicationListUser.su";
 		} else {
 			throw new SupportException("신청에 실패하였습니다.");
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@RequestMapping("supportListAdmin.su")
 	public String supportListAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
