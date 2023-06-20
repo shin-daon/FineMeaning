@@ -29,32 +29,43 @@ public class SupportController {
 	private SupportService suService;
 
 	@RequestMapping("supportMain.su")
-	public String supportMain() {
-		int result = suService.getListCount();
-//		ArrayList<Support> sList = suService.selectSupportList();
+	public String supportMain(@RequestParam(value = "page", required = false) Integer currentPage, Model model) {
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+
+		int listCount = suService.getListCount();
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 9);
+
+		ArrayList<Support> sList = suService.selectSupportList(pi);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("sList", sList);
+		
 		return "supportMain";
 	}
 
-//	@RequestMapping("supportDetail.su")
-//	public String supportDetail(HttpSession session, @RequestParam("supportNo") int supportNo, Model model) {
-//		Support s = suService.supportDetail(supportNo);
-//
-//		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
-//		int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
-//
-//		model.addAttribute("s", s);
-//
-//		if (s.getStatus() == 'Y') {
-//			return "supportDetail";
-//		} else {
-//			if (uNo == s.getUserNo() || isAdmin == 0) {
-//				return "supportApplyDetail";
-//			} else {
-//				throw new SupportException("잘못된 접근입니다.");
-//			}
-//		}
-//
-//	}
+	@RequestMapping("supportDetail.su")
+	public String supportDetail(HttpSession session, @RequestParam("supportNo") int supportNo, Model model) {
+		Support s = suService.supportDetail(supportNo);
+
+		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
+		int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
+
+		model.addAttribute("s", s);
+
+		if (s.getStatus() == 'Y') {
+			return "supportDetail";
+		} else {
+			if (uNo == s.getUserNo() || isAdmin == 0) {
+				return "supportApplyDetail";
+			} else {
+				throw new SupportException("잘못된 접근입니다.");
+			}
+		}
+
+	}
 
 	@RequestMapping("doSupport.su")
 	public String doSupport(@RequestParam("supportNo") int supportNo, Model model) {
@@ -106,12 +117,13 @@ public class SupportController {
 	}
 
 	@RequestMapping("supportApply.su")
-	public String supportApply(HttpSession session, @ModelAttribute Support s) {
+	public String supportApply(HttpSession session, @ModelAttribute Support s,@RequestParam("imageUrl") String imageUrl) {
 
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
 		String registar = ((Member) session.getAttribute("loginUser")).getRegistrar();
 		s.setUserNo(uNo);
 		s.setRegistar(registar);
+		s.setImageUrl(imageUrl);
 		
 		System.out.println(s);
 		

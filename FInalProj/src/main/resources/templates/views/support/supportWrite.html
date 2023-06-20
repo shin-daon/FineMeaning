@@ -259,6 +259,7 @@ window.onload = () => {
 	   		category.addEventListener('click', function(){
 	   			categoryButton.innerText = this.innerHTML;
 	   			document.querySelector('#area').value = this.innerHTML;
+	   			console.log(document.querySelector('#area').value);
 	   			document.querySelector('#area-content').style.display='none';
 	   		})
    		}
