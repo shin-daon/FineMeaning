@@ -18,13 +18,10 @@ import com.fin.proj.member.model.vo.Member;
 import com.fin.proj.support.model.exception.SupportException;
 import com.fin.proj.support.model.service.SupportService;
 import com.fin.proj.support.model.vo.Support;
-import com.fin.proj.support.model.vo.SupportDetail;
 import com.fin.proj.support.model.vo.SupportHistory;
 
 import jakarta.mail.Multipart;
 import jakarta.servlet.http.HttpSession;
-
-//import com.fin.proj.support.model.service.SupportService;
 
 @Controller
 public class SupportController {
@@ -32,9 +29,20 @@ public class SupportController {
 	private SupportService suService;
 
 	@RequestMapping("supportMain.su")
-	public String supportMain() {
-		int result = suService.getListCount();
-//		ArrayList<Support> sList = suService.selectSupportList();
+	public String supportMain(@RequestParam(value = "page", required = false) Integer currentPage, Model model) {
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+
+		int listCount = suService.getListCount();
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 9);
+
+		ArrayList<Support> sList = suService.selectSupportList(pi);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("sList", sList);
+		
 		return "supportMain";
 	}
 
@@ -44,7 +52,8 @@ public class SupportController {
 
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
 		int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
-
+		
+		System.out.println(s);
 		model.addAttribute("s", s);
 
 		if (s.getStatus() == 'Y') {
@@ -109,13 +118,16 @@ public class SupportController {
 	}
 
 	@RequestMapping("supportApply.su")
-	public String supportApply(HttpSession session, @ModelAttribute Support s, @RequestParam("file") Multipart file) {
+	public String supportApply(HttpSession session, @ModelAttribute Support s,@RequestParam("imageUrl") String imageUrl) {
 
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
 		String registar = ((Member) session.getAttribute("loginUser")).getRegistrar();
 		s.setUserNo(uNo);
 		s.setRegistar(registar);
-
+		s.setImageUrl(imageUrl);
+		
+		System.out.println(s);
+		
 		int result = suService.supportApply(s);
 
 		if (result > 0) {
@@ -188,10 +200,8 @@ public class SupportController {
 	@RequestMapping("supportDetailAdmin.su")
 	public String supportDetailAdmin(@RequestParam("supportNo") int supportNo, Model model) {
 		Support s = suService.supportDetail(supportNo);
-		ArrayList<SupportDetail> sdList = suService.supportUsageDetail(supportNo);
 
 		model.addAttribute("s", s);
-		model.addAttribute("sdList", sdList);
 		if (s.getStatus() != 'Y') {
 			return "supportApplyDetailAdmin";
 		} else {
@@ -326,12 +336,9 @@ public class SupportController {
 	@ResponseBody
 	public String insertSupporter(HttpSession session, @ModelAttribute SupportHistory sh) {
 
-		System.out.println("처음에 들어오는 값 : " + sh);
 		Integer uNo = ((Member) session.getAttribute("loginUser")).getuNo();
 
 		sh.setUserNo(uNo);
-		System.out.println("uNO:" + uNo);
-		System.out.println("sh.getUserNo:" + sh.getUserNo());
 
 		String supporterType = null;
 		if (sh.getSupporterType().equals("숨은 천사")) {
@@ -342,9 +349,10 @@ public class SupportController {
 
 		sh.setSupporterType(supporterType);
 
-		System.out.println(sh);
 
 		int count = suService.insertSupporter(sh);
+		int upFundAmount = suService.updateFundAmount(sh);
+		
 		String result = count > 0 ? "yes" : "no";
 		return result;
 
@@ -400,23 +408,23 @@ public class SupportController {
 		}
 	}
 	
-//	@RequestMapping("searchEndList.su")
-//	public String categoryListAdmin(@RequestParam("category") String category,
-//									@RequestParam(value = "page", required = false) Integer currentPage,
-//									Model model) {
-//		if (currentPage == null) {
-//			currentPage = 1;
-//		}
-//
-//		int listCount = suService.getCategoryCount(category);
-//
-//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
-//		
-//		ArrayList<Support> sList = suService.selectCategoryListAdmin(pi, category);
-//
-//		model.addAttribute("pi", pi);
-//		model.addAttribute("sList", sList);
-//		return "supportListAdmin";
-//
-//	}
+	@RequestMapping("categoryListAdmin.su")
+	public String categoryListAdmin(@RequestParam("category") String category,
+									@RequestParam(value = "page", required = false) Integer currentPage,
+									Model model) {
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+
+		int listCount = suService.getCategoryCount(category);
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Support> sList = suService.selectCategoryListAdmin(pi, category);
+
+		model.addAttribute("pi", pi);
+		model.addAttribute("sList", sList);
+		return "supportListAdmin";
+
+	}
 }

@@ -1,12 +1,12 @@
 package com.fin.proj.member.controller;
 
 import java.io.PrintWriter;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -213,14 +213,49 @@ public class MemberController {
 		out.print(result);	
 	}
 	
-	@RequestMapping("checkPwd.me")
+	@RequestMapping(value="checkPwd.me")
 	public void checkPwd(Member m, Model model, @RequestParam("uPwd") String uPwd, PrintWriter out) {
-		int count = mService.checkId(uPwd);
 		
-		String result = count == 0 ? "yes" : "no";
-		out.print(result);
+		String uId = ((Member)model.getAttribute("loginUser")).getuId();
+		String password = mService.selectPwd(uId);
 		
+		String result = null;
 		
+		if(bcrypt.matches(uPwd, password)) {
+			result = "yes";
+		} else {
+			result = "no";
+		}
+			
+		out.print(result);			
+	}
+	
+	@PostMapping("updateMyPwd.me")
+	public String updateMyPwd(HttpSession session,
+			   				  @RequestParam("uPwd") String uPwd,
+			   				  @RequestParam("newPwd") String newPwd,
+			   				  Model model) {
+		
+		Member m = (Member)model.getAttribute("loginUser");
+		String uId = m.getuId();
+	      
+	    if(bcrypt.matches(uPwd, m.getuPwd())) {
+	    	HashMap<String, String> map = new HashMap<String, String>();
+	    	map.put("uId", m.getuId());
+	    	map.put("newPwd", bcrypt.encode(newPwd));
+	    	  
+	    	int result = mService.updatePwd(map);
+	    	
+	    	if(result > 0) {
+	    		model.addAttribute("loginUser", mService.login(m));
+	    		return "redirect:/";
+	    	} else {
+	    		throw new MemberException("비밀번호 수정에 실패하였습니다.");
+	    	}
+	    	
+	     } else {
+	    	 throw new MemberException("비밀번호 수정에 실패하였습니다.");
+	     }
 	}
 }
 

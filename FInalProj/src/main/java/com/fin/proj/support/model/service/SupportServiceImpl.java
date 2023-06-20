@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.support.model.dao.SupportDAO;
 import com.fin.proj.support.model.vo.Support;
-import com.fin.proj.support.model.vo.SupportDetail;
 import com.fin.proj.support.model.vo.SupportHistory;
 
 @Service
@@ -23,10 +22,6 @@ public class SupportServiceImpl implements SupportService {
 		return suDAO.supportApply(s);
 	}
 
-	@Override
-	public int insertSupportDetail(SupportDetail supportDetail) {
-		return suDAO.insertSupportDetail(supportDetail);
-	}
 
 	@Override
 	public ArrayList<Support> selectApplyListUser(int uNo) {
@@ -36,11 +31,6 @@ public class SupportServiceImpl implements SupportService {
 	@Override
 	public Support supportDetail(int supportNo) {
 		return suDAO.supportDetail(supportNo);
-	}
-
-	@Override
-	public ArrayList<SupportDetail> supportUsageDetail(int supportNo) {
-		return suDAO.supportUsageDetail(supportNo);
 	}
 
 	@Override
@@ -205,6 +195,12 @@ public class SupportServiceImpl implements SupportService {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 
 		return suDAO.selectCategoryListAdmin(rowBounds, category);
+	}
+
+
+	@Override
+	public int updateFundAmount(SupportHistory sh) {
+		return suDAO.updateFundAmount(sh);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.fin.proj.volunteer.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.volunteer.model.vo.Volunteer;
@@ -20,4 +21,6 @@ public interface VolunteerService {
 	int deleteVolunteer(String vNo);
 
 	int applyVolunteer(Volunteer v);
+
+	int checkVolunteerApply(HashMap<String, Integer> map);
 }

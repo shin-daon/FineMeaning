@@ -1,6 +1,7 @@
 package com.fin.proj.volunteer.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,10 @@ public class VolunteerServiceImpl implements VolunteerService {
 	@Override
 	public int applyVolunteer(Volunteer v) {
 		return vDAO.applyVolunteer(v);
+	}
+
+	@Override
+	public int checkVolunteerApply(HashMap<String, Integer> map) {
+		return vDAO.checkVolunteerApply(map);
 	}
 }

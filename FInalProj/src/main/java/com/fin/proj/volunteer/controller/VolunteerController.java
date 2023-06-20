@@ -1,5 +1,6 @@
 package com.fin.proj.volunteer.controller;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
@@ -11,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fin.proj.common.Pagination;
@@ -141,11 +144,27 @@ public class VolunteerController {
 	@PostMapping("applyVolunteer.vo")
 	public String applyVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
 		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
-		
+//		System.out.println(v);
 		int result = vService.applyVolunteer(v);
 		if(result > 0) {
 			return "redirect:volunteerHistory.vo";
 		}
 		return null;
+	}
+	
+	@GetMapping("searchVolunteer.vo") 
+	public String searchVolunteer(@ModelAttribute Volunteer v) {
+		return null;
+	}
+	
+	@ResponseBody
+	@RequestMapping("checkVolunteerApply.vo")
+	public void checkVolunteerApply(@RequestParam("vNo") int vNo, @RequestParam("uNo") Integer uNo, PrintWriter out) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("vNo", vNo);
+		map.put("uNo", uNo);
+		int count = vService.checkVolunteerApply(map);
+		String result = count == 0 ? "yes" : "no";
+		out.print(result);
 	}
 }

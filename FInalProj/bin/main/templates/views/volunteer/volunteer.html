@@ -25,24 +25,26 @@
     <section class="v-section">
         <section class="v-search">
             <div class="v-search-inner">
-                <table>
-                    <tr>
-                        <td width="80px">봉사기간</td>
-                        <td><input type="date" id="startDate"/><span class="date-delimeter"></span><input type="date" id="endDate"/></td>
-                    </tr>
-                    <tr>
-                        <td>봉사명</td>
-                        <td><input type="search" id="volunteerName"/></td>
-                    </tr>
-                    <tr>
-                        <td>수요처명</td>
-                        <td><input type="search" id="recipientName"></td>
-                    </tr>
-                </table>
-                <div class="v-search-inner-btn">
-                    <button id="v-search-btn" class="learn-more">검색</button>
-                    <button id="v-reset-btn" class="learn-more-gray">초기화</button>
-                </div>
+            	<form action="searchVolunteer.vo">
+	                <table>
+	                    <tr>
+	                        <td width="80px">봉사기간</td>
+	                        <td><input type="date" id="startDate" name="vStartDate"/><span class="date-delimeter"></span><input type="date" id="endDate" name="vEndDate"/></td>
+	                    </tr>
+	                    <tr>
+	                        <td>봉사명</td>
+	                        <td><input type="search" id="volunteerName" name="vName"/></td>
+	                    </tr>
+	                    <tr>
+	                        <td>수요처명</td>
+	                        <td><input type="search" id="recipientName" name="registrar"></td>
+	                    </tr>
+	                </table>
+	                <div class="v-search-inner-btn">
+	                    <button id="v-search-btn" class="learn-more">검색</button>
+	                    <button type="reset" id="v-reset-btn" class="learn-more-gray">초기화</button>
+	                </div>
+                </form>
             </div>
             
             <div class="v-note">
@@ -214,11 +216,6 @@
 		
 		    startDate.setAttribute("min", today);
 		    endDate.setAttribute("min", today); 
-		
-		    // if(${ empty startDate }) {
-		    // 	startDate.value = today;
-		    // 	endDate.value = today;
-		    // }
 		            
 		    startDate.addEventListener('change', function() {
 		        if(endDate.value != '') {
@@ -228,13 +225,6 @@
 		            }
 		        }
 		        endDate.setAttribute("min", startDate.value);
-		    });
-		
-		    document.querySelector("#v-reset-btn").addEventListener("click", () => {
-		        startDate.value = "";
-		        endDate.value = "";
-		        volunteerName.value = "";
-		        recipientName.value = "";
 		    });
 		    
 			const ulList = document.querySelector(".v-sub-category").querySelectorAll("ul");

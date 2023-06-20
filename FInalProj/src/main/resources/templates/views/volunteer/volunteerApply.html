@@ -67,15 +67,15 @@
 				<div class="v-detail-title">활동구분</div>
 				<div class="v-detail-content">[[${v.vActivityType}]]</div>
 			</div>
-			<form action="applyVolunteer.vo" method="POST">
+			<form id="applyForm" action="applyVolunteer.vo" method="POST">
 				<input type="hidden" name="vNo" th:value="${v.vNo}"/>
 				<div>
 					<span class="v-detail-title">신청자 정보</span>
 					<button type="button" id="v-modify-phone-btn">연락처 수정 </button>
 					<div class="v-detail-content detail-phone">연락처 번호 변경은 위쪽 연락처 수정 버튼을 클릭한 후 <span class="v-emphasize">'마이페이지 > 정보 수정'</span>에서 수정하시기 바랍니다.</div>
 					<div class="v-applicant-info-div">
-						<div class="v-applicant-info">휴대폰 번호 : [[${m.phone}]]</div>
-						<div class="v-applicant-info">e-mail : [[${m.email}]]</div>
+						<div class="v-applicant-info">휴대폰 번호 : </div>
+						<div class="v-applicant-info">e-mail : </div>
 					</div>
 					<div class="v-caution">
 						<div class="v-caution-info">회원님이 등록하신 정보가 표시됩니다. 등록된 정보가 정확한지 확인해주세요.</div>
@@ -87,7 +87,7 @@
 					</div>
 				</div>
 	            <div class="v-apply-btn-div">
-	                <button id="applyBtn" class="learn-more v-apply-btn">신청하기</button>
+	                <button type="button" id="applyBtn" class="learn-more v-apply-btn">신청하기</button>
 	            </div>
             </form>
         </section>
@@ -123,7 +123,23 @@
 	    		applyBtn.addEventListener("click", () => {
 	        		if(check) {
 	        			alert("비정상적인 접근입니다.");
-	        			event.preventDefault();
+	        		} else {
+	        			$.ajax({
+	        				url: 'checkVolunteerApply.vo',
+	        				type: 'post',
+	        				data: {
+	        					vNo: /*[[${v.vNo}]]*/1,
+	        					uNo: /*[[${session.loginUser == null? '' : session.loginUser.uNo}]]*/1
+	        				}, success: data => {
+	        					if(data === "no") {
+	        						alert("이미 신청한 봉사입니다.");
+	        					} else if(data === "yes") {
+	        						$('#applyForm').submit();
+	        					}
+	        				}, error: data => {
+	        					
+	        				}
+	        			});
 	        		}
 	        	});
 	    	}

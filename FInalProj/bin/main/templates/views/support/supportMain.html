@@ -149,70 +149,16 @@
 				</tr>
 			</table>
 		</div>
-			<div class="supportList supportListD" onclick="location.href='supportDetail.su?supportNo=9'">
+			<th:block th:each="s:${ sList }">
+			<div class="supportList supportListD" th:onclick="location.href='supportDetail.su?supportNo=[[${s.supportNo}]]'">
 				<div>
-					<img class="supportThumnails" src="image/donation.jpg">
+					<img class="supportThumnails" th:src="@{${s.imageUrl}}">
 				</div>
-				<div class="supportName">아픈 손주를 키우는 할머니의 이야기</div>
-				<div class="supportGroup">한국 복지관</div>
-				70% <progress id="supportProgress" value="50" min="0" max="100"></progress>
+				<div class="supportName">[[${s.supportTitle}]]</div>
+				<div class="supportGroup">[[${s.registar}]]</div>
+				[[${(s.fundAmount*100/s.targetAmount)}]]% <progress id="supportProgress" value="${(s.fundAmount*100/s.targetAmount)}" min="0" max="100"></progress>
 			</div>
-			<div class="supportList supportListD">
-				<div>
-					<img class="supportThumnails" src="image/donation.jpg">
-				</div>
-				<div class="supportName">아픈 손주를 키우는 할머니의 이야기</div>
-				<div class="supportGroup">한국 복지관</div>
-				70% <progress id="supportProgress" value="50" min="0" max="100"></progress>
-			</div>
-			<div class="supportList supportListD">
-				<div>
-					<img class="supportThumnails" src="image/donation.jpg">
-				</div>
-				<div class="supportName">아픈 손주를 키우는 할머니의 이야기</div>
-				<div class="supportGroup">한국 복지관</div>
-				70% <progress id="supportProgress" value="50" min="0" max="100"></progress>
-			</div>
-			<div class="supportList supportListD">
-				<div>
-					<img class="supportThumnails" src="image/donation.jpg">
-				</div>
-				<div class="supportName">아픈 손주를 키우는 할머니의 이야기</div>
-				<div class="supportGroup">한국 복지관</div>
-				70% <progress id="supportProgress" value="50" min="0" max="100"></progress>
-			</div>
-			<div class="supportList supportListD">
-				<div>
-					<img class="supportThumnails" src="image/donation.jpg">
-				</div>
-				<div class="supportName">아픈 손주를 키우는 할머니의 이야기</div>
-				<div class="supportGroup">한국 복지관</div>
-				70% <progress id="supportProgress" value="50" min="0" max="100"></progress>
-			</div>
-			<div class="supportList supportListD">
-				<div>
-					<img class="supportThumnails" src="image/donation.jpg">
-				</div>
-				<div class="supportName">아픈 손주를 키우는 할머니의 이야기</div>
-				<div class="supportGroup">한국 복지관</div>
-				70% <progress id="supportProgress" value="50" min="0" max="100"></progress>
-			</div>
-			<div class="supportList supportListD">
-				<div>
-					<img class="supportThumnails" src="image/donation.jpg">
-				</div>
-				<div class="supportName">아픈 손주를 키우는 할머니의 이야기</div>
-				<div class="supportGroup">한국 복지관</div>
-				70% <progress id="supportProgress" value="50" min="0" max="100"></progress>
-			</div>
-			<div class="supportList supportListD">
-				<div>
-					<img class="supportThumnails" src="image/donation.jpg">
-				</div>
-				<div class="supportName">아픈 손주를 키우는 할머니의 이야기</div>
-				<div class="supportGroup">한국 복지관</div>
-				70% <progress id="supportProgress" value="50" min="0" max="100"></progress>
-			</div>
+			</th:block>
 	</div>
 </div>
 <br clear="both">

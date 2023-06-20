@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Volunteer {
 	private int vNo;
-	private int uNo;
+	private Integer uNo;
 	private String address;
 	private int vMainCategoryNo;
 	private int vSubCategoryNo;
@@ -44,7 +44,7 @@ public class Volunteer {
 		super();
 	}
 
-	public Volunteer(int vNo, int uNo, String address, int vMainCategoryNo, int vSubCategoryNo, int vTargetCategoryNo,
+	public Volunteer(int vNo, Integer uNo, String address, int vMainCategoryNo, int vSubCategoryNo, int vTargetCategoryNo,
 			String vArea, String vName, String vContent, Date vStartDate, Date vEndDate, String vStartTime,
 			String vEndTime, Date vRecruitmentStartDate, Date vRecruitmentEndDate, String vDay, int vCountAll,
 			int vCount, String vLocation, String vActivityType, Date vCreateDate, char vStatus, String registrar,
@@ -93,11 +93,11 @@ public class Volunteer {
 		this.vNo = vNo;
 	}
 
-	public int getuNo() {
+	public Integer getuNo() {
 		return uNo;
 	}
 
-	public void setuNo(int uNo) {
+	public void setuNo(Integer uNo) {
 		this.uNo = uNo;
 	}
 	

@@ -32,6 +32,7 @@
 	<form method="post" action="updateBoard.bo">
 		<input type="hidden" name="boardNo" th:value="${ board.boardNo }">
 		<input type="hidden" name="page" th:value="${ page }">
+		<input type="hidden" name="boardType" th:value="${ board.boardType }">
 		<input type="text" class="form-control" id="boardTitle" name="boardTitle" th:value="${ board.boardTitle }">
 		<br><br> 
 		<textarea id="summernote" name="boardContent" required>[[${ board.boardContent }]]</textarea><br>
