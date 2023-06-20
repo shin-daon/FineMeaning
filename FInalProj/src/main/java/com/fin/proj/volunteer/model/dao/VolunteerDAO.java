@@ -1,6 +1,7 @@
 package com.fin.proj.volunteer.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
@@ -23,5 +24,7 @@ public interface VolunteerDAO {
 	int deleteVolunteer(String vNo);
 
 	int applyVolunteer(Volunteer v);
+
+	int checkVolunteerApply(HashMap<String, Integer> map);
 
 }

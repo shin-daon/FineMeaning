@@ -90,4 +90,10 @@
 	<insert id="applyVolunteer">
 		insert into v_history values(SEQ_VHISID.NEXTVAL, #{uNo}, #{vNo}, default, default)
 	</insert>
+	
+	<select id="checkVolunteerApply" resultType="_int">
+		select count(*)
+		from v_history
+		where v_no = #{vNo} and u_no = #{uNo}
+	</select>
 </mapper>
