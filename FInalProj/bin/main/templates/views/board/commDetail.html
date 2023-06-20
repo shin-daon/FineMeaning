@@ -130,13 +130,22 @@ width: 80px;
             </tr>
         </table>
         
-       	
+        <th:block th:if="${session.loginUser != null && session.loginUser.uNo eq board.uNo}"> 
+         <div class="actionArea">
+            <div class="writeArea">
+                <button class="writeFaqBtn learn-more" onclick="location.href='editComm.bo'">수정하기</button>
+                <button class="writeFaqBtn learn-more" type="button" id="deleteModal">삭제하기</button>
+			</div>
+			</div>
+		</th:block>
         
        <div class="replyArea">
-       					<br><br>
+       					<br><br><br><br>
+       					<th:block th:if="${ session.loginUser != null }">
 						<span class="input-group-text">REPLY CONTENT<br></span>
 						<textarea class="form-control" rows="3" id="replyContent" style="resize: none;"></textarea>
 						<button class="writeFaqBtnSmall learn-more" id="replySubmit" type="button" th:disabled="${ session.loginUser == null }">댓글등록</button>
+						</th:block>
 					</div>
 					<br>
 					<table class="replytable">
@@ -149,10 +158,10 @@ width: 80px;
 							</tr>
 						</thead>
 						<tbody>
-								<tr>
-									<td width="130px">종각역피바라기</td>
-									<td>제가 다 기분이 좋네요~~</td>
-									<td width="130px">23-07-12</td>
+								<tr th:each=" r : ${replyList}">
+									<td width="130px" th:text="${ r.nickName }"></td>
+									<td th:text="${ r.replyContent }"></td>
+									<td width="130px" th:text="${ r.replyTime }"></td>
 									<td>
 									<button class="writeFaqBtnSmall learn-more" id="replyedit" type="button">댓글수정</button>
 									<button class="writeFaqBtnSmall learn-more" id="replydelete" type="button">댓글삭제</button>
@@ -162,16 +171,9 @@ width: 80px;
 						</tbody>
 					</table>
 				
-       <th:block th:if="${session.loginUser != null && session.loginUser.uNo eq board.uNo}"> 
-         <div class="actionArea">
-            <div class="writeArea">
-                <button class="writeFaqBtn learn-more" onclick="location.href='editComm.bo'">수정하기</button>
-                <button class="writeFaqBtn learn-more" type="button" id="deleteModal">삭제하기</button>
-			</div>
-			</div>
-		</th:block>
+       </form>
 		<button class="writeFaqBtn learn-more" onclick="location.href='commList.bo'">목록으로</button>
-		</form>
+		
 		
 		
 			<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
@@ -194,19 +196,64 @@ width: 80px;
 <div th:replace="~{../common/footer :: footer}"></div>
     	
   	<script th:inline="javascript">
-		  	window.onload = () =>{
-				const deleteModal = document.getElementById('deleteModal');
-				if(deleteModal != null){
-					deleteModal.addEventListener('click', ()=>{
-						$('#modalChoice').modal('show');
-					})
-			}
-		}
-  	
-		/*<![CDATA[*/
-		   document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/5;
-		/*]]>*/	
-		
+  	 /*<![CDATA[*/
+    // window.onload 이벤트 핸들러
+    window.onload = () => {
+      const deleteModal = document.getElementById('deleteModal');
+      if (deleteModal != null) {
+        // 삭제 모달 클릭 시 모달 표시
+        deleteModal.addEventListener('click', () => {
+          $('#modalChoice').modal('show');
+        });
+      }
+
+      /*<![CDATA[*/
+      // 댓글 등록 버튼 클릭 시 AJAX 요청
+      document.getElementById('replySubmit').addEventListener('click', () => {
+        $.ajax({
+          url: 'insertReply.bo',
+          data: {
+            replyContent: document.getElementById('replyContent').value,
+            replyWriter: /*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/ 1,
+            nickName: /*[[${session.loginUser == null ? '' : session.loginUser.uNickName}]]*/ 1,
+            BoardNo: /*[[${board.boardNo}]]*/ 1
+          },
+          success: data => {
+            console.log(data);
+            const tbody = document.querySelector('.replytable tbody');
+            tbody.innerHTML = '';
+
+            for (const r of data) {
+              const tr = document.createElement('tr');
+
+              const writerTd = document.createElement('td');
+              writerTd.innerText = r.nickName;
+              const contentTd = document.createElement('td');
+              contentTd.innerText = r.replyContent;
+              const dateTd = document.createElement('td');
+              dateTd.innerText = r.replyModifyDate;
+
+              tr.appendChild(writerTd);
+              tr.appendChild(contentTd);
+              tr.appendChild(dateTd);
+
+              tbody.appendChild(tr);
+            }
+            document.getElementById('replyContent').value = '';
+          },
+          error: data => {
+            console.log(data);
+          }
+        });
+      });
+      /*]]>*/
+
+    };
+    /*]]>*/
+
+    /*<![CDATA[*/
+    document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/ 5;
+    /*]]>*/	
 		
 	</script>
 </body>
