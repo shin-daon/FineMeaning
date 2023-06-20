@@ -42,7 +42,7 @@ out/
 #.project
 .metadata/
 #bin/
-.settings/
+#.settings/
 # *.class
 *.war
 *.nar
