@@ -141,11 +141,16 @@ public class VolunteerController {
 	@PostMapping("applyVolunteer.vo")
 	public String applyVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
 		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
-		
+//		System.out.println(v);
 		int result = vService.applyVolunteer(v);
 		if(result > 0) {
 			return "redirect:volunteerHistory.vo";
 		}
+		return null;
+	}
+	
+	@GetMapping("searchVolunteer.vo") 
+	public String searchVolunteer(@ModelAttribute Volunteer v) {
 		return null;
 	}
 }

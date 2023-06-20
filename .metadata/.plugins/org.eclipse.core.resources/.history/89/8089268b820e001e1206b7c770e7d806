@@ -1,9 +1,0 @@
-package com.fin.proj.common.service;
-
-import com.fin.proj.common.model.vo.Image;
-
-public interface ImageService {
-
-	Image insertImage(Image image);
-
-}
