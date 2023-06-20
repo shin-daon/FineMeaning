@@ -122,13 +122,22 @@ th, td {
     background-color: #EDF1D6;
 }
 
-.faqTable thead tr th:nth-child(1) {
+/* .faqTable thead tr th:nth-child(1) { */
+/*     border-radius: 10px 0px 0px 0px; */
+/* } */
+
+/* .faqTable thead tr th:nth-child(4) { */
+/*     border-radius: 0px 10px 0px 0px; */
+/* } */
+
+.faqTable thead tr th:first-child {
     border-radius: 10px 0px 0px 0px;
 }
 
-.faqTable thead tr th:nth-child(4) {
+.faqTable thead tr th:last-child {
     border-radius: 0px 10px 0px 0px;
 }
+
 
 .faqTable > tbody > tr:hover{
     background-color: #e1e4d2;

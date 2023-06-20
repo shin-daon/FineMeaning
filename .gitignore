@@ -9,4 +9,6 @@ MANIFEST.MF
 settings.json
 .metadata/
 
+.metadata/
+
 FInalProj/src/main/resources/application.properties

@@ -57,7 +57,7 @@
         <div class="detailArea">
             <hr class="hr">
             <div class="contentArea backgroundImage">
-            	<p class="boardDate"></p>
+            	<p class="boardDate">[[${ board.boardDate }]]</p>
                 <div class="contentMain"></div>
             </div>
             <hr class="hr">
@@ -170,7 +170,8 @@
 								
 								const loginUser = /*[[${session.loginUser}]]*/1;
 // 								console.log(loginUser);
-								const loginUserNo = /*[[${session.loginUser.uNo}]]*/1;
+
+								const loginUserNo = /*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/1;
 // 								console.log(loginUserNo);
 								
 								if(loginUser != null && loginUserNo == r.replyWriter) {

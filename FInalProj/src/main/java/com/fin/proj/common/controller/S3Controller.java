@@ -1,7 +1,6 @@
 package com.fin.proj.common.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class S3Controller {
 	
     private final S3Service S3Service;
+    
     @Autowired
     ImageService iService;
     
@@ -37,13 +37,13 @@ public class S3Controller {
             String imageName = S3Service.uploadFile(multipartFile);
             String imageUrl = S3Service.getUrl(imageName);
             Image image = new Image(imageName, imageUrl);
-//            int result = iService.insertImage(image); // save : insert 하는 메소드
+            int result = iService.insertImage(image); // save : insert 하는 메소드
             
-//            if(result == 1) {
+            if(result == 1) {
             	return imageUrl;
-//            } else {
-//            	throw new ImageException("이미지 저장 실패");
-//            }
+            } else {
+            	throw new ImageException("이미지 저장 실패");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new ImageException("이미지 저장 실패");
