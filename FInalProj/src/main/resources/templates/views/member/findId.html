@@ -71,6 +71,7 @@
 	color: white;
 	background-color: #609966;
 	border: 1px solid #609966;
+	cursor: pointer;
 }
 
 #normal-input {
@@ -214,6 +215,7 @@ input[type="radio"]:checked + span:before{
 	color: #fff;
 	background-color: #609966;
 	border: 1.5px solid #609966;
+	cursor: pointer;
 }
 
 #rollback-btn {
@@ -227,6 +229,7 @@ input[type="radio"]:checked + span:before{
 	border: 1.5px solid #609966;
 	margin-top: 3px;
 	margin-bottom: 40px;
+	cursor: pointer;
 }
 
 .last-button {
@@ -270,7 +273,7 @@ input[type="radio"]:checked + span:before{
 		<div class="insert name">
 			<label class="title">이름</label>
 			<div class="input">
-				<input type="text" id="normal-input" placeholder="이름"/>
+				<input type="text" id="normal-input" placeholder="이름" name="uName"/>
 			</div>
 		</div>
 		
@@ -278,10 +281,10 @@ input[type="radio"]:checked + span:before{
 			<label class="title">인증방식</label><br>
 				<div class="container">
 					<label class="choose-radio">
-						<input type="radio" id="email" name="radio" checked/> <span>이메일</span>
+						<input type="radio" id="email" name="authMethod" value="이메일" checked/> <span>이메일</span>
 					</label>
 					<label class="choose-radio">
-						<input type="radio" id="phone-number" name="radio" /> <span>전화번호</span>
+						<input type="radio" id="phone-number" name="authMethod" value="전화번호" /> <span>전화번호</span>
 					</label>
 				</div>
 			</div>
@@ -289,9 +292,9 @@ input[type="radio"]:checked + span:before{
 		<div class="insert email-div">
 			<label class="title">이메일</label>
 			<div class="input email-input">
-				<input type="text" id="email-input" placeholder="이메일"/><span class="nothing">@</span>
+				<input type="text" id="email-input" name="emailId" placeholder="이메일"/><span class="nothing">@</span>
 				
-				<select name="email" id="email-select">
+				<select name="emailDomain" id="email-select">
 					<option>naver.com</option>
 					<option>gmail.com</option>
 					<option>daum.net</option>
@@ -299,7 +302,7 @@ input[type="radio"]:checked + span:before{
 					<option>직접입력</option>
 				</select>
 				
-           		<input type="text" id="custom-email-input" style="display: none;" />
+           		<input type="text" id="custom-email-input" name="emailDomain" style="display: none;" />
            		<span class="x-btn" style="display: none;"><img src="image/x.png"></span>
 			</div>			
 		</div>
@@ -308,7 +311,7 @@ input[type="radio"]:checked + span:before{
 		<div class="insert phone-div">
 			<label class="title">전화번호</label>
 			<div class="input">
-				<input type="text" id="normal-input" placeholder="전화번호"/>
+				<input type="text" id="normal-input" placeholder="전화번호" name="phone"/>
 			</div>
 		</div>
 		
