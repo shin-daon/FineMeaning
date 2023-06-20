@@ -70,5 +70,7 @@ public interface SupportDAO {
 
 	ArrayList<Support> selectCategoryListAdmin(RowBounds rowBounds, String category);
 
+	int updateFundAmount(SupportHistory sh);
+
 
 }

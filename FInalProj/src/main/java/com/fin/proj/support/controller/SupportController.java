@@ -52,7 +52,8 @@ public class SupportController {
 
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
 		int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
-
+		
+		System.out.println(s);
 		model.addAttribute("s", s);
 
 		if (s.getStatus() == 'Y') {
@@ -335,12 +336,9 @@ public class SupportController {
 	@ResponseBody
 	public String insertSupporter(HttpSession session, @ModelAttribute SupportHistory sh) {
 
-		System.out.println("처음에 들어오는 값 : " + sh);
 		Integer uNo = ((Member) session.getAttribute("loginUser")).getuNo();
 
 		sh.setUserNo(uNo);
-		System.out.println("uNO:" + uNo);
-		System.out.println("sh.getUserNo:" + sh.getUserNo());
 
 		String supporterType = null;
 		if (sh.getSupporterType().equals("숨은 천사")) {
@@ -351,9 +349,10 @@ public class SupportController {
 
 		sh.setSupporterType(supporterType);
 
-		System.out.println(sh);
 
 		int count = suService.insertSupporter(sh);
+		int upFundAmount = suService.updateFundAmount(sh);
+		
 		String result = count > 0 ? "yes" : "no";
 		return result;
 
