@@ -1,0 +1,12 @@
+package com.fin.proj.common.DAO;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.fin.proj.common.model.vo.Image;
+
+@Mapper
+public interface ImageDAO {
+
+	Image insertImage(Image image);
+
+}

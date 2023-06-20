@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>선뜻한 사람</title>
+	<link rel="stylesheet" href="css/finePeople_style.css">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+</head>
+<body>
+	<div th:replace="~{../common/header :: header}"></div>
+	<section id="finePeopleSection">
+        <div>
+            <div id="finePeopleTitle">선뜻한 사람</div>
+        </div>
+
+		<div class="path">
+            <a class="middle" href="/"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/arrow.png">
+            <a class="middle" href="#">선뜻</a>
+            <img class="sub iconSize" src="image/arrow.png">
+            <a class="middle">선뜻한 사람</a>
+        </div>
+
+        <div class="actionArea">
+            <div class="writeArea">
+                <button class="writeFaqBtn learn-more" onclick="location.href='finePeople_form.bo'">글쓰기</button>
+            </div>
+        </div>
+
+        <div class="card mb-3" th:each="b : ${ list }">
+            <div class="row g-0">
+                <div class="col-md-4">
+                <img src="image/finePeopleImage.jpg" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                <div class="card-body">
+                    <div class="peopleInfo">
+                        <h5 class="card-title">・:*( ܸ ・⩊・ ܸ )*:・</h5>
+                        <img id="peopleIcon" src="image/IconPeople.png">
+                        <h5 class="card-name">전태일</h5>
+                    </div>    
+                    <p class="card-text">전태일은 한국 현대사의 한 획을 그었다. 그의 죽음에 한국 사회는 커다란 충격을 받았다. “전태일이 없었다면 한국 노동자들의 인권은 수십 년 뒤에나 존중 받았을 것”이라는 말을 들을 정도로, 그의 죽음은 대한민국의 노동운동과 민주주의 발달에 큰 영향을 끼쳤다.전태일은 한국 현대사의 한 획을 그었다. 그의 죽음에 한국 사회는 커다란 충격을 받았다. 어쩌라고라니다</p>
+                    <!-- card-text는 글자 수 제한 155자 해야 함.-->
+                    <div class="card-date">
+                        <p class="date">2023-05-31📌</p>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="arrowBtn">
+            <a href="#" class="btn-gradient yellow mini prev">이전</a>
+            <a href="#" class="btn-gradient yellow mini next">다음</a>
+        </div>
+    </section>
+    <div th:replace="~{views/common/footer :: footer}"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>

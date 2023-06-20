@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>작성 댓글</title>
+    <link rel="stylesheet" href="css/myReply_style.css">
+</head>
+<body>
+	<div th:replace="~{../common/header :: header}"></div>
+	<div class="flex-container">
+		<div th:replace="~{views/common/sidebar :: sidebar}"></div>
+	    <section id="myReplySection">
+	        <div>
+	            <div id="myReplyTitle">내가 작성한 댓글</div>
+	        </div>
+	
+	        <div class="actionArea">
+	            <div class="checkArea">
+	                <button class="checkBtn">전체 선택</button>
+	                <button class="deleteReplyBtn" onclick="location.href='#'">삭제</button>
+	            </div>
+	        </div>
+	
+	        <table class="myReplyTable">
+	            <thead>
+	                <tr>
+	                    <th>선택</th>
+	                    <th style="width: 260px">글 제목</th>
+	                    <th style="width: 290px;">댓글 내용</th>
+	                    <th>작성일</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr>
+	                    <td><input type="checkbox" class="checkBoard"></td>
+	                    <td>
+	                        <div class="myBoardTitle_wrap">
+								<p class="myBoardTitle">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+							</div>
+	                    </td>
+	                    <td>
+	                        <div class="myReply_wrap">
+	                            <p class="myReply">작성된 댓글 내용을 목록에서 바로 확인할 수 있습니다.</p>
+	                        </div>
+	                    </td>
+	                    <td>2023-05-31</td>
+	                </tr>
+	                <tr>
+	                    <td><input type="checkbox" class="checkBoard"></td>
+	                    <td>
+	                        <div class="myBoardTitle_wrap">
+								<p class="myBoardTitle">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+							</div>
+	                    </td>
+	                    <td>
+	                        <div class="myReply_wrap">
+	                            <p class="myReply">작성된 댓글 내용을 목록에서 바로 확인할 수 있습니다.</p>
+	                        </div>
+	                    </td>
+	                    <td>2023-05-31</td>
+	                </tr>
+	                <tr>
+	                    <td><input type="checkbox" class="checkBoard"></td>
+	                    <td>
+	                        <div class="myBoardTitle_wrap">
+								<p class="myBoardTitle">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+							</div>
+	                    </td>
+	                    <td>
+	                        <div class="myReply_wrap">
+	                            <p class="myReply">작성된 댓글 내용을 목록에서 바로 확인할 수 있습니다.</p>
+	                        </div>
+	                    </td>
+	                    <td>2023-05-31</td>
+	                </tr>
+	                <tr>
+	                    <td><input type="checkbox" class="checkBoard"></td>
+	                    <td>
+	                        <div class="myBoardTitle_wrap">
+								<p class="myBoardTitle">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+							</div>
+	                    </td>
+	                    <td>
+	                        <div class="myReply_wrap">
+	                            <p class="myReply">작성된 댓글 내용을 목록에서 바로 확인할 수 있습니다.</p>
+	                        </div>
+	                    </td>
+	                    <td>2023-05-31</td>
+	                </tr>
+	                <tr>
+	                    <td><input type="checkbox" class="checkBoard"></td>
+	                    <td>
+	                        <div class="myBoardTitle_wrap">
+								<p class="myBoardTitle">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+							</div>
+	                    </td>
+	                    <td>
+	                        <div class="myReply_wrap">
+	                            <p class="myReply">작성된 댓글 내용을 목록에서 바로 확인할 수 있습니다.</p>
+	                        </div>
+	                    </td>
+	                    <td>2023-05-31</td>
+	                </tr>
+	                <tr>
+	                    <td><input type="checkbox" class="checkBoard"></td>
+	                    <td>
+	                        <div class="myBoardTitle_wrap">
+								<p class="myBoardTitle">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+							</div>
+	                    </td>
+	                    <td>
+	                        <div class="myReply_wrap">
+	                            <p class="myReply">작성된 댓글 내용을 목록에서 바로 확인할 수 있습니다.</p>
+	                        </div>
+	                    </td>
+	                    <td>2023-05-31</td>
+	                </tr>
+	                <tr>
+	                    <td><input type="checkbox" class="checkBoard"></td>
+	                    <td>
+	                        <div class="myBoardTitle_wrap">
+								<p class="myBoardTitle">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+							</div>
+	                    </td>
+	                    <td>
+	                        <div class="myReply_wrap">
+	                            <p class="myReply">작성된 댓글 내용을 목록에서 바로 확인할 수 있습니다.</p>
+	                        </div>
+	                    </td>
+	                    <td>2023-05-31</td>
+	                </tr>
+	                <tr>
+	                    <td><input type="checkbox" class="checkBoard"></td>
+	                    <td>
+	                        <div class="myBoardTitle_wrap">
+								<p class="myBoardTitle">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+							</div>
+	                    </td>
+	                    <td>
+	                        <div class="myReply_wrap">
+	                            <p class="myReply">작성된 댓글 내용을 목록에서 바로 확인할 수 있습니다.</p>
+	                        </div>
+	                    </td>
+	                    <td>2023-05-31</td>
+	                </tr>
+	                <tr>
+	                    <td><input type="checkbox" class="checkBoard"></td>
+	                    <td>
+	                        <div class="myBoardTitle_wrap">
+								<p class="myBoardTitle">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+							</div>
+	                    </td>
+	                    <td>
+	                        <div class="myReply_wrap">
+	                            <p class="myReply">작성된 댓글 내용을 목록에서 바로 확인할 수 있습니다.</p>
+	                        </div>
+	                    </td>
+	                    <td>2023-05-31</td>
+	                </tr>
+	                <tr>
+	                    <td><input type="checkbox" class="checkBoard"></td>
+	                    <td>
+	                        <div class="myBoardTitle_wrap">
+								<p class="myBoardTitle">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+							</div>
+	                    </td>
+	                    <td>
+	                        <div class="myReply_wrap">
+	                            <p class="myReply">작성된 댓글 내용을 목록에서 바로 확인할 수 있습니다.</p>
+	                        </div>
+	                    </td>
+	                    <td>2023-05-31</td>
+	                </tr>
+	            </tbody>
+	        </table>
+	        <div class="page">
+	            <ul class="pagination">
+	                <li><a href="#" class="first"><img class="arrowKey" src="image/before.png"></a></li>
+	                <li><a href="#" class="num">1</a></li>
+	                <li><a href="#" class="num">2</a></li>
+	                <li><a href="#" class="num">3</a></li>
+	                <li><a href="#" class="num">4</a></li>
+	                <li><a href="#" class="num">5</a></li>
+	                <li><a href="#" class="last"><img class="arrowKey" src="image/next.png"></a></li>
+	            </ul>
+	        </div>
+	    </section>
+	</div>
+    <div th:replace="~{views/common/footer :: footer}"></div>
+    <script>
+    	window.onload = () => {
+			const tds = document.querySelector('tbody').querySelectorAll('td');
+            
+            for(const td of tds){
+                td.addEventListener('click', function(){
+                    const tr = this.parentElement;
+                    const checkBoards = tr.querySelectorAll('.checkBoard');
+                    for(const checkBoard of checkBoards){
+                        if(checkBoard.checked){
+                            checkBoard.checked = false;
+                        } else {
+                            checkBoard.checked = true;
+                        }
+                    }
+                });
+            }
+
+            let flagCheck = true;
+
+            document.querySelector('.checkBtn').addEventListener('click', function(){
+                for(const td of tds){
+                    const checkBoards = document.querySelectorAll('.checkBoard');
+                    for(const checkBoard of checkBoards){
+                        checkBoard.checked = flagCheck;
+                    }
+                }
+                flagCheck = !flagCheck;
+            });
+    	}
+    </script>
+</body>
+</html>

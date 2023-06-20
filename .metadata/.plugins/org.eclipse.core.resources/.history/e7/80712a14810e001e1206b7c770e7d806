@@ -1,0 +1,5 @@
+package com.fin.proj.common.controller;
+
+public class S3Controller {
+
+}
