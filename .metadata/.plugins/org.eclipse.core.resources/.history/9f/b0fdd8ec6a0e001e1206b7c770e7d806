@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fin.proj.board.model.dao.BoardDAO">
+	<resultMap type="Board" id="boardResultSet">
+		<id column="BOARD_NO" property="boardNo"/>
+		<result column="U_NO" property="uNo"/>
+		<result column="U_ID" property="uId"/>
+		<result column="U_NICKNAME" property="nickName"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="BOARD_DATE" property="boardDate"/>
+		<result column="BOARD_STATUS" property="boardStatus"/>
+		<result column="BOARD_COUNT" property="boardCount"/>
+		<result column="NEWS_URL" property="newsURL"/>
+		<result column="FP_NAME" property="fpName"/>
+		<result column="BOARD_CATE" property="boardCate"/>
+		<result column="IMAGE_URL" property="imageUrl"/>
+	</resultMap>
+	
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from board
+		where board_status='Y' and board_type=#{i}
+	</select>
+	
+	<select id="selectBoardList" resultMap="boardResultSet">
+		select *
+		from board b
+			join USERS u on(b.u_NO = u.u_NO)
+		where board_status = 'Y' and board_type = #{i}
+		order by board_no desc
+	</select>
+	
+	<update id="countUp">
+		update board
+		set board_count = board_count + 1
+		where board_no = #{bNo}
+	</update>
+	
+	<select id="selectBoard" resultMap="boardResultSet">
+	    SELECT b.*, u.u_nickname, u.u_id
+	    FROM board b
+	    INNER JOIN users u ON u.u_No = b.u_No
+	    WHERE b.board_no = #{bNo}
+	</select>
+	
+	<insert id="insertBoard">
+		insert into board
+		values(seq_bid.nextval, #{uNo}, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, default, default, null, null, null, null)
+	</insert>
+	
+	<insert id="insertFruit">
+		insert into board
+		values(seq_bid.nextval, #{uNo}, #{boardType}, #{boardTitle}, #{boardContent}, sysdate, default, default, null, null, #{boardCate}, null)
+	</insert>
+	
+	<update id="updateBoard">
+		update board
+		set board_title = #{boardTitle}, board_content=#{boardContent}, board_type=#{boardType}
+		where board_No= #{boardNo}
+	</update>
+	
+	<update id="deleteBoard">
+		update board
+		set board_status = 'N'
+		where board_no = #{bId}
+	</update>
+	
+	<select id="selectReply" resultMap="replyResultSet">
+		select RE_NO, RE_WRITER, U_NICKNAME, BOARD_NO,
+			   RE_CONTENT, TO_CHAR(RE_CREATE_DATE, 'YY-MM-DD (DY) PM HH:MI:SS') AS "DATE", RE_STATUS
+		from reply
+			 join users on(re_writer = u_no)
+			 join board using(board_no)
+		where board_no = #{bNo} and re_status = 'Y'
+		order by re_no desc
+	</select>
+
+	<resultMap type="Reply" id="replyResultSet">
+		<id column="RE_NO" property="replyNo"/>
+		<result column="RE_WRITER" property="replyWriter"/>
+		<result column="U_NICKNAME" property="nickName"/>
+		<result column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="RE_CONTENT" property="replyContent"/>
+		<result column="DATE" property="replyTime"/>
+		<result column="re_create_date" property="replyDate"/>
+		<result column="RE_STATUS" property="replyStatus"/>
+	</resultMap>
+	
+	<insert id="insertReply">
+		insert into reply
+		values(seq_rid.nextval, #{replyWriter}, #{boardNo}, #{replyContent},
+			   default, default)
+	</insert>
+	
+	<update id="deleteReply">
+		update reply
+		set re_status = 'N'
+		where re_no = #{replyNo}
+	</update>
+</mapper>

@@ -1,0 +1,5 @@
+package com.fin.proj.common.service;
+
+public class FileServiceImpl implements FileService{
+
+}

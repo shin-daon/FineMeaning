@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fin.proj.volunteer.model.dao.VolunteerDAO">
+	
+	<insert id="insertVolunteer">
+		insert into volunteer values(SEQ_VOID.NEXTVAL, #{uNo}, #{vMainCategoryNo}, #{vSubCategoryNo}, #{vTargetCategoryNo}, #{vArea}, #{vName}, #{vContent}, #{vStartDate}, #{vEndDate},
+		#{vStartTime}, #{vEndTime}, #{vRecruitmentStartDate}, #{vRecruitmentEndDate}, #{vDay}, #{vCountAll}, default, #{vLocation}, #{vActivityType}, default, default, #{vChargeName}, #{vChargePhone})
+	</insert>
+	
+	<resultMap type="Volunteer" id="volunteerResultSet">
+		<id column="V_NO" property="vNo"/>
+		<result column="U_NO" property="uNo"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="REGISTRAR" property="registrar"/>
+		<result column="V_MAIN_CATEGORY_NO" property="vMainCategoryNo"/>
+		<result column="V_SUB_CATEGORY_NO" property="vSubCategoryNo"/>
+		<result column="V_TARGET_CATEGORY_NO" property="vTargetCategoryNo"/>
+		<result column="V_MAIN_CATEGORY_NAME" property="vMainCategoryName"/>
+		<result column="V_SUB_CATEGORY_NAME" property="vSubCategoryName"/>
+		<result column="V_TARGET_CATEGORY_NAME" property="vTargetCategoryName"/>
+		<result column="V_AREA" property="vArea"/>
+		<result column="V_NAME" property="vName"/>
+		<result column="V_CONTENT" property="vContent"/>
+		<result column="V_START_DATE" property="vStartDate"/>
+		<result column="V_END_DATE" property="vEndDate"/>
+		<result column="V_START_TIME" property="vStartTime"/>
+		<result column="V_END_TIME" property="vEndTime"/>
+		<result column="V_RECRUITMENT_START_DATE" property="vRecruitmentStartDate"/>
+		<result column="V_RECRUITMENT_END_DATE" property="vRecruitmentEndDate"/>
+		<result column="V_DAY" property="vDay"/>
+		<result column="V_COUNTALL" property="vCountAll"/>
+		<result column="V_COUNT" property="vCount"/>
+		<result column="V_LOCATION" property="vLocation"/>
+		<result column="V_ACTIVITY_TYPE" property="vActivityType"/>
+		<result column="V_CREATE_DATE" property="vCreateDate"/>
+		<result column="V_STATUS" property="vStatus"/>
+		<result column="V_CHARGE_NAME" property="vChargeName"/>
+		<result column="V_CHARGE_PHONE" property="vChargePhone"/>
+	</resultMap>
+	
+	<select id="getVolunteerCount" resultType="_int">
+		<![CDATA[
+			select count(*)
+			from volunteer
+			where v_status='Y'
+		]]>
+	</select>
+	
+	<select id="selectVolunteerList" resultMap="volunteerResultSet">
+		<![CDATA[
+			select * 
+			from volunteer
+				 join users using(u_no)
+				 join v_main_category using(v_main_category_no)
+				 join v_sub_category using(v_sub_category_no)
+				 join v_target_category using(v_target_category_no)
+			where v_status='Y'
+			order by v_no
+		]]>
+	</select>
+	
+	<select id="selectVolunteer" resultMap="volunteerResultSet">
+		<![CDATA[
+			select * 
+			from volunteer
+				 join users using(u_no)
+				 join v_main_category using(v_main_category_no)
+				 join v_sub_category using(v_sub_category_no)
+				 join v_target_category using(v_target_category_no)
+			where v_status='Y' 
+				  and v_no = #{vNo}
+		]]>
+	</select>
+	
+	<update id="updateVolunteer">
+		update volunteer
+		set V_MAIN_CATEGORY_NO = #{vMainCategoryNo}, V_SUB_CATEGORY_NO = #{vSubCategoryNo}, V_TARGET_CATEGORY_NO = #{vTargetCategoryNo},
+			V_AREA = #{vArea}, V_NAME = #{vName}, V_CONTENT = #{vContent}, V_START_DATE = #{vStartDate}, V_END_DATE = #{vEndDate},
+			V_START_TIME = #{vStartTime}, V_END_TIME = #{vEndTime}, V_RECRUITMENT_START_DATE = #{vRecruitmentStartDate}, V_RECRUITMENT_END_DATE = #{vRecruitmentEndDate},
+			V_DAY = #{vDay}, V_COUNTALL = #{vCountAll}, V_LOCATION = #{vLocation}, V_ACTIVITY_TYPE = #{vActivityType}, V_CHARGE_NAME = #{vChargeName}, V_CHARGE_PHONE = #{vChargePhone}
+		where v_no = #{vNo}
+	</update>
+	
+	<update id="deleteVolunteer">
+		update volunteer
+		set v_status = 'N'
+		where v_no = #{vNO}
+	</update>
+</mapper>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>봉사 세부 조회</title>
+    <link rel="stylesheet" href="css/volunteerDetail.css">
+    
+    <!-- include libraries(jQuery, bootstrap) -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	
+	<!-- include summernote css/js -->
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+</head>
+<body>
+	<div th:replace="~{../common/header :: header}"></div>
+	
+    <section id="v-title-section">
+        <div>
+            <div id="v-title">봉사 조회</div>
+        </div>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/화살표.png">
+            <a class="middle" href="#">봉사</a>
+            <img class="sub iconSize" src="image/화살표.png">
+            <a class="middle" href="#">봉사 조회</a>
+        </div>
+
+        <div class="va-prev-next-btn-div">
+            <a href="#" class="btn-gradient yellow mini prev">이전</a>
+            <a href="#" class="btn-gradient yellow mini next">다음</a>
+        </div>
+
+        <section class="v-apply-info">
+        	<form action="volunteerEdit.vo" method="POST">
+	        	<input type="hidden" th:value="${ v.vNo }" name="vNo"/>
+				<input type="hidden" th:value="${ page }" name="page"/>
+	            <div class="v-apply-title">
+	                <span class="v-locale-icon">[[${ v.vArea }]]</span>
+	                <span class="v-org">[[${v.vName}]]</span>
+	                <span class="v-recruitment-status">[[${v.vRecruitmentEndDate}]]</span>
+	                <button type="button" class="btn-gradient mini v-list-btn" th:onclick="|location.href='volunteer.vo?page=${page}'|">목록</button>
+	            </div>
+	            <table>
+	                <tr>
+	                    <td width="15%">봉사기간</td>
+	                    <td width="35%">[[${v.vStartDate}]]~[[${v.vEndDate}]]</td>
+	                    <td width="15%">봉사시간</td>
+	                    <td width="35%">[[${#strings.arraySplit(v.vStartTime, ":")[0]}]]시 [[${#strings.arraySplit(v.vStartTime, ":")[1]}]]분 ~ [[${#strings.arraySplit(v.vEndTime, ":")[0]}]]시 [[${#strings.arraySplit(v.vEndTime, ":")[1]}]]분</td>
+	                </tr>
+	                <tr>
+	                    <td>모집기간</td>
+	                    <td>[[${v.vRecruitmentStartDate}]]~[[${v.vRecruitmentEndDate}]]</td>
+	                    <td>활동요일</td>
+	                    <td>[[${v.vDay}]]</td>
+	                </tr>
+	                <tr>
+	                    <td>모집인원</td>
+	                    <td>[[${v.vCountAll}]]명/일</td>
+	                    <td>신청인원</td>
+	                    <td>[[${v.vCount}]]명</td>
+	                </tr>
+	                <tr>
+	                    <td>봉사분야</td>
+	                    <td>[[${v.vMainCategoryName}]] > [[${v.vSubCategoryName}]]</td>
+	                    <td>활동구분</td>
+	                    <td>[[${v.vActivityType}]]</td>
+	                </tr>
+	                <tr>
+	                    <td>모집기관</td>
+	                    <td>[[${v.registrar}]]</td>
+	                    <td>봉사대상</td>
+	                    <td>[[${v.vTargetCategoryName}]]</td>
+	                </tr>
+	                <tr>
+	                    <td>봉사장소</td>
+	                    <td colspan="3">[[${v.vLocation}]]</td>
+	                </tr>
+	                <tr>
+	                    <td colspan="4">
+	                    	<div id="summernote"></div>
+	                        <div>
+	                        	<input type="hidden" id="x" th:value="${ map.x }"/>
+	                        	<input type="hidden" id="y" th:value="${ map.y }"/>
+	                            <div>[수요처지도]</div>
+	                            <div id="map"></div>
+	                            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=144e8e9bda1bec907d87788df99a299d"></script>
+	                            <script>
+	                                var container = document.getElementById('map');
+	                                var options = {
+	                                    center: new kakao.maps.LatLng(document.getElementById("y").value, document.getElementById("x").value),
+	                                    level: 2,
+	                                };
+	
+	                                var map = new kakao.maps.Map(container, options);
+	                                
+	                                var markerPosition  = new kakao.maps.LatLng(document.getElementById("y").value, document.getElementById("x").value); 
+	
+		                            var marker = new kakao.maps.Marker({
+		                            	position: markerPosition
+		                            });
+		
+		                            marker.setMap(map);
+	                            </script>
+	
+	                            <div>
+	                                <span class="v-charge-name">담당자명 : [[${v.vChargeName}]]</span>
+	                                <span class="v-charge-phone">전화번호 : [[${v.vChargePhone}]]</span>
+	                            </div>
+	                            <div class="v-charge-address-div">
+	                                <span class="v-charge-address">주소 : [[${v.address}]]</span>
+	                            </div>
+	                        </div>
+	                    </td>
+	                </tr>
+	            </table>
+	
+	            <div class="v-apply-btn-div">
+	                <button type="button" id="applyBtn" class="learn-more v-apply-btn" th:if="${session.loginUser == null || (session.loginUser.uNo != v.uNo && session.loginUser.isAdmin != 0)}">신청하기</button>
+	                <button type="button" id="deleteBtn" class="learn-more v-delete-btn" th:if="${(session.loginUser != null && session.loginUser.uNo == v.uNo) || (session.loginUser != null && session.loginUser.isAdmin == 0)}" th:onclick="location.href='deleteVolunteer.vo?vNo=' + btoa([[${v.vNo}]])">삭제</button>
+	                <button type="submit" id="modifyBtn" class="learn-more-green v-modify-btn" th:if="${(session.loginUser != null && session.loginUser.uNo == v.uNo) || (session.loginUser != null && session.loginUser.isAdmin == 0)}">수정</button>
+	            </div>
+            </form>
+        </section>
+    </section>
+    
+    <div th:replace="~{../common/footer :: footer}"></div>  
+    <script th:inline="javascript">
+    	/*<![CDATA[*/
+	    document.getElementById('summernote').innerHTML = /*[[${v.vContent}]]*/'내용';
+    	
+	    const now = new Date();
+    	const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
+    	const recruitmentStatus = document.querySelector(".v-recruitment-status");
+    	let check = false;
+    	if(recruitmentStatus.innerText <= today) {
+    		recruitmentStatus.innerText = "(모집중)";
+    	} else {
+    		recruitmentStatus.innerText = "(모집완료)";
+    		recruitmentStatus.style.color = "black";
+    		document.querySelector("#applyBtn").style.display = "none";
+    		check = true;
+    	}
+    	
+    	const applyBtn = document.querySelector("#applyBtn");
+    	if(applyBtn != null) {
+    		applyBtn.addEventListener("click", () => {
+        		if(check) {
+        			alert("비정상적인 접근입니다.");
+        			event.preventDefault();
+        		} else {
+        			location.href='volunteerApply.vo?vNo=' + /*[[${v.vNo}]]*/1;
+        		}
+        	});
+    	}
+    	/*]]>*/
+    </script>
+</body>
+</html>
