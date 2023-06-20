@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fin.proj.common.Pagination;
@@ -40,13 +41,11 @@ public class SupportController {
 	@RequestMapping("supportDetail.su")
 	public String supportDetail(HttpSession session, @RequestParam("supportNo") int supportNo, Model model) {
 		Support s = suService.supportDetail(supportNo);
-		ArrayList<SupportDetail> sdList = suService.supportUsageDetail(supportNo);
 		
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		int isAdmin = ((Member)session.getAttribute("loginUser")).getIsAdmin();
 		
 			model.addAttribute("s", s);
-			model.addAttribute("sdList",sdList);
 			
 			if(s.getStatus()=='Y') {
 				return "supportDetail";
@@ -61,7 +60,9 @@ public class SupportController {
 	}
 	
 	@RequestMapping("doSupport.su")
-	public String doSupport() {
+	public String doSupport(@RequestParam("supportNo") int supportNo, Model model) {
+		Support s = suService.supportDetail(supportNo);
+		model.addAttribute("s", s);
 		return "doSupport";
 	}
 	
@@ -80,7 +81,7 @@ public class SupportController {
 		
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		
-		
+		System.out.println(uNo);
 		
 		int listCount = suService.getMListCount(uNo);
 		
@@ -276,9 +277,32 @@ public class SupportController {
 		System.out.println(sList);
 		model.addAttribute("pi", pi);
 		model.addAttribute("sList", sList);
-		
 		return "supportListAdmin";
 	}
+	
+	@RequestMapping("searchApplyList.su")
+	public String searchApplyList(@RequestParam(value="page", required=false) Integer currentPage, HttpSession session, @RequestParam("searchWord") String searchWord, Model model) {
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+		
+		Support s = new Support();
+		s.setSupportTitle(searchWord);
+		s.setUserNo(uNo);
+		
+		int listCount = suService.getSearchListCount(s);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Support> sList = suService.selectApplySearchList(pi, s);
+		model.addAttribute("pi", pi);
+		model.addAttribute("sList", sList);
+		return "supportApplicationListUser";
+		
+	}
+	
 	
 	@RequestMapping("supporterListEach.su")
 	public String supporterListEach(@RequestParam(value = "page", required = false) Integer currentPage, 
@@ -314,6 +338,34 @@ public class SupportController {
 		model.addAttribute("pi", pi);
 		return "supporterList";
 		
+		
+	}
+	
+	@RequestMapping("insertSupporter.su")
+	@ResponseBody
+	public String  insertSupporter(HttpSession session, @ModelAttribute SupportHistory sh) {
+		
+		System.out.println("처음에 들어오는 값 : " + sh);
+		Integer uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+		sh.setUserNo(uNo);
+		System.out.println("uNO:" + uNo);
+		System.out.println("sh.getUserNo:" + sh.getUserNo());
+		
+		String supporterType= null;
+		if(sh.getSupporterType().equals("숨은 천사")) {
+			supporterType = "익명";
+		} else {
+			supporterType="본명";
+		}
+		
+		sh.setSupporterType(supporterType);
+		
+		System.out.println(sh);
+		
+		int count = suService.insertSupporter(sh); 
+		String result = count > 0? "yes" : "no";
+		return result;
 		
 	}
 }

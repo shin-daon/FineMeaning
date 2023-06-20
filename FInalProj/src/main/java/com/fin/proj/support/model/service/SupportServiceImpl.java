@@ -151,6 +151,24 @@ public class SupportServiceImpl implements SupportService{
 		return suDAO.selectMySupportList(rowBounds, uNo);
 	}
 
+	@Override
+	public int getSearchListCount(Support s) {
+		return suDAO.getsearchApplyListCount(s);
+	}
+
+	@Override
+	public ArrayList<Support> selectApplySearchList(PageInfo pi, Support s) {
+		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return suDAO.selectApplySearchList(rowBounds, s);
+	}
+
+	@Override
+	public int insertSupporter(SupportHistory sh) {
+		return suDAO.insertSupporter(sh);
+	}
+
 
 
 

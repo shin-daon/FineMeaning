@@ -53,6 +53,12 @@ public interface SupportService {
 
 	ArrayList<SupportHistory> selectMySupportList(PageInfo pi, int uNo);
 
+	int getSearchListCount(Support s);
+
+	ArrayList<Support> selectApplySearchList(PageInfo pi, Support s);
+
+	int insertSupporter(SupportHistory sh);
+
 
 
 
