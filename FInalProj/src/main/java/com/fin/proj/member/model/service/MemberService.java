@@ -1,5 +1,7 @@
 package com.fin.proj.member.model.service;
 
+import java.util.HashMap;
+
 import com.fin.proj.member.model.vo.Member;
 
 public interface MemberService {
@@ -17,5 +19,7 @@ public interface MemberService {
 	int deleteUser(String uId);
 
 	int checkNickNameModify(Member m);
+
+	int updatePwd(HashMap<String, String> map);
 
 }

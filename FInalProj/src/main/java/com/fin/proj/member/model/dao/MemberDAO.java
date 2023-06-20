@@ -1,5 +1,7 @@
 package com.fin.proj.member.model.dao;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.fin.proj.member.model.vo.Member;
@@ -20,5 +22,7 @@ public interface MemberDAO {
 	int deleteUser(String uId);
 
 	int checkNickNameModify(Member m);
+
+	int updatePwd(HashMap<String, String> map);
 
 }
