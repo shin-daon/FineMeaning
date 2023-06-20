@@ -1,5 +1,0 @@
-package com.fin.proj.common.service;
-
-public class S3Service {
-
-}

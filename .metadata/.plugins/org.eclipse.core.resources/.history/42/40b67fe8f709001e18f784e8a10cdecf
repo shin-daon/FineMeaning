@@ -1,5 +1,0 @@
-package com.fin.proj.board.model.exception;
-
-public class BoardException {
-
-}

@@ -17,7 +17,11 @@
 		<item value="org.eclipse.jgit:6.5.0.202303070854-r"/>
 		<item value="org.eclipse.jst.common.fproj.enablement.jdt:3.29.0.v202301170743"/>
 		<item value="org.eclipse.jst.enterprise_ui.feature:3.29.0.v202302070745"/>
+<<<<<<< HEAD
 		<item value="org.eclipse.justj.openjdk.hotspot.jre.full:17.0.6.v20230204-1729"/>
+=======
+		<item value="org.eclipse.justj.openjdk.hotspot.jre.full:17.0.7.v20230425-1502"/>
+>>>>>>> bf5ed90f4fcd3ffc4ff3afc0746b60349c93ac80
 		<item value="org.eclipse.m2e.feature:2.2.1.20230307-1553"/>
 		<item value="org.eclipse.m2e.logback.feature:2.1.1.20230106-1511"/>
 		<item value="org.eclipse.m2e.wtp.feature:1.6.0.20230118-0812"/>
@@ -44,10 +48,37 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+<<<<<<< HEAD
 			<item value="D:\finalProj"/>
+=======
+			<item value="C:\Users\jeene\OneDrive\바탕 화면\SEEWOL\finalProject\FInalProj"/>
+>>>>>>> bf5ed90f4fcd3ffc4ff3afc0746b60349c93ac80
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
 			<item value=""/>
 		</list>
 	</section>
+<<<<<<< HEAD
+=======
+	<section name="CleanDialogSettings">
+		<item key="TOGGLE_SELECTED" value="false"/>
+		<item key="DIALOG_WIDTH" value="666"/>
+		<item key="DIALOG_HEIGHT" value="482"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
+	<section name="org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog">
+		<item key="ShowStatusLine" value="true"/>
+		<item key="History" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0D;&#x0A;&lt;History&gt;&#x0D;&#x0A;&lt;historyRootNode&gt;&#x0D;&#x0A;&lt;infoNode path=&quot;/FInalProj/src/main/resources/application.properties&quot; type=&quot;1&quot;/&gt;&#x0D;&#x0A;&lt;/historyRootNode&gt;&#x0D;&#x0A;&lt;/History&gt;"/>
+		<item key="ShowDerived" value="false"/>
+		<item key="FilterByLocation" value="false"/>
+		<item key="WorkingSet" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0D;&#x0A;&lt;workingSet workingSetName=&quot;&quot;/&gt;"/>
+		<section name="DialogBoundsSettings">
+			<item key="DIALOG_HEIGHT" value="500"/>
+			<item key="DIALOG_WIDTH" value="600"/>
+			<item key="DIALOG_X_ORIGIN" value="349"/>
+			<item key="DIALOG_Y_ORIGIN" value="435"/>
+			<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+		</section>
+	</section>
+>>>>>>> bf5ed90f4fcd3ffc4ff3afc0746b60349c93ac80
 </section>
