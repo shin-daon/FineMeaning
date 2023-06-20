@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,15 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.fin.proj.common.model.exception.ImageException;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
-
-    private final AmazonS3 amazonS3 = null;
+    
+    @Autowired
+    private AmazonS3 amazonS3;
+//    private final AmazonS3 amazonS3;
 
     public String uploadFile(MultipartFile multipartFile) {
         String fileName = createFileName(multipartFile.getOriginalFilename());

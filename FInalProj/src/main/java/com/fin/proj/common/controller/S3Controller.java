@@ -20,11 +20,13 @@ import com.fin.proj.common.model.vo.Image;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @RequestMapping("/s3")
 public class S3Controller {
 	
-    private final S3Service S3Service = new S3Service();
+	@Autowired
+    private S3Service S3Service;
+//	private final S3Service S3Service;
     
     @Autowired
     ImageService iService;
