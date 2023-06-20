@@ -1,0 +1,6 @@
+package com.fin.proj.common.service;
+
+
+public class FileService {
+
+}
