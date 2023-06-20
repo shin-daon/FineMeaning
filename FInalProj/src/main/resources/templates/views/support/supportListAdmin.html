@@ -32,8 +32,34 @@
 
 			
 
-
-
+			<div>
+			<span class="dropdown" id="area-dropdown">
+                <button type="button" class="dropdown-btn" id="areabtn">선택</button>
+                <input type="hidden" id="area" name="supportCategory" value="none" required/>
+                <div class="dropdown-content" id="area-content">
+                    <span class="selectArea">사람</span>
+                    <span class="selectArea">동물</span>
+                    <span class="selectArea">환경</span>
+                    <span class="selectArea">기타</span>
+                </div>
+            </span>
+            </div>
+            
+            <script>
+            	document.getElementById('areabtn').addEventListener('click', ()=>{
+            		document.getElementById('area-content').style.display="block";
+            	})
+            	
+            	const categorys = document.getElementsByClassName('selectArea')
+            	for(const category of categorys){
+            		category.addEventListener('click',function(){
+            			const cate = this.innerText;
+            			location.href="categoryListAdmin.su?category="+cate;
+            		})
+            	}
+            </script>
+            
+              
 			<div class="actionArea">
             <div class="searchArea">
                 <input class="searchInput" type="text" name="searchWord" placeholder="제목으로 검색"/>

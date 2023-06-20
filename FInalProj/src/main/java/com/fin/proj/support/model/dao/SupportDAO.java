@@ -71,5 +71,9 @@ public interface SupportDAO {
 
 	ArrayList<Support> selectSearchEndList(RowBounds rowBounds, String searchWord);
 
+	int getCategoryCount(String category);
+
+	ArrayList<Support> selectCategoryListAdmin(RowBounds rowBounds, String category);
+
 
 }
