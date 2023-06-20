@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/faq_form_style.css">
+<!-- include libraries(jQuery, bootstrap) -->
+   <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+   <!-- include summernote css/js -->
+   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<title>글 작성</title>
+<style type="text/css">
+.btnArea {
+    width: 750px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: right;
+}
+</style>
+</head>
+<body>
+<div th:replace="~{../common/header :: header}"></div>
+<section id="faq_write_section">
+<div>
+    <div id="faq_write_title">TALK</div>
+</div>
+
+<div id="faq_write_title2">공지사항 작성  </div>
+
+<div style="width: 60%; margin: auto;">
+	<form method="post" action="/write">
+		<input type="text" name="title" style="width: 60%;" placeholder="제목">
+		<br><br> 
+		<textarea id="summernote" name="content"></textarea><br>
+		<div class="btnArea">
+	         <button class="writeFaqBtn learn-more">등록하기</button>
+	         <button type="button" class="backBtn learn-more-back" onclick = "location.href='noticeList.bo'">취소</button>
+	    </div>
+	</form>
+</div>
+</section>
+<div th:replace="~{../common/footer :: footer}"></div>
+</body>
+
+<script>
+$('#summernote').summernote({
+    placeholder: '내용을 입력해주세요🍀',
+    tabsize: 2,
+    width: 900,
+    height: 350,
+    toolbar: [
+      ['style', ['style']],
+      ['font', ['bold', 'underline', 'clear']],
+      ['color', ['color']],
+      ['para', ['paragraph']],
+      ['table', ['table']],
+      ['insert', ['link', 'picture', 'video']],
+      ['view', ['help']]
+    ]
+});
+</script>
+</html>

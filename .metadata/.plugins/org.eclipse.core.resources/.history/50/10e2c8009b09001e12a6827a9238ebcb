@@ -1,0 +1,11 @@
+package com.fin.proj.board.exception;
+
+public class BoardException {
+	
+	public BoardException() {}
+	
+	public BoardException(String msg) {
+		super(msg);
+	}
+
+}

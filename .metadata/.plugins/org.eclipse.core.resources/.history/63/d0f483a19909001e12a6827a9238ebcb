@@ -1,0 +1,14 @@
+package com.fin.proj.board.model.vo;
+
+import java.sql.Date;
+
+public class Reply {
+	
+	private int reNo;
+	private int reWriter;
+	private int boardNo;
+	private String reContent;
+	private Date reCreateDate;
+	private char reStatus;
+
+}

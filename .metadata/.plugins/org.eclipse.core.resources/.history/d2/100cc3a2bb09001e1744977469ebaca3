@@ -1,0 +1,14 @@
+package com.fin.proj.board.model.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.fin.proj.board.model.dao.BoardDAO;
+
+public interface BoardService {
+	
+	@Autowired
+	private BoardDAO bDAO;
+	int getListCount(int i);
+
+}

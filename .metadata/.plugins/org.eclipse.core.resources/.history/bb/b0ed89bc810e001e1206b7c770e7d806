@@ -1,0 +1,62 @@
+package com.fin.proj.common.controller;
+
+import org.apache.http.entity.FileEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fin.proj.common.model.vo.Image;
+import com.fin.proj.common.service.ImageService;
+import com.fin.proj.common.service.S3Service;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/s3")
+public class S3Controller {
+	
+    private final S3Service S3Service;
+    @Autowired
+    ImageService fileService;
+    
+    @PostMapping("/file.im")
+    public ResponseEntity<FileEntity> uploadFile(@RequestPart MultipartFile multipartFile) {
+        System.out.println("file 요청");
+        try {
+            String imageName = S3Service.uploadFile(multipartFile);
+            String imageUrl = S3Service.getUrl(imageName);
+            Image image = new Image(imageName, imageUrl);
+            Image newImage = fileService.insertImage(image); // save : insert 하는 메소드
+            return ResponseEntity.ok().body(newfile);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+    @DeleteMapping("/file/{fileIdx}")
+    public ResponseEntity<String> deleteFile(@PathVariable("fileIdx") int fileIdx) {
+        try {
+            FileEntity file = fileService.findByFileId(fileIdx);
+            S3Service.deleteFile(file.getFilename());
+            return ResponseEntity.ok().body("삭제 처리가 완료되었습니다.");
+        } catch(Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+    @GetMapping("/file")
+    public ResponseEntity<String> getFile(@RequestParam String fileName) {
+
+        String url = S3Service.getUrl(fileName).toString();
+
+        return ResponseEntity.ok().body(url);
+    }
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fin.proj.board.model.dao.BoardDAO">
+	<resultMap type="Board" id="boardResultSet">
+		<id column="BOARD_NO" property="boardNo"/>
+		<result column="U_NO" property="uNo"/>
+		<result column="U_ID" property="uId"/>
+		<result column="U_NICKNAME" property="nickName"/>
+		<result column="BOARD_TYPE" property="boardType"/>
+		<result column="BOARD_TITLE" property="boardTitle"/>
+		<result column="BOARD_CONTENT" property="boardContent"/>
+		<result column="BOARD_DATE" property="boardDate"/>
+		<result column="BOARD_STATUS" property="boardStatus"/>
+		<result column="BOARD_COUNT" property="boardCount"/>
+		<result column="NEWS_URL" property="newsURL"/>
+		<result column="FP_NAME" property="fpName"/>
+		<result column="BOARD_CATE" property="boardCate"/>
+	</resultMap>
+	
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from board
+		where board_status='Y' and board_type=#{i}
+	</select>
+	
+	<select id="selectBoardList" resultMap="boardResultSet">
+		select *
+		from board
+			join users using(u_no)
+		where board_status='Y' and board_type=#{i}
+	</select>
+	
+	<update id="countUp">
+		update board
+		set board_count = board_count + 1
+		where board_no = #{bNo}
+	</update>
+	
+	<select id="selectBoard" resultMap="boardResultSet">
+		select *
+		from board
+		where board_no = #{bNo}
+	</select>
+	
+	<select id="selectReply" resultMap="replyResultSet">
+	</select>
+	
+<!-- 	RE_NO -->
+<!-- RE_WRITER -->
+<!-- BOARD_NO -->
+<!-- RE_CONTENT -->
+<!-- RE_CREATE_DATE -->
+<!-- RE_STATUS -->
+	<resultMap type="Reply" id="replyResultSet">
+		<id column="RE_NO" property="replyNo"/>
+		<result column="RE_WRITER" property="uNo"/>
+		
+	</resultMap>
+</mapper>

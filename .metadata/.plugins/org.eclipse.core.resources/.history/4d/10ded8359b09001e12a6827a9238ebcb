@@ -1,0 +1,23 @@
+package com.fin.proj.board.model.service;
+
+import java.util.ArrayList;
+
+import org.springframework.stereotype.Service;
+
+import com.fin.proj.board.model.vo.Board;
+import com.fin.proj.common.model.vo.PageInfo;
+
+@Service
+public class BoardServiceImpl implements BoardService {
+
+	@Override
+	public int getListCount(int i) {
+		return 0;
+	}
+
+	@Override
+	public ArrayList<Board> selectBoardList(PageInfo pi, int i) {
+		return null;
+	}
+
+}

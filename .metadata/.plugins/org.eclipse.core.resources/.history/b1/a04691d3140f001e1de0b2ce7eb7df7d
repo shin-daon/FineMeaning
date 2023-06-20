@@ -1,0 +1,24 @@
+#타임리프 설정
+spring.thymeleaf.cache=false
+spring.thymeleaf.prefix=classpath:templates/
+spring.thymeleaf.suffix=.html
+
+#oracle 연결
+spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+spring.datasource.url=jdbc:oracle:thin:@115.90.212.20:9999:orcl
+spring.datasource.username=FINEMEANING
+spring.datasource.password=FINEMEANING
+
+#mybatis
+mybatis.mapper-locations=classpath:mappers/**.xml
+mybatis.type-aliases-package=com.fin.proj.*.model.vo
+
+#이메일
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=finemeaning.kh@gmail.com
+spring.mail.password=whypacwghpqetdgh
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.starttls.required=true
+spring.mail.properties.mail.smtp.auth=true
+
