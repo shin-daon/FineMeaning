@@ -43,7 +43,7 @@
                 <img class="seeMore" src="image/seeMore.png">
                 <input type="hidden" name="category" value="none">
                 <div class="dropdown-content">
-                    <span class="selectCate" onclick="location.href='faq_edit.bo'">수정</span>	<!-- onclick -->
+                    <span class="selectCate" th:onclick="|location.href='faqEdit.bo?bNo=${board.boardNo}&page=${page}'|">수정</span>	<!-- onclick -->
                     <span class="selectCate">삭제</span>
                 </div>
             </div>

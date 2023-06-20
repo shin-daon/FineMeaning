@@ -57,7 +57,7 @@
 	
 	<update id="updateBoard">
 		update board
-		set board_title = #{boardTitle}, board_content=#{boardContent}, board_type=#{boardType}
+		set board_title = #{boardTitle}, board_content=#{boardContent}
 		where board_No= #{boardNo}
 	</update>
 	

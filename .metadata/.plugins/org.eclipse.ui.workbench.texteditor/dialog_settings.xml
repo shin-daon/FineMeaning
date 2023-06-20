@@ -15,6 +15,7 @@
 		<item key="isRegEx" value="false"/>
 		<item key="selection" value="deleteReply"/>
 		<list key="findhistory">
+			<item value="insert"/>
 			<item value="deleteReply"/>
 			<item value="fruit_detail"/>
 			<item value="boardCate"/>
@@ -23,7 +24,6 @@
 			<item value="insertFine"/>
 			<item value="imageUrl"/>
 			<item value="insertGroupPic"/>
-			<item value="insert"/>
 			<item value="faq"/>
 			<item value="page"/>
 			<item value="disabled"/>

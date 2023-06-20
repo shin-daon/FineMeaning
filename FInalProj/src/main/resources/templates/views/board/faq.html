@@ -26,9 +26,11 @@
         </div>
 
         <div class="actionArea">
-            <div class="writeArea">
-                <button class="writeFaqBtn learn-more" onclick="location.href='faq_form.bo'">글쓰기</button>
-            </div>
+        	<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0 }">
+	            <div class="writeArea">
+	                <button class="writeFaqBtn learn-more" onclick="location.href='faq_form.bo'">글쓰기</button>
+	            </div>
+            </th:block>
             <div class="searchArea">
                 <input class="searchInput" type="text" placeholder="검색"/>
                 <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>

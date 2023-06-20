@@ -119,9 +119,28 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("faq_edit.bo")
-	public String faqEdit() {
+	@GetMapping("faqEdit.bo")
+	public String faqEdit(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
+						  Model model) {
+		Board b = bService.selectBoard(bNo, false);
+		model.addAttribute("board", b);
+		model.addAttribute("page", page);
 		return "faq_edit";
+	}
+	
+	@PostMapping("updateFaq.bo")
+	public String updateFaq(@ModelAttribute Board b, @RequestParam("page") int page, HttpSession session, RedirectAttributes ra) {
+		
+		int result = bService.updateBoard(b);
+		
+		if(result > 0) {
+			ra.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuNickName());
+			ra.addAttribute("bNo", b.getBoardNo());
+			ra.addAttribute("page", page);
+			return "redirect:faq_detail.bo";
+		} else {
+			throw new BoardException("글 수정 실패");
+		}
 	}
 	
 	@GetMapping("finePeopleMain.bo")

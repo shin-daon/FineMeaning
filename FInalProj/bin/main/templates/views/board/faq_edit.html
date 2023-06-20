@@ -64,15 +64,17 @@
         <div id="faq_write_title2">게시글 수정🌳</div>
 		
 		<div id="formDiv">
-	        <form method="post" action="writeBoard.bo">
+	        <form method="post" action="updateFaq.bo">
+	            <input type="hidden" name="boardNo" th:value="${ board.boardNo }">
+	            <input type="hidden" name="page" th:value="${ page }">
 	            <div id="writeForm">
-	                <input type="text" id="title" name="title" placeholder="제목을 입력하세요." required>
-	                <textarea id="summernote" name="content" required></textarea>
+	                <input type="text" id="title" name="boardTitle" th:value="${ board.boardTitle }" required>
+	                <textarea id="summernote" name="boardContent" required>[[${board.boardContent}]]</textarea>
 	            </div>
 	            <div class="btnArea">
-	                <button class="writeFaqBtn learn-more">글쓰기</button>
+	                <button type="submit" class="writeFaqBtn learn-more">수정하기</button>
 	                <button type="button" class="backBtn learn-more-back">취소</button>
-	            </div>    
+	            </div>
 	        </form>
         </div>
         
@@ -86,7 +88,7 @@
 		<span class="modal-comment">확인 선택 시 작성한 글 내용은</span><br>
 		<span class="modal-comment">절대 복구되지 않습니다.</span><br><br>
 		<button id="rollback-btn">취소</button>
-		<button id="withdrawal-btn">확인</button>
+		<button id="withdrawal-btn" onclick="javascript:history.back();">확인</button>
 	</div>
 	
 	<script>
@@ -103,10 +105,10 @@
 			    modal.style.display = 'block';
 			});
 			
-			yesBtn.addEventListener('click', () => {
-			    modal.style.display = 'none';
-			    location.href="faqMain.bo";
-			});
+// 			yesBtn.addEventListener('click', () => {
+// 			    modal.style.display = 'none';
+// 			    location.href="faqMain.bo";
+// 			});
 			
 			noBtn.addEventListener('click', () => {
 			    modal.style.display = 'none';
