@@ -68,5 +68,15 @@ public class MemberServiceImpl implements MemberService {
 	public Member searchUser(Member m) {
 		return mDAO.searchUser(m);
 	}
+	
+	@Override
+	public int searchEmailUser2(HashMap<String, String> map) {
+		return mDAO.searchEmailUser2(map);
+	}
+	
+	@Override
+	public Member searchUserPwd(Member m) {
+		return mDAO.searchUserPwd(m);
+	}
 
 }
