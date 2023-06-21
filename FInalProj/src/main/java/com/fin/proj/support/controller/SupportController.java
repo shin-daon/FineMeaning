@@ -116,10 +116,21 @@ public class SupportController {
 	}
 
 	@RequestMapping("supportApplicationListUser.su")
-	public String supportApplicationListUser(HttpSession session, Model model) {
+	public String supportApplicationListUser(HttpSession session, Model model,@RequestParam(value = "page", required = false) Integer currentPage) {
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
-		ArrayList<Support> sList = suService.selectApplyListUser(uNo);
+
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = suService.getApplyListUser(uNo);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Support> sList = suService.selectApplyListUser(pi,uNo);
 		model.addAttribute("sList", sList);
+		model.addAttribute("pi", pi);
+		
 		return "supportApplicationListUser";
 	}
 

@@ -96,13 +96,12 @@ body {
                 </div>
 
                 <div class="totalDonation">
-                    	[[${s.fundAmount}]]원
-<!--                    <script th:inline="javascript">-->
-<!--			        /*<![CDATA[*/ -->
-<!--                     	var amount = /*[[${s.fundAmount}]]*/'0'; // 숫자 변수 -->
-<!-- 				        var formattedAmount = amount.toLocaleString(); // 원하는 형식으로 포맷 -->
-<!-- 				        document.write(formattedAmount + '원'); // 포맷된 값을 출력 -->
-<!-- 				        /*]]*/ -->
+                   <script th:inline="javascript">
+			        /*<![CDATA[*/
+                     	var amount = /*[[${s.fundAmount}]]*/'0'; 
+ 				        var formattedAmount = amount.toLocaleString(); 
+ 				        document.write(formattedAmount + '원');
+ 				        /*]]*/ 
 				    </script>
                 </div>
 
@@ -164,9 +163,22 @@ body {
     				},
     				success: data=>{
     					console.log(data);
-//     					const fundAmount = data.fundAmount;
-//     					const targetAmount = data.targetAmount;
-    					document.getElementsByClassName('totalDonation')[0].innerHTML = data.fundAmount + '원';
+    					
+    					formatComma = function(str) {
+    					    str += '';
+    					    x = str.split('.');
+    					    x1 = x[0];
+    					    x2 = x.length > 1 ? '.' + x[1] : '';
+    					    var rgx = /(\d+)(\d{3})/;
+
+    					    while (rgx.test(x1)) {
+    					        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    					    }
+
+    					    return ((x1 + x2) + "");
+    					};
+    					
+    					document.getElementsByClassName('totalDonation')[0].innerHTML = formatComma(data.fundAmount) + '원';
     					document.getElementById('supportProgress').value = data.fundAmount*100/data.targetAmount;
     					document.getElementById('progressPercent').innerText = Math.round(data.fundAmount*100/data.targetAmount) + '%';
     				},

@@ -100,17 +100,33 @@
 			</div>
         </div>
 		
-        <div class="page">
+       <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
-                <li><a href="#" class="first"><img class="arrowKey" src="image/before.png"></a></li>
-                <li><a href="#" class="num">1</a></li>
-                <li><a href="#" class="num">2</a></li>
-                <li><a href="#" class="num">3</a></li>
-                <li><a href="#" class="num">4</a></li>
-                <li><a href="#" class="num">5</a></li>
-                <li><a href="#" class="last"><img class="arrowKey" src="image/next.png"></a></li>
+                <li th:if="${ pi.currentPage > 1 }">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage > 1 }">
+	                	<img class="arrowKey disabled" src="image/before.png">
+                </li>
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0}">
+                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                <li th:if="${ pi.currentPage < pi.maxPage} ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage < pi.maxPage }">
+	                	<img class="arrowKey disabled" src="image/next.png">
+                </li>
             </ul>
         </div>
+        
     </section>
 		
 </section>
