@@ -133,7 +133,7 @@ public class SupportController {
 		if (result > 0) {
 			return "redirect:supportApplicationListUser.su";
 		} else {
-			throw new SupportException("신청에 실패하였습니다.");
+			throw new SupportException("신청에  실패하였습니다.");
 		}
 	}
 
