@@ -58,6 +58,9 @@
 	<update id="updateBoard">
 		update board
 		set board_title = #{boardTitle}, board_content=#{boardContent}
+		<if test="boardCate != 0">
+		, board_cate=#{boardCate}
+		</if>
 		where board_No= #{boardNo}
 	</update>
 	

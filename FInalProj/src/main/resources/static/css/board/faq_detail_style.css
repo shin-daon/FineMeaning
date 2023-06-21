@@ -93,11 +93,11 @@
     font-size: 13px;
 }
 
-.dropdown-content span:nth-child(1) {
+.dropdown-content span:nth-child(2) {
     border-radius: 8px 8px 0 0;
 }
 
-.dropdown-content span:nth-child(2) {
+.dropdown-content span:last-child {
     border-radius: 0 0 8px 8px;
 }
 

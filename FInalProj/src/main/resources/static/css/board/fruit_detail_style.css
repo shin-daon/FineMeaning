@@ -93,11 +93,11 @@
     font-size: 13px;
 }
 
-.dropdown-content span:nth-child(1) {
+.dropdown-content span:first-child {
     border-radius: 8px 8px 0 0;
 }
 
-.dropdown-content span:nth-child(2) {
+.dropdown-content span:last-child {
     border-radius: 0 0 8px 8px;
 }
 
@@ -131,6 +131,12 @@
     margin: 20px;
     position: relative;
     z-index: 1;
+}
+
+.boardCategory {
+	float: right;
+	font-size: 12px;
+	margin-top: -7px;
 }
 
 .boardDate {

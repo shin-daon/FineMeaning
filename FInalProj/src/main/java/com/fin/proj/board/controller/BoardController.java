@@ -120,9 +120,18 @@ public class BoardController {
 	}
 	
 	@GetMapping("faqEdit.bo")
-	public String faqEdit(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
+	public String faqEdit(@RequestParam("bNo") String bNo, @RequestParam("page") int page,
 						  Model model) {
-		Board b = bService.selectBoard(bNo, false);
+		
+//		System.out.println(bNo);
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		Board b = bService.selectBoard(boardNo, false);
+		
 		model.addAttribute("board", b);
 		model.addAttribute("page", page);
 		return "faq_edit";
@@ -248,7 +257,7 @@ public class BoardController {
 	@PostMapping("insert_fruit.bo")
 	public String insertFruit(@ModelAttribute Board b, HttpSession session) {
 		
-		System.out.println(b);
+//		System.out.println(b);
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		b.setuNo(uNo);
 		b.setBoardType("결실");
@@ -262,9 +271,42 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("fruit_edit.bo")
-	public String fruitEdit() {
+	@GetMapping("fruitEdit.bo")
+	public String fruitEdit(@RequestParam("bNo") String bNo, @RequestParam("page") int page,
+							Model model) {
+		
+//		System.out.println(bNo);
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		Board b = bService.selectBoard(boardNo, false);
+		
+		model.addAttribute("board", b);
+		model.addAttribute("page", page);
+		
 		return "fruit_edit"; 
+	}
+	
+	@PostMapping("updateFruit.bo")
+	public String updateFruit(@ModelAttribute Board b, @RequestParam("page") int page,
+								HttpSession session, RedirectAttributes ra) {
+
+//		System.out.println(b);
+		
+		int result = bService.updateBoard(b);
+		
+		if(result > 0) {
+			ra.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuNickName());
+			ra.addAttribute("bNo", b.getBoardNo());
+			ra.addAttribute("page", page);
+			
+			return "redirect:fruit_detail.bo";
+		} else {
+			throw new BoardException("게시글 수정 실패");
+		}
 	}
 	
 	@GetMapping("fineNewsMain.bo")

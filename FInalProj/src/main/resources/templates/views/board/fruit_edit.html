@@ -65,25 +65,27 @@
 		
 		<div id="formDiv">
 	        <form method="post" action="updateFruit.bo">
+	        	<input type="hidden" name="boardNo" th:value="${ board.boardNo }">
+	            <input type="hidden" name="page" th:value="${ page }">
 	            <div id="writeForm">
                     <div class="titleArea">
                         <div class="dropdown">
                             <button type="button" id="dropbtn"> 
-                                🕊️카테고리
+                                [[${board.boardCate == 1 ? "후원" : "봉사"}]]
                             </button>
-                            <input type="hidden" name="category" value="none">
+                            <input type="hidden" name="boardCate" th:value="${ board.boardCate }"/>
                             <div class="dropdown-content">
                                 <span class="selectCate">후원</span>
                                 <span class="selectCate">봉사</span>
                             </div>
                         </div>
-                        <input type="text" id="title" name="title" placeholder="제목을 입력하세요.">
+                        <input type="text" id="title" name="boardTitle" th:value="${ board.boardTitle }" required>
                     </div>
-	                <textarea id="summernote" name="content"></textarea>
+	                <textarea id="summernote" name="boardContent" required>[[${board.boardContent}]]</textarea>
 	            </div>
 	            <div class="btnArea">
-	                <button type="button" class="writeFaqBtn learn-more" onclick="goWrite(this.form)">글쓰기</button>
-	                <button type="button" class="backBtn learn-more-back" onclick="goWrite(this.form)">취소</button>
+	                <button type="submit" class="writeFaqBtn learn-more">수정하기</button>
+	                <button type="button" class="backBtn learn-more-back">취소</button>
 	            </div>    
 	        </form>
         </div>
@@ -105,16 +107,56 @@
 			for(const selectCate of selectCates){
 				selectCate.addEventListener('click', function(){
 					document.getElementById('dropbtn').innerText = this.innerHTML;
-					document.getElementsByName('category')[0].value= this.innerHTML;
-					console.log(document.getElementsByClassName('dropdown-content')[0])
+// 					document.getElementsByName('category')[0].value= this.innerHTML;
+// 					console.log(document.getElementsByClassName('dropdown-content')[0])
 					document.getElementsByClassName('dropdown-content')[0].style.display='none';
 				});
 			}
 			
 			document.getElementById('dropbtn').addEventListener('click', ()=>{
-				document.getElementsByClassName('dropdown-content')[0].style.display='block';	
+				document.getElementsByClassName('dropdown-content')[0].style.display='block';
 			});
 			
+			// dropbtn 이나 dropdownContent 외의 다른 영역 클릭 시 none
+			document.addEventListener('click', (event) => {
+                const target = event.target;
+                const dropdownContent = document.getElementsByClassName('dropdown-content')[0];
+                const dropbtn = document.getElementById('dropbtn');
+                if (target !== dropdownContent && target !== dropbtn) {
+                    dropdownContent.style.display = 'none';
+                }
+            });
+			
+			// span selectCate를 선택하면 name boardCate value에 해당 값이 들어가게 하기.
+			const categories = document.querySelectorAll('.selectCate');
+			for(const category of categories){
+				category.addEventListener('click', function(){
+					const cate = this.innerText;
+					
+					const boardCate = document.getElementsByName('boardCate')[0];
+					
+					if(cate == '후원'){
+						boardCate.value = 1;
+					} else {
+						boardCate.value = 2;
+					}
+// 					console.log(boardCate.value);
+				});
+			}
+			
+			/* <![CDATA[ */
+			// 카테고리 연관된 input="hidden"에 값이 없을 경우 submit 막기
+// 			const submitBtn = document.querySelector('.writeFaqBtn');
+// 			submitBtn.addEventListener('click', function(){
+// 				const boardCate = document.getElementsByName('boardCate')[0];
+// 				if(boardCate.value === "none"){
+// 					event.preventDefault(); // 폼 제출 막기
+// 					alert('글 수정 시 카테고리 재선택은 필수입니다.');
+// 				}
+// 			});
+			/* ]]> */
+			
+			// 모달
 			const backBtn = document.getElementsByClassName('backBtn')[0];
 			const yesBtn = document.getElementById('withdrawal-btn');
 			const noBtn = document.getElementById('rollback-btn');
@@ -135,7 +177,6 @@
 			});
 			
 			// 썸머노트
-			
 			$('#summernote').summernote({
 		        placeholder: '내용을 입력해주세요🍀',
 		        tabsize: 2,
