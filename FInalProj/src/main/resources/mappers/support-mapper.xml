@@ -180,4 +180,8 @@
 		</if>
 		order by s_his_no desc
 	</select>
+	
+	<select id="getDday" resultType="_int">
+		select ceil(S_END_DATE - sysdate) from support where s_no = #{supportNo}
+	</select>
 </mapper>

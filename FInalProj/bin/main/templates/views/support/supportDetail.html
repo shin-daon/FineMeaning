@@ -62,12 +62,12 @@ body {
 
                 <div>
                     <div class="supportTitle">[[${s.supportTitle}]]</div>
-                    <div class="supportSubTitle">모금함 소개</div>
 					 <div>
                     	<img th:src="@{${s.imageUrl}}">
                     </div>
+                    <div class="supportSubTitle">모금함 소개</div>
 
-				<div id="summernote"></div>
+				<div id="summernote" style="margin-right:25px;"></div>
                 </div>
             </section>
         </div>
@@ -80,12 +80,18 @@ body {
                     <progress id="supportProgress" th:value="${(s.fundAmount*100/s.targetAmount)}" min="0" max="100"></progress>
                 </div>
 
-                <div class="supportDuration" th:text="${s.startDate} + '~' + ${s.endDate}">
-<!--                     2023.06.12 ~ 2023.07.13 -->
+                <div class="supportDuration">
+		            [[${#dates.format(s.startDate, 'yyyy.MM.dd')}]] ~ [[${#dates.format(s.endDate, 'yyyy.MM.dd')}]]
                 </div>
 
-                <div class="supportDeadline">
-                    D-5
+                <div class="supportDeadline" th:if="${dDay>0}">
+                    D-[[${dDay}]]
+                </div>
+                <div class="supportDeadline" th:if="${dDay==0}">
+                    D-day
+                </div>
+                <div class="supportDeadline" th:if="${dDay<0}">
+                    D+[[${-dDay}]]
                 </div>
 
                 <div class="totalDonation">
@@ -98,15 +104,18 @@ body {
 				    </script>
                 </div>
 
-                <div class="donationButton">
+                <div class="donationButton" th:if="${dDay >= 0}">
                     <button class="learn-more supportButton" th:onclick="|location.href='doSupport.su?supportNo=${s.supportNo}'|">모금함 기부하기</button>
+                </div>
+                <div class="donationButton" th:if="${dDay < 0}" style="font-size:30px; color:grey;">
+					모금이 종료되었습니다.
                 </div>
 
                 <div class="supportSubTitle2">
                 	모금 단체<br><span>[[${s.registar}]]</span>
                 </div>
                 <div class="supportSubTitle2 groupInfo">
-                	<b>선뜻 가입일</b> &nbsp;&nbsp; <span>[[${s.enrollDate}]]</span><br>
+                	<b>선뜻 가입일</b> &nbsp;&nbsp; <span>[[${#dates.format(s.enrollDate, 'yyyy.MM.dd')}]]</span><br>
                 	<b>문의 전화</b>&nbsp;&nbsp; <span>0[[${s.phone}]]</span>
                 </div>
                 
@@ -143,6 +152,28 @@ body {
 <script th:inline="javascript">
     	/*<![CDATA[*/
 	    document.getElementById('summernote').innerHTML = /*[[${s.supportContent}]]*/5;
+    	
+    	window.onload=()=>{
+    		let timer = setTimeout(function tick () {
+    			$.ajax({
+                	url: 'reloadDetail.su',
+    				data: {
+    						supportNo :/*[[${s.supportNo }]]*/'0'    						
+    				},
+    				success: data=>{
+    					console.log(date);
+    				},
+    				error: data=>{
+    					console.log(data);
+    				}
+                })
+    			
+    			
+    			
+    		    
+    		    let timer = setTimeout(tick, 5000)
+    		}, 5000)
+    	}
     	/*]]>*/
 </script>
 </body>

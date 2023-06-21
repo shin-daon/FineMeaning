@@ -76,5 +76,7 @@ public interface SupportDAO {
 
 	ArrayList<SupportHistory> cateMySupportList(RowBounds rowBounds, SupportHistory sh);
 
+	int getDday(int supportNo);
+
 
 }

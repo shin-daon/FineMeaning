@@ -1,5 +1,6 @@
 package com.fin.proj.support.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,11 @@ import com.fin.proj.support.model.exception.SupportException;
 import com.fin.proj.support.model.service.SupportService;
 import com.fin.proj.support.model.vo.Support;
 import com.fin.proj.support.model.vo.SupportHistory;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
-import jakarta.mail.Multipart;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -48,14 +52,17 @@ public class SupportController {
 
 	@RequestMapping("supportDetail.su")
 	public String supportDetail(HttpSession session, @RequestParam("supportNo") int supportNo, Model model) {
+		
 		Support s = suService.supportDetail(supportNo);
-
+		int dDay = suService.getDday(supportNo);
+		
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
 		int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
 		
+		
 		System.out.println(s);
 		model.addAttribute("s", s);
-
+		model.addAttribute("dDay", dDay);
 		if (s.getStatus() == 'Y') {
 			return "supportDetail";
 		} else {
@@ -524,5 +531,18 @@ public class SupportController {
 			return "supportListUser";
 		}
 
+	}
+	
+	@RequestMapping("reloadDetail")
+	@ResponseBody
+	public void relodaDetail(@RequestParam("supportNo") int supportNo, HttpServletResponse response) {
+		Support s = suService.supportDetail(supportNo);
+		
+//		response.setContentType("application/json; charset=UTF-8");
+//		GsonBuilder gson = new GsonBuilder();
+//		try {
+//		} catch (JsonIOException | IOException e) {
+//			e.printStackTrace();
+//		} 
 	}
 }

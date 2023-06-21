@@ -137,8 +137,10 @@
 	                	<img class="arrowKey disabled" src="image/before.png">
                 </li>
                 <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0}">
                 	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
                 		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
                 </li>
                 <li th:if="${ pi.currentPage < pi.maxPage} ">
 	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
