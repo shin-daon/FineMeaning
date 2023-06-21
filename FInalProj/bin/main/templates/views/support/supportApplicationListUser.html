@@ -50,7 +50,7 @@
                 <tr>
                     <th>No</th>
                     <th>카테고리</th>                    
-                    <th style="width: 250px;">후원 프로젝트 제목</th>
+                    <th style="width: 350px;">후원 프로젝트 제목</th>
                     <th>희망 모금액</th>
                     <th>신청 날짜</th>
                     <th>승인 상태</th>
@@ -60,8 +60,16 @@
 	                <tr th:each="s : ${sList}" th:if="${ sList != null }">
 	                    <td th:text="${s.supportNo}"></td>
 	                    <td th:text="${s.supportCategory}"></td>
-	                    <td th:text="${s.supportTitle}"></td>
-	                    <td th:text="${s.targetAmount}"></td>
+	                    <td>[[${s.supportTitle}]]</td>
+	                    <td>
+	                    	<script th:inline="javascript">
+						        /*<![CDATA[*/
+		                    	var amount = /*[[${s.targetAmount}]]*/'0'; // 숫자 변수
+						        var formattedAmount = amount.toLocaleString(); // 원하는 형식으로 포맷
+						        document.write(formattedAmount + '원'); // 포맷된 값을 출력
+						        /*]]*/
+				    		</script>
+	                    </td>
 	                    <td th:text="${s.createDate}"></td>
 	                    <td>
 		                    <th:block th:switch="${s.status}">

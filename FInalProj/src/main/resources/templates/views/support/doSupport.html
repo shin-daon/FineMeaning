@@ -65,11 +65,11 @@
             IMP.request_pay({
             	pg: "kcp", // pg사
                 merchant_uid: "IMP"+makeMerchantUid, 
-                name : '당근 10kg',
+                name : /*[[${s.supportTitle }]]*/'uName',
                 amount : document.getElementsByClassName('supportPrice')[0].value,
-                buyer_email : 'Iamport@chai.finance',
-                buyer_name : '아임포트 기술지원팀',
-                buyer_tel : '010-1234-5678',
+                buyer_email : /*[[${session.loginUser.uName }]]*/'email',
+                buyer_name : /*[[${session.loginUser.uName }]]*/'uName',
+                buyer_tel : /*[[${session.loginUser.phone }]]*/'phone',
             }, function (rsp) { // callback
                 if (rsp.success) {
                 	$.ajax({
@@ -98,41 +98,41 @@
             });
         }
         
-        function requestNaverPay() {
-            IMP.request_pay({
-            	pg: "paycopay", // pg사
-                merchant_uid: "IMP"+makeMerchantUid, 
-                name : '당근 10kg',
-                amount : document.getElementsByClassName('supportPrice')[0].value,
-                buyer_email : 'Iamport@chai.finance',
-                buyer_name : '아임포트 기술지원팀',
-                buyer_tel : '010-1234-5678',
-            }, function (rsp) { // callback
-                if (rsp.success) {
-                	$.ajax({
-                    	url: 'insertSupporter.su',
-        				data: {
-        						userNo:/*[[${session.loginUser.uNo}]]*/'loginUser', 
-        						supportNo:/*[[${ s.supportNo }]]*/'supportNo',
-        						supporterName:/*[[${session.loginUser.uName }]]*/'uName',
-        						supporterType:document.getElementsByClassName('doSupporterName')[0].innerText,
-        						supportAmount:document.getElementsByClassName('supportPrice')[0].value,
-        						payType:'카카오페이'
-        				},
-        				success: data=>{
-        					if(data == 'yes'){
-        						location.href="doSupportEnd.su";
-        					}					
-        				},
-        				error: data=>{
-        					console.log(data);
-        				}
-                    })
-                } else {
-	                alert('결제 실패');
-                }
-            });
-        }
+//         function requestNaverPay() {
+//             IMP.request_pay({
+//             	pg: "paycopay", // pg사
+//                 merchant_uid: "IMP"+makeMerchantUid, 
+//                 name : /*[[${s.supportTitle }]]*/'uName',
+//                 amount : document.getElementsByClassName('supportPrice')[0].value,
+//                 buyer_email : /*[[${session.loginUser.uName }]]*/'email',
+//                 buyer_name : /*[[${session.loginUser.uName }]]*/'uName',
+//                 buyer_tel : /*[[${session.loginUser.phone }]]*/'phone',
+//             }, function (rsp) { // callback
+//                 if (rsp.success) {
+//                 	$.ajax({
+//                     	url: 'insertSupporter.su',
+//         				data: {
+//         						userNo:/*[[${session.loginUser.uNo}]]*/'loginUser', 
+//         						supportNo:/*[[${ s.supportNo }]]*/'supportNo',
+//         						supporterName:/*[[${session.loginUser.uName }]]*/'uName',
+//         						supporterType:document.getElementsByClassName('doSupporterName')[0].innerText,
+//         						supportAmount:document.getElementsByClassName('supportPrice')[0].value,
+//         						payType:'카카오페이'
+//         				},
+//         				success: data=>{
+//         					if(data == 'yes'){
+//         						location.href="doSupportEnd.su";
+//         					}					
+//         				},
+//         				error: data=>{
+//         					console.log(data);
+//         				}
+//                     })
+//                 } else {
+// 	                alert('결제 실패');
+//                 }
+//             });
+//         }
         
     	/*]]>*/
     </script>
@@ -296,7 +296,7 @@
                 </div>
 
                 <div>
-                    <p><input type="checkbox" required> 약관에 동의합니다.</p>
+                    <p><input type="checkbox" id="agreement" required> 약관에 동의합니다.</p>
                 </div>
             </form>
         </div>
@@ -333,7 +333,7 @@
                     <div class="supportContent insert" style="font-size:15px;">
                        	<input type="radio" class="payRadio" name="wayToPay" value="카카오페이" checked>카카오페이
                        	<input type="radio" class="payRadio" name="wayToPay" value="신용카드">신용카드
-                       	<input type="radio" class="payRadio" name="wayToPay" value="네이버">네이버페이
+<!--                        	<input type="radio" class="payRadio" name="wayToPay" value="네이버">네이버페이 -->
                     </div>    
                 </div>
 
@@ -418,14 +418,20 @@
     
     <script>
     	document.getElementById('doSupportEnd').addEventListener('click', ()=>{
-    		const payRadios = document.getElementsByClassName('payRadio')
-    		if(payRadios[0].checked){
-    			requestkakaoPay();
-    		} else if(payRadios[1].checked){
-    			requestPay();
-    		} else if(payRadio[2].checked){
-    			requestNaverPay();
+    		if(document.getElementById('agreement').checked){
+    			const payRadios = document.getElementsByClassName('payRadio');
+    			if(payRadios[0].checked){
+    				requestkakaoPay();
+    			} else if(payRadios[1].checked){
+    				requestPay();
+    			}
+    		} else{
+    			alert('약관에 동의해주세요');
+    			document.getElementById('agreement').checked="true";
+    			document.getElementById('agreement').parentElement.style.fontWeight="bold";
+    			document.getElementById('agreement').parentElement.style.textDecoration="#9DC08B wavy underline";
     		}
+    	
     	})
     </script>
 </body>
