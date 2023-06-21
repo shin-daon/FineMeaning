@@ -40,6 +40,7 @@ public class BoardController {
 	@GetMapping("faqMain.bo")
 	public String faqMain(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
 		
+		// 키워드 매개변수로 받아서 전체적인 흐름은 fruitMain.bo와 비슷한 맥락으로 진행!
 		if(currentPage == null) {
 			currentPage = 1;
 		}

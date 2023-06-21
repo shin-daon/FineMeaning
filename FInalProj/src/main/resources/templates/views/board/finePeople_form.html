@@ -69,7 +69,8 @@
                                     </svg><br><br>
                                     모임 대표 이미지 첨부<br>[필수 사항]
                                 </span>
-                                <img id="preview">						
+                                <img id="preview">	<!-- th:src인가 몬가 넣어서 디비에 있는 이미지 url 값을 넣어두기 아래 줄 참고...... -->
+<!--                                 <img th:src="@{${b.imageUrl}}" class="img-fluid rounded-start" alt="...">				 -->
                                 <input type="file" accept="image/*" class="form-control form-control-lg" name="file" id="groupReprePic" onchange="setThumbnail(event);">
                             </div>
                             <input type="hidden" name="imageUrl" id="imageUrl">

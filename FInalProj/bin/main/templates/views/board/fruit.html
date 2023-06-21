@@ -151,7 +151,7 @@
 			search.addEventListener('click', function(){
 				const input = document.querySelector('.searchInput').value;
 				if(input.trim().length === 0){
-					event.preventDefault();
+					event.preventDefault();		// ★ 카테고리 선택 안 했을 때 안 넘어가게 하기
 					input.focus();
 				}
 				const category = document.getElementsByName('category')[0].value;
