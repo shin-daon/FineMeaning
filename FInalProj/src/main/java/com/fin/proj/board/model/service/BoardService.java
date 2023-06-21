@@ -28,4 +28,5 @@ public interface BoardService {
 
 	int deleteReply(int replyNo);
 
+	int deleteReplyAll(int boardNo);
 }

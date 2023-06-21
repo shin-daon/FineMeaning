@@ -9,14 +9,15 @@
 	.backgroundImage::after {
 	    width: 100%;
 	    height: 100%;
-	    background-color: #EDF1D6;
+/* 	    background-color: #EDF1D6; */
+		background-image: url("image/sight5.jpg");
 	    border-radius: 15px;
 	    content: "";
 	    position: absolute;
 	    top: 0;
 	    left: 0;
 	    z-index: -1;
-	    opacity: 0.4;
+	    opacity: 0.3;
 	}
 	
 	#meaningless {
@@ -45,7 +46,9 @@
                 <div class="fruit_write_title" th:text="${board.boardTitle}"></div>
             </div>    
             <div class="dropdown">
-                <img class="seeMore" src="image/seeMore.png">
+            	<th:block th:if="${ session.loginUser != null && session.loginUser.uNo == board.uNo }">
+                	<img class="seeMore" src="image/seeMore.png">
+                </th:block>
                 <input type="hidden" name="category" value="none">
                 <script>
                 	function fruitEdit(bNo, page){

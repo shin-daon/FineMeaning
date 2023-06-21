@@ -103,4 +103,10 @@
 		set re_status = 'N'
 		where re_no = #{replyNo}
 	</update>
+	
+	<update id="deleteReplyAll">
+		update reply
+		set re_status = 'N'
+		where board_no = #{boardNo}
+	</update>
 </mapper>

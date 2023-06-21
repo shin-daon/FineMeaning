@@ -292,6 +292,10 @@
 	text-decoration: #9DC08B wavy underline;
 }
 
+.aTags:hover {
+	cursor: pointer;
+}
+
 /* 버튼 */
 .btnArea {
     width: 750px;

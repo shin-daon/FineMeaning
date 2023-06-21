@@ -80,4 +80,9 @@ public class BoardServiceImpl implements BoardService {
 		return bDAO.deleteReply(replyNo);
 	}
 
+	@Override
+	public int deleteReplyAll(int boardNo) {
+		return bDAO.deleteReplyAll(boardNo);
+	}
+
 }

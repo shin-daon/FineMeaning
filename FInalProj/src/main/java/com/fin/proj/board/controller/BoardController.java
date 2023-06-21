@@ -152,6 +152,24 @@ public class BoardController {
 		}
 	}
 	
+	@GetMapping("deleteFaq.bo")
+	public String deleteFaq(@RequestParam("bNo") String bNo) {
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		int boardResult = bService.deleteBoard(boardNo);
+//		int replyResult = bService.deleteReplyAll(boardNo);
+//		&& replyResult > 0
+		if(boardResult > 0) {
+			return "redirect:faqMain.bo";
+		} else {
+			throw new BoardException("게시글 삭제 실패");
+		}
+	}
+	
 	@GetMapping("finePeopleMain.bo")
 	public String finePeopleMain(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
 		
