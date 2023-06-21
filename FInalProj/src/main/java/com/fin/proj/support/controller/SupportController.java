@@ -18,13 +18,10 @@ import com.fin.proj.member.model.vo.Member;
 import com.fin.proj.support.model.exception.SupportException;
 import com.fin.proj.support.model.service.SupportService;
 import com.fin.proj.support.model.vo.Support;
-import com.fin.proj.support.model.vo.SupportDetail;
 import com.fin.proj.support.model.vo.SupportHistory;
 
 import jakarta.mail.Multipart;
 import jakarta.servlet.http.HttpSession;
-
-//import com.fin.proj.support.model.service.SupportService;
 
 @Controller
 public class SupportController {
@@ -38,26 +35,26 @@ public class SupportController {
 		return "supportMain";
 	}
 
-	@RequestMapping("supportDetail.su")
-	public String supportDetail(HttpSession session, @RequestParam("supportNo") int supportNo, Model model) {
-		Support s = suService.supportDetail(supportNo);
-
-		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
-		int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
-
-		model.addAttribute("s", s);
-
-		if (s.getStatus() == 'Y') {
-			return "supportDetail";
-		} else {
-			if (uNo == s.getUserNo() || isAdmin == 0) {
-				return "supportApplyDetail";
-			} else {
-				throw new SupportException("잘못된 접근입니다.");
-			}
-		}
-
-	}
+//	@RequestMapping("supportDetail.su")
+//	public String supportDetail(HttpSession session, @RequestParam("supportNo") int supportNo, Model model) {
+//		Support s = suService.supportDetail(supportNo);
+//
+//		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
+//		int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
+//
+//		model.addAttribute("s", s);
+//
+//		if (s.getStatus() == 'Y') {
+//			return "supportDetail";
+//		} else {
+//			if (uNo == s.getUserNo() || isAdmin == 0) {
+//				return "supportApplyDetail";
+//			} else {
+//				throw new SupportException("잘못된 접근입니다.");
+//			}
+//		}
+//
+//	}
 
 	@RequestMapping("doSupport.su")
 	public String doSupport(@RequestParam("supportNo") int supportNo, Model model) {
@@ -109,13 +106,15 @@ public class SupportController {
 	}
 
 	@RequestMapping("supportApply.su")
-	public String supportApply(HttpSession session, @ModelAttribute Support s, @RequestParam("file") Multipart file) {
+	public String supportApply(HttpSession session, @ModelAttribute Support s) {
 
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
 		String registar = ((Member) session.getAttribute("loginUser")).getRegistrar();
 		s.setUserNo(uNo);
 		s.setRegistar(registar);
-
+		
+		System.out.println(s);
+		
 		int result = suService.supportApply(s);
 
 		if (result > 0) {
@@ -188,10 +187,8 @@ public class SupportController {
 	@RequestMapping("supportDetailAdmin.su")
 	public String supportDetailAdmin(@RequestParam("supportNo") int supportNo, Model model) {
 		Support s = suService.supportDetail(supportNo);
-		ArrayList<SupportDetail> sdList = suService.supportUsageDetail(supportNo);
 
 		model.addAttribute("s", s);
-		model.addAttribute("sdList", sdList);
 		if (s.getStatus() != 'Y') {
 			return "supportApplyDetailAdmin";
 		} else {

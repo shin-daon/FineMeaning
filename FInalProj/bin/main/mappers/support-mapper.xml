@@ -3,7 +3,7 @@
 <mapper namespace="com.fin.proj.support.model.dao.SupportDAO">
 	
 	<insert id="supportApply">
-		insert into support values(SEQ_SUID.NEXTVAL, #{userNo}, #{supportCategory}, #{supportTitle}, #{supportContent}, sysdate, #{startDate}, #{endDate}, #{targetAmount}, 0, default, default)
+		insert into support values(SEQ_SUID.NEXTVAL, #{userNo}, #{supportCategory}, #{supportTitle}, #{supportContent}, sysdate, #{startDate}, #{endDate}, #{targetAmount}, 0, default, default, #{imageUrl})
 	</insert>
 	
 	<insert id="insertSupportDetail">
@@ -32,22 +32,12 @@
 		<result column="REGISTRAR" property="registar" />
 		<result column="U_ID" property="userId" />
 		<result column="ENROLL_DATE" property="enrollDate" />
+		<result column="IMAGE_URL" property="imageUrl" />
 	</resultMap>
 	
-	
-	<resultMap type="SupportDetail" id="supportDetailResultSet">
-		<id column="S_DETAIL_NO" property="supportDetailNo" />		
-		<result column="S_DETAIL_CONTENT" property="supportDetailContent" />
-		<result column="S_DETAIL_AMOUNT" property="supportDetailAmount" />
-		<result column="S_NO" property="supportNo" />
-	</resultMap>
 	
 	<select id="supportDetail" resultMap="supportResultSet">
 		select * from support join users using(u_no) where s_no = #{supportNo}
-	</select>
-	
-	<select id="supportUsageDetail" resultMap="supportDetailResultSet">
-		select * from supportdetail where s_no = #{supportNo}
 	</select>
 	
 	<select id="getListCount" resultType="_int">

@@ -65,10 +65,18 @@
 	            <table class="v-table">
 	                <tr>
 	                	<td colspan="2" rowspan="5" width="30%" class="supportPicTd">
-	                		<div style="display:none" class="supportPicDiv">
-		                		<input type="file" name="file" id="supportPicInput">
-		                	</div>
-		                		사진 첨부
+	                		<div id="groupPic">
+                                <span id="insertGroupPic">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                          <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"/>
+                                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                                    </svg><br><br>
+                                    후원 대표 이미지 첨부<br>[필수 사항]
+                                </span>
+                                <img id="preview">						
+                                <input type="file" accept="image/*" class="form-control form-control-lg" name="file" id="groupReprePic" onchange="setThumbnail(event);">
+                            </div>
+                            <input type="hidden" name="imageUrl" id="imageUrl">
 	                	</td>
 	                    <td>카테고리</td>
 	                    <td>
@@ -130,6 +138,8 @@
 
 
 
+
+<div th:replace="~{../common/footer :: footer}"></div>
 </div>
 
 
@@ -161,6 +171,47 @@
 </div>
 
 <script>
+
+const imgDiv = document.getElementById('groupPic');
+
+
+// 파일 첨부
+
+imgDiv.addEventListener('click', ()=>{
+    console.log(123);
+    document.getElementById('groupReprePic').click(); // input이 실행되고
+})
+
+function setThumbnail(event){
+	
+	let formData = new FormData();
+	formData.append("multipartFile", event.target.files[0]);
+	
+	let imageUrl = document.getElementById('imageUrl');
+	
+	$.ajax({
+		type: "POST",
+		url: '/s3/file.im',
+		data: formData,
+		async: false,
+		enctype: "multipart/form-data",
+		processData: false,
+		contentType: false,
+		success: data => {
+			console.log("파일 업로드 성공");
+			document.getElementById('insertGroupPic').style.display='none';
+			const img = document.getElementById("preview");
+			img.src = data;
+            img.setAttribute("style", "width:220px; height:220px; background-color:white; margin:auto; border-radius:2em; border:3px solid #609966");
+            imageUrl.setAttribute('value', data);
+		},
+		error: error => {
+			console.log(error);
+		}
+		
+	});
+}
+
 $(function(){
 	  $("#confirm").click(function(){
 	      document.getElementById('supportApply').submit();
@@ -212,53 +263,27 @@ window.onload = () => {
 	   		})
    		}
    	}
-   	
-   	document.querySelector('.supportPicTd').addEventListener('click', ()=>{
-   		document.querySelector('#supportPicInput').click();
-   	})
-    
-	document.querySelector("#vCountAll").parentElement.addEventListener("click", () => {
-		document.querySelector("#vCountAll").focus();
-	});
 	
 	const startDate = document.querySelector("#startDate");
 	const endDate = document.querySelector("#endDate");
-	const rStartDate = document.querySelector("#rStartDate");
-	const rEndDate = document.querySelector("#rEndDate");
-	const startTime = document.querySelector("#startTime");
-	const endTime = document.querySelector("#endTime");
 	
 	const now = new Date();
 	const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
 	
 	startDate.setAttribute("min", today);
 	endDate.setAttribute("min", today);
-	rStartDate.setAttribute("min", today);
-	rEndDate.setAttribute("min", today);
 	
 	startDate.addEventListener("change", function() {
 		endDate.setAttribute("min", this.value);
-		rStartDate.setAttribute("max", this.value);
-		rEndDate.setAttribute("max", this.value);
 	});
 	
 	endDate.addEventListener("change", function() {
-		rEndDate.setAttribute("max", this.value);
 	});
 	
-	rStartDate.addEventListener("change", function() {
-		rEndDate.setAttribute("min", this.value);
-		startDate.setAttribute("min", this.value);
-		endDate.setAttribute("min", this.value);
-	});
 	
     const selectAreas = document.getElementsByClassName("selectArea");
-    const selectOnOffLines = document.getElementsByClassName("selectOnOffLine");
-    const selectObjects = document.getElementsByClassName("selectObject");
     const selectMainCategories = document.getElementsByClassName("selectMainCategory");
     let checkMain = false;
-
-    document.getElementById("subCategory-dropdown").style.display = "none";
 
     document.getElementById("areabtn").addEventListener("click", () => {
         document.getElementById("area-content").style.display = "block";
@@ -272,29 +297,8 @@ window.onload = () => {
         });
     }
 
-    document.getElementById("on-offLineBtn").addEventListener("click", () => {
-        document.getElementById("onoffLine-content").style.display = "block";
-    });
 
-    for(const selectOnOffLine of selectOnOffLines) {
-        selectOnOffLine.addEventListener("click", function() {
-            document.getElementById("on-offLineBtn").innerText = this.innerText;
-            document.getElementById("onoffLine").value = this.innerText;
-            document.getElementById("onoffLine-content").style.display = "none";
-        });
-    }
 
-    document.getElementById("objectBtn").addEventListener("click", () => {
-        document.getElementById("object-content").style.display = "block";
-    });
-
-    for(const selectObject of selectObjects) {
-        selectObject.addEventListener("click", function() {
-            document.getElementById("objectBtn").innerText = this.innerText;
-            document.getElementById("object").value = this.getAttribute("data-value");
-            document.getElementById("object-content").style.display = "none";
-        });
-    }
 
 	
     
@@ -302,17 +306,5 @@ window.onload = () => {
 
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-<div th:replace="~{../common/footer :: footer}"></div>
 </body>
 </html>
