@@ -63,7 +63,7 @@
                         <td colspan="2" rowspan="2">
                             <div id="groupPic">
                                 <span id="insertGroupPic">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                    <svg xmlns="http://www.w3.org/1900/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
                                           <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"/>
                                         <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
                                     </svg><br><br>
@@ -82,8 +82,8 @@
                     <tr>
                         <td colspan="2">
 							<div class="finePeopleContentContainer">
-								<span style="color:#aaa;" id="counter">「 0 / 155 」</span>
-                            	<textarea class="finePeopleContent" name="boardContent" placeholder="내용을 입력하세요. (155자 입력 가능)" required></textarea>
+								<span style="color:#aaa;" id="counter">「 0 / 190 」</span>
+                            	<textarea class="finePeopleContent" name="boardContent" placeholder="내용을 입력하세요. (190자 입력 가능)" required></textarea>
 							</div>
                         </td>
                     </tr>
@@ -185,13 +185,13 @@
 
 		document.querySelector('.finePeopleContent').addEventListener('keyup', function(e) {
     		var content = this.value;
-    		document.querySelector('#counter').innerHTML = "「 " + content.length + " / 155 」";    //글자수 실시간 카운팅
+    		document.querySelector('#counter').innerHTML = "「 " + content.length + " / 190 」";    //글자수 실시간 카운팅
 
-    		if (content.length >= 155) {
-				this.value = content.substring(0, 155);
-        		document.querySelector('#counter').innerHTML = "「 155 / 155 」";
+    		if (content.length >= 190) {
+				this.value = content.substring(0, 190);
+        		document.querySelector('#counter').innerHTML = "「 190 / 190 」";
 				document.querySelector('#counter').style.backgroundColor = 'rgb(64, 81, 59)';
-    		} else if(content.length < 155){
+    		} else if(content.length < 190){
 				document.querySelector('#counter').style.backgroundColor = 'rgb(235, 243, 237)';
 			}
 		});
