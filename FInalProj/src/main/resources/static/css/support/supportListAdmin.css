@@ -290,3 +290,49 @@ button {
     height: 40px;
     background-color: #EDF1D6;
 }
+
+.page {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: row;
+}
+
+.pagination > li {
+    list-style-type: none;
+    float: left;
+}
+
+.pagination > li > .num {
+    margin: 10px;
+    width: 20px;
+    height: 20px;
+    text-decoration-line: none;
+    color: black;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center
+}
+
+.pagination > li > .num:hover {
+    color: white;
+    background-color: #40513B;
+    border-radius: 100%;
+}
+
+.currentPage{
+	color: white;
+    background-color: #9bc08d;
+    border-radius: 100%;
+}
+
+.arrowKey {
+    margin-top: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
+    block-size: 14px;
+    display: block;
+}
+
+.disabled {
+	opacity: 0.3;
+}
