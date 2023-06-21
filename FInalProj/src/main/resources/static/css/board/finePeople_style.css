@@ -64,7 +64,8 @@
     margin-top: 10px;
     max-width: 750px;
     height: 250px;
-    border-radius: 8px;
+    border-radius: 10px;
+    background-color: #f2f5eb;
 }
 
 .card:hover {

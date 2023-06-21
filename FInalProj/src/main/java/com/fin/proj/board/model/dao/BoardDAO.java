@@ -1,8 +1,10 @@
 package com.fin.proj.board.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import com.fin.proj.board.model.vo.Board;
@@ -32,5 +34,15 @@ public interface BoardDAO {
 	int insertFruit(Board b);
 
 	int deleteReply(int replyNo);
+
+	int deleteReplyAll(int boardNo);
+
+	int replyCount(int boardNo);
+
+	ArrayList<Board> searchByTitle(String keyword, String i);
 	
+	ArrayList<Board> searchByTitleAndCategory(HashMap<String, Object> params, RowBounds rowbounds);
+
+	int searchFruitListCount(HashMap<String, Object> params);
+
 }

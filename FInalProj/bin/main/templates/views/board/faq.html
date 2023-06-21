@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>자주 묻는 질문</title>
-<link rel="stylesheet" href="css/faq_style.css">
+<link rel="stylesheet" href="css/board/faq_style.css">
 <style>
 </style>
 </head>
@@ -97,7 +97,7 @@
 			const tds = tbody.querySelectorAll('td');
 			
 			for(const td of tds){	// for of 배열 안 요소, for in 배열 안 인덱스(객체는 키)
-				console.log(td);
+// 				console.log(td);
 				td.addEventListener('click', function(){
 					// 부모 요소로 올라가 자식 중 0번째(글번호), 2번째(작성자) 가져오기
 					console.log(this.parentElement); // <tr>...</tr> 반환
@@ -111,6 +111,10 @@
 					/* ]]> */
 				});
 			}
+			
+			// 검색 기능
+			// 키워드만 넘어가게 하기 (링크에 담아서)
+			
     	}
     </script>
 </body>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>작성 글</title>
-    <link rel="stylesheet" href="css/myBoard_style.css">
+    <link rel="stylesheet" href="css/board/myBoard_style.css">
     <style>
     	.flex-container {
         	display: flex;
@@ -182,7 +182,8 @@
 			document.getElementById('dropbtn').addEventListener('click', ()=>{
 				document.getElementsByClassName('dropdown-content')[0].style.display='block';	
 			});
-
+			
+			// dropbtn 이나 dropdownContent 외의 다른 영역 클릭 시 none
             document.addEventListener('click', (event) => {
                 const target = event.target;
                 const dropdownContent = document.getElementsByClassName('dropdown-content')[0];

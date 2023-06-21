@@ -58,6 +58,9 @@
 	<update id="updateBoard">
 		update board
 		set board_title = #{boardTitle}, board_content=#{boardContent}
+		<if test="boardCate != 0">
+		, board_cate=#{boardCate}
+		</if>
 		where board_No= #{boardNo}
 	</update>
 	
@@ -66,6 +69,42 @@
 		set board_status = 'N'
 		where board_no = #{bId}
 	</update>
+	
+<!-- 	<select id="searchByTitle" resultMap="boardResultSet"> -->
+<!-- 		select * -->
+<!-- 		from board -->
+<!-- 		where board_ -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="searchFruitListCount" parameterType="map" resultType="_int"> -->
+<!-- 		select count(*) -->
+<!-- 		from board -->
+<!-- 		where board_title like '%' || #{keyword} || '%' and board_type = #{i} -->
+<!-- 		<if test="category != null and category != 0"> -->
+<!-- 			and board_cate = #{category} -->
+<!-- 		</if>  -->
+<!-- 	</select> -->
+	
+	<select id="searchFruitListCount" resultType="_int">
+	  SELECT COUNT(*)
+	  FROM board
+	  WHERE board_title like '%' || #{keyword} || '%'
+<!-- 	   and board_type = #{i} -->
+	  <if test="category != null and category != 0">
+	    and board_cate = #{category}
+	  </if> 
+	  and board_type = #{i} and board_status='Y'
+	</select>
+	
+	<select id="searchByTitleAndCategory" parameterType="map" resultMap="boardResultSet">
+		select *
+		from board
+		WHERE board_title like '%' || #{keyword} || '%'
+		<if test="category != null and category != 0">
+	    and board_cate = #{category}
+		</if> 
+		and board_type = #{i} and board_status='Y'
+	</select>
 	
 	<select id="selectReply" resultMap="replyResultSet">
 		select RE_NO, RE_WRITER, U_NICKNAME, BOARD_NO,
@@ -99,6 +138,18 @@
 		update reply
 		set re_status = 'N'
 		where re_no = #{replyNo}
+	</update>
+	
+	<select id="replyCount" resultType="_int">
+		select count(*)
+		from reply
+		where board_no = #{boardNo}
+	</select>
+	
+	<update id="deleteReplyAll">
+		update reply
+		set re_status = 'N'
+		where board_no = #{boardNo}
 	</update>
 	
 	<update id="deleteCommReply">

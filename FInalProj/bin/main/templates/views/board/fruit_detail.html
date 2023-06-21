@@ -3,20 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <title>결실</title>
-<link rel="stylesheet" href="css/fruit_detail_style.css">
+<link rel="stylesheet" href="css/board/fruit_detail_style.css">
 <script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
 <style>
 	.backgroundImage::after {
 	    width: 100%;
 	    height: 100%;
-	    background-color: #EDF1D6;
+/* 	    background-color: #EDF1D6; */
+		background-image: url("image/sight5.jpg");
 	    border-radius: 15px;
 	    content: "";
 	    position: absolute;
 	    top: 0;
 	    left: 0;
 	    z-index: -1;
-	    opacity: 0.4;
+	    opacity: 0.3;
 	}
 	
 	#meaningless {
@@ -45,19 +46,29 @@
                 <div class="fruit_write_title" th:text="${board.boardTitle}"></div>
             </div>    
             <div class="dropdown">
-                <img class="seeMore" src="image/seeMore.png">
+            	<th:block th:if="${ session.loginUser != null && session.loginUser.uNo == board.uNo }">
+                	<img class="seeMore" src="image/seeMore.png">
+                </th:block>
                 <input type="hidden" name="category" value="none">
+                <script>
+                	function fruitEdit(bNo, page){
+                		console.log(bNo);
+ 						console.log(page);
+ 						location.href = 'fruitEdit.bo?bNo=' + btoa(bNo) + '&page=' + page;
+                	}
+               	</script>
                 <div class="dropdown-content">
-                    <span class="selectCate" onclick="location.href='fruit_edit.bo'">수정</span>
+                    <span class="selectCate" th:onclick="fruitEdit([[${board.boardNo}]], [[${page}]])">수정</span>
                     <span class="selectCate">삭제</span>
                 </div>
             </div>
         </div>
-        
+       
         <div class="detailArea">
             <hr class="hr">
             <div class="contentArea backgroundImage">
-            	<p class="boardDate">[[${ board.boardDate }]]</p>
+            	<p class="boardDate" th:text="${ board.boardDate }"></p>
+            	<p class="boardCategory" th:text="|${ board.boardCate == 1 ? '후원' : (board.boardCate == 2 ? '봉사' : '-')}&nbsp;·&nbsp;|"></p>
                 <div class="contentMain"></div>
             </div>
             <hr class="hr">
@@ -179,7 +190,7 @@
 									deleteLink.classList.add('aTags');
 									const replyNo = r.replyNo;
 									const replyBoardNo = r.boardNo;
-									deleteLink.setAttribute('href', 'deleteReply.bo?rNo=' + replyNo + '&bNo=' + replyBoardNo + '&page=' + /*[[${ page }]]*/0);
+									deleteLink.setAttribute('href', 'deleteReply.bo?rNo=' + btoa(replyNo) + '&bNo=' + replyBoardNo + '&page=' + /*[[${ page }]]*/0);
 									deleteLink.innerText = '삭제';
 									replySet.appendChild(deleteLink);
 								}

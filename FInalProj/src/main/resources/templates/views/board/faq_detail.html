@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>자주 묻는 질문</title>
-<link rel="stylesheet" href="css/faq_detail_style.css">
+<link rel="stylesheet" href="css/board/faq_detail_style.css">
 <style>
 	.backgroundImage::after {
-	    background-image: url("image/sight3.jpg");
+	    background-image: url("image/sight5.jpg");
 	    width: 100%;
 	    height: 100%;
 	    border-radius: 15px;
@@ -15,7 +15,44 @@
 	    top: 0;
 	    left: 0;
 	    z-index: -1;
-	    opacity: 0.4;
+	    opacity: 0.3;
+	}
+	/* 모달 */
+	#modal { width: 300px; height: 350px; border: 1px solid #eee; padding: 30px; margin: auto; display: none;
+		border-radius: 20px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);  text-align: center; background-color: white;
+ 		position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;}
+	
+	.modal-comment {
+		font-size: 16px;
+	}
+	
+	#boardDelete-btn {
+		border-radius: 4px;
+		width: 90px;
+		height: 35px;
+		font-size: 15px;
+		color: #fff;
+		background-color: #609966;
+		border: 1.5px solid #609966;
+	}
+	
+	#rollback-btn {
+		border-radius: 4px;
+		width: 90px;
+		height: 35px;
+		font-size: 15px;
+		color: #609966;
+		background-color: #fff;
+		border: 1.5px solid #609966;
+	}
+	
+	.modal-comment2 {
+		font-weight: bold;
+		font-size: 17px;
+	}
+	
+	#trash {
+		block-size: 120px;
 	}
 </style>
 </head>
@@ -40,11 +77,27 @@
                 <div class="faq_write_title">[[${ board.boardTitle }]]</div>
             </div>    
             <div class="dropdown">
-                <img class="seeMore" src="image/seeMore.png">
+            	<th:block th:if="${ session.loginUser != null && session.loginUser.uNo == board.uNo }">
+                	<img class="seeMore" src="image/seeMore.png">
+                </th:block>
                 <input type="hidden" name="category" value="none">
                 <div class="dropdown-content">
-                    <span class="selectCate" th:onclick="|location.href='faqEdit.bo?bNo=${board.boardNo}&page=${page}'|">수정</span>	<!-- onclick -->
-                    <span class="selectCate">삭제</span>
+                	<script>
+	                	function faqEdit(bNo, page){
+// 	                		console.log(bNo);
+// 	 						console.log(page);
+	 						location.href = 'faqEdit.bo?bNo=' + btoa(bNo) + '&page=' + page;
+	                	}
+	                	
+// 	                	function deleteFaq(bNo){
+// 	                		console.log(bNo);
+// 	                		location.href= 'deleteFaq.bo?bNo=' + btoa(bNo);
+// 	                	}
+                	</script>
+                    <span class="selectCate" th:onclick="faqEdit([[${board.boardNo}]], [[${page}]])">수정</span>	<!-- onclick -->
+                    <span class="selectCate" id="deleteFaqBtn">삭제</span>
+<!--                     <span class="selectCate" th:onclick="|location.href='faqEdit.bo?bNo=${board.boardNo}&page=${page}'|">수정</span>	onclick -->
+<!--                     <span class="selectCate" id="deleteFaqBtn" th:onclick="deleteFaq([[${board.boardNo}]])">삭제</span> -->
                 </div>
             </div>
         </div>
@@ -64,10 +117,42 @@
             
 	</section>
 	<div th:replace="~{views/common/footer :: footer}"></div>
+	
+	<!-- 모달창 -->
+	<div id="modal"><br>
+		<img id="trash" src="image/trash.png"/><br><br>
+		<span class="modal-comment modal-comment2">글을 삭제하시겠어요?</span><br>
+		<span class="modal-comment">한 번 삭제된 글은</span><br>
+		<span class="modal-comment">다시 복구할 수 없습니다.</span><br><br>
+		<button id="rollback-btn">취소</button>
+		<button id="boardDelete-btn">삭제</button>
+	</div>
+	
 	<script th:inline="javascript">
 		/*<![CDATA[*/
-		   document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/5;
-		/*]]>*/	
+			
+		document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/5;
+		
+		// 삭제 모달
+		const deleteBtn = document.getElementById('deleteFaqBtn');
+		const modal = document.getElementById('modal');
+		const yesBtn = document.getElementById('boardDelete-btn');
+		const noBtn = document.getElementById('rollback-btn');
+		
+		deleteBtn.addEventListener('click', () => {
+		    modal.style.display = 'block';
+		});
+		
+		yesBtn.addEventListener('click', () => {
+		    modal.style.display = 'none';
+		    location.href = 'deleteFaq.bo?bNo=' + btoa(/*[[${board.boardNo}]]*/0);
+		});
+		
+		noBtn.addEventListener('click', () => {
+		    modal.style.display = 'none';
+		});
+		
+		/*]]>*/
 	</script>
 </body>
 </html>

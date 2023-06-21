@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>결실</title>
-<link rel="stylesheet" href="css/fruit_style.css">
+<link rel="stylesheet" href="css/board/fruit_style.css">
 </head>
 <body>
 	<div th:replace="~{../common/header :: header}"></div>
@@ -28,7 +28,7 @@
 	            </div>
             </th:block>
             <div class="searchArea">
-                <input class="searchInput" type="text" placeholder="검색"/>
+                <input class="searchInput" type="text" placeholder="검색(글 제목)"/>
                 <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
             </div>
             <div class="dropdown">
@@ -57,7 +57,7 @@
             <tbody>
                 <tr th:each="b : ${ list }">
                     <td th:text="${ b.boardNo }"></td>
-                    <td th:text="${ b.boardCate == 1 ? '후원' : (b.boardCate == 2 ? '봉사' : '없음')}"></td>
+                    <td th:text="${ b.boardCate == 1 ? '후원' : (b.boardCate == 2 ? '봉사' : '-')}"></td>
                     <td>
 						<div class="fruit_title_wrap">
 							<p class="fruit_title" th:text="${ b.boardTitle }"></p>
@@ -109,7 +109,7 @@
 				selectCate.addEventListener('click', function(){
 					document.getElementById('dropbtn').innerText = this.innerHTML;
 					document.getElementsByName('category')[0].value= this.innerHTML;
-					console.log(document.getElementsByClassName('dropdown-content')[0])
+// 					console.log(document.getElementsByClassName('dropdown-content')[0])
 					document.getElementsByClassName('dropdown-content')[0].style.display='none';
 				});
 			}
@@ -145,6 +145,27 @@
 					/* ]]> */
 				});
 			}
+			
+			// 검색 기능
+			const search = document.querySelector('.searchIconATag');
+			search.addEventListener('click', function(){
+				const input = document.querySelector('.searchInput').value;
+				if(input.trim().length === 0){
+					event.preventDefault();		// ★ 카테고리 선택 안 했을 때 안 넘어가게 하기
+					input.focus();
+				}
+				const category = document.getElementsByName('category')[0].value;
+				let cate;
+				let link = 'fruitMain.bo?keyword=' + input;
+				if(category == "후원"){
+					cate = 1;
+					link += '&category=' + cate;
+				} else if(category == "봉사"){
+					cate = 2;
+					link += '&category=' + cate;
+				}
+				location.href = link;
+			});
     	}
     </script>
 </body>

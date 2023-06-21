@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,6 +40,7 @@ public class BoardController {
 	@GetMapping("faqMain.bo")
 	public String faqMain(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
 		
+		// 키워드 매개변수로 받아서 전체적인 흐름은 fruitMain.bo와 비슷한 맥락으로 진행!
 		if(currentPage == null) {
 			currentPage = 1;
 		}
@@ -120,9 +123,18 @@ public class BoardController {
 	}
 	
 	@GetMapping("faqEdit.bo")
-	public String faqEdit(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
+	public String faqEdit(@RequestParam("bNo") String bNo, @RequestParam("page") int page,
 						  Model model) {
-		Board b = bService.selectBoard(bNo, false);
+		
+//		System.out.println(bNo);
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		Board b = bService.selectBoard(boardNo, false);
+		
 		model.addAttribute("board", b);
 		model.addAttribute("page", page);
 		return "faq_edit";
@@ -140,6 +152,24 @@ public class BoardController {
 			return "redirect:faq_detail.bo";
 		} else {
 			throw new BoardException("글 수정 실패");
+		}
+	}
+	
+	@GetMapping("deleteFaq.bo")
+	@Transactional
+	public String deleteFaq(@RequestParam("bNo") String bNo) {
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		int boardResult = bService.deleteBoard(boardNo);
+		
+		if(boardResult > 0) {
+			return "redirect:faqMain.bo";
+		} else {
+			throw new BoardException("게시글 삭제 실패");
 		}
 	}
 	
@@ -189,19 +219,37 @@ public class BoardController {
 	}
 	
 	@GetMapping("fruitMain.bo")
-	public String fruitMain(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+	public String fruitMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+							@RequestParam(value="category", required=false) Integer category, // '선택 없음' 시 null일 수 있음
+							@RequestParam(value="keyword", required=false) String keyword) {
+		
+		ArrayList<Board> list;
+		int listCount;
+		PageInfo pageInfo;
+		
+		HashMap<String, Object> params = new HashMap<>();
 		
 		if(currentPage == null) {
 			currentPage = 1;
 		}
 		
-		int listCount = bService.getListCount("결실");
-//		System.out.println(listCount);
-		
-		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
-		
-		ArrayList<Board> list = bService.selectBoardList(pageInfo, "결실");
-//		System.out.println(list);
+		if(keyword != null) {
+			params.put("keyword", keyword);
+			params.put("i", "결실");
+			if(category == null) { // '선택 없음'의 경우
+				params.put("category", 0);
+			} else {	 // '후원' 혹은 '봉사'의 경우
+				params.put("category", category);
+			}
+			listCount = bService.searchFruitListCount(params);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.searchByTitleAndCategory(pageInfo, params);
+		} else { // 페이지 로드 시 메인 페이지
+			listCount = bService.getListCount("결실");
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.selectBoardList(pageInfo, "결실");
+//			System.out.println(list);
+		}
 		
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
@@ -248,7 +296,7 @@ public class BoardController {
 	@PostMapping("insert_fruit.bo")
 	public String insertFruit(@ModelAttribute Board b, HttpSession session) {
 		
-		System.out.println(b);
+//		System.out.println(b);
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		b.setuNo(uNo);
 		b.setBoardType("결실");
@@ -262,9 +310,67 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("fruit_edit.bo")
-	public String fruitEdit() {
+	@GetMapping("fruitEdit.bo")
+	public String fruitEdit(@RequestParam("bNo") String bNo, @RequestParam("page") int page,
+							Model model) {
+		
+//		System.out.println(bNo);
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		Board b = bService.selectBoard(boardNo, false);
+		
+		model.addAttribute("board", b);
+		model.addAttribute("page", page);
+		
 		return "fruit_edit"; 
+	}
+	
+	@PostMapping("updateFruit.bo")
+	public String updateFruit(@ModelAttribute Board b, @RequestParam("page") int page,
+								HttpSession session, RedirectAttributes ra) {
+
+//		System.out.println(b);
+		
+		int result = bService.updateBoard(b);
+		
+		if(result > 0) {
+			ra.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuNickName());
+			ra.addAttribute("bNo", b.getBoardNo());
+			ra.addAttribute("page", page);
+			
+			return "redirect:fruit_detail.bo";
+		} else {
+			throw new BoardException("게시글 수정 실패");
+		}
+	}
+	
+	@GetMapping("deleteFruit.bo")
+	public String deleteFruit(@RequestParam("bNo") String bNo) {
+
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		int replyCount = bService.replyCount(boardNo);
+		
+		if(replyCount > 0) {
+			int replyResult = bService.deleteReplyAll(boardNo);
+			if(replyResult == 0) {
+				throw new BoardException("게시글 내 댓글 삭제 실패");
+			}
+		}
+		
+		int boardResult = bService.deleteBoard(boardNo);
+		if(boardResult > 0) {
+			return "redirect:fruitMain.bo";
+		} else {
+			throw new BoardException("게시글 삭제 실패");
+		}
 	}
 	
 	@GetMapping("fineNewsMain.bo")

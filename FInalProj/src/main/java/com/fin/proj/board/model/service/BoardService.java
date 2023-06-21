@@ -1,6 +1,7 @@
 package com.fin.proj.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.fin.proj.board.model.vo.Board;
 import com.fin.proj.board.model.vo.Reply;
@@ -28,4 +29,13 @@ public interface BoardService {
 
 	int deleteReply(int replyNo);
 
+	int deleteReplyAll(int boardNo);
+
+	int replyCount(int boardNo);
+
+	ArrayList<Board> searchByTitle(String keyword, String i);
+
+	ArrayList<Board> searchByTitleAndCategory(PageInfo pi, HashMap<String, Object> params);
+
+	int searchFruitListCount(HashMap<String, Object> params);
 }
