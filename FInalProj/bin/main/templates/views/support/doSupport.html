@@ -48,7 +48,9 @@
         				},
         				success: data=>{
         					if(data=='yes'){
-								location.href="doSupportEnd.su";
+        						const supportTitle = /*[[${s.supportTitle }]]*/'uName';
+        						const registar = /*[[${s.registar }]]*/'registar';
+								location.href="doSupportEnd.su?supportTitle=" + supportTitle + "&registar=" + registar;
 							}
         				},
         				error: data=>{

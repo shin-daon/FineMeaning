@@ -45,7 +45,7 @@
 	</select>
 	
 	<select id="selectSupportList" resultMap="supportResultSet">
-	  select * from support join users using(u_no) where s_status = 'Y' and sysdate &lt;= s_end_date
+	  select * from support join users using(u_no) where s_status = 'Y' and sysdate &lt;= s_end_date order by s_no desc
 	</select>
 
 	
