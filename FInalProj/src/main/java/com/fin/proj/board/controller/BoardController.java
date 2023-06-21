@@ -107,6 +107,8 @@ public class BoardController {
 		b.setuNo(uNo);
 		b.setBoardType("자주 묻는 질문");
 		b.setImageUrl(null);
+		b.setNewsURL(null);
+		b.setFpName(null);
 		
 		int result = bService.insertBoard(b);
 		
@@ -123,13 +125,48 @@ public class BoardController {
 	}
 	
 	@GetMapping("finePeopleMain.bo")
-	public String finePeopleMain() {
-		return "finePeople";
+	public String finePeopleMain(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = bService.getListCount("선뜻한 사람");
+//		System.out.println(listCount);
+		
+		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 5);
+		
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, "선뜻한 사람");
+//		System.out.println(list);
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			return "finePeople";
+		} else {
+			throw new BoardException("게시글 목록 조회 실패");
+		}
 	}
 	
 	@GetMapping("finePeople_form.bo")
 	public String finePeopleForm() {
 		return "finePeople_form";
+	}
+	
+	@PostMapping("insertFinePeople.bo")
+	public String insertFinePeople(@ModelAttribute Board b, HttpSession session) {
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		b.setuNo(uNo);
+		b.setBoardType("선뜻한 사람");
+		
+		int result = bService.insertBoard(b);
+		
+		if(result > 0) {
+			return "redirect:finePeopleMain.bo";
+		} else {
+			throw new BoardException("게시물 작성 실패");
+		}
 	}
 	
 	@GetMapping("fruitMain.bo")
@@ -161,7 +198,7 @@ public class BoardController {
 							  HttpSession session, Model model) {
 		
 		Member m = (Member)session.getAttribute("loginUser");
-		System.out.println(m);
+//		System.out.println(m);
 		
 		boolean countYN = false;
 		if(m == null || m.getIsAdmin() == 1) {
@@ -239,7 +276,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping("deleteReply.bo")
-	public String deleteReply(@RequestParam("rNo") int replyNo,
+	public String deleteReply(@RequestParam("rNo") String replyNo,
 							  @RequestParam("bNo") int boardNo,
 							  @RequestParam("page") int page,
 							  RedirectAttributes ra) {
@@ -247,7 +284,12 @@ public class BoardController {
 		System.out.println(replyNo);
 		System.out.println(boardNo);
 		
-		int result = bService.deleteReply(replyNo);
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(replyNo);
+		String decode = new String(byteArr);
+		int rNo = Integer.parseInt(decode);
+		
+		int result = bService.deleteReply(rNo);
 
 		if(result > 0) {
 			ra.addAttribute("bNo", boardNo);
