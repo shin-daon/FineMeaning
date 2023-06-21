@@ -24,4 +24,12 @@ public interface MemberService {
 
 	String selectPwd(String uId);
 
+	int searchEmailUser(HashMap<String, String> map);
+
+	Member searchUser(Member m);
+
+	int searchEmailUser2(HashMap<String, String> map);
+
+	Member searchUserPwd(Member m);
+
 }

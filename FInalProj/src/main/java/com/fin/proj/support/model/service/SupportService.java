@@ -10,7 +10,7 @@ public interface SupportService {
 
 	int supportApply(Support s);
 
-	ArrayList<Support> selectApplyListUser(int uNo);
+	ArrayList<Support> selectApplyListUser(PageInfo pi, int uNo);
 
 	Support supportDetail(int supportNo);
 
@@ -67,6 +67,14 @@ public interface SupportService {
 	ArrayList<Support> selectCategoryListAdmin(PageInfo pi, String category);
 
 	int updateFundAmount(SupportHistory sh);
+
+	int getMyListCount(SupportHistory sh);
+
+	ArrayList<SupportHistory> cateMySupportList(PageInfo pi, SupportHistory sh);
+
+	int getDday(int supportNo);
+
+	int getApplyListUser(int uNo);
 
 
 
