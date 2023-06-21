@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 @font-face {
     font-family: 'SUITE-Regular';
@@ -261,13 +262,14 @@ input[type="radio"]:checked + span:before{
     cursor: pointer; 
 }
 
-#v-reset-btn{
-    width: 60px;
-    height: 30px;
+#nextBtn{
+    width:90px;
+	height:32px;
     cursor: pointer;
 }
 
 .learn-more-gray {
+	margin-top: 50px;
     font-weight: 600;
     color: #382b22;
     text-transform: uppercase;
@@ -310,6 +312,27 @@ input[type="radio"]:checked + span:before{
     transform: translate3d(0, 0, -1em);
 }
 
+.address-btn {
+	width:335px;
+	height:45px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#idCheckResult {
+	font-size: 15px;
+	color: #609966;
+} 
+
+.check-div {
+	margin-top: 30px;
+	width: 335px;
+	display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
 </style>
 <body>
 <div th:replace="~{views/common/header :: header}"></div>
@@ -318,11 +341,11 @@ input[type="radio"]:checked + span:before{
 <div class="enroll">
 	<div class="enroll-title">아이디 찾기</div>
 		
-		<form>
+		<form action="findIdForm.me" id="findIdForm" method="post">
 		<div class="insert name">
 			<label class="title">이름</label>
 			<div class="input">
-				<input type="text" id="normal-input" placeholder="이름" name="uName"/>
+				<input type="text" id="normal-input" placeholder="이름" name="uName" required/>
 			</div>
 		</div>
 		
@@ -367,13 +390,15 @@ input[type="radio"]:checked + span:before{
 		<div class="insert result-number">
 			<label class="title">인증번호</label>
 			<div class="input">
-				<input type="text" id="short-input" placeholder="인증번호"/>
-				<button class="short-btn">전송받기</button>
+				<input type="text" id="short-input" name="randomNumInput" placeholder="인증번호"/>
+				<button class="short-btn" id="emailBtn">전송받기</button>			
 			</div>
 		</div>
+		
+		<div class="check-div"><label id="idCheckResult"></label></div>
 
 		<div class="address-btn">
-			<button type="button" id="v-reset-btn" class="learn-more-gray">다음</button>
+			<button type="submit" id="nextBtn" class="learn-more-gray">다 음</button>
 		</div>				
 	</form>
 </div>
@@ -421,16 +446,18 @@ input[type="radio"]:checked + span:before{
 	
 	// 다음
 	
-	const nextBtn = document.getElementById('v-reset-btn');
+	const nextBtn = document.getElementById('nextBtn');
 	
 	const firstDiv = document.getElementsByClassName('enroll')[0];
 	const nextDiv = document.getElementsByClassName('result')[0];
 	
-	nextBtn.addEventListener('click', () => {
-		event.preventDefault();
-		nextDiv.style.display = 'block';
-		firstDiv.style.display = 'none';
-	});
+	nextBtn.disabled = true;
+	
+// 	nextBtn.addEventListener('click', () => {
+// 		event.preventDefault();
+// 		nextDiv.style.display = 'block';
+// 		firstDiv.style.display = 'none';
+// 	});
 	
 	// 이메일
 
@@ -476,6 +503,77 @@ input[type="radio"]:checked + span:before{
    			emailSelect.setAttribute('name', '');
   		}
 	});
+	
+	// 이메일 인증		
+	const emailBtn = document.getElementById('emailBtn');
+	
+	emailBtn.addEventListener("click", function() {
+		event.preventDefault();
+		const uName = document.getElementsByName("uName")[0].value;
+		const emailId = document.getElementsByName("emailId")[0].value;
+		const emailDomain = document.getElementById("email-select").value;
+		const customEmailDomain = document.getElementById("custom-email-input").value;
+		const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
+		const idCheckResult = document.getElementById('idCheckResult');
+		
+		let emailAddress;
+
+		if (emailDomain === "직접입력") {
+			emailAddress = emailId + "@" + customEmailDomain;
+		} else {
+			emailAddress = emailId + "@" + emailDomain;
+		}
+		
+		if (uName.trim() == ''){
+			idCheckResult.innerText = '이름을 입력해주세요.';
+		} else if(emailId.trim() == ''){
+			idCheckResult.innerText = '이메일을 입력해주세요.';
+		} else {			
+			console.log(emailAddress);
+			$.ajax({
+	            url: 'findMyId.me',
+	            data: { uName: uName, emailAddress: emailAddress },
+	            success: data => {
+	                console.log("데이터 전송 성공: " + data);
+	                
+	                const [result, randomNum] = data.split(',');	                
+	                
+	                if(result == 'no'){
+	                	idCheckResult.innerText = '입력하신 정보와 일치하는 회원이 존재하지 않습니다.';
+	                } else if(result == 'yes'){
+	                	idCheckResult.innerText = '메일이 전송되었습니다. 인증번호를 입력해주세요.';	
+	                	nextBtn.disabled = false;     
+	                }
+	                
+	                console.log("인증번호: " + randomNum);
+	                
+	                nextBtn.addEventListener("click", function() {
+						const emailId = document.getElementsByName("emailId")[0];
+						const emailDomain = document.getElementById("email-select");
+						const customEmailDomain = document.getElementById("custom-email-input");
+						const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
+						const idCheckResult = document.getElementById('idCheckResult');
+						const findIdForm = document.getElementById('findIdForm');
+						
+						if (randomNumInput === randomNum) {
+							nextBtn.disabled = false;
+							findIdForm.submit();						
+					    } else {
+					    	event.preventDefault();
+					    	idCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
+					    	idCheckResult.style.color = 'red';
+					    }
+					});	
+	            },
+	            error: data => {
+	                console.log("데이터 전송 실패");
+	            }
+	        });
+	    }        
+	});
+		
+		
+	
 </script>
 </body>
 </html>

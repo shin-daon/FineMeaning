@@ -27,4 +27,8 @@ public interface MemberDAO {
 
 	String selectPwd(String uId);
 
+	int searchEmailUser(HashMap<String, String> map);
+
+	Member searchUser(Member m);
+
 }
