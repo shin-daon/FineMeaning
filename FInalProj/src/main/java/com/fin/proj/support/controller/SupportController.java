@@ -435,27 +435,52 @@ public class SupportController {
 	@RequestMapping("categoryListAdmin.su")
 	public String categoryListAdmin(@RequestParam("category") String category,
 									@RequestParam(value = "page", required = false) Integer currentPage,
+									@RequestParam(value = "searchWord", required=false) String searchWord,
 									Model model) {
+		
+		System.out.println(category);
+		System.out.println(searchWord);
+		
 		if (currentPage == null) {
 			currentPage = 1;
 		}
-
-		int listCount = suService.getCategoryCount(category);
+		
+		Support s = new Support();
+		s.setSupportCategory(category);
+		
+		System.out.println("set한 category" + category);
+		if(searchWord == null || searchWord.trim().equals("")) {
+			s.setSupportTitle(null);
+		} else {
+			s.setSupportTitle(searchWord.trim());
+		}
+		
+		int listCount = suService.getCategoryCount(s);
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		
-		ArrayList<Support> sList = suService.selectCategoryListAdmin(pi, category);
+		ArrayList<Support> sList = suService.selectCategoryListAdmin(pi, s);
 
-		model.addAttribute("pi", pi);
-		model.addAttribute("sList", sList);
-		model.addAttribute("category", category);
-		return "supportListAdmin";
+		
+		if(searchWord == null || searchWord.trim().equals("")) {
+			model.addAttribute("sList", sList);
+			model.addAttribute("pi", pi);
+			model.addAttribute("category", category);
+			return "supportListAdmin";
+		} else {
+			model.addAttribute("sList", sList);
+			model.addAttribute("pi", pi);
+			model.addAttribute("category", category);
+			model.addAttribute("searchWord", searchWord);
+			return "supportListAdmin";
+		}	
 
 	}
 	
 	@RequestMapping("mainCategory.su")
 	public String mainCategory(@RequestParam("category") String category, 
 							   @RequestParam(value = "page", required = false) Integer currentPage,
+							   @RequestParam(value="searchWord", required = false) String searchWord,
 								Model model) {
 		
 		if(category.equals("전체")) {
@@ -467,15 +492,33 @@ public class SupportController {
 			currentPage = 1;
 		}
 		
-		int listCount = suService.getCategoryCount(category);
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 9);
-		ArrayList<Support> sList = suService.selectCategoryListAdmin(pi, category);
+		Support s = new Support();
+		s.setSupportCategory(category);
 		
-		model.addAttribute("pi", pi);
-		model.addAttribute("sList", sList);
-		model.addAttribute("category", category);
-		return "supportMain";
-
+		if(searchWord == null || searchWord.trim().equals("")) {
+			s.setSupportTitle(null);
+		} else {
+			s.setSupportTitle(searchWord.trim());
+		}
+		
+		int listCount = suService.getCategoryCount(s);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 9);
+		ArrayList<Support> sList = suService.selectCategoryListAdmin(pi, s);
+		
+		if(searchWord == null || searchWord.trim().equals("")) {
+			model.addAttribute("sList", sList);
+			model.addAttribute("pi", pi);
+			model.addAttribute("category", category);
+			return "supportMain";
+		} else {
+			model.addAttribute("sList", sList);
+			model.addAttribute("pi", pi);
+			model.addAttribute("category", category);
+			model.addAttribute("searchWord", searchWord);
+			return "supportMain";
+		}
+		
 	}
 	
 	@RequestMapping("mainSearch.su")
@@ -495,6 +538,7 @@ public class SupportController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 9);
 
 		ArrayList<Support> sList = suService.selectSearchListAdmin(pi, searchWord.trim());
+		
 		model.addAttribute("pi", pi);
 		model.addAttribute("sList", sList);
 		model.addAttribute("searchWord", searchWord.trim());
