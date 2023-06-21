@@ -52,7 +52,8 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th style="width: 250px;">후원글</th>
+                    <th>카테고리</th>
+                    <th style="width: 350px;">후원글</th>
                     <th>후원 유형</th>
                     <th>후원 금액</th>
                     <th>후원일</th>
@@ -60,7 +61,8 @@
             </thead>
             <tbody>
 	                <tr th:each="sh:${shList}" th:if="${shList!=null}">
-	                    <td>[[${sh.supportHistoryNo}]]</td>
+	                    <td>[[${sh.supportNo}]]</td>
+	                    <td>[[${sh.category}]]</td>
 	                    <td>[[${sh.supportTitle}]]</td>
 	                    <td>[[${sh.payType}]]</td>
 	                    <td>[[${sh.supportAmount}]]</td>
