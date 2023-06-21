@@ -260,13 +260,12 @@ public class SupportController {
 		if (currentPage == null) {
 			currentPage = 1;
 		}
-		int listCount = suService.getSeachListCount(searchWord);
+		
+		int listCount = suService.getSeachListCount(searchWord.trim());
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 
-		ArrayList<Support> sList = suService.selectSearchListAdmin(pi, searchWord);
-		System.out.println(searchWord);
-		System.out.println(sList);
+		ArrayList<Support> sList = suService.selectSearchListAdmin(pi, searchWord.trim());
 		model.addAttribute("pi", pi);
 		model.addAttribute("sList", sList);
 		return "supportListAdmin";
@@ -282,7 +281,7 @@ public class SupportController {
 		}
 
 		Support s = new Support();
-		s.setSupportTitle(searchWord);
+		s.setSupportTitle(searchWord.trim());
 		s.setUserNo(uNo);
 
 		int listCount = suService.getSearchListCount(s);
@@ -292,6 +291,7 @@ public class SupportController {
 		ArrayList<Support> sList = suService.selectApplySearchList(pi, s);
 		model.addAttribute("pi", pi);
 		model.addAttribute("sList", sList);
+		model.addAttribute("searchWord", searchWord.trim());
 		return "supportApplicationListUser";
 
 	}
@@ -367,7 +367,7 @@ public class SupportController {
 		SupportHistory sh = new SupportHistory();
 
 		sh.setUserNo(uNo);
-		sh.setSupportTitle(searchWord);
+		sh.setSupportTitle(searchWord.trim());
 
 		System.out.println(sh);
 
@@ -382,6 +382,7 @@ public class SupportController {
 
 		model.addAttribute("shList", shList);
 		model.addAttribute("pi", pi);
+		model.addAttribute("searchWord", searchWord.trim());
 		return "supportListUser";
 	}
 
@@ -393,15 +394,16 @@ public class SupportController {
 			currentPage = 1;
 		}
 
-		int listCount = suService.getSearchEListCount(searchWord);
+		int listCount = suService.getSearchEListCount(searchWord.trim());
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 
-		ArrayList<Support> sList = suService.selectSearchEndSupportList(pi, searchWord);
+		ArrayList<Support> sList = suService.selectSearchEndSupportList(pi, searchWord.trim());
 
 		if (sList != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("sList", sList);
+			model.addAttribute("searchWord", searchWord.trim());
 			return "supportEndListAdmin";
 		} else {
 			throw new SupportException("없음");
@@ -452,5 +454,30 @@ public class SupportController {
 		model.addAttribute("category", category);
 		return "supportMain";
 
+	}
+	
+	@RequestMapping("mainSearch.su")
+	public String mainSearch(@RequestParam("searchWord") String searchWord,
+							@RequestParam(value = "page", required = false) Integer currentPage,
+								Model model ) {
+		if(searchWord.trim().equals("")) {
+			return "redirect:supportMain.su";
+		}
+		
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = suService.getSeachListCount(searchWord.trim());
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 9);
+
+		ArrayList<Support> sList = suService.selectSearchListAdmin(pi, searchWord.trim());
+		model.addAttribute("pi", pi);
+		model.addAttribute("sList", sList);
+		model.addAttribute("searchWord", searchWord.trim());
+		return "supportMain";
+		
+		
 	}
 }

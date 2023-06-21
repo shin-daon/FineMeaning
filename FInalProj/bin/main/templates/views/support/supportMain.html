@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>후원리스트</title>
-<link href="css/supportMain.css" rel="stylesheet">
-<link href="css/header.css" rel="stylesheet">
+<link href="css/support/supportMain.css" rel="stylesheet">
+<link href="css/common/header.css" rel="stylesheet">
 <style>
 .page {
     margin-top: 45px;
@@ -135,6 +135,13 @@
             <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
         </div>
     </div>
+    
+    <script>
+    	document.querySelector('.searchIcon').addEventListener('click', ()=>{
+    		const searchWord = document.querySelector('.searchInput').value;
+    		location.href="mainSearch.su?searchWord="+searchWord;
+    	})
+    </script>
     <br clear="both">
 		<div class="supportList" id="supportInfo">
 			
