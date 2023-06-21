@@ -424,7 +424,33 @@ public class SupportController {
 
 		model.addAttribute("pi", pi);
 		model.addAttribute("sList", sList);
+		model.addAttribute("category", category);
 		return "supportListAdmin";
+
+	}
+	
+	@RequestMapping("mainCategory.su")
+	public String mainCategory(@RequestParam("category") String category, 
+							   @RequestParam(value = "page", required = false) Integer currentPage,
+								Model model) {
+		
+		if(category.equals("전체")) {
+			return "redirect:supportMain.su";
+		}
+		
+		
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = suService.getCategoryCount(category);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 9);
+		ArrayList<Support> sList = suService.selectCategoryListAdmin(pi, category);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("sList", sList);
+		model.addAttribute("category", category);
+		return "supportMain";
 
 	}
 }

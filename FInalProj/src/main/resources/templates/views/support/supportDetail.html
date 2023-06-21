@@ -89,7 +89,11 @@ body {
                 </div>
 
                 <div class="totalDonation">
-                    [[${s.fundAmount}]]원     
+                    <script>
+				        var amount = [[${s.fundAmount}]]; // 숫자 변수
+				        var formattedAmount = amount.toLocaleString(); // 원하는 형식으로 포맷
+				        document.write(formattedAmount + '원'); // 포맷된 값을 출력
+				    </script>
                 </div>
 
                 <div class="donationButton">
