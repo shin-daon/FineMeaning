@@ -1,5 +1,6 @@
 package com.fin.proj.support.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,11 @@ import com.fin.proj.support.model.exception.SupportException;
 import com.fin.proj.support.model.service.SupportService;
 import com.fin.proj.support.model.vo.Support;
 import com.fin.proj.support.model.vo.SupportHistory;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
-import jakarta.mail.Multipart;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -48,14 +52,17 @@ public class SupportController {
 
 	@RequestMapping("supportDetail.su")
 	public String supportDetail(HttpSession session, @RequestParam("supportNo") int supportNo, Model model) {
+		
 		Support s = suService.supportDetail(supportNo);
-
+		int dDay = suService.getDday(supportNo);
+		
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
 		int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
 		
+		
 		System.out.println(s);
 		model.addAttribute("s", s);
-
+		model.addAttribute("dDay", dDay);
 		if (s.getStatus() == 'Y') {
 			return "supportDetail";
 		} else {
@@ -76,7 +83,11 @@ public class SupportController {
 	}
 
 	@RequestMapping("doSupportEnd.su")
-	public String doSupportEnd(HttpSession session) {
+	public String doSupportEnd(@RequestParam("registar") String registar, @RequestParam("supportTitle") String supportTitle, Model model) {
+		System.out.println(supportTitle);
+		System.out.println(registar);
+		model.addAttribute("supportTitle", supportTitle);
+		model.addAttribute("registar", registar);
 		return "doSupportEnd";
 	}
 
@@ -105,10 +116,21 @@ public class SupportController {
 	}
 
 	@RequestMapping("supportApplicationListUser.su")
-	public String supportApplicationListUser(HttpSession session, Model model) {
+	public String supportApplicationListUser(HttpSession session, Model model,@RequestParam(value = "page", required = false) Integer currentPage) {
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
-		ArrayList<Support> sList = suService.selectApplyListUser(uNo);
+
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = suService.getApplyListUser(uNo);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Support> sList = suService.selectApplyListUser(pi,uNo);
 		model.addAttribute("sList", sList);
+		model.addAttribute("pi", pi);
+		
 		return "supportApplicationListUser";
 	}
 
@@ -479,5 +501,67 @@ public class SupportController {
 		return "supportMain";
 		
 		
+	}
+	
+	@RequestMapping("categorySupportListUser.su")
+	public String categorySupportListUser(@RequestParam(value = "page", required = false) Integer currentPage,
+											Model model, @RequestParam("category") String category, 
+											@RequestParam(value="searchWord", required=false) String searchWord, HttpSession session) {
+		
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+
+		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
+		SupportHistory sh = new SupportHistory();
+		sh.setUserNo(uNo);
+		sh.setCategory(category);
+		if(searchWord == null || searchWord.trim().equals("")) {
+			sh.setSupportTitle(null);
+		} else {
+			sh.setSupportTitle(searchWord.trim());
+		}
+		
+		System.out.println(sh);
+		
+		int listCount = suService.getMyListCount(sh);
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+
+		ArrayList<SupportHistory> shList = suService.cateMySupportList(pi, sh);
+		System.out.println("category: " + category);
+		System.out.println("searchWord: " + searchWord);
+		System.out.println(shList);
+		
+		if(searchWord == null || searchWord.trim().equals("")) {
+			model.addAttribute("shList", shList);
+			model.addAttribute("pi", pi);
+			model.addAttribute("category", category);
+			return "supportListUser";
+		} else {
+			model.addAttribute("shList", shList);
+			model.addAttribute("pi", pi);
+			model.addAttribute("category", category);
+			model.addAttribute("searchWord", searchWord);
+			return "supportListUser";
+		}
+
+	}
+	
+	@RequestMapping("reloadDetail.su")
+	public void relodaDetail(@RequestParam("supportNo") int supportNo, HttpServletResponse response) {
+		Support s = suService.supportDetail(supportNo);
+		
+		response.setContentType("application/json; charset=UTF-8");
+		Gson gson = new Gson();
+		try {
+			gson.toJson(s, response.getWriter());
+		} catch (JsonIOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -24,8 +24,11 @@ public class SupportServiceImpl implements SupportService {
 
 
 	@Override
-	public ArrayList<Support> selectApplyListUser(int uNo) {
-		return suDAO.selectApplayListUser(uNo);
+	public ArrayList<Support> selectApplyListUser(PageInfo pi, int uNo) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return suDAO.selectApplayListUser(rowBounds,uNo);
 	}
 
 	@Override
@@ -201,6 +204,33 @@ public class SupportServiceImpl implements SupportService {
 	@Override
 	public int updateFundAmount(SupportHistory sh) {
 		return suDAO.updateFundAmount(sh);
+	}
+
+
+	@Override
+	public int getMyListCount(SupportHistory sh) {
+		return suDAO.getMyListCount(sh);
+	}
+
+
+	@Override
+	public ArrayList<SupportHistory> cateMySupportList(PageInfo pi, SupportHistory sh) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return suDAO.cateMySupportList(rowBounds, sh);
+	}
+
+
+	@Override
+	public int getDday(int supportNo) {
+		return suDAO.getDday(supportNo);
+	}
+
+
+	@Override
+	public int getApplyListUser(int uNo) {
+		return suDAO.getApplyListUser(uNo);
 	}
 
 }
