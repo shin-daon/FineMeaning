@@ -23,4 +23,8 @@ public interface VolunteerService {
 	int applyVolunteer(Volunteer v);
 
 	int checkVolunteerApply(HashMap<String, Integer> map);
+
+	int getSearchVolunteerCount(HashMap<String, String> map);
+
+	ArrayList<Volunteer> searchVolunteer(PageInfo pi, HashMap<String, String> map);
 }

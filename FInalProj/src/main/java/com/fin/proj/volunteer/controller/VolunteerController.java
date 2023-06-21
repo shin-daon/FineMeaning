@@ -1,6 +1,7 @@
 package com.fin.proj.volunteer.controller;
 
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
@@ -33,29 +34,56 @@ public class VolunteerController {
 	private VolunteerService vService;
 	
 	@GetMapping("volunteer.vo")
-	public String volunteer(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+	public String volunteer(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam(value="vStartDate", required=false) String vStartDate,
+							@RequestParam(value="vEndDate", required=false) String vEndDate, @RequestParam(value="vName", required=false) String vName,
+							@RequestParam(value="registrar", required=false) String registrar, Model model) {
 		if(currentPage == null) {
 			currentPage = 1;
 		}
 		
-		int volunteerCount = vService.getVolunteerCount();
-		PageInfo pi = Pagination.getPageInfo(currentPage, volunteerCount, 5);
-		ArrayList<Volunteer> list = vService.selectVolunteerList(pi);
-		
-//		System.out.println(volunteerCount);
-//		System.out.println(list);
-		
-		if(list != null) {
-			model.addAttribute("pi", pi);
-			model.addAttribute("list", list);
+		if(vStartDate == null) {
+			int volunteerCount = vService.getVolunteerCount();
+			PageInfo pi = Pagination.getPageInfo(currentPage, volunteerCount, 5);
+			ArrayList<Volunteer> list = vService.selectVolunteerList(pi);
 			
-			return "volunteer";
+//			System.out.println(volunteerCount);
+//			System.out.println(list);
+			
+			if(list != null) {
+				model.addAttribute("pi", pi);
+				model.addAttribute("list", list);
+				
+				return "volunteer";
+			}
+		} else {
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("vStartDate", vStartDate);
+			map.put("vEndDate", vEndDate);
+			map.put("vName", vName);
+			map.put("registrar", registrar);
+			
+			int svc = vService.getSearchVolunteerCount(map);
+			PageInfo pi = Pagination.getPageInfo(currentPage, svc, 5);
+			ArrayList<Volunteer> list = vService.searchVolunteer(pi, map);
+			
+//			System.out.println(svc);
+//			System.out.println(list);
+			
+			if(list != null) {
+				model.addAttribute("pi", pi);
+				model.addAttribute("map", map);
+				model.addAttribute("list", list);
+				
+				return "volunteer";
+			}
 		}
 		return null;
 	}
 	
 	@GetMapping("volunteerDetail.vo")
-	public String volunteerDetail(@RequestParam("vNo") int vNo, @RequestParam("page") int page, Model model) {
+	public String volunteerDetail(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam(value="vStartDate", required=false) String vStartDate,
+								  @RequestParam(value="vEndDate", required=false) String vEndDate, @RequestParam(value="vName", required=false) String vName,
+								  @RequestParam(value="registrar", required=false) String registrar, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
 //		System.out.println(v);
 		if(v != null) {
@@ -64,6 +92,14 @@ public class VolunteerController {
 			model.addAttribute("v", v);
 			model.addAttribute("page", page);
 			model.addAttribute("map", map);
+			
+			if(vStartDate != null) {
+				model.addAttribute("vStartDate", vStartDate);
+				model.addAttribute("vEndDate", vEndDate);
+				model.addAttribute("vName", vName);
+				model.addAttribute("registrar", registrar);
+			}
+			
 			return "volunteerDetail";
 		}
 		return null;
@@ -149,11 +185,6 @@ public class VolunteerController {
 		if(result > 0) {
 			return "redirect:volunteerHistory.vo";
 		}
-		return null;
-	}
-	
-	@GetMapping("searchVolunteer.vo") 
-	public String searchVolunteer(@ModelAttribute Volunteer v) {
 		return null;
 	}
 	
