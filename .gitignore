@@ -10,8 +10,8 @@ build/
 .apt_generated
 .classpath
 .factorypath
-#.project
-#.settings
+.project
+.settings
 .springBeans
 .sts4-cache
 #bin/
@@ -39,10 +39,10 @@ out/
 
 
 .classpath
-#.project
+.project
 .metadata/
 #bin/
-#.settings/
+.settings/
 # *.class
 *.war
 *.nar
@@ -68,4 +68,4 @@ MANIFEST.MF
 .factorypath
 settings.json
 
-#FInalProj/src/main/resources/application.properties
+src/main/**/application.properties
