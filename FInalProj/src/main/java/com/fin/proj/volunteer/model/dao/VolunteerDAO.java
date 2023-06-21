@@ -15,7 +15,7 @@ public interface VolunteerDAO {
 
 	int getVolunteerCount();
 
-	ArrayList<Volunteer> selectVolunteerList(int i, RowBounds rowBounds);
+	ArrayList<Volunteer> selectVolunteerList(Integer i, RowBounds rowBounds);
 
 	Volunteer selectVolunteer(int vNo);
 
@@ -26,5 +26,9 @@ public interface VolunteerDAO {
 	int applyVolunteer(Volunteer v);
 
 	int checkVolunteerApply(HashMap<String, Integer> map);
+
+	int searchVolunteerCount(HashMap<String, String> map);
+
+	ArrayList<Volunteer> searchVolunteer(HashMap<String, String> map, RowBounds rowBounds);
 
 }

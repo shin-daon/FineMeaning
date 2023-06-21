@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="css/supportListAdmin.css">
+<link rel="stylesheet" href="css/support/supportListAdmin.css">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -32,40 +32,62 @@
 
 			
 			<div style="display:flex; width:1000px;">
-			<div style="float:left; margin-bottom:2px;">
-			<span class="dropdown" id="area-dropdown">
-                <button type="button" class="dropdown-btn" id="areabtn">선택</button>
-                <input type="hidden" id="area" name="supportCategory" value="none" required/>
-                <div class="dropdown-content" id="area-content">
-                    <span class="selectArea">사람</span>
-                    <span class="selectArea">동물</span>
-                    <span class="selectArea">환경</span>
-                    <span class="selectArea">기타</span>
-                </div>
-            </span>
-            </div>
-            
-            <script>
-            	document.getElementById('areabtn').addEventListener('click', ()=>{
-            		document.getElementById('area-content').style.display="block";
-            	})
-            	
-            	const categorys = document.getElementsByClassName('selectArea')
-            	for(const category of categorys){
-            		category.addEventListener('click',function(){
-            			const cate = this.innerText;
-            			location.href="categoryListAdmin.su?category="+cate;
-            		})
-            	}
-            </script>
-            
-              
-			<div class="actionArea" style="float:right;">
-            <div class="searchArea">
-                <input class="searchInput" type="text" name="searchWord" placeholder="제목으로 검색"/>
-                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
-            </div>
-        	</div>
+				<div style="float:left; margin-bottom:2px;">
+				<span class="dropdown" id="area-dropdown">
+	                <th:block th:if="${category == null}">
+		                <button type="button" class="dropdown-btn" id="areabtn">선택</button>
+		                <input type="hidden" id="area" name="supportCategory" value="none" required/>
+	                </th:block>
+	                <th:block th:if="${category != null}">
+		                <button type="button" class="dropdown-btn" id="areabtn">[[${category}]]</button>
+		                <input type="hidden" id="area" name="supportCategory" th:value="${category}" required/>
+	                </th:block>
+	                <div class="dropdown-content" id="area-content">
+	                    <span class="selectArea">사람</span>
+	                    <span class="selectArea">동물</span>
+	                    <span class="selectArea">환경</span>
+	                    <span class="selectArea">기타</span>
+	                </div>
+	            </span>
+	            </div>
+	            
+	            <script>
+	            	document.getElementById('areabtn').addEventListener('click', ()=>{
+	            		document.getElementById('area-content').style.display="block";
+	            	})
+	            	
+	            	const categorys = document.getElementsByClassName('selectArea')
+	            	for(const category of categorys){
+	            		category.addEventListener('click',function(){
+	            			const cate = this.innerText;
+	            			location.href="categoryListAdmin.su?category="+cate;
+	            		})
+	            	}
+	            </script>
+	            
+	              
+				<div class="actionArea" style="float:right;">
+	            <div class="searchArea">
+	                <input class="searchInput" type="text" name="searchWord" placeholder="제목으로 검색"/>
+	                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
+	            </div>
+	        	</div>
+	        	
+	        	<script>
+		        	document.getElementsByClassName('searchIcon')[0].addEventListener('click', ()=>{
+		        		const category = document.getElementById('area').value;
+		        		
+		        		if(category=='none'){
+							const searchWord = document.getElementsByClassName('searchInput')[0].value
+							location.href="searchSupportListAdmin.su?searchWord=" + searchWord;
+						} else{
+							const searchWord = document.getElementsByClassName('searchInput')[0].value
+							location.href="categoryListAdmin.su?searchWord=" + searchWord + "&category="+category;
+						}
+		        		
+		        		
+		        	})
+	        	</script>
         	</div>
 
         <table class="supportTable">
@@ -98,15 +120,30 @@
 	        	<button class="learn-more" onclick="location.href='supportEndListAdmin.su'">종료된 후원 보기</button>
 			</div>
         </div>
-        <div class="page">
+        <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
-                <li><a href="#" class="first"><img class="arrowKey" src="image/before.png"></a></li>
-                <li><a href="#" class="num">1</a></li>
-                <li><a href="#" class="num">2</a></li>
-                <li><a href="#" class="num">3</a></li>
-                <li><a href="#" class="num">4</a></li>
-                <li><a href="#" class="num">5</a></li>
-                <li><a href="#" class="last"><img class="arrowKey" src="image/next.png"></a></li>
+                <li th:if="${ pi.currentPage > 1 }">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage > 1 }">
+	                	<img class="arrowKey disabled" src="image/before.png">
+                </li>
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0}">
+                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                <li th:if="${ pi.currentPage < pi.maxPage} ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage < pi.maxPage }">
+	                	<img class="arrowKey disabled" src="image/next.png">
+                </li>
             </ul>
         </div>
     </section>
@@ -121,13 +158,7 @@
 			const supportNo = this.querySelector('td').innerText;
 			location.href="supporterListEach.su?supportNo=" + supportNo;
 		})
-	}
-	
-	document.getElementsByClassName('searchIcon')[0].addEventListener('click', ()=>{
-		const searchWord = document.getElementsByClassName('searchArea')[0].querySelector('input').value;
-		location.href="searchSupportListAdmin.su?searchWord=" + searchWord;
-	})
-	
+	}	
 </script>
         
 </body>

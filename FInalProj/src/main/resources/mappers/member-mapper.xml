@@ -47,8 +47,8 @@
 	
 	<update id="updateMyInfo">
 		update users
-		set u_name = #{uName}, u_type = #{uType}, registrar = #{registrar}, resident_no = #{residentNo},
-			address = #{address}, phone = #{phone}, email = #{email}, u_nickname = #{uNickName}
+		set u_name = #{uName}, u_type = #{uType}, registrar = #{registrar}, resident_no = #{residentNo, jdbcType=VARCHAR},
+			address = #{address}, phone = #{phone}, email = #{email, jdbcType=VARCHAR}, u_nickname = #{uNickName}
 		where u_id = #{uId}
 	</update>
 	
@@ -76,6 +76,30 @@
 		select u_pwd
 		from users
 		where u_id = #{uId}
+	</select>
+	
+	<select id="searchEmailUser">
+		select count(*)
+		from users
+		where u_name = #{uName} and email = #{email}
+	</select>
+	
+	<select id="searchUser">
+		select *
+		from users
+		where u_name = #{uName} and email = #{email}
+	</select>
+	
+	<select id="searchEmailUser2">
+		select count(*)
+		from users
+		where u_id = #{uId} and email = #{email}
+	</select>
+	
+	<select id="searchUserPwd">
+		select *
+		from users
+		where u_id = #{uId} and email = #{email}
 	</select>
 	
 </mapper>

@@ -491,7 +491,8 @@ public class BoardController {
 		if(board != null) {
 			model.addAttribute("board", board);
 			model.addAttribute("page", page);
-//			model.addAttribute("replyList", replyList);
+			model.addAttribute("replyList", replyList);
+			System.out.println("replyList출력" + replyList);
 			return "commDetail";
 		} else {
 			throw new BoardException("게시글 상세 조회 실패");
@@ -559,10 +560,70 @@ public class BoardController {
 		}
 	}
 	
+	@RequestMapping("deleteCommReply.bo")
+	public String deleteCommReply(@RequestParam("rNo") String replyNo,
+							  @RequestParam("bNo") int boardNo,
+							  @RequestParam("page") int page,
+							  RedirectAttributes ra) {
+		
+		System.out.println(replyNo);
+		System.out.println(boardNo);
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(replyNo);
+		String decode = new String(byteArr);
+		int rNo = Integer.parseInt(decode);
+		
+		int result = bService.deleteReply(rNo);
+
+		if(result > 0) {
+			ra.addAttribute("bNo", boardNo);
+			ra.addAttribute("page", page);
+			return "redirect:commDetailPage.bo";
+		} else {
+			throw new BoardException("댓글 삭제에 실패하였습니다.");
+		}
+	}
 	
 	@GetMapping("noticeList.bo")
-	public String noticeList() {
-		return "noticeList";
+		public String CommNotice(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = bService.getListCount("공지");
+		
+		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, "공지");
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			System.out.println(list);
+			return "noticeList";
+		} else {
+			throw new BoardException("공지 목록 조회 실패");
+		}
+	}
+	
+	@PostMapping("insertNoticeBoard.bo")
+	public String insertNoticeBoard(@ModelAttribute Board b, HttpSession session) {
+		int id = ((Member)session.getAttribute("loginUser")).getuNo();
+		System.out.println("id=" + id);
+		b.setuNo(id);
+		b.setBoardType("공지");
+		b.setImageUrl(null);
+		System.out.println("들어간 id" + id);
+		
+		int result = bService.insertBoard(b);
+		if(result > 0) {
+			return "redirect:noticeList.bo";
+			
+		} else {
+			throw new BoardException("공지 작성 에러");
+		}
 	}
 	
 	@GetMapping("writeNotice.bo")

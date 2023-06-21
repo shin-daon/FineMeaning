@@ -14,7 +14,7 @@ public interface SupportDAO {
 
 	int supportApply(Support s);
 
-	ArrayList<Support> selectApplayListUser(int uNo);
+	ArrayList<Support> selectApplayListUser(RowBounds rowBounds, int uNo);
 
 	Support supportDetail(int supportNo);
 
@@ -66,11 +66,19 @@ public interface SupportDAO {
 
 	ArrayList<Support> selectSearchEndList(RowBounds rowBounds, String searchWord);
 
-	int getCategoryCount(String category);
+	int getCategoryCount(Support s);
 
-	ArrayList<Support> selectCategoryListAdmin(RowBounds rowBounds, String category);
+	ArrayList<Support> selectCategoryListAdmin(RowBounds rowBounds, Support s);
 
 	int updateFundAmount(SupportHistory sh);
+
+	int getMyListCount(SupportHistory sh);
+
+	ArrayList<SupportHistory> cateMySupportList(RowBounds rowBounds, SupportHistory sh);
+
+	int getDday(int supportNo);
+
+	int getApplyListUser(int uNo);
 
 
 }

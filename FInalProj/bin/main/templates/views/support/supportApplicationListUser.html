@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="css/supportApplicationListUser.css">
+<link rel="stylesheet" href="css/support/supportApplicationListUser.css">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -50,7 +50,7 @@
                 <tr>
                     <th>No</th>
                     <th>카테고리</th>                    
-                    <th style="width: 250px;">후원 프로젝트 제목</th>
+                    <th style="width: 350px;">후원 프로젝트 제목</th>
                     <th>희망 모금액</th>
                     <th>신청 날짜</th>
                     <th>승인 상태</th>
@@ -60,8 +60,16 @@
 	                <tr th:each="s : ${sList}" th:if="${ sList != null }">
 	                    <td th:text="${s.supportNo}"></td>
 	                    <td th:text="${s.supportCategory}"></td>
-	                    <td th:text="${s.supportTitle}"></td>
-	                    <td th:text="${s.targetAmount}"></td>
+	                    <td>[[${s.supportTitle}]]</td>
+	                    <td>
+	                    	<script th:inline="javascript">
+						        /*<![CDATA[*/
+		                    	var amount = /*[[${s.targetAmount}]]*/'0'; // 숫자 변수
+						        var formattedAmount = amount.toLocaleString(); // 원하는 형식으로 포맷
+						        document.write(formattedAmount + '원'); // 포맷된 값을 출력
+						        /*]]*/
+				    		</script>
+	                    </td>
 	                    <td th:text="${s.createDate}"></td>
 	                    <td>
 		                    <th:block th:switch="${s.status}">
@@ -92,17 +100,33 @@
 			</div>
         </div>
 		
-        <div class="page">
+       <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
-                <li><a href="#" class="first"><img class="arrowKey" src="image/before.png"></a></li>
-                <li><a href="#" class="num">1</a></li>
-                <li><a href="#" class="num">2</a></li>
-                <li><a href="#" class="num">3</a></li>
-                <li><a href="#" class="num">4</a></li>
-                <li><a href="#" class="num">5</a></li>
-                <li><a href="#" class="last"><img class="arrowKey" src="image/next.png"></a></li>
+                <li th:if="${ pi.currentPage > 1 }">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage > 1 }">
+	                	<img class="arrowKey disabled" src="image/before.png">
+                </li>
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0}">
+                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                <li th:if="${ pi.currentPage < pi.maxPage} ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage < pi.maxPage }">
+	                	<img class="arrowKey disabled" src="image/next.png">
+                </li>
             </ul>
         </div>
+        
     </section>
 		
 </section>
