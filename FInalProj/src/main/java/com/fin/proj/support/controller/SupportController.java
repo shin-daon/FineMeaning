@@ -480,4 +480,49 @@ public class SupportController {
 		
 		
 	}
+	
+	@RequestMapping("categorySupportListUser.su")
+	public String categorySupportListUser(@RequestParam(value = "page", required = false) Integer currentPage,
+											Model model, @RequestParam("category") String category, 
+											@RequestParam(value="searchWord", required=false) String searchWord, HttpSession session) {
+		
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+
+		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
+		SupportHistory sh = new SupportHistory();
+		sh.setUserNo(uNo);
+		sh.setCategory(category);
+		if(searchWord == null || searchWord.trim().equals("")) {
+			sh.setSupportTitle(null);
+		} else {
+			sh.setSupportTitle(searchWord.trim());
+		}
+		
+		System.out.println(sh);
+		
+		int listCount = suService.getMyListCount(sh);
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+
+		ArrayList<SupportHistory> shList = suService.cateMySupportList(pi, sh);
+		System.out.println("category: " + category);
+		System.out.println("searchWord: " + searchWord);
+		System.out.println(shList);
+		
+		if(searchWord == null || searchWord.trim().equals("")) {
+			model.addAttribute("shList", shList);
+			model.addAttribute("pi", pi);
+			model.addAttribute("category", category);
+			return "supportListUser";
+		} else {
+			model.addAttribute("shList", shList);
+			model.addAttribute("pi", pi);
+			model.addAttribute("category", category);
+			model.addAttribute("searchWord", searchWord);
+			return "supportListUser";
+		}
+
+	}
 }
