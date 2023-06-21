@@ -18,7 +18,6 @@ import com.fin.proj.member.model.exception.MemberException;
 import com.fin.proj.member.model.service.EmailService;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
-import com.google.gson.Gson;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -92,6 +91,14 @@ public class MemberController {
 	@RequestMapping("findId.me")
 	public String findId() {
 		return "findId";
+	}
+	
+	@RequestMapping("findIdResult.me")
+	public String findIdResult(@ModelAttribute("foundUser") Member foundUser) {
+		
+		System.out.println(foundUser);
+		
+		return "findIdResult";
 	}
 	
 	@RequestMapping("findPwd.me")
@@ -280,6 +287,28 @@ public class MemberController {
     	
     	out.print(result + "," + randomNum);
     	
+	}
+	
+	@PostMapping("findIdForm.me")
+	public String findIdForm(@ModelAttribute Member m,
+							 @RequestParam("emailId") String emailId,
+							 @RequestParam("emailDomain") String emailDomain, Model model) {
+		
+		String email = emailId + "@" + emailDomain;
+		String uName = m.getuName();
+		
+		m.setEmail(email);
+		m.setuName(uName);
+		
+		Member foundUser = mService.searchUser(m);
+		
+		if(foundUser != null) {
+			model.addAttribute("foundUser", foundUser);
+			System.out.println(foundUser);
+			return "findIdResult";
+		} else {
+			throw new MemberException("아이디 찾기에 실패하였습니다.");
+		}		
 	}
 }
 

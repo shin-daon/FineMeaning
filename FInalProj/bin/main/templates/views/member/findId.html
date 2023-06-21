@@ -341,7 +341,7 @@ input[type="radio"]:checked + span:before{
 <div class="enroll">
 	<div class="enroll-title">아이디 찾기</div>
 		
-		<form>
+		<form action="findIdForm.me" id="findIdForm" method="post">
 		<div class="insert name">
 			<label class="title">이름</label>
 			<div class="input">
@@ -398,7 +398,7 @@ input[type="radio"]:checked + span:before{
 		<div class="check-div"><label id="idCheckResult"></label></div>
 
 		<div class="address-btn">
-			<button type="button" id="nextBtn" class="learn-more-gray">다 음</button>
+			<button type="submit" id="nextBtn" class="learn-more-gray">다 음</button>
 		</div>				
 	</form>
 </div>
@@ -453,11 +453,11 @@ input[type="radio"]:checked + span:before{
 	
 	nextBtn.disabled = true;
 	
-	nextBtn.addEventListener('click', () => {
-		event.preventDefault();
-		nextDiv.style.display = 'block';
-		firstDiv.style.display = 'none';
-	});
+// 	nextBtn.addEventListener('click', () => {
+// 		event.preventDefault();
+// 		nextDiv.style.display = 'block';
+// 		firstDiv.style.display = 'none';
+// 	});
 	
 	// 이메일
 
@@ -542,10 +542,28 @@ input[type="radio"]:checked + span:before{
 	                	idCheckResult.innerText = '입력하신 정보와 일치하는 회원이 존재하지 않습니다.';
 	                } else if(result == 'yes'){
 	                	idCheckResult.innerText = '메일이 전송되었습니다. 인증번호를 입력해주세요.';	
-	                	nextBtn.disabled = false;
+	                	nextBtn.disabled = false;     
 	                }
 	                
 	                console.log("인증번호: " + randomNum);
+	                
+	                nextBtn.addEventListener("click", function() {
+						const emailId = document.getElementsByName("emailId")[0];
+						const emailDomain = document.getElementById("email-select");
+						const customEmailDomain = document.getElementById("custom-email-input");
+						const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
+						const idCheckResult = document.getElementById('idCheckResult');
+						const findIdForm = document.getElementById('findIdForm');
+						
+						if (randomNumInput === randomNum) {
+							nextBtn.disabled = false;
+							findIdForm.submit();						
+					    } else {
+					    	event.preventDefault();
+					    	idCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
+					    	idCheckResult.style.color = 'red';
+					    }
+					});	
 	            },
 	            error: data => {
 	                console.log("데이터 전송 실패");
@@ -554,22 +572,7 @@ input[type="radio"]:checked + span:before{
 	    }        
 	});
 		
-		nextBtn.addEventListener("click", function() {
-			event.preventDefault();
-			const emailId = document.getElementsByName("emailId")[0];
-			const emailDomain = document.getElementById("email-select");
-			const customEmailDomain = document.getElementById("custom-email-input");
-			const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
-			const idCheckResult = document.getElementById('idCheckResult');
-			
-			if (randomNumInput === randomNum) {
-				nextBtn.disabled = false;
-		    } else {
-		    	nextBtn.disabled = true;
-		    	idCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
-		    	idCheckResult.style.color = 'red';
-		    }
-		});
+		
 	
 </script>
 </body>
