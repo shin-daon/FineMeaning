@@ -62,9 +62,9 @@ public interface SupportService {
 
 	ArrayList<Support> selectSearchEndSupportList(PageInfo pi, String searchWord);
 
-	int getCategoryCount(String category);
+	int getCategoryCount(Support s);
 
-	ArrayList<Support> selectCategoryListAdmin(PageInfo pi, String category);
+	ArrayList<Support> selectCategoryListAdmin(PageInfo pi, Support s);
 
 	int updateFundAmount(SupportHistory sh);
 

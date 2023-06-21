@@ -188,16 +188,16 @@ public class SupportServiceImpl implements SupportService {
 	}
 
 	@Override
-	public int getCategoryCount(String category) {
-		return suDAO.getCategoryCount(category);
+	public int getCategoryCount(Support s) {
+		return suDAO.getCategoryCount(s);
 	}
 
 	@Override
-	public ArrayList<Support> selectCategoryListAdmin(PageInfo pi, String category) {
+	public ArrayList<Support> selectCategoryListAdmin(PageInfo pi, Support s) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 
-		return suDAO.selectCategoryListAdmin(rowBounds, category);
+		return suDAO.selectCategoryListAdmin(rowBounds, s);
 	}
 
 

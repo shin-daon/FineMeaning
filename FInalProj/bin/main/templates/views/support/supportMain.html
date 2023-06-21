@@ -140,9 +140,20 @@
         </div>
     </div>
     
-    <script>
+    <script th:inline="javascript">
+    	
     	document.querySelector('.searchIcon').addEventListener('click', ()=>{
     		const searchWord = document.querySelector('.searchInput').value;
+//     		const category = document.getElementById('area').value;
+    		
+//     		if(category=='none'){
+// 				const searchWord = document.getElementsByClassName('searchInput')[0].value
+// 				location.href="searchSupportListAdmin.su?searchWord=" + searchWord;
+// 			} else{
+// 				const searchWord = document.getElementsByClassName('searchInput')[0].value
+// 				location.href="categoryListAdmin.su?searchWord=" + searchWord + "&category="+category;
+// 			}
+    		
     		location.href="mainSearch.su?searchWord="+searchWord;
     	})
     </script>

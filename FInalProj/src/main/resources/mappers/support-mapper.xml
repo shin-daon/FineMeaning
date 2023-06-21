@@ -155,10 +155,27 @@
 	</select>
 	
 	<select id="getCategoryCount" resultType="_int">
-		select count(*) from support where S_CATEGORY = #{category} and sysdate &lt;= s_end_date and S_STATUS ='Y'
+		select count(*) from support where sysdate &lt;= s_end_date and S_STATUS ='Y'
+		<if test="supportTitle == null">
+			and s_category = #{supportCategory}
+		</if>
+		<if test="supportTitle != null">
+			and s_category = #{supportCategory} and s_title like '%${supportTitle}%'
+		</if>
+		order by s_no desc
+<!-- 		select count(*) from support where S_CATEGORY = #{category} and sysdate &lt;= s_end_date and S_STATUS ='Y' -->
 	</select>
+	
 	<select id="selectCategoryListAdmin" resultMap="supportResultSet">
-		select * from support where S_CATEGORY = #{category} and sysdate &lt;= s_end_date and S_STATUS ='Y'
+		select * from support where sysdate &lt;= s_end_date and S_STATUS ='Y'
+		<if test="supportTitle == null">
+			and s_category = #{supportCategory}
+		</if>
+		<if test="supportTitle != null">
+			and s_category = #{supportCategory} and s_title like '%${supportTitle}%'
+		</if>
+		order by s_no desc
+<!-- 		select * from support where S_CATEGORY = #{category} and sysdate &lt;= s_end_date and S_STATUS ='Y' -->
 	</select>
 	
 	<update id="updateFundAmount">

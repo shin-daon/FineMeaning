@@ -34,8 +34,14 @@
 			<div style="display:flex; width:1000px;">
 				<div style="float:left; margin-bottom:2px;">
 				<span class="dropdown" id="area-dropdown">
-	                <button type="button" class="dropdown-btn" id="areabtn">선택</button>
-	                <input type="hidden" id="area" name="supportCategory" value="none" required/>
+	                <th:block th:if="${category == null}">
+		                <button type="button" class="dropdown-btn" id="areabtn">선택</button>
+		                <input type="hidden" id="area" name="supportCategory" value="none" required/>
+	                </th:block>
+	                <th:block th:if="${category != null}">
+		                <button type="button" class="dropdown-btn" id="areabtn">[[${category}]]</button>
+		                <input type="hidden" id="area" name="supportCategory" th:value="${category}" required/>
+	                </th:block>
 	                <div class="dropdown-content" id="area-content">
 	                    <span class="selectArea">사람</span>
 	                    <span class="selectArea">동물</span>
@@ -66,6 +72,22 @@
 	                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
 	            </div>
 	        	</div>
+	        	
+	        	<script>
+		        	document.getElementsByClassName('searchIcon')[0].addEventListener('click', ()=>{
+		        		const category = document.getElementById('area').value;
+		        		
+		        		if(category=='none'){
+							const searchWord = document.getElementsByClassName('searchInput')[0].value
+							location.href="searchSupportListAdmin.su?searchWord=" + searchWord;
+						} else{
+							const searchWord = document.getElementsByClassName('searchInput')[0].value
+							location.href="categoryListAdmin.su?searchWord=" + searchWord + "&category="+category;
+						}
+		        		
+		        		
+		        	})
+	        	</script>
         	</div>
 
         <table class="supportTable">
@@ -136,13 +158,7 @@
 			const supportNo = this.querySelector('td').innerText;
 			location.href="supporterListEach.su?supportNo=" + supportNo;
 		})
-	}
-	
-	document.getElementsByClassName('searchIcon')[0].addEventListener('click', ()=>{
-		const searchWord = document.getElementsByClassName('searchArea')[0].querySelector('input').value;
-		location.href="searchSupportListAdmin.su?searchWord=" + searchWord;
-	})
-	
+	}	
 </script>
         
 </body>
