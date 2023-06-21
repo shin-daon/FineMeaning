@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<style type="text/css">
+.title{
+font-family: 'KyoboHandwriting2021sjy';
+text-align : center;
+}
+
+@font-face {
+    font-family: 'KyoboHandwriting2021sjy';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KyoboHandwriting2021sjy.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+#subBtn {
+  /* 생략 */
+  width: 80px;
+    height: 30px;
+    background-color: #9DC08B;
+    color: white;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    border: 1px solid black;
+    font-size: 14px;
+}
+#subBtn:active,
+#subBtn:hover,
+#subBtn:focus {
+  background: green;
+  color: white;
+  outline: 0;
+}
+#subBtn:disabled {
+  opacity: 0.5;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+</style>
+<link rel="stylesheet" href="resources/css/style.css">
+<script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://kit.fontawesome.com/1c67f557d9.js" crossorigin="anonymous"></script>
+<!-- include libraries(jQuery, bootstrap) -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+<!-- include summernote css/js-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
+<!-- include summernote-ko-KR -->
+<script src="/resources/js/summernote-ko-KR.js"></script>
+
+<title>수정</title>
+</head>
+<body>
+<div th:replace="~{../common/header :: header}"></div>
+<br><br><br><h2 style="text-align: center;" class="title">공지사항 수정하기</h2><br><br><br>
+
+<div style="width: 60%; margin: auto;">
+	<form method="post" action="/write">
+		<input type="text" name="title" style="width: 40%;" placeholder="제목">
+		<br><br> 
+		<textarea id="summernote" name="content"></textarea><br>
+		<div class="button-container">
+		<input id="subBtn" type="button" value="수정취소" style="float: right;" onclick = "location.href='noticeList.bo'"/>
+		<input id="subBtn" type="button" value="수정하기" style="float: right;" onclick="goWrite(this.form)"/>
+		</div>
+	</form>
+</div>
+<div th:replace="~{../common/footer :: footer}"></div>
+</body>
+
+<script>
+$(document).ready(function() {
+	  $('#summernote').summernote({
+ 	    	placeholder: 'content',
+	        minHeight: 370,
+	        maxHeight: null,
+	        focus: true, 
+	        lang : 'ko-KR'
+	  });
+	});
+</script>
+</html>
