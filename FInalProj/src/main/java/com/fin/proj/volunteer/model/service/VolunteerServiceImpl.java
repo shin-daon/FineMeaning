@@ -31,7 +31,7 @@ public class VolunteerServiceImpl implements VolunteerService {
 	public ArrayList<Volunteer> selectVolunteerList(PageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return vDAO.selectVolunteerList(1, rowBounds);
+		return vDAO.selectVolunteerList(null, rowBounds);
 	}
 
 	@Override
@@ -57,5 +57,17 @@ public class VolunteerServiceImpl implements VolunteerService {
 	@Override
 	public int checkVolunteerApply(HashMap<String, Integer> map) {
 		return vDAO.checkVolunteerApply(map);
+	}
+
+	@Override
+	public int getSearchVolunteerCount(HashMap<String, String> map) {
+		return vDAO.searchVolunteerCount(map);
+	}
+
+	@Override
+	public ArrayList<Volunteer> searchVolunteer(PageInfo pi, HashMap<String, String> map) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return vDAO.searchVolunteer(map, rowBounds);
 	}
 }

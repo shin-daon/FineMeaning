@@ -25,19 +25,19 @@
     <section class="v-section">
         <section class="v-search">
             <div class="v-search-inner">
-            	<form action="searchVolunteer.vo">
+            	<form action="volunteer.vo">
 	                <table>
 	                    <tr>
 	                        <td width="80px">봉사기간</td>
-	                        <td><input type="date" id="startDate" name="vStartDate"/><span class="date-delimeter"></span><input type="date" id="endDate" name="vEndDate"/></td>
+	                        <td><input type="date" id="startDate" name="vStartDate" th:value="${map == null? '' : map.vStartDate}"/><span class="date-delimeter"></span><input type="date" id="endDate" name="vEndDate" th:value="${map == null? '' : map.vEndDate}"/></td>
 	                    </tr>
 	                    <tr>
 	                        <td>봉사명</td>
-	                        <td><input type="search" id="volunteerName" name="vName"/></td>
+	                        <td><input type="search" id="volunteerName" name="vName" th:value="${map == null? '' : map.vName}"/></td>
 	                    </tr>
 	                    <tr>
 	                        <td>수요처명</td>
-	                        <td><input type="search" id="recipientName" name="registrar"></td>
+	                        <td><input type="search" id="recipientName" name="registrar" th:value="${map == null? '' : map.registrar}"></td>
 	                    </tr>
 	                </table>
 	                <div class="v-search-inner-btn">
@@ -143,23 +143,45 @@
 
         <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
-                <li th:if="${ pi.currentPage > 1 }">
+                <li th:if="${ pi.currentPage > 1 && map == null}">
 	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
 	                	<img class="arrowKey" src="image/before.png">
 	                </a>
                 </li>
+                <li th:if="${ pi.currentPage > 1 && map != null}">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 }, vStartDate=${map.vStartDate}, vEndDate=${map.vEndDate}, vName=${map.vName}, registrar=${map.registrar})}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                
                 <li th:unless="${ pi.currentPage > 1 }">
 	                	<img class="arrowKey disabled" src="image/before.png">
                 </li>
+                
                 <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0 && map == null}">
                 	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
                 		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
                 </li>
-                <li th:if="${ pi.currentPage < pi.maxPage} ">
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0 && map != null}">
+                	<a th:href="@{${loc}(page=${p}, vStartDate=${map.vStartDate}, vEndDate=${map.vEndDate}, vName=${map.vName}, registrar=${map.registrar})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                
+                <li th:if="${ pi.currentPage < pi.maxPage && map == null } ">
 	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
 	                	<img class="arrowKey" src="image/next.png">
 	                </a>
                 </li>
+                <li th:if="${ pi.currentPage < pi.maxPage && map != null } ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, vStartDate=${map.vStartDate}, vEndDate=${map.vEndDate}, vName=${map.vName}, registrar=${map.registrar})}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                
                 <li th:unless="${ pi.currentPage < pi.maxPage }">
 	                	<img class="arrowKey disabled" src="image/next.png">
                 </li>
@@ -173,16 +195,6 @@
 	    window.onload = () => {
 		    const now = new Date();
 		    const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
-		    
-		    /*<![CDATA[*/
-		    const vboxes = document.querySelectorAll(".v-list-box");
-		    for(const vbox of vboxes) {
-		    	vbox.addEventListener("click", function() {
-		    		const vNo = this.querySelector("input").value;
-		    		location.href="volunteerDetail.vo?vNo=" + vNo + "&page=" + /*[[${pi.currentPage}]]*/1;
-		    	});
-		    }
-		    /*]]>*/
 		    
 		    const recruitmentStatuses = document.querySelectorAll(".v-recruitment-status");
 		    for(const recruitmentStatus of recruitmentStatuses) {
@@ -214,17 +226,18 @@
 		    const volunteerName = document.querySelector("#volunteerName");
 		    const recipientName = document.querySelector("#recipientName");
 		
-		    startDate.setAttribute("min", today);
-		    endDate.setAttribute("min", today); 
-		            
 		    startDate.addEventListener('change', function() {
 		        if(endDate.value != '') {
 		            if(this.value > endDate.value) {
-		                this.value = today;
+		                this.value = '';
 		                alert("봉사 시작일은 봉사 종료일 이전이어야 합니다.");
 		            }
 		        }
 		        endDate.setAttribute("min", startDate.value);
+		    });
+		    
+		    document.querySelector("#v-reset-btn").addEventListener("click", () => {
+		        location.href="volunteer.vo";
 		    });
 		    
 			const ulList = document.querySelector(".v-sub-category").querySelectorAll("ul");
@@ -285,6 +298,22 @@
 	    	clickObj.style.backgroundColor = '#d7f1c8';
 	    	clickObj.style.borderRadius = '8px';
 	    }
+		    
+	    /*<![CDATA[*/
+	    const vboxes = document.querySelectorAll(".v-list-box");
+	    for(const vbox of vboxes) {
+	    	vbox.addEventListener("click", function() {
+	    		const vNo = this.querySelector("input").value;
+	    		const map = /*[[${map}]]*/1;
+	    		if(map == null) {
+		    		location.href = "volunteerDetail.vo?vNo=" + vNo + "&page=" + /*[[${pi.currentPage}]]*/1;
+	    		} else {
+		    		location.href = "volunteerDetail.vo?vNo=" + vNo + "&page=" + /*[[${pi.currentPage}]]*/1 
+		    				+ "&vStartDate=" + map.vStartDate + "&vEndDate=" + map.vEndDate + "&vName=" + map.vName	+ "&registrar=" + map.registrar;
+	    		}
+	    	});
+	    }
+	    /*]]>*/
     </script>
 </body>
 </html>
