@@ -146,7 +146,6 @@
 	<select id="searchEListCount" resultType="_int">
 		select count(*) from support where s_status = 'Y' and sysdate &gt;= s_end_date and s_title like '%${supportTitle}%'
 	</select>
-	
 	<select id="selectSearchEndList" resultMap="supportResultSet">
 		select * from support join users using(u_no) where (s_status='Y' or s_status ='N') and sysdate &gt;= s_end_date and s_title like '%${supportTitle}%' order by S_CREATE_DATE desc
 	</select>
@@ -161,4 +160,28 @@
 	<update id="updateFundAmount">
 		update support set FUND_AMOUNT = FUND_AMOUNT + #{supportAmount}, S_COUNT = S_COUNT +1 where s_no = #{supportNo}
 	</update>
+	
+	<select id="getMyListCount" resultType="_int">
+		select count(*) from s_history sh left join support using(s_no) where sh.u_no = #{userNo}
+		<if test="supportTitle == null">
+			and s_category = #{category}
+		</if>
+		<if test="supportTitle != null">
+			and s_category = #{category} and s_title like '%${supportTitle}$'
+		</if>
+	</select>
+	<select id="cateMySupportList" resultMap="supportHistoryResultSet">
+		select * from s_history sh left join support using(s_no) where sh.u_no = #{userNo}
+		<if test="supportTitle == null">
+			and s_category = #{category}
+		</if>
+		<if test="supportTitle != null">
+			and s_category = #{category} and s_title like '%${supportTitle}%'
+		</if>
+		order by s_his_no desc
+	</select>
+	
+	<select id="getDday" resultType="_int">
+		select ceil(S_END_DATE - sysdate) from support where s_no = #{supportNo}
+	</select>
 </mapper>

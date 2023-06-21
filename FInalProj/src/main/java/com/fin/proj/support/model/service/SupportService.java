@@ -68,6 +68,12 @@ public interface SupportService {
 
 	int updateFundAmount(SupportHistory sh);
 
+	int getMyListCount(SupportHistory sh);
+
+	ArrayList<SupportHistory> cateMySupportList(PageInfo pi, SupportHistory sh);
+
+	int getDday(int supportNo);
+
 
 
 

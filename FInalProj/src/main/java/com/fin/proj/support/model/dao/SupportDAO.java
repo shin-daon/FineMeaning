@@ -72,5 +72,11 @@ public interface SupportDAO {
 
 	int updateFundAmount(SupportHistory sh);
 
+	int getMyListCount(SupportHistory sh);
+
+	ArrayList<SupportHistory> cateMySupportList(RowBounds rowBounds, SupportHistory sh);
+
+	int getDday(int supportNo);
+
 
 }

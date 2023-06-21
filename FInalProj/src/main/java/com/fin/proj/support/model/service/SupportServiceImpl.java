@@ -203,4 +203,25 @@ public class SupportServiceImpl implements SupportService {
 		return suDAO.updateFundAmount(sh);
 	}
 
+
+	@Override
+	public int getMyListCount(SupportHistory sh) {
+		return suDAO.getMyListCount(sh);
+	}
+
+
+	@Override
+	public ArrayList<SupportHistory> cateMySupportList(PageInfo pi, SupportHistory sh) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+
+		return suDAO.cateMySupportList(rowBounds, sh);
+	}
+
+
+	@Override
+	public int getDday(int supportNo) {
+		return suDAO.getDday(supportNo);
+	}
+
 }
