@@ -344,7 +344,18 @@ input[type="radio"]:checked + span:before{
     align-items: center;
 }
 
+#pwdCheckResult {
+	font-size: 15px;
+	color: #609966;
+} 
 
+.check-div {
+	margin-top: 30px;
+	width: 335px;
+	display: flex;
+        justify-content: center;
+        align-items: center;
+}
 </style>
 <body>
 <div th:replace="~{views/common/header :: header}"></div>
@@ -355,10 +366,13 @@ input[type="radio"]:checked + span:before{
 
 	<div class="insert result-div">
 		<label class="title new-pwd-title">비밀번호 재설정</label><br>
-		<form>
+		<span class="pwd-comment">영문, 숫자를 포함한 8 - 16자의 비밀번호를 입력해주세요.</span>
+		<form action="changePwd.me">
 			<div class="pwd-area">
 				새 비밀번호 <input type="password" id="normal-input" class="new-pwd" name="newPwd" placeholder="비밀번호"/><br><br>
 				비밀번호 확인 <input type="password" id="normal-input" class="new-pwd" name="newPwdCheck" placeholder="비밀번호 확인"/><br>
+				
+				<div class="check-div"><label id="pwdCheckResult"></label></div>
 				
 				<div class="address-btn">
 					<button type="submit" id="nextBtn" class="learn-more">설정하기</button>
@@ -366,14 +380,42 @@ input[type="radio"]:checked + span:before{
 			</div>	
 		</form>
 	</div>
+	
+	
 </div>
 
 <br><br><br><br>
 <div th:replace="~{views/common/footer :: footer}"></div>
 <script>
-
-
-
+	//비밀번호
+	const pwdInput = document.querySelector('input[name="newPwd"]');
+	const pwdCheckInput = document.querySelector('input[name="newPwdCheck"]');
+	const pwdResult = document.getElementById('pwdCheckResult');
+	const enrollButton = document.getElementById('nextBtn');
+	
+	pwdInput.addEventListener('input', validatePwd);
+	
+	function validatePwd() {
+	  const pwdInputValue = pwdInput.value;
+	  const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
+	
+	  if (pwdInput.value === pwdCheckInput.value) {
+		  	pwdCheckResult.innerText = '';
+		  	enrollButton.disabled = false;
+	  } else if (pwdInput.value !== pwdCheckInput.value) {
+	  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
+	  		enrollButton.disabled = true;
+	  }
+	  
+	  if (pwdRegex.test(pwdInputValue)) {
+		pwdResult.textContent = '';
+	    enrollButton.disabled = false;
+	  } else {
+		pwdResult.textContent = '올바른 비밀번호를 입력해주세요.';
+	    enrollButton.disabled = true;
+	  } 
+ 
+	}
 </script>
 </body>
 </html>
