@@ -100,4 +100,10 @@
 		set re_status = 'N'
 		where re_no = #{replyNo}
 	</update>
+	
+	<update id="deleteCommReply">
+		update reply
+		set re_status = 'N'
+		where re_no = #{replyNo}
+	</update>
 </mapper>
