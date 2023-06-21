@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>결실</title>
+<link rel="stylesheet" href="css/fruit_detail_style.css">
+<script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
+<style>
+	.backgroundImage::after {
+	    width: 100%;
+	    height: 100%;
+	    background-color: #EDF1D6;
+	    border-radius: 15px;
+	    content: "";
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    z-index: -1;
+	    opacity: 0.4;
+	}
+	
+	#meaningless {
+		align-self: center;
+	}
+</style>
+</head>
+<body>
+	<div th:replace="~{../common/header :: header}"></div>
+	<section id="fruit_write_section">
+        
+		<div>
+	        <div id="fruit_title">결실</div>
+	    </div>
+        
+        <div class="path">
+            <a class="middle" href="/"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/arrow.png">
+            <a class="middle" href="#">선뜻</a>
+            <img class="sub iconSize" src="image/arrow.png">
+            <a class="middle">결실</a>
+        </div>
+
+        <div class="titleAndMore">
+            <div class="titleWrap">
+                <div class="fruit_write_title" th:text="${board.boardTitle}"></div>
+            </div>    
+            <div class="dropdown">
+                <img class="seeMore" src="image/seeMore.png">
+                <input type="hidden" name="category" value="none">
+                <div class="dropdown-content">
+                    <span class="selectCate" onclick="location.href='fruit_edit.bo'">수정</span>
+                    <span class="selectCate">삭제</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="detailArea">
+            <hr class="hr">
+            <div class="contentArea backgroundImage">
+            	<p class="boardDate"></p>
+                <div class="contentMain"></div>
+            </div>
+            <hr class="hr">
+        </div>
+        
+		<div class="replyArea">
+	 		<div class="replyTitle">댓글</div>
+	 		<th:block th:if="${ session.loginUser != null }">
+		 		<div class="replyWriteArea">
+				 	<input type="text" class="replyInput" required/>
+				 	<button type="submit" class="replyBtn">작성</button>
+		 		</div>
+	 		</th:block>
+	 		<th:block th:if="${ session.loginUser == null }">
+	 			<div class="replyWriteArea">
+				 	<input type="text" class="replyInput" placeholder="로그인 후 댓글을 남겨주세요." disabled required/>
+				 	<button type="submit" class="replyBtn" disabled>작성</button>
+		 		</div>
+	 		</th:block>
+	 		
+	 		<div id="meaningless">
+			 	<div class="reply" th:each=" r : ${replyList}">
+			 		<div class="replyRow1">
+			 			<div class="replyInfo">
+				 			<div class="replyWriter" th:text="${ r.nickName }"></div>
+				 			<div class="replyDate" th:text="${ r.replyTime }"></div>
+			 			</div>
+			 			<script>
+		 					function deleteReply(rNo, bNo){
+		 						console.log(rNo);
+		 						console.log(bNo);
+		 						location.href = 'selectBoard.bo?rNo=' + rNo + '&bNo=' + bNo + '&page=' + ;
+		 					}
+	 					</script>
+			 			<div class="replyInfo2">
+		 					<div class="replySet">
+				 				<th:block th:if="${ session.loginUser != null && session.loginUser.uNo == r.replyWriter }">
+<!-- 			 						<a class="aTags" th:href="'deleteReply.bo?rNo=' + ${r.replyNo} + '&bNo=' + ${r.boardNo} + '&page=' + ${page}">삭제</a> -->
+			 						<a class="aTags" th:onclick="deleteReply([[${r.replyNo}]], [[${r.boardNo}]], [[${page}]])">삭제</a>
+			 										<!-- th:onclick에 함수 걸어두고 돌아가는 방향으로 해야 함  -->
+			 					</th:block>
+		 					</div>
+		 				</div>
+			 		</div>
+			 		<div class="replyRow2">
+			 			<div class="replyContent" th:text="${ r.replyContent }"></div>
+			 		</div>
+		 		</div>
+	 		</div>
+	 		
+		</div>
+		
+        <div class="btnArea">		
+            <button type="button" class="backBtn learn-more-back" th:onclick="|location.href='fruitMain.bo?page='+${page}|">목록으로</button>
+        </div>
+	</section>
+	<div th:replace="~{views/common/footer :: footer}"></div>
+	<script th:inline="javascript">
+		window.onload = () => {
+			
+			/* <![CDATA[ */
+			document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/1;
+			
+			document.getElementsByClassName('replyBtn')[0].addEventListener('click', ()=>{
+				const replyInput = document.getElementsByClassName('replyInput')[0].value;
+				if(replyInput != '') {
+					$.ajax({
+						url:'insertReply.bo',
+						data: {
+							replyContent:document.getElementsByClassName('replyInput')[0].value,
+							replyWriter:/*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/1,
+							nickName:/*[[${session.loginUser == null ? '' : session.loginUser.uNickName}]]*/1,
+							boardNo:/*[[${board.boardNo}]]*/1,
+							boardTitle:/*[[${board.boardTitle}]]*/1
+						},
+						success: data =>{
+							console.log(data);
+							const meaningless = document.querySelector('#meaningless');
+							meaningless.innerHTML = '';
+							
+							for(const r of data) {
+								const reply = document.createElement('div');
+								reply.classList.add('reply');
+								
+								const replyRow1 = document.createElement('div');
+								replyRow1.classList.add('replyRow1');
+								
+								const replyInfo = document.createElement('div');
+								replyInfo.classList.add('replyInfo');
+								
+								const replyWriter = document.createElement('div');
+								replyWriter.classList.add('replyWriter');
+								replyWriter.innerText = r.nickName;
+								replyInfo.appendChild(replyWriter);
+								
+								const replyDate = document.createElement('div');
+								replyDate.classList.add('replyDate');
+								replyDate.innerText = r.replyTime;
+								replyInfo.appendChild(replyDate);
+								
+								replyRow1.appendChild(replyInfo);
+								
+								const replyInfo2 = document.createElement('div');
+								replyInfo2.classList.add('replyInfo2');
+								
+								const replySet = document.createElement('div');
+								replySet.classList.add('replySet');
+								
+								// 자바스크립트에서 if문 안 1이면 true, 0이면 false
+								
+								const loginUser = /*[[${session.loginUser}]]*/1;
+// 								console.log(loginUser);
+								const loginUserNo = /*[[${session.loginUser.uNo}]]*/1;
+// 								console.log(loginUserNo);
+								
+								if(loginUser != null && loginUserNo == r.replyWriter) {
+									const deleteLink = document.createElement('a');
+									deleteLink.classList.add('aTags');
+									const replyNo = r.replyNo;
+									const replyBoardNo = r.boardNo;
+									deleteLink.setAttribute('href', 'deleteReply.bo?rNo=' + replyNo + '&bNo=' + replyBoardNo + '&page=' + /*[[${ page }]]*/0);
+									deleteLink.innerText = '삭제';
+									replySet.appendChild(deleteLink);
+								}
+								
+								replyInfo2.appendChild(replySet);
+								
+								replyRow1.appendChild(replyInfo2);
+								
+								const replyRow2 = document.createElement('div');
+								replyRow2.classList.add('replyRow2');
+								
+								const replyContent = document.createElement('div');
+								replyContent.classList.add('replyContent');
+								replyContent.innerText = r.replyContent;
+								
+								replyRow2.appendChild(replyContent);
+								
+								reply.appendChild(replyRow1);
+								reply.appendChild(replyRow2);
+								
+								meaningless.appendChild(reply);
+							}
+							
+							document.getElementsByClassName('replyInput')[0].value = '';
+						},
+						error: data => {
+						}
+					});
+				} else if(replyInput == '') {
+					document.getElementsByClassName('replyInput')[0].focus();
+				}
+			});
+			
+			/* ]]> */
+			
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+package com.fin.proj.common.DAO;
+
+public class ImageDAO {
+
+}

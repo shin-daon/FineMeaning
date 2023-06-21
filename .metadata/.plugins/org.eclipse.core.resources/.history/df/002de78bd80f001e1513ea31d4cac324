@@ -1,0 +1,5 @@
+package com.fin.proj.common.interceptor;
+
+public class CheckAdminInterceptor {
+
+}

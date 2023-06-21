@@ -1,0 +1,7 @@
+package com.fin.proj.common.interceptor;
+
+import org.springframework.web.servlet.HandlerInterceptor;
+
+public class CheckLoginInterceptor implements HandlerInterceptor {
+
+}

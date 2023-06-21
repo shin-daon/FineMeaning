@@ -1,0 +1,23 @@
+package com.fin.proj.board.model.vo;
+
+import java.sql.Date;
+
+public class Board {
+	private int boardNo;
+	private int uNo;
+	private String uId;
+	private String nickName;
+	private String boardType;
+	private String boardTitle;
+	private String boardContent;
+	private Date boardDate;
+	private char boardStatus;
+	private int boardCount;
+	private String newsURL;
+	private String fpName;
+	private int boardCate;
+	private String imageUrl;
+	
+	public Board() {}
+
+}

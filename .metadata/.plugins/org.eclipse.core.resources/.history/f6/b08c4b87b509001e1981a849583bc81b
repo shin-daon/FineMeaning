@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>결실</title>
+<link rel="stylesheet" href="css/fruit_style.css">
+</head>
+<body>
+	<div th:replace="~{../common/header :: header}"></div>
+    <section id="fruitSection">
+        <div>
+            <div id="mainFruitTitle">결실</div>
+        </div>
+        <p id="subFruitTitle">선한 뜻으로 함께합니다.</p>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/arrow.png">
+            <a class="middle" href="#">선뜻</a>
+            <img class="sub iconSize" src="image/arrow.png">
+            <a class="middle">결실</a>
+        </div>
+
+        <div class="actionArea">
+            <div class="writeArea">
+                <button class="writeFaqBtn learn-more" onclick="location.href='fruit_form.bo'">글쓰기</button>
+            </div>
+            <div class="searchArea">
+                <input class="searchInput" type="text" placeholder="검색"/>
+                <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
+            </div>
+            <div class="dropdown">
+                <button id="dropbtn"> 
+                    🕊️카테고리
+                </button>
+                <input type="hidden" name="category" value="none">
+                <div class="dropdown-content">
+                    <span class="selectCate">선택없음</span>
+                    <span class="selectCate">후원</span>
+                    <span class="selectCate">봉사</span>
+                </div>
+            </div>
+        </div>
+
+        <table class="fruitTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th style="width: 320px;">제목</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+						<div class="fruit_title_wrap">
+							<p class="fruit_title">광진구, ‘서울시 안심이 앱’ 서비스 지원…"안심귀가 OK!"</p>
+						</div>   
+                    </td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                    	<div class="fruit_title_wrap">
+							<p class="fruit_title">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+						</div>
+                    </td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>
+                    	<div class="fruit_title_wrap">
+							<p class="fruit_title">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+						</div>
+                    </td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>
+                    	<div class="fruit_title_wrap">
+							<p class="fruit_title">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+						</div>
+                    </td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>
+                    	<div class="fruit_title_wrap">
+							<p class="fruit_title">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+						</div>
+                    </td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>
+                    	<div class="fruit_title_wrap">
+							<p class="fruit_title">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+						</div>
+                    </td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>
+                    	<div class="fruit_title_wrap">
+							<p class="fruit_title">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+						</div>
+                    </td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>
+                    	<div class="fruit_title_wrap">
+							<p class="fruit_title">후원금 기부 내역 안내입니다. 자세한 사항은 글 상세보기를 눌러</p>
+						</div>
+                    </td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>
+                    	<div class="fruit_title_wrap">
+							<p class="fruit_title">기부금 사용처 알림</p>
+						</div>
+                    </td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>
+                    	<div class="fruit_title_wrap">
+							<p class="fruit_title">우리 동네 청소년 서포트 참여해주신 여러분 감사합니다</p>
+						</div>
+                    </td>
+                    <td>2023-05-31</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="page">
+            <ul class="pagination">
+                <li><a href="#" class="first"><img class="arrowKey" src="image/before.png"></a></li>
+                <li><a href="#" class="num">1</a></li>
+                <li><a href="#" class="num">2</a></li>
+                <li><a href="#" class="num">3</a></li>
+                <li><a href="#" class="num">4</a></li>
+                <li><a href="#" class="num">5</a></li>
+                <li><a href="#" class="last"><img class="arrowKey" src="image/next.png"></a></li>
+            </ul>
+        </div>
+    </section>
+    <div th:replace="~{views/common/footer :: footer}"></div>
+    
+    <script>
+    	window.onload = () => {
+    		
+    		// 카테고리 선택
+			const selectCates = document.getElementsByClassName('selectCate');
+			for(const selectCate of selectCates){
+				selectCate.addEventListener('click', function(){
+					document.getElementById('dropbtn').innerText = this.innerHTML;
+					document.getElementsByName('category')[0].value= this.innerHTML;
+					console.log(document.getElementsByClassName('dropdown-content')[0])
+					document.getElementsByClassName('dropdown-content')[0].style.display='none';
+				});
+			}
+			
+			document.getElementById('dropbtn').addEventListener('click', ()=>{
+				document.getElementsByClassName('dropdown-content')[0].style.display='block';	
+			});
+			
+			// dropbtn 이나 dropdownContent 외의 다른 영역 클릭 시 none
+			document.addEventListener('click', (event) => {
+                const target = event.target;
+                const dropdownContent = document.getElementsByClassName('dropdown-content')[0];
+                const dropbtn = document.getElementById('dropbtn');
+                if (target !== dropdownContent && target !== dropbtn) {
+                    dropdownContent.style.display = 'none';
+                }
+            });
+			
+			// 게시글 선택 
+			const tbody = document.querySelector('tbody');
+			const tds = tbody.querySelectorAll('td');
+			
+			for(const td of tds){	// for of 배열 안 요소, for in 배열 안 인덱스(객체는 키)
+// 				console.log(td);
+				td.addEventListener('click', function(){
+					// 부모 요소로 올라가 자식 중 0번째(글번호), 2번째(작성자) 가져오기
+					console.log(this.parentElement); // <tr>...</tr> 반환
+					
+					location.href="fruit_detail.bo";
+// 					const trTds= this.parentElement.children; // = querySelectorAll
+// 					const boardId = trTds[0].innerText;
+// 					const writer = trTds[2].innerText;			// url에 들어가기 때문에 = 양쪽에 띄어쓰기 금지
+// 					location.href='${contextPath}/selectBoard.bo?bId=' + boardId 
+// 							+ '&writer=' + writer + '&page=' + ${pi.currentPage};
+				});
+			}
+    	}
+    </script>
+</body>
+</html>

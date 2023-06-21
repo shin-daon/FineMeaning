@@ -1,0 +1,5 @@
+package com.fin.proj.common.model.vo;
+
+public class Image {
+
+}
