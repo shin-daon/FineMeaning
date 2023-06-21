@@ -78,4 +78,10 @@
 		where u_id = #{uId}
 	</select>
 	
+	<select id="searchEmailUser">
+		select count(*)
+		from users
+		where u_name = #{uName} and email = #{email}
+	</select>
+	
 </mapper>

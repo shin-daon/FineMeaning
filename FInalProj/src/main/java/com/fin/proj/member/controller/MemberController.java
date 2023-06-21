@@ -18,6 +18,7 @@ import com.fin.proj.member.model.exception.MemberException;
 import com.fin.proj.member.model.service.EmailService;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
+import com.google.gson.Gson;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -256,6 +257,29 @@ public class MemberController {
 	     } else {
 	    	 throw new MemberException("비밀번호 수정에 실패하였습니다.");
 	     }
+	}
+	
+	@RequestMapping(value="findMyId.me") 
+	public void findId(@RequestParam("uName") String uName,
+					   @RequestParam("emailAddress") String emailAddress, PrintWriter out) {
+		
+		System.out.println("이름 : " + uName);
+		System.out.println("보낼 이메일 : " + emailAddress);
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+    	map.put("uName", uName);
+    	map.put("email", emailAddress);
+    	  
+    	int count = mService.searchEmailUser(map);
+		String result = count == 0 ? "no" : "yes";
+    	
+    	int randomNum = 0;    	
+    	if(count > 0) {
+    		randomNum = eService.findId(emailAddress);
+    	}
+    	
+    	out.print(result + "," + randomNum);
+    	
 	}
 }
 
