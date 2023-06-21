@@ -1,6 +1,7 @@
 package com.fin.proj.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,32 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int deleteReplyAll(int boardNo) {
 		return bDAO.deleteReplyAll(boardNo);
+	}
+
+	@Override
+	public int replyCount(int boardNo) {
+		return bDAO.replyCount(boardNo);
+	}
+
+	@Override
+	public ArrayList<Board> searchByTitle(String keyword, String i) {
+		return bDAO.searchByTitle(keyword, i);
+	}
+
+	@Override
+	public ArrayList<Board> searchByTitleAndCategory(PageInfo pi, HashMap<String, Object> params) {
+		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		RowBounds rowbounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return bDAO.searchByTitleAndCategory(params, rowbounds);
+	}
+
+	@Override
+	public int searchFruitListCount(HashMap<String, Object> params) {
+		
+		System.out.println(params);
+		
+		return bDAO.searchFruitListCount(params);
 	}
 
 }

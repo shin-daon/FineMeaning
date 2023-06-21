@@ -182,7 +182,8 @@
 			document.getElementById('dropbtn').addEventListener('click', ()=>{
 				document.getElementsByClassName('dropdown-content')[0].style.display='block';	
 			});
-
+			
+			// dropbtn 이나 dropdownContent 외의 다른 영역 클릭 시 none
             document.addEventListener('click', (event) => {
                 const target = event.target;
                 const dropdownContent = document.getElementsByClassName('dropdown-content')[0];

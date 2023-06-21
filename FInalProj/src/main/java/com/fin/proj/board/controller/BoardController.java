@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -153,6 +155,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("deleteFaq.bo")
+	@Transactional
 	public String deleteFaq(@RequestParam("bNo") String bNo) {
 		
 		Decoder decoder = Base64.getDecoder();
@@ -161,8 +164,7 @@ public class BoardController {
 		int boardNo = Integer.parseInt(decode);
 		
 		int boardResult = bService.deleteBoard(boardNo);
-//		int replyResult = bService.deleteReplyAll(boardNo);
-//		&& replyResult > 0
+		
 		if(boardResult > 0) {
 			return "redirect:faqMain.bo";
 		} else {
@@ -216,19 +218,37 @@ public class BoardController {
 	}
 	
 	@GetMapping("fruitMain.bo")
-	public String fruitMain(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+	public String fruitMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+							@RequestParam(value="category", required=false) Integer category, // '선택 없음' 시 null일 수 있음
+							@RequestParam(value="keyword", required=false) String keyword) {
+		
+		ArrayList<Board> list;
+		int listCount;
+		PageInfo pageInfo;
+		
+		HashMap<String, Object> params = new HashMap<>();
 		
 		if(currentPage == null) {
 			currentPage = 1;
 		}
 		
-		int listCount = bService.getListCount("결실");
-//		System.out.println(listCount);
-		
-		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
-		
-		ArrayList<Board> list = bService.selectBoardList(pageInfo, "결실");
-//		System.out.println(list);
+		if(keyword != null) {
+			params.put("keyword", keyword);
+			params.put("i", "결실");
+			if(category == null) { // '선택 없음'의 경우
+				params.put("category", 0);
+			} else {	 // '후원' 혹은 '봉사'의 경우
+				params.put("category", category);
+			}
+			listCount = bService.searchFruitListCount(params);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.searchByTitleAndCategory(pageInfo, params);
+		} else { // 페이지 로드 시 메인 페이지
+			listCount = bService.getListCount("결실");
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.selectBoardList(pageInfo, "결실");
+//			System.out.println(list);
+		}
 		
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
@@ -324,6 +344,31 @@ public class BoardController {
 			return "redirect:fruit_detail.bo";
 		} else {
 			throw new BoardException("게시글 수정 실패");
+		}
+	}
+	
+	@GetMapping("deleteFruit.bo")
+	public String deleteFruit(@RequestParam("bNo") String bNo) {
+
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		int replyCount = bService.replyCount(boardNo);
+		
+		if(replyCount > 0) {
+			int replyResult = bService.deleteReplyAll(boardNo);
+			if(replyResult == 0) {
+				throw new BoardException("게시글 내 댓글 삭제 실패");
+			}
+		}
+		
+		int boardResult = bService.deleteBoard(boardNo);
+		if(boardResult > 0) {
+			return "redirect:fruitMain.bo";
+		} else {
+			throw new BoardException("게시글 삭제 실패");
 		}
 	}
 	

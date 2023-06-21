@@ -70,6 +70,42 @@
 		where board_no = #{bId}
 	</update>
 	
+<!-- 	<select id="searchByTitle" resultMap="boardResultSet"> -->
+<!-- 		select * -->
+<!-- 		from board -->
+<!-- 		where board_ -->
+<!-- 	</select> -->
+	
+<!-- 	<select id="searchFruitListCount" parameterType="map" resultType="_int"> -->
+<!-- 		select count(*) -->
+<!-- 		from board -->
+<!-- 		where board_title like '%' || #{keyword} || '%' and board_type = #{i} -->
+<!-- 		<if test="category != null and category != 0"> -->
+<!-- 			and board_cate = #{category} -->
+<!-- 		</if>  -->
+<!-- 	</select> -->
+	
+	<select id="searchFruitListCount" resultType="_int">
+	  SELECT COUNT(*)
+	  FROM board
+	  WHERE board_title like '%' || #{keyword} || '%'
+<!-- 	   and board_type = #{i} -->
+	  <if test="category != null and category != 0">
+	    and board_cate = #{category}
+	  </if> 
+	  and board_type = #{i} and board_status='Y'
+	</select>
+	
+	<select id="searchByTitleAndCategory" parameterType="map" resultMap="boardResultSet">
+		select *
+		from board
+		WHERE board_title like '%' || #{keyword} || '%'
+		<if test="category != null and category != 0">
+	    and board_cate = #{category}
+		</if> 
+		and board_type = #{i} and board_status='Y'
+	</select>
+	
 	<select id="selectReply" resultMap="replyResultSet">
 		select RE_NO, RE_WRITER, U_NICKNAME, BOARD_NO,
 			   RE_CONTENT, TO_CHAR(RE_CREATE_DATE, 'YY-MM-DD (DY) PM HH:MI:SS') AS "DATE", RE_STATUS
@@ -103,6 +139,12 @@
 		set re_status = 'N'
 		where re_no = #{replyNo}
 	</update>
+	
+	<select id="replyCount" resultType="_int">
+		select count(*)
+		from reply
+		where board_no = #{boardNo}
+	</select>
 	
 	<update id="deleteReplyAll">
 		update reply
