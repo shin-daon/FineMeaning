@@ -218,4 +218,10 @@ public class SupportServiceImpl implements SupportService {
 		return suDAO.cateMySupportList(rowBounds, sh);
 	}
 
+
+	@Override
+	public int getDday(int supportNo) {
+		return suDAO.getDday(supportNo);
+	}
+
 }

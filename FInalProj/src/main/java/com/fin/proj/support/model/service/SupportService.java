@@ -72,6 +72,8 @@ public interface SupportService {
 
 	ArrayList<SupportHistory> cateMySupportList(PageInfo pi, SupportHistory sh);
 
+	int getDday(int supportNo);
+
 
 
 
