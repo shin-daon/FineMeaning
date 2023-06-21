@@ -83,7 +83,11 @@ public class SupportController {
 	}
 
 	@RequestMapping("doSupportEnd.su")
-	public String doSupportEnd(HttpSession session) {
+	public String doSupportEnd(@RequestParam("registar") String registar, @RequestParam("supportTitle") String supportTitle, Model model) {
+		System.out.println(supportTitle);
+		System.out.println(registar);
+		model.addAttribute("supportTitle", supportTitle);
+		model.addAttribute("registar", registar);
 		return "doSupportEnd";
 	}
 
@@ -112,10 +116,21 @@ public class SupportController {
 	}
 
 	@RequestMapping("supportApplicationListUser.su")
-	public String supportApplicationListUser(HttpSession session, Model model) {
+	public String supportApplicationListUser(HttpSession session, Model model,@RequestParam(value = "page", required = false) Integer currentPage) {
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
-		ArrayList<Support> sList = suService.selectApplyListUser(uNo);
+
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = suService.getApplyListUser(uNo);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Support> sList = suService.selectApplyListUser(pi,uNo);
 		model.addAttribute("sList", sList);
+		model.addAttribute("pi", pi);
+		
 		return "supportApplicationListUser";
 	}
 
@@ -533,16 +548,20 @@ public class SupportController {
 
 	}
 	
-	@RequestMapping("reloadDetail")
-	@ResponseBody
+	@RequestMapping("reloadDetail.su")
 	public void relodaDetail(@RequestParam("supportNo") int supportNo, HttpServletResponse response) {
 		Support s = suService.supportDetail(supportNo);
 		
-//		response.setContentType("application/json; charset=UTF-8");
-//		GsonBuilder gson = new GsonBuilder();
-//		try {
-//		} catch (JsonIOException | IOException e) {
-//			e.printStackTrace();
-//		} 
+		response.setContentType("application/json; charset=UTF-8");
+		Gson gson = new Gson();
+		try {
+			gson.toJson(s, response.getWriter());
+		} catch (JsonIOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

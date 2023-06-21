@@ -96,4 +96,49 @@
 		from v_history
 		where v_no = #{vNo} and u_no = #{uNo}
 	</select>
+	
+	<select id="searchVolunteerCount" resultType="_int">
+		select count(*)
+		from volunteer
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+		where v_status='Y'
+		<if test="vName != null and !vName.equals('')">
+			and v_name like '%' || #{vName} || '%'
+		</if>
+		<if test="registrar != null and !registrar.equals('')">
+			and registrar like '%' || #{registrar} || '%'
+		</if>
+		<if test="vStartDate != null and !vStartDate.equals('')">
+				and <![CDATA[to_char(v_start_date, 'yyyy-mm-dd') >= #{vStartDate}]]>
+		</if>
+		<if test="vEndDate != null and !vEndDate.equals('')">
+			and <![CDATA[to_char(v_end_date, 'yyyy-mm-dd') <= #{vEndDate}]]>
+		</if>
+	</select>
+	
+	<select id="searchVolunteer" resultMap="volunteerResultSet">
+		select *
+		from volunteer
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+		where v_status='Y'
+		<if test="vName != null and !vName.equals('')">
+			and v_name like '%' || #{vName} || '%'
+		</if>
+		<if test="registrar != null and !registrar.equals('')">
+			and registrar like '%' || #{registrar} || '%'
+		</if>
+		<if test="vStartDate != null and !vStartDate.equals('')">
+				and <![CDATA[to_char(v_start_date, 'yyyy-mm-dd') >= #{vStartDate}]]>
+		</if>
+		<if test="vEndDate != null and !vEndDate.equals('')">
+			and <![CDATA[to_char(v_end_date, 'yyyy-mm-dd') <= #{vEndDate}]]>
+		</if>
+		order by v_no
+	</select>
 </mapper>

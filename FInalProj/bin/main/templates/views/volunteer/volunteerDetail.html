@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>봉사 세부 조회</title>
-    <link rel="stylesheet" href="css/volunteerDetail.css">
+    <link rel="stylesheet" href="css/volunteer/volunteerDetail.css">
     
     <!-- include libraries(jQuery, bootstrap) -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
@@ -15,6 +15,16 @@
 	<!-- include summernote css/js -->
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+	
+	<style type="text/css">
+		#summernote img {
+			max-width: 690px;
+		}
+		
+		#summernote table {
+			max-width: 690px;
+		}
+	</style>
 </head>
 <body>
 	<div th:replace="~{../common/header :: header}"></div>
@@ -45,7 +55,8 @@
 	                <span class="v-locale-icon">[[${ v.vArea }]]</span>
 	                <span class="v-org">[[${v.vName}]]</span>
 	                <span class="v-recruitment-status">[[${v.vRecruitmentEndDate}]]</span>
-	                <button type="button" class="btn-gradient mini v-list-btn" th:onclick="|location.href='volunteer.vo?page=${page}'|">목록</button>
+	                <button type="button" class="btn-gradient mini v-list-btn" th:onclick="|location.href='volunteer.vo?page=${page}'|" th:if="${vStartDate==null && vEndDate==null && vName==null && registrar==null}">목록</button>
+	                <button type="button" class="btn-gradient mini v-list-btn" th:onclick="moveToList([[${page}]], [[${vStartDate}]], [[${vEndDate}]], [[${vName}]], [[${registrar}]])" th:unless="${vStartDate==null && vEndDate==null && vName==null && registrar==null}">목록</button>
 	            </div>
 	            <table>
 	                <tr>
@@ -133,6 +144,10 @@
     <div th:replace="~{../common/footer :: footer}"></div>  
     <script th:inline="javascript">
     	/*<![CDATA[*/
+    	function moveToList(page, vStartDate, vEndDate, vName, registrar){
+			location.href = 'volunteer.vo?page=' + page + '&vStartDate=' + vStartDate + '&vEndDate=' + vEndDate + '&vName=' + vName + '&registrar=' + registrar;
+		}
+    	
 	    document.getElementById('summernote').innerHTML = /*[[${v.vContent}]]*/'내용';
     	
 	    const now = new Date();

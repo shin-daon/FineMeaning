@@ -121,6 +121,17 @@
 	                </tr>
             </tbody>
         </table>
+        
+        
+        <script>
+        	const trs = document.getElementsByClassName('supportTable')[0].querySelectorAll('tr');
+        	for(const tr of trs){
+        		tr.addEventListener('click', function(){
+        			const supportNo = this.querySelector('td').innerText;
+        			location.href="supportDetail.su?supportNo=" + supportNo;
+        		})
+        	} 
+        </script>
         <div class="buttonArea">
 	        <div class="buttonSection">
 	        	<button class="learn-more" onclick="location.href='supportApplicationListUser.su'">후원 신청 내역</button>
