@@ -94,16 +94,18 @@ public class MemberController {
 	}
 	
 	@RequestMapping("findIdResult.me")
-	public String findIdResult(@ModelAttribute("foundUser") Member foundUser) {
-		
-		System.out.println(foundUser);
-		
+	public String findIdResult() {		
 		return "findIdResult";
 	}
 	
 	@RequestMapping("findPwd.me")
 	public String findPwd() {
 		return "findPwd";
+	}
+	
+	@RequestMapping("findPwdResult.me")
+	public String findPwdResult() {
+		return "findPwdResult";
 	}
 	
 	@RequestMapping("logout.me")
@@ -156,16 +158,22 @@ public class MemberController {
 
 	@PostMapping("updateMyInfo.me")
 	public String updateMyInfo(@ModelAttribute Member m,
-			   				   @RequestParam("emailId") String emailId,
+			   				   @RequestParam(value="emailId") String emailId,
 			   				   @RequestParam("emailDomain") String emailDomain,
 			   				   @RequestParam("first-ssn") String firstSsn,
 			   				   @RequestParam("two-ssn") String twoSsn, Model model) {
 		
 		if(!emailId.trim().equals("")) {
 			m.setEmail(emailId + "@" + emailDomain);
+		} else {
+			m.setEmail(null);
 		}
 		
-		m.setResidentNo(firstSsn + "-" + twoSsn);
+		if(firstSsn.trim().equals("") || twoSsn.trim().equals("")) {
+			m.setResidentNo(null);
+		} else {
+			m.setResidentNo(firstSsn + "-" + twoSsn);
+		}
 
 		int result = mService.updateMyInfo(m);
 		
@@ -267,7 +275,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="findMyId.me") 
-	public void findId(@RequestParam("uName") String uName,
+	public void findMyId(@RequestParam("uName") String uName,
 					   @RequestParam("emailAddress") String emailAddress, PrintWriter out) {
 		
 		System.out.println("이름 : " + uName);
@@ -309,6 +317,50 @@ public class MemberController {
 		} else {
 			throw new MemberException("아이디 찾기에 실패하였습니다.");
 		}		
+	}
+	
+	@RequestMapping(value="findMyPwd.me") 
+	public void findMyPwd(@RequestParam("uId") String uId,
+					      @RequestParam("emailAddress") String emailAddress, PrintWriter out) {
+		
+		System.out.println("아이디 : " + uId);
+		System.out.println("보낼 이메일 : " + emailAddress);
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+    	map.put("uId", uId);
+    	map.put("email", emailAddress);
+    	  
+    	int count = mService.searchEmailUser2(map);
+		String result = count == 0 ? "no" : "yes";
+    	
+    	int randomNum = 0;    	
+    	if(count > 0) {
+    		randomNum = eService.findPwd(emailAddress);
+    	}
+    	
+    	out.print(result + "," + randomNum);  	
+	}
+	
+	@PostMapping("findPwdForm.me")
+	public String findPwdForm(@ModelAttribute Member m,
+							  @RequestParam("emailId") String emailId,
+							  @RequestParam("emailDomain") String emailDomain, Model model) {
+		
+		String email = emailId + "@" + emailDomain;
+		String uId = m.getuId();
+		
+		m.setEmail(email);
+		m.setuId(uId);
+		
+		Member foundUser = mService.searchUserPwd(m);
+		
+		if(foundUser != null) {
+			model.addAttribute("foundUser", foundUser);
+			System.out.println(foundUser);
+			return "findPwdResult";
+		} else {
+			throw new MemberException("비밀번호 찾기에 실패하였습니다.");
+		}
 	}
 }
 

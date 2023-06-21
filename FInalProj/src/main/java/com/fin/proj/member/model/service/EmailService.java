@@ -57,6 +57,22 @@ public class EmailService {
 		return authNumber;
 	}
 	
+	public int findPwd(String emailAddress) {
+		makeRandomNumber();
+		
+		String setFrom = "finemeaning.kh@gmail.com";
+		String toMail = emailAddress;
+		String title = "🍀[선뜻] 비밀번호 찾기 인증코드 안내";
+		String content = 
+					"홈페이지를 이용해주셔서 감사합니다." +
+	                "<br><br>" + 
+				    "인증 번호는 " + authNumber + "입니다." + 
+				    "<br>" + 
+				    "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
+		mailSend(setFrom, toMail, title, content);
+		return authNumber;
+	}
+	
 	//이메일 전송 메소드
 	public void mailSend(String setFrom, String toMail, String title, String content) { 
 		MimeMessage message = emailSender.createMimeMessage();
@@ -72,5 +88,6 @@ public class EmailService {
 			e.printStackTrace();
 		}
 	}
+	
 }
 
