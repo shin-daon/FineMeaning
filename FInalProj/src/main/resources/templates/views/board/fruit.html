@@ -47,26 +47,31 @@
         <table class="fruitTable">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>카테고리</th>
-                    <th style="width: 320px;">제목</th>
-                    <th>작성일</th>
-                    <th>조회수</th>
+                    <th style="width: 13%;">No</th>
+                    <th style="width: 13%;">카테고리</th>
+                    <th style="width: 46%;">제목</th>
+                    <th style="width: 16%;">작성일</th>
+                    <th style="width: 12%;">조회수</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="b : ${ list }">
-                    <td th:text="${ b.boardNo }"></td>
-                    <td th:text="${ b.boardCate == 1 ? '후원' : (b.boardCate == 2 ? '봉사' : '-')}"></td>
-                    <td>
-						<div class="fruit_title_wrap">
-							<p class="fruit_title" th:text="${ b.boardTitle }"></p>
-						</div>   
-                    </td>
-                    <td th:text="${ b.boardDate }"></td>
-                    <td th:text="${ b.boardCount }"></td>
-                </tr>
-            </tbody>
+			    <tr th:each="b : ${list}">
+			        <th:block th:if="${b != null}">
+			            <td th:text="${b.boardNo}"></td>
+			            <td th:text="${b.boardCate == 1 ? '후원' : (b.boardCate == 2 ? '봉사' : '-')}"></td>
+			            <td>
+			                <div class="fruit_title_wrap">
+			                    <p class="fruit_title" th:text="${b.boardTitle}"></p>
+			                </div>   
+			            </td>
+			            <td th:text="${b.boardDate}"></td>
+			            <td th:text="${b.boardCount}"></td>
+			        </th:block>
+			    </tr>
+			        <th:block th:if="${#lists.isEmpty(list)}">
+			            <td colspan="5" id="emptyBoardList">게시글이 없습니다.</td>
+			        </th:block>
+			</tbody>
         </table>
 
         <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
@@ -148,7 +153,7 @@
 			
 			// 검색 기능
 			const search = document.querySelector('.searchIconATag');
-			search.addEventListener('click', function(){
+			search.addEventListener('click', function(event){
 				const input = document.querySelector('.searchInput').value;
 				if(input.trim().length === 0){
 					event.preventDefault();		// ★ 카테고리 선택 안 했을 때 안 넘어가게 하기

@@ -106,10 +106,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int searchFruitListCount(HashMap<String, Object> params) {
-		
-		System.out.println(params);
-		
+//		System.out.println(params);
 		return bDAO.searchFruitListCount(params);
 	}
-
+	
 }
