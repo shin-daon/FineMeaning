@@ -663,7 +663,7 @@ select:focus {
 	  const firstPart = ssnFirstInput.value;
 	  const secondPart = ssnSecondInput.value;
 	  const ssnRegexFirst = /^[0-9]{6}$/
-	  const ssnRegexSecond = /^[1-4]{7}$/
+	  const ssnRegexSecond = /^[1-4][0-9]{6}$/
 	
 	  if (ssnRegexFirst.test(firstPart) && ssnRegexSecond.test(secondPart)) {
 	    ssnCheckResult.textContent = '';
