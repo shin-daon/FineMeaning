@@ -113,6 +113,12 @@
 		            <td class="margin"></td>
 		        </tr>
 		    </table>
+		    <th:block th:if="${category == null}">
+		    	<input name="category" class="categoryInput" type="hidden" value="none">
+		    </th:block>
+		    <th:block th:if="${category != null}">
+		    	<input name="category" class="categoryInput" type="hidden" th:value="${category}">
+		    </th:block>
 		</div>
 	<br>
 	<script>
@@ -123,19 +129,36 @@
 				location.href="mainCategory.su?category=" + category
 			})
 		}
-		
-		window.onload=()=>{
-				
+	</script>
+	<script th:inline="javascript">
+		window.onload = ()=>{
+			/*<![CDATA[*/
+				const category = /*[[${category}]]*/'category';	
+			/*]]*/
+			if(category != null){
+				const categoryNames = document.querySelectorAll('.category-name')
+				for(const categoryName of categoryNames){
+					if(categoryName.innerText == category){				
+						categoryName.parentElement.style.backgroundColor='#EDF1D6';
+						categoryName.parentElement.querySelector('.fa-solid').style.color='#40513B';
+						categoryName.style.color='#40513B'
+					}
+				}
+			} else{
+				const total = document.querySelector('.category-name')
+				total.parentElement.style.backgroundColor='#EDF1D6';
+				total.parentElement.querySelector('.fa-solid').style.color='#40513B';
+				total.style.color='#40513B'
+			}
 		}
 	</script>
-	
     
     
     <!-- 후원 리스트  -->
 	<div class="supportLists">
 	<div class="actionArea">
     	<div class="searchArea">
-        	<input class="searchInput" type="text" placeholder="검색"/>
+        	<input class="searchInput" type="text" placeholder="제목으로 검색"/>
             <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
         </div>
     </div>
@@ -144,17 +167,17 @@
     	
     	document.querySelector('.searchIcon').addEventListener('click', ()=>{
     		const searchWord = document.querySelector('.searchInput').value;
-//     		const category = document.getElementById('area').value;
+    		const category = document.querySelector('.categoryInput').value;
     		
-//     		if(category=='none'){
-// 				const searchWord = document.getElementsByClassName('searchInput')[0].value
-// 				location.href="searchSupportListAdmin.su?searchWord=" + searchWord;
-// 			} else{
-// 				const searchWord = document.getElementsByClassName('searchInput')[0].value
-// 				location.href="categoryListAdmin.su?searchWord=" + searchWord + "&category="+category;
-// 			}
+    		if(category=='none'){
+				const searchWord = document.getElementsByClassName('searchInput')[0].value
+				location.href="mainSearch.su?searchWord="+searchWord;
+			} else{
+				const searchWord = document.getElementsByClassName('searchInput')[0].value
+				location.href="mainCategory.su?searchWord=" + searchWord + "&category="+category;
+			}
     		
-    		location.href="mainSearch.su?searchWord="+searchWord;
+    		
     	})
     </script>
     <br clear="both">
