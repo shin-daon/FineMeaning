@@ -91,17 +91,17 @@
 	  WHERE board_title like '%' || #{keyword} || '%' and board_type = #{i} and board_status='Y'
 	  <if test="category != null and category != 0">
 	    and board_cate = #{category}
-	  </if> 
+	  </if>
 	</select>
 	
 	<select id="searchByTitleAndCategory" parameterType="map" resultMap="boardResultSet">
 		select *
 		from board
-		WHERE board_title like '%' || #{keyword} || '%'
+		WHERE board_title like '%' || #{keyword} || '%' and board_type = #{i} and board_status='Y'
 		<if test="category != null and category != 0">
 	    and board_cate = #{category}
-		</if> 
-		and board_type = #{i} and board_status='Y'
+		</if>
+		order by board_no desc
 	</select>
 	
 	<select id="selectReply" resultMap="replyResultSet">
