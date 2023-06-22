@@ -38,4 +38,5 @@ public interface BoardService {
 	ArrayList<Board> searchByTitleAndCategory(PageInfo pi, HashMap<String, Object> params);
 
 	int searchFruitListCount(HashMap<String, Object> params);
+
 }
