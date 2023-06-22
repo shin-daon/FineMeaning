@@ -304,7 +304,7 @@ select:focus {
 <div class="enroll">
 	<div class="enroll-title">회원가입</div>
 	
-	<form action="insertUser.me" method="post">
+	<form action="insertUser.me" method="post" name="enrollForm">
 		<div class="insert id">
 			<label class="title">아이디</label>
 			<div class="input">
@@ -533,7 +533,7 @@ select:focus {
     	}
     
     // 이메일 폼
-	const form = document.querySelector('form');
+	const form = document.getElementsByName('enrollForm')[0];
 
 	form.addEventListener('submit', function(event) {
   		if (customEmailInput.value === '') {
@@ -778,6 +778,20 @@ select:focus {
 	        				enrollButton.disabled = true;
 	        			} else {
 	        				enrollButton.disabled = false;
+	        				
+	        				// 이메일 폼
+	        				const form = document.getElementsByName('enrollForm')[0];
+	        				const emailSelect = document.getElementById('email-select');
+	        			    const customEmailInput = document.getElementById('custom-email-input');
+
+	        			  		if (customEmailInput.value === '') {
+	        			  			customEmailInput.setAttribute('name', '');
+	        			    		emailSelect.setAttribute('name', 'emailDomain');
+	        			  		} else {
+	        			  			customEmailInput.setAttribute('name', 'emailDomain');
+	        			   			emailSelect.setAttribute('name', '');
+	        			  		}
+	        				
 	        				form.submit();
 	        				alert('회원가입이 성공적으로 완료되었습니다.');
 	        			}
