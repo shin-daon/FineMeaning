@@ -31,4 +31,6 @@ public interface VolunteerDAO {
 
 	ArrayList<Volunteer> searchVolunteer(HashMap<String, String> map, RowBounds rowBounds);
 
+	ArrayList<Volunteer> searchVolunteerByAjax(HashMap<String, String> ajaxMap, RowBounds rowBounds);
+
 }
