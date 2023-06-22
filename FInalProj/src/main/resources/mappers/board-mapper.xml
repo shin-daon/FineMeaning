@@ -88,12 +88,10 @@
 	<select id="searchFruitListCount" resultType="_int">
 	  SELECT COUNT(*)
 	  FROM board
-	  WHERE board_title like '%' || #{keyword} || '%'
-<!-- 	   and board_type = #{i} -->
+	  WHERE board_title like '%' || #{keyword} || '%' and board_type = #{i} and board_status='Y'
 	  <if test="category != null and category != 0">
 	    and board_cate = #{category}
 	  </if> 
-	  and board_type = #{i} and board_status='Y'
 	</select>
 	
 	<select id="searchByTitleAndCategory" parameterType="map" resultMap="boardResultSet">
