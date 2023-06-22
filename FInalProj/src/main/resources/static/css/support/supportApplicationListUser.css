@@ -285,3 +285,44 @@ button {
 .disabled {
 	opacity: 0.3;
 }
+
+.dropdown{
+    position : relative;
+    display : inline-block;
+}
+
+.dropdown-btn {
+    border: 1px solid #609966;
+    background-color: #EDF1D6;
+  /*   font-weight: 400; */
+    color : rgb(37, 37, 37);
+/*     padding : 10px; */
+    width :100px;
+    height:30px;
+    cursor : pointer;
+    font-size : 13px;
+    text-align: center;
+    margin-top:28px;
+}
+
+.dropdown-content {
+    display : none;
+    position : absolute;
+    z-index : 9999;
+    font-weight: 400;
+    background-color: #EDF1D6;
+    min-width : 100px;
+    text-align: center;
+}
+
+.dropdown-content span{
+    display : block;
+    color : rgb(37, 37, 37);
+    font-size: 12px;
+    padding : 12px 0;
+}
+
+.dropdown-content span:hover{
+    background-color : #609966;
+    color:white;
+}
