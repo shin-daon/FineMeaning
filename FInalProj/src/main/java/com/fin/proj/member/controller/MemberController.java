@@ -104,8 +104,13 @@ public class MemberController {
 	}
 	
 	@RequestMapping("findPwdResult.me")
-	public String findPwdResult() {
-		return "findPwdResult";
+	public String findPwdResult(Model model) {
+		
+		Member foundUser = (Member) model.getAttribute("foundUser");
+
+	    model.addAttribute("foundUser", foundUser);
+	    System.out.println(foundUser);
+	    return "findPwdResult";
 	}
 	
 	@RequestMapping("logout.me")
@@ -266,11 +271,11 @@ public class MemberController {
 	    		model.addAttribute("loginUser", mService.login(m));
 	    		return "redirect:/";
 	    	} else {
-	    		throw new MemberException("비밀번호 수정에 실패하였습니다.");
+	    		throw new MemberException("비밀번호 변경에 실패하였습니다.");
 	    	}
 	    	
 	     } else {
-	    	 throw new MemberException("비밀번호 수정에 실패하였습니다.");
+	    	 throw new MemberException("비밀번호 변경에 실패하였습니다.");
 	     }
 	}
 	
@@ -356,11 +361,35 @@ public class MemberController {
 		
 		if(foundUser != null) {
 			model.addAttribute("foundUser", foundUser);
-			System.out.println(foundUser);
 			return "findPwdResult";
 		} else {
 			throw new MemberException("비밀번호 찾기에 실패하였습니다.");
 		}
+	}
+	
+	@PostMapping("changePwd.me")
+	public String changePwd(HttpSession session,
+							@RequestParam("newPwd") String newPwd, Model model) {
+		
+		Member foundUser = (Member) model.getAttribute("foundUser");
+		
+		System.out.println("비번변경:" + foundUser);
+		
+		String changePwd = bcrypt.encode(newPwd);
+		foundUser.setuPwd(changePwd);
+	      
+    	HashMap<String, String> map = new HashMap<String, String>();
+    	map.put("uId", foundUser.getuId());
+    	map.put("newPwd", bcrypt.encode(newPwd));
+	    	  
+    	int result = mService.updatePwd(map);
+    	
+    	if(result > 0) {
+    		model.addAttribute("loginUser", mService.login(foundUser));
+    		return "redirect:/";
+    	} else {
+    		throw new MemberException("비밀번호 변경에 실패하였습니다.");    	
+	    }
 	}
 }
 
