@@ -198,7 +198,7 @@
 		    
 		    const recruitmentStatuses = document.querySelectorAll(".v-recruitment-status");
 		    for(const recruitmentStatus of recruitmentStatuses) {
-		    	if(recruitmentStatus.innerText <= today) {
+		    	if(recruitmentStatus.innerText >= today) {
 		    		recruitmentStatus.innerText = "모집중";
 		    		recruitmentStatus.style.color = "blue";
 		    	} else {
@@ -314,6 +314,9 @@
 	    	});
 	    }
 	    /*]]>*/
+	    
+	    const searchLiTags = document.querySelector("#v-section").getElementsByTagName("li");
+	    console.log(searchLiTags)
     </script>
 </body>
 </html>

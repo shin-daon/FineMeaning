@@ -55,7 +55,7 @@
 				 join v_sub_category using(v_sub_category_no)
 				 join v_target_category using(v_target_category_no)
 			where v_status='Y'
-			order by v_no
+			order by v_no desc
 		]]>
 	</select>
 	
