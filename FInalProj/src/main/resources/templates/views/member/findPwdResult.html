@@ -393,38 +393,52 @@ input[type="radio"]:checked + span:before{
 	const pwdResult = document.getElementById('pwdCheckResult');
 	const enrollButton = document.getElementById('nextBtn');
 	const changePwd = document.getElementById('changePwd');
+	const nextBtn = document.getElementById('nextBtn');
+	const form = document.querySelector('form');
+	
+	nextBtn.disabled = true;
 	
 	pwdInput.addEventListener('input', validatePwd);
 	
 	function validatePwd() {
-	  
 	  const pwdInputValue = pwdInput.value;
 	  const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
-	  
-	  if (pwdRegex.test(pwdInputValue)) {
-		pwdResult.textContent = '';
+	
+	  if (pwdRegex.test(pwdInputValue)) { // 새 비밀번호 잘 썼을 때
+		pwdResult.innerText = '';
 		
-		    if (pwdInput.value === pwdCheckInput.value) {
-			  	pwdCheckResult.innerText = '';
-// 			  	enrollButton.disabled = false;
-			  	changePwd.submit();
-		  } else if (pwdInput.value !== pwdCheckInput.value) {
-		  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
-// 		  		enrollButton.disabled = true;
+			if (pwdCheckInput.value.trim() == '') {
+			  	pwdResult.innerText = '비밀번호 확인을 입력해주세요.';
+		  		nextBtn.disabled = true;
+		  } else if (pwdInputValue === pwdCheckInput.value) {
+			  	pwdResult.innerText = '';
+			  	nextBtn.disabled = false;
+			  		
+			  		nextBtn.addEventListener("click", function() {
+			  			form.submit();
+			  			alert("비밀번호가 성공적으로 변경되었습니다.");
+			  		});
+			  	
+		  } else if (pwdInputValue !== pwdCheckInput.value) {
+			 	pwdResult.innerText = '비밀번호 값이 일치하지 않습니다.';
+		  		nextBtn.disabled = true;
 		  }
-		    
-	  } else {
-		pwdResult.textContent = '올바른 비밀번호를 입력해주세요.';
 		
-			if (pwdInput.value === pwdCheckInput.value) {
-			  	pwdCheckResult.innerText = '올바른 비밀번호를 입력해주세요.';
-// 			  	enrollButton.disabled = true;
-		  } else if (pwdInput.value !== pwdCheckInput.value) {
-		  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
-// 		  		enrollButton.disabled = true;
+	  } else { // 새 비밀번호 못 썼을 때
+		pwdResult.innerText = '올바른 비밀번호를 입력해주세요.';
+	  		
+			if (pwdCheckInput.value.trim() == '') {
+			  	pwdResult.innerText = '올바른 비밀번호를 입력해주세요.';
+		  		nextBtn.disabled = true;
+		  } else if (pwdInputValue === pwdCheckInput.value) {
+			  	pwdResult.innerText = '올바른 비밀번호를 입력해주세요.';
+			  	nextBtn.disabled = true;
+		  } else if (pwdInputValue !== pwdCheckInput.value) {
+			 	pwdResult.innerText = '비밀번호 값이 일치하지 않습니다.';
+		  		nextBtn.disabled = true;
 		  }
 	  }
-	}
+	}	
 </script>
 </body>
 </html>
