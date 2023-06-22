@@ -70,22 +70,7 @@
 		where board_no = #{bId}
 	</update>
 	
-<!-- 	<select id="searchByTitle" resultMap="boardResultSet"> -->
-<!-- 		select * -->
-<!-- 		from board -->
-<!-- 		where board_ -->
-<!-- 	</select> -->
-	
-<!-- 	<select id="searchFruitListCount" parameterType="map" resultType="_int"> -->
-<!-- 		select count(*) -->
-<!-- 		from board -->
-<!-- 		where board_title like '%' || #{keyword} || '%' and board_type = #{i} -->
-<!-- 		<if test="category != null and category != 0"> -->
-<!-- 			and board_cate = #{category} -->
-<!-- 		</if>  -->
-<!-- 	</select> -->
-	
-	<select id="searchFruitListCount" resultType="_int">
+	<select id="searchListCount" resultType="_int">
 	  SELECT COUNT(*)
 	  FROM board
 	  WHERE board_title like '%' || #{keyword} || '%' and board_type = #{i} and board_status='Y'
@@ -102,6 +87,13 @@
 	    and board_cate = #{category}
 		</if>
 		order by board_no desc
+	</select>
+	
+	<select id="searchByTitle" resultMap="boardResultSet">
+		select *
+		from board
+			 join users using(u_no)
+		where board_title like '%' || #{keyword} || '%' and board_type = #{i} and board_status = 'Y'
 	</select>
 	
 	<select id="selectReply" resultMap="replyResultSet">
