@@ -181,6 +181,16 @@
 			
 			/* <![CDATA[ */
 			document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/1;
+
+			document.getElementsByClassName('replyBtn')[0].addEventListener('click', ()=>{
+				enrollReply();
+			});
+			
+			document.getElementsByClassName('replyInput')[0].addEventListener('keyup', (e)=>{
+				if(e.key == 'Enter'){
+					enrollReply();
+				}
+			});
 			
 			function enrollReply() {
 				const replyInput = document.getElementsByClassName('replyInput')[0].value;
@@ -273,18 +283,6 @@
 					document.getElementsByClassName('replyInput')[0].focus();
 				}
 			}
-			
-			document.getElementsByClassName('replyBtn')[0].addEventListener('click', ()=>{
-				enrollReply();
-			});
-			
-			document.getElementsByClassName('replyInput')[0].addEventListener('keyup', (e)=>{
-				if(e.key == 'Enter'){
-					enrollReply();
-				}
-			});
-			
-			document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/5;
 			
 			// 삭제 모달
 			const deleteBtn = document.getElementById('deleteFaqBtn');

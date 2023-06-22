@@ -29,7 +29,7 @@
             </th:block>
             <div class="searchArea">
                 <input class="searchInput" type="text" placeholder="검색(글 제목)"/>
-                <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
+                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
             </div>
             <div class="dropdown">
                 <button id="dropbtn"> 
@@ -152,8 +152,17 @@
 			}
 			
 			// 검색 기능
-			const search = document.querySelector('.searchIconATag');
-			search.addEventListener('click', function(event){
+			document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
+				enrollSearchKeyword();
+			});
+			
+			document.getElementsByClassName('searchInput')[0].addEventListener('keyup', (e)=>{
+				if(e.key == 'Enter'){
+					enrollSearchKeyword()
+				}
+			});
+			
+			function enrollSearchKeyword() {
 				const input = document.querySelector('.searchInput').value;
 				const category = document.getElementsByName('category')[0].value;
 				let cate;
@@ -166,7 +175,7 @@
 					link += '&category=' + cate;
 				}
 				location.href = link;
-			});
+			}
     	}
     </script>
 </body>
