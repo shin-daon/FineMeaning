@@ -176,8 +176,23 @@
         			alert("비정상적인 접근입니다.");
         			event.preventDefault();
         		} else {
-        			location.href='volunteerApply.vo?vNo=' + /*[[${v.vNo}]]*/1;
-        		}
+        			$.ajax({
+        				url: 'checkVolunteerApply.vo',
+        				type: 'post',
+        				data: {
+        					vNo: /*[[${v.vNo}]]*/1,
+        					uNo: /*[[${session.loginUser == null? '' : session.loginUser.uNo}]]*/1
+        				}, success: data => {
+        					if(data === "no") {
+        						alert("이미 신청한 봉사입니다.");
+        					} else if(data === "yes") {
+			        			location.href='volunteerApply.vo?vNo=' + /*[[${v.vNo}]]*/1;
+        					}
+        				}, error: data => {
+        					
+        				}
+        			});
+        		} 
         	});
     	}
     	/*]]>*/
