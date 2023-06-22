@@ -101,7 +101,7 @@ width: 80px;
             <a class="middle">TALK 상세보기</a>
         </div>
 		
-		<form class="needs-validation" action="updateForm.bo" method="POST">
+		<form class="needs-validation" action="updateForm.bo" method="get">
 					<input type="hidden" th:value="${ board.boardNo }" name="bNo">
 					<input type="hidden" th:value="${ page }" name="page">
 
@@ -166,7 +166,7 @@ width: 80px;
 		 					function deleteReply(rNo, bNo, page){
 		 						console.log(rNo);
 		 						console.log(bNo);
-		 						location.href = 'deleteReply.bo?rNo=' + btoa(rNo) + '&bNo=' + bNo + '&page=' + page;
+		 						location.href = 'deleteCommReply.bo?rNo=' + btoa(rNo) + '&bNo=' + bNo + '&page=' + page;
 		 					}
 	 					</script>
 			 			<div class="replyInfo2">
@@ -212,7 +212,7 @@ width: 80px;
   	<script th:inline="javascript">
   	window.onload = () => {
 		
-		/* <![CDATA[ */
+  		/* <![CDATA[ */
 		document.getElementsByClassName('replyBtn')[0].addEventListener('click', ()=>{
 			const replyInput = document.getElementsByClassName('replyInput')[0].value;
 			if(replyInput != '') {
@@ -271,7 +271,7 @@ width: 80px;
 								deleteLink.classList.add('aTags');
 								const replyNo = r.replyNo;
 								const replyBoardNo = r.boardNo;
-								deleteLink.setAttribute('href', 'deleteReply.bo?rNo=' + replyNo + '&bNo=' + replyBoardNo + '&page=' + /*[[${ page }]]*/0);
+								deleteLink.setAttribute('href', 'deleteCommReply.bo?rNo=' + btoa(replyNo) + '&bNo=' + replyBoardNo + '&page=' + /*[[${ page }]]*/0);
 								deleteLink.innerText = '삭제';
 								replySet.appendChild(deleteLink);
 							}
@@ -306,6 +306,13 @@ width: 80px;
 		});
 		
 		/* ]]> */
+		
+		const deleteModal = document.getElementById('deleteModal');
+		if(deleteModal != null){
+			deleteModal.addEventListener('click', ()=>{
+				$('#modalChoice').modal('show');
+			})
+		}
 
     /*<![CDATA[*/
     document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/ 5;

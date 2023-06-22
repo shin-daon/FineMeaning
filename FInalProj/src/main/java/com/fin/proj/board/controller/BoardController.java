@@ -470,21 +470,21 @@ public class BoardController {
 		return "writeComm";
 	}
 	
+	
 	@GetMapping("commDetailPage.bo")
-	public String CommDetail(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer,
-							@RequestParam("page") int page, HttpSession session, Model model) {
+	public String CommDetail(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
+							  HttpSession session, Model model) {
+		
 		Member m = (Member)session.getAttribute("loginUser");
-		String readerNickName = null;
-		if(m != null) {
-			readerNickName = m.getuNickName();
-		}
+//		System.out.println(m);
 		
 		boolean countYN = false;
-		if(!writer.equals(readerNickName)) {
+		if(m == null || m.getIsAdmin() == 1) {
 			countYN = true;
 		}
 		
 		Board board = bService.selectBoard(bNo, countYN);
+//		System.out.println(board);
 		
 		ArrayList<Reply> replyList = bService.selectReply(bNo);
 //		System.out.println(replyList);
@@ -493,12 +493,12 @@ public class BoardController {
 			model.addAttribute("board", board);
 			model.addAttribute("page", page);
 			model.addAttribute("replyList", replyList);
-			System.out.println("replyList출력" + replyList);
 			return "commDetail";
 		} else {
 			throw new BoardException("게시글 상세 조회 실패");
 		}
 	}
+	
 	
 	@PostMapping("insertCommBoard.bo")
 	public String insertCommBoard(@ModelAttribute Board b, HttpSession session) {
@@ -627,10 +627,37 @@ public class BoardController {
 		}
 	}
 	
+	@PostMapping("updateNotice.bo")
+	public String updateNotice(@ModelAttribute Board b, @RequestParam("page") int page, RedirectAttributes ra, HttpSession session) {
+		
+//		b.setBoardType(1);
+		int result = bService.updateBoard(b);
+//		System.out.println(result);
+		
+		if(result > 0) {
+			ra.addAttribute("bNo", b.getBoardNo());
+			ra.addAttribute("page", page);
+			return "redirect:noticeList.bo";
+			
+		} else {
+			throw new BoardException("공지 수정 실패");
+		}
+	}
+	
 	@GetMapping("writeNotice.bo")
 	public String writeNotice() {
 		return "writeNotice";
 	}
+	
+	@RequestMapping("updateNoticeForm.bo")
+	public String updateNoticeForm(@RequestParam("bNo") int boardNo, @RequestParam("page") int page, Model model) {
+		Board board = bService.selectBoard(boardNo, false);
+		model.addAttribute("b", board);
+		model.addAttribute("page", page);
+		return "editNotice";
+	}
+	
+	
 	
 	@GetMapping("qaList.bo")
 	public String qaList() {
