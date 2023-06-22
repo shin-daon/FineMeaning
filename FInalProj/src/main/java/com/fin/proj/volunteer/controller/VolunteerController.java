@@ -1,7 +1,7 @@
 package com.fin.proj.volunteer.controller;
 
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
@@ -24,7 +24,11 @@ import com.fin.proj.member.model.vo.Member;
 import com.fin.proj.volunteer.Map;
 import com.fin.proj.volunteer.model.service.VolunteerService;
 import com.fin.proj.volunteer.model.vo.Volunteer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -33,7 +37,7 @@ public class VolunteerController {
 	@Autowired
 	private VolunteerService vService;
 	
-	@GetMapping("volunteer.vo")
+	@RequestMapping("volunteer.vo")
 	public String volunteer(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam(value="vStartDate", required=false) String vStartDate,
 							@RequestParam(value="vEndDate", required=false) String vEndDate, @RequestParam(value="vName", required=false) String vName,
 							@RequestParam(value="registrar", required=false) String registrar, Model model) {
@@ -62,8 +66,8 @@ public class VolunteerController {
 			map.put("vName", vName);
 			map.put("registrar", registrar);
 			
-			int svc = vService.getSearchVolunteerCount(map);
-			PageInfo pi = Pagination.getPageInfo(currentPage, svc, 5);
+			int searchVolunteerCount = vService.getSearchVolunteerCount(map);
+			PageInfo pi = Pagination.getPageInfo(currentPage, searchVolunteerCount, 5);
 			ArrayList<Volunteer> list = vService.searchVolunteer(pi, map);
 			
 //			System.out.println(svc);
@@ -197,5 +201,42 @@ public class VolunteerController {
 		int count = vService.checkVolunteerApply(map);
 		String result = count == 0 ? "yes" : "no";
 		out.print(result);
+	}
+	
+	@PostMapping("volunteerAjax.vo")
+	public void volunteerAjax(@RequestParam(value="vArea") String vArea, @RequestParam(value="vMainCategoryName") String vMainCategoryName, @RequestParam(value="vActivityType") String vActivityType,
+							  @RequestParam(value="vTargetCategoryName") String vTargetCategoryName, HttpServletResponse response) {
+		HashMap<String, String> ajaxMap = new HashMap<String, String>();
+		if(vArea.equals("전체")) {
+			vArea = "";
+		} 
+		
+		if(vMainCategoryName.equals("전체")) {
+			vMainCategoryName = "";
+		}
+		
+		if(vActivityType.equals("전체")) {
+			vActivityType = "";
+		}
+		
+		if(vTargetCategoryName.equals("전체")) {
+			vTargetCategoryName = "";
+		}
+		
+		ajaxMap.put("vArea", vArea);
+		ajaxMap.put("vMainCategoryName", vMainCategoryName);
+		ajaxMap.put("vActivityType", vActivityType);
+		ajaxMap.put("vTargetCategoryName", vTargetCategoryName);
+		
+		int searchVolunteerAjaxCount = vService.getSearchVolunteerCount(ajaxMap);
+		PageInfo pi = Pagination.getPageInfo(1, searchVolunteerAjaxCount, 5);
+		ArrayList<Volunteer> volunteerList = vService.searchVolunteerByAjax(pi, ajaxMap);
+		response.setContentType("application/json; charset=UTF-8");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		try {
+			gson.toJson(volunteerList, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

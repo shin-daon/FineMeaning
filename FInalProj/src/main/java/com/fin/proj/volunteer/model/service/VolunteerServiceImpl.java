@@ -70,4 +70,12 @@ public class VolunteerServiceImpl implements VolunteerService {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return vDAO.searchVolunteer(map, rowBounds);
 	}
+
+	@Override
+	public ArrayList<Volunteer> searchVolunteerByAjax(PageInfo pi, HashMap<String, String> ajaxMap) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return vDAO.searchVolunteer(ajaxMap, rowBounds);
+	}
+
 }

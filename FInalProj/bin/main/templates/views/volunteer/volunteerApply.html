@@ -106,7 +106,7 @@
 		    let check = false;
 		    
 		    for(const recruitmentStatus of recruitmentStatuses) {
-		    	if(recruitmentStatus.innerText <= today) {
+		    	if(recruitmentStatus.innerText >= today) {
 		    		recruitmentStatus.innerText = "(모집중)";
 		    	} else {
 		    		recruitmentStatus.innerText = "(모집완료)";
@@ -240,7 +240,7 @@
 		    const endDate = /*[[${#strings.arraySplit(v.vEndDate, '-')[2]}]]*/1;
 		    const dates = document.querySelector(".dates").querySelectorAll(".current");
 		    for(const date of dates) {
-		    	if(startDate <= date.innerText && date.innerText <= endDate) {
+		    	if(Number(startDate) <= Number(date.innerText) && Number(date.innerText) <= Number(endDate)) {
 		    		date.style.backgroundColor = '#d7f1c8';
 		    		date.style.borderRadius = 0;
 		    	}

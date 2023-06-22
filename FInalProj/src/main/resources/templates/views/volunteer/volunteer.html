@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>봉사</title>
     <link rel="stylesheet" href="css/volunteer/volunteer.css"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 	<div th:replace="~{../common/header :: header}"></div>
@@ -25,7 +26,7 @@
     <section class="v-section">
         <section class="v-search">
             <div class="v-search-inner">
-            	<form action="volunteer.vo">
+            	<form action="volunteer.vo" method="POST">
 	                <table>
 	                    <tr>
 	                        <td width="80px">봉사기간</td>
@@ -90,7 +91,7 @@
                     <li name="category">안전·예방</li>
                     <li name="category">재해·재난</li>
                 </ul>
-                <input type="hidden" id="onoffLineINput" name="onoffLineInput" value="전체"/>
+                <input type="hidden" id="onoffLineInput" name="onoffLineInput" value="전체"/>
                 <ul>
                     <li name="onoff-line">전체</li>
                     <li name="onoff-line">온라인</li>
@@ -124,23 +125,19 @@
             <div class="v-list-box" th:each="v : ${ list }">
             	<input type="hidden" th:value="${ v.vNo }"/>
                 <div class="v-list-item">
-                    <span class="v-locale-icon">[[${v.vArea}]]</span>
-                    <span class="v-recruitment-status">[[${v.vRecruitmentEndDate}]]</span>
-                    <span class="v-list-category">([[${v.vMainCategoryName}]] > [[${v.vSubCategoryName}]])</span>
+                    <span class="v-locale-icon">[[${v.vArea}]]</span><span class="v-recruitment-status">[[${v.vRecruitmentEndDate}]]</span><span class="v-list-category">([[${v.vMainCategoryName}]] > [[${v.vSubCategoryName}]])</span>
                     <div class="v-list-title">[[${v.vName}]]</div>
                     <div class="v-list-info">
-                        <span class="v-bold">[모집기관]</span>[[${v.registrar}]]
-                        <span class="v-bold">[모집기간]</span>[[${v.vRecruitmentStartDate}]]~[[${v.vRecruitmentEndDate}]]
-                        <span class="v-bold">[봉사기간]</span>[[${v.vStartDate}]]~[[${v.vEndDate}]]
+                        <span class="v-bold">[모집기관]</span><span>[[${v.registrar}]]</span><span class="v-bold">[모집기간]</span><span>[[${v.vRecruitmentStartDate}]]~[[${v.vRecruitmentEndDate}]]</span><span class="v-bold">[봉사기간]</span><span>[[${v.vStartDate}]]~[[${v.vEndDate}]]</span>
                     </div>
                 </div>
                 <div class="v-end-box">
                     마감
-                    <div><span class="v-end-date">[[${v.vRecruitmentEndDate}]]</span>일전</div>
+                    <div><span class="v-end-date">[[${v.vRecruitmentEndDate}]]</span><span>일전</span></div>
                 </div>
             </div>
         </section>
-
+        
         <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
                 <li th:if="${ pi.currentPage > 1 && map == null}">
@@ -196,30 +193,37 @@
 		    const now = new Date();
 		    const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
 		    
-		    const recruitmentStatuses = document.querySelectorAll(".v-recruitment-status");
-		    for(const recruitmentStatus of recruitmentStatuses) {
-		    	if(recruitmentStatus.innerText >= today) {
-		    		recruitmentStatus.innerText = "모집중";
-		    		recruitmentStatus.style.color = "blue";
-		    	} else {
-		    		recruitmentStatus.innerText = "모집완료";
-		    	}
+		    const recruitmentSetting = () => {
+		    	const recruitmentStatuses = document.querySelectorAll(".v-recruitment-status");
+			    for(const recruitmentStatus of recruitmentStatuses) {
+			    	if(recruitmentStatus.innerText >= today) {
+			    		recruitmentStatus.innerText = "모집중";
+			    		recruitmentStatus.style.color = "blue";
+			    	} else {
+			    		recruitmentStatus.innerText = "모집완료";
+			    	}
+			    }
 		    }
 		    
-		    
-		    const endDates = document.querySelectorAll(".v-end-date");
-		    for(const endDate of endDates) {
-		    	if(endDate.innerText > today) {
-		    		const newDate = new Date(endDate.innerText);
-		    		let diff = Math.abs(now.getTime() - newDate.getTime());
-		    		diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
-		    		endDate.innerText = diff;
-		    	} else if(endDate.innerText == today) {
-		    		endDate.parentElement.parentElement.innerHTML = "<span class='v-end-date'>금일<br/>마감</span>";
-		    	} else {
-		    		endDate.parentElement.parentElement.innerHTML = "마감";
-		    	}
+		    const endDateSetting = () => {
+		    	const endDates = document.querySelectorAll(".v-end-date");
+			    for(const endDate of endDates) {
+			    	if(endDate.innerText > today) {
+			    		const newDate = new Date(endDate.innerText);
+			    		let diff = Math.abs(now.getTime() - newDate.getTime());
+			    		diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
+			    		endDate.innerText = diff;
+			    	} else if(endDate.innerText == today) {
+// 			    		endDate.parentElement.parentElement.innerHTML = "<span class='v-end-date'>금일<br/>마감</span>";
+			    	} else {
+// 			    		endDate.parentElement.parentElement.innerHTML = "마감";
+			    	}
+			    }
 		    }
+		    
+
+		    recruitmentSetting();
+		    endDateSetting();
 		    
 		    const startDate = document.querySelector("#startDate");		
 		    const endDate = document.querySelector("#endDate");
@@ -289,6 +293,137 @@
 		        	clickCategory(this, statuses);
 		        });
 		    }
+		    
+		    const searchLiTags = document.querySelector(".v-category").getElementsByTagName("li");
+		    for(const searchLiTag of searchLiTags) {
+		    	searchLiTag.addEventListener("click", function() {
+		    		this.parentElement.previousElementSibling.value = this.innerText;
+		    		
+		    		const startDate = document.querySelector("#startDate").value;
+		    	    const endDate = document.querySelector("#endDate").value;
+		    	    const volunteerName = document.querySelector("#volunteerName").value;
+		    	    const registrar = document.querySelector("#recipientName").value;
+		    	    const locationInput = document.querySelector("#locationInput").value;
+		    	    const categoryInput = document.querySelector("#categoryInput").value;
+		    	    const onoffLineInput = document.querySelector("#onoffLineInput").value;
+		    	    const objectInput = document.querySelector("#objectInput").value;
+		    	    const statusInput = document.querySelector("#statusInput").value;
+		    		
+		    		$.ajax({
+		    			url: 'volunteerAjax.vo',
+		    			type: 'post',
+		    			data: {
+		    				vStartDate: startDate,
+		    		        vEndDate: endDate,
+		    		        vName: volunteerName,
+		    		        registrar: registrar,
+		    		        vArea: locationInput,
+		    		        vMainCategoryName: categoryInput,
+		    		        vActivityType: onoffLineInput,
+		    		        vTargetCategoryName: objectInput,
+		    		        status: statusInput
+		    			},
+		 				success: data => {
+		 					const vList = document.querySelector(".v-list");
+		 					vList.innerHTML = '';
+		 					
+		 					for(const volunteer of data) {
+		 						const vListBox = document.createElement("div");
+		 						vListBox.classList.add("v-list-box");
+		 						
+		 						const input = document.createElement("input");
+		 						input.type = "hidden";
+		 						input.value = volunteer.vNo;
+		 						
+		 						const vListItem = document.createElement("div");
+		 						vListItem.classList.add("v-list-item");
+		 						
+		 						const vLocaleIcon = document.createElement("span");
+		 						vLocaleIcon.classList.add("v-locale-icon");
+		 						vLocaleIcon.innerText = volunteer.vArea;
+		 						vListItem.appendChild(vLocaleIcon);
+		 						
+		 						const vRecruitmentStatus = document.createElement("span");
+		 						vRecruitmentStatus.classList.add("v-recruitment-status");
+		 						vRecruitmentStatus.innerText = volunteer.vRecruitmentEndDate;
+		 						vListItem.appendChild(vRecruitmentStatus);
+		 						
+		 						const vListCategory = document.createElement("span");
+		 						vListCategory.classList.add("v-list-category");
+		 						vListCategory.innerText = "(" + volunteer.vMainCategoryName + " > " + volunteer.vSubCategoryName + ")";
+		 						vListItem.appendChild(vListCategory);
+		 						
+		 						const vListTitle = document.createElement("div");
+		 						vListTitle.classList.add("v-list-title");
+		 						vListTitle.innerText = volunteer.vName;
+		 						vListItem.appendChild(vListTitle);
+		 						
+		 						
+		 						const vListInfo = document.createElement("div");
+		 						vListInfo.classList.add("v-list-info");
+		 						
+		 						const vBold1 = document.createElement("span");
+		 						vBold1.classList.add("v-bold");
+		 						vBold1.innerText = "[모집기관]";
+		 						vListInfo.appendChild(vBold1);
+
+		 						const registrarSpan = document.createElement("span");
+		 						registrarSpan.innerText = volunteer.registrar;
+		 						vListInfo.appendChild(registrarSpan);
+		 						
+		 						const vBold2 = document.createElement("span");
+		 						vBold2.classList.add("v-bold");
+		 						vBold2.innerText = "[모집기간]";
+		 						vListInfo.appendChild(vBold2);
+		 						
+		 						const recruitmentDateSpan = document.createElement("span");
+		 						recruitmentDateSpan.innerText = volunteer.vRecruitmentStartDate + "~" + volunteer.vRecruitmentEndDate;
+		 						vListInfo.appendChild(recruitmentDateSpan);
+		 						
+		 						const vBold3 = document.createElement("span");
+		 						vBold3.classList.add("v-bold");
+		 						vBold3.innerText = "[봉사기간]";
+		 						vListInfo.appendChild(vBold3);
+		 						vListItem.appendChild(vListInfo);
+		 						
+		 						const volunteerDateSpan = document.createElement("span");
+		 						volunteerDateSpan.innerText = volunteer.vStartDate + "~" + volunteer.vEndDate;
+		 						vListInfo.appendChild(volunteerDateSpan);
+		 					
+		 						
+		 						const vEndBox = document.createElement("div");
+		 						vEndBox.classList.add("v-end-box");
+		 						vEndBox.innerText = "마감";
+		 						
+		 						const vEndDateDiv = document.createElement("div");
+		 						
+		 						const vEndDate = document.createElement("span");
+		 						vEndDate.classList.add("v-end-date");
+		 						vEndDate.innerText = volunteer.vRecruitmentEndDate;
+		 						vEndDateDiv.appendChild(vEndDate);
+		 						
+		 						const vEndDateTextSpan = document.createElement("span");
+		 						vEndDateTextSpan.innerText = "일전";
+		 						vEndDateDiv.appendChild(vEndDateTextSpan);
+		 						
+		 						vEndBox.appendChild(vEndDateDiv);
+										 						
+		 						
+		 						vListBox.appendChild(input);
+		 						vListBox.appendChild(vListItem);
+		 						vListBox.appendChild(vEndBox);
+		 						
+		 						vList.appendChild(vListBox);
+		 						
+		 						recruitmentSetting();
+		 						endDateSetting();
+		 					}
+		 				},
+		 				error: data => {
+		 				}
+		    		});
+		    	});
+		    }
 	    }
 	    
 	    const clickCategory = function(clickObj, category) {
@@ -315,8 +450,6 @@
 	    }
 	    /*]]>*/
 	    
-	    const searchLiTags = document.querySelector("#v-section").getElementsByTagName("li");
-	    console.log(searchLiTags)
     </script>
 </body>
 </html>

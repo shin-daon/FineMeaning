@@ -27,4 +27,6 @@ public interface VolunteerService {
 	int getSearchVolunteerCount(HashMap<String, String> map);
 
 	ArrayList<Volunteer> searchVolunteer(PageInfo pi, HashMap<String, String> map);
+
+	ArrayList<Volunteer> searchVolunteerByAjax(PageInfo pi, HashMap<String, String> ajaxMap);
 }
