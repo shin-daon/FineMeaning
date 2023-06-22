@@ -1,6 +1,7 @@
 package com.fin.proj.board.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
@@ -248,7 +249,7 @@ public class BoardController {
 			listCount = bService.getListCount("결실");
 			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.selectBoardList(pageInfo, "결실");
-//			System.out.println(list);
+			System.out.println(list);
 		}
 		
 		if(list != null) {
