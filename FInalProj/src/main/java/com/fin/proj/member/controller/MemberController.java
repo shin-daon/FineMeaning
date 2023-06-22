@@ -104,12 +104,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping("findPwdResult.me")
-	public String findPwdResult(Model model) {
-		
-		Member foundUser = (Member) model.getAttribute("foundUser");
-
-	    model.addAttribute("foundUser", foundUser);
-	    System.out.println(foundUser);
+	public String findPwdResult() {
 	    return "findPwdResult";
 	}
 	
@@ -347,7 +342,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("findPwdForm.me")
-	public String findPwdForm(@ModelAttribute Member m,
+	public String findPwdForm(@ModelAttribute Member m, HttpSession session,
 							  @RequestParam("emailId") String emailId,
 							  @RequestParam("emailDomain") String emailDomain, Model model) {
 		
@@ -360,7 +355,7 @@ public class MemberController {
 		Member foundUser = mService.searchUserPwd(m);
 		
 		if(foundUser != null) {
-			model.addAttribute("foundUser", foundUser);
+			session.setAttribute("foundUser", foundUser);
 			return "findPwdResult";
 		} else {
 			throw new MemberException("비밀번호 찾기에 실패하였습니다.");
@@ -368,10 +363,9 @@ public class MemberController {
 	}
 	
 	@PostMapping("changePwd.me")
-	public String changePwd(HttpSession session,
-							@RequestParam("newPwd") String newPwd, Model model) {
+	public String changePwd(HttpSession session, @RequestParam("newPwd") String newPwd, Model model) {
 		
-		Member foundUser = (Member) model.getAttribute("foundUser");
+		Member foundUser = (Member) session.getAttribute("foundUser");
 		
 		System.out.println("비번변경:" + foundUser);
 		
@@ -385,7 +379,7 @@ public class MemberController {
     	int result = mService.updatePwd(map);
     	
     	if(result > 0) {
-    		model.addAttribute("loginUser", mService.login(foundUser));
+    		session.setAttribute("foundUser", foundUser);
     		return "redirect:/";
     	} else {
     		throw new MemberException("비밀번호 변경에 실패하였습니다.");    	
