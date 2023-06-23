@@ -1,7 +1,6 @@
 package com.fin.proj.board.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
@@ -42,7 +41,7 @@ public class BoardController {
 	public String faqMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,
 						  @RequestParam(value="keyword", required=false) String keyword) {
 		
-		System.out.println(keyword);
+//		System.out.println(keyword);
 		// 키워드 매개변수로 받아서 전체적인 흐름은 fruitMain.bo와 비슷한 맥락으로 진행!
 		
 		HashMap<String, Object> map = new HashMap<>();
@@ -65,7 +64,7 @@ public class BoardController {
 			listCount = bService.getListCount("자주 묻는 질문");
 			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.selectBoardList(pageInfo, "자주 묻는 질문");
-			System.out.println(list);
+//			System.out.println(list);
 		}
 		
 		if(list != null) {
@@ -78,7 +77,7 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("faq_detail.bo")
+	@GetMapping("faqDetail.bo")
 	public String faqDetail(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer,
 							@RequestParam("page") int page, HttpSession session, Model model) {
 //		System.out.println(bNo + ", " + writer + ", "+ page);
@@ -114,12 +113,12 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("faq_form.bo")
+	@GetMapping("faqForm.bo")
 	public String faqForm() {
 		return "faq_form";
 	}
 	
-	@PostMapping("insert_faq.bo")
+	@PostMapping("insertFaq.bo")
 	public String insertFaq(@ModelAttribute Board b, HttpSession session) {
 		
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
@@ -199,7 +198,7 @@ public class BoardController {
 		int listCount = bService.getListCount("선뜻한 사람");
 //		System.out.println(listCount);
 		
-		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 5);
+		PageInfo pageInfo = Pagination.getPageInfo(currentPage, listCount, 5);
 		
 		ArrayList<Board> list = bService.selectBoardList(pageInfo, "선뜻한 사람");
 //		System.out.println(list);
@@ -213,7 +212,7 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("finePeople_form.bo")
+	@GetMapping("finePeopleForm.bo")
 	public String finePeopleForm() {
 		return "finePeople_form";
 	}
@@ -277,7 +276,7 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("fruit_detail.bo")
+	@GetMapping("fruitDetail.bo")
 	public String fruitDetail(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
 							  HttpSession session, Model model) {
 		
@@ -305,12 +304,12 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("fruit_form.bo")
+	@GetMapping("fruitForm.bo")
 	public String fruitForm() {
 		return "fruit_form";
 	}
 	
-	@PostMapping("insert_fruit.bo")
+	@PostMapping("insertFruit.bo")
 	public String insertFruit(@ModelAttribute Board b, HttpSession session) {
 		
 //		System.out.println(b);
@@ -391,13 +390,46 @@ public class BoardController {
 	}
 	
 	@GetMapping("fineNewsMain.bo")
-	public String fineNewsMain() {
-		return "fineNews";
+	public String fineNewsMain(@RequestParam(value="page", required=false) Integer currentPage, Model model){
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = bService.getListCount("선한 뉴스");
+		
+		PageInfo pageInfo = Pagination.getPageInfo(currentPage, listCount, 9);
+		
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, "선한 뉴스");
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			return "fineNews";
+		} else {
+			throw new BoardException("게시글 목록 조회 실패");
+		}
 	}
 	
-	@GetMapping("fineNews_form.bo")
+	@GetMapping("fineNewsForm.bo")
 	public String fineNewsForm() {
 		return "fineNews_form";
+	}
+	
+	@PostMapping("insertFineNews.bo")
+	public String insertFineNews(@ModelAttribute Board b, HttpSession session, Model model) {
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		b.setuNo(uNo);
+		b.setBoardType("선한 뉴스");
+		
+		int result = bService.insertBoard(b);
+		
+		if(result > 0) {
+			return "redirect:fineNewsMain.bo";
+		} else {
+			throw new BoardException("게시물 작성 실패");
+		}
 	}
 	
 	// 댓글

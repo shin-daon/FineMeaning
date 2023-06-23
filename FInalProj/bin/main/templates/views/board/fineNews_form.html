@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>선한 뉴스</title>
 <link rel="stylesheet" href="css/board/fineNews_form_style.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <style>
     /* 모달 */
 	#modal { width: 300px; height: 350px; border: 1px solid #eee; padding: 30px; margin: auto; display: none;
@@ -12,6 +13,16 @@
 	
 	.modal-comment {
 		font-size: 16px;
+	}
+	
+	.modal-comment2 {
+		font-weight: bold;
+		font-size: 17px;
+	}
+	
+	.modal-comment3 {
+		font-weight: bold;
+		font-size: 15px;
 	}
 	
 	#withdrawal-btn {
@@ -34,13 +45,33 @@
 		border: 1.5px solid #609966;
 	}
 	
-	.modal-comment2 {
-		font-weight: bold;
-		font-size: 17px;
+	#modal2 { width: 300px; height: 200px; border: 1px solid #eee; padding: 20px; margin: auto; display: none;
+		border-radius: 30px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);  text-align: center; background-color: white;
+ 		position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;}
+	
+	#withdrawal-btn2 {
+		border-radius: 10px;
+		width: 90px;
+		height: 35px;
+		font-size: 15px;
+		color: black;
+		background-color: #e7ede8;
+		border: 1.5px solid #e7ede8;
+		margin-top: 15px;
+	}
+	
+	#withdrawal-btn2:hover {
+		border: 1.5px solid #3c4f3f;
 	}
 	
 	#heartImage {
 		block-size: 120px;
+	}
+	
+	#addImage2 {
+		width: 30px;
+		height: 45px;
+		margin-bottom: 10px;
 	}
    </style>
 </head>
@@ -52,32 +83,31 @@
 	    </div>
 	    <div id="fineNews_write_title">게시글 작성</div>
 		
-	        <form method="post" action="writeBoard.bo">
+	        <form method="post" action="insertFineNews.bo">
 	            <table class="formDiv">
                     <tr>
                         <td colspan="2" rowspan="2">
                             <div id="groupPic">
                                 <span id="insertGroupPic">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
-                                          <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"/>
-                                        <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
-                                    </svg><br><br>
-                                    모임 대표 이미지 첨부<br>[필수 사항]
+                                    <img src="image/addImage.png" style="width:30px; height:40px; margin-bottom: 10px;">
+                                    <br>
+                                    대표 이미지 첨부<br>click here!
                                 </span>
                                 <img id="preview">						
                                 <input type="file" accept="image/*" class="form-control form-control-lg" name="file" id="groupReprePic" onchange="setThumbnail(event);">
                             </div>
+                            <input type="hidden" name="imageUrl" id="imageUrl"/>
                         </td>
                         <td colspan="2" class="titleArea">
-                            <input type="text" class="fineNewsTitle" placeholder="제목 입력" maxlength="16" required>
-                            <input type="text" class="fineNewsURL" placeholder="URL 입력" maxlength="7" required>
+                            <input type="text" class="fineNewsTitle" name="boardTitle" placeholder="제목 입력" required>
+                            <input type="text" class="fineNewsURL" name="newsURL" placeholder="URL 입력" required>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2">
 							<div class="fineNewsContentContainer">
 								<span style="color:#aaa;" id="counter">「 0 / 200 」</span>
-                            	<textarea class="fineNewsContent" placeholder="내용을 입력하세요. (200자 입력 가능)" required></textarea>
+                            	<textarea class="fineNewsContent" name="boardContent" placeholder="뉴스 내용을 입력하세요." required></textarea>
 							</div>
                         </td>
                     </tr>
@@ -98,6 +128,12 @@
 		<button id="rollback-btn">취소</button>
 		<button id="withdrawal-btn">확인</button>
 	</div>
+	<div id="modal2"><br>
+		<img id="addImage2" src="image/addImage2.png"/><br>
+		<span class="modal-comment3">이미지 선택은 필수입니다.</span><br>
+		<button id="withdrawal-btn2">확인</button>
+	</div>
+	
 	<script>
     	window.onload = () => {
 			
@@ -124,32 +160,69 @@
         
         const imgDiv = document.getElementById('groupPic');
         
-        
         // 파일 첨부
-
         imgDiv.addEventListener('click', ()=>{
-            console.log(123);
-            document.getElementById('groupReprePic').click(); // input이 실행되고
+//             console.log(123);
+            document.getElementById('groupReprePic').click(); // input이 실행
         })
 
         function setThumbnail(event){
-                for(const image of event.target.files){
-                    const reader = new FileReader();
-                    reader.onload = function(event){
-                        document.getElementById('insertGroupPic').style.display='none';
-                        const img = document.getElementById("preview");
-                        console.log(img);
-                        img.src = event.target.result;
-                        img.setAttribute("style", "width:220px; height:220px; background-color:white; margin:auto; border-radius:2em; border:3px solid #609966");
-                        
-                    }
-                    reader.readAsDataURL(image);
-                }
-                console.log(document.getElementById('groupReprePic').value);
+        	let formData = new FormData();
+        	formData.append("multipartFile", event.target.files[0]);
+        	
+        	let imageUrl = document.getElementById('imageUrl');
+        	
+        	$.ajax({
+        		type: "POST",
+        		url: '/s3/file.im',
+        		data: formData,
+        		async: false,
+        		enctype: "multipart/form-data",
+        		processData: false,
+        		contentType: false,
+        		success: data => {
+        			console.log("파일 업로드 성공");
+        			document.getElementById('insertGroupPic').style.display='none';
+        			const img = document.getElementById("preview");
+        			img.src = data;
+	                img.setAttribute("style", "width:220px; height:220px; background-color:white; margin:auto; border-radius:2em; border:3px solid #609966");
+	                imageUrl.setAttribute('value', data);
+        		},
+        		error: error => {
+        			console.log(error);
+        		}
+        		
+        	});
+// 			for(const image of event.target.files){
+// 			    const reader = new FileReader();
+// 			    reader.onload = function(event){
+// 			        document.getElementById('insertGroupPic').style.display='none';
+// 			        const img = document.getElementById("preview");
+// 			        console.log(img);
+// 			        img.src = event.target.result;
+// 			        img.setAttribute("style", "width:220px; height:220px; background-color:white; margin:auto; border-radius:2em; border:3px solid #609966");
+			        
+// 			    }
+// 			    reader.readAsDataURL(image);
+// 			}
+// 			console.log(document.getElementById('groupReprePic').value);
         }
 
+     // 이미지 없을 때 안 넘어가게 하기
+        document.querySelector('.writeFaqBtn').addEventListener('click', ()=>{
+	        const imageValue = document.querySelector('#imageUrl').value;
+	        const yesBtn = document.getElementById('withdrawal-btn2');
+	        const modal = document.getElementById('modal2');
+        	if(imageValue == ''){
+        		event.preventDefault();
+        		modal.style.display = 'block';
+        	}
+       		yesBtn.addEventListener('click', () => {
+   			    modal.style.display = 'none';
+   			});
+        });
+       
 		// finePeopleContent 글자 수 카운팅
-
 		document.querySelector('.fineNewsContent').addEventListener('keyup', function(e) {
     		var content = this.value;
     		document.querySelector('#counter').innerHTML = "「 " + content.length + " / 200 」";    //글자수 실시간 카운팅

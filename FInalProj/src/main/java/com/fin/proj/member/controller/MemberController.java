@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.fin.proj.member.model.exception.MemberException;
-import com.fin.proj.member.model.service.EmailService;
+import com.fin.proj.member.model.service.AuthService;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
 
@@ -32,7 +33,7 @@ public class MemberController {
 	private BCryptPasswordEncoder bcrypt;
 	
 	@Autowired
-	private EmailService eService;
+	private AuthService aService;
 	
 	@RequestMapping("loginView.me")
 	public String loginView() {
@@ -43,7 +44,6 @@ public class MemberController {
 	public String login(Member m, Model model, HttpSession session) {
 		
 		Member loginUser = mService.login(m);
-		
 		if(bcrypt.matches(m.getuPwd(), loginUser.getuPwd())) {
 			model.addAttribute("loginUser", loginUser);
 			
@@ -150,7 +150,7 @@ public class MemberController {
 	public void checkEmail(@RequestParam("emailAddress") String emailAddress, PrintWriter out) {
 		
 		System.out.println("보낼 이메일 : " + emailAddress);
-		int count = eService.checkEmail(emailAddress);
+		int count = aService.checkEmail(emailAddress);
 		
 		String result = Integer.toString(count);
 		out.print(result);	
@@ -290,7 +290,7 @@ public class MemberController {
     	
     	int randomNum = 0;    	
     	if(count > 0) {
-    		randomNum = eService.findId(emailAddress);
+    		randomNum = aService.findId(emailAddress);
     	}
     	
     	out.print(result + "," + randomNum);
@@ -304,9 +304,11 @@ public class MemberController {
 		
 		String email = emailId + "@" + emailDomain;
 		String uName = m.getuName();
+		String phone = m.getPhone();
 		
 		m.setEmail(email);
 		m.setuName(uName);
+		m.setPhone(phone);
 		
 		Member foundUser = mService.searchUser(m);
 		
@@ -335,7 +337,7 @@ public class MemberController {
     	
     	int randomNum = 0;    	
     	if(count > 0) {
-    		randomNum = eService.findPwd(emailAddress);
+    		randomNum = aService.findPwd(emailAddress);
     	}
     	
     	out.print(result + "," + randomNum);  	
@@ -384,6 +386,29 @@ public class MemberController {
     	} else {
     		throw new MemberException("비밀번호 변경에 실패하였습니다.");    	
 	    }
+	}
+	
+	@RequestMapping(value="findMyId2.me") 
+	public void findMyId2(@RequestParam("uName") String uName,
+					      @RequestParam("phone") String phone, PrintWriter out) {
+		
+		System.out.println("이름 : " + uName);
+		System.out.println("보낼 전화번호 : " + phone);
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+    	map.put("uName", uName);
+    	map.put("phone", phone);
+    	  
+    	int count = mService.searchPhoneUser(map);
+		String result = count == 0 ? "no" : "yes";
+    	
+    	int randomNum = 0;    	
+    	if(count > 0) {
+    		randomNum = aService.findId2(phone);
+    	}
+    	
+    	out.print(result + "," + randomNum);
+    	
 	}
 }
 

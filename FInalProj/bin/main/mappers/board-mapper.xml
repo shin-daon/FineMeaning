@@ -94,6 +94,7 @@
 		from board
 			 join users using(u_no)
 		where board_title like '%' || #{keyword} || '%' and board_type = #{i} and board_status = 'Y'
+		order by board_no desc
 	</select>
 	
 	<select id="selectReply" resultMap="replyResultSet">

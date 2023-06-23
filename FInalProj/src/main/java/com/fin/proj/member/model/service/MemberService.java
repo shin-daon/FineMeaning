@@ -32,4 +32,6 @@ public interface MemberService {
 
 	Member searchUserPwd(Member m);
 
+	int searchPhoneUser(HashMap<String, String> map);
+
 }
