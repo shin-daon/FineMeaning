@@ -1,7 +1,6 @@
 package com.fin.proj.board.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
@@ -42,7 +41,7 @@ public class BoardController {
 	public String faqMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,
 						  @RequestParam(value="keyword", required=false) String keyword) {
 		
-		System.out.println(keyword);
+//		System.out.println(keyword);
 		// 키워드 매개변수로 받아서 전체적인 흐름은 fruitMain.bo와 비슷한 맥락으로 진행!
 		
 		HashMap<String, Object> map = new HashMap<>();
@@ -65,7 +64,7 @@ public class BoardController {
 			listCount = bService.getListCount("자주 묻는 질문");
 			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.selectBoardList(pageInfo, "자주 묻는 질문");
-			System.out.println(list);
+//			System.out.println(list);
 		}
 		
 		if(list != null) {
@@ -398,6 +397,22 @@ public class BoardController {
 	@GetMapping("fineNewsForm.bo")
 	public String fineNewsForm() {
 		return "fineNews_form";
+	}
+	
+	@PostMapping("insertFineNews.bo")
+	public String insertFineNews(@ModelAttribute Board b, HttpSession session, Model model) {
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		b.setuNo(uNo);
+		b.setBoardType("선한 뉴스");
+		
+		int result = bService.insertBoard(b);
+		
+		if(result > 0) {
+			return "redirect:fineNewsMain.bo";
+		} else {
+			throw new BoardException("게시물 작성 실패");
+		}
 	}
 	
 	// 댓글
