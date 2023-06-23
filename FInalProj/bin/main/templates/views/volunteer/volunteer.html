@@ -26,26 +26,25 @@
     <section class="v-section">
         <section class="v-search">
             <div class="v-search-inner">
-            	<form action="volunteer.vo" method="POST">
-	                <table>
-	                    <tr>
-	                        <td width="80px">봉사기간</td>
-	                        <td><input type="date" id="startDate" name="vStartDate" th:value="${map == null? '' : map.vStartDate}"/><span class="date-delimeter"></span><input type="date" id="endDate" name="vEndDate" th:value="${map == null? '' : map.vEndDate}"/></td>
-	                    </tr>
-	                    <tr>
-	                        <td>봉사명</td>
-	                        <td><input type="search" id="volunteerName" name="vName" th:value="${map == null? '' : map.vName}"/></td>
-	                    </tr>
-	                    <tr>
-	                        <td>수요처명</td>
-	                        <td><input type="search" id="recipientName" name="registrar" th:value="${map == null? '' : map.registrar}"></td>
-	                    </tr>
-	                </table>
-	                <div class="v-search-inner-btn">
-	                    <button id="v-search-btn" class="learn-more">검색</button>
-	                    <button type="reset" id="v-reset-btn" class="learn-more-gray">초기화</button>
-	                </div>
-                </form>
+                <table>
+                    <tr>
+                        <td width="80px">봉사기간</td>
+                        <td><input type="date" id="startDate" name="vStartDate"/><span class="date-delimeter"></span><input type="date" id="endDate" name="vEndDate"/></td>
+                    </tr>
+                    <tr>
+                        <td>봉사명</td>
+                        <td><input type="search" id="volunteerName" name="vName"/></td>
+                    </tr>
+                    <tr>
+                        <td>수요처명</td>
+                        <td><input type="search" id="recipientName" name="registrar"></td>
+                    </tr>
+                </table>
+                <!-- 아래 부분 삭제 -->
+                <div class="v-search-inner-btn">
+                    <button id="v-search-btn" class="learn-more">검색</button>
+                    <button type="reset" id="v-reset-btn" class="learn-more-gray">초기화</button>
+                </div>
             </div>
             
             <div class="v-note">
@@ -107,8 +106,8 @@
                     <li name="object">환경</li>
                     <li name="object">기타</li>
                 </ul>
-                <input type="hidden" id="statusInput" name="statusInput" value="전체"/>
-                <ul>
+                <input type="hidden" id="statusInput" name="statusInput" value="모집중"/>
+                <ul class="status-ul">
                     <li name="status">전체</li>
                     <li name="status">모집중</li>
                     <li name="status">모집 완료</li>
@@ -117,10 +116,14 @@
         </section>
 
         <div class="v-enroll-btn-div">
-            <button type="button" id="v-enroll-btn" class="learn-more" onclick="location.href='volunteerEnroll.vo'">등록하기</button>
+            <button type="button" id="v-enroll-btn" class="learn-more" onclick="location.href='volunteerEnroll.vo'" th:if="${ session.loginUser != null && (session.loginUser.isAdmin == 0 || session.loginUser.isAdmin == 2)}">등록하기</button>
             <button id="v-category-reset-btn" class="learn-more-gray">초기화</button>
         </div>
-
+        
+        <div id="resultDiv" style="margin-top: 80px; margin-bottom: 30px;">
+			조회 결과가 없습니다.
+		</div>
+		
         <section class="v-list">
             <div class="v-list-box" th:each="v : ${ list }">
             	<input type="hidden" th:value="${ v.vNo }"/>
@@ -190,6 +193,23 @@
 
     <script th:inline="javascript">
 	    window.onload = () => {
+	    	/*<![CDATA[*/
+		    const volunteerList = /*[[${list}]]*/null;
+	    	const searchMap = /*[[${map}]]*/null;
+	    	if(volunteerList == null) {
+	    		$("#resultDiv").show();
+	    	} else {
+	    		$("#resultDiv").hide();
+	    	}
+	    	
+	    	if(searchMap != null) {
+		    	document.querySelector("#v-reset-btn").addEventListener("click", () => {
+			        location.href="volunteer.vo";
+			    });
+	    	}
+	    	
+		    /*]]>*/
+		    
 		    const now = new Date();
 		    const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
 		    
@@ -214,9 +234,9 @@
 			    		diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
 			    		endDate.innerText = diff;
 			    	} else if(endDate.innerText == today) {
-// 			    		endDate.parentElement.parentElement.innerHTML = "<span class='v-end-date'>금일<br/>마감</span>";
+			    		endDate.parentElement.parentElement.innerHTML = "<span class='v-end-date'>금일<br/>마감</span>";
 			    	} else {
-// 			    		endDate.parentElement.parentElement.innerHTML = "마감";
+			    		endDate.parentElement.parentElement.innerHTML = "마감";
 			    	}
 			    }
 		    }
@@ -240,10 +260,6 @@
 		        endDate.setAttribute("min", startDate.value);
 		    });
 		    
-		    document.querySelector("#v-reset-btn").addEventListener("click", () => {
-		        location.href="volunteer.vo";
-		    });
-		    
 			const ulList = document.querySelector(".v-sub-category").querySelectorAll("ul");
 			
 		    const locations = document.getElementsByName("location");
@@ -257,11 +273,18 @@
 		    	clickCategory(categories[0], categories);
 		    	clickCategory(onoffLines[0], onoffLines);
 		    	clickCategory(objects[0], objects);
-		    	clickCategory(statuses[0], statuses);
+		    	clickCategory(statuses[1], statuses);
 		    	
 		    	for(ul of ulList) {
 		    		ul.scrollTop = 0;
 		    	}
+		    	
+		    	document.querySelector("#startDate").value = '';
+	    	    document.querySelector("#endDate").value = '';
+	    	    document.querySelector("#volunteerName").value = '';
+	    	    document.querySelector("#recipientName").value = '';
+		    	
+		    	searchAjax();
 		    });
 		
 		    for(const location of locations) {
@@ -297,36 +320,44 @@
 		    const searchLiTags = document.querySelector(".v-category").getElementsByTagName("li");
 		    for(const searchLiTag of searchLiTags) {
 		    	searchLiTag.addEventListener("click", function() {
-		    		this.parentElement.previousElementSibling.value = this.innerText;
-		    		
-		    		const startDate = document.querySelector("#startDate").value;
-		    	    const endDate = document.querySelector("#endDate").value;
-		    	    const volunteerName = document.querySelector("#volunteerName").value;
-		    	    const registrar = document.querySelector("#recipientName").value;
-		    	    const locationInput = document.querySelector("#locationInput").value;
-		    	    const categoryInput = document.querySelector("#categoryInput").value;
-		    	    const onoffLineInput = document.querySelector("#onoffLineInput").value;
-		    	    const objectInput = document.querySelector("#objectInput").value;
-		    	    const statusInput = document.querySelector("#statusInput").value;
-		    		
-		    		$.ajax({
-		    			url: 'volunteerAjax.vo',
-		    			type: 'post',
-		    			data: {
-		    				vStartDate: startDate,
-		    		        vEndDate: endDate,
-		    		        vName: volunteerName,
-		    		        registrar: registrar,
-		    		        vArea: locationInput,
-		    		        vMainCategoryName: categoryInput,
-		    		        vActivityType: onoffLineInput,
-		    		        vTargetCategoryName: objectInput,
-		    		        status: statusInput
-		    			},
-		 				success: data => {
-		 					const vList = document.querySelector(".v-list");
-		 					vList.innerHTML = '';
-		 					
+		    		searchAjax();
+		    	});
+		    }
+		    
+		    const searchAjax = () => {
+		    	const startDate = document.querySelector("#startDate").value;
+	    	    const endDate = document.querySelector("#endDate").value;
+	    	    const volunteerName = document.querySelector("#volunteerName").value;
+	    	    const registrar = document.querySelector("#recipientName").value;
+	    	    const locationInput = document.querySelector("#locationInput").value;
+	    	    const categoryInput = document.querySelector("#categoryInput").value;
+	    	    const onoffLineInput = document.querySelector("#onoffLineInput").value;
+	    	    const objectInput = document.querySelector("#objectInput").value;
+	    	    const statusInput = document.querySelector("#statusInput").value;
+	    		
+	    		$.ajax({
+	    			url: 'volunteerAjax.vo',
+	    			type: 'post',
+	    			data: {
+	    				vStartDate: startDate,
+	    		        vEndDate: endDate,
+	    		        vName: volunteerName,
+	    		        registrar: registrar,
+	    		        vArea: locationInput,
+	    		        vMainCategoryName: categoryInput,
+	    		        vActivityType: onoffLineInput,
+	    		        vTargetCategoryName: objectInput,
+	    		        status: statusInput
+	    			},
+	 				success: data => {
+	 					const vList = document.querySelector(".v-list");
+	 					vList.innerHTML = '';
+	 					if(data == '') {
+	 						document.querySelector(".page").style.display = "none";
+	 						$("#resultDiv").show();
+	 					} else {
+	 						document.querySelector(".page").style.display = "block";
+	 						$("#resultDiv").hide();
 		 					for(const volunteer of data) {
 		 						const vListBox = document.createElement("div");
 		 						vListBox.classList.add("v-list-box");
@@ -414,19 +445,19 @@
 		 						vListBox.appendChild(vEndBox);
 		 						
 		 						vList.appendChild(vListBox);
-		 						
-		 						recruitmentSetting();
-		 						endDateSetting();
-		 					}
-		 				},
-		 				error: data => {
-		 				}
-		    		});
-		    	});
+	 						}
+	 						recruitmentSetting();
+		 					endDateSetting();
+	 					}
+	 				},
+	 				error: data => {
+	 				}
+	    		});
 		    }
 	    }
 	    
 	    const clickCategory = function(clickObj, category) {
+	    	clickObj.parentElement.previousElementSibling.value = clickObj.innerText;
 	    	for(const obj of category) {
 	    		obj.style.background = 'none';
 	    	}
@@ -449,6 +480,7 @@
 	    	});
 	    }
 	    /*]]>*/
+	    
 	    
     </script>
 </body>
