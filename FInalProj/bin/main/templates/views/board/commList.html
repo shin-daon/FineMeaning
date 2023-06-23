@@ -98,7 +98,7 @@ width: 80px;
             </div>
             <div class="searchArea">
                 <input class="searchInput" type="text" placeholder="검색"/>
-                <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
+                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
             </div>
         </div>
 
@@ -152,11 +152,8 @@ width: 80px;
 </body>
 <script th:inline="javascript">
  		window.onload = () => {
-			// 행 어디를 클릭하든 글 번호를 추출해와서 상세보기 페이지로 넘기기
-			// selectBoard.bo --> bid, writer, page
 			const tbody = document.querySelector('tbody');
 			const tds = tbody.querySelectorAll('td');
-			//for of : 배열 안 요소, for in : 배열일 시 인덱스, 객체일 시 키
 			for(const td of tds){
 				td.addEventListener('click', function() {
 					const trTds = this.parentElement.children;
@@ -166,6 +163,21 @@ width: 80px;
 					location.href = 'commDetailPage.bo?bNo=' + bNo + '&writer=' + writer + '&page=' + /*[[${pi.currentPage}]]*/1;
 					/*]]>*/
 				});
+			}
+			
+			document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
+				enrollSearchKeyword();
+			});
+			
+			document.getElementsByClassName('searchInput')[0].addEventListener('keyup', (e)=>{
+				if(e.key == 'Enter'){
+					enrollSearchKeyword()
+				}
+			});
+			
+			function enrollSearchKeyword(){
+				const input = document.querySelector('.searchInput').value.trim();
+				location.href = 'commList.bo?keyword=' + input;
 			}
 		}
 	</script>
