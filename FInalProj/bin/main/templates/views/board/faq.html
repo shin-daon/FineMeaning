@@ -33,7 +33,7 @@
             </th:block>
             <div class="searchArea">
                 <input class="searchInput" type="text" placeholder="검색"/>
-                <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
+                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
             </div>
         </div>
 
@@ -41,7 +41,7 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th style="width: 350px;">제목</th>
+                    <th style="width: 350px;">제목</th>					<!-- ★ 간격 %로 조정하기 -->
                     <th>작성자</th>
                     <th>작성일</th>
                 </tr>
@@ -57,6 +57,11 @@
                     <td th:text="${ b.nickName }"></td>
                     <td th:text="${ b.boardDate }"></td>
                 </tr>
+                <tr>
+		        	<th:block th:if="${#lists.isEmpty(list)}">
+			            <td colspan="5" id="emptyBoardList">게시글이 없습니다.</td>
+			        </th:block>
+				</tr>
             </tbody>
         </table>
 
@@ -112,8 +117,21 @@
 				});
 			}
 			
-			// 검색 기능
-			// 키워드만 넘어가게 하기 (링크에 담아서)
+			// 검색 기능 (키워드만)
+			document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
+				enrollSearchKeyword();
+			});
+			
+			document.getElementsByClassName('searchInput')[0].addEventListener('keyup', (e)=>{
+				if(e.key == 'Enter'){
+					enrollSearchKeyword()
+				}
+			});
+			
+			function enrollSearchKeyword(){
+				const input = document.querySelector('.searchInput').value.trim();
+				location.href = 'faqMain.bo?keyword=' + input;
+			}
 			
     	}
     </script>

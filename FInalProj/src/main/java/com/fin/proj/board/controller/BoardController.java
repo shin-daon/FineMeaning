@@ -39,24 +39,39 @@ public class BoardController {
 	private BoardService bService;
 
 	@GetMapping("faqMain.bo")
-	public String faqMain(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+	public String faqMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+						  @RequestParam(value="keyword", required=false) String keyword) {
 		
+		System.out.println(keyword);
 		// 키워드 매개변수로 받아서 전체적인 흐름은 fruitMain.bo와 비슷한 맥락으로 진행!
+		
+		HashMap<String, Object> map = new HashMap<>();
+		ArrayList<Board> list;
+		PageInfo pageInfo;
+		int listCount;
+		
 		if(currentPage == null) {
 			currentPage = 1;
 		}
 		
-		int listCount = bService.getListCount("자주 묻는 질문");
-//		System.out.println(listCount);
-		
-		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
-		
-		ArrayList<Board> list = bService.selectBoardList(pageInfo, "자주 묻는 질문");
-//		System.out.println(list);
+		if(keyword != null) {
+			map.put("keyword", keyword);
+			map.put("i", "자주 묻는 질문");
+			listCount = bService.searchListCount(map);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.searchByTitle(pageInfo, map);
+			System.out.println(list);
+		} else {
+			listCount = bService.getListCount("자주 묻는 질문");
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.selectBoardList(pageInfo, "자주 묻는 질문");
+			System.out.println(list);
+		}
 		
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
 			model.addAttribute("list", list);
+			model.addAttribute("map", map);
 			return "faq";
 		} else {
 			throw new BoardException("게시글 목록 조회 실패");
@@ -242,19 +257,20 @@ public class BoardController {
 			} else {	 // '후원' 혹은 '봉사'의 경우
 				params.put("category", category);
 			}
-			listCount = bService.searchFruitListCount(params);
+			listCount = bService.searchListCount(params);
 			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.searchByTitleAndCategory(pageInfo, params);
 		} else { // 페이지 로드 시 메인 페이지
 			listCount = bService.getListCount("결실");
 			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.selectBoardList(pageInfo, "결실");
-			System.out.println(list);
+//			System.out.println(list);
 		}
 		
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
 			model.addAttribute("list", list);
+			model.addAttribute("params", params);
 			return "fruit";
 		} else {
 			throw new BoardException("게시글 목록 조회 실패");

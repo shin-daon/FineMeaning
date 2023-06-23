@@ -33,10 +33,10 @@ public interface BoardService {
 
 	int replyCount(int boardNo);
 
-	ArrayList<Board> searchByTitle(String keyword, String i);
+	ArrayList<Board> searchByTitle(PageInfo pageInfo, HashMap<String, Object> map);
 
 	ArrayList<Board> searchByTitleAndCategory(PageInfo pi, HashMap<String, Object> params);
 
-	int searchFruitListCount(HashMap<String, Object> params);
+	int searchListCount(HashMap<String, Object> params);
 
 }

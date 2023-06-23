@@ -156,6 +156,10 @@ th, td {
     border-radius: 0px 8px 8px 0px;
 }
 
+#emptyBoardList {
+    pointer-events: none;
+}
+
 /* 페이징 처리 */
 
 .page {
