@@ -78,7 +78,7 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("faq_detail.bo")
+	@GetMapping("faqDetail.bo")
 	public String faqDetail(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer,
 							@RequestParam("page") int page, HttpSession session, Model model) {
 //		System.out.println(bNo + ", " + writer + ", "+ page);
@@ -114,12 +114,12 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("faq_form.bo")
+	@GetMapping("faqForm.bo")
 	public String faqForm() {
 		return "faq_form";
 	}
 	
-	@PostMapping("insert_faq.bo")
+	@PostMapping("insertFaq.bo")
 	public String insertFaq(@ModelAttribute Board b, HttpSession session) {
 		
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
@@ -213,7 +213,7 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("finePeople_form.bo")
+	@GetMapping("finePeopleForm.bo")
 	public String finePeopleForm() {
 		return "finePeople_form";
 	}
@@ -277,7 +277,7 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("fruit_detail.bo")
+	@GetMapping("fruitDetail.bo")
 	public String fruitDetail(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
 							  HttpSession session, Model model) {
 		
@@ -305,12 +305,12 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("fruit_form.bo")
+	@GetMapping("fruitForm.bo")
 	public String fruitForm() {
 		return "fruit_form";
 	}
 	
-	@PostMapping("insert_fruit.bo")
+	@PostMapping("insertFruit.bo")
 	public String insertFruit(@ModelAttribute Board b, HttpSession session) {
 		
 //		System.out.println(b);
@@ -395,7 +395,7 @@ public class BoardController {
 		return "fineNews";
 	}
 	
-	@GetMapping("fineNews_form.bo")
+	@GetMapping("fineNewsForm.bo")
 	public String fineNewsForm() {
 		return "fineNews_form";
 	}

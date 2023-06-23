@@ -29,7 +29,7 @@
         <div class="actionArea">
         	<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0 }">
 	            <div class="writeArea">
-	                <button class="writeFaqBtn learn-more" onclick="location.href='faq_form.bo'">글쓰기</button>
+	                <button class="writeFaqBtn learn-more" onclick="location.href='faqForm.bo'">글쓰기</button>
 	            </div>
             </th:block>
             <div class="searchArea">
@@ -114,7 +114,7 @@
 					const boardNo = trTds[0].innerText;
 					const writer = trTds[2].innerText;			// url에 들어가기 때문에 = 양쪽에 띄어쓰기 금지
 					/* <![CDATA[ */
-					location.href='faq_detail.bo?bNo=' + boardNo 
+					location.href='faqDetail.bo?bNo=' + boardNo 
 							+ '&writer=' + writer + '&page=' + /*[[${pi.currentPage}]]*/1;
 					/* ]]> */
 				});
