@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+button.writeFaqBtn.learn-more {
+	width: 80px;
+    height: 30px;
+    background-color: #9DC08B;
+    color: white;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    border: 1px solid black;
+    font-size: 14px;
+    margin-bottom: 15px;
+    /* 추가로 learn-more 클래스 스타일을 더 구체적으로 지정합니다 */
+    font-weight: 600;
+    color: #382b22;
+    text-transform: uppercase;
+    background: #EDF1D6;
+    border: 2px solid #609966;
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+.learn-more {
+    font-weight: 600;
+    color: #382b22;
+    text-transform: uppercase;
+    /*   padding: 1.25em 2em; */
+    background: #EDF1D6;
+    border: 2px solid #609966;
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.learn-more::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #9DC08B;
+    border-radius: inherit;
+    box-shadow: 0 0 0 2px #609966, 0 0.625em 0 0 #EDF1D6;
+    transform: translate3d(0, 0.75em, -1em);
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.learn-more:hover {
+    background: #EDF1D6;
+    transform: translate(0, 0.25em);
+}
+
+.learn-more:hover::before {
+    box-shadow: 0 0 0 2px #609966, 0 0.5em 0 0 #EDF1D6;
+    transform: translate3d(0, 0.5em, -1em);
+}
+
+.learn-more:active {
+    background: #EDF1D6;
+    transform: translate(0em, 0.75em);
+}
+
+.learn-more:active::before {
+    box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
+    transform: translate3d(0, 0, -1em);
+}
+        
+/* 초기 상태에서 숨겨진 행 */
+.hidden {
+    display: none;
+}
+        
+.writeFaqBtnSmall {
+   	float: right;
+}
+</style>
+<link rel="stylesheet" href="css/board/community.css">
+<script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://kit.fontawesome.com/1c67f557d9.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:replace="~{../common/header :: header}"></div>
+<section id="faqSection">
+        <div>
+            <div id="faqTitle">1:1문의</div>
+        </div>
+        <br><br>
+        <div class="qaInfo">
+        <h4>●문의 전 유의사항●</h4>
+        	<ol>
+            	<li>1. '자주 묻는 질문' 탭에 주로 올라오는 문의들을 따로 정리해놨으니 1:1 문의 전 참고바랍니다.</li>
+            	<li>2. 문의에 대한 답변은 3~7일내 올라온 순서대로 답변해드립니다.</li>
+            	<li>3. 전화문의는 1111-2222 입니다.</li>
+            </ol>
+            </div>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle" href="#">커뮤니티</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">1:1문의</a>
+        </div>
+
+        <div class="actionArea">
+            <div class="writeArea">
+                <button class="writeFaqBtn learn-more" onclick="location.href='writeQa.bo'">1:1 질문하기</button>
+            </div>
+            <div class="searchArea">
+                <input class="searchInput" type="text" placeholder="검색"/>
+                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
+            </div>
+        </div>
+
+        <table class="faqTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th style="width: 300px;">[질문유형]제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="b : ${ list }">
+	          				<td th:text = "${ b.boardNo }"></td>
+	          				<td th:text = "${ b.boardTitle }"></td>
+	          				<td th:text = "${ b.nickName }"></td>
+	          				<td th:text = "${ b.boardDate }"></td>
+	          				<td th:text = "${ b.boardCount }"></td>
+	          	</tr>
+            </tbody>
+        </table>
+
+        <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
+            <ul class="pagination">
+                <li th:if="${ pi.currentPage > 1 }">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage > 1 }">
+	                	<img class="arrowKey disabled" src="image/before.png">
+                </li>
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                </li>
+                <li th:if="${ pi.currentPage < pi.maxPage} ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage < pi.maxPage }">
+	                	<img class="arrowKey disabled" src="image/next.png">
+                </li>
+            </ul>
+        </div>
+    </section>
+    <div th:replace="~{../common/footer :: footer}"></div>
+</body>
+<script th:inline="javascript">
+ 		window.onload = () => {
+			const tbody = document.querySelector('tbody');
+			const tds = tbody.querySelectorAll('td');
+			for(const td of tds){
+				td.addEventListener('click', function() {
+					const trTds = this.parentElement.children;
+					const bNo = trTds[0].innerText;
+					const writer = trTds[2].innerText;
+					/*<![CDATA[*/
+					location.href = 'qaDetailPage.bo?bNo=' + bNo + '&writer=' + writer + '&page=' + /*[[${pi.currentPage}]]*/1;
+					/*]]>*/
+				});
+			}
+			
+			document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
+				enrollSearchKeyword();
+			});
+			
+			document.getElementsByClassName('searchInput')[0].addEventListener('keyup', (e)=>{
+				if(e.key == 'Enter'){
+					enrollSearchKeyword()
+				}
+			});
+			
+			function enrollSearchKeyword(){
+				const input = document.querySelector('.searchInput').value.trim();
+				location.href = 'qaList.bo?keyword=' + input;
+			}
+		}
+	</script>
+</html>
