@@ -36,10 +36,10 @@
 #groupPic{
 	width:220px;
 	height:220px;
-	background-color: #dadec9;
+	background-color: #e7ede8;
 	margin:auto;
 	border-radius:2em;
- 	border: 1px solid #609966;
+ 	border: 1px solid black;
     margin: 12px;
 }
 
@@ -54,7 +54,7 @@
 }
 
 #insertGroupPic:hover{
-	color: #609966;
+	color: #5e7b6b;
 }
 
 #groupReprePic{
