@@ -16,6 +16,7 @@
         <div>
             <div id="faqTitle">자주 묻는 질문</div>
         </div>
+        <p id="subFaqTitle">FAQ</p>
 		
         <div class="path">
             <a class="middle" href="/"><img class="homeIconSize" src="image/home.png"></a>
@@ -40,22 +41,24 @@
         <table class="faqTable">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th style="width: 350px;">제목</th>					<!-- ★ 간격 %로 조정하기 -->
-                    <th>작성자</th>
-                    <th>작성일</th>
+                    <th style="width: 10%;">No</th>
+                    <th style="width: 50%;">제목</th>
+                    <th style="width: 20%;">작성자</th>
+                    <th style="width: 20%;">작성일</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="b : ${ list }">
-                    <td th:text="${ b.boardNo }"></td>
-                    <td>
-                    	<div class="faq_title_wrap">
-							<p class="faq_title" th:text="${ b.boardTitle }"></p>
-						</div>
-                    </td>
-                    <td th:text="${ b.nickName }"></td>
-                    <td th:text="${ b.boardDate }"></td>
+                	<th:block th:if="${b != null}">
+	                    <td th:text="${ b.boardNo }"></td>
+	                    <td>
+	                    	<div class="faq_title_wrap">
+								<p class="faq_title" th:text="${ b.boardTitle }"></p>
+							</div>
+	                    </td>
+	                    <td th:text="${ b.nickName }"></td>
+	                    <td th:text="${ b.boardDate }"></td>
+                    </th:block>
                 </tr>
                 <tr>
 		        	<th:block th:if="${#lists.isEmpty(list)}">
