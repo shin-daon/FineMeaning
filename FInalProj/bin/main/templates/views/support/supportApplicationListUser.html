@@ -126,10 +126,22 @@
 							document.getElementById('searchMyList').submit();
 						})
 					}
-				})
-				
-				
+				})			
 			
+			</script>
+			<script th:inline="javascript">
+				window.onload=()=>{
+					/*<![CDATA[*/
+						const pageStatus = /*[[${status}]]*/'status';
+					/*]]>*/
+					if(pageStatus=='Y'){
+						document.getElementsByClassName('statusSpan')[0].style.fontWeight='bolder'
+					} else if(pageStatus=='W'){
+						document.getElementsByClassName('statusSpan')[1].style.fontWeight='bolder'
+					} else if(pageStatus=='N'){
+						document.getElementsByClassName('statusSpan')[2].style.fontWeight='bolder'
+					}
+				}
 			</script>			
 
         <table class="supportTable">
