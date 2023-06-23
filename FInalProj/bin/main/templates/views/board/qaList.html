@@ -88,7 +88,6 @@ button.writeFaqBtn.learn-more {
 <body>
 <div th:replace="~{../common/header :: header}"></div>
 <section id="faqSection">
-
         <div>
             <div id="faqTitle">1:1문의</div>
         </div>
@@ -114,106 +113,89 @@ button.writeFaqBtn.learn-more {
             <div class="writeArea">
                 <button class="writeFaqBtn learn-more" onclick="location.href='writeQa.bo'">1:1 질문하기</button>
             </div>
-            
+            <div class="searchArea">
+                <input class="searchInput" type="text" placeholder="검색"/>
+                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
+            </div>
         </div>
 
         <table class="faqTable">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th style="width: 300px;">제목</th>
+                    <th style="width: 300px;">[질문유형]제목</th>
                     <th>작성자</th>
                     <th>작성일</th>
+                    <th>조회수</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>결제가 안됩니다</td>
-                    <td>작성자</td>
-                    <td>2023-05-31</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>오늘 서버쪽에 문제가 있나요?</td>
-                    <td>작성자</td>
-                    <td>2023-05-31</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>자원봉사관련 문의요!</td>
-                    <td>작성자</td>
-                    <td>2023-05-31</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>후원금 환불이 가능할까요?</td>
-                    <td>작성자</td>
-                    <td>2023-05-31</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>일반게시판 비속어 신고합니다.</td>
-                    <td>작성자</td>
-                    <td>2023-05-31</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>정기후원도 가능한가요?</td>
-                    <td>작성자</td>
-                    <td>2023-05-31</td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>양로원 봉사모집관련해서 궁금한게 있습니다.</td>
-                    <td>작성자</td>
-                    <td>2023-05-31</td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>굿즈판매 안하시나요?</td>
-                    <td>작성자</td>
-                    <td>2023-05-31</td>
-                </tr>
-                <tr>
-                    <td>9</td>
-                    <td>결제 질문</td>
-                    <td>작성자</td>
-                    <td>2023-05-31</td>
-                </tr>
-                <tr class="reply">
-                	<td>9-1<td>
-          			<div class="replyTitle"><img class="sub iconSize" src="image/reply.png">[Re]결제관련 답변입니다.</div>
-          			<td>관리자</td>
-                    <td>2023-05-31</td>
-        		</tr>
-                <tr>
-                    <td>10</td>
-                    <td>신용카드 후원결제가 먹통입니다</td>
-                    <td>작성자</td>
-                    <td>2023-05-31</td>
-                </tr>
-                <tr class="reply">
-                	<td>10-1<td>
-          			<div class="replyTitle"><img class="sub iconSize" src="image/reply.png">[Re]먹통관련 답변입니다.</div>
-          			<td>관리자</td>
-                    <td>2023-05-31</td>
-        		</tr>
+                <tr th:each="b : ${ list }">
+	          				<td th:text = "${ b.boardNo }"></td>
+	          				<td th:text = "${ b.boardTitle }"></td>
+	          				<td th:text = "${ b.nickName }"></td>
+	          				<td th:text = "${ b.boardDate }"></td>
+	          				<td th:text = "${ b.boardCount }"></td>
+	          	</tr>
             </tbody>
         </table>
 
-        <div class="page">
+        <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
-                <li><a href="#" class="first"><img class="arrowKey" src="image/before.png"></a></li>
-                <li><a href="#" class="num">1</a></li>
-                <li><a href="#" class="num">2</a></li>
-                <li><a href="#" class="num">3</a></li>
-                <li><a href="#" class="num">4</a></li>
-                <li><a href="#" class="num">5</a></li>
-                <li><a href="#" class="last"><img class="arrowKey" src="image/next.png"></a></li>
+                <li th:if="${ pi.currentPage > 1 }">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage > 1 }">
+	                	<img class="arrowKey disabled" src="image/before.png">
+                </li>
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                </li>
+                <li th:if="${ pi.currentPage < pi.maxPage} ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage < pi.maxPage }">
+	                	<img class="arrowKey disabled" src="image/next.png">
+                </li>
             </ul>
         </div>
     </section>
     <div th:replace="~{../common/footer :: footer}"></div>
 </body>
+<script th:inline="javascript">
+ 		window.onload = () => {
+			const tbody = document.querySelector('tbody');
+			const tds = tbody.querySelectorAll('td');
+			for(const td of tds){
+				td.addEventListener('click', function() {
+					const trTds = this.parentElement.children;
+					const bNo = trTds[0].innerText;
+					const writer = trTds[2].innerText;
+					/*<![CDATA[*/
+					location.href = 'qaDetailPage.bo?bNo=' + bNo + '&writer=' + writer + '&page=' + /*[[${pi.currentPage}]]*/1;
+					/*]]>*/
+				});
+			}
+			
+			document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
+				enrollSearchKeyword();
+			});
+			
+			document.getElementsByClassName('searchInput')[0].addEventListener('keyup', (e)=>{
+				if(e.key == 'Enter'){
+					enrollSearchKeyword()
+				}
+			});
+			
+			function enrollSearchKeyword(){
+				const input = document.querySelector('.searchInput').value.trim();
+				location.href = 'qaList.bo?keyword=' + input;
+			}
+		}
+	</script>
 </html>
