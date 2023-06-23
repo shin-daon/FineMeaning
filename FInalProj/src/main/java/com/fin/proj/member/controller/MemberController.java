@@ -390,7 +390,7 @@ public class MemberController {
 	
 	@RequestMapping(value="findMyId2.me") 
 	public void findMyId2(@RequestParam("uName") String uName,
-					     @RequestParam("phone") String phone, PrintWriter out) {
+					      @RequestParam("phone") String phone, PrintWriter out) {
 		
 		System.out.println("이름 : " + uName);
 		System.out.println("보낼 전화번호 : " + phone);

@@ -109,7 +109,7 @@ public class AuthService {
 		DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
 		// Message 패키지가 중복될 경우 net.nurigo.sdk.message.model.Message로 치환하여 주세요
 		Message message = new Message();
-		message.setFrom("01037091926");
+		message.setFrom(myPhoneNumber);
 		message.setTo(phone);
 		message.setText("🍀[선뜻] 인증 번호는 " + authNumber + " 입니다.");
 
