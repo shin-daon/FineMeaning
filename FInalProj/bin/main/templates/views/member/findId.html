@@ -435,12 +435,16 @@ input[type="radio"]:checked + span:before{
 		event.preventDefault();
 		emailDiv.style.display = 'block';
 		phoneDiv.style.display = 'none';
+		emailRadio.checked = true;
+		phoneRadio.checked = false;
 	});
 	
 	phoneRadio.addEventListener('change', () => {
 		event.preventDefault();
 		phoneDiv.style.display = 'block';
 		emailDiv.style.display = 'none';
+		phoneRadio.checked = true;
+		emailRadio.checked = false;
 	});
 	
 	
@@ -500,73 +504,112 @@ input[type="radio"]:checked + span:before{
 	
 	// 이메일 인증		
 	const emailBtn = document.getElementById('emailBtn');
-	
-	emailBtn.addEventListener("click", function() {
-		event.preventDefault();
-		const uName = document.getElementsByName("uName")[0].value;
-		const emailId = document.getElementsByName("emailId")[0].value;
-		const emailDomain = document.getElementById("email-select").value;
-		const customEmailDomain = document.getElementById("custom-email-input").value;
-		const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
-		const idCheckResult = document.getElementById('idCheckResult');
-		
-		let emailAddress;
 
-		if (emailDomain === "직접입력") {
-			emailAddress = emailId + "@" + customEmailDomain;
-		} else {
-			emailAddress = emailId + "@" + emailDomain;
-		}
-		
-		if (uName.trim() == ''){
-			idCheckResult.innerText = '이름을 입력해주세요.';
-		} else if(emailId.trim() == ''){
-			idCheckResult.innerText = '이메일을 입력해주세요.';
-		} else {			
-			console.log(emailAddress);
-			$.ajax({
-	            url: 'findMyId.me',
-	            data: { uName: uName, emailAddress: emailAddress },
-	            success: data => {
-	                console.log("데이터 전송 성공: " + data);
-	                
-	                const [result, randomNum] = data.split(',');	                
-	                
-	                if(result == 'no'){
-	                	idCheckResult.innerText = '입력하신 정보와 일치하는 회원이 존재하지 않습니다.';
-	                } else if(result == 'yes'){
-	                	idCheckResult.innerText = '메일이 전송되었습니다. 인증번호를 입력해주세요.';	
-	                	nextBtn.disabled = false;     
-	                }
-	                
-	                console.log("인증번호: " + randomNum);
-	                
-	                nextBtn.addEventListener("click", function() {
-						const emailId = document.getElementsByName("emailId")[0];
-						const emailDomain = document.getElementById("email-select");
-						const customEmailDomain = document.getElementById("custom-email-input");
-						const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
-						const idCheckResult = document.getElementById('idCheckResult');
-						const findIdForm = document.getElementById('findIdForm');
-						
-						if (randomNumInput === randomNum) {
-							nextBtn.disabled = false;
-							findIdForm.submit();						
-					    } else {
-					    	event.preventDefault();
-					    	idCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
-					    	idCheckResult.style.color = 'red';
-					    }
-					});	
-	            },
-	            error: data => {
-	                console.log("데이터 전송 실패");
-	            }
-	        });
-	    }        
-	});
-		
-		
+	emailBtn.addEventListener("click", function() {
+	event.preventDefault();
+	const uName = document.getElementsByName("uName")[0].value;
+	const emailId = document.getElementsByName("emailId")[0].value;
+	const emailDomain = document.getElementById("email-select").value;
+	const customEmailDomain = document.getElementById("custom-email-input").value;
+	const phone = document.getElementsByName("phone")[0].value;
+	const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
+	const idCheckResult = document.getElementById('idCheckResult');
+	
+	let emailAddress;
+
+	if (emailDomain === "직접입력") {
+		emailAddress = emailId + "@" + customEmailDomain;
+	} else {
+		emailAddress = emailId + "@" + emailDomain;
+	}
+	
+	if (uName.trim() == ''){
+		idCheckResult.innerText = '이름을 입력해주세요.';
+	} else if(emailRadio.checked && emailId.trim() == ''){
+		idCheckResult.innerText = '이메일을 입력해주세요.';
+	} else if(phoneRadio.checked && phone.trim() == ''){
+		idCheckResult.innerText = '전화번호를 입력해주세요.';
+	} else if(emailRadio.checked && !(uName.trim() == '') && !(emailId.trim() == '')) {			
+		console.log(emailAddress);
+		$.ajax({
+            url: 'findMyId.me',
+            data: { uName: uName, emailAddress: emailAddress },
+            success: data => {
+                console.log("데이터 전송 성공: " + data);
+                
+                const [result, randomNum] = data.split(',');	                
+                
+                if(result == 'no'){
+                	idCheckResult.innerText = '입력하신 정보와 일치하는 회원이 존재하지 않습니다.';
+                } else if(result == 'yes'){
+                	idCheckResult.innerText = '메일이 전송되었습니다. 인증번호를 입력해주세요.';	
+                	nextBtn.disabled = false;     
+                }
+                
+                console.log("인증번호: " + randomNum);
+                
+                nextBtn.addEventListener("click", function() {
+					const emailId = document.getElementsByName("emailId")[0];
+					const emailDomain = document.getElementById("email-select");
+					const customEmailDomain = document.getElementById("custom-email-input");
+					const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
+					const idCheckResult = document.getElementById('idCheckResult');
+					const findIdForm = document.getElementById('findIdForm');
+					
+					if (randomNumInput === randomNum) {
+						nextBtn.disabled = false;
+						findIdForm.submit();						
+				    } else {
+				    	event.preventDefault();
+				    	idCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
+				    	idCheckResult.style.color = 'red';
+				    }
+				});	
+            },
+            error: data => {
+                console.log("데이터 전송 실패");
+            }
+        });
+    } else if (phoneRadio.checked && !(uName.trim() == '') && !(phone.trim() == '')){
+    	$.ajax({
+            url: 'findMyId2.me',
+            data: { uName: uName, phone: phone },
+            success: data => {
+                console.log("데이터 전송 성공: " + data);
+                
+                const [result, randomNum] = data.split(',');	                
+                
+                if(result == 'no'){
+                	idCheckResult.innerText = '입력하신 정보와 일치하는 회원이 존재하지 않습니다.';
+                } else if(result == 'yes'){
+                	idCheckResult.innerText = '문자가 전송되었습니다. 인증번호를 입력해주세요.';	
+                	nextBtn.disabled = false;     
+                }
+                
+                console.log("인증번호: " + randomNum);
+                
+                nextBtn.addEventListener("click", function() {
+                	const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
+                	const idCheckResult = document.getElementById('idCheckResult');
+                	const findIdForm = document.getElementById('findIdForm');
+					
+					if (randomNumInput === randomNum) {
+						nextBtn.disabled = false;
+						findIdForm.submit();						
+				    } else {
+				    	event.preventDefault();
+				    	idCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
+				    	idCheckResult.style.color = 'red';
+				    }
+				});	
+            },
+            error: data => {
+                console.log("데이터 전송 실패");
+            }
+        });
+    }    
+});
+
 	
 </script>
 </body>

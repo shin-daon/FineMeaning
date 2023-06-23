@@ -87,7 +87,7 @@
 	<select id="searchUser">
 		select *
 		from users
-		where u_name = #{uName} and email = #{email}
+		where (u_name = #{uName} and email = #{email}) or (u_name = #{uName} and phone = #{phone})
 	</select>
 	
 	<select id="searchEmailUser2">
@@ -100,6 +100,12 @@
 		select *
 		from users
 		where u_id = #{uId} and email = #{email}
+	</select>
+	
+	<select id="searchPhoneUser">
+		select count(*)
+		from users
+		where u_name = #{uName} and phone = #{phone}
 	</select>
 	
 </mapper>
