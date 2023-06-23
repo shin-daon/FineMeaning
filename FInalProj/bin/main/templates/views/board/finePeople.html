@@ -52,8 +52,22 @@
             </div>
         </div>
         <div class="arrowBtn">
-            <a href="#" class="btn-gradient yellow mini prev">이전</a>
-            <a href="#" class="btn-gradient yellow mini next">다음</a>
+	        <div class="page arrowBtn" th:with="loc=${#ctx.springRequestContext.requestUri}">
+	            <ul class="pagination">
+	                <li th:if="${ pi.currentPage > 1 }">
+		                <a th:href="@{${loc}(page=${ pi.currentPage -1 })}" class="btn-gradient yellow mini prev">이전</a>
+	                </li>
+	                <li th:unless="${ pi.currentPage > 1 }">
+	                	<a th:href="@{${loc}(page=${ pi.currentPage -1 })}" class="btn-gradient yellow mini prev disabled">이전</a>
+	                </li>
+	                <li th:if="${ pi.currentPage < pi.maxPage} ">
+	                	<a th:href="@{${loc}(page=${ pi.currentPage + 1 })}" class="btn-gradient yellow mini next">다음</a>
+	                </li>
+	                <li th:unless="${ pi.currentPage < pi.maxPage }">
+		                <a th:href="@{${loc}(page=${ pi.currentPage + 1 })}" class="btn-gradient yellow mini next disabled">다음</a>
+	                </li>
+	            </ul>
+	        </div>
         </div>
     </section>
     <div th:replace="~{views/common/footer :: footer}"></div>

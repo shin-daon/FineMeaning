@@ -191,6 +191,12 @@ button {
 
 
 /* 이전 다음 버튼 */
+
+.disabled{
+	pointer-events: none;
+	opacity: 0.5;
+}
+
 .btn-gradient:hover {
     color: #40513B;
 }
@@ -232,6 +238,10 @@ button {
 
 .arrowBtn {
     width: 750px;
-    display: flex;
+}
+
+.pagination {
+	display: flex;
+    width: 100%;
     justify-content: space-between;
 }
