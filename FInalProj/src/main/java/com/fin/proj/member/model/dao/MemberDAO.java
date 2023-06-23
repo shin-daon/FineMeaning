@@ -37,4 +37,6 @@ public interface MemberDAO {
 
 	int searchPhoneUser(HashMap<String, String> map);
 
+	int searchPhoneUser2(HashMap<String, String> map);
+
 }

@@ -103,7 +103,7 @@ public class AuthService {
 		}
 	}
 
-	public int findId2(String phone) {
+	public int findBySms(String phone) {
 		makeRandomNumber();
 		
 		DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
@@ -126,5 +126,6 @@ public class AuthService {
 		
 		return authNumber;
 	}
+
 }
 
