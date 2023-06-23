@@ -389,42 +389,54 @@ input[type="radio"]:checked + span:before{
 <script>
 	//비밀번호
 	const pwdInput = document.querySelector('input[name="newPwd"]');
-	const pwdCheckInput = document.querySelector('input[name="newPwdCheck"]');
 	const pwdResult = document.getElementById('pwdCheckResult');
-	const enrollButton = document.getElementById('nextBtn');
-	const changePwd = document.getElementById('changePwd');
+	const nextBtn = document.getElementById('nextBtn');
+	
+	nextBtn.disabled = true;
 	
 	pwdInput.addEventListener('input', validatePwd);
 	
 	function validatePwd() {
-	  
 	  const pwdInputValue = pwdInput.value;
-	  const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
-	  
+	  const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/;
+	
 	  if (pwdRegex.test(pwdInputValue)) {
-		pwdResult.textContent = '';
-		
-		    if (pwdInput.value === pwdCheckInput.value) {
-			  	pwdCheckResult.innerText = '';
-// 			  	enrollButton.disabled = false;
-			  	changePwd.submit();
-		  } else if (pwdInput.value !== pwdCheckInput.value) {
-		  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
-// 		  		enrollButton.disabled = true;
-		  }
-		    
+	    pwdResult.textContent = '';
+	
+	    // 비밀번호 확인
+	    const passwordInput = document.querySelector('input[name="newPwd"]');
+	    const confirmPasswordInput = document.querySelector('input[name="newPwdCheck"]');
+	    const pwdCheckResult = document.getElementById('pwdCheckResult');
+	
+	    confirmPasswordInput.removeEventListener('input', validatePassword);
+	    confirmPasswordInput.addEventListener('input', validatePassword);
+	
+	    function validatePassword() {
+	      const password = passwordInput.value;
+	      const confirmPassword = confirmPasswordInput.value;
+	
+	      if (confirmPassword.trim() === '') {
+	        pwdCheckResult.textContent = '비밀번호 확인을 입력해주세요.';
+	        nextBtn.disabled = true;
+	      } else if (password === confirmPassword) {
+	        pwdCheckResult.textContent = '';
+	        nextBtn.disabled = false;
+	      } else if (password !== confirmPassword) {
+	        pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
+	        nextBtn.disabled = true;
+	      }
+	    }
 	  } else {
-		pwdResult.textContent = '올바른 비밀번호를 입력해주세요.';
-		
-			if (pwdInput.value === pwdCheckInput.value) {
-			  	pwdCheckResult.innerText = '올바른 비밀번호를 입력해주세요.';
-// 			  	enrollButton.disabled = true;
-		  } else if (pwdInput.value !== pwdCheckInput.value) {
-		  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
-// 		  		enrollButton.disabled = true;
-		  }
+	    pwdResult.textContent = '올바른 비밀번호를 입력해주세요.';
+	    nextBtn.disabled = true;
 	  }
 	}
+	
+	nextBtn.addEventListener('click', function() {
+	  alert('비밀번호가 성공적으로 변경되었습니다.');
+	});
+
+
 </script>
 </body>
 </html>

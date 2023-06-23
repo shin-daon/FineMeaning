@@ -105,7 +105,7 @@ public class MemberController {
 	
 	@RequestMapping("findPwdResult.me")
 	public String findPwdResult() {
-		return "findPwdResult";
+	    return "findPwdResult";
 	}
 	
 	@RequestMapping("logout.me")
@@ -266,11 +266,11 @@ public class MemberController {
 	    		model.addAttribute("loginUser", mService.login(m));
 	    		return "redirect:/";
 	    	} else {
-	    		throw new MemberException("비밀번호 수정에 실패하였습니다.");
+	    		throw new MemberException("비밀번호 변경에 실패하였습니다.");
 	    	}
 	    	
 	     } else {
-	    	 throw new MemberException("비밀번호 수정에 실패하였습니다.");
+	    	 throw new MemberException("비밀번호 변경에 실패하였습니다.");
 	     }
 	}
 	
@@ -342,7 +342,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("findPwdForm.me")
-	public String findPwdForm(@ModelAttribute Member m,
+	public String findPwdForm(@ModelAttribute Member m, HttpSession session,
 							  @RequestParam("emailId") String emailId,
 							  @RequestParam("emailDomain") String emailDomain, Model model) {
 		
@@ -355,12 +355,35 @@ public class MemberController {
 		Member foundUser = mService.searchUserPwd(m);
 		
 		if(foundUser != null) {
-			model.addAttribute("foundUser", foundUser);
-			System.out.println(foundUser);
+			session.setAttribute("foundUser", foundUser);
 			return "findPwdResult";
 		} else {
 			throw new MemberException("비밀번호 찾기에 실패하였습니다.");
 		}
+	}
+	
+	@PostMapping("changePwd.me")
+	public String changePwd(HttpSession session, @RequestParam("newPwd") String newPwd, Model model) {
+		
+		Member foundUser = (Member) session.getAttribute("foundUser");
+		
+		System.out.println("비번변경:" + foundUser);
+		
+		String changePwd = bcrypt.encode(newPwd);
+		foundUser.setuPwd(changePwd);
+	      
+    	HashMap<String, String> map = new HashMap<String, String>();
+    	map.put("uId", foundUser.getuId());
+    	map.put("newPwd", bcrypt.encode(newPwd));
+	    	  
+    	int result = mService.updatePwd(map);
+    	
+    	if(result > 0) {
+    		session.setAttribute("foundUser", foundUser);
+    		return "redirect:/";
+    	} else {
+    		throw new MemberException("비밀번호 변경에 실패하였습니다.");    	
+	    }
 	}
 }
 

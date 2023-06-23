@@ -17,42 +17,45 @@
 	    z-index: -1;
 	    opacity: 0.3;
 	}
+	
 	/* 모달 */
-	#modal { width: 300px; height: 350px; border: 1px solid #eee; padding: 30px; margin: auto; display: none;
+	#modal { width: 300px; height: 350px; border: 1px solid #eee; padding: 30px 30px 30px 30px; margin: auto; display: none;
 		border-radius: 20px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);  text-align: center; background-color: white;
  		position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;}
 	
 	.modal-comment {
-		font-size: 16px;
+		font-size: 14px;
+	}
+		
+	.modal-comment2 {
+		font-weight: bold;
+		font-size: 18px;
 	}
 	
 	#boardDelete-btn {
-		border-radius: 4px;
+		border-radius: 5px;
 		width: 90px;
-		height: 35px;
+		height: 37px;
 		font-size: 15px;
 		color: #fff;
-		background-color: #609966;
-		border: 1.5px solid #609966;
+		background-color: #848484;
+		border: 1.5px solid black;
+		cursor: pointer;
 	}
 	
 	#rollback-btn {
-		border-radius: 4px;
+		border-radius: 5px;
 		width: 90px;
-		height: 35px;
+		height: 37px;
 		font-size: 15px;
-		color: #609966;
+		color: black;
 		background-color: #fff;
-		border: 1.5px solid #609966;
+		border: 1.5px solid #6E6E6E;
+		cursor: pointer;
 	}
-	
-	.modal-comment2 {
-		font-weight: bold;
-		font-size: 17px;
-	}
-	
+
 	#trash {
-		block-size: 120px;
+		block-size: 105px;
 	}
 </style>
 </head>
@@ -69,7 +72,7 @@
             <img class="sub iconSize" src="image/arrow.png">
             <a class="middle" href="#">커뮤니티</a>
             <img class="sub iconSize" src="image/arrow.png">
-            <a class="middle">자주 묻는 질문</a>
+            <a class="middle" th:href="|faqMain.bo?page=${page}|">자주 묻는 질문</a>
         </div>
 
         <div class="titleAndMore">
@@ -88,7 +91,6 @@
 // 	 						console.log(page);
 	 						location.href = 'faqEdit.bo?bNo=' + btoa(bNo) + '&page=' + page;
 	                	}
-	                	
 // 	                	function deleteFaq(bNo){
 // 	                		console.log(bNo);
 // 	                		location.href= 'deleteFaq.bo?bNo=' + btoa(bNo);
@@ -120,10 +122,10 @@
 	
 	<!-- 모달창 -->
 	<div id="modal"><br>
-		<img id="trash" src="image/trash.png"/><br><br>
-		<span class="modal-comment modal-comment2">글을 삭제하시겠어요?</span><br>
-		<span class="modal-comment">한 번 삭제된 글은</span><br>
-		<span class="modal-comment">다시 복구할 수 없습니다.</span><br><br>
+		<img id="trash" src="image/trash2.png"/><br><br>
+		<span class="modal-comment modal-comment2">글을 삭제하시겠어요❔</span><br><br>
+		<span class="modal-comment">삭제 버튼을 클릭하시면</span><br>
+		<span class="modal-comment">영구적으로 삭제됩니다.</span><br><br>
 		<button id="rollback-btn">취소</button>
 		<button id="boardDelete-btn">삭제</button>
 	</div>

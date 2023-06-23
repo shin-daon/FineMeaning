@@ -28,13 +28,13 @@
 	            </div>
             </th:block>
             <div class="searchArea">
-                <input class="searchInput" type="text" placeholder="검색(글 제목)"/>
-                <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
+                <input class="searchInput" type="text" placeholder="검색(글 제목)" th:value="${params.isEmpty() ? '' : params.keyword}"/>
+                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
             </div>
             <div class="dropdown">
-                <button id="dropbtn"> 
-                    🕊️카테고리
-                </button>
+                <button id="dropbtn">
+                	[[${params.isEmpty() ? '🕊️카테고리' : (params.category == 0 ? '선택없음' : (params.category == 1 ? '후원' : '봉사'))}]]
+                </button>	<!-- isEmpty()인 이유 : 컨트롤러에서 처음부터 map을 만들기 때문에 객체{} 내부에 빈 값이 있어도 보내진다.  -->
                 <input type="hidden" name="category" value="none">
                 <div class="dropdown-content">
                     <span class="selectCate">선택없음</span>
@@ -68,9 +68,11 @@
 			            <td th:text="${b.boardCount}"></td>
 			        </th:block>
 			    </tr>
-			        <th:block th:if="${#lists.isEmpty(list)}">
+			    <tr>
+		        	<th:block th:if="${#lists.isEmpty(list)}">
 			            <td colspan="5" id="emptyBoardList">게시글이 없습니다.</td>
 			        </th:block>
+				</tr>
 			</tbody>
         </table>
 
@@ -152,13 +154,18 @@
 			}
 			
 			// 검색 기능
-			const search = document.querySelector('.searchIconATag');
-			search.addEventListener('click', function(event){
-				const input = document.querySelector('.searchInput').value;
-// 				if(input.trim().length === 0){
-// 					event.preventDefault();		// ★ 카테고리 선택 안 했을 때 안 넘어가게 하기
-// 					input.focus();
-// 				}
+			document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
+				enrollSearchKeyword();
+			});
+			
+			document.getElementsByClassName('searchInput')[0].addEventListener('keyup', (e)=>{
+				if(e.key == 'Enter'){
+					enrollSearchKeyword()
+				}
+			});
+			
+			function enrollSearchKeyword() {
+				const input = document.querySelector('.searchInput').value.trim();
 				const category = document.getElementsByName('category')[0].value;
 				let cate;
 				let link = 'fruitMain.bo?keyword=' + input;
@@ -170,7 +177,7 @@
 					link += '&category=' + cate;
 				}
 				location.href = link;
-			});
+			}
     	}
     </script>
 </body>

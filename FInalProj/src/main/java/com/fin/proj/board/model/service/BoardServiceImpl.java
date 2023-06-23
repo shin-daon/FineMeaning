@@ -92,8 +92,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public ArrayList<Board> searchByTitle(String keyword, String i) {
-		return bDAO.searchByTitle(keyword, i);
+	public ArrayList<Board> searchByTitle(PageInfo pi, HashMap<String, Object> map) {
+		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		RowBounds rowbounds = new RowBounds(offset, pi.getBoardLimit());
+		return bDAO.searchByTitle(map, rowbounds);
 	}
 
 	@Override
@@ -105,8 +107,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int searchFruitListCount(HashMap<String, Object> params) {
+	public int searchListCount(HashMap<String, Object> params) {
 //		System.out.println(params);
-		return bDAO.searchFruitListCount(params);
+		return bDAO.searchListCount(params);
 	}
+
 }

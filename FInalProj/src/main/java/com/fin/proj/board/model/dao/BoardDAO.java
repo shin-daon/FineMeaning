@@ -40,10 +40,10 @@ public interface BoardDAO {
 
 	int replyCount(int boardNo);
 
-	ArrayList<Board> searchByTitle(String keyword, String i);
+	ArrayList<Board> searchByTitle(HashMap<String, Object> map, RowBounds rowbounds);
 	
 	ArrayList<Board> searchByTitleAndCategory(HashMap<String, Object> params, RowBounds rowbounds);
 
-	int searchFruitListCount(HashMap<String, Object> params);
+	int searchListCount(HashMap<String, Object> params);
 
 }
