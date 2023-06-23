@@ -233,4 +233,28 @@ public class SupportServiceImpl implements SupportService {
 		return suDAO.getApplyListUser(uNo);
 	}
 
+
+	@Override
+	public int maintotalCount() {
+		String result = suDAO.maintotalCount();
+		int result1 = 0;
+		if(result.equals("(null)")) {
+			return 0;
+		} else {
+			return Integer.parseInt(suDAO.maintotalCount());
+		}
+	}
+
+
+	@Override
+	public int maintotalAmount() {
+		String result = suDAO.maintotalAmount();
+		int result1 = 0;
+		if(result.equals("(null)")) {
+			return 0;
+		} else {
+			return Integer.parseInt(suDAO.maintotalAmount());
+		}
+	}
+
 }

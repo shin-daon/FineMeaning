@@ -76,6 +76,10 @@ public interface SupportService {
 
 	int getApplyListUser(int uNo);
 
+	int maintotalCount();
+
+	int maintotalAmount();
+
 
 
 
