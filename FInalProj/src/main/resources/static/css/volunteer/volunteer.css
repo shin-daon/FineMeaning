@@ -103,6 +103,15 @@
     border-radius: 8px;
 }
 
+.v-category .status-ul li:first-child {
+	background-color: white;
+}
+
+.v-category .status-ul li:nth-child(2) {
+	background-color: #d7f1c8;
+	border-radius: 8px;
+}
+
 .v-sub-category {
     display: flex;
 }

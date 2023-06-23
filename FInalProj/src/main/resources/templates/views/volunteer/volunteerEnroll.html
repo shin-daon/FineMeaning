@@ -15,6 +15,46 @@
 	<!-- include summernote css/js -->
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+	
+	<style>
+		/* 모달 */
+		#modal { width: 300px; height: 350px; border: 1px solid #eee; padding: 30px; margin: auto; display: none;
+			border-radius: 20px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);  text-align: center; background-color: white;
+	 		position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;}
+		
+		.modal-comment {
+			font-size: 16px;
+		}
+		
+		#withdrawal-btn {
+			border-radius: 4px;
+			width: 90px;
+			height: 35px;
+			font-size: 15px;
+			color: #fff;
+			background-color: #609966;
+			border: 1.5px solid #609966;
+		}
+		
+		#rollback-btn {
+			border-radius: 4px;
+			width: 90px;
+			height: 35px;
+			font-size: 15px;
+			color: #609966;
+			background-color: #fff;
+			border: 1.5px solid #609966;
+		}
+		
+		.modal-comment2 {
+			font-weight: bold;
+			font-size: 17px;
+		}
+		
+		#heartImage {
+			block-size: 120px;
+		}
+	</style>
 </head>
 <body>
 	<div th:replace="~{../common/header :: header}"></div>
@@ -25,7 +65,7 @@
         </div>
         
         <div class="va-prev-next-btn-div">
-            <a href="javascript:history.back()" class="btn-gradient yellow mini prev">이전</a>
+            <button id="backBtn" class="btn-gradient yellow mini prev">이전</button>
         </div>
 
         <section class="v-apply-info">
@@ -156,7 +196,7 @@
 	                	<td>담당자명</td>
 	                    <td><input type="text" name="vChargeName" maxlength="6" required/></td>
 	                    <td>담당자 전화번호</td>
-	                    <td><input type="text" name="vChargePhone" required/></td>
+	                    <td><input type="text" name="vChargePhone" required maxlength="20" placeholder="하이픈(-)을 제외한 번호를 입력해주세요."/></td>
 	                </tr>
 	                <tr>
 	                    <td colspan="4">
@@ -172,9 +212,39 @@
     </section>
     
    	<div th:replace="~{../common/footer :: footer}"></div>  
+   	
+   	<!-- 모달창 -->
+	<div id="modal"><br>
+		<img id="heartImage" src="image/heart2.png"/><br><br>
+		<span class="modal-comment modal-comment2">봉사 작성을 취소하시겠어요?</span><br>
+		<span class="modal-comment">확인 선택 시 작성한 봉사 내용은</span><br>
+		<span class="modal-comment">절대 복구되지 않습니다.</span><br><br>
+		<button id="rollback-btn">취소</button>
+		<button id="withdrawal-btn">확인</button>
+	</div>
 
     <script>
-        window.onload = () => {      	
+        window.onload = () => {
+        	// 취소 버튼 모달
+			const backBtn = document.getElementById('backBtn');
+			const yesBtn = document.getElementById('withdrawal-btn');
+			const noBtn = document.getElementById('rollback-btn');
+			const modal = document.getElementById('modal');
+			
+			backBtn.addEventListener('click', () => {
+				event.preventDefault();
+			    modal.style.display = 'block';
+			});
+			
+			yesBtn.addEventListener('click', () => {
+			    modal.style.display = 'none';
+			    location.href="volunteer.vo";
+			});
+			
+			noBtn.addEventListener('click', () => {
+			    modal.style.display = 'none';
+			});
+			
         	$('#summernote').summernote({
 				placeholder: '내용을 입력하세요.',
 				minHeight: 350,
