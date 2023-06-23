@@ -27,7 +27,7 @@
 }
 
 .middle:hover {
-    color: black;
+	color: black;
 }
 
 .iconSize {
@@ -37,6 +37,7 @@
 
 .homeIconSize {
     block-size: 14px;
+    margin-bottom: 2px;
 }
 
 .actionArea {

@@ -45,5 +45,4 @@ public interface BoardDAO {
 	ArrayList<Board> searchByTitleAndCategory(HashMap<String, Object> params, RowBounds rowbounds);
 
 	int searchListCount(HashMap<String, Object> params);
-
 }

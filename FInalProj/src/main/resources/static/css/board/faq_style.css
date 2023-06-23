@@ -15,6 +15,11 @@
     border-bottom: 2px solid #40513B;
 }
 
+#subFaqTitle {
+	font-size: 15px;
+    margin-top: 20px;
+}
+
 .path {
     margin-top: 30px;
     width: 740px;
@@ -27,6 +32,10 @@
     color: black;
 }
 
+.middle:hover {
+	color: black;
+}
+
 .iconSize {
     block-size: 12px;
     vertical-align: sub;
@@ -34,6 +43,7 @@
 
 .homeIconSize {
     block-size: 14px;
+    margin-top: 2px;
 }
 
 .actionArea {

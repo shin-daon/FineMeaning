@@ -24,7 +24,7 @@
         <div class="actionArea">
         	<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0 }">
 	            <div class="writeArea">
-	                <button class="writeFaqBtn learn-more" onclick="location.href='fruit_form.bo'">글쓰기</button>
+	                <button class="writeFaqBtn learn-more" onclick="location.href='fruitForm.bo'">글쓰기</button>
 	            </div>
             </th:block>
             <div class="searchArea">
@@ -148,7 +148,7 @@
 					const trTds= this.parentElement.children; // = querySelectorAll
 					const boardNo = trTds[0].innerText;
 					/* <![CDATA[ */
-					location.href='fruit_detail.bo?bNo=' + boardNo + '&page=' + /*${pi.currentPage}*/1;
+					location.href='fruitDetail.bo?bNo=' + boardNo + '&page=' + /*${pi.currentPage}*/1;
 					/* ]]> */
 				});
 			}
