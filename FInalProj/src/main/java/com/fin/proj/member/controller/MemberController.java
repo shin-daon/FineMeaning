@@ -390,7 +390,7 @@ public class MemberController {
 	
 	@RequestMapping(value="findMyId2.me") 
 	public void findMyId2(@RequestParam("uName") String uName,
-					     @RequestParam("phone") String phone, PrintWriter out) {
+					      @RequestParam("phone") String phone, PrintWriter out) {
 		
 		System.out.println("이름 : " + uName);
 		System.out.println("보낼 전화번호 : " + phone);
@@ -404,11 +404,32 @@ public class MemberController {
     	
     	int randomNum = 0;    	
     	if(count > 0) {
-    		randomNum = aService.findId2(phone);
+    		randomNum = aService.findBySms(phone);
     	}
     	
-    	out.print(result + "," + randomNum);
+    	out.print(result + "," + randomNum);   	
+	}
+	
+	@RequestMapping(value="findMyPwd2.me")
+	public void findMyPwd2(@RequestParam("uId") String uId,
+					       @RequestParam("phone") String phone, PrintWriter out) {
+		
+		System.out.println("아이디 : " + uId);
+		System.out.println("보낼 전화번호 : " + phone);
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+    	map.put("uId", uId);
+    	map.put("phone", phone);
+    	  
+    	int count = mService.searchPhoneUser2(map);
+		String result = count == 0 ? "no" : "yes";
     	
+    	int randomNum = 0;    	
+    	if(count > 0) {
+    		randomNum = aService.findBySms(phone);
+    	}
+    	
+    	out.print(result + "," + randomNum);  	
 	}
 }
 

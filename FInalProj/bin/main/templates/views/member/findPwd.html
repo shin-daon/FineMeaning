@@ -435,12 +435,16 @@ input[type="radio"]:checked + span:before{
 		event.preventDefault();
 		emailDiv.style.display = 'block';
 		phoneDiv.style.display = 'none';
+		emailRadio.checked = true;
+		phoneRadio.checked = false;
 	});
 	
 	phoneRadio.addEventListener('change', () => {
 		event.preventDefault();
 		phoneDiv.style.display = 'block';
 		emailDiv.style.display = 'none';
+		phoneRadio.checked = true;
+		emailRadio.checked = false;
 	});
 	
 	
@@ -507,6 +511,7 @@ input[type="radio"]:checked + span:before{
 		const emailId = document.getElementsByName("emailId")[0].value;
 		const emailDomain = document.getElementById("email-select").value;
 		const customEmailDomain = document.getElementById("custom-email-input").value;
+		const phone = document.getElementsByName("phone")[0].value;
 		const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
 		const pwdCheckResult = document.getElementById('pwdCheckResult');
 		
@@ -520,9 +525,11 @@ input[type="radio"]:checked + span:before{
 		
 		if (uId.trim() == ''){
 			pwdCheckResult.innerText = '아이디를 입력해주세요.';
-		} else if(emailId.trim() == ''){
+		} else if(emailRadio.checked && emailId.trim() == ''){
 			pwdCheckResult.innerText = '이메일을 입력해주세요.';
-		} else {			
+		} else if(phoneRadio.checked && phone.trim() == ''){
+			pwdCheckResult.innerText = '전화번호를 입력해주세요.';
+		} else if(emailRadio.checked && !(uId.trim() == '') && !(emailId.trim() == '')) {			
 			console.log(emailAddress);
 			$.ajax({
 	            url: 'findMyPwd.me',
@@ -563,7 +570,44 @@ input[type="radio"]:checked + span:before{
 	                console.log("데이터 전송 실패");
 	            }
 	        });
-	    }        
+	    } else if (phoneRadio.checked && !(uId.trim() == '') && !(phone.trim() == '')){
+	    	$.ajax({
+	            url: 'findMyPwd2.me',
+	            data: { uId: uId, phone: phone },
+	            success: data => {
+	                console.log("데이터 전송 성공: " + data);
+	                
+	                const [result, randomNum] = data.split(',');	                
+	                
+	                if(result == 'no'){
+	                	pwdCheckResult.innerText = '입력하신 정보와 일치하는 회원이 존재하지 않습니다.';
+	                } else if(result == 'yes'){
+	                	pwdCheckResult.innerText = '문자가 전송되었습니다. 인증번호를 입력해주세요.';	
+	                	nextBtn.disabled = false;     
+	                }
+	                
+	                console.log("인증번호: " + randomNum);
+	                
+	                nextBtn.addEventListener("click", function() {
+	                	const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
+	                	const pwdCheckResult = document.getElementById('pwdCheckResult');
+	                	const findIdForm = document.getElementById('findIdForm');
+						
+						if (randomNumInput === randomNum) {
+							nextBtn.disabled = false;
+							findPwdForm.submit();						
+					    } else {
+					    	event.preventDefault();
+					    	pwdCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
+					    	pwdCheckResult.style.color = 'red';
+					    }
+					});	
+	            },
+	            error: data => {
+	                console.log("데이터 전송 실패");
+	            }
+	        });
+	    }    
 	});
 		
 		

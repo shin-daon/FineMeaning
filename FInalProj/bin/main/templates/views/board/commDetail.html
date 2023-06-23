@@ -209,7 +209,8 @@ width: 80px;
 		</div>
     </section>
 <div th:replace="~{../common/footer :: footer}"></div>
-  	<script th:inline="javascript">
+
+<script th:inline="javascript">
   	window.onload = () => {
 		
   		/* <![CDATA[ */
@@ -258,13 +259,9 @@ width: 80px;
 							const replySet = document.createElement('div');
 							replySet.classList.add('replySet');
 							
-							// 자바스크립트에서 if문 안 1이면 true, 0이면 false
-							
 							const loginUser = /*[[${session.loginUser}]]*/1;
-//								console.log(loginUser);
 
 							const loginUserNo = /*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/1;
-//								console.log(loginUserNo);
 							
 							if(loginUser != null && loginUserNo == r.replyWriter) {
 								const deleteLink = document.createElement('a');
