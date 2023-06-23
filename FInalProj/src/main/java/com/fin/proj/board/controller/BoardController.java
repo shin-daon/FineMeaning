@@ -618,6 +618,7 @@ public class BoardController {
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
 			model.addAttribute("list", list);
+			model.addAttribute("page", currentPage);
 			System.out.println(list);
 			return "noticeList";
 		} else {
@@ -671,6 +672,22 @@ public class BoardController {
 		model.addAttribute("b", board);
 		model.addAttribute("page", page);
 		return "editNotice";
+	}
+	
+	@RequestMapping("deleteNotice.bo")
+	public String deleteNotice(@RequestParam("bId") String encode) {
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(encode);
+		String decode = new String(byteArr);
+		int bId = Integer.parseInt(decode);
+		
+		int result = bService.deleteBoard(bId);
+		if(result > 0) {
+			return "redirect:noticeList.bo";
+		} else {
+			throw new BoardException("공지 삭제 실패");
+		}
 	}
 	
 	

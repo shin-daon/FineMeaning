@@ -4,7 +4,56 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="css/board/community.css">
+<style type="text/css">
+.page {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: row;
+}
+
+.pagination > li {
+    list-style-type: none;
+    float: left;
+}
+
+.pagination > li > .num {
+    margin: 10px;
+    width: 33px;
+    height: 33px;
+    text-decoration-line: none;
+    color: black;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center
+}
+
+.pagination > li > .num:hover {
+    color: white;
+    background-color: #40513B;
+    border-radius: 100%;
+}
+
+.currentPage{
+	color: white;
+    background-color: #9bc08d;
+    border-radius: 100%;
+}
+
+.arrowKey {
+    margin-top: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
+    block-size: 14px;
+    display: block;
+}
+
+.disabled {
+	opacity: 0.3;
+}
+</style>
 <script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/1c67f557d9.js" crossorigin="anonymous"></script>
 <style>
 button.writeFaqBtn.learn-more {
@@ -103,8 +152,10 @@ button.writeFaqBtn.learn-more {
 
         <div class="actionArea">
             <div class="writeArea">
+            <th:block th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}">
                 <button class="writeFaqBtn learn-more" onclick="location.href='writeNotice.bo'">작성하기</button>
             </div>
+            </th:block>
             <div class="searchArea">
                 <input class="searchInput" type="text" placeholder="검색"/>
                 <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
@@ -119,9 +170,10 @@ button.writeFaqBtn.learn-more {
    <tr>
     <td th:id="'que-' + ${b.boardNo} + '-toggle'">+</td>
     <img class="sub iconSize" src="image/alert.png"/>
-    <td th:text="${b.boardTitle}"></td>
-    <td class="author" th:text="${b.nickName}"></td>
-    <td class="date" th:text="${b.boardDate}"></td>
+    <td>제목 :&nbsp;[[${b.boardTitle}]]&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;</td>
+    <img class="sub iconSize" src="image/adminTitle.png"/>
+    <td class="author">작성자:&nbsp;[[${b.nickName}]]&nbsp;&nbsp;/&nbsp;&nbsp;</td>
+    <td class="date">작성일:&nbsp;[[${b.boardDate}]]&nbsp;</td>
      </button>
   </tr>
   <tr>
@@ -130,15 +182,16 @@ button.writeFaqBtn.learn-more {
   	<input type="hidden" th:value="${ b.boardNo }" name="bNo">
     <input type="hidden" th:value="${ page }" name="page">
   	<br><br>
-    <p th:utext="${b.boardContent}"></p>
+    <p th:utext="${b.boardContent}"></p> 
+    <th:block th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}">
     <button class="writeFaqBtnSmall learn-more" onclick="location.href='updateNoticeForm.bo'">수정하기</button>
-    <button class="writeFaqBtnSmall learn-more" onclick="location.href='/deleteNotice.co'">삭제하기</button>
+    <button class="writeFaqBtnSmall learn-more" type="button" id="deleteModal">삭제하기</button>
+    </th:block>
     <br><br><br>
    </form>
   </div>
   <tr>
 </div>
-
         <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
                 <li th:if="${ pi.currentPage > 1 }">
@@ -163,10 +216,29 @@ button.writeFaqBtn.learn-more {
                 </li>
             </ul>
         </div>
+        
+        <div class="modal fade" tabindex="-1" role="dialog" id="modalChoice" th:each="b : ${list}">
+			<div class="modal-dialog" role="document">
+	    		<div class="modal-content rounded-3 shadow">
+	      			<div class="modal-body p-4 text-center">
+	        			<h3 class="mb-0">정말로 삭제하시겠습니까?</h3>
+	        			<p class="mb-0">삭제 후 게시글은 되돌릴 수 없습니다.</p>
+	      			</div>
+	      			<div class="modal-footer flex-nowrap p-0">
+	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" th:onclick="location.href='deleteNotice.bo?bId='+btoa([[${b.boardNo}]])">
+	        				<strong>네</strong>
+	        			</button>
+	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+	      			</div>
+	    		</div>
+	  		</div>
+		</div>
+        
     </section>
     <div th:replace="~{../common/footer :: footer}"></div>
 </body>
  <script>
+ //토글 JS
  $(function(){
 	 const items = document.querySelectorAll('.question');
 
@@ -184,5 +256,13 @@ button.writeFaqBtn.learn-more {
 
 	  items.forEach(item => item.addEventListener('click', openCloseAnswer));	
 })
+window.onload = () =>{
+	const deleteModal = document.getElementById('deleteModal');
+	if(deleteModal != null){
+		deleteModal.addEventListener('click', ()=>{
+			$('#modalChoice').modal('show');
+		})
+	}
+}
 </script>
 </html>
