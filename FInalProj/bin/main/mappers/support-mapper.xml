@@ -128,11 +128,29 @@
 	</select>
 	
 	<select id="getsearchApplyListCount" resultType="_int">
-		select count(*) from support where u_no= #{userNo} and S_TITLE like '%${supportTitle}%'
+		select count(*) from support where u_no= #{userNo}
+		<if test="supportTitle != 'searchNone'">
+		and S_TITLE like '%${supportTitle}%'
+		</if> 
+		<if test="supportCategory != 'cateNone'">
+		and S_category = #{supportCategory}
+		</if> 
+		<if test="status != 'A'">
+		and S_status = #{status}
+		</if> 
 	</select>
 	
 	<select id="selectApplySearchList" resultMap="supportResultSet">
-		select * from support join users using(u_no) where u_no= #{userNo} and S_TITLE like '%${supportTitle}%'
+		select * from support where u_no= #{userNo}
+		<if test="supportTitle != 'searchNone'">
+		and S_TITLE like '%${supportTitle}%'
+		</if> 
+		<if test="supportCategory != 'cateNone'">
+		and S_category = #{supportCategory}
+		</if> 
+		<if test="status != 'A'">
+		and S_status = #{status}
+		</if> 
 	</select>
 	
 	<insert id="insertSupporter">

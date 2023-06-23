@@ -295,17 +295,16 @@ public class SupportController {
 
 	@RequestMapping("searchApplyList.su")
 	public String searchApplyList(@RequestParam(value = "page", required = false) Integer currentPage,
-			HttpSession session, @RequestParam("searchWord") String searchWord, Model model) {
+								 HttpSession session, @ModelAttribute Support s, Model model) {
+		System.out.println(s);
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
 
 		if (currentPage == null) {
 			currentPage = 1;
 		}
-
-		Support s = new Support();
-		s.setSupportTitle(searchWord.trim());
 		s.setUserNo(uNo);
-
+		s.setSupportTitle(s.getSupportTitle().trim());
+		
 		int listCount = suService.getSearchListCount(s);
 
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
@@ -313,7 +312,9 @@ public class SupportController {
 		ArrayList<Support> sList = suService.selectApplySearchList(pi, s);
 		model.addAttribute("pi", pi);
 		model.addAttribute("sList", sList);
-		model.addAttribute("searchWord", searchWord.trim());
+		model.addAttribute("searchWord", s.getSupportTitle().trim());
+		model.addAttribute("category", s.getSupportCategory());
+		model.addAttribute("status", s.getStatus());
 		return "supportApplicationListUser";
 
 	}
