@@ -216,6 +216,12 @@ button {
 
 
 /* 이전 다음 버튼 */
+
+.disabled{
+	pointer-events: none;
+	opacity: 0.5;
+}
+
 .btn-gradient:hover {
     color: #40513B;
 }
@@ -257,13 +263,15 @@ button {
 
 .arrowBtn {
     width: 870px;
-    display: flex;
+}
+
+.pagination {
+	display: flex;
+    width: 100%;
     justify-content: space-between;
 }
 
-
 /* 뒤집기 */
-
 .flip {
     perspective: 1000px; /* 3D 효과를 위한 perspective 설정 */
 }
