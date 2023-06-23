@@ -35,4 +35,6 @@ public interface MemberDAO {
 
 	Member searchUserPwd(Member m);
 
+	int searchPhoneUser(HashMap<String, String> map);
+
 }
