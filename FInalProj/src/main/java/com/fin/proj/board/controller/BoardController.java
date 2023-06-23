@@ -198,7 +198,7 @@ public class BoardController {
 		int listCount = bService.getListCount("선뜻한 사람");
 //		System.out.println(listCount);
 		
-		PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 5);
+		PageInfo pageInfo = Pagination.getPageInfo(currentPage, listCount, 5);
 		
 		ArrayList<Board> list = bService.selectBoardList(pageInfo, "선뜻한 사람");
 //		System.out.println(list);
@@ -390,8 +390,25 @@ public class BoardController {
 	}
 	
 	@GetMapping("fineNewsMain.bo")
-	public String fineNewsMain() {
-		return "fineNews";
+	public String fineNewsMain(@RequestParam(value="page", required=false) Integer currentPage, Model model){
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = bService.getListCount("선한 뉴스");
+		
+		PageInfo pageInfo = Pagination.getPageInfo(currentPage, listCount, 9);
+		
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, "선한 뉴스");
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			return "fineNews";
+		} else {
+			throw new BoardException("게시글 목록 조회 실패");
+		}
 	}
 	
 	@GetMapping("fineNewsForm.bo")
