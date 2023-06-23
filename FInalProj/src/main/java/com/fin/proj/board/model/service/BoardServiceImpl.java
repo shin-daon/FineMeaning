@@ -111,5 +111,5 @@ public class BoardServiceImpl implements BoardService {
 //		System.out.println(params);
 		return bDAO.searchListCount(params);
 	}
-	
+
 }

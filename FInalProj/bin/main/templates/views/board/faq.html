@@ -41,7 +41,7 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th style="width: 350px;">제목</th>
+                    <th style="width: 350px;">제목</th>					<!-- ★ 간격 %로 조정하기 -->
                     <th>작성자</th>
                     <th>작성일</th>
                 </tr>
@@ -57,6 +57,11 @@
                     <td th:text="${ b.nickName }"></td>
                     <td th:text="${ b.boardDate }"></td>
                 </tr>
+                <tr>
+		        	<th:block th:if="${#lists.isEmpty(list)}">
+			            <td colspan="5" id="emptyBoardList">게시글이 없습니다.</td>
+			        </th:block>
+				</tr>
             </tbody>
         </table>
 

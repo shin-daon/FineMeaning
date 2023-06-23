@@ -304,7 +304,7 @@ select:focus {
 <div class="enroll">
 	<div class="enroll-title">회원가입</div>
 	
-	<form action="insertUser.me" method="post">
+	<form action="insertUser.me" method="post" name="enrollForm">
 		<div class="insert id">
 			<label class="title">아이디</label>
 			<div class="input">
@@ -392,7 +392,7 @@ select:focus {
 			</div>
        						
 			<div class="input">
-				<input type="text" id="number-input" placeholder="인증번호" name="randomNumInput"/>
+				<input type="text" id="number-input" placeholder="인증번호" name="randomNumInput" required/>
 				<button class="short-btn" id="emailBtn">메일 전송</button>
 				<button class="short-btn" id="emailBtn2" style="display:none";>확인</button>
 				<div class="check-div"><label id="emailCheckResult"></label></div>
@@ -458,7 +458,7 @@ select:focus {
     		const id = document.getElementsByName('uId')[0];
     		const idResult = document.getElementById('idCheckResult');   		
     		
-    		id.addEventListener('change', function(){
+    		id.addEventListener('input', function(){
 				if(this.value.trim() == ''){
 					idResult.innerText = '아이디를 입력해주세요.';
 					idResult.style.color = 'gray';
@@ -496,7 +496,7 @@ select:focus {
     		const nickName = document.getElementsByName('uNickName')[0];
     		const nickNameResult = document.getElementById('nickNameCheckResult');
     		
-    		nickName.addEventListener('change', function(){				
+    		nickName.addEventListener('input', function(){				
 				if(this.value.trim() == ''){
 					nickNameResult.innerText = '닉네임을 입력해주세요.';
 					nickNameResult.style.color = 'gray';
@@ -533,7 +533,7 @@ select:focus {
     	}
     
     // 이메일 폼
-	const form = document.querySelector('form');
+	const form = document.getElementsByName('enrollForm')[0];
 
 	form.addEventListener('submit', function(event) {
   		if (customEmailInput.value === '') {
@@ -560,7 +560,7 @@ select:focus {
 
                 //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
                 if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
+                    addr = data.roadAddress;                  
                 } else { // 사용자가 지번 주소를 선택했을 경우(J)
                     addr = data.jibunAddress;
                 }
@@ -568,6 +568,9 @@ select:focus {
                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById("sample6_address").value = addr;
                 
+                const addInput = document.querySelector('input[name="address"]');
+                addInput.style.outline = '1px solid #609966';
+        		addInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
             }
         }).open({
             left: (window.screen.width / 1.35) - (width / 2), 
@@ -642,9 +645,12 @@ select:focus {
 	
 	function toggleAgencyNameInput() {
 	  if (agencyRadio.checked) {
-	    agencyNameInput.readOnly = false;
+	    agencyNameInput.readOnly = false;	    
 	  } else {
 	    agencyNameInput.readOnly = true;
+	    agencyNameInput.value = '';
+	    agencyNameInput.style.outline = '';
+		agencyNameInput.style.boxShadow = '';
 	  }
 	}
 	
@@ -663,7 +669,7 @@ select:focus {
 	  const firstPart = ssnFirstInput.value;
 	  const secondPart = ssnSecondInput.value;
 	  const ssnRegexFirst = /^[0-9]{6}$/
-	  const ssnRegexSecond = /^[1-4]{7}$/
+	  const ssnRegexSecond = /^[1-4][0-9]{6}$/
 	
 	  if (ssnRegexFirst.test(firstPart) && ssnRegexSecond.test(secondPart)) {
 	    ssnCheckResult.textContent = '';
@@ -687,6 +693,7 @@ select:focus {
 	const nameInput = document.querySelector('input[name="uName"]');
 	const addInput = document.querySelector('input[name="address"]');
 	const phoneInput = document.querySelector('input[name="phone"]');
+	const agencyInput = document.querySelector('input[name="registrar"]');
 	
 	nameInput.addEventListener('input', () => {
 		  if (nameInput.value.trim() === '') {
@@ -698,7 +705,7 @@ select:focus {
 		  }
 		});
 
-		addInput.addEventListener('blur', () => {
+		addInput.addEventListener('input', () => {
 		  if (addInput.value.trim() === '') {
 			addInput.style.outline = '1px solid red';
 			addInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
@@ -717,6 +724,13 @@ select:focus {
 			phoneInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
 		  }
 		});
+		
+		agencyInput.addEventListener('input', () => {
+			  if (agencyInput.value.trim() !== '') {
+				agencyInput.style.outline = '1px solid #609966';
+				agencyInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+			  }
+			});
 		
 	// 이메일 인증		
 	const emailBtn = document.getElementById('emailBtn');
@@ -741,8 +755,6 @@ select:focus {
 		if(emailId.trim() == ''){
 			emailCheckResult.innerText = '이메일을 입력해주세요.';
 			emailCheckResult.style.color = 'gray';
-			emailId.style.outline = '';
-			emailId.style.boxShadow = '';
 			enrollButton.disabled = true;
 		} else {			
 			console.log(emailAddress);
@@ -754,7 +766,37 @@ select:focus {
 	                console.log("데이터 전송 성공: " + data);	
 	                emailBtn.style.display = 'none';
 	                emailBtn2.style.display = 'inline-block';
-	                emailCheckResult.innerText = '메일이 전송되었습니다. 인증번호를 입력해주세요.';
+	                emailCheckResult.innerHTML = '메일이 전송되었습니다. 인증번호를 입력한 뒤 <br> 확인 버튼을 클릭해주세요.';
+	                enrollButton.disabled = true;
+	                
+	                enrollButton.addEventListener("click", function() {
+	        			event.preventDefault();
+	        			const randomNum = document.getElementsByName("randomNumInput")[0].value;
+	        			
+	        			if (data !== randomNum) {
+	        				event.preventDefault();
+	        				enrollButton.disabled = true;
+	        			} else {
+	        				enrollButton.disabled = false;
+	        				
+	        				// 이메일 폼
+	        				const form = document.getElementsByName('enrollForm')[0];
+	        				const emailSelect = document.getElementById('email-select');
+	        			    const customEmailInput = document.getElementById('custom-email-input');
+
+	        			  		if (customEmailInput.value === '') {
+	        			  			customEmailInput.setAttribute('name', '');
+	        			    		emailSelect.setAttribute('name', 'emailDomain');
+	        			  		} else {
+	        			  			customEmailInput.setAttribute('name', 'emailDomain');
+	        			   			emailSelect.setAttribute('name', '');
+	        			  		}
+	        				
+	        				form.submit();
+	        				alert('회원가입이 성공적으로 완료되었습니다.');
+	        			}
+	        		});
+   
 	            },
 	            error: function() {
 	                console.log("데이터 전송 실패");
@@ -762,7 +804,7 @@ select:focus {
 	        });
 	    }        
 	});
-		
+		enrollButton.disabled = true;
 		emailBtn2.addEventListener("click", function() {
 			event.preventDefault();
 			const emailId = document.getElementsByName("emailId")[0];
@@ -779,6 +821,7 @@ select:focus {
 		        randomNumInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
 		        emailBtn2.innerHTML = '인증 완료';
 		        enrollButton.disabled = false;
+		        
 		    } else {
 		        emailCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
 		        emailCheckResult.style.color = 'red';
@@ -788,7 +831,9 @@ select:focus {
 		        enrollButton.disabled = true;
 		    }
 		});
-    		
+
+		
+		
 </script>
 </body>
 </html>

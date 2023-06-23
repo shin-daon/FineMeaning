@@ -55,7 +55,7 @@
 				 join v_sub_category using(v_sub_category_no)
 				 join v_target_category using(v_target_category_no)
 			where v_status='Y'
-			order by v_no
+			order by v_no desc
 		]]>
 	</select>
 	
@@ -105,6 +105,18 @@
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 		where v_status='Y'
+		<if test="vArea != null and !vArea.equals('')">
+			and v_area like '%' || #{vArea} || '%'
+		</if>
+		<if test="vMainCategoryName != null and !vMainCategoryName.equals('')">
+			and v_main_category_name like '%' || #{vMainCategoryName} || '%'
+		</if>
+		<if test="vActivityType != null and !vActivityType.equals('')">
+			and v_activity_type like '%' || #{vActivityType} || '%'
+		</if>
+		<if test="vTargetCategoryName != null and !vTargetCategoryName.equals('')">
+			and v_target_category_name like '%' || #{vTargetCategoryName} || '%'
+		</if>
 		<if test="vName != null and !vName.equals('')">
 			and v_name like '%' || #{vName} || '%'
 		</if>
@@ -127,6 +139,18 @@
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 		where v_status='Y'
+		<if test="vArea != null and !vArea.equals('')">
+			and v_area like '%' || #{vArea} || '%'
+		</if>
+		<if test="vMainCategoryName != null and !vMainCategoryName.equals('')">
+			and v_main_category_name like '%' || #{vMainCategoryName} || '%'
+		</if>
+		<if test="vActivityType != null and !vActivityType.equals('')">
+			and v_activity_type like '%' || #{vActivityType} || '%'
+		</if>
+		<if test="vTargetCategoryName != null and !vTargetCategoryName.equals('')">
+			and v_target_category_name like '%' || #{vTargetCategoryName} || '%'
+		</if>
 		<if test="vName != null and !vName.equals('')">
 			and v_name like '%' || #{vName} || '%'
 		</if>
@@ -139,6 +163,6 @@
 		<if test="vEndDate != null and !vEndDate.equals('')">
 			and <![CDATA[to_char(v_end_date, 'yyyy-mm-dd') <= #{vEndDate}]]>
 		</if>
-		order by v_no
+		order by v_no desc
 	</select>
 </mapper>

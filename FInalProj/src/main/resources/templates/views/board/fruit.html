@@ -68,9 +68,11 @@
 			            <td th:text="${b.boardCount}"></td>
 			        </th:block>
 			    </tr>
-			        <th:block th:if="${#lists.isEmpty(list)}">
+			    <tr>
+		        	<th:block th:if="${#lists.isEmpty(list)}">
 			            <td colspan="5" id="emptyBoardList">게시글이 없습니다.</td>
 			        </th:block>
+				</tr>
 			</tbody>
         </table>
 

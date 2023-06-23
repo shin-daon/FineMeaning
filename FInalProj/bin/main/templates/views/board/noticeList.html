@@ -75,14 +75,14 @@ button.writeFaqBtn.learn-more {
     transform: translate3d(0, 0, -1em);
 }
         
-/* 초기 상태에서 숨겨진 행 */
-.hidden {
-    display: none;
-}
-        
 .writeFaqBtnSmall {
    	float: right;
 }
+
+  .faqTable .answer {
+    display: none;
+    padding-left: 50px;
+  }
 </style>
 </head>
 <body>
@@ -111,37 +111,33 @@ button.writeFaqBtn.learn-more {
             </div>
         </div>
 
-        <table class="faqTable">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th style="width: 300px;">제목</th>
-                    <th>작성자</th>
-                    <th>작성일</th>
-                    <th>조회수</th>
-                </tr>
-            </thead>
-            <tbody>
-        <tr th:each="b : ${list}">
-            <td th:text="${b.boardNo}"></td>
-            <td>
-                <span class="toggle-row">
-                    <img class="sub iconSize" src="image/alert.png">
-                    <span th:text="${b.boardTitle}"></span>
-                </span>
-            </td>
-            <td th:text="${b.nickName}"></td>
-            <td th:text="${b.boardDate}"></td>
-            <td th:text="${b.boardCount}"></td>
-        </tr>
-        <tr class="hidden" th:each="b : ${list}">
-            <td colspan="5">
-                <p th:utext="${b.boardContent}"></p>
-                <button class="writeFaqBtnSmall learn-more" onclick="location.href='/editNotice.co'">수정하기</button>
-            </td>
-        </tr>
-    </tbody>
-        </table>
+       <div class="faqTable" th:each="b : ${list}">
+       
+  
+   
+   <button class="question" th:id="'que-' + ${b.boardNo}">
+   <tr>
+    <td th:id="'que-' + ${b.boardNo} + '-toggle'">+</td>
+    <img class="sub iconSize" src="image/alert.png"/>
+    <td th:text="${b.boardTitle}"></td>
+    <td class="author" th:text="${b.nickName}"></td>
+    <td class="date" th:text="${b.boardDate}"></td>
+     </button>
+  </tr>
+  <tr>
+  <div class="answer" th:id="'ans-' + ${b.boardNo}">
+  <form class="needs-validation" action="updateNoticeForm.bo" method="POST">
+  	<input type="hidden" th:value="${ b.boardNo }" name="bNo">
+    <input type="hidden" th:value="${ page }" name="page">
+  	<br><br>
+    <p th:utext="${b.boardContent}"></p>
+    <button class="writeFaqBtnSmall learn-more" onclick="location.href='updateNoticeForm.bo'">수정하기</button>
+    <button class="writeFaqBtnSmall learn-more" onclick="location.href='/deleteNotice.co'">삭제하기</button>
+    <br><br><br>
+   </form>
+  </div>
+  <tr>
+</div>
 
         <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
@@ -171,24 +167,22 @@ button.writeFaqBtn.learn-more {
     <div th:replace="~{../common/footer :: footer}"></div>
 </body>
  <script>
-        // 토글 기능을 위한 JavaScript 코드
-        // 모든 toggle-row 클래스를 가진 요소에 클릭 이벤트 리스너를 추가
-       var toggleRows = document.querySelectorAll('.toggle-row');
+ $(function(){
+	 const items = document.querySelectorAll('.question');
 
-    toggleRows.forEach(function(row) {
-        row.addEventListener('click', toggleContent);
-    });
+	  function openCloseAnswer() {
+	    const answerId = this.id.replace('que', 'ans');
 
-    function toggleContent(event) {
-        var target = event.currentTarget;
-        var cell = target.parentElement;
-        var contentRow = cell.parentElement.nextElementSibling;
+	    if(document.getElementById(answerId).style.display === 'block') {
+	      document.getElementById(answerId).style.display = 'none';
+	      document.getElementById(this.id + '-toggle').textContent = '+';
+	    } else {
+	      document.getElementById(answerId).style.display = 'block';
+	      document.getElementById(this.id + '-toggle').textContent = '-';
+	    }
+	  }
 
-        if (contentRow.classList.contains('hidden')) {
-            contentRow.classList.remove('hidden');
-        } else {
-            contentRow.classList.add('hidden');
-        }
-    }
-    </script>
+	  items.forEach(item => item.addEventListener('click', openCloseAnswer));	
+})
+</script>
 </html>

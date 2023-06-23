@@ -9,6 +9,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.fin.proj.board.model.vo.Board;
 import com.fin.proj.board.model.vo.Reply;
+import com.fin.proj.common.model.vo.PageInfo;
 
 @Mapper
 public interface BoardDAO {
