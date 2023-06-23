@@ -32,6 +32,10 @@
     color: black;
 }
 
+.middle:hover {
+	color: black;
+}
+
 .iconSize {
     block-size: 12px;
     vertical-align: sub;
@@ -39,6 +43,7 @@
 
 .homeIconSize {
     block-size: 14px;
+    margin-top: 2px;
 }
 
 .actionArea {
