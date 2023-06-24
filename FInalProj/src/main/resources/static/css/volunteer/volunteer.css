@@ -12,6 +12,43 @@
   font-family: "SUITE-Regular", sans-serif;
 } 
 
+/* (input type = search) x 버튼 커스텀 */
+/* IE의 경우 */
+input::-ms-clear,
+input::-ms-reveal{
+    display:none;
+}
+/* 크롬의 경우 */
+input::-webkit-search-decoration,
+input::-webkit-search-cancel-button,
+input::-webkit-search-results-button,
+input::-webkit-search-results-decoration{
+    display:none;
+}
+
+.v-search-inner td {
+    position: relative;
+    height: 30px;
+ }
+  
+.v-search-inner td input {
+	padding-right: 30px;
+	height: inherit;
+}
+
+.v-search-inner td .btnClear {
+	position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 35px;
+    height: inherit;
+    background: url(https://img.icons8.com/pastel-glyph/2x/cancel.png) center center no-repeat;
+    background-size: 50%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
 #v-title-section {
     margin-top: 100px;
     display: flex;
@@ -59,7 +96,7 @@
     border-radius: 0.4rem;
     text-align: center;
     width: 750px;
-    margin-top: 15px;
+    margin-top: 25px;
 }
 
 .v-category-title {
@@ -162,7 +199,7 @@
     border-radius: 0.4rem;
     padding: 15px;
     text-align: left;
-    height: 207px;
+    height: 165px;
 }
 
 .date-delimeter::after {
@@ -195,34 +232,9 @@
     outline: 1px solid #556b4e;
 }
 
-.v-search-inner-btn {
-    margin-right: 7px;
-}
-
-/*
-#v-search-btn, #v-reset-btn {
-    width: 80px;
-    font-size: 13px;
-    background-color: #9DC08B;
-    color: white;
-    border: 1px solid black;
-    border-radius: 4px;
-    padding: 7px;
-    cursor: pointer;
-    float: right;
-    margin-top: 15px;
-}
-
-
-#v-reset-btn {
-    background-color: rgb(173, 165, 165);
-    margin-right: 5px;
-}
-*/
-
 .v-note {
     width: 359px;
-    height: 207px;
+    height: 165px;
 }
 
 .v-note img{

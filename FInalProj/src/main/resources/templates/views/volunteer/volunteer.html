@@ -33,18 +33,19 @@
                     </tr>
                     <tr>
                         <td>봉사명</td>
-                        <td><input type="search" id="volunteerName" name="vName"/></td>
+                        <td>
+                        	<input type="search" id="volunteerName" name="vName" placeholder="봉사명을 입력해주세요."/>
+                        	<button class="btnClear"></button>
+                        </td>
                     </tr>
                     <tr>
                         <td>수요처명</td>
-                        <td><input type="search" id="recipientName" name="registrar"></td>
+                        <td>
+                        	<input type="search" id="recipientName" name="registrar" placeholder="수요처명을 입력해주세요.">
+                        	<button class="btnClear"></button>	
+                        </td>
                     </tr>
                 </table>
-                <!-- 아래 부분 삭제 -->
-                <div class="v-search-inner-btn">
-                    <button id="v-search-btn" class="learn-more">검색</button>
-                    <button type="reset" id="v-reset-btn" class="learn-more-gray">초기화</button>
-                </div>
             </div>
             
             <div class="v-note">
@@ -260,70 +261,15 @@
 		        endDate.setAttribute("min", startDate.value);
 		    });
 		    
-			const ulList = document.querySelector(".v-sub-category").querySelectorAll("ul");
-			
-		    const locations = document.getElementsByName("location");
-		    const categories = document.getElementsByName("category");
-		    const onoffLines = document.getElementsByName("onoff-line");
-		    const objects = document.getElementsByName("object");
-		    const statuses = document.getElementsByName("status");
-		    
-			document.querySelector("#v-category-reset-btn").addEventListener("click", () => {
-		    	clickCategory(locations[0], locations);
-		    	clickCategory(categories[0], categories);
-		    	clickCategory(onoffLines[0], onoffLines);
-		    	clickCategory(objects[0], objects);
-		    	clickCategory(statuses[1], statuses);
-		    	
-		    	for(ul of ulList) {
-		    		ul.scrollTop = 0;
+		    const clickCategory = function(clickObj, category) {
+		    	clickObj.parentElement.previousElementSibling.value = clickObj.innerText;
+		    	for(const obj of category) {
+		    		obj.style.background = 'none';
 		    	}
-		    	
-		    	document.querySelector("#startDate").value = '';
-	    	    document.querySelector("#endDate").value = '';
-	    	    document.querySelector("#volunteerName").value = '';
-	    	    document.querySelector("#recipientName").value = '';
-		    	
-		    	searchAjax();
-		    });
-		
-		    for(const location of locations) {
-		        location.addEventListener("click", function() {
-		        	clickCategory(this, locations);
-		        });
+		    	clickObj.style.backgroundColor = '#d7f1c8';
+		    	clickObj.style.borderRadius = '8px';
 		    }
-		
-		    for(const category of categories) {
-		        category.addEventListener("click", function() {
-		        	clickCategory(this, categories);
-		        });
-		    }
-		
-		    for(const onoffLine of onoffLines) {
-		        onoffLine.addEventListener("click", function() {
-		        	clickCategory(this, onoffLines);
-		        });
-		    }
-		
-		    for(const object of objects) {
-		        object.addEventListener("click", function() {
-		        	clickCategory(this, objects);
-		        });
-		    }
-		
-		    for(const status of statuses) {
-		        status.addEventListener("click", function() {
-		        	clickCategory(this, statuses);
-		        });
-		    }
-		    
-		    const searchLiTags = document.querySelector(".v-category").getElementsByTagName("li");
-		    for(const searchLiTag of searchLiTags) {
-		    	searchLiTag.addEventListener("click", function() {
-		    		searchAjax();
-		    	});
-		    }
-		    
+			    
 		    const searchAjax = () => {
 		    	const startDate = document.querySelector("#startDate").value;
 	    	    const endDate = document.querySelector("#endDate").value;
@@ -454,34 +400,111 @@
 	 				}
 	    		});
 		    }
-	    }
-	    
-	    const clickCategory = function(clickObj, category) {
-	    	clickObj.parentElement.previousElementSibling.value = clickObj.innerText;
-	    	for(const obj of category) {
-	    		obj.style.background = 'none';
-	    	}
-	    	clickObj.style.backgroundColor = '#d7f1c8';
-	    	clickObj.style.borderRadius = '8px';
-	    }
 		    
-	    /*<![CDATA[*/
-	    const vboxes = document.querySelectorAll(".v-list-box");
-	    for(const vbox of vboxes) {
-	    	vbox.addEventListener("click", function() {
-	    		const vNo = this.querySelector("input").value;
-	    		const map = /*[[${map}]]*/1;
-	    		if(map == null) {
-		    		location.href = "volunteerDetail.vo?vNo=" + vNo + "&page=" + /*[[${pi.currentPage}]]*/1;
-	    		} else {
-		    		location.href = "volunteerDetail.vo?vNo=" + vNo + "&page=" + /*[[${pi.currentPage}]]*/1 
-		    				+ "&vStartDate=" + map.vStartDate + "&vEndDate=" + map.vEndDate + "&vName=" + map.vName	+ "&registrar=" + map.registrar;
-	    		}
-	    	});
+			const ulList = document.querySelector(".v-sub-category").querySelectorAll("ul");
+			
+		    const locations = document.getElementsByName("location");
+		    const categories = document.getElementsByName("category");
+		    const onoffLines = document.getElementsByName("onoff-line");
+		    const objects = document.getElementsByName("object");
+		    const statuses = document.getElementsByName("status");
+		    
+			document.querySelector("#v-category-reset-btn").addEventListener("click", () => {
+		    	clickCategory(locations[0], locations);
+		    	clickCategory(categories[0], categories);
+		    	clickCategory(onoffLines[0], onoffLines);
+		    	clickCategory(objects[0], objects);
+		    	clickCategory(statuses[1], statuses);
+		    	
+		    	for(ul of ulList) {
+		    		ul.scrollTop = 0;
+		    	}
+		    	
+		    	document.querySelector("#startDate").value = '';
+	    	    document.querySelector("#endDate").value = '';
+	    	    document.querySelector("#volunteerName").value = '';
+	    	    document.querySelector("#recipientName").value = '';
+		    	
+		    	searchAjax();
+		    });
+		
+		    for(const location of locations) {
+		        location.addEventListener("click", function() {
+		        	clickCategory(this, locations);
+		        });
+		    }
+		
+		    for(const category of categories) {
+		        category.addEventListener("click", function() {
+		        	clickCategory(this, categories);
+		        });
+		    }
+		
+		    for(const onoffLine of onoffLines) {
+		        onoffLine.addEventListener("click", function() {
+		        	clickCategory(this, onoffLines);
+		        });
+		    }
+		
+		    for(const object of objects) {
+		        object.addEventListener("click", function() {
+		        	clickCategory(this, objects);
+		        });
+		    }
+		
+		    for(const status of statuses) {
+		        status.addEventListener("click", function() {
+		        	clickCategory(this, statuses);
+		        });
+		    }
+		    
+		    const btnClears = document.querySelectorAll(".btnClear");
+		    for(const btnClear of btnClears) {
+		    	btnClear.addEventListener("click", function() {
+		    		this.previousElementSibling.value = "";
+		    		searchAjax();
+		    	});
+		    }
+		    
+		    const searchInputs = document.querySelector(".v-search-inner").getElementsByTagName("input");
+		    for(const searchInput of searchInputs) {
+		    	if(searchInput.type == "search") {
+		    		searchInput.addEventListener("keyup", function(e) {
+		    			if(e.key == "Enter") {
+		    				searchAjax();
+		    				this.blur();
+		    			}
+		    		});
+		    	}
+		    	
+	    		searchInput.addEventListener("change", () => {
+	    			searchAjax();
+	    		});
+		    }
+		    
+		    const searchLiTags = document.querySelector(".v-category").getElementsByTagName("li");
+		    for(const searchLiTag of searchLiTags) {
+		    	searchLiTag.addEventListener("click", () => {
+		    		searchAjax();
+		    	});
+		    }
+		    
+		    /*<![CDATA[*/
+		    const vboxes = document.querySelectorAll(".v-list-box");
+		    for(const vbox of vboxes) {
+		    	vbox.addEventListener("click", function() {
+		    		const vNo = this.querySelector("input").value;
+		    		const map = /*[[${map}]]*/1;
+		    		if(map == null) {
+			    		location.href = "volunteerDetail.vo?vNo=" + vNo + "&page=" + /*[[${pi.currentPage}]]*/1;
+		    		} else {
+			    		location.href = "volunteerDetail.vo?vNo=" + vNo + "&page=" + /*[[${pi.currentPage}]]*/1 
+			    				+ "&vStartDate=" + map.vStartDate + "&vEndDate=" + map.vEndDate + "&vName=" + map.vName	+ "&registrar=" + map.registrar;
+		    		}
+		    	});
+		    }
+		    /*]]>*/
 	    }
-	    /*]]>*/
-	    
-	    
     </script>
 </body>
 </html>
