@@ -26,9 +26,11 @@
         </div>
 
         <div class="actionArea">
-            <div class="writeArea">
-                <button class="writeFaqBtn learn-more" onclick="location.href='fineNewsForm.bo'">글쓰기</button>
-            </div>
+        	<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0 }">
+	            <div class="writeArea">
+	                <button class="writeFaqBtn learn-more" onclick="location.href='fineNewsForm.bo'">글쓰기</button>
+	            </div>
+	        </th:block>
         </div>
         
         <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -66,6 +68,13 @@
                 </div>
             </div>
         </div>
+        <th:block th:if="${#lists.isEmpty(list)}">
+			<div id="emptyBoardList">
+				🍓｡･ﾟ♡ﾟ･｡🍒｡･ﾟ♡ﾟ･｡🍓🍓｡･ﾟ♡ﾟ･｡🍒｡･ﾟ♡ﾟ･｡🍓｡･ﾟ♡ﾟ･<br>
+				조회 가능한 게시글이 없습니다. ૮₍ ˶ᵔ ᵕ ᵔ˶ ₎ა<br>
+				･ﾟ♡ﾟ･｡🍒｡･ﾟ♡ﾟ･｡🍓🍓｡･ﾟ♡ﾟ･｡🍒｡･ﾟ♡ﾟ･｡🍓｡･ﾟ♡ﾟ･｡🍒
+			</div>
+		</th:block>
         <div class="arrowBtn">
 	        <div class="page arrowBtn" th:with="loc=${#ctx.springRequestContext.requestUri}">
 	            <ul class="pagination">

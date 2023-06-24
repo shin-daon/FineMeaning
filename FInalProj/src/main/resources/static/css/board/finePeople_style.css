@@ -61,6 +61,19 @@
     margin-bottom: 15px;
 }
 
+#emptyBoardList {
+    width: 750px;
+    height: 200px;
+    background: #f4f6ed;
+    color: darkgray;
+    border: 1px solid darkgray;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 .card {
     margin-top: 10px;
     max-width: 750px;

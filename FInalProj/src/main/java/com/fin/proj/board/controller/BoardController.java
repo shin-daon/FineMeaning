@@ -405,6 +405,7 @@ public class BoardController {
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
 			model.addAttribute("list", list);
+			System.out.println(list);
 			return "fineNews";
 		} else {
 			throw new BoardException("게시글 목록 조회 실패");

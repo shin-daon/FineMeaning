@@ -12,8 +12,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new CheckLoginInterceptor())
-				.addPathPatterns("/*.su")
-				.excludePathPatterns("/supportMain.su");
+				.addPathPatterns("/*.su", "/*.bo")
+				.excludePathPatterns("/supportMain.su",
+									 "/faqMain.bo", "/fineNewsMain.bo", "/finePeopleMain.bo", "/fruitMain.bo");
 		
 		registry.addInterceptor(new CheckAdminInterceptor())
 				.addPathPatterns("/supportListAdmin.su",

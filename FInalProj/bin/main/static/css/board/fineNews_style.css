@@ -118,6 +118,19 @@ button {
     transform: translate3d(0, 0, -1em);
 }
 
+#emptyBoardList {
+    width: 870px;
+    height: 200px;
+    background: #f4f6ed;
+    color: darkgray;
+    border: 1px solid darkgray;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 .row {
     width: 900px;
     margin-top: 10px;
@@ -228,7 +241,6 @@ button {
 
 .btn-gradient {
 	margin-top: 30px;
-    margin-bottom: 50px;
 }
 
 .next {
@@ -307,6 +319,7 @@ button {
 
 .flip:hover .col-back {
     display: block; /* col-back을 보이도록 함 */
+   	position: relative;
 }
 
 .cardBack {
