@@ -66,15 +66,11 @@ public class MemberController {
 	@PostMapping("insertUser.me")
 	public String insertUser(@ModelAttribute Member m,
 			   				 @RequestParam("emailId") String emailId,
-			   				 @RequestParam("emailDomain") String emailDomain,
-			   				 @RequestParam("first-ssn") String firstSsn,
-			   				 @RequestParam("two-ssn") String twoSsn) {
+			   				 @RequestParam("emailDomain") String emailDomain) {
 		
 		if(!emailId.trim().equals("")) {
 			m.setEmail(emailId + "@" + emailDomain);
 		}
-				
-		m.setResidentNo(firstSsn + "-" + bcrypt.encode(twoSsn));
 		
 		String encPwd = bcrypt.encode(m.getuPwd());
 		m.setuPwd(encPwd);
@@ -159,7 +155,7 @@ public class MemberController {
 	@PostMapping("updateMyInfo.me")
 	public String updateMyInfo(@ModelAttribute Member m,
 			   				   @RequestParam(value="emailId") String emailId,
-			   				   @RequestParam("emailDomain") String emailDomain,Model model) {
+			   				   @RequestParam("emailDomain") String emailDomain, Model model) {
 		
 		if(!emailId.trim().equals("")) {
 			m.setEmail(emailId + "@" + emailDomain);
@@ -338,12 +334,14 @@ public class MemberController {
 	@PostMapping("findPwdForm.me")
 	public String findPwdForm(@ModelAttribute Member m, HttpSession session,
 							  @RequestParam("emailId") String emailId,
-							  @RequestParam("emailDomain") String emailDomain, Model model) {
+							  @RequestParam("emailDomain") String emailDomain,
+							  @RequestParam("phone") String phone, Model model) {
 		
 		String email = emailId + "@" + emailDomain;
 		String uId = m.getuId();
 		
 		m.setEmail(email);
+		m.setPhone(phone);
 		m.setuId(uId);
 		
 		Member foundUser = mService.searchUserPwd(m);

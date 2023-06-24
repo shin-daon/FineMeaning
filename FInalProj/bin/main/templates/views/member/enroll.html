@@ -353,9 +353,10 @@ select:focus {
 		</div>
 	
 		<div class="insert ssn">
-			<label class="title">주민등록번호</label>
+			<label class="title">생년월일</label><br>
+			<span class="pwd-comment">8자리로 입력해주세요.</span>
 			<div class="input">
-				<input type="text" id="ssn-input" placeholder="앞 자리" maxlength="6" name="first-ssn" required/><span class="nothing">-</span><input type="password" id="ssn-input" placeholder="뒷 자리" maxlength="7" name="two-ssn" required/>
+				<input type="text" id="normal-input" name="residentNo" placeholder="생년월일" maxlength="8" required> 
 				<div class="check-div"><label id="ssnCheckResult"></label></div>
 			</div>
 		</div>
@@ -663,33 +664,25 @@ select:focus {
 	toggleAgencyNameInput();
 	
 	// 주민등록번호
-	const ssnFirstInput = document.querySelector('input[name="first-ssn"]');
-	const ssnSecondInput = document.querySelector('input[name="two-ssn"]');
+	const residentNo = document.querySelector('input[name="residentNo"]');
 	const ssnCheckResult = document.getElementById('ssnCheckResult');
 	
-	ssnFirstInput.addEventListener('input', validateSSN);
-	ssnSecondInput.addEventListener('input', validateSSN);
+	residentNo.addEventListener('input', validateSSN);
 	
 	function validateSSN() {
-	  const firstPart = ssnFirstInput.value;
-	  const secondPart = ssnSecondInput.value;
-	  const ssnRegexFirst = /^[0-9]{6}$/
-	  const ssnRegexSecond = /^[1-4][0-9]{6}$/
+	  const firstPart = residentNo.value;
+	  const ssnRegexFirst = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
 	
-	  if (ssnRegexFirst.test(firstPart) && ssnRegexSecond.test(secondPart)) {
+	  if (ssnRegexFirst.test(firstPart)) {
 	    ssnCheckResult.textContent = '';
-	    ssnFirstInput.style.outline = '1px solid #609966';
-	    ssnFirstInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
-	    ssnSecondInput.style.outline = '1px solid #609966';
-	    ssnSecondInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	    residentNo.style.outline = '1px solid #609966';
+	    residentNo.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
 	    enrollButton.disabled = false;
 	  } else {
-	    ssnCheckResult.textContent = '올바른 주민등록번호를 입력해주세요.';
+	    ssnCheckResult.textContent = '올바른 생년월일을 입력해주세요.';
 	    ssnCheckResult.style.color = 'red';
-	    ssnFirstInput.style.outline = '1px solid red';
-	    ssnFirstInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-	    ssnSecondInput.style.outline = '1px solid red';
-	    ssnSecondInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	    residentNo.style.outline = '1px solid red';
+	    residentNo.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
 	    enrollButton.disabled = true;
 	  }
 	}

@@ -99,7 +99,7 @@
 	<select id="searchUserPwd">
 		select *
 		from users
-		where u_id = #{uId} and email = #{email}
+		where (u_id = #{uId} and email = #{email}) or (u_id = #{uId} and phone = #{phone})
 	</select>
 	
 	<select id="searchPhoneUser">
