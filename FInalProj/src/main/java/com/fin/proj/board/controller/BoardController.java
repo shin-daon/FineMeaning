@@ -59,7 +59,7 @@ public class BoardController {
 			listCount = bService.searchListCount(map);
 			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.searchByTitle(pageInfo, map);
-			System.out.println(list);
+//			System.out.println(list);
 		} else {
 			listCount = bService.getListCount("자주 묻는 질문");
 			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
@@ -405,7 +405,7 @@ public class BoardController {
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
 			model.addAttribute("list", list);
-			System.out.println(list);
+//			System.out.println(list);
 			return "fineNews";
 		} else {
 			throw new BoardException("게시글 목록 조회 실패");

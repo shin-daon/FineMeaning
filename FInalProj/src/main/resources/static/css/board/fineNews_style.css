@@ -120,7 +120,8 @@ button {
 
 #emptyBoardList {
     width: 870px;
-    height: 200px;
+    height: 300px;
+    font-size: 15px;
     background: #f4f6ed;
     color: darkgray;
     border: 1px solid darkgray;
