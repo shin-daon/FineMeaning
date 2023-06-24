@@ -14,7 +14,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(new CheckLoginInterceptor())
 				.addPathPatterns("/*.su", "/*.bo")
 				.excludePathPatterns("/supportMain.su",
-									 "/faqMain.bo", "/fineNewsMain.bo", "/finePeopleMain.bo", "/fruitMain.bo");
+									 "/faqMain.bo", "/fineNewsMain.bo", "/finePeopleMain.bo", "/fruitMain.bo",
+									 "/noticeList.bo", "/commList.bo", "/qaList.bo");
 		
 		registry.addInterceptor(new CheckAdminInterceptor())
 				.addPathPatterns("/supportListAdmin.su",
