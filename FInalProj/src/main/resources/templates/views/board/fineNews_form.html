@@ -106,7 +106,7 @@
                     <tr>
                         <td colspan="2">
 							<div class="fineNewsContentContainer">
-								<span style="color:#aaa;" id="counter">「 0 / 200 」</span>
+								<span style="color:#aaa;" id="counter">「 0 / 300 」</span>
                             	<textarea class="fineNewsContent" name="boardContent" placeholder="뉴스 내용을 입력하세요." required></textarea>
 							</div>
                         </td>
@@ -225,13 +225,13 @@
 		// finePeopleContent 글자 수 카운팅
 		document.querySelector('.fineNewsContent').addEventListener('keyup', function(e) {
     		var content = this.value;
-    		document.querySelector('#counter').innerHTML = "「 " + content.length + " / 200 」";    //글자수 실시간 카운팅
+    		document.querySelector('#counter').innerHTML = "「 " + content.length + " / 300 」";    //글자수 실시간 카운팅
 
-    		if (content.length >= 200) {
-				this.value = content.substring(0, 200);
-        		document.querySelector('#counter').innerHTML = "「 200 / 200 」";
+    		if (content.length >= 300) {
+				this.value = content.substring(0, 300);
+        		document.querySelector('#counter').innerHTML = "「 300 / 300 」";
 				document.querySelector('#counter').style.backgroundColor = 'rgb(64, 81, 59)';
-    		} else if(content.length < 200){
+    		} else if(content.length < 300){
 				document.querySelector('#counter').style.backgroundColor = 'rgb(235, 243, 237)';
 			}
 		});

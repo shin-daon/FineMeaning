@@ -61,6 +61,21 @@
     margin-bottom: 15px;
 }
 
+#emptyBoardList {
+	margin-top: 15px;
+    width: 750px;
+    height: 300px;
+    font-size: 15px;
+    background: #f4f6ed;
+    color: darkgray;
+    border: 1px solid darkgray;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 .card {
     margin-top: 10px;
     max-width: 750px;
@@ -191,6 +206,12 @@ button {
 
 
 /* 이전 다음 버튼 */
+
+.disabled{
+	pointer-events: none;
+	opacity: 0.5;
+}
+
 .btn-gradient:hover {
     color: #40513B;
 }
@@ -232,6 +253,10 @@ button {
 
 .arrowBtn {
     width: 750px;
-    display: flex;
+}
+
+.pagination {
+	display: flex;
+    width: 100%;
     justify-content: space-between;
 }
