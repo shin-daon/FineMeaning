@@ -339,11 +339,9 @@ a {
 			</div>
 		
 			<div class="insert ssn">
-				<label class="title">주민등록번호</label>
+				<label class="title">생년월일</label>
 				<div class="input">
-					<input type="text" id="ssn-input" maxlength="6" name="first-ssn" th:value="${loginUser.residentNo != null ? loginUser.residentNo.substring(0, loginUser.residentNo.indexOf('-')) : ''}" readonly/><span class="nothing" readonly>-</span>
-					<input type="password" id="ssn-input" maxlength="7" name="two-ssn" th:value="${loginUser.residentNo != null ? loginUser.residentNo.substring(loginUser.residentNo.indexOf('-') + 1) : ''}" readonly/>
-				</div>
+					<input type="text" id="normal-input" name="residentNo" th:value="${ loginUser.residentNo }" readonly/>
 			</div>
 			
 			<div class="insert address">
