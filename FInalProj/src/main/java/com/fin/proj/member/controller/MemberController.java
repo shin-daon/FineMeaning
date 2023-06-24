@@ -73,8 +73,8 @@ public class MemberController {
 		if(!emailId.trim().equals("")) {
 			m.setEmail(emailId + "@" + emailDomain);
 		}
-		
-		m.setResidentNo(firstSsn + "-" + twoSsn);
+				
+		m.setResidentNo(firstSsn + "-" + bcrypt.encode(twoSsn));
 		
 		String encPwd = bcrypt.encode(m.getuPwd());
 		m.setuPwd(encPwd);

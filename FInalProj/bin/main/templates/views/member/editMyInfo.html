@@ -342,7 +342,7 @@ a {
 				<label class="title">주민등록번호</label>
 				<div class="input">
 					<input type="text" id="ssn-input" maxlength="6" name="first-ssn" th:value="${loginUser.residentNo != null ? loginUser.residentNo.substring(0, loginUser.residentNo.indexOf('-')) : ''}" readonly/><span class="nothing" readonly>-</span>
-					<input type="password" id="ssn-input" maxlength="7" name="two-ssn" th:value="${loginUser.residentNo != null ? loginUser.residentNo.substring(loginUser.residentNo.indexOf('-') + 1) : ''}" readonly/>
+					<input type="password" id="ssn-input" maxlength="7" name="two-ssn" th:value="${loginUser.residentNo != null ? '0000000' : ''}" readonly/>
 				</div>
 			</div>
 			
