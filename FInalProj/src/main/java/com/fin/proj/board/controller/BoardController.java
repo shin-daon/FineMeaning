@@ -469,7 +469,7 @@ public class BoardController {
 		if(result > 0) {
 			ra.addAttribute("bNo", boardNo);
 			ra.addAttribute("page", page);
-			return "redirect:fruit_detail.bo";
+			return "redirect:fruitDetail.bo";
 		} else {
 			throw new BoardException("댓글 삭제에 실패하였습니다.");
 		}

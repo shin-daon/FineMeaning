@@ -144,9 +144,9 @@
 	 					</script>
 			 			<div class="replyInfo2">
 		 					<div class="replySet">
-				 				<th:block th:if="${ session.loginUser != null && session.loginUser.uNo == r.replyWriter }">
-<!-- 			 						<a class="aTags" th:href="'deleteReply.bo?rNo=' + ${r.replyNo} + '&bNo=' + ${r.boardNo} + '&page=' + ${page}">삭제</a> -->
+				 				<th:block th:if="${ session.loginUser != null && session.loginUser.uNo == r.replyWriter || session.loginUser != null && session.loginUser.isAdmin == 0 }">
 			 						<a class="aTags" th:onclick="deleteReply([[${r.replyNo}]], [[${r.boardNo}]], [[${page}]])">삭제</a>
+<!-- 			 						<a class="aTags" th:href="'deleteReply.bo?rNo=' + ${r.replyNo} + '&bNo=' + ${r.boardNo} + '&page=' + ${page}">삭제</a> -->
 			 										<!-- th:onclick에 함수 걸어두고 돌아가는 방향으로 해야 함  -->
 			 					</th:block>
 		 					</div>
@@ -244,8 +244,10 @@
 
 								const loginUserNo = /*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/1;
 // 								console.log(loginUserNo);
+
+								const loginUserIsAdmin = /*[[${session.loginUser == null ? '' : session.loginUser.isAdmin}]]*/1;
 								
-								if(loginUser != null && loginUserNo == r.replyWriter) {
+								if(loginUser != null && loginUserNo == r.replyWriter || loginUser != null && loginUserIsAdmin == 0) {
 									const deleteLink = document.createElement('a');
 									deleteLink.classList.add('aTags');
 									const replyNo = r.replyNo;
