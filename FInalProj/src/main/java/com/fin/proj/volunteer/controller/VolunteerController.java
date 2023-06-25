@@ -22,6 +22,7 @@ import com.fin.proj.common.Pagination;
 import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.member.model.vo.Member;
 import com.fin.proj.volunteer.Map;
+import com.fin.proj.volunteer.model.exception.VolunteerException;
 import com.fin.proj.volunteer.model.service.VolunteerService;
 import com.fin.proj.volunteer.model.vo.Volunteer;
 import com.google.gson.Gson;
@@ -55,7 +56,7 @@ public class VolunteerController {
 			
 			return "volunteer";
 		}
-		return null;
+		throw new VolunteerException("봉사 조회에 실패하였습니다.");
 	}
 	
 	@GetMapping("volunteerDetail.vo")
@@ -79,8 +80,8 @@ public class VolunteerController {
 			}
 			
 			return "volunteerDetail";
-		}
-		return null;
+		} 
+		throw new VolunteerException("봉사 상세 조회에 실패하였습니다.");
 	}
 	
 	@GetMapping("volunteerApply.vo")
@@ -126,7 +127,7 @@ public class VolunteerController {
 		if(result > 0) {
 			return "redirect:volunteerEnrollHistory.vo";
 		}
-		return null;
+		throw new VolunteerException("봉사 등록에 실패하였습니다.");
 	}
 	
 	@PostMapping("updateVolunteer.vo")
@@ -139,7 +140,7 @@ public class VolunteerController {
 			ra.addAttribute("page", page);
 			return "redirect:volunteerDetail.vo";
 		}
-		return null;
+		throw new VolunteerException("봉사 수정에 실패하였습니다.");
 	}
 	
 	@GetMapping("deleteVolunteer.vo")
@@ -152,7 +153,7 @@ public class VolunteerController {
 		if(result > 0) {
 			return "redirect:volunteer.vo";
 		}
-		return null;
+		throw new VolunteerException("봉사 삭제에 실패하였습니다.");
 	}
 	
 	@PostMapping("applyVolunteer.vo")
@@ -163,7 +164,7 @@ public class VolunteerController {
 		if(result > 0) {
 			return "redirect:volunteerHistory.vo";
 		}
-		return null;
+		throw new VolunteerException("봉사 신청에 실패하였습니다.");
 	}
 	
 	@ResponseBody
