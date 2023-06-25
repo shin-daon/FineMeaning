@@ -12,6 +12,19 @@
   font-family: "SUITE-Regular", sans-serif;
 }
 
+.seeMore{
+	width:30px;
+	height:30px;
+}
+
+.dropdown-content{
+	margin-right:15px;
+	margin-bottom :5px;
+	float:right;
+	font-size:15px;
+	cursor:pointer;
+	color:lightgrey;
+}
 .supportBigBigSection{
   margin-bottom: 50px;
 

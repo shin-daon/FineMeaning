@@ -63,6 +63,12 @@ body {
 
                 <div>
                     <div class="supportTitle">[[${s.supportTitle}]]</div>
+                    
+                    <div class="dropdown-content">
+                    	<span class="selectCate">수정</span> |
+                    	<span class="selectCate" th:onclick="deleteSupport.su?supportNo=[[${s.supportNo}]]">삭제</span>
+                	</div>
+                	
 					 <div>
                     	<img th:src="@{${s.imageUrl}}">
                     </div>
@@ -125,15 +131,16 @@ body {
 					
 					<th:block th:if="${shList != null}" th:each="shList :${shList}">
 	                    <div class="supportDate" th:text="${#dates.format(shList.payDate, 'yyyy.MM.dd HH:mm:ss')}"></div>
-	                    <th:block th:if="shList.payType=='익명'">
-		                    <div class="sponsor" th:text="'숨은 천사' + ${shList.supportAmount} + '원 참여'"  >
+	                    <th:block th:if="${shList.supporterType =='익명'}">
+		                    <div class="sponsor" th:text="'숨은 천사 ' + ${shList.supportAmount} + '원 참여'"  >
 		                    </div>
 						</th:block>
-	                    <th:block th:if="shList.payType!='익명'">
-		                    <div class="sponsor" th:text="${shList.supporterName} + ' ' + ${shList.supportAmount} + '원 참여' ">
+	                    <th:block th:if="${shList.supporterType!='익명'}">
+		                    <div class="sponsor" th:text="${shList.supporterName} + ' ' + ${shList.supportAmount} +'원 참여' ">
 		                    </div>
-						</th:block>
-                    </th:block>
+		                </th:block>
+		             </th:block>
+		             
                     <br><br><br>
                 
             </section>
