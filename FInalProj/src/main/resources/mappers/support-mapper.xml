@@ -11,7 +11,7 @@
 <!-- 	</insert> -->
 	
 	<select id="getApplyListUser" resultType="_int">
-		select * from support join users using(u_no) where u_no = #{uNo}
+		select count(*) from support join users using(u_no) where u_no = #{uNo}
 	</select>
 	
 	<select id="selectApplayListUser" resultMap="supportResultSet">
@@ -58,7 +58,7 @@
 	</select>
 	
 	<select id="selectApplyList" resultMap="supportResultSet">
-		select * from support join users using(u_no) where s_status='W' or s_status ='N' order by S_CREATE_DATE desc
+		select * from support join users using(u_no) where s_status='W' or s_status ='N' order by s_status desc
 	</select>
 	
 	<select id="getDListCount" resultType="_int">
@@ -222,5 +222,20 @@
 	
 	<select id="getDday" resultType="_int">
 		select ceil(S_END_DATE - sysdate) from support where s_no = #{supportNo}
+	</select>
+	
+	<select id="maintotalCount" resultType="string">
+		SELECT count(*) FROM s_history WHERE TRUNC(s_his_paydate) = TRUNC(sysdate)
+	</select>
+	<select id="maintotalAmount" resultType="string">
+		SELECT SUM(s_his_amount) FROM s_history WHERE TRUNC(s_his_paydate) = TRUNC(sysdate)
+	</select>
+	
+	<select id="currentSupporter" resultMap="supportHistoryResultSet">
+		select *
+		from(select *
+    		from s_history where s_no=#{supportNo}
+   			 order by s_his_paydate desc)
+		where rownum &lt; =3 
 	</select>
 </mapper>

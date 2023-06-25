@@ -68,27 +68,10 @@
 <script>
 	
 	window.onload=()=>{
-		document.getElementById('notLogin').addEventListener('click',()=>{
-			alert('기관을 먼저 등록해주세요');
-			location.href="/";
-		})
-		const searchButton = document.querySelector('.searchIcon');
-		console.log(searchButton);
-		searchButton.addEventListener('click', ()=>{
-			
-			const searchWord = document.querySelector('.searchInput').value;
-			console.log(searchWord);
-	// 		location.href="searchMySupportApplyList.su?searchWord=" + searchWord;
-		})
+		
+		
 	}
 	
-	const trs = document.getElementsByClassName('supportTable')[0].querySelectorAll('tr');
-	for(const tr of trs){
-		tr.addEventListener('click', function(){
-			const supportNo = this.querySelector('td').innerText;
-			location.href= "supportDetail.su?supportNo=" + supportNo;
-		})
-	}
 </script>
 
 <script th:inline="javascript">

@@ -34,19 +34,24 @@ public class SupportController {
 
 	@RequestMapping("supportMain.su")
 	public String supportMain(@RequestParam(value = "page", required = false) Integer currentPage, Model model) {
+		int maintotalCount = suService.maintotalCount();
+		int maintotalAmount = suService.maintotalAmount();
+				
 		if (currentPage == null) {
 			currentPage = 1;
 		}
 
 		int listCount = suService.getListCount();
-
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 9);
+		
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 11);
 
 		ArrayList<Support> sList = suService.selectSupportList(pi);
 		
 		model.addAttribute("pi", pi);
 		model.addAttribute("sList", sList);
-		
+		model.addAttribute("totalCount", maintotalCount);
+		model.addAttribute("totalAmount", maintotalAmount);
 		return "supportMain";
 	}
 
@@ -55,6 +60,7 @@ public class SupportController {
 		
 		Support s = suService.supportDetail(supportNo);
 		int dDay = suService.getDday(supportNo);
+		ArrayList<SupportHistory> shList = suService.currentSupporter(supportNo);
 		
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
 		int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
@@ -63,6 +69,7 @@ public class SupportController {
 		System.out.println(s);
 		model.addAttribute("s", s);
 		model.addAttribute("dDay", dDay);
+		model.addAttribute("shList", shList);
 		if (s.getStatus() == 'Y') {
 			return "supportDetail";
 		} else {
@@ -335,6 +342,7 @@ public class SupportController {
 		System.out.println("이게 널널ㄴ러널잉라고?" + shList);
 		model.addAttribute("shList", shList);
 		model.addAttribute("pi", pi);
+		model.addAttribute("supportNo", supportNo);
 		return "supporterList";
 
 	}
@@ -504,7 +512,7 @@ public class SupportController {
 		
 		int listCount = suService.getCategoryCount(s);
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 9);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 11);
 		ArrayList<Support> sList = suService.selectCategoryListAdmin(pi, s);
 		
 		if(searchWord == null || searchWord.trim().equals("")) {
@@ -536,7 +544,7 @@ public class SupportController {
 		
 		int listCount = suService.getSeachListCount(searchWord.trim());
 
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 9);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 11);
 
 		ArrayList<Support> sList = suService.selectSearchListAdmin(pi, searchWord.trim());
 		

@@ -10,7 +10,51 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 	<!-- iamport.payment.js -->
 	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-	
+	<style>
+		#modal { width: 300px; height: 300px; border: 1px solid #eee; padding: 30px; margin: auto; display: none;
+		 border-radius: 20px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);  text-align: center; background-color: white;
+ 		 position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;}
+
+		.modal-comment {
+			font-size: 16px;
+			margin:10px;
+		}
+		
+		#withdrawal-btn {
+			padding: 8px 15px 9px;
+			border-radius: 4px;
+			width: 90px;
+			height: 35px;
+			font-size: 15px;
+			color: #fff;
+			background-color: #609966;
+			border: 1.5px solid #609966;
+		}
+		
+		#rollback-btn {
+			padding: 8px 15px 9px;
+			border-radius: 4px;
+			width: 90px;
+			height: 35px;
+			font-size: 15px;
+			color: #609966;
+			background-color: #fff;
+			border: 1.5px solid #609966;
+			margin-top: 3px;
+			margin-bottom: 40px;
+		}
+		
+		.modal-comment2 {
+			font-weight: bold;
+			font-size: 17px;
+		}
+		
+		.radio-comment {
+			font-size: 15px;
+			margin-left: 8px;
+			margin-right: 8px;
+		}
+	</style>
 	
     <script th:inline="javascript">
         var IMP = window.IMP; 
@@ -25,79 +69,90 @@
     
         /*<![CDATA[*/
         function requestkakaoPay() {
-        	IMP.request_pay({
-            	pg: "kakaopay", // pg사
-                merchant_uid: "IMP"+makeMerchantUid, 
-                name : /*[[${s.supportTitle }]]*/'uName',
-                amount : document.getElementsByClassName('supportPrice')[0].value,
-                buyer_email : /*[[${session.loginUser.uName }]]*/'email',
-                buyer_name : /*[[${session.loginUser.uName }]]*/'uName',
-                buyer_tel : /*[[${session.loginUser.phone }]]*/'phone',
-            }, function (rsp) { // callback
-                if (rsp.success) {
-                    $.ajax({
-                    	url: 'insertSupporter.su',
-        				data: {
-        						userNo :/*[[${session.loginUser.uNo }]]*/'loginUser', 
-        						supportNo:/*[[${ s.supportNo }]]*/'supportNo',
-        						supporterName:/*[[${session.loginUser.uName }]]*/'uName',
-        						supporterType:document.getElementsByClassName('doSupporterName')[0].innerText,
-        						supportAmount:document.getElementsByClassName('supportPrice')[0].value,
-        						payType:'카카오페이'
-        						
-        				},
-        				success: data=>{
-        					if(data=='yes'){
-        						const supportTitle = /*[[${s.supportTitle }]]*/'uName';
-        						const registar = /*[[${s.registar }]]*/'registar';
-								location.href="doSupportEnd.su?supportTitle=" + supportTitle + "&registar=" + registar;
-							}
-        				},
-        				error: data=>{
-        					console.log(data);
-        				}
-                    })
-                } else {
-	                alert('결제 실패');
-                }
-            });
+        	if(document.querySelector('.supportPrice').value < 1000){
+        		document.getElementById('modal').style.display='block'
+        	} else{        		
+	        	IMP.request_pay({
+	            	pg: "kakaopay", // pg사
+	                merchant_uid: "IMP"+makeMerchantUid, 
+	                name : /*[[${s.supportTitle }]]*/'uName',
+	                amount : document.getElementsByClassName('supportPrice')[0].value,
+	                buyer_email : /*[[${session.loginUser.uName }]]*/'email',
+	                buyer_name : /*[[${session.loginUser.uName }]]*/'uName',
+	                buyer_tel : /*[[${session.loginUser.phone }]]*/'phone',
+	            }, function (rsp) { // callback
+	                if (rsp.success) {
+	                    $.ajax({
+	                    	url: 'insertSupporter.su',
+	        				data: {
+	        						userNo :/*[[${session.loginUser.uNo }]]*/'loginUser', 
+	        						supportNo:/*[[${ s.supportNo }]]*/'supportNo',
+	        						supporterName:/*[[${session.loginUser.uName }]]*/'uName',
+	        						supporterType:document.getElementsByClassName('doSupporterName')[0].innerText,
+	        						supportAmount:document.getElementsByClassName('supportPrice')[0].value,
+	        						payType:'카카오페이'
+	        						
+	        				},
+	        				success: data=>{
+	        					if(data=='yes'){
+	        						const supportTitle = /*[[${s.supportTitle }]]*/'uName';
+	        						const registar = /*[[${s.registar }]]*/'registar';
+									location.href="doSupportEnd.su?supportTitle=" + supportTitle + "&registar=" + registar;
+								}
+	        				},
+	        				error: data=>{
+	        					console.log(data);
+	        				}
+	                    })
+	                } else {
+		                alert('결제 실패');
+	                }
+	            });
+        	}
         }
         
         function requestPay() {
-            IMP.request_pay({
-            	pg: "kcp", // pg사
-                merchant_uid: "IMP"+makeMerchantUid, 
-                name : /*[[${s.supportTitle }]]*/'uName',
-                amount : document.getElementsByClassName('supportPrice')[0].value,
-                buyer_email : /*[[${session.loginUser.uName }]]*/'email',
-                buyer_name : /*[[${session.loginUser.uName }]]*/'uName',
-                buyer_tel : /*[[${session.loginUser.phone }]]*/'phone',
-            }, function (rsp) { // callback
-                if (rsp.success) {
-                	$.ajax({
-                    	url: 'insertSupporter.su',
-        				data: {
-        						userNo :/*[[${session.loginUser.uNo }]]*/'loginUser', 
-        						supportNo:/*[[${ s.supportNo }]]*/'supportNo',
-        						supporterName:/*[[${session.loginUser.uName }]]*/'uName',
-        						supporterType:document.getElementsByClassName('doSupporterName')[0].innerText,
-        						supportAmount:document.getElementsByClassName('supportPrice')[0].value,
-        						payType:'신용카드'
-        						
-        				},
-        				success: data=>{
-							if(data=='yes'){
-								location.href="doSupportEnd.su";
-							}
-        				},
-        				error: data=>{
-        					console.log(data);
-        				}
-                    })
-                } else {
-	                alert('결제 실패');
-                }
-            });
+        	
+        	if(document.querySelector('.supportPrice').value < 1000){
+        		document.getElementById('modal').style.display='block'
+        	} else{        		
+	        	IMP.request_pay({
+	            	pg: "kcp", // pg사
+	                merchant_uid: "IMP"+makeMerchantUid, 
+	                name : /*[[${s.supportTitle }]]*/'uName',
+	                amount : document.getElementsByClassName('supportPrice')[0].value,
+	                buyer_email : /*[[${session.loginUser.uName }]]*/'email',
+	                buyer_name : /*[[${session.loginUser.uName }]]*/'uName',
+	                buyer_tel : /*[[${session.loginUser.phone }]]*/'phone',
+	            }, function (rsp) { // callback
+	                if (rsp.success) {
+	                    $.ajax({
+	                    	url: 'insertSupporter.su',
+	        				data: {
+	        						userNo :/*[[${session.loginUser.uNo }]]*/'loginUser', 
+	        						supportNo:/*[[${ s.supportNo }]]*/'supportNo',
+	        						supporterName:/*[[${session.loginUser.uName }]]*/'uName',
+	        						supporterType:document.getElementsByClassName('doSupporterName')[0].innerText,
+	        						supportAmount:document.getElementsByClassName('supportPrice')[0].value,
+	        						payType:'카카오페이'
+	        						
+	        				},
+	        				success: data=>{
+	        					if(data=='yes'){
+	        						const supportTitle = /*[[${s.supportTitle }]]*/'uName';
+	        						const registar = /*[[${s.registar }]]*/'registar';
+									location.href="doSupportEnd.su?supportTitle=" + supportTitle + "&registar=" + registar;
+								}
+	        				},
+	        				error: data=>{
+	        					console.log(data);
+	        				}
+	                    })
+	                } else {
+		                alert('결제 실패');
+	                }
+	            });
+        	}
         }
         
 //         function requestNaverPay() {
@@ -436,5 +491,20 @@
     	
     	})
     </script>
+    
+    <div id="modal"><br>
+			<img src="image/neutral.png" style="height:50px; width:50px"/><br><br>
+			<span class="modal-comment modal-comment2">후원은 1000원이상 가능합니다.</span><br>
+			<span class="modal-comment">후원 금액을</span><br>
+			<span class="modal-comment">1000원이상 입력해주세요.</span><br><br>
+			<button id="withdrawal-btn" onClick="Inputfocus();">확인</button>			
+	</div>
+	<script>
+		
+		function Inputfocus(){
+			document.getElementById('modal').style.display='none'
+			document.querySelector('.supportPrice').focus();
+		}
+	</script>
 </body>
 </html>

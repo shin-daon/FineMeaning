@@ -80,5 +80,11 @@ public interface SupportDAO {
 
 	int getApplyListUser(int uNo);
 
+	String maintotalCount();
+
+	String maintotalAmount();
+
+	ArrayList<SupportHistory> currentSupporter(int supportNo);
+
 
 }

@@ -40,14 +40,15 @@
 			<div style="display:flex; width:1000px;">
 				<div style="float:left; margin-bottom:2px;">
 				<span class="dropdown" id="area-dropdown">
-	                <th:block th:if="${category == null}">
-		                <button type="button" class="dropdown-btn" id="areabtn">전체</button>
+	                <th:block th:if="${category == null || category == 'cateNone' || catagory ==''}">
+		                <button type="button" class="dropdown-btn" id="areabtn">카테고리</button>
 	                </th:block>
 	                <th:block th:if="${category != null && category !='cateNone'}">
 		                <button type="button" class="dropdown-btn" id="areabtn">[[${category}]]</button>
 	                </th:block>
 	                
 	                <div class="dropdown-content" id="area-content">
+	                	<span class="selectArea" th:if="${category != null}">전체</span>
 	                    <span class="selectArea">사람</span>
 	                    <span class="selectArea">동물</span>
 	                    <span class="selectArea">환경</span>
@@ -61,7 +62,7 @@
 				<div class="actionArea" style="float:right;">
 				
 	            <div class="searchArea">
-	            	<th:block th:if="${searchWord==null || searchWord == 'searchNone'}">
+	            	<th:block th:if="${searchWord==null || searchWord == 'searchNone' || seachWord==''}">
 	                	<input class="searchInput" type="text" name="searchWord" placeholder="제목으로 검색"/>
 	                </th:block>
 	            	<th:block th:if="${searchWord!=null && searchWord !='searchNone'}">
@@ -121,9 +122,12 @@
 					for(category of categorys){
 						category.addEventListener('click', function(){
 							const category = this.innerText
-							console.log(category);
-							document.querySelector('.categoryInput').value=category;
-							document.getElementById('searchMyList').submit();
+							if(category =='전체'){
+								location.href="supportApplicationListUser.su";
+							} else{								
+								document.querySelector('.categoryInput').value=category;
+								document.getElementById('searchMyList').submit();
+							}
 						})
 					}
 				})			
@@ -141,6 +145,15 @@
 					} else if(pageStatus=='N'){
 						document.getElementsByClassName('statusSpan')[2].style.fontWeight='bolder'
 					}
+					
+					const statuses = document.querySelectorAll('.supportStatusTd')
+					for(const status of statuses){
+						if(status.querySelector('span').innerText=='승인 반려'){
+							status.parentElement.style.color='lightgrey';
+							
+						}
+					}
+					
 				}
 			</script>			
 
@@ -170,7 +183,7 @@
 				    		</script>
 	                    </td>
 	                    <td th:text="${s.createDate}"></td>
-	                    <td>
+	                    <td class="supportStatusTd">
 		                    <th:block th:switch="${s.status}">
 		                    	<span th:case="W">승인 대기</span>
 		                    	<span th:case="N">승인 반려</span>
@@ -239,6 +252,8 @@
 			location.href= "supportDetail.su?supportNo=" + supportNo;
 		})
 	}
+	
+	
 </script>
 </body>
 </html>
