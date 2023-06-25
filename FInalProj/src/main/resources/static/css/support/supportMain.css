@@ -116,17 +116,25 @@
 	padding-top:15px;
 	color:grey;
 	font-size:18px;
+	font-weight:bolder;
+	height:50px;
+	padding-right:30px;
+	padding-left:30px;
+	margin-bottom:7px;
 }
 
 #supportMainTitle .supportGroup{
-	padding-top:5px;
+	margin-top:15px;
 	color:lightgrey;
 	font-size:15px;
+	height:20px;
 }
 
 #supportProgress {
     appearance: none;
     width:200px;
+    height:25px;
+    margin-bottom:20px;
 }
 #supportProgress::-webkit-progress-bar {
     background:#f0f0f0;
@@ -139,6 +147,13 @@
 	margin-top:20px;
 }
 
+.supportPercent{
+	display:inline-block;
+	margin:20px 10px 20px;
+	font-weight:bolder;
+	color:#40513B;
+	
+}
 
 .searchArea {
     float: right;

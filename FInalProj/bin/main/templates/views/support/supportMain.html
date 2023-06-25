@@ -204,8 +204,8 @@
 				</tr>
 				<tr>
 					<td>
-						7,210명이<br>
-						총 14,325,000원을<br>
+						[[${totalCount}]]명이<br>
+						총 [[${totalAmount}]]원을<br>
 						기부하였습니다.
 					</td>
 				</tr>
@@ -218,7 +218,8 @@
 				</div>
 				<div class="supportName">[[${s.supportTitle}]]</div>
 				<div class="supportGroup">[[${s.registar}]]</div>
-				[[${(s.fundAmount*100/s.targetAmount)}]]% <progress id="supportProgress" th:value="${s.fundAmount*100/s.targetAmount}" min="0" max="100"></progress>
+				<progress id="supportProgress" th:value="${s.fundAmount*100/s.targetAmount}" min="0" max="100" style="margin-bottom:17px;"></progress>
+				<span class="supportPercent">[[${(s.fundAmount*100/s.targetAmount)}]]%</span> 
 			</div>
 			</th:block>
 	</div>

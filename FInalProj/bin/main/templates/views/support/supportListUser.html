@@ -38,7 +38,7 @@
 				<div style="float:left; margin-bottom:2px;">
 				<span class="dropdown" id="area-dropdown">
 					<th:block th:if="${category == null}">
-		                <button type="button" class="dropdown-btn" id="areabtn">선택</button>
+		                <button type="button" class="dropdown-btn" id="areabtn">카테고리</button>
 		                <input type="hidden" id="area" name="supportCategory" value="none" required/>
 	                </th:block>
 	                <th:block th:if="${category != null}">
@@ -46,6 +46,7 @@
 		                <input type="hidden" id="area" name="supportCategory" th:value="${category}" required/>
 	                </th:block>
 	                <div class="dropdown-content" id="area-content">
+	                	<span class="selectArea" th:if="${category != null}">전체</span>
 	                    <span class="selectArea">사람</span>
 	                    <span class="selectArea">동물</span>
 	                    <span class="selectArea">환경</span>
@@ -63,7 +64,11 @@
 	            	for(const category of categorys){
 	            		category.addEventListener('click',function(){
 	            			const cate = this.innerText;
-	            			location.href="categorySupportListUser.su?category="+cate;
+	            			if(cate == '전체'){
+	            				location.href="supportListUser.su";
+	            			} else{
+	            				location.href="categorySupportListUser.su?category="+cate;
+	            			}
 	            		})
 	            	}
 	            </script>

@@ -18,7 +18,7 @@
 		<section id="supportListSection">
 
         <div>
-            <div id="supportList">후원 목록</div>
+            <div id="supportList">후원자 목록</div>
         </div>
 
         <div class="path">
@@ -46,16 +46,54 @@
             <tbody>
 	                <tr th:each="s:${shList}" th:if="${shList!=null}">
 	                    <td th:text="${s.supportHistoryNo}"></td>
-	                    <td th:text="${s.supportTitle}"></td>
+	                    <td class="supportDetail" th:text="${s.supportTitle}"></td>
 	                    <td th:text="${s.supporterName}"></td>
 	                    <td th:text="${s.supporterType}"></td>
 	                    <td th:text="${s.supportAmount}"></td>
 	                    <td th:text="${s.payType}"></td>
 	                    <td th:text="${s.payDate}"></td>
+	                    <input type="hidden" th:value="${s.supportNo}">
 	                </tr>
+<!-- 	                <th:block th:if="${shList == null}"> -->
+		                <tr th:if="${shList.isEmpty}">
+		                	<td colspan="7">아직 후원자가 없습니다.</td>
+		                <tr>
+<!--                 	</th:block> -->
+	                <script th:inline="javascript">
+	                	/*<![CDATA[*/
+	                		const data = /*[[${shList}]]*/'data';
+	                		console.log(data)
+	                	/*]]>*/
+	                </script>
 	                
             </tbody>
         </table>
+        <script th:inline="javascript">
+        	/*<![CDATA[*/
+        		const supportNo = /*[[${supportNo}]]*/'0';
+        	/*]]>*/
+        	if(supportNo != null){
+	        	const supportDetails = document.querySelectorAll('.supportDetail')
+				for(const supportDetail of supportDetails){	        	
+		        	if(supportDetail !=null){
+		        		supportDetail.addEventListener('click', ()=>{
+		        			location.href="supportDetail.su?supportNo="+supportNo;
+		        		})
+		        	}
+				}        		
+        	} else{
+        		const trs = document.querySelector('tbody').querySelectorAll('tr')
+        		for(const tr of trs){
+					if(tr.querySelector('td').innerText!='아직 후원자가 없습니다.'){
+						tr.addEventListener('click', function(){
+							const supportNo = tr.querySelector('input').value
+							location.href="supportDetail.su?supportNo="+supportNo;
+						})
+					}	
+        		}
+        	}
+        	
+        </script>
         
         <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
