@@ -60,6 +60,7 @@ public class SupportController {
 		
 		Support s = suService.supportDetail(supportNo);
 		int dDay = suService.getDday(supportNo);
+		ArrayList<SupportHistory> shList = suService.currentSupporter(supportNo);
 		
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
 		int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
@@ -68,6 +69,7 @@ public class SupportController {
 		System.out.println(s);
 		model.addAttribute("s", s);
 		model.addAttribute("dDay", dDay);
+		model.addAttribute("shList", shList);
 		if (s.getStatus() == 'Y') {
 			return "supportDetail";
 		} else {

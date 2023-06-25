@@ -122,27 +122,19 @@ body {
                 
                 
                     <div class="supportSubTitle">참여 내역</div>
-
-                    <div class="supportDate">
-                        2023.06.02 15:03
-                    </div>
-                    <div class="sponsor">
-                        숨은 천사 100원 참여
-                    </div>
-
-                    <div class="supportDate">
-                        2023.06.01 09:15
-                    </div>
-                    <div class="sponsor">
-                        강건강 100원 참여
-                    </div>
-
-                    <div class="supportDate">
-                        2023.05.31 18:53
-                    </div>
-                    <div class="sponsor">
-                        숨은 천사 5000원 참여
-                    </div><br><br><br>
+					
+					<th:block th:if="${shList != null}" th:each="shList :${shList}">
+	                    <div class="supportDate" th:text="${#dates.format(shList.payDate, 'yyyy.MM.dd HH:mm:ss')}"></div>
+	                    <th:block th:if="shList.payType=='익명'">
+		                    <div class="sponsor" th:text="'숨은 천사' + ${shList.supportAmount} + '원 참여'"  >
+		                    </div>
+						</th:block>
+	                    <th:block th:if="shList.payType!='익명'">
+		                    <div class="sponsor" th:text="${shList.supporterName} + ' ' + ${shList.supportAmount} + '원 참여' ">
+		                    </div>
+						</th:block>
+                    </th:block>
+                    <br><br><br>
                 
             </section>
         </div>
