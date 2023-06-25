@@ -326,3 +326,7 @@ button {
     background-color : #609966;
     color:white;
 }
+
+.statusSpan{
+	cursor:pointer;
+}

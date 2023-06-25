@@ -234,7 +234,7 @@
 	<select id="currentSupporter" resultMap="supportHistoryResultSet">
 		select *
 		from(select *
-    		from s_history where s_no=81
+    		from s_history where s_no=#{supportNo}
    			 order by s_his_paydate desc)
 		where rownum &lt; =3 
 	</select>
