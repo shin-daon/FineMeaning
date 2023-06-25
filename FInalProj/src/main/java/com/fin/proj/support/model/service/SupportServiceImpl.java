@@ -250,11 +250,17 @@ public class SupportServiceImpl implements SupportService {
 	public int maintotalAmount() {
 		String result = suDAO.maintotalAmount();
 		int result1 = 0;
-		if(result.equals("(null)")) {
+		if(result==null) {
 			return 0;
 		} else {
 			return Integer.parseInt(suDAO.maintotalAmount());
 		}
+	}
+
+
+	@Override
+	public ArrayList<SupportHistory> currentSupporter(int supportNo) {
+		return suDAO.currentSupporter(supportNo);
 	}
 
 }

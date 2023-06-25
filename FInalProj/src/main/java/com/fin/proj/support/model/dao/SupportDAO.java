@@ -84,5 +84,7 @@ public interface SupportDAO {
 
 	String maintotalAmount();
 
+	ArrayList<SupportHistory> currentSupporter(int supportNo);
+
 
 }

@@ -205,7 +205,14 @@
 				<tr>
 					<td>
 						[[${totalCount}]]명이<br>
-						총 [[${totalAmount}]]원을<br>
+						총 
+						<script th:inline="javascript">
+						        /*<![CDATA[*/
+		                    	var amount = /*[[${totalAmount}]]*/'0'; // 숫자 변수
+						        var formattedAmount = amount.toLocaleString(); // 원하는 형식으로 포맷
+						        document.write(formattedAmount + '원'); // 포맷된 값을 출력
+						        /*]]*/
+				    	</script>을 <br>
 						기부하였습니다.
 					</td>
 				</tr>

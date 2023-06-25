@@ -80,6 +80,8 @@ public interface SupportService {
 
 	int maintotalAmount();
 
+	ArrayList<SupportHistory> currentSupporter(int supportNo);
+
 
 
 

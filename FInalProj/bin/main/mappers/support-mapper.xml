@@ -230,4 +230,12 @@
 	<select id="maintotalAmount" resultType="string">
 		SELECT SUM(s_his_amount) FROM s_history WHERE TRUNC(s_his_paydate) = TRUNC(sysdate)
 	</select>
+	
+	<select id="currentSupporter" resultMap="supportHistoryResultSet">
+		select *
+		from(select *
+    		from s_history where s_no=81
+   			 order by s_his_paydate desc)
+		where rownum &lt; =3 
+	</select>
 </mapper>
