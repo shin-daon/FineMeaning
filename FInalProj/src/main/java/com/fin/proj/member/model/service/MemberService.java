@@ -34,4 +34,6 @@ public interface MemberService {
 
 	int searchPhoneUser(HashMap<String, String> map);
 
+	int searchPhoneUser2(HashMap<String, String> map);
+
 }

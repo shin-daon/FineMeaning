@@ -25,9 +25,11 @@
         </div>
 
         <div class="actionArea">
-            <div class="writeArea">
-                <button class="writeFaqBtn learn-more" onclick="location.href='finePeopleForm.bo'">글쓰기</button>
-            </div>
+        	<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0 }">
+	            <div class="writeArea">
+	                <button class="writeFaqBtn learn-more" onclick="location.href='finePeopleForm.bo'">글쓰기</button>
+	            </div>
+	        </th:block>
         </div>
 
         <div class="card mb-3" th:each="b : ${ list }">
@@ -51,12 +53,35 @@
               </div>
             </div>
         </div>
+		<th:block th:if="${#lists.isEmpty(list)}">
+			<div id="emptyBoardList">
+				• 🌛 •┈┈┈＊┈┈┈┈＊┈┈┈┈＊┈┈┈＊┈┈┈＊┈┈• 🌛 •<br>
+				조회 가능한 게시글이 없습니다. ૮₍ ˶ᵔ ᵕ ᵔ˶ ₎ა<br>
+				• 🌛 •┈┈┈＊┈┈┈┈＊┈┈┈┈＊┈┈┈＊┈┈┈＊┈┈• 🌛 •
+			</div>
+		</th:block>
         <div class="arrowBtn">
-            <a href="#" class="btn-gradient yellow mini prev">이전</a>
-            <a href="#" class="btn-gradient yellow mini next">다음</a>
+	        <div class="page arrowBtn" th:with="loc=${#ctx.springRequestContext.requestUri}">
+	            <ul class="pagination">
+	                <li th:if="${ pi.currentPage > 1 }">
+		                <a th:href="@{${loc}(page=${ pi.currentPage -1 })}" class="btn-gradient yellow mini prev">이전</a>
+	                </li>
+	                <li th:unless="${ pi.currentPage > 1 }">
+	                	<a th:href="@{${loc}(page=${ pi.currentPage -1 })}" class="btn-gradient yellow mini prev disabled">이전</a>
+	                </li>
+	                <li th:if="${ pi.currentPage < pi.maxPage} ">
+	                	<a th:href="@{${loc}(page=${ pi.currentPage + 1 })}" class="btn-gradient yellow mini next">다음</a>
+	                </li>
+	                <li th:unless="${ pi.currentPage < pi.maxPage }">
+		                <a th:href="@{${loc}(page=${ pi.currentPage + 1 })}" class="btn-gradient yellow mini next disabled">다음</a>
+	                </li>
+	            </ul>
+	        </div>
         </div>
     </section>
-    <div th:replace="~{views/common/footer :: footer}"></div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+   	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+   	<div class="your-custom-class">
+    	<div th:replace="~{views/common/footer :: footer}"></div>
+    </div>
 </body>
 </html>

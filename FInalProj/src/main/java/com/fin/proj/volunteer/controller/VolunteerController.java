@@ -38,48 +38,22 @@ public class VolunteerController {
 	private VolunteerService vService;
 	
 	@RequestMapping("volunteer.vo")
-	public String volunteer(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam(value="vStartDate", required=false) String vStartDate,
-							@RequestParam(value="vEndDate", required=false) String vEndDate, @RequestParam(value="vName", required=false) String vName,
-							@RequestParam(value="registrar", required=false) String registrar, Model model) {
+	public String volunteer(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
 		if(currentPage == null) {
 			currentPage = 1;
 		}
+		int volunteerCount = vService.getVolunteerCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, volunteerCount, 5);
+		ArrayList<Volunteer> list = vService.selectVolunteerList(pi);
 		
-		if(vStartDate == null) {
-			int volunteerCount = vService.getVolunteerCount();
-			PageInfo pi = Pagination.getPageInfo(currentPage, volunteerCount, 5);
-			ArrayList<Volunteer> list = vService.selectVolunteerList(pi);
-			
 //			System.out.println(volunteerCount);
 //			System.out.println(list);
+		
+		if(list != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("list", list);
 			
-			if(list != null) {
-				model.addAttribute("pi", pi);
-				model.addAttribute("list", list);
-				
-				return "volunteer";
-			}
-		} else {
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("vStartDate", vStartDate);
-			map.put("vEndDate", vEndDate);
-			map.put("vName", vName);
-			map.put("registrar", registrar);
-			
-			int searchVolunteerCount = vService.getSearchVolunteerCount(map);
-			PageInfo pi = Pagination.getPageInfo(currentPage, searchVolunteerCount, 5);
-			ArrayList<Volunteer> list = vService.searchVolunteer(pi, map);
-			
-//			System.out.println(svc);
-//			System.out.println(list);
-			
-			if(list != null) {
-				model.addAttribute("pi", pi);
-				model.addAttribute("map", map);
-				model.addAttribute("list", list);
-				
-				return "volunteer";
-			}
+			return "volunteer";
 		}
 		return null;
 	}
@@ -204,8 +178,10 @@ public class VolunteerController {
 	}
 	
 	@PostMapping("volunteerAjax.vo")
-	public void volunteerAjax(@RequestParam(value="vArea") String vArea, @RequestParam(value="vMainCategoryName") String vMainCategoryName, @RequestParam(value="vActivityType") String vActivityType,
-							  @RequestParam(value="vTargetCategoryName") String vTargetCategoryName, HttpServletResponse response) {
+	public void volunteerAjax(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, 
+							  @RequestParam("vName") String vName, @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, 
+							  @RequestParam("vMainCategoryName") String vMainCategoryName, @RequestParam("vActivityType") String vActivityType,
+							  @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status,HttpServletResponse response) {
 		HashMap<String, String> ajaxMap = new HashMap<String, String>();
 		if(vArea.equals("전체")) {
 			vArea = "";
@@ -223,10 +199,19 @@ public class VolunteerController {
 			vTargetCategoryName = "";
 		}
 		
+		if(status.equals("전체")) {
+			status = "";
+		}
+		
+		ajaxMap.put("vStartDate", vStartDate);
+		ajaxMap.put("vEndDate", vEndDate);
+		ajaxMap.put("vName", vName);
+		ajaxMap.put("registrar", registrar);
 		ajaxMap.put("vArea", vArea);
 		ajaxMap.put("vMainCategoryName", vMainCategoryName);
 		ajaxMap.put("vActivityType", vActivityType);
 		ajaxMap.put("vTargetCategoryName", vTargetCategoryName);
+		ajaxMap.put("status", status);
 		
 		int searchVolunteerAjaxCount = vService.getSearchVolunteerCount(ajaxMap);
 		PageInfo pi = Pagination.getPageInfo(1, searchVolunteerAjaxCount, 5);

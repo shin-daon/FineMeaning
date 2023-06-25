@@ -27,7 +27,7 @@
 	<select id="selectBoardList" resultMap="boardResultSet">
 		select *
 		from board b
-			join USERS u on(b.u_NO = u.u_NO)
+			join users u on(b.u_no = u.u_no)
 		where board_status = 'Y' and board_type = #{i}
 		order by board_no desc
 	</select>

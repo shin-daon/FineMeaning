@@ -66,15 +66,11 @@ public class MemberController {
 	@PostMapping("insertUser.me")
 	public String insertUser(@ModelAttribute Member m,
 			   				 @RequestParam("emailId") String emailId,
-			   				 @RequestParam("emailDomain") String emailDomain,
-			   				 @RequestParam("first-ssn") String firstSsn,
-			   				 @RequestParam("two-ssn") String twoSsn) {
+			   				 @RequestParam("emailDomain") String emailDomain) {
 		
 		if(!emailId.trim().equals("")) {
 			m.setEmail(emailId + "@" + emailDomain);
 		}
-		
-		m.setResidentNo(firstSsn + "-" + twoSsn);
 		
 		String encPwd = bcrypt.encode(m.getuPwd());
 		m.setuPwd(encPwd);
@@ -159,20 +155,12 @@ public class MemberController {
 	@PostMapping("updateMyInfo.me")
 	public String updateMyInfo(@ModelAttribute Member m,
 			   				   @RequestParam(value="emailId") String emailId,
-			   				   @RequestParam("emailDomain") String emailDomain,
-			   				   @RequestParam("first-ssn") String firstSsn,
-			   				   @RequestParam("two-ssn") String twoSsn, Model model) {
+			   				   @RequestParam("emailDomain") String emailDomain, Model model) {
 		
 		if(!emailId.trim().equals("")) {
 			m.setEmail(emailId + "@" + emailDomain);
 		} else {
 			m.setEmail(null);
-		}
-		
-		if(firstSsn.trim().equals("") || twoSsn.trim().equals("")) {
-			m.setResidentNo(null);
-		} else {
-			m.setResidentNo(firstSsn + "-" + twoSsn);
 		}
 
 		int result = mService.updateMyInfo(m);
@@ -346,12 +334,14 @@ public class MemberController {
 	@PostMapping("findPwdForm.me")
 	public String findPwdForm(@ModelAttribute Member m, HttpSession session,
 							  @RequestParam("emailId") String emailId,
-							  @RequestParam("emailDomain") String emailDomain, Model model) {
+							  @RequestParam("emailDomain") String emailDomain,
+							  @RequestParam("phone") String phone, Model model) {
 		
 		String email = emailId + "@" + emailDomain;
 		String uId = m.getuId();
 		
 		m.setEmail(email);
+		m.setPhone(phone);
 		m.setuId(uId);
 		
 		Member foundUser = mService.searchUserPwd(m);
@@ -390,7 +380,7 @@ public class MemberController {
 	
 	@RequestMapping(value="findMyId2.me") 
 	public void findMyId2(@RequestParam("uName") String uName,
-					     @RequestParam("phone") String phone, PrintWriter out) {
+					      @RequestParam("phone") String phone, PrintWriter out) {
 		
 		System.out.println("이름 : " + uName);
 		System.out.println("보낼 전화번호 : " + phone);
@@ -404,11 +394,32 @@ public class MemberController {
     	
     	int randomNum = 0;    	
     	if(count > 0) {
-    		randomNum = aService.findId2(phone);
+    		randomNum = aService.findBySms(phone);
     	}
     	
-    	out.print(result + "," + randomNum);
+    	out.print(result + "," + randomNum);   	
+	}
+	
+	@RequestMapping(value="findMyPwd2.me")
+	public void findMyPwd2(@RequestParam("uId") String uId,
+					       @RequestParam("phone") String phone, PrintWriter out) {
+		
+		System.out.println("아이디 : " + uId);
+		System.out.println("보낼 전화번호 : " + phone);
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+    	map.put("uId", uId);
+    	map.put("phone", phone);
+    	  
+    	int count = mService.searchPhoneUser2(map);
+		String result = count == 0 ? "no" : "yes";
     	
+    	int randomNum = 0;    	
+    	if(count > 0) {
+    		randomNum = aService.findBySms(phone);
+    	}
+    	
+    	out.print(result + "," + randomNum);  	
 	}
 }
 
