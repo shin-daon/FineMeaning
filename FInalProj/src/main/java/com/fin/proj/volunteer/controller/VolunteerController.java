@@ -39,16 +39,38 @@ public class VolunteerController {
 	private VolunteerService vService;
 	
 	@RequestMapping("volunteer.vo")
-	public String volunteer(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+	public String volunteer(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam(value="vStartDate", required=false) String vStartDate, 
+							@RequestParam(value="vEndDate", required=false) String vEndDate, @RequestParam(value="vName", required=false) String vName, 
+							@RequestParam(value="registrar", required=false) String registrar, @RequestParam(value="vArea", required=false) String vArea, 
+							@RequestParam(value="vMainCategoryName", required=false) String vMainCategoryName, @RequestParam(value="vActivityType", required=false) String vActivityType, 
+							@RequestParam(value="vTargetCategoryName", required=false) String vTargetCategoryName, @RequestParam(value="status", required=false) String status, Model model) {
 		if(currentPage == null) {
 			currentPage = 1;
 		}
-		int volunteerCount = vService.getVolunteerCount();
-		PageInfo pi = Pagination.getPageInfo(currentPage, volunteerCount, 5);
-		ArrayList<Volunteer> list = vService.selectVolunteerList(pi);
-		
-//			System.out.println(volunteerCount);
-//			System.out.println(list);
+		PageInfo pi = null;
+		ArrayList<Volunteer> list = null;
+		if(vStartDate == null) {
+			int volunteerCount = vService.getVolunteerCount();
+			pi = Pagination.getPageInfo(currentPage, volunteerCount, 5);
+			list = vService.selectVolunteerList(pi);
+		} else {
+			HashMap<String, String> searchMap = new HashMap<String, String>();
+			searchMap.put("vStartDate", vStartDate);
+			searchMap.put("vEndDate", vEndDate);
+			searchMap.put("vName", vName);
+			searchMap.put("registrar", registrar);
+			searchMap.put("vArea", vArea);
+			searchMap.put("vMainCategoryName", vMainCategoryName);
+			searchMap.put("vActivityType", vActivityType);
+			searchMap.put("vTargetCategoryName", vTargetCategoryName);
+			searchMap.put("status", status);
+			
+			int searchVolunteerCount = vService.getSearchVolunteerCount(searchMap);
+			pi = Pagination.getPageInfo(currentPage, searchVolunteerCount, 5);
+			list = vService.searchVolunteerByAjax(pi, searchMap);
+			
+			model.addAttribute("searchMap", searchMap);
+		}
 		
 		if(list != null) {
 			model.addAttribute("pi", pi);
@@ -59,25 +81,51 @@ public class VolunteerController {
 		throw new VolunteerException("봉사 조회에 실패하였습니다.");
 	}
 	
-	@GetMapping("volunteerDetail.vo")
-	public String volunteerDetail(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam(value="vStartDate", required=false) String vStartDate,
-								  @RequestParam(value="vEndDate", required=false) String vEndDate, @RequestParam(value="vName", required=false) String vName,
-								  @RequestParam(value="registrar", required=false) String registrar, Model model) {
+	@RequestMapping("volunteerDetail.vo")
+	public String volunteerDetail(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, 
+								  @RequestParam("vName") String vName, @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, 
+								  @RequestParam("vMainCategoryName") String vMainCategoryName, @RequestParam("vActivityType") String vActivityType, 
+								  @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
-//		System.out.println(v);
 		if(v != null) {
 			HashMap<String, Double> map = Map.getLongitudeAndLatitude(v.getAddress());
-//			System.out.println(map);
 			model.addAttribute("v", v);
 			model.addAttribute("page", page);
 			model.addAttribute("map", map);
 			
-			if(vStartDate != null) {
-				model.addAttribute("vStartDate", vStartDate);
-				model.addAttribute("vEndDate", vEndDate);
-				model.addAttribute("vName", vName);
-				model.addAttribute("registrar", registrar);
+			HashMap<String, String> searchMap = new HashMap<String, String>();
+			
+			if(vArea.equals("전체")) {
+				vArea = "";
+			} 
+			
+			if(vMainCategoryName.equals("전체")) {
+				vMainCategoryName = "";
 			}
+			
+			if(vActivityType.equals("전체")) {
+				vActivityType = "";
+			}
+			
+			if(vTargetCategoryName.equals("전체")) {
+				vTargetCategoryName = "";
+			}
+			
+			if(status.equals("전체")) {
+				status = "";
+			}
+			
+			searchMap.put("vStartDate", vStartDate);
+			searchMap.put("vEndDate", vEndDate);
+			searchMap.put("vName", vName);
+			searchMap.put("registrar", registrar);
+			searchMap.put("vArea", vArea);
+			searchMap.put("vMainCategoryName", vMainCategoryName);
+			searchMap.put("vActivityType", vActivityType);
+			searchMap.put("vTargetCategoryName", vTargetCategoryName);
+			searchMap.put("status", status);
+			
+			model.addAttribute("searchMap", searchMap);
 			
 			return "volunteerDetail";
 		} 
@@ -179,10 +227,10 @@ public class VolunteerController {
 	}
 	
 	@PostMapping("volunteerAjax.vo")
-	public void volunteerAjax(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, 
-							  @RequestParam("vName") String vName, @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, 
-							  @RequestParam("vMainCategoryName") String vMainCategoryName, @RequestParam("vActivityType") String vActivityType,
-							  @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status,HttpServletResponse response) {
+	public void volunteerAjax(@RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, @RequestParam("vName") String vName, 
+							  @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, @RequestParam("vMainCategoryName") String vMainCategoryName, 
+							  @RequestParam("vActivityType") String vActivityType, @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status,
+							  HttpServletResponse response) {
 		HashMap<String, String> ajaxMap = new HashMap<String, String>();
 		if(vArea.equals("전체")) {
 			vArea = "";
