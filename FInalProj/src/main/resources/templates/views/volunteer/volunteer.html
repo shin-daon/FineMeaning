@@ -33,18 +33,19 @@
                     </tr>
                     <tr>
                         <td>봉사명</td>
-                        <td><input type="search" id="volunteerName" name="vName"/></td>
+                        <td>
+                        	<input type="search" id="volunteerName" name="vName" placeholder="봉사명을 입력해주세요."/>
+                        	<button class="btnClear"></button>
+                        </td>
                     </tr>
                     <tr>
                         <td>수요처명</td>
-                        <td><input type="search" id="recipientName" name="registrar"></td>
+                        <td>
+                        	<input type="search" id="recipientName" name="registrar" placeholder="수요처명을 입력해주세요.">
+                        	<button class="btnClear"></button>	
+                        </td>
                     </tr>
                 </table>
-                <!-- 아래 부분 삭제 -->
-                <div class="v-search-inner-btn">
-                    <button id="v-search-btn" class="learn-more">검색</button>
-                    <button type="reset" id="v-reset-btn" class="learn-more-gray">초기화</button>
-                </div>
             </div>
             
             <div class="v-note">
@@ -143,46 +144,30 @@
         
         <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
-                <li th:if="${ pi.currentPage > 1 && map == null}">
+                <li th:if="${ pi.currentPage > 1 && searchMap == null}">
 	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
 	                	<img class="arrowKey" src="image/before.png">
 	                </a>
                 </li>
-                <li th:if="${ pi.currentPage > 1 && map != null}">
-	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 }, vStartDate=${map.vStartDate}, vEndDate=${map.vEndDate}, vName=${map.vName}, registrar=${map.registrar})}">
-	                	<img class="arrowKey" src="image/before.png">
-	                </a>
-                </li>
                 
-                <li th:unless="${ pi.currentPage > 1 }">
+                <li th:unless="${ pi.currentPage > 1 && searchMap == null }">
 	                	<img class="arrowKey disabled" src="image/before.png">
                 </li>
                 
                 <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
-                	<th:block th:if="${p != 0 && map == null}">
+                	<th:block th:if="${p != 0 && searchMap == null}">
                 	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
                 		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
                 	</th:block>
                 </li>
-                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
-                	<th:block th:if="${p != 0 && map != null}">
-                	<a th:href="@{${loc}(page=${p}, vStartDate=${map.vStartDate}, vEndDate=${map.vEndDate}, vName=${map.vName}, registrar=${map.registrar})}" th:text="${p}"
-                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
-                	</th:block>
-                </li>
                 
-                <li th:if="${ pi.currentPage < pi.maxPage && map == null } ">
+                <li th:if="${ pi.currentPage < pi.maxPage && searchMap == null } ">
 	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
 	                	<img class="arrowKey" src="image/next.png">
 	                </a>
                 </li>
-                <li th:if="${ pi.currentPage < pi.maxPage && map != null } ">
-	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, vStartDate=${map.vStartDate}, vEndDate=${map.vEndDate}, vName=${map.vName}, registrar=${map.registrar})}">
-	                	<img class="arrowKey" src="image/next.png">
-	                </a>
-                </li>
                 
-                <li th:unless="${ pi.currentPage < pi.maxPage }">
+                <li th:unless="${ pi.currentPage < pi.maxPage && searchMap == null }">
 	                	<img class="arrowKey disabled" src="image/next.png">
                 </li>
             </ul>
@@ -195,19 +180,11 @@
 	    window.onload = () => {
 	    	/*<![CDATA[*/
 		    const volunteerList = /*[[${list}]]*/null;
-	    	const searchMap = /*[[${map}]]*/null;
 	    	if(volunteerList == null) {
 	    		$("#resultDiv").show();
 	    	} else {
 	    		$("#resultDiv").hide();
 	    	}
-	    	
-	    	if(searchMap != null) {
-		    	document.querySelector("#v-reset-btn").addEventListener("click", () => {
-			        location.href="volunteer.vo";
-			    });
-	    	}
-	    	
 		    /*]]>*/
 		    
 		    const now = new Date();
@@ -268,62 +245,154 @@
 		    const objects = document.getElementsByName("object");
 		    const statuses = document.getElementsByName("status");
 		    
-			document.querySelector("#v-category-reset-btn").addEventListener("click", () => {
-		    	clickCategory(locations[0], locations);
-		    	clickCategory(categories[0], categories);
-		    	clickCategory(onoffLines[0], onoffLines);
-		    	clickCategory(objects[0], objects);
-		    	clickCategory(statuses[1], statuses);
-		    	
-		    	for(ul of ulList) {
-		    		ul.scrollTop = 0;
+		    const clickCategory = function(clickObj, category) {
+		    	clickObj.parentElement.previousElementSibling.value = clickObj.innerText;
+		    	for(const obj of category) {
+		    		obj.style.background = 'none';
 		    	}
-		    	
-		    	document.querySelector("#startDate").value = '';
-	    	    document.querySelector("#endDate").value = '';
-	    	    document.querySelector("#volunteerName").value = '';
-	    	    document.querySelector("#recipientName").value = '';
-		    	
-		    	searchAjax();
-		    });
-		
-		    for(const location of locations) {
-		        location.addEventListener("click", function() {
-		        	clickCategory(this, locations);
-		        });
-		    }
-		
-		    for(const category of categories) {
-		        category.addEventListener("click", function() {
-		        	clickCategory(this, categories);
-		        });
-		    }
-		
-		    for(const onoffLine of onoffLines) {
-		        onoffLine.addEventListener("click", function() {
-		        	clickCategory(this, onoffLines);
-		        });
-		    }
-		
-		    for(const object of objects) {
-		        object.addEventListener("click", function() {
-		        	clickCategory(this, objects);
-		        });
-		    }
-		
-		    for(const status of statuses) {
-		        status.addEventListener("click", function() {
-		        	clickCategory(this, statuses);
-		        });
+		    	clickObj.style.backgroundColor = '#d7f1c8';
+		    	clickObj.style.borderRadius = '8px';
 		    }
 		    
-		    const searchLiTags = document.querySelector(".v-category").getElementsByTagName("li");
-		    for(const searchLiTag of searchLiTags) {
-		    	searchLiTag.addEventListener("click", function() {
-		    		searchAjax();
-		    	});
+		    /*<![CDATA[*/
+	    	const changeLiTagsColor = () => {
+	    		const searchMap = /*[[${searchMap}]]*/null;
+				const searchLiTags = document.querySelector(".v-category").getElementsByTagName("li");
+				let category = "";
+	    		if(searchMap != null) {
+	    			for(const searchName in searchMap) {
+	    				if(searchMap[searchName] != "undefined" && searchMap[searchName] != "") {
+	    				    for(const searchLiTag of searchLiTags) {
+	    				    	if(searchLiTag.innerText == searchMap[searchName]) {
+	    				    		const categoryName = searchLiTag.getAttribute("name");
+	    				    		if(categoryName == "location") {
+	    				    			category = locations;	
+	    				    		} else if(categoryName == "category") {
+	    				    			category = categories;
+	    				    		} else if(categoryName == "onoff-line") {
+	    				    			category = onofflines;
+	    				    		} else if(categoryName == "object") {
+	    				    			category = objects;
+	    				    		} else if(categoryName == "status") {
+	    				    			category = statuses;
+	    				    		}
+	    				    		clickCategory(searchLiTag, category);
+	    				    	}
+	    				    }
+	    				}
+	    			}
+	    		}
 		    }
-		    
+	    	
+	    	changeLiTagsColor();
+	    	
+	    	const formAction = (form, page) => {
+	    		const startDate = document.querySelector("#startDate").value;
+	    	    const endDate = document.querySelector("#endDate").value;
+	    	    const volunteerName = document.querySelector("#volunteerName").value;
+	    	    const registrar = document.querySelector("#recipientName").value;
+	    	    const locationInput = document.querySelector("#locationInput").value;
+	    	    const categoryInput = document.querySelector("#categoryInput").value;
+	    	    const onoffLineInput = document.querySelector("#onoffLineInput").value;
+	    	    const objectInput = document.querySelector("#objectInput").value;
+	    	    const statusInput = document.querySelector("#statusInput").value;
+	    	    
+	    	    const hiddenPage = document.createElement("input");
+	    	    hiddenPage.setAttribute("type", "hidden");
+	    	    hiddenPage.setAttribute("name", "page");
+	    	    hiddenPage.setAttribute("value", page);
+	    	    form.appendChild(hiddenPage);
+	    	    
+	    	    const hiddenStartDate = document.createElement("input");
+	    	    hiddenStartDate.setAttribute("type", "hidden");
+	    	    hiddenStartDate.setAttribute("name", "vStartDate");
+	    	    hiddenStartDate.setAttribute("value", startDate);
+	    	    form.appendChild(hiddenStartDate);
+	    	    
+	    	    const hiddenEndDate = document.createElement("input");
+	    	    hiddenEndDate.setAttribute("type", "hidden");
+	    	    hiddenEndDate.setAttribute("name", "vEndDate");
+	    	    hiddenEndDate.setAttribute("value", endDate);
+	    	    form.appendChild(hiddenEndDate);
+	    	    
+	    	    const hiddenVolunteerName = document.createElement("input");
+	    	    hiddenVolunteerName.setAttribute("type", "hidden");
+	    	    hiddenVolunteerName.setAttribute("name", "vName");
+	    	    hiddenVolunteerName.setAttribute("value", volunteerName);
+	    	    form.appendChild(hiddenVolunteerName);
+	    	    
+	    	    const hiddenRegistrar = document.createElement("input");
+	    	    hiddenRegistrar.setAttribute("type", "hidden");
+	    	    hiddenRegistrar.setAttribute("name", "registrar");
+	    	    hiddenRegistrar.setAttribute("value", registrar);
+	    	    form.appendChild(hiddenRegistrar);
+	    	    
+	    	    const hiddenLocation = document.createElement("input");
+	    	    hiddenLocation.setAttribute("type", "hidden");
+	    	    hiddenLocation.setAttribute("name", "vArea");
+	    	    hiddenLocation.setAttribute("value", locationInput);
+	    	    form.appendChild(hiddenLocation);
+	    	    
+	    	    const hiddenCategory = document.createElement("input");
+	    	    hiddenCategory.setAttribute("type", "hidden");
+	    	    hiddenCategory.setAttribute("name", "vMainCategoryName");
+	    	    hiddenCategory.setAttribute("value", categoryInput);
+	    	    form.appendChild(hiddenCategory);
+	    	    
+	    	    const hiddenOnOffLine = document.createElement("input");
+	    	    hiddenOnOffLine.setAttribute("type", "hidden");
+	    	    hiddenOnOffLine.setAttribute("name", "vActivityType");
+	    	    hiddenOnOffLine.setAttribute("value", onoffLineInput);
+	    	    form.appendChild(hiddenOnOffLine);
+	    	    
+	    	    const hiddenObject = document.createElement("input");
+	    	    hiddenObject.setAttribute("type", "hidden");
+	    	    hiddenObject.setAttribute("name", "vTargetCategoryName");
+	    	    hiddenObject.setAttribute("value", objectInput);
+	    	    form.appendChild(hiddenObject);		
+	    	    
+	    	    const hiddenStatus = document.createElement("input");
+	    	    hiddenStatus.setAttribute("type", "hidden");
+	    	    hiddenStatus.setAttribute("name", "status");
+	    	    hiddenStatus.setAttribute("value", statusInput);
+	    	    form.appendChild(hiddenStatus);	
+				
+	    	    document.body.appendChild(form);
+	    	    form.submit();
+	    	}
+	    	
+	    	const pageEvent = page => {
+	    		const form  = document.createElement("form");
+	    	    form.setAttribute("method", "post");
+	    	    form.setAttribute("action", "volunteer.vo"); 
+	    	    
+	    	    formAction(form, page);
+	    	}
+		    	
+		    const vboxClickEvent = () => {
+		    	const vboxes = document.querySelectorAll(".v-list-box");
+			    for(const vbox of vboxes) {
+			    	vbox.addEventListener("click", function() {
+			    		const vNo = this.querySelector("input").value;
+			    		const page = /*[[${pi.currentPage}]]*/1;
+			    	    
+			    	    const form  = document.createElement("form");
+			    	    form.setAttribute("method", "post");
+			    	    form.setAttribute("action", "volunteerDetail.vo");
+			    	    
+			    	    const hiddenVNo = document.createElement("input");
+			    	    hiddenVNo.setAttribute("type", "hidden");
+			    	    hiddenVNo.setAttribute("name", "vNo");
+			    	    hiddenVNo.setAttribute("value", vNo);
+			    	    form.appendChild(hiddenVNo);
+			    	    
+			    	    formAction(form, page);
+			    	});
+			    }
+		    }
+		    /*]]>*/
+		    vboxClickEvent();
+			    
 		    const searchAjax = () => {
 		    	const startDate = document.querySelector("#startDate").value;
 	    	    const endDate = document.querySelector("#endDate").value;
@@ -448,40 +517,94 @@
 	 						}
 	 						recruitmentSetting();
 		 					endDateSetting();
+		 					vboxClickEvent();
 	 					}
 	 				},
 	 				error: data => {
 	 				}
 	    		});
 		    }
-	    }
-	    
-	    const clickCategory = function(clickObj, category) {
-	    	clickObj.parentElement.previousElementSibling.value = clickObj.innerText;
-	    	for(const obj of category) {
-	    		obj.style.background = 'none';
-	    	}
-	    	clickObj.style.backgroundColor = '#d7f1c8';
-	    	clickObj.style.borderRadius = '8px';
-	    }
 		    
-	    /*<![CDATA[*/
-	    const vboxes = document.querySelectorAll(".v-list-box");
-	    for(const vbox of vboxes) {
-	    	vbox.addEventListener("click", function() {
-	    		const vNo = this.querySelector("input").value;
-	    		const map = /*[[${map}]]*/1;
-	    		if(map == null) {
-		    		location.href = "volunteerDetail.vo?vNo=" + vNo + "&page=" + /*[[${pi.currentPage}]]*/1;
-	    		} else {
-		    		location.href = "volunteerDetail.vo?vNo=" + vNo + "&page=" + /*[[${pi.currentPage}]]*/1 
-		    				+ "&vStartDate=" + map.vStartDate + "&vEndDate=" + map.vEndDate + "&vName=" + map.vName	+ "&registrar=" + map.registrar;
-	    		}
-	    	});
+			document.querySelector("#v-category-reset-btn").addEventListener("click", () => {
+		    	clickCategory(locations[0], locations);
+		    	clickCategory(categories[0], categories);
+		    	clickCategory(onoffLines[0], onoffLines);
+		    	clickCategory(objects[0], objects);
+		    	clickCategory(statuses[1], statuses);
+		    	
+		    	for(ul of ulList) {
+		    		ul.scrollTop = 0;
+		    	}
+		    	
+		    	document.querySelector("#startDate").value = '';
+	    	    document.querySelector("#endDate").value = '';
+	    	    document.querySelector("#volunteerName").value = '';
+	    	    document.querySelector("#recipientName").value = '';
+		    	
+		    	searchAjax();
+		    });
+		
+		    for(const location of locations) {
+		        location.addEventListener("click", function() {
+		        	clickCategory(this, locations);
+		        });
+		    }
+		
+		    for(const category of categories) {
+		        category.addEventListener("click", function() {
+		        	clickCategory(this, categories);
+		        });
+		    }
+		
+		    for(const onoffLine of onoffLines) {
+		        onoffLine.addEventListener("click", function() {
+		        	clickCategory(this, onoffLines);
+		        });
+		    }
+		
+		    for(const object of objects) {
+		        object.addEventListener("click", function() {
+		        	clickCategory(this, objects);
+		        });
+		    }
+		
+		    for(const status of statuses) {
+		        status.addEventListener("click", function() {
+		        	clickCategory(this, statuses);
+		        });
+		    }
+		    
+		    const btnClears = document.querySelectorAll(".btnClear");
+		    for(const btnClear of btnClears) {
+		    	btnClear.addEventListener("click", function() {
+		    		this.previousElementSibling.value = "";
+		    		searchAjax();
+		    	});
+		    }
+		    
+		    const searchInputs = document.querySelector(".v-search-inner").getElementsByTagName("input");
+		    for(const searchInput of searchInputs) {
+		    	if(searchInput.type == "search") {
+		    		searchInput.addEventListener("keyup", function(e) {
+		    			if(e.key == "Enter") {
+		    				searchAjax();
+		    				this.blur();
+		    			}
+		    		});
+		    	}
+		    	
+	    		searchInput.addEventListener("change", () => {
+	    			searchAjax();
+	    		});
+		    }
+		    
+		    const searchLiTags = document.querySelector(".v-category").getElementsByTagName("li");
+		    for(const searchLiTag of searchLiTags) {
+		    	searchLiTag.addEventListener("click", () => {
+		    		searchAjax();
+		    	});
+		    }
 	    }
-	    /*]]>*/
-	    
-	    
     </script>
 </body>
 </html>
