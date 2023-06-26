@@ -41,4 +41,8 @@ public interface BoardService {
 
 	ArrayList<Reply> selectReplyList(PageInfo pageInfo, int bNo);
 
+	ArrayList<Reply> selectMyReply(PageInfo pi, int uNo);
+
+	int myReplyCount(int uNo);
+
 }

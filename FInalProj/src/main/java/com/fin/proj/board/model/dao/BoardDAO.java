@@ -48,4 +48,8 @@ public interface BoardDAO {
 
 	ArrayList<Reply> selectReply(int bNo, RowBounds rowbounds);
 
+	ArrayList<Reply> selectMyReply(int uNo, RowBounds rowbounds);
+
+	int myReplyCount(int uNo);
+
 }

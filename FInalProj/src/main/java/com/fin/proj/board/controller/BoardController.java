@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fin.proj.board.model.exception.BoardException;
@@ -501,10 +502,49 @@ public class BoardController {
 		// RedirectAttribute 이용!
 	}
 	
+	@RequestMapping("deleteMyReply.bo")
+//	@ResponseBody
+	public String deleteMyReply(@RequestParam("replies") String replies) {
+		
+		for(String reply : replies.split(",")) {
+			int rNo = Integer.parseInt(reply);
+			int result = bService.deleteReply(rNo);
+			if(result < 0) {
+				throw new BoardException("댓글 삭제에 실패하였습니다.");
+			}
+		}
+		
+		// 뷰로 어떻게 보낼지? 생각 .. ! ..! ..! 리로드 할 건지 .. 아니면 무슨 대책이..~~~
+		return null;
+	}
+	
 	// my page
 	@GetMapping("myReply.bo")
-	public String myReply() {
-		return "myReply";
+	public String myReply(@RequestParam(value="page", required=false) Integer currentPage, 
+						  HttpSession session, Model model) {	// string으로 (1, 4, 5)로 보내던지 split(",")로 구분
+		
+		PageInfo pageInfo;
+		int listCount;
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+		listCount = bService.myReplyCount(uNo);
+		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Reply> list = bService.selectMyReply(pageInfo, uNo);
+		
+		System.out.println(list);
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			return "myReply";
+		} else {
+			throw new BoardException("내 댓글 목록 조회 실패");
+		}
 	}
 	
 	@GetMapping("myBoard.bo")
