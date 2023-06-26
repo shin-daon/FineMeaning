@@ -8,8 +8,8 @@ MANIFEST.MF
 .factorypath
 settings.json
 
-.metadata/
+#.metadata/
 
 # application.properties
-FInalProj/bin/main/application.properties
-FInalProj/src/main/resources/application.properties
+#FInalProj/bin/main/application.properties
+#FInalProj/src/main/resources/application.properties

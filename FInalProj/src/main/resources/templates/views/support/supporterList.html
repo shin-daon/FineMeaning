@@ -62,11 +62,9 @@
 	                    <td th:text="${s.payDate}"></td>
 	                    <input type="hidden" th:value="${s.supportNo}">
 	                </tr>
-<!-- 	                <th:block th:if="${shList == null}"> -->
 		                <tr th:if="${shList.isEmpty}">
 		                	<td colspan="7">아직 후원자가 없습니다.</td>
 		                <tr>
-<!--                 	</th:block> -->
 	                <script th:inline="javascript">
 	                	/*<![CDATA[*/
 	                		const data = /*[[${shList}]]*/'data';

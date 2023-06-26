@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/support/doSupportEnd.css">
+    <style>
+    	bg {
+    		
+    		background-size:cover;
+    	}
+    	.bg {
+		  width: 100%;
+		  height: 100%;
+/* 		  text-align: center; */
+/* 		  position: relative; */
+		}
+		.bg::after {
+		  width: 100%;
+		  height: 100%;
+		  content: "";
+		  background-image : url('image/bg.gif');
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  z-index: -1;
+		  opacity: 0.6;
+		  background-size:cover;
+		}
+    </style>
+</head>
+<body>
+<div class="bg">
+<div th:replace="~{../common/header :: header}"></div>
+    <section id="supportListSection">
+
+        <div>
+            <div id="supportList">후원 완료</div>
+        </div>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle" href="#">모금함</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">후원하기</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">후원 완료</a>
+        </div>
+
+
+        <div class="doSupportTitleSection">
+            <div class="doSupportTit">
+                <div class="doSupportTitle">
+                    
+                    [[${supportTitle}]]<br>
+                    <div class="doSupportGroup">by 사회복지공동모금회</div>
+                </div>
+            </div>
+        	<div class="thanks">
+        		후원이 완료되었습니다.<br>
+        		후원해주신 금액은 전액 해당 단체로 전달됩니다. 
+        	</div>
+        </div>
+        <div>
+        	
+        </div>
+    </section>
+    
+
+    
+    <div class="buttonSection">
+        <div class="buttonSmallSection">
+            <button class="learn-more" id="modal-open" onclick="location.href='supportListUser.su'">내 후원 내역</button>
+            <button class="learn-more">후원 메인</button>
+        </div>    
+    </div>
+<div th:replace="~{../common/footer :: footer}"></div>
+</div>
+</body>
+</html>
