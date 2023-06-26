@@ -112,4 +112,12 @@ public class BoardServiceImpl implements BoardService {
 		return bDAO.searchListCount(params);
 	}
 
+	@Override
+	public ArrayList<Reply> selectReplyList(PageInfo pi, int bNo) {
+		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		RowBounds rowbounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return bDAO.selectReply(bNo, rowbounds);
+	}
+
 }
