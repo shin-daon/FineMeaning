@@ -88,6 +88,11 @@ public class MemberServiceImpl implements MemberService {
 	public int searchPhoneUser2(HashMap<String, String> map) {
 		return mDAO.searchPhoneUser2(map);
 	}
+	
+	@Override
+	public int loginFailCount(String uId) {
+		return mDAO.loginFailCount(uId);
+	}
 
 
 }
