@@ -503,7 +503,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping("deleteMyReply.bo")
-//	@ResponseBody
+	@ResponseBody
 	public String deleteMyReply(@RequestParam("replies") String replies) {
 		
 		for(String reply : replies.split(",")) {
@@ -513,9 +513,7 @@ public class BoardController {
 				throw new BoardException("댓글 삭제에 실패하였습니다.");
 			}
 		}
-		
-		// 뷰로 어떻게 보낼지? 생각 .. ! ..! ..! 리로드 할 건지 .. 아니면 무슨 대책이..~~~
-		return null;
+		return "";
 	}
 	
 	// my page
