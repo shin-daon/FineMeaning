@@ -16,6 +16,7 @@
                 <li><a href="supportMain.su" data-hover="후원">후원</a></li>
                 <li><a href="talkMain.bo" data-hover="커뮤니티">커뮤니티</a></li>
                 <li><a href="editMyInfo.me" data-hover="MY">MY</a></li>
+                <li th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}"><a href="supportListAdmin.su" data-hover="ADMIN">ADMIN</a></li>
             </ul>
         </nav>
         <div class="bar">
@@ -27,11 +28,12 @@
                     <li><a href="supportMain.su" data-hover="후원">후원</a></li>
                     <li><a href="talkMain.bo" data-hover="커뮤니티">커뮤니티</a></li>
                     <li><a href="myPage.me" data-hover="MY">MY</a></li>
+                    <li th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}"><a href="supportListAdmin.su" data-hover="ADMIN">ADMIN</a></li>
                 </ul>
             </div>
         </div>
     </header>
-    <section id="subMenu">
+    <section id="subMenu" th:class="${session.loginUser != null ? 'isLogin' : 'notLogin'}">
         <div>
             <div><a href="noticeList.bo">NOTICE</a></div>
             <div><a href="fineNewsMain.bo">선한 뉴스</a></div>
@@ -61,10 +63,23 @@
 	            <div><a href="logout.me">로그아웃</a></div>
 	            <div><a href="editMyInfo.me">내 정보 수정</a></div>
 	            <div><a href="supportListUser.su">후원 내역</a></div>
-	            <div><a href="#">자원 봉사 내역</a></div>
-<!-- 	        <div><a href="#">작성 글</a></div> -->
-<!-- 	        <div><a href="#">작성 댓글</a></div> -->
+	            <div><a href="volunteerHistory.vo">자원 봉사 내역</a></div>
+		        <div><a href="#">작성 글</a></div>
+		        <div><a href="#">작성 댓글</a></div>
             </div>
+        </div>
+        <div th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}">
+        	<div><a href="#">회원 목록</a></div>
+        	<div><a href="#">봉사</a></div>
+        	<div><a href="supportListAdmin.su">모금함</a></div>
+        	<div><a href="#">선뜻</a></div>
+        	<div><a href="#">선한 뉴스 목록</a></div>
+        	<div><a href="#">결실 목록</a></div>
+        	<div><a href="#">선뜻한 사람 목록</a></div>
+        	<div><a href="#">커뮤니티</a></div>
+        	<div><a href="#">자주 묻는 질문</a></div>
+        	<div><a href="#">1:1 문의</a></div>
+        	<div><a href="#">NOTICE</a></div>
         </div>
     </section>
     <script>
