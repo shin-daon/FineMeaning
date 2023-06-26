@@ -109,7 +109,7 @@ body img{
                     
                     <th:block th:if="${session.loginUser.isAdmin==0}">
 	                    <div class="dropdown-content">
-	                    	<span class="selectCate">수정</span> |
+	                    	<span class="selectCate" th:onclick="location.href='supportEdit.su?supportNo=[[${s.supportNo}]]'">수정</span> |
 	                    	<span class="selectCate" id="deleteButton">삭제</span>
 	                	</div>
                 	</th:block>

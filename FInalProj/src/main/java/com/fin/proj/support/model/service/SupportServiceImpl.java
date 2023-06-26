@@ -292,4 +292,10 @@ public class SupportServiceImpl implements SupportService {
 		return suDAO.applyListAdmin(rowBounds, s);
 	}
 
+
+	@Override
+	public int updateSupport(Support s) {
+		return suDAO.updateSupport(s);
+	}
+
 }
