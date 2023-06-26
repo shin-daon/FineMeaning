@@ -36,4 +36,6 @@ public interface MemberService {
 
 	int searchPhoneUser2(HashMap<String, String> map);
 
+	int loginFailCount(String uId);
+
 }

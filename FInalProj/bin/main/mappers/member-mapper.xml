@@ -116,4 +116,10 @@
 		where u_id = #{uId} and phone = #{phone}
 	</select>
 	
+	<update id="loginFailCount">
+		update users
+		set failed_count = failed_count + 1
+		where u_id = #{uId}
+	</update>
+	
 </mapper>

@@ -422,4 +422,13 @@ public class MemberController {
     	
     	out.print(result + "," + randomNum);  	
 	}
+	
+	@RequestMapping(value="loginFailCount.me")
+	public void loginFailCount(Member m, @RequestParam("uId") String uId, PrintWriter out) {
+		
+		int count = mService.loginFailCount(uId);
+		
+		String result = count == 0 ? "yes" : "no";		
+		out.print(count);	
+	}	
 }
