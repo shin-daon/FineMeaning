@@ -81,6 +81,10 @@ body {
 #trash {
 	block-size: 105px;
 }
+
+body img{
+	max-width:600px;
+}
 </style>
 
 <body>
@@ -103,11 +107,12 @@ body {
                 <div>
                     <div class="supportTitle">[[${s.supportTitle}]]</div>
                     
-                    <div class="dropdown-content">
-                    	<span class="selectCate">수정</span> |
-                    	<span class="selectCate" id="deleteButton">삭제</span>
-                	</div>
-                	
+                    <th:block th:if="${session.loginUser.isAdmin==0}">
+	                    <div class="dropdown-content">
+	                    	<span class="selectCate" th:onclick="location.href='supportEdit.su?supportNo=[[${s.supportNo}]]'">수정</span> |
+	                    	<span class="selectCate" id="deleteButton">삭제</span>
+	                	</div>
+                	</th:block>
                 	<div id="deleteModal"><br>
 						<img id="trash" src="image/trash2.png"/><br><br>
 						<span class="modal-comment modal-comment2">후원를 삭제하시겠습니까❔</span><br><br>
@@ -127,8 +132,8 @@ body {
 							})
 						}
 					</script>
-                	
-					 <div>
+                		<br>
+                	 <div>
                     	<img th:src="@{${s.imageUrl}}">
                     </div>
                     <div class="supportSubTitle">모금함 소개</div>

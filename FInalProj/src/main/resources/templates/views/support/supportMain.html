@@ -158,7 +158,12 @@
 	<div class="supportLists">
 	<div class="actionArea">
     	<div class="searchArea">
-        	<input class="searchInput" type="text" placeholder="제목으로 검색"/>
+        	<th:block th:if="${searchWord==null}">
+		          <input class="searchInput" type="text" name="searchWord" placeholder="제목으로 검색"/>
+	        </th:block>
+	        <th:block th:if="${searchWord!=null}">
+		          <input class="searchInput" type="text" name="searchWord" th:value="${searchWord}"/>
+	        </th:block>
             <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
         </div>
     </div>
@@ -179,6 +184,22 @@
     		
     		
     	})
+    	
+    	document.addEventListener('keyup', function(event) {
+		    if (event.key == 'Enter') {
+		        var searchIcons = document.getElementsByClassName('searchIcon');
+		        if (searchIcons.length > 0) {
+		            var searchIcon = searchIcons[0];
+		            var clickEvent = new MouseEvent('click', {
+		                bubbles: true,
+		                cancelable: true,
+		                view: window
+		            });
+		            searchIcon.dispatchEvent(clickEvent);
+		        }
+		    }
+		});
+
     </script>
     <br clear="both">
 		<div class="supportList" id="supportInfo">

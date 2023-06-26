@@ -94,5 +94,7 @@ public interface SupportDAO {
 
 	ArrayList<Support> applyListAdmin(RowBounds rowBounds, Support s);
 
+	int updateSupport(Support s);
+
 
 }

@@ -43,6 +43,7 @@
 		                <input type="hidden" id="area" name="supportCategory" th:value="${category}" required/>
 	                </th:block>
 	                <div class="dropdown-content" id="area-content">
+	                    <span class="selectArea" th:if="${category != null}">전체</span>
 	                    <span class="selectArea">사람</span>
 	                    <span class="selectArea">동물</span>
 	                    <span class="selectArea">환경</span>
@@ -63,12 +64,24 @@
 	            			location.href="categoryListAdmin.su?category="+cate;
 	            		})
 	            	}
+	            	
+	            	const total = document.getElementsByClassName('selectArea')[0]
+	            	if(total != null){
+	            		total.addEventListener('click', ()=>{
+	            			location.href="supportListAdmin.su";
+	            		})
+	            	}
 	            </script>
 	            
 	              
 				<div class="actionArea" style="float:right;">
 	            <div class="searchArea">
-	                <input class="searchInput" type="text" name="searchWord" placeholder="제목으로 검색"/>
+	                <th:block th:if="${searchWord==null}">
+		                <input class="searchInput" type="text" name="searchWord" placeholder="제목으로 검색"/>
+	            	</th:block>
+	            	<th:block th:if="${searchWord!=null}">
+		                <input class="searchInput" type="text" name="searchWord" th:value="${searchWord}"/>
+	            	</th:block>
 	                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
 	            </div>
 	        	</div>
@@ -87,6 +100,21 @@
 		        		
 		        		
 		        	})
+		        	
+		        	document.addEventListener('keyup', function(event) {
+					    if (event.key == 'Enter') {
+					        var searchIcons = document.getElementsByClassName('searchIcon');
+					        if (searchIcons.length > 0) {
+					            var searchIcon = searchIcons[0];
+					            var clickEvent = new MouseEvent('click', {
+					                bubbles: true,
+					                cancelable: true,
+					                view: window
+					            });
+					            searchIcon.dispatchEvent(clickEvent);
+					        }
+					    }
+					});
 	        	</script>
         	</div>
 
@@ -103,6 +131,9 @@
                 </tr>
             </thead>
             <tbody>
+            		<tr th:if="${sList.isEmpty}">
+		                <td colspan="7">진행 중인 후원이 없습니다.</td>
+		            <tr>
 	                <tr th:each="s:${sList}" th:if="${sList!=null}">
 	                    <td th:text="${s.supportNo}"></td>
 	                    <td th:text="${s.supportCategory}"></td>
