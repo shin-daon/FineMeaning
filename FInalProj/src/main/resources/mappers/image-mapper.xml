@@ -5,7 +5,6 @@
 	<insert id="insertImage">
 		insert into image
 		values(seq_iid.nextval, #{imageUrl}, #{imageName})
-	
 	</insert>
 	
 	<resultMap type="Image" id="imageResultSet">
