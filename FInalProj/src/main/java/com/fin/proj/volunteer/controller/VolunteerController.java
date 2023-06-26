@@ -163,8 +163,92 @@ public class VolunteerController {
 	}
 	
 	@GetMapping("volunteerHistory.vo")
-	public String volunteerHistory() {
+	public String volunteerHistory(@RequestParam(value="page", required=false) Integer currentPage, HttpSession session, Model model) {
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+//		int vHistoryCount = vService.getVolunteerHistoryCount(uNo);
+//		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 5);
+			
+//		ArrayList<Volunteer> vHistories = vService.selectVolunteerHistory(pi, uNo);
+//		model.addAttribute("vHistories", vHistories);
+		
 		return "volunteerHistory";
+	}
+	
+	@PostMapping("applyVolunteer.vo")
+	public String applyVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
+		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
+		int result = vService.applyVolunteer(v);
+		if(result > 0) {
+			return "redirect:volunteerHistory.vo";
+		}
+		throw new VolunteerException("봉사 신청에 실패하였습니다.");
+	}
+	
+	@ResponseBody
+	@RequestMapping("checkVolunteerApply.vo")
+	public void checkVolunteerApply(@RequestParam("vNo") int vNo, @RequestParam("uNo") Integer uNo, PrintWriter out) {
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("vNo", vNo);
+		map.put("uNo", uNo);
+		int count = vService.checkVolunteerApply(map);
+		String result = count == 0 ? "yes" : "no";
+		out.print(result);
+	}
+	
+	@PostMapping("volunteerAjax.vo")
+	public void volunteerAjax(@RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, @RequestParam("vName") String vName, 
+							  @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, @RequestParam("vMainCategoryName") String vMainCategoryName, 
+							  @RequestParam("vActivityType") String vActivityType, @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status,
+							  HttpServletResponse response) {
+		HashMap<String, String> ajaxMap = new HashMap<String, String>();
+		if(vArea.equals("전체")) {
+			vArea = "";
+		} 
+		
+		if(vMainCategoryName.equals("전체")) {
+			vMainCategoryName = "";
+		}
+		
+		if(vActivityType.equals("전체")) {
+			vActivityType = "";
+		}
+		
+		if(vTargetCategoryName.equals("전체")) {
+			vTargetCategoryName = "";
+		}
+		
+		if(status.equals("전체")) {
+			status = "";
+		}
+		
+		ajaxMap.put("vStartDate", vStartDate);
+		ajaxMap.put("vEndDate", vEndDate);
+		ajaxMap.put("vName", vName);
+		ajaxMap.put("registrar", registrar);
+		ajaxMap.put("vArea", vArea);
+		ajaxMap.put("vMainCategoryName", vMainCategoryName);
+		ajaxMap.put("vActivityType", vActivityType);
+		ajaxMap.put("vTargetCategoryName", vTargetCategoryName);
+		ajaxMap.put("status", status);
+		
+		int searchVolunteerAjaxCount = vService.getSearchVolunteerCount(ajaxMap);
+		PageInfo pi = Pagination.getPageInfo(1, searchVolunteerAjaxCount, 5);
+		ArrayList<Volunteer> volunteerList = vService.searchVolunteerByAjax(pi, ajaxMap);
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		data.put("pi", pi);
+		data.put("volunteerList", volunteerList);
+		response.setContentType("application/json; charset=UTF-8");
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		try {
+			gson.toJson(data, response.getWriter());
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	// 관리자
@@ -174,8 +258,27 @@ public class VolunteerController {
 	}
 	
 	@GetMapping("volunteerEnrollHistory.vo")
-	public String volunteerEnrollHistory() {
-		return "volunteerEnrollHistory";
+	public String volunteerEnrollHistory(@RequestParam(value="page", required=false) Integer currentPage, HttpSession session, Model model) {
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+		int vEnrollHistoryCount = vService.getVolunteerEnrollHistoryCount(uNo);
+		PageInfo pi = Pagination.getPageInfo(currentPage, vEnrollHistoryCount, 5);
+			
+		ArrayList<Volunteer> vHistories = vService.selectVolunteerEnrollHistory(pi, uNo);
+		
+		System.out.println(vEnrollHistoryCount);
+		
+		if(vHistories != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("vHistories", vHistories);
+			
+			return "volunteerEnrollHistory";
+		}
+		throw new VolunteerException("봉사 등록 내역 조회에 실패하였습니다.");
 	}
 	
 	@PostMapping("volunteerEdit.vo")
@@ -255,75 +358,4 @@ public class VolunteerController {
 		throw new VolunteerException("봉사 삭제에 실패하였습니다.");
 	}
 	
-	@PostMapping("applyVolunteer.vo")
-	public String applyVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
-		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
-		int result = vService.applyVolunteer(v);
-		if(result > 0) {
-			return "redirect:volunteerHistory.vo";
-		}
-		throw new VolunteerException("봉사 신청에 실패하였습니다.");
-	}
-	
-	@ResponseBody
-	@RequestMapping("checkVolunteerApply.vo")
-	public void checkVolunteerApply(@RequestParam("vNo") int vNo, @RequestParam("uNo") Integer uNo, PrintWriter out) {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map.put("vNo", vNo);
-		map.put("uNo", uNo);
-		int count = vService.checkVolunteerApply(map);
-		String result = count == 0 ? "yes" : "no";
-		out.print(result);
-	}
-	
-	@PostMapping("volunteerAjax.vo")
-	public void volunteerAjax(@RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, @RequestParam("vName") String vName, 
-							  @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, @RequestParam("vMainCategoryName") String vMainCategoryName, 
-							  @RequestParam("vActivityType") String vActivityType, @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status,
-							  HttpServletResponse response) {
-		HashMap<String, String> ajaxMap = new HashMap<String, String>();
-		if(vArea.equals("전체")) {
-			vArea = "";
-		} 
-		
-		if(vMainCategoryName.equals("전체")) {
-			vMainCategoryName = "";
-		}
-		
-		if(vActivityType.equals("전체")) {
-			vActivityType = "";
-		}
-		
-		if(vTargetCategoryName.equals("전체")) {
-			vTargetCategoryName = "";
-		}
-		
-		if(status.equals("전체")) {
-			status = "";
-		}
-		
-		ajaxMap.put("vStartDate", vStartDate);
-		ajaxMap.put("vEndDate", vEndDate);
-		ajaxMap.put("vName", vName);
-		ajaxMap.put("registrar", registrar);
-		ajaxMap.put("vArea", vArea);
-		ajaxMap.put("vMainCategoryName", vMainCategoryName);
-		ajaxMap.put("vActivityType", vActivityType);
-		ajaxMap.put("vTargetCategoryName", vTargetCategoryName);
-		ajaxMap.put("status", status);
-		
-		int searchVolunteerAjaxCount = vService.getSearchVolunteerCount(ajaxMap);
-		PageInfo pi = Pagination.getPageInfo(1, searchVolunteerAjaxCount, 5);
-		ArrayList<Volunteer> volunteerList = vService.searchVolunteerByAjax(pi, ajaxMap);
-		HashMap<String, Object> data = new HashMap<String, Object>();
-		data.put("pi", pi);
-		data.put("volunteerList", volunteerList);
-		response.setContentType("application/json; charset=UTF-8");
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-		try {
-			gson.toJson(data, response.getWriter());
-		} catch (JsonIOException | IOException e) {
-			e.printStackTrace();
-		}
-	}
 }
