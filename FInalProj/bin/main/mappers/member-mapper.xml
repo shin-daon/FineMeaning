@@ -25,12 +25,14 @@
 		<result column="REGISTRAR" property="registrar" />
 		<result column="ENROLL_DATE" property="enrollDate" />
 		<result column="IS_ADMIN" property="isAdmin" />
+		<result column="FAILED_COUNT" property="failedCount" />
+		<result column="LAST_LOGIN_DATE" property="lastLoginDate" />
 	</resultMap>
 	
 	<insert id="insertUser">
 		insert into users
 		values(seq_uid.nextval, #{uId}, #{uPwd}, #{uName}, #{residentNo}, #{address}, #{phone}, #{email},
-				#{uNickName}, default, null, default, #{uType}, #{registrar}, sysdate, default)
+				#{uNickName}, default, null, default, #{uType}, #{registrar}, sysdate, default, default, null)
 	</insert>
 	
 	<select id="checkId" resultType="_int">
@@ -113,5 +115,11 @@
 		from users
 		where u_id = #{uId} and phone = #{phone}
 	</select>
+	
+	<update id="loginFailCount">
+		update users
+		set failed_count = failed_count + 1
+		where u_id = #{uId}
+	</update>
 	
 </mapper>
