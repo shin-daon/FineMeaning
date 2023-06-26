@@ -142,15 +142,18 @@
             <div class="v-list-box" th:each="v : ${ list }">
             	<input type="hidden" th:value="${ v.vNo }"/>
                 <div class="v-list-item">
-                    <span class="v-locale-icon">[[${v.vArea}]]</span><span class="v-recruitment-status">[[${v.vRecruitmentEndDate}]]</span><span class="v-list-category">([[${v.vMainCategoryName}]] > [[${v.vSubCategoryName}]])</span>
+                    <span class="v-locale-icon">[[${v.vArea}]]</span><input type="hidden" th:value="${v.vRecruitmentStartDate}"><span class="v-recruitment-status">[[${v.vRecruitmentEndDate}]]</span><span class="v-list-category">([[${v.vMainCategoryName}]] > [[${v.vSubCategoryName}]])</span>
                     <div class="v-list-title">[[${v.vName}]]</div>
                     <div class="v-list-info">
                         <span class="v-bold">[모집기관]</span><span>[[${v.registrar}]]</span><span class="v-bold">[모집기간]</span><span>[[${v.vRecruitmentStartDate}]]~[[${v.vRecruitmentEndDate}]]</span><span class="v-bold">[봉사기간]</span><span>[[${v.vStartDate}]]~[[${v.vEndDate}]]</span>
                     </div>
                 </div>
                 <div class="v-end-box">
-                    마감
-                    <div><span class="v-end-date">[[${v.vRecruitmentEndDate}]]</span><span>일전</span></div>
+                    <span>마감</span>
+                    <div>
+                    	<input type="hidden" th:value="${v.vRecruitmentStartDate}">
+                    	<span class="v-end-date">[[${v.vRecruitmentEndDate}]]</span><span>일전</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -373,8 +376,12 @@
 		    	const recruitmentStatuses = document.querySelectorAll(".v-recruitment-status");
 			    for(const recruitmentStatus of recruitmentStatuses) {
 			    	if(recruitmentStatus.innerText >= today) {
-			    		recruitmentStatus.innerText = "모집중";
-			    		recruitmentStatus.style.color = "blue";
+			    		if(recruitmentStatus.parentElement.querySelector("input").value <= today) {
+				    		recruitmentStatus.innerText = "모집중";
+				    		recruitmentStatus.style.color = "blue";
+			    		} else {
+			    			recruitmentStatus.innerText = "모집전"
+			    		}
 			    	} else {
 			    		recruitmentStatus.innerText = "모집완료";
 			    	}
@@ -384,11 +391,20 @@
 		    const endDateSetting = () => {
 		    	const endDates = document.querySelectorAll(".v-end-date");
 			    for(const endDate of endDates) {
+			    	endDate.parentElement.parentElement.querySelector("span").innerText = "마감";
 			    	if(endDate.innerText > today) {
-			    		const newDate = new Date(endDate.innerText);
-			    		let diff = Math.abs(now.getTime() - newDate.getTime());
-			    		diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
-			    		endDate.innerText = diff;
+			    		if(endDate.parentElement.querySelector("input").value <= today) {
+			    			const newDate = new Date(endDate.innerText);
+				    		let diff = Math.abs(now.getTime() - newDate.getTime());
+				    		diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
+				    		endDate.innerText = diff;
+				    	} else {
+				    		const newDate = new Date(endDate.parentElement.querySelector("input").value);
+				    		let diff = Math.abs(now.getTime() - newDate.getTime());
+				    		diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
+				    		endDate.parentElement.parentElement.querySelector("span").innerText = "모집";
+				    		endDate.innerText = diff;
+				    	}
 			    	} else if(endDate.innerText == today) {
 			    		endDate.parentElement.parentElement.innerHTML = "<span class='v-end-date'>금일<br/>마감</span>";
 			    	} else {
@@ -542,6 +558,11 @@
 		 						vLocaleIcon.innerText = volunteer.vArea;
 		 						vListItem.appendChild(vLocaleIcon);
 		 						
+		 						const hiddenStartDate1 = document.createElement("input");
+		 						hiddenStartDate1.type = "hidden";
+		 						hiddenStartDate1.value = volunteer.vRecruitmentStartDate;
+		 						vListItem.appendChild(hiddenStartDate1);
+		 						
 		 						const vRecruitmentStatus = document.createElement("span");
 		 						vRecruitmentStatus.classList.add("v-recruitment-status");
 		 						vRecruitmentStatus.innerText = volunteer.vRecruitmentEndDate;
@@ -592,9 +613,16 @@
 		 						
 		 						const vEndBox = document.createElement("div");
 		 						vEndBox.classList.add("v-end-box");
-		 						vEndBox.innerText = "마감";
+		 						
+		 						const textSpan = document.createElement("span");
+		 						vEndBox.appendChild(textSpan);
 		 						
 		 						const vEndDateDiv = document.createElement("div");
+		 						
+		 						const hiddenStartDate2 = document.createElement("input");
+		 						hiddenStartDate2.type = "hidden";
+		 						hiddenStartDate2.value = volunteer.vRecruitmentStartDate;
+		 						vEndDateDiv.appendChild(hiddenStartDate2);
 		 						
 		 						const vEndDate = document.createElement("span");
 		 						vEndDate.classList.add("v-end-date");
