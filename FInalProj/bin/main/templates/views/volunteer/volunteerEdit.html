@@ -72,6 +72,15 @@
         	<form id="vForm" action="updateVolunteer.vo" method="post">
         		<input type="hidden" name="vNo" th:value="${v.vNo}">
         		<input type="hidden" name="page" th:value="${page}">
+        		<input type="hidden" name="sStartDate" th:value="${searchMap.vStartDate}">
+        		<input type="hidden" name="sEndDate" th:value="${searchMap.vEndDate}">
+        		<input type="hidden" name="sName" th:value="${searchMap.vName}">
+        		<input type="hidden" name="sRegistrar" th:value="${searchMap.registrar}">
+        		<input type="hidden" name="sArea" th:value="${searchMap.vArea}">
+        		<input type="hidden" name="sMainCategoryName" th:value="${searchMap.vMainCategoryName}">
+        		<input type="hidden" name="sActivityType" th:value="${searchMap.vActivityType}">
+        		<input type="hidden" name="sTargetCategoryName" th:value="${searchMap.vTargetCategoryName}">
+        		<input type="hidden" name="sStatus" th:value="${searchMap.status}">
 	            <table class="v-table">
 	                <tr>
 	                    <td>지역</td>

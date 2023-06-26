@@ -179,10 +179,26 @@ public class VolunteerController {
 	}
 	
 	@PostMapping("volunteerEdit.vo")
-	public String volunteerEdit(@RequestParam("vNo") int vNo, @RequestParam("page") int page, Model model) {
+	public String volunteerEdit(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, 
+								@RequestParam("vName") String vName, @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, 
+								@RequestParam("vMainCategoryName") String vMainCategoryName, @RequestParam("vActivityType") String vActivityType, 
+								@RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
 		model.addAttribute("v", v);
 		model.addAttribute("page", page);
+		
+		HashMap<String, String> searchMap = new HashMap<String, String>();
+		searchMap.put("vStartDate", vStartDate);
+		searchMap.put("vEndDate", vEndDate);
+		searchMap.put("vName", vName);
+		searchMap.put("registrar", registrar);
+		searchMap.put("vArea", vArea);
+		searchMap.put("vMainCategoryName", vMainCategoryName);
+		searchMap.put("vActivityType", vActivityType);
+		searchMap.put("vTargetCategoryName", vTargetCategoryName);
+		searchMap.put("status", status);
+		model.addAttribute("searchMap", searchMap);
+		
 		return "volunteerEdit";
 	}
 	
@@ -199,13 +215,28 @@ public class VolunteerController {
 	}
 	
 	@PostMapping("updateVolunteer.vo")
-	public String updateVolunteer(@ModelAttribute Volunteer v, @RequestParam("page") int page, HttpSession session, RedirectAttributes ra) {
+	public String updateVolunteer(@ModelAttribute Volunteer v, @RequestParam("page") int page, @RequestParam("sStartDate") String vStartDate, @RequestParam("sEndDate") String vEndDate, 
+								  @RequestParam("sName") String vName, @RequestParam("sRegistrar") String registrar, @RequestParam("sArea") String vArea, 
+								  @RequestParam("sMainCategoryName") String vMainCategoryName, @RequestParam("sActivityType") String vActivityType, 
+								  @RequestParam("sTargetCategoryName") String vTargetCategoryName, @RequestParam("sStatus") String status,
+								  HttpSession session, RedirectAttributes ra) {
 		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
-//		System.out.println(v);
+		
 		int result = vService.updateVolunteer(v);
 		if(result > 0) {
 			ra.addAttribute("vNo", v.getvNo());
 			ra.addAttribute("page", page);
+			
+			ra.addAttribute("vStartDate", vStartDate);
+			ra.addAttribute("vEndDate", vEndDate);
+			ra.addAttribute("vName", vName);
+			ra.addAttribute("registrar", registrar);
+			ra.addAttribute("vArea", vArea);
+			ra.addAttribute("vMainCategoryName", vMainCategoryName);
+			ra.addAttribute("vActivityType", vActivityType);
+			ra.addAttribute("vTargetCategoryName", vTargetCategoryName);
+			ra.addAttribute("status", status);
+			
 			return "redirect:volunteerDetail.vo";
 		}
 		throw new VolunteerException("봉사 수정에 실패하였습니다.");
@@ -227,7 +258,6 @@ public class VolunteerController {
 	@PostMapping("applyVolunteer.vo")
 	public String applyVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
 		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
-//		System.out.println(v);
 		int result = vService.applyVolunteer(v);
 		if(result > 0) {
 			return "redirect:volunteerHistory.vo";

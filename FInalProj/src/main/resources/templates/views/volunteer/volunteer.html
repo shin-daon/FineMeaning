@@ -536,7 +536,7 @@
 	 				success: data => {
 	 					const vList = document.querySelector(".v-list");
 	 					vList.innerHTML = '';
-	 					if(data == '') {
+	 					if(data.volunteerList == '') {
 	 						document.querySelector(".page").style.display = "none";
 	 						$("#resultDiv").show();
 	 					} else {
