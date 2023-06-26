@@ -237,6 +237,13 @@ button[name='loginBtn'] {
 	cursor:pointer;
 }
 
+.kakao-login{
+ 	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border: none;
+	outline: none;
+}
 </style>
 <body>
 <div th:replace="~{views/common/header :: header}"></div>
@@ -283,11 +290,13 @@ button[name='loginBtn'] {
 			    <div class="textOr">또는</div>
 			    <hr class="line-right">
 			  </div>
-			  <button>
-			    <img src="image/kakao_login.png" class="kakao-logo" />
-			  </button>
-			</section>
-			</form>
+			</section>  
+			</form> 
+			<section class="kakao-login">
+			  <button class="kakao-login">
+			    <a href="kakaoConnect.me"><img src="image/kakao_login.png" class="kakao-logo"/></a>
+			  </button>	
+			</section>			
 		</div>
 	</div>
 <br>
