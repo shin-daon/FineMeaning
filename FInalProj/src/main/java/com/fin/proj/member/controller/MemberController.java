@@ -430,8 +430,6 @@ public class MemberController {
 		Timestamp timestamp = new Timestamp(now.getTime());
 		
 		int result = mService.loginFailCount(uId);
-		
-		result += 1;
 			
 		if(result >= 5) {
 			Member failUser = mService.loginFailDate(timestamp);
