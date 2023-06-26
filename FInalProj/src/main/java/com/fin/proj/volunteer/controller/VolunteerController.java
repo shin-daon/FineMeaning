@@ -54,6 +54,26 @@ public class VolunteerController {
 			pi = Pagination.getPageInfo(currentPage, volunteerCount, 5);
 			list = vService.selectVolunteerList(pi);
 		} else {
+			if(vArea.equals("전체")) {
+				vArea = "";
+			} 
+			
+			if(vMainCategoryName.equals("전체")) {
+				vMainCategoryName = "";
+			}
+			
+			if(vActivityType.equals("전체")) {
+				vActivityType = "";
+			}
+			
+			if(vTargetCategoryName.equals("전체")) {
+				vTargetCategoryName = "";
+			}
+			
+			if(status.equals("전체")) {
+				status = "";
+			}
+			
 			HashMap<String, String> searchMap = new HashMap<String, String>();
 			searchMap.put("vStartDate", vStartDate);
 			searchMap.put("vEndDate", vEndDate);
@@ -265,10 +285,13 @@ public class VolunteerController {
 		int searchVolunteerAjaxCount = vService.getSearchVolunteerCount(ajaxMap);
 		PageInfo pi = Pagination.getPageInfo(1, searchVolunteerAjaxCount, 5);
 		ArrayList<Volunteer> volunteerList = vService.searchVolunteerByAjax(pi, ajaxMap);
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		data.put("pi", pi);
+		data.put("volunteerList", volunteerList);
 		response.setContentType("application/json; charset=UTF-8");
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		try {
-			gson.toJson(volunteerList, response.getWriter());
+			gson.toJson(data, response.getWriter());
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		}
