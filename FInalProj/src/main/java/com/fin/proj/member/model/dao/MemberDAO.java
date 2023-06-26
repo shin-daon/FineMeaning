@@ -1,5 +1,6 @@
 package com.fin.proj.member.model.dao;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -40,5 +41,7 @@ public interface MemberDAO {
 	int searchPhoneUser2(HashMap<String, String> map);
 
 	int loginFailCount(String uId);
+
+	Member loginFailDate(Timestamp timestamp);
 
 }

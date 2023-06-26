@@ -1,17 +1,17 @@
 package com.fin.proj.member.controller;
 
 import java.io.PrintWriter;
+import java.util.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -182,7 +182,7 @@ public class MemberController {
 		int result = mService.deleteUser(uId);
 		
 		if(result > 0) {
-			return "redirect:logout.me";
+			return "redirect:/logout.me";
 		} else {
 			throw new MemberException("회원 탈퇴에 실패하였습니다.");
 		}
@@ -424,11 +424,19 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="loginFailCount.me")
-	public void loginFailCount(Member m, @RequestParam("uId") String uId, PrintWriter out) {
+	public void loginFailCount(Member m, @RequestParam("uId") String uId, Model model, PrintWriter out) {
 		
-		int count = mService.loginFailCount(uId);
+		Date now = new Date();
+		Timestamp timestamp = new Timestamp(now.getTime());
 		
-		String result = count == 0 ? "yes" : "no";		
-		out.print(count);	
+		int result = mService.loginFailCount(uId);
+		
+		result += 1;
+			
+		if(result >= 5) {
+			Member failUser = mService.loginFailDate(timestamp);
+			System.out.println(failUser);
+		}
+		out.print(result);	
 	}	
 }

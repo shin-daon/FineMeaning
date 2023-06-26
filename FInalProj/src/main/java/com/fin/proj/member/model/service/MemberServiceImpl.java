@@ -1,5 +1,6 @@
 package com.fin.proj.member.model.service;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +94,10 @@ public class MemberServiceImpl implements MemberService {
 	public int loginFailCount(String uId) {
 		return mDAO.loginFailCount(uId);
 	}
-
+	
+	@Override
+	public Member loginFailDate(Timestamp timestamp) {
+		return mDAO.loginFailDate(timestamp);
+	}
 
 }

@@ -122,4 +122,10 @@
 		where u_id = #{uId}
 	</update>
 	
+	<update id="loginFailDate">
+		update users
+		set last_login_date = #{timestamp}
+		where u_id = #{uId}
+	</update>
+	
 </mapper>

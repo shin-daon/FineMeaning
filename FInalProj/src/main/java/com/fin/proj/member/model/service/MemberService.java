@@ -1,5 +1,6 @@
 package com.fin.proj.member.model.service;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 import com.fin.proj.member.model.vo.Member;
@@ -37,5 +38,7 @@ public interface MemberService {
 	int searchPhoneUser2(HashMap<String, String> map);
 
 	int loginFailCount(String uId);
+
+	Member loginFailDate(Timestamp timestamp);
 
 }
