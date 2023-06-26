@@ -61,13 +61,13 @@
 		select * from support join users using(u_no) where s_status='W' or s_status ='N' order by s_status desc
 	</select>
 	
-	<select id="getDListCount" resultType="_int">
-		select count(*) from support where s_status = #{devision}
-	</select>
+<!-- 	<select id="getDListCount" resultType="_int"> -->
+<!-- 		select count(*) from support where s_status = #{devision} -->
+<!-- 	</select> -->
 	
-	<select id="selectApplyDevision" resultMap="supportResultSet">
-		select * from support join users using(u_no) where s_status= #{devision} order by S_CREATE_DATE desc
-	</select>
+<!-- 	<select id="selectApplyDevision" resultMap="supportResultSet"> -->
+<!-- 		select * from support join users using(u_no) where s_status= #{devision} order by S_CREATE_DATE desc -->
+<!-- 	</select> -->
 	
 	<update id="updateApplyStatus">
 		update support set s_status= #{status} where s_no = #{supportNo}
@@ -150,7 +150,8 @@
 		</if> 
 		<if test="status != 'A'">
 		and S_status = #{status}
-		</if> 
+		</if>
+		order by s_no desc 
 	</select>
 	
 	<insert id="insertSupporter">
@@ -181,7 +182,6 @@
 			and s_category = #{supportCategory} and s_title like '%${supportTitle}%'
 		</if>
 		order by s_no desc
-<!-- 		select count(*) from support where S_CATEGORY = #{category} and sysdate &lt;= s_end_date and S_STATUS ='Y' -->
 	</select>
 	
 	<select id="selectCategoryListAdmin" resultMap="supportResultSet">
@@ -193,7 +193,6 @@
 			and s_category = #{supportCategory} and s_title like '%${supportTitle}%'
 		</if>
 		order by s_no desc
-<!-- 		select * from support where S_CATEGORY = #{category} and sysdate &lt;= s_end_date and S_STATUS ='Y' -->
 	</select>
 	
 	<update id="updateFundAmount">
@@ -238,4 +237,55 @@
    			 order by s_his_paydate desc)
 		where rownum &lt; =3 
 	</select>
+	
+	<select id="getCateEndListCount" resultType="_int">
+		select count(*) from support where sysdate &gt;= s_end_date and S_STATUS ='Y'
+		<if test="supportTitle == null">
+			and s_category = #{supportCategory}
+		</if>
+		<if test="supportTitle != null">
+			and s_category = #{supportCategory} and s_title like '%${supportTitle}%'
+		</if>
+		order by s_no desc
+	</select>
+	
+	<select id="cateEndSupportList" resultMap="supportResultSet">
+		select * from support where sysdate &gt;= s_end_date and S_STATUS ='Y'
+		<if test="supportTitle == null">
+			and s_category = #{supportCategory}
+		</if>
+		<if test="supportTitle != null">
+			and s_category = #{supportCategory} and s_title like '%${supportTitle}%'
+		</if>
+		order by s_no desc
+	</select>
+	
+	<select id="getApplyListAdmin" resultType="_int">
+		select count(*) from support where S_status != 'Y'
+		<if test="supportTitle != 'searchNone'">
+		and S_TITLE like '%${supportTitle}%'
+		</if> 
+		<if test="supportCategory != 'cateNone'">
+		and S_category = #{supportCategory}
+		</if> 
+		<if test="status != 'A'">
+		and S_status = #{status}
+		</if> 
+	</select>
+	
+	<select id="applyListAdmin" resultMap="supportResultSet">
+		select * from support where S_status != 'Y'
+		<if test="supportTitle != 'searchNone'">
+		and S_TITLE like '%${supportTitle}%'
+		</if> 
+		<if test="supportCategory != 'cateNone'">
+		and S_category = #{supportCategory}
+		</if> 
+		<if test="status != 'A'">
+		and S_status = #{status}
+		</if>
+		order by s_no desc 
+	</select>
+	
+	
 </mapper>

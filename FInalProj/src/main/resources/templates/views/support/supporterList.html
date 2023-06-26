@@ -49,7 +49,15 @@
 	                    <td class="supportDetail" th:text="${s.supportTitle}"></td>
 	                    <td th:text="${s.supporterName}"></td>
 	                    <td th:text="${s.supporterType}"></td>
-	                    <td th:text="${s.supportAmount}"></td>
+	                    <td>
+	                    	<script th:inline="javascript">
+						        /*<![CDATA[*/
+		                    	var amount = /*[[${s.supportAmount}]]*/'0'; // 숫자 변수
+						        var formattedAmount = amount.toLocaleString(); // 원하는 형식으로 포맷
+						        document.write(formattedAmount + '원'); // 포맷된 값을 출력
+						        /*]]*/
+				    		</script>
+	                    </td>
 	                    <td th:text="${s.payType}"></td>
 	                    <td th:text="${s.payDate}"></td>
 	                    <input type="hidden" th:value="${s.supportNo}">
