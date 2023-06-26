@@ -39,4 +39,6 @@ public interface BoardService {
 
 	int searchListCount(HashMap<String, Object> params);
 
+	ArrayList<Reply> selectReplyList(PageInfo pageInfo, int bNo);
+
 }

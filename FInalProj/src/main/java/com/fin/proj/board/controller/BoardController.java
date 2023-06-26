@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -278,7 +279,7 @@ public class BoardController {
 	
 	@GetMapping("fruitDetail.bo")
 	public String fruitDetail(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
-							  HttpSession session, Model model) {
+							  HttpSession session, Model model, @RequestParam(value="replyPage", required=false) Integer replyPage) {
 		
 		Member m = (Member)session.getAttribute("loginUser");
 //		System.out.println(m);
@@ -291,13 +292,22 @@ public class BoardController {
 		Board board = bService.selectBoard(bNo, countYN);
 //		System.out.println(board);
 		
-		ArrayList<Reply> replyList = bService.selectReply(bNo);
-//		System.out.println(replyList);
+		if(replyPage == null) {
+			replyPage = 1;
+		}
+		
+		int replyListCount = bService.replyCount(bNo);
+		PageInfo pageInfo = Pagination.getPageInfo(replyPage, replyListCount, 5);
+		ArrayList<Reply> replyList = bService.selectReplyList(pageInfo, bNo);
+//		System.out.println(pageInfo);
+//		ArrayList<Reply> replyList = bService.selectReply(bNo);
 		
 		if(board != null) {
 			model.addAttribute("board", board);
 			model.addAttribute("page", page);
 			model.addAttribute("replyList", replyList);
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("bNo", bNo);
 			return "fruit_detail";
 		} else {
 			throw new BoardException("게시글 상세 조회 실패");
@@ -435,16 +445,28 @@ public class BoardController {
 	
 	// 댓글
 	@RequestMapping("insertReply.bo")
-	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
-		
-		System.out.println(r);
+	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response, @RequestParam("page") int page,
+							Model model) {
+		//@RequestParam(value="replyPage", required=false) Integer replyPage, 
+//		System.out.println(r);
 		bService.insertReply(r);
 		
-		ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
+//		if(replyPage == null) {
+//			replyPage = 1;
+//		}
+		
+		int replyListCount = bService.replyCount(r.getBoardNo());
+		PageInfo pageInfo = Pagination.getPageInfo(1, replyListCount, 5);
+//		System.out.println(pageInfo);
+		ArrayList<Reply> list = bService.selectReplyList(pageInfo, r.getBoardNo());
+		
 		response.setContentType("application/json; charset=UTF-8");
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd / HH:mm:ss").create();
 		try {
-			gson.toJson(list, response.getWriter());
+			Map<String, Object> data = new HashMap<>();
+			data.put("list", list);
+			data.put("pi", pageInfo);
+			gson.toJson(data, response.getWriter());
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		} 
@@ -480,16 +502,15 @@ public class BoardController {
 	}
 	
 	// my page
-	@GetMapping("myBoard.bo")
-	public String myBoard() {
-		return "myBoard";
-	}
-	
 	@GetMapping("myReply.bo")
 	public String myReply() {
 		return "myReply";
 	}
 	
+	@GetMapping("myBoard.bo")
+	public String myBoard() {
+		return "myBoard";
+	}
 	
 	@GetMapping("commList.bo")
 		public String CommMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,

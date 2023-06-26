@@ -134,7 +134,7 @@
 	<select id="replyCount" resultType="_int">
 		select count(*)
 		from reply
-		where board_no = #{boardNo}
+		where board_no = #{boardNo} and re_status = 'Y'
 	</select>
 	
 	<update id="deleteReplyAll">
