@@ -131,5 +131,4 @@ public class BoardServiceImpl implements BoardService {
 	public int myReplyCount(int uNo) {
 		return bDAO.myReplyCount(uNo);
 	}
-
 }
