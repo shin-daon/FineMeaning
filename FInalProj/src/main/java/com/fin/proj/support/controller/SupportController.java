@@ -211,17 +211,26 @@ public class SupportController {
 
 	@RequestMapping("applyDevision.su")
 	public String applyDevision(@RequestParam(value = "page", required = false) Integer currentPage,
-			@RequestParam("division") String division, Model model) {
+			@RequestParam("status") String status,@RequestParam("supportCategory") String category, @RequestParam("supportTitle") String searchWord, Model model) {
 		if (currentPage == null) {
 			currentPage = 1;
 		}
+		
+		Support s = new Support();
+		s.setSupportCategory(category);
+		s.setSupportTitle(searchWord);
+		s.setStatus(status.charAt(0));
 
-		int listCount = suService.getDListCount(division);
+		int listCount = suService.getApplyListCount(s);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
-		ArrayList<Support> sList = suService.applyDevision(pi, division);
+		ArrayList<Support> sList = suService.applyListAdmin(pi, s);
 
 		model.addAttribute("sList", sList);
 		model.addAttribute("pi", pi);
+		model.addAttribute("category", category);
+		model.addAttribute("status", status);
+		model.addAttribute("searchWord", searchWord);
+		
 		return "supportApplicationListAdmin";
 
 	}
@@ -615,6 +624,43 @@ public class SupportController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("categoryEndListAdmin.su")
+	public String categoryEndListAdmin(@RequestParam("category") String category,
+										@RequestParam(value = "page", required = false) Integer currentPage,
+										@RequestParam(value = "searchWord", required=false) String searchWord, Model model) {
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+		
+		Support s = new Support();
+		s.setSupportCategory(category);
+		s.setSupportTitle(searchWord);
+		
+		int listCount = suService.getCateEndListCount(s);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Support> sList = suService.cateEndSupportList(pi, s);
+		
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("category", category);
+		model.addAttribute("sList", sList);
+		model.addAttribute("pi", pi);
+		return "supportEndListAdmin";
+	}
+	
+	@RequestMapping("deleteSupport.su")
+	public String deleteSupport(@RequestParam("supportNo") int supportNo) {
+		Support s = new Support();
+		s.setStatus('N');
+		s.setSupportNo(supportNo);
+		int result = suService.updateApplyStatus(s);
+		if (result > 0) {
+			return "redirect:supportMain.su";
+		} else {
+			throw new SupportException("후원 삭제에 실패하였습니다.");
 		}
 	}
 }

@@ -263,4 +263,33 @@ public class SupportServiceImpl implements SupportService {
 		return suDAO.currentSupporter(supportNo);
 	}
 
+
+	@Override
+	public int getCateEndListCount(Support s) {
+		return suDAO.getCateEndListCount(s);
+	}
+
+
+	@Override
+	public ArrayList<Support> cateEndSupportList(PageInfo pi, Support s) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return suDAO.cateEndSupportList(rowBounds, s);
+	}
+
+
+	@Override
+	public int getApplyListCount(Support s) {
+		return suDAO.getApplyListAdmin(s);
+	}
+
+
+	@Override
+	public ArrayList<Support> applyListAdmin(PageInfo pi, Support s) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return suDAO.applyListAdmin(rowBounds, s);
+	}
+
 }
