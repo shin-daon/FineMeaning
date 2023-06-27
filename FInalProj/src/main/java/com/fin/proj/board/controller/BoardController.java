@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -61,7 +64,7 @@ public class BoardController {
 			listCount = bService.searchListCount(map);
 			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.searchByTitle(pageInfo, map);
-//			System.out.println(list);
+			System.out.println(list);
 		} else {
 			listCount = bService.getListCount("자주 묻는 질문");
 			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
@@ -462,7 +465,6 @@ public class BoardController {
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
 			model.addAttribute("list", list);
-//			System.out.println(list);
 			return "fineNews";
 		} else {
 			throw new BoardException("게시글 목록 조회 실패");
@@ -539,7 +541,7 @@ public class BoardController {
 		if(result > 0) {
 			ra.addAttribute("bNo", boardNo);
 			ra.addAttribute("page", page);
-			return "redirect:fruitDetail.bo";
+			return "redirect:fruit_detail.bo";
 		} else {
 			throw new BoardException("댓글 삭제에 실패하였습니다.");
 		}
@@ -967,6 +969,38 @@ public class BoardController {
 		model.addAttribute("b", board);
 		model.addAttribute("page", page);
 		return "editQa";
+	}
+	
+	@PostMapping("/api/replies")
+	@ResponseBody
+	public ArrayList<Reply> insertQaReply(@RequestBody Reply r) {
+	    bService.insertReply(r);
+	    ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
+	    return list;
+	}
+	
+	@DeleteMapping("/api/replies/{replyNo}")
+	@ResponseBody
+	public ArrayList<Reply> deleteReply(@PathVariable int replyNo, @RequestParam int boardNo) {
+	    bService.deleteReply(replyNo);
+	    ArrayList<Reply> list = bService.selectReply(boardNo);
+	    return list;
+	}
+	
+	@RequestMapping("qaDelete.bo")
+	public String deleteQaBoard(@RequestParam("bId") String encode) {
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(encode);
+		String decode = new String(byteArr);
+		int bId = Integer.parseInt(decode);
+		
+		int result = bService.deleteBoard(bId);
+		if(result > 0) {
+			return "redirect:qaList.bo";
+		} else {
+			throw new BoardException("게시글 삭제 실패했습니다.");
+		}
 	}
 	
 	@GetMapping("replyQa.bo")

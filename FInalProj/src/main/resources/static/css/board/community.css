@@ -246,6 +246,116 @@ button {
     border-radius: 10px;
 }
 
+.qaTable {
+    width: 750px;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.qaSubmit{
+	width: 60px;
+	height: 30px;
+	background-color: #9DC08B;
+	color: white;
+	border-radius: 0.4rem;
+	cursor: pointer;
+	border: 1px solid black;
+	font-size: 14px;
+	margin-bottom: 15px;
+	/* 추가로 learn-more 클래스 스타일을 더 구체적으로 지정합니다 */
+	font-weight: 600;
+	color: #382b22;
+	text-transform: uppercase;
+	background: #EDF1D6;
+	border: 2px solid #609966;
+	border-radius: 0.75em;
+	transform-style: preserve-3d;
+	transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background
+		150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.qaText{
+	width:500px;
+	height:200px;
+	padding-top: 5px;
+}
+
+.qa{
+	width:730px;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.qaSt {
+  display: flex;
+  align-items: flex-start;
+}
+
+.qaData {
+  display: flex;
+  align-items: center;
+}
+
+.replyWriter, .replyDate {
+  margin: 0;
+  white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+}
+.reply{
+	width:730px;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 15px;
+    border-radius: 10px;
+    
+}
+
+.qaThr{
+	display: flex;
+  	align-items: flex-start;
+}
+
+.qaContent{
+	font-weight:bold;
+	margin: 0;
+}
+
+.qaList{
+	width: 100px;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+
 .qaInfo {
   border: 1px solid black;
   padding: 10px;
@@ -379,27 +489,6 @@ th, td {
 	background-color: #99b093;
 }
 
-.reply {
-	align-self: center;
-	width: 540px;
-	min-height: 50px;
-	height: auto;
-	background-color: #f3f5ed;
-	border: 1px dashed black;
-	border-radius: 15px;
-	display: flex;
-	flex-direction: column;
-	margin-bottom: 10px;
-}
-
-.replyRow1 {
-	width: 540px;
-	height: 40px;
-	display: flex;
-	justify-content: space-between; /* 추가된 부분 */
-	align-items: center; /* 추가된 부분 */
-	padding: 15px 15px 10px 15px;
-}
 
 .replyInfo {
 	display: flex;
@@ -408,7 +497,6 @@ th, td {
 .replyWriter {
 	margin-right: 10px;
 	font-size: 15px;
-	text-decoration: #9DC08B wavy underline;
 }
 
 .replyDate {
