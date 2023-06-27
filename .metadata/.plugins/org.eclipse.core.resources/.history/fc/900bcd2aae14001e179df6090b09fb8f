@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/support/supportListAdmin.css">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Document</title>
+
+</head>
+<body>
+	<div th:replace="~{../common/header :: header}"></div>	
+	<section style="display: flex;">
+    <div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
+    
+		<section id="supportListSection">
+
+        <div>
+            <div id="supportList">후원자 목록</div>
+        </div>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle" href="#">관리자 페이지</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">후원 목록</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">후원자 목록</a>
+        </div>
+
+        <table class="supportTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th style="width: 350px;">후원글</th>
+                    <th>후원자</th>
+                    <th>후원 타입</th>
+                    <th>후원 금액</th>
+                    <th>결제 방법</th>
+                    <th>후원 날짜</th>
+                </tr>
+            </thead>
+            <tbody>
+	                <tr th:each="s:${shList}" th:if="${shList!=null}">
+	                    <td th:text="${s.supportHistoryNo}"></td>
+	                    <td class="supportDetail" th:text="${s.supportTitle}"></td>
+	                    <td th:text="${s.supporterName}"></td>
+	                    <td th:text="${s.supporterType}"></td>
+	                    <td>
+	                    	<script th:inline="javascript">
+						        /*<![CDATA[*/
+		                    	var amount = /*[[${s.supportAmount}]]*/'0'; // 숫자 변수
+						        var formattedAmount = amount.toLocaleString(); // 원하는 형식으로 포맷
+						        document.write(formattedAmount + '원'); // 포맷된 값을 출력
+						        /*]]*/
+				    		</script>
+	                    </td>
+	                    <td th:text="${s.payType}"></td>
+	                    <td th:text="${s.payDate}"></td>
+	                    <input type="hidden" th:value="${s.supportNo}">
+	                </tr>
+<!-- 	                <th:block th:if="${shList == null}"> -->
+		                <tr th:if="${shList.isEmpty}">
+		                	<td colspan="7">아직 후원자가 없습니다.</td>
+		                <tr>
+<!--                 	</th:block> -->
+	                <script th:inline="javascript">
+	                	/*<![CDATA[*/
+	                		const data = /*[[${shList}]]*/'data';
+	                		console.log(data)
+	                	/*]]>*/
+	                </script>
+	                
+            </tbody>
+        </table>
+        <script th:inline="javascript">
+        	/*<![CDATA[*/
+        		const supportNo = /*[[${supportNo}]]*/'0';
+        	/*]]>*/
+        	if(supportNo != null){
+	        	const supportDetails = document.querySelectorAll('.supportDetail')
+				for(const supportDetail of supportDetails){	        	
+		        	if(supportDetail !=null){
+		        		supportDetail.addEventListener('click', ()=>{
+		        			location.href="supportDetail.su?supportNo="+supportNo;
+		        		})
+		        	}
+				}        		
+        	} else{
+        		const trs = document.querySelector('tbody').querySelectorAll('tr')
+        		for(const tr of trs){
+					if(tr.querySelector('td').innerText!='아직 후원자가 없습니다.'){
+						tr.addEventListener('click', function(){
+							const supportNo = tr.querySelector('input').value
+							location.href="supportDetail.su?supportNo="+supportNo;
+						})
+					}	
+        		}
+        	}
+        	
+        </script>
+        
+        <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
+            <ul class="pagination">
+                <li th:if="${ pi.currentPage > 1 }">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage > 1 }">
+	                	<img class="arrowKey disabled" src="image/before.png">
+                </li>
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0}">
+                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                <li th:if="${ pi.currentPage < pi.maxPage} ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage < pi.maxPage }">
+	                	<img class="arrowKey disabled" src="image/next.png">
+                </li>
+            </ul>
+        </div>
+    </section>
+		
+</section>
+
+<div th:replace="~{../common/footer :: footer}"></div>
+
+</body>
+</html>

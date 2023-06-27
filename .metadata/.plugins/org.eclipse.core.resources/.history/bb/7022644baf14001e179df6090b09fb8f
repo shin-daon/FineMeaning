@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/support/supportApplicationListUser.css">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Document</title>
+<style>
+
+
+</style>
+</head>
+<body>
+	<div th:replace="~{../common/header :: header}"></div>
+	
+	<section style="display: flex;">
+    <div th:replace="~{../common/sidebar :: sidebar}"></div>
+    
+		<section id="supportListSection">
+
+        <div>
+            <div id="supportList">후원 신청 내역</div>
+        </div>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle" href="#">마이 페이지</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">후원 신청 내역</a>
+        </div>
+
+
+			
+
+
+			<div style="display:flex; width:1000px;">
+				<div style="float:left; margin-bottom:2px;">
+				<span class="dropdown" id="area-dropdown">
+	                <th:block th:if="${category == null || category == 'cateNone' || catagory ==''}">
+		                <button type="button" class="dropdown-btn" id="areabtn">카테고리</button>
+	                </th:block>
+	                <th:block th:if="${category != null && category !='cateNone'}">
+		                <button type="button" class="dropdown-btn" id="areabtn">[[${category}]]</button>
+	                </th:block>
+	                
+	                <div class="dropdown-content" id="area-content">
+	                	<span class="selectArea" th:if="${category != null}">전체</span>
+	                    <span class="selectArea">사람</span>
+	                    <span class="selectArea">동물</span>
+	                    <span class="selectArea">환경</span>
+	                    <span class="selectArea">기타</span>
+	                </div>
+	            </span>
+	            </div>
+	           
+	            
+	              
+				<div class="actionArea" style="float:right;">
+				
+	            <div class="searchArea">
+	            	<th:block th:if="${searchWord==null || searchWord == 'searchNone' || seachWord==''}">
+	                	<input class="searchInput" type="text" name="searchWord" placeholder="제목으로 검색"/>
+	                </th:block>
+	            	<th:block th:if="${searchWord!=null && searchWord !='searchNone'}">
+	                	<input class="searchInput" type="text" name="searchWord" th:value="${searchWord}"/>
+	                </th:block>
+	                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
+	            </div>
+				<div class="statusDiv" style="float:right; margin-top:5px;">
+					<span class="statusSpan">승인 완료 <input type="hidden" value="Y"></span> |
+					<span class="statusSpan">승인 대기 <input type="hidden" value="W"></span> |
+					<span class="statusSpan">승인 반려 <input type="hidden" value="N"></span> 
+				</div>
+	        	</div>
+	        	
+        	</div>
+        	<form action="searchApplyList.su" method="get" id="searchMyList">
+        		<th:block th:if="${status==null || status =='A'}">
+					<input class="statusInput" type="hidden" name="status" value="A">
+				</th:block>
+				<th:block th:if="${status!=null && status !='A'}">
+					<input class="statusInput" type="hidden" name="status" th:value="${status}">
+				</th:block>
+        		<th:block th:if="${category==null}">
+					<input class="categoryInput" type="hidden" name="supportCategory" value="cateNone">
+				</th:block>
+				<th:block th:if="${category!=null}">
+					<input class="categoryInput" type="hidden" name="supportCategory" th:value="${category}">
+				</th:block>				
+        		<th:block th:if="${searchWord == null}">
+					<input class="searchInput" type="hidden" name="supportTitle" value="searchNone">
+				</th:block>
+				<th:block th:if="${searchWord !=null}">
+					<input class="searchInput" type="hidden" name="supportTitle" th:value="${searchWord}">
+				</th:block>
+				
+        	</form>
+			<script>
+				const searchButton = document.getElementsByClassName('searchIcon')[0].addEventListener('click',()=>{
+					const searchWord = document.getElementsByClassName('searchInput')[0].value;
+					console.log(searchWord)
+					document.getElementsByClassName('searchInput')[1].value = searchWord;
+					document.getElementById('searchMyList').submit();
+				})
+				
+				const statusSpans = document.querySelectorAll('.statusSpan');
+				for(const statusSpan of statusSpans){
+					statusSpan.addEventListener('click', function(){
+						const status = this.querySelector('input').value;
+						document.querySelector('.statusInput').value=status;
+						document.getElementById('searchMyList').submit();
+					})
+				}
+				
+				document.querySelector('.dropdown-btn').addEventListener('click', ()=>{
+					document.querySelector('.dropdown-content').style.display='block';
+					const categorys = document.getElementsByClassName('selectArea')
+					for(category of categorys){
+						category.addEventListener('click', function(){
+							const category = this.innerText
+							if(category =='전체'){
+								location.href="supportApplicationListUser.su";
+							} else{								
+								document.querySelector('.categoryInput').value=category;
+								document.getElementById('searchMyList').submit();
+							}
+						})
+					}
+				})
+				
+				document.addEventListener('keyup', function(event) {
+				    if (event.key == 'Enter') {
+				        var searchIcons = document.getElementsByClassName('searchIcon');
+				        if (searchIcons.length > 0) {
+				            var searchIcon = searchIcons[0];
+				            var clickEvent = new MouseEvent('click', {
+				                bubbles: true,
+				                cancelable: true,
+				                view: window
+				            });
+				            searchIcon.dispatchEvent(clickEvent);
+				        }
+				    }
+				});
+			
+			</script>
+			<script th:inline="javascript">
+				window.onload=()=>{
+					/*<![CDATA[*/
+						const pageStatus = /*[[${status}]]*/'status';
+					/*]]>*/
+					if(pageStatus=='Y'){
+						document.getElementsByClassName('statusSpan')[0].style.fontWeight='bolder'
+					} else if(pageStatus=='W'){
+						document.getElementsByClassName('statusSpan')[1].style.fontWeight='bolder'
+					} else if(pageStatus=='N'){
+						document.getElementsByClassName('statusSpan')[2].style.fontWeight='bolder'
+					}
+					
+					const statuses = document.querySelectorAll('.supportStatusTd')
+					for(const status of statuses){
+						if(status.querySelector('span').innerText=='승인 반려'){
+							status.parentElement.style.color='lightgrey';
+							
+						}
+					}
+					
+				}
+			</script>			
+
+        <table class="supportTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>카테고리</th>                    
+                    <th style="width: 350px;">후원 프로젝트 제목</th>
+                    <th>희망 모금액</th>
+                    <th>신청 날짜</th>
+                    <th>승인 상태</th>
+                </tr>
+            </thead>
+            <tbody>
+            		<tr th:if="${sList.isEmpty}">
+		               	<td colspan="6">후원 신청 내역이 없습니다.</td>
+		            <tr>
+	                <tr th:each="s : ${sList}" th:if="${ sList != null }">
+	                    <td th:text="${s.supportNo}"></td>
+	                    <td th:text="${s.supportCategory}"></td>
+	                    <td>[[${s.supportTitle}]]</td>
+	                    <td>
+	                    	<script th:inline="javascript">
+						        /*<![CDATA[*/
+		                    	var amount = /*[[${s.targetAmount}]]*/'0'; // 숫자 변수
+						        var formattedAmount = amount.toLocaleString(); // 원하는 형식으로 포맷
+						        document.write(formattedAmount + '원'); // 포맷된 값을 출력
+						        /*]]*/
+				    		</script>
+	                    </td>
+	                    <td th:text="${s.createDate}"></td>
+	                    <td class="supportStatusTd">
+		                    <th:block th:switch="${s.status}">
+		                    	<span th:case="W">승인 대기</span>
+		                    	<span th:case="N">승인 반려</span>
+		                    	<span th:case="Y">승인 완료</span>
+		                    </th:block>
+		                </td>    
+	                </tr>
+	                <tr th:if="${ sList == null }">
+	                    <td colspan="5">조회 결과가 없습니다.</td>
+	                </tr>
+	                
+            </tbody>
+        </table>
+		
+		<div class="buttonArea">
+	        <div th:if="${session.loginUser.registrar ==null}" class="buttonSection">
+		        <div class="buttonSection">
+					<button class="learn-more" id="notLogin">후원 신청하기</button>
+				</div>
+			</div>
+			
+			<div th:if="${session.loginUser.registrar != null}" class="buttonSection">
+				<div class="buttonSection">
+					<button class="learn-more" onclick="location.href='supportWrite.su'">후원 신청하기</button>
+				</div>
+			</div>
+        </div>
+		
+       <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
+            <ul class="pagination">
+                <li th:if="${ pi.currentPage > 1 }">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage > 1 }">
+	                	<img class="arrowKey disabled" src="image/before.png">
+                </li>
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0}">
+                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                <li th:if="${ pi.currentPage < pi.maxPage} ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage < pi.maxPage }">
+	                	<img class="arrowKey disabled" src="image/next.png">
+                </li>
+            </ul>
+        </div>
+        
+    </section>
+		
+</section>
+
+<div th:replace="~{../common/footer :: footer}"></div>  
+<script>	
+	const trs = document.getElementsByClassName('supportTable')[0].querySelectorAll('tr');
+	for(const tr of trs){
+		tr.addEventListener('click', function(){
+			const supportNo = this.querySelector('td').innerText;
+			location.href= "supportDetail.su?supportNo=" + supportNo;
+		})
+	}
+	
+	
+</script>
+</body>
+</html>
