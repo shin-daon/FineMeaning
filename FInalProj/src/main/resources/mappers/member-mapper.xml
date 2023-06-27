@@ -122,4 +122,32 @@
 		where u_id = #{uId}
 	</update>
 	
+	<update id="loginFailDate">
+		update users
+		set last_login_date = #{timestamp}
+		where u_id = #{uId}
+	</update>
+	
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from users
+	</select>
+	
+	<select id="selectUserList" resultMap="memberResultSet">
+	  select *
+	  from users
+	  order by u_no desc
+	</select>
+	
+	<select id="getUserListCount" resultType="_int">
+		select count(*)
+		from users
+		where u_no = #{uNo}
+	</select>
+	
+	<select id="selectUserListEach" resultMap="memberResultSet">
+		select *
+		from users
+		where u_no = #{uNo}
+	</select>
 </mapper>
