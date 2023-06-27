@@ -139,27 +139,28 @@ button.writeFaqBtn.learn-more {
 			</table>
 
 			<th:block
-				th:if="${session.loginUser != null && session.loginUser.uNo eq board.uNo}">
+				th:if="${session.loginUser != null && session.loginUser.uNo eq board.uNo || session.loginUser.isAdmin == 0}">
 				<div class="actionArea">
 					<div class="writeArea">
 						<button class="writeFaqBtn learn-more"
 							onclick="location.href='editQa.bo'">수정하기</button>
-						<button class="writeFaqBtn learn-more" type="button"
-							id="deleteModal">삭제하기</button>
+						<button class="writeFaqBtn learn-more" type="button" id="deleteModal">삭제하기</button>
 					</div>
 				</div>
 			</th:block>
 		</form>
 
 		<div class="qaTable">
-			<div class="qaTitle"><h3>문의답변</h3></div>
+			<div class="qaTitle"><h3>문의답변 및 재문의</h3><h6>(관리자와 작성자만 이용가능합니다)</h6>
+			</div>
 			<hr>
-			<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0}">
+			<th:block th:if="${ session.loginUser != null && session.loginUser.uNo eq board.uNo || session.loginUser.isAdmin == 0}">
 				<div class="qaWrite">
-					<input type="text" class="qaText" required />
+					<input type="text" class="qaText" required/>
 					<button type="submit" class="qaSubmit">작성</button>
 				</div>
 			</th:block>
+			<br><hr><br>
 
 			<div id="qaList">
 				<div class="reply" th:each=" r : ${replyList}">
@@ -168,12 +169,13 @@ button.writeFaqBtn.learn-more {
 							<div class="replyWriter" th:text="${ r.nickName }"></div>
 							<div class="replyDate" th:text="${ r.replyTime }"></div>
 						</div>
+						&nbsp;&nbsp;&nbsp;
 						<div class="qaEnd">
 							<div class="replySet">
 								<th:block
 									th:if="${ session.loginUser != null && session.loginUser.uNo == r.replyWriter }">
 									<a class="deleteTag"
-										th:onclick="deleteReply([[${r.replyNo}]], [[${r.boardNo}]], [[${page}]])">답변 삭제</a>
+										th:onclick="deleteReply([[${r.replyNo}]], [[${r.boardNo}]], [[${page}]])">삭제</a>
 								</th:block>
 							</div>
 						</div>
@@ -199,7 +201,7 @@ button.writeFaqBtn.learn-more {
 					<div class="modal-footer flex-nowrap p-0">
 						<button type="button"
 							class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
-							th:onclick="location.href='Commdelete.bo?bId='+btoa([[${board.boardNo}]])">
+							th:onclick="location.href='qaDelete.bo?bId='+btoa([[${board.boardNo}]])">
 							<strong>네</strong>
 						</button>
 						<button type="button"
