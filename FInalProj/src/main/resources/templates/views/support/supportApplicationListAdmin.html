@@ -86,20 +86,20 @@
 					<input class="statusInput" type="hidden" name="status" th:value="${status}">
 				</th:block>
         		<th:block th:if="${category==null}">
-					<input class="categoryInput" type="hidden" name="supportCategory" value="cateNone">
+					<input class="categoryInput" type="hidden" name="category" value="cateNone">
 				</th:block>
 				<th:block th:if="${category!=null}">
-					<input class="categoryInput" type="hidden" name="supportCategory" th:value="${category}">
+					<input class="categoryInput" type="hidden" name="category" th:value="${category}">
 				</th:block>				
         		<th:block th:if="${searchWord == null}">
-					<input class="searchInput" type="hidden" name="supportTitle" value="searchNone">
+					<input class="searchInput" type="hidden" name="searchWord" value="searchNone">
 				</th:block>
 				<th:block th:if="${searchWord !=null}">
-					<input class="searchInput" type="hidden" name="supportTitle" th:value="${searchWord}">
+					<input class="searchInput" type="hidden" name="searchWord" th:value="${searchWord}">
 				</th:block>
 				
         	</form>
-			<script>
+			<script th:inline="javascript">
 				const searchButton = document.getElementsByClassName('searchIcon')[0].addEventListener('click',()=>{
 					const searchWord = document.getElementsByClassName('searchInput')[0].value;
 					console.log(searchWord)
@@ -147,7 +147,16 @@
 				    }
 				});
 
-			
+			window.onload=()=>{
+				/*<![CDATA[*/
+				const pageStatus = /*[[${status}]]*/'status';
+				/*]]>*/
+				if(pageStatus=='W'){
+					document.getElementsByClassName('statusSpan')[0].style.fontWeight='bolder'
+				} else if(pageStatus=='N'){
+					document.getElementsByClassName('statusSpan')[1].style.fontWeight='bolder'
+				}
+			}
 			</script>
 			
 			
@@ -200,7 +209,7 @@
         <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
                 <li th:if="${ pi.currentPage > 1 }">
-	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 },category=${category}, searchWord=${searchWord}, status=${status})}">
 	                	<img class="arrowKey" src="image/before.png">
 	                </a>
                 </li>
@@ -209,12 +218,12 @@
                 </li>
                 <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
                 	<th:block th:if="${p != 0}">
-                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+                	<a th:href="@{${loc}(page=${p},category=${category}, searchWord=${searchWord}, status=${status})}" th:text="${p}"
                 		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
                 	</th:block>
                 </li>
                 <li th:if="${ pi.currentPage < pi.maxPage} ">
-	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 },category=${category}, searchWord=${searchWord}, status=${status})}">
 	                	<img class="arrowKey" src="image/next.png">
 	                </a>
                 </li>
