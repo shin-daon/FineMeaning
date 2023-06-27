@@ -1,25 +1,31 @@
 package com.fin.proj.member.controller;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.fin.proj.common.Pagination;
+import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.member.model.exception.MemberException;
 import com.fin.proj.member.model.service.AuthService;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
+import com.fin.proj.support.model.exception.SupportException;
+import com.fin.proj.support.model.vo.Support;
+import com.fin.proj.support.model.vo.SupportHistory;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -49,7 +55,7 @@ public class MemberController {
 			model.addAttribute("loginUser", loginUser);
 			
 			if(loginUser.getIsAdmin() == 0) {
-				return "editUserInfo";
+				return "redirect:/editUserInfo.me";
 			} else {
 				return "redirect:/";
 			}
@@ -121,11 +127,6 @@ public class MemberController {
 		return "editMyPwd";
 	}
 	
-	@RequestMapping("userInfoDetail.me")
-	public String userInfoDetail() {
-		return "userInfoDetail";
-	}
-	
 	@RequestMapping(value="checkId.me") 
 	public void checkId(@RequestParam("uId") String uId, PrintWriter out) {
 		int count = mService.checkId(uId);
@@ -182,7 +183,7 @@ public class MemberController {
 		int result = mService.deleteUser(uId);
 		
 		if(result > 0) {
-			return "redirect:logout.me";
+			return "redirect:/logout.me";
 		} else {
 			throw new MemberException("회원 탈퇴에 실패하였습니다.");
 		}
@@ -423,12 +424,63 @@ public class MemberController {
     	out.print(result + "," + randomNum);  	
 	}
 	
+	
 	@RequestMapping(value="loginFailCount.me")
-	public void loginFailCount(Member m, @RequestParam("uId") String uId, PrintWriter out) {
+	public void loginFailCount(Member m, @RequestParam("uId") String uId, Model model, PrintWriter out) {
 		
-		int count = mService.loginFailCount(uId);
+		Date now = new Date();
+		Timestamp timestamp = new Timestamp(now.getTime());
 		
-		String result = count == 0 ? "yes" : "no";		
-		out.print(count);	
-	}	
+		int result = mService.loginFailCount(uId);
+			
+		if(result >= 5) {
+			Member failUser = mService.loginFailDate(timestamp);
+			System.out.println(failUser);
+		}
+		out.print(result);	
+	}
+	
+	@RequestMapping("editUserInfo.me")
+	public String editUserInfo(@RequestParam(value = "page", required = false) Integer currentPage, Model model) {
+
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+
+		int listCount = mService.getListCount();
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+
+		ArrayList<Member> mList = mService.selectUserList(pi);
+
+		if (mList != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("mList", mList);
+			return "editUserInfo";
+		} else {
+			throw new MemberException("회원 목록 조회에 실패했습니다.");
+		}
+	}
+	
+	@RequestMapping("userInfoDetail.me")
+	public String userInfoDetail(@RequestParam(value = "page", required = false) Integer currentPage,
+								 @RequestParam("uNo") int uNo, Model model) {
+		
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+
+		int listCount = mService.getUserListCount(uNo);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+
+		ArrayList<Member> uList = mService.selectUserListEach(pi, uNo);
+		model.addAttribute("uList", uList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("uNo", uNo);
+		
+		return "userInfoDetail";
+	}
+	
+
 }
