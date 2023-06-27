@@ -182,7 +182,7 @@
 				</script>
 				
 	            <div class="v-apply-btn-div">
-	                <button type="button" id="applyBtn" class="learn-more v-apply-btn" th:if="${session.loginUser != null && v.vRecruitmentEndDate <= today && (session.loginUser.uNo != v.uNo || session.loginUser.isAdmin != 0)}">신청하기</button>
+	                <button type="button" id="applyBtn" class="learn-more v-apply-btn" th:if="${session.loginUser != null && v.vRecruitmentEndDate >= today && (session.loginUser.uNo != v.uNo || session.loginUser.isAdmin != 0)}">신청하기</button>
 	                <button type="button" id="deleteBtn" class="learn-more v-delete-btn" th:if="${session.loginUser != null && (session.loginUser.uNo == v.uNo || session.loginUser.isAdmin == 0)}">삭제</button>
 	                <button type="submit" id="modifyBtn" class="learn-more-green v-modify-btn" th:if="${session.loginUser != null && (session.loginUser.uNo == v.uNo || session.loginUser.isAdmin == 0)}">수정</button>
 	            </div>
@@ -328,10 +328,14 @@
 	    
     	if(applyBtn != null) {
     		applyBtn.addEventListener("click", () => {
+    			const vCountAll = /*[[${v.vCountAll}]]*/1;
+    			const vCount = /*[[${v.vCount}]]*/1;
         		if(check) {
         			alert("비정상적인 접근입니다.");
         			event.preventDefault();
-        		} else {
+        		}else if(vCountAll == vCount){
+        			alert("신청 인원이 마감되었습니다.");
+        		}else {
         			$.ajax({
         				url: 'checkVolunteerApply.vo',
         				type: 'post',

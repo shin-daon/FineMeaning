@@ -179,10 +179,22 @@
 	</select>
 	
 	<select id="getVolunteerEnrollHistoryCount" resultType="_int">
-		select count(*) from volunteer where u_no = #{uNo}
+		select count(*) 
+		from volunteer 
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+		where u_no = #{uNo}
 	</select>
 	
 	<select id="getSelectVolunteerEnrollHistory" resultMap="volunteerResultSet">
-		select * from volunteer where u_no = #{uNo}
+		select * 
+		from volunteer 
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+		where u_no = #{uNo}
 	</select>
 </mapper>

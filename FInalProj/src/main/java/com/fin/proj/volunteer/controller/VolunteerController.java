@@ -266,11 +266,9 @@ public class VolunteerController {
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		
 		int vEnrollHistoryCount = vService.getVolunteerEnrollHistoryCount(uNo);
-		PageInfo pi = Pagination.getPageInfo(currentPage, vEnrollHistoryCount, 5);
+		PageInfo pi = Pagination.getPageInfo(currentPage, vEnrollHistoryCount, 1);
 			
 		ArrayList<Volunteer> vHistories = vService.selectVolunteerEnrollHistory(pi, uNo);
-		
-		System.out.println(vEnrollHistoryCount);
 		
 		if(vHistories != null) {
 			model.addAttribute("pi", pi);
