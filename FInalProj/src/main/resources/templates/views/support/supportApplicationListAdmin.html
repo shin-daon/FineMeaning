@@ -130,9 +130,27 @@
 							}
 						})
 					}
-				})			
+				})
+				
+				document.addEventListener('keyup', function(event) {
+				    if (event.key == 'Enter') {
+				        var searchIcons = document.getElementsByClassName('searchIcon');
+				        if (searchIcons.length > 0) {
+				            var searchIcon = searchIcons[0];
+				            var clickEvent = new MouseEvent('click', {
+				                bubbles: true,
+				                cancelable: true,
+				                view: window
+				            });
+				            searchIcon.dispatchEvent(clickEvent);
+				        }
+				    }
+				});
+
 			
 			</script>
+			
+			
 
         <table class="supportTable">
             <thead>
@@ -146,6 +164,10 @@
                 </tr>
             </thead>
             <tbody>
+            
+            		<tr th:if="${sList.isEmpty}">
+		                	<td colspan="7">신청된 후원이 없습니다.</td>
+		            <tr>
 	                <tr th:each="s : ${sList}" th:if="${ sList != null }">
 	                    <td th:text="${s.supportNo}"></td>
 	                    <td th:text="${s.supportCategory}"></td>

@@ -306,6 +306,7 @@ public class SupportController {
 		ArrayList<Support> sList = suService.selectSearchListAdmin(pi, searchWord.trim());
 		model.addAttribute("pi", pi);
 		model.addAttribute("sList", sList);
+		model.addAttribute("searchWord", searchWord.trim());
 		return "supportListAdmin";
 	}
 
@@ -501,10 +502,14 @@ public class SupportController {
 							   @RequestParam(value="searchWord", required = false) String searchWord,
 								Model model) {
 		
+		
+		
 		if(category.equals("전체")) {
 			return "redirect:supportMain.su";
 		}
 		
+		int maintotalCount = suService.maintotalCount();
+		int maintotalAmount = suService.maintotalAmount();
 		
 		if (currentPage == null) {
 			currentPage = 1;
@@ -528,12 +533,16 @@ public class SupportController {
 			model.addAttribute("sList", sList);
 			model.addAttribute("pi", pi);
 			model.addAttribute("category", category);
+			model.addAttribute("totalCount", maintotalCount);
+			model.addAttribute("totalAmount", maintotalAmount);
 			return "supportMain";
 		} else {
 			model.addAttribute("sList", sList);
 			model.addAttribute("pi", pi);
 			model.addAttribute("category", category);
 			model.addAttribute("searchWord", searchWord);
+			model.addAttribute("totalCount", maintotalCount);
+			model.addAttribute("totalAmount", maintotalAmount);
 			return "supportMain";
 		}
 		
@@ -543,6 +552,10 @@ public class SupportController {
 	public String mainSearch(@RequestParam("searchWord") String searchWord,
 							@RequestParam(value = "page", required = false) Integer currentPage,
 								Model model ) {
+		
+		int maintotalCount = suService.maintotalCount();
+		int maintotalAmount = suService.maintotalAmount();
+		
 		if(searchWord.trim().equals("")) {
 			return "redirect:supportMain.su";
 		}
@@ -560,6 +573,8 @@ public class SupportController {
 		model.addAttribute("pi", pi);
 		model.addAttribute("sList", sList);
 		model.addAttribute("searchWord", searchWord.trim());
+		model.addAttribute("totalCount", maintotalCount);
+		model.addAttribute("totalAmount", maintotalAmount);
 		return "supportMain";
 		
 		

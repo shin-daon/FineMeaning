@@ -174,7 +174,7 @@
 	</select>
 	
 	<select id="getCategoryCount" resultType="_int">
-		select count(*) from support where sysdate &lt;= s_end_date and S_STATUS ='Y'
+		select count(*) from support join users using(u_no) where sysdate &lt;= s_end_date and S_STATUS ='Y'
 		<if test="supportTitle == null">
 			and s_category = #{supportCategory}
 		</if>
@@ -185,7 +185,7 @@
 	</select>
 	
 	<select id="selectCategoryListAdmin" resultMap="supportResultSet">
-		select * from support where sysdate &lt;= s_end_date and S_STATUS ='Y'
+		select * from support join users using(u_no) where sysdate &lt;= s_end_date and S_STATUS ='Y'
 		<if test="supportTitle == null">
 			and s_category = #{supportCategory}
 		</if>
