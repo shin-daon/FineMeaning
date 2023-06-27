@@ -122,7 +122,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public ArrayList<Member> selectUserListEach(PageInfo pi, int uNo) {
+	public Member selectUserListEach(PageInfo pi, int uNo) {
 		return mDAO.selectUserListEach(uNo);
 	}
 

@@ -195,7 +195,7 @@ input:radio + .switch:after {
 	                    <td th:text="${m.uName}"></td>
 	                    <td th:text="${m.residentNo}"></td>
 	                    <td th:text="${m.uNickName}"></td>
-	                    <td th:text="${m.registrar}"></td>
+	                    <td th:text="${m.registrar != null ? m.registrar : '-'}"></td>
 	                    <td th:text="${m.isAdmin == 1 ? '일반' : (m.isAdmin == 0 ? '관리자' : (m.isAdmin == 2 ? '봉사관리자' : ''))}"></td>
 	                    <td th:text="${m.uStatus}">
 							<div style="margin:0 auto;" class="switch-div">
@@ -242,7 +242,7 @@ input:radio + .switch:after {
 	const trs = document.getElementsByClassName('supportTable')[0].querySelectorAll('tr');
 	for(const tr of trs){
 		tr.addEventListener('click', function(){
-			const supportNo = this.querySelector('td').innerText;
+			const uNo = this.querySelector('td').innerText;
 			location.href="userInfoDetail.me?uNo=" + uNo;
 		})
 	}	

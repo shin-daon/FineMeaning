@@ -49,7 +49,7 @@ public interface MemberService {
 
 	int getUserListCount(int uNo);
 
-	ArrayList<Member> selectUserListEach(PageInfo pi, int uNo);
+	Member selectUserListEach(PageInfo pi, int uNo);
 	
 
 }

@@ -52,6 +52,6 @@ public interface MemberDAO {
 
 	int getUserListCount(int uNo);
 
-	ArrayList<Member> selectUserListEach(int uNo);
+	Member selectUserListEach(int uNo);
 
 }

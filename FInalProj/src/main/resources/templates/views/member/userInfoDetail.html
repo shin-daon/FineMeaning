@@ -291,47 +291,47 @@ input:checked + .switch:after {
             <tbody>
                 <tr>
                     <td class="title first">아이디</td>
-                    <td>user01</td>
+                    <td th:text="${ uList.uId }"></td>
                 </tr>
                 <tr>
                     <td class="title">이름</td>
-                    <td>강건강</td>
+                    <td th:text="${ uList.uName }"></td>
                 </tr>
                 <tr>
-                    <td class="title">주민등록번호</td>
-                    <td>731212 - *******</td>
+                    <td class="title">생년월일</td>
+                    <td th:text="${ uList.residentNo }"></td>
                 </tr>
                 <tr>
                     <td class="title">주소</td>
-                    <td>서울시 뫄뫄구 솨솨로 235번길</td>                   
+                    <td th:text="${ uList.address }"></td>                   
                 </tr>
                 <tr>
                     <td class="title">전화번호</td>
-                    <td>010-0000-0000</td>
+                    <td th:text="${ uList.phone }"></td>
                 </tr>
                 <tr>
                     <td class="title">이메일</td>
-                    <td>user01@naver.com</td>
+                    <td th:text="${ uList.email }"></td>
                 </tr>
                 <tr>
                     <td class="title">닉네임</td>
-                    <td>건강최고</td>
+                    <td th:text="${ uList.uNickName }"></td>
                 </tr>
                 <tr>
                     <td class="title">가입타입</td>
-                    <td>카카오</td>
+                    <td th:text="${ uList.loginType }"></td>
                 </tr>
                 <tr>
                     <td class="title">회원 유형</td>
-                    <td>단체</td>
+                    <td th:text="${ uList.uType }"></td>
                 </tr>
                 <tr>
                 	<td class="title">등록 기관</td>
-                    <td>행복복지관</td>
+                    <td th:text="${uList.registrar != null ? uList.registrar : '-'}"></td>
                 </tr>
                 <tr>
                 	<td class="title last">가입 일자</td>
-                    <td>2022-10-20</td>
+                    <td th:text="${ uList.enrollDate }"></td>
                 </tr>
             </tbody>
         </table>
