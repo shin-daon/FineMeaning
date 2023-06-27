@@ -15,7 +15,7 @@
 	</select>
 	
 	<select id="selectApplayListUser" resultMap="supportResultSet">
-		select * from support join users using(u_no) where u_no = #{uNo} order by s_no desc
+		select * from support join users using(u_no) where u_no = #{uNo} order by s_status desc
 	</select>
 	
 	<resultMap type="Support" id="supportResultSet">
