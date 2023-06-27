@@ -1,9 +1,11 @@
 package com.fin.proj.member.model.dao;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.fin.proj.member.model.vo.Member;
 
@@ -43,5 +45,13 @@ public interface MemberDAO {
 	int loginFailCount(String uId);
 
 	Member loginFailDate(Timestamp timestamp);
+
+	int getListCount();
+
+	ArrayList<Member> selectUserList(RowBounds rowBounds);
+
+	int getUserListCount(int uNo);
+
+	ArrayList<Member> selectUserListEach(int uNo);
 
 }
