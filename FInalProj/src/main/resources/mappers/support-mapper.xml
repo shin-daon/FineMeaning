@@ -287,5 +287,9 @@
 		order by s_no desc 
 	</select>
 	
+	<update id="updateSupport">
+	 update support set s_category=#{supportCategory}, s_title=#{supportTitle}, s_start_date =#{startDate}, s_end_date=#{endDate}, target_amount=#{targetAmount}, s_content=#{supportContent}, image_url = #{imageUrl}
+	 where s_no =#{supportNo}
+	</update>
 	
 </mapper>

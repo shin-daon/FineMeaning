@@ -66,7 +66,6 @@ public class SupportController {
 		int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
 		
 		
-		System.out.println(s);
 		model.addAttribute("s", s);
 		model.addAttribute("dDay", dDay);
 		model.addAttribute("shList", shList);
@@ -676,6 +675,27 @@ public class SupportController {
 			return "redirect:supportMain.su";
 		} else {
 			throw new SupportException("후원 삭제에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("supportEdit.su")
+	public String EditView(@RequestParam("supportNo") int supportNo, Model model) {
+		Support s = suService.supportDetail(supportNo);
+		
+		model.addAttribute("s", s);
+		return "supportEdit";
+	}
+	
+	@RequestMapping("updateSupport.su")
+	public ModelAndView updateSupport(@ModelAttribute Support s, ModelMap model) {
+		System.out.println(s);
+		
+		int result = suService.updateSupport(s);
+		if(result>0) {			
+			model.addAttribute("supportNo", s.getSupportNo());
+			return new ModelAndView("redirect:supportDetail.su", model);
+		} else {
+			throw new SupportException("후원 수정에 실패했습니다.");
 		}
 	}
 }

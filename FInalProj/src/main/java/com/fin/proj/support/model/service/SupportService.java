@@ -90,6 +90,8 @@ public interface SupportService {
 
 	ArrayList<Support> applyListAdmin(PageInfo pi, Support s);
 
+	int updateSupport(Support s);
+
 
 
 
