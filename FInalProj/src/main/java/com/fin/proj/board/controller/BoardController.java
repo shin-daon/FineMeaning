@@ -234,6 +234,51 @@ public class BoardController {
 			throw new BoardException("게시물 작성 실패");
 		}
 	}
+
+	@GetMapping("finePeopleAdmin.bo")
+	public String finePeopleAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = bService.getListCount("선뜻한 사람");
+		
+		PageInfo pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, "선뜻한 사람");
+		
+		System.out.println(list);
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			return "finePeopleAdmin";
+		} else {
+			throw new BoardException("게시글 목록 조회 실패");
+		}
+	}
+	
+	@GetMapping("updateFinePeopleForm.bo")
+	public String updateFinePeopleForm() {
+		return "updateFinePeople_form";
+	}
+	
+	@GetMapping("deleteFinePeople.bo")
+	public String deleteFinePeople(@RequestParam("bNo") String bNo) {
+
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		int boardResult = bService.deleteBoard(boardNo);
+		
+		if(boardResult > 0) {
+			return "redirect:finePeopleAdmin.bo";
+		} else {
+			throw new BoardException("게시글 삭제 실패");
+		}
+	}
 	
 	@GetMapping("fruitMain.bo")
 	public String fruitMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,
@@ -393,6 +438,7 @@ public class BoardController {
 		}
 		
 		int boardResult = bService.deleteBoard(boardNo);
+		
 		if(boardResult > 0) {
 			return "redirect:fruitMain.bo";
 		} else {
@@ -479,6 +525,7 @@ public class BoardController {
 							  @RequestParam("page") int page,
 							  RedirectAttributes ra) {
 		
+		System.out.println(page);
 		System.out.println(replyNo);
 		System.out.println(boardNo);
 		

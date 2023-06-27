@@ -69,6 +69,10 @@
 
 /* 테이블 */
 
+#emptyReplyList {
+    pointer-events: none;
+}
+
 .myReplyTable {
     width: 750px;
     margin-top: 10px;
