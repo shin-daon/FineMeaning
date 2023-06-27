@@ -22,6 +22,8 @@ public class Member {
 	private Integer isAdmin;
 	private Integer failedCount;
 	private Timestamp lastLoginDate;
+	
+	public Member() {};
 
 	public Member(Integer uNo, String uId, String uPwd, String uName, String residentNo, String address, String phone,
 			String email, String uNickName, String loginType, Integer kakaoId, String uStatus, String uType,

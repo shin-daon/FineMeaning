@@ -49,7 +49,13 @@ public interface MemberService {
 
 	int getUserListCount(int uNo);
 
-	ArrayList<Member> selectUserListEach(PageInfo pi, int uNo);
+	Member selectUserListEach(PageInfo pi, int uNo);
+
+	ArrayList<Member> statusUserList();
+
+	int getCategoryCount(HashMap<String, String> map);
+
+	ArrayList<Member> selectCategoryListAdmin(PageInfo pi, Member m);
 	
 
 }

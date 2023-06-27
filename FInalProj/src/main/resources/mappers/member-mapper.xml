@@ -150,4 +150,29 @@
 		from users
 		where u_no = #{uNo}
 	</select>
+	
+	<select id="statusUserList" resultMap="memberResultSet">
+		select *
+		from users
+		where u_status = 'Y'	
+	</select>
+	
+	<select id="getCategoryCount" resultType="_int">
+		<if test="#{category} == '활동중인 회원'">		
+			select count(*)
+			from users
+			where u_status = 'Y'
+		</if>
+		<if test="#{category} != '활동중인 회원'">		
+			select count(*)
+			from users
+			where u_status = 'Y'
+		</if>
+	</select>
+	
+	<select id="selectCategoryListAdmin" resultMap="memberResultSet">
+		select *
+		from users
+	</select>
+	
 </mapper>
