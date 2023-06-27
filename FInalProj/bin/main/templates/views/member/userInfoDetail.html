@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>자주 묻는 질문</title>
+<title>회원 상세 조회</title>
 <link rel="stylesheet" href="faq_style.css">
 <style>
 @font-face {
@@ -256,6 +256,7 @@ input:checked + .switch:after {
 	color: white;
 	background-color: #609966;
 	border: 1px solid #609966;
+	cursor: pointer;
 }
 
 </style>
@@ -282,9 +283,10 @@ input:checked + .switch:after {
 
 		<div class="actionArea">
 			<div class="isstatus-user">회원 활동 여부</div>
-			<div class="switch-div"><input type="checkbox" id="switch1" /><label for="switch1" class="switch">Toggle</label></div>
-			<div class="isstatus-user admin-user">관리자 여부</div>
-			<div class="switch-div"><input type="checkbox" id="switch2" /><label for="switch2" class="switch">Toggle</label></div>
+			<div class="switch-div">
+			  <input type="checkbox" id="switch1" th:checked="${uList.uStatus == 'Y'}" />
+			  <label for="switch1" class="switch">Toggle</label>
+			</div>
         </div>
 
         <table class="faqTable">
@@ -330,6 +332,10 @@ input:checked + .switch:after {
                     <td th:text="${uList.registrar != null ? uList.registrar : '-'}"></td>
                 </tr>
                 <tr>
+                	<td class="title">관리자 여부</td>
+                    <td th:text="${uList.isAdmin == 1 ? '일반' : (uList.isAdmin == 0 ? '관리자' : (uList.isAdmin == 2 ? '봉사관리자' : ''))}"></td>
+                </tr>
+                <tr>
                 	<td class="title last">가입 일자</td>
                     <td th:text="${ uList.enrollDate }"></td>
                 </tr>
@@ -337,7 +343,7 @@ input:checked + .switch:after {
         </table>
         
         <div class="address-btn">
-			<button class="normal-btn" id="search-ad">목록으로</button>
+			<button class="normal-btn" id="search-ad" onClick="location.href='editUserInfo.me'">목록으로</button>
 		</div>		
 
         </section>

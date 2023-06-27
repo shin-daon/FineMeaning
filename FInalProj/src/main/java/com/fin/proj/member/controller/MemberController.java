@@ -1,9 +1,9 @@
 package com.fin.proj.member.controller;
 
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.sql.Timestamp;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,7 @@ import com.fin.proj.member.model.exception.MemberException;
 import com.fin.proj.member.model.service.AuthService;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
-import com.fin.proj.support.model.exception.SupportException;
 import com.fin.proj.support.model.vo.Support;
-import com.fin.proj.support.model.vo.SupportHistory;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -482,5 +480,88 @@ public class MemberController {
 		return "userInfoDetail";
 	}
 	
+	@RequestMapping("categoryListAdmin.me")
+	public String categoryListAdmin(@RequestParam("category") String category,
+									@RequestParam(value = "page", required = false) Integer currentPage,
+									@RequestParam(value = "searchWord", required=false) String searchWord,
+									Model model) {
+		
+		System.out.println(category);
+		System.out.println(searchWord);
+		
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+		
+		Member m = new Member();
+		
+		if(searchWord == null || searchWord.trim().equals("")) {
+			switch (category) {
+	        case "활동중인 회원":
+	            ArrayList<Member> suList = mService.statusUserList();
+	            model.addAttribute("suList", suList);
+	            break;
 
+//	        case "관리자인 회원":
+//	            ArrayList<Member> auList = mService.adminUserList();
+//	            model.addAttribute("auList", auList);
+//	            break;
+//
+//	        case "기관 승인":
+//	            ArrayList<Member> vuList = mService.volUserList();
+//	            model.addAttribute("vuList", vuList);
+//	            break;
+
+	        default: break;
+			}
+	        
+		} else {
+			switch (category) {
+//	        case "활동중인 회원":
+//	            ArrayList<Member> suList = mService.statusUserListWithSearch(searchWord.trim());
+//	            model.addAttribute("suList", suList);
+//	            break;
+//
+//	        case "관리자인 회원":
+//	            ArrayList<Member> auList = mService.adminUserListWithSearch(searchWord.trim());
+//	            model.addAttribute("auList", auList);
+//	            break;
+//
+//	        case "기관 승인":
+//	            ArrayList<Member> vuList = mService.volUserListWithSearch(searchWord.trim());
+//	            model.addAttribute("vuList", vuList);
+//	            break;
+
+	        default: break;
+			}
+		}
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+    	map.put("category", category);
+    	map.put("searchWord", searchWord);
+    	map.put("uNo", m.getuNo()+"");
+		
+		int listCount = mService.getCategoryCount(map);
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Member> uList = mService.selectCategoryListAdmin(pi, m);
+
+		if(searchWord == null || searchWord.trim().equals("")) {			
+			model.addAttribute("uList", uList);
+			model.addAttribute("pi", pi);
+			model.addAttribute("category", category);
+			
+			return "editUserInfo";
+		} else {
+			model.addAttribute("uList", uList);
+			model.addAttribute("pi", pi);
+			model.addAttribute("category", category);
+			model.addAttribute("searchWord", searchWord);
+			
+			return "editUserInfo";
+		}	
+
+	}
+		
 }
