@@ -54,6 +54,26 @@ public class VolunteerController {
 			pi = Pagination.getPageInfo(currentPage, volunteerCount, 5);
 			list = vService.selectVolunteerList(pi);
 		} else {
+			if(vArea.equals("전체")) {
+				vArea = "";
+			} 
+			
+			if(vMainCategoryName.equals("전체")) {
+				vMainCategoryName = "";
+			}
+			
+			if(vActivityType.equals("전체")) {
+				vActivityType = "";
+			}
+			
+			if(vTargetCategoryName.equals("전체")) {
+				vTargetCategoryName = "";
+			}
+			
+			if(status.equals("전체")) {
+				status = "";
+			}
+			
 			HashMap<String, String> searchMap = new HashMap<String, String>();
 			searchMap.put("vStartDate", vStartDate);
 			searchMap.put("vEndDate", vEndDate);
@@ -143,71 +163,25 @@ public class VolunteerController {
 	}
 	
 	@GetMapping("volunteerHistory.vo")
-	public String volunteerHistory() {
-		return "volunteerHistory";
-	}
-	
-	// 관리자
-	@GetMapping("volunteerEnroll.vo")
-	public String volunteerEnroll() {
-		return "volunteerEnroll";
-	}
-	
-	@GetMapping("volunteerEnrollHistory.vo")
-	public String volunteerEnrollHistory() {
-		return "volunteerEnrollHistory";
-	}
-	
-	@PostMapping("volunteerEdit.vo")
-	public String volunteerEdit(@RequestParam("vNo") int vNo, @RequestParam("page") int page, Model model) {
-		Volunteer v = vService.selectVolunteer(vNo);
-		model.addAttribute("v", v);
-		model.addAttribute("page", page);
-		return "volunteerEdit";
-	}
-	
-	@PostMapping("insertVolunteer.vo")
-	public String insertVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
-//		System.out.println((Member)session.getAttribute("loginUser"));
-		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
-//		System.out.println(v);
-		int result = vService.insertVolunteer(v);
-		if(result > 0) {
-			return "redirect:volunteerEnrollHistory.vo";
+	public String volunteerHistory(@RequestParam(value="page", required=false) Integer currentPage, HttpSession session, Model model) {
+		if(currentPage == null) {
+			currentPage = 1;
 		}
-		throw new VolunteerException("봉사 등록에 실패하였습니다.");
-	}
-	
-	@PostMapping("updateVolunteer.vo")
-	public String updateVolunteer(@ModelAttribute Volunteer v, @RequestParam("page") int page, HttpSession session, RedirectAttributes ra) {
-		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
-//		System.out.println(v);
-		int result = vService.updateVolunteer(v);
-		if(result > 0) {
-			ra.addAttribute("vNo", v.getvNo());
-			ra.addAttribute("page", page);
-			return "redirect:volunteerDetail.vo";
-		}
-		throw new VolunteerException("봉사 수정에 실패하였습니다.");
-	}
-	
-	@GetMapping("deleteVolunteer.vo")
-	public String deleteVolunteer(@RequestParam("vNo") String encodedVNo) {
-		Decoder decoder = Base64.getDecoder();
-		byte[] byteArr = decoder.decode(encodedVNo);
-		String vNo = new String(byteArr);
 		
-		int result = vService.deleteVolunteer(vNo);
-		if(result > 0) {
-			return "redirect:volunteer.vo";
-		}
-		throw new VolunteerException("봉사 삭제에 실패하였습니다.");
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+//		int vHistoryCount = vService.getVolunteerHistoryCount(uNo);
+//		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 5);
+			
+//		ArrayList<Volunteer> vHistories = vService.selectVolunteerHistory(pi, uNo);
+//		model.addAttribute("vHistories", vHistories);
+		
+		return "volunteerHistory";
 	}
 	
 	@PostMapping("applyVolunteer.vo")
 	public String applyVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
 		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
-//		System.out.println(v);
 		int result = vService.applyVolunteer(v);
 		if(result > 0) {
 			return "redirect:volunteerHistory.vo";
@@ -265,12 +239,123 @@ public class VolunteerController {
 		int searchVolunteerAjaxCount = vService.getSearchVolunteerCount(ajaxMap);
 		PageInfo pi = Pagination.getPageInfo(1, searchVolunteerAjaxCount, 5);
 		ArrayList<Volunteer> volunteerList = vService.searchVolunteerByAjax(pi, ajaxMap);
+		HashMap<String, Object> data = new HashMap<String, Object>();
+		data.put("pi", pi);
+		data.put("volunteerList", volunteerList);
 		response.setContentType("application/json; charset=UTF-8");
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		try {
-			gson.toJson(volunteerList, response.getWriter());
+			gson.toJson(data, response.getWriter());
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	// 관리자
+	@GetMapping("volunteerEnroll.vo")
+	public String volunteerEnroll() {
+		return "volunteerEnroll";
+	}
+	
+	@GetMapping("volunteerEnrollHistory.vo")
+	public String volunteerEnrollHistory(@RequestParam(value="page", required=false) Integer currentPage, HttpSession session, Model model) {
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+		int vEnrollHistoryCount = vService.getVolunteerEnrollHistoryCount(uNo);
+		PageInfo pi = Pagination.getPageInfo(currentPage, vEnrollHistoryCount, 5);
+			
+		ArrayList<Volunteer> vHistories = vService.selectVolunteerEnrollHistory(pi, uNo);
+		
+		System.out.println(vEnrollHistoryCount);
+		
+		if(vHistories != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("vHistories", vHistories);
+			
+			return "volunteerEnrollHistory";
+		}
+		throw new VolunteerException("봉사 등록 내역 조회에 실패하였습니다.");
+	}
+	
+	@PostMapping("volunteerEdit.vo")
+	public String volunteerEdit(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, 
+								@RequestParam("vName") String vName, @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, 
+								@RequestParam("vMainCategoryName") String vMainCategoryName, @RequestParam("vActivityType") String vActivityType, 
+								@RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status, Model model) {
+		Volunteer v = vService.selectVolunteer(vNo);
+		model.addAttribute("v", v);
+		model.addAttribute("page", page);
+		
+		HashMap<String, String> searchMap = new HashMap<String, String>();
+		searchMap.put("vStartDate", vStartDate);
+		searchMap.put("vEndDate", vEndDate);
+		searchMap.put("vName", vName);
+		searchMap.put("registrar", registrar);
+		searchMap.put("vArea", vArea);
+		searchMap.put("vMainCategoryName", vMainCategoryName);
+		searchMap.put("vActivityType", vActivityType);
+		searchMap.put("vTargetCategoryName", vTargetCategoryName);
+		searchMap.put("status", status);
+		model.addAttribute("searchMap", searchMap);
+		
+		return "volunteerEdit";
+	}
+	
+	@PostMapping("insertVolunteer.vo")
+	public String insertVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
+//		System.out.println((Member)session.getAttribute("loginUser"));
+		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
+//		System.out.println(v);
+		int result = vService.insertVolunteer(v);
+		if(result > 0) {
+			return "redirect:volunteerEnrollHistory.vo";
+		}
+		throw new VolunteerException("봉사 등록에 실패하였습니다.");
+	}
+	
+	@PostMapping("updateVolunteer.vo")
+	public String updateVolunteer(@ModelAttribute Volunteer v, @RequestParam("page") int page, @RequestParam("sStartDate") String vStartDate, @RequestParam("sEndDate") String vEndDate, 
+								  @RequestParam("sName") String vName, @RequestParam("sRegistrar") String registrar, @RequestParam("sArea") String vArea, 
+								  @RequestParam("sMainCategoryName") String vMainCategoryName, @RequestParam("sActivityType") String vActivityType, 
+								  @RequestParam("sTargetCategoryName") String vTargetCategoryName, @RequestParam("sStatus") String status,
+								  HttpSession session, RedirectAttributes ra) {
+		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
+		
+		int result = vService.updateVolunteer(v);
+		if(result > 0) {
+			ra.addAttribute("vNo", v.getvNo());
+			ra.addAttribute("page", page);
+			
+			ra.addAttribute("vStartDate", vStartDate);
+			ra.addAttribute("vEndDate", vEndDate);
+			ra.addAttribute("vName", vName);
+			ra.addAttribute("registrar", registrar);
+			ra.addAttribute("vArea", vArea);
+			ra.addAttribute("vMainCategoryName", vMainCategoryName);
+			ra.addAttribute("vActivityType", vActivityType);
+			ra.addAttribute("vTargetCategoryName", vTargetCategoryName);
+			ra.addAttribute("status", status);
+			
+			return "redirect:volunteerDetail.vo";
+		}
+		throw new VolunteerException("봉사 수정에 실패하였습니다.");
+	}
+	
+	@GetMapping("deleteVolunteer.vo")
+	public String deleteVolunteer(@RequestParam("vNo") String encodedVNo) {
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(encodedVNo);
+		String vNo = new String(byteArr);
+		
+		int result = vService.deleteVolunteer(vNo);
+		if(result > 0) {
+			return "redirect:volunteer.vo";
+		}
+		throw new VolunteerException("봉사 삭제에 실패하였습니다.");
+	}
+	
 }

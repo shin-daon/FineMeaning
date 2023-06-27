@@ -82,6 +82,16 @@ public interface SupportService {
 
 	ArrayList<SupportHistory> currentSupporter(int supportNo);
 
+	int getCateEndListCount(Support s);
+
+	ArrayList<Support> cateEndSupportList(PageInfo pi, Support s);
+
+	int getApplyListCount(Support s);
+
+	ArrayList<Support> applyListAdmin(PageInfo pi, Support s);
+
+	int updateSupport(Support s);
+
 
 
 

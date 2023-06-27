@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -236,6 +237,51 @@ public class BoardController {
 			throw new BoardException("게시물 작성 실패");
 		}
 	}
+
+	@GetMapping("finePeopleAdmin.bo")
+	public String finePeopleAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int listCount = bService.getListCount("선뜻한 사람");
+		
+		PageInfo pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, "선뜻한 사람");
+		
+		System.out.println(list);
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			return "finePeopleAdmin";
+		} else {
+			throw new BoardException("게시글 목록 조회 실패");
+		}
+	}
+	
+	@GetMapping("updateFinePeopleForm.bo")
+	public String updateFinePeopleForm() {
+		return "updateFinePeople_form";
+	}
+	
+	@GetMapping("deleteFinePeople.bo")
+	public String deleteFinePeople(@RequestParam("bNo") String bNo) {
+
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		int boardResult = bService.deleteBoard(boardNo);
+		
+		if(boardResult > 0) {
+			return "redirect:finePeopleAdmin.bo";
+		} else {
+			throw new BoardException("게시글 삭제 실패");
+		}
+	}
 	
 	@GetMapping("fruitMain.bo")
 	public String fruitMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,
@@ -282,7 +328,7 @@ public class BoardController {
 	
 	@GetMapping("fruitDetail.bo")
 	public String fruitDetail(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
-							  HttpSession session, Model model) {
+							  HttpSession session, Model model, @RequestParam(value="replyPage", required=false) Integer replyPage) {
 		
 		Member m = (Member)session.getAttribute("loginUser");
 //		System.out.println(m);
@@ -295,13 +341,22 @@ public class BoardController {
 		Board board = bService.selectBoard(bNo, countYN);
 //		System.out.println(board);
 		
-		ArrayList<Reply> replyList = bService.selectReply(bNo);
-//		System.out.println(replyList);
+		if(replyPage == null) {
+			replyPage = 1;
+		}
+		
+		int replyListCount = bService.replyCount(bNo);
+		PageInfo pageInfo = Pagination.getPageInfo(replyPage, replyListCount, 5);
+		ArrayList<Reply> replyList = bService.selectReplyList(pageInfo, bNo);
+//		System.out.println(pageInfo);
+//		ArrayList<Reply> replyList = bService.selectReply(bNo);
 		
 		if(board != null) {
 			model.addAttribute("board", board);
 			model.addAttribute("page", page);
 			model.addAttribute("replyList", replyList);
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("bNo", bNo);
 			return "fruit_detail";
 		} else {
 			throw new BoardException("게시글 상세 조회 실패");
@@ -386,6 +441,7 @@ public class BoardController {
 		}
 		
 		int boardResult = bService.deleteBoard(boardNo);
+		
 		if(boardResult > 0) {
 			return "redirect:fruitMain.bo";
 		} else {
@@ -438,16 +494,28 @@ public class BoardController {
 	
 	// 댓글
 	@RequestMapping("insertReply.bo")
-	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
-		
-		System.out.println(r);
+	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response, @RequestParam("page") int page,
+							Model model) {
+		//@RequestParam(value="replyPage", required=false) Integer replyPage, 
+//		System.out.println(r);
 		bService.insertReply(r);
 		
-		ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
+//		if(replyPage == null) {
+//			replyPage = 1;
+//		}
+		
+		int replyListCount = bService.replyCount(r.getBoardNo());
+		PageInfo pageInfo = Pagination.getPageInfo(1, replyListCount, 5);
+//		System.out.println(pageInfo);
+		ArrayList<Reply> list = bService.selectReplyList(pageInfo, r.getBoardNo());
+		
 		response.setContentType("application/json; charset=UTF-8");
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd / HH:mm:ss").create();
 		try {
-			gson.toJson(list, response.getWriter());
+			Map<String, Object> data = new HashMap<>();
+			data.put("list", list);
+			data.put("pi", pageInfo);
+			gson.toJson(data, response.getWriter());
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		} 
@@ -459,6 +527,7 @@ public class BoardController {
 							  @RequestParam("page") int page,
 							  RedirectAttributes ra) {
 		
+		System.out.println(page);
 		System.out.println(replyNo);
 		System.out.println(boardNo);
 		
@@ -482,17 +551,53 @@ public class BoardController {
 		// RedirectAttribute 이용!
 	}
 	
+	@RequestMapping("deleteMyReply.bo")
+	@ResponseBody
+	public String deleteMyReply(@RequestParam("replies") String replies) {
+		
+		for(String reply : replies.split(",")) {
+			int rNo = Integer.parseInt(reply);
+			int result = bService.deleteReply(rNo);
+			if(result < 0) {
+				throw new BoardException("댓글 삭제에 실패하였습니다.");
+			}
+		}
+		return "";
+	}
+	
 	// my page
+	@GetMapping("myReply.bo")
+	public String myReply(@RequestParam(value="page", required=false) Integer currentPage, 
+						  HttpSession session, Model model) {	// string으로 (1, 4, 5)로 보내던지 split(",")로 구분
+		
+		PageInfo pageInfo;
+		int listCount;
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+		listCount = bService.myReplyCount(uNo);
+		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Reply> list = bService.selectMyReply(pageInfo, uNo);
+		
+		System.out.println(list);
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			return "myReply";
+		} else {
+			throw new BoardException("내 댓글 목록 조회 실패");
+		}
+	}
+	
 	@GetMapping("myBoard.bo")
 	public String myBoard() {
 		return "myBoard";
 	}
-	
-	@GetMapping("myReply.bo")
-	public String myReply() {
-		return "myReply";
-	}
-	
 	
 	@GetMapping("commList.bo")
 		public String CommMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,

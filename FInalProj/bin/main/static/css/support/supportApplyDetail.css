@@ -20,7 +20,7 @@
     align-items: center;
     flex-direction: column;
     margin-top:100px;
-	margin-left:16%;
+	margin-left:12%;
 }
 
 #supportList {
@@ -282,9 +282,10 @@ button {
 }
 
 .path {
-    margin-top: 30px;
+    margin-top: 60px;
     font-size: 14px;
     padding-left:20px;
+    width:750px;
 }
 
 .middle {

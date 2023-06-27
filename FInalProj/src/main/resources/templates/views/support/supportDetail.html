@@ -42,6 +42,49 @@ body {
 	object-fit: cover;
 }
 
+/* 모달 */
+#deleteModal { width: 300px; height: 370px; border: 1px solid #eee; padding: 30px 30px 30px 30px; margin: auto; display: none;
+	border-radius: 20px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);  text-align: center; background-color: white;
+		position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;}
+
+.modal-comment {
+	font-size: 14px;
+}
+	
+.modal-comment2 {
+	font-weight: bold;
+	font-size: 18px;
+}
+
+#boardDelete-btn {
+	border-radius: 5px;
+	width: 90px;
+	height: 37px;
+	font-size: 15px;
+	color: #fff;
+	background-color: #848484;
+	border: 1.5px solid black;
+	cursor: pointer;
+}
+
+#rollback-btn {
+	border-radius: 5px;
+	width: 90px;
+	height: 37px;
+	font-size: 15px;
+	color: black;
+	background-color: #fff;
+	border: 1.5px solid #6E6E6E;
+	cursor: pointer;
+}
+
+#trash {
+	block-size: 105px;
+}
+
+body img{
+	max-width:600px;
+}
 </style>
 
 <body>
@@ -64,12 +107,33 @@ body {
                 <div>
                     <div class="supportTitle">[[${s.supportTitle}]]</div>
                     
-                    <div class="dropdown-content">
-                    	<span class="selectCate">수정</span> |
-                    	<span class="selectCate" th:onclick="deleteSupport.su?supportNo=[[${s.supportNo}]]">삭제</span>
-                	</div>
-                	
-					 <div>
+                    <th:block th:if="${session.loginUser.isAdmin==0}">
+	                    <div class="dropdown-content">
+	                    	<span class="selectCate" th:onclick="location.href='supportEdit.su?supportNo=[[${s.supportNo}]]'">수정</span> |
+	                    	<span class="selectCate" id="deleteButton">삭제</span>
+	                	</div>
+                	</th:block>
+                	<div id="deleteModal"><br>
+						<img id="trash" src="image/trash2.png"/><br><br>
+						<span class="modal-comment modal-comment2">후원를 삭제하시겠습니까❔</span><br><br>
+						<span class="modal-comment">삭제 버튼을 클릭하시면</span><br>
+						<span class="modal-comment">삭제됩니다.</span><br><br>
+						<button id="rollback-btn">취소</button>
+						<button id="boardDelete-btn" th:onclick="location.href='deleteSupport.su?supportNo=[[${s.supportNo}]]'">삭제</button>
+					</div>
+					
+					<script th:inline="javascript">
+						if(document.getElementById('deleteButton') !=null){
+							document.getElementById('deleteButton').addEventListener('click', ()=>{
+								document.getElementById('deleteModal').style.display="block"
+								document.getElementById('rollback-btn').addEventListener('click', ()=>{
+									document.getElementById('deleteModal').style.display='none'
+								})
+							})
+						}
+					</script>
+                		<br>
+                	 <div>
                     	<img th:src="@{${s.imageUrl}}">
                     </div>
                     <div class="supportSubTitle">모금함 소개</div>

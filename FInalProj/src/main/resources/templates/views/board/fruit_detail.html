@@ -157,7 +157,27 @@
 			 		</div>
 		 		</div>
 	 		</div>
-	 		
+	 		<div class="arrowBtn">
+		        <div class="page arrowBtn" th:with="loc=${#ctx.springRequestContext.requestUri}">
+		            <ul class="pagination">
+		                <li th:if="${ pi.currentPage > 1 }">
+			                <a th:href="@{${loc}(bNo=${ bNo },page=${ page },replyPage=${ pi.currentPage-1 })}" class="btn-gradient yellow mini prev">이전</a>
+		                </li>
+		                <li th:unless="${ pi.currentPage > 1 }">
+		                	<a th:href="@{${loc}(bNo=${ bNo },page=${ page },replyPage=${ pi.currentPage-1 })}" class="btn-gradient yellow mini prev disabled">이전</a>
+		                </li>
+		                <li style="margin-top: 21px; font-size: 13px;">
+		                	<span style="font-size: 13px; font-weight: bold;">[[${ pi.currentPage }]]</span>
+		                </li>
+		                <li th:if="${ pi.currentPage < pi.maxPage} ">
+		                	<a th:href="@{${loc}(bNo=${ bNo },page=${ page },replyPage=${ pi.currentPage+1 })}" class="btn-gradient yellow mini next">다음</a>
+		                </li>
+		                <li th:unless="${ pi.currentPage < pi.maxPage }">
+			                <a th:href="@{${loc}(bNo=${ bNo },page=${ page },replyPage=${ pi.currentPage+1 })}" class="btn-gradient yellow mini next disabled">다음</a>
+		                </li>												<!-- currentPage -->
+		            </ul>
+		        </div>
+	        </div>
 		</div>
 		
         <div class="btnArea">		
@@ -194,9 +214,9 @@
 			
 			function enrollReply() {
 				const replyInput = document.getElementsByClassName('replyInput')[0].value;
-				if(replyInput != '') {
+				if(replyInput.trim() != '') {
 					$.ajax({
-						url:'insertReply.bo',
+						url:'insertReply.bo?page=' + /*[[${ page }]]*/1,
 						data: {
 							replyContent:document.getElementsByClassName('replyInput')[0].value,
 							replyWriter:/*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/1,
@@ -205,11 +225,12 @@
 							boardTitle:/*[[${board.boardTitle}]]*/1
 						},
 						success: data =>{
-							console.log(data);
+// 							console.log(data);
 							const meaningless = document.querySelector('#meaningless');
 							meaningless.innerHTML = '';
 							
-							for(const r of data) {
+							for(const r of data.list) {
+								console.log(r);
 								const reply = document.createElement('div');
 								reply.classList.add('reply');
 								
@@ -276,12 +297,79 @@
 								meaningless.appendChild(reply);
 							}
 							
+							
+							const arrowBtn = document.querySelector('.arrowBtn');
+							arrowBtn.innerHTML = '';
+							console.log(arrowBtn);
+							
+							const loc = /*[[${#ctx.springRequestContext.requestUri}]]*/0;
+
+							const page = document.createElement('div');
+							page.classList.add('page');
+							page.classList.add('arrowBtn');
+							page.setAttribute('th:with', 'loc=' + loc);							
+							const pagination = document.createElement('ul');
+							pagination.classList.add('pagination');
+							
+							const prev = document.createTextNode('이전');
+							const next = document.createTextNode('다음');
+							
+							console.log(data.pi.currentPage);
+							
+							const bNo = /*[[${ bNo }]]*/0;
+							const pageNo = /*[[${ page }]]*/0;
+							const replyPagePrev = data.pi.currentPage-1;
+							const replyPageNext = data.pi.currentPage+1;
+							
+							const li1 = document.createElement('li');
+							const li2 = document.createElement('li');
+							const a1 = document.createElement('a');
+							const a2 = document.createElement('a');
+							
+							if(data.pi.currentPage > 1) {
+								a1.classList.add('btn-gradient', 'yellow', 'mini', 'prev');
+								a1.setAttribute('href', loc + '?bNo=' + bNo + '&page=' + pageNo + '&replyPage=' + replyPagePrev);
+							} else {
+								a1.classList.add('btn-gradient', 'yellow', 'mini', 'prev', 'disabled');
+								a1.setAttribute('href', loc + '?bNo=' + bNo + '&page=' + pageNo + '&replyPage=' + replyPagePrev);
+							}
+							
+							if(data.pi.currentPage < data.pi.maxPage){
+								a2.classList.add('btn-gradient', 'yellow', 'mini', 'next');
+								a2.setAttribute('href', loc + '?bNo=' + bNo + '&page=' + pageNo + '&replyPage=' + replyPageNext);
+							} else {
+								a2.classList.add('btn-gradient', 'yellow', 'mini', 'next', 'disabled');
+								a2.setAttribute('href', loc + '?bNo=' + bNo + '&page=' + pageNo + '&replyPage=' + replyPageNext);
+							}
+							
+							const li3 = document.createElement('li');
+							const span = document.createElement('span');
+							const currentP = document.createTextNode(data.pi.currentPage);
+							
+							li3.setAttribute('style', 'margin-top: 21px;');
+							span.setAttribute('style', 'font-size: 13px; font-weight: bold;');
+							
+							a1.appendChild(prev);
+							li1.appendChild(a1);
+							a2.appendChild(next);
+							li2.appendChild(a2);
+							span.appendChild(currentP);
+							li3.appendChild(span);
+							
+							pagination.appendChild(li1);
+							pagination.appendChild(li3);
+							pagination.appendChild(li2);
+							
+							page.appendChild(pagination);
+							
+							arrowBtn.appendChild(page);
+							
 							document.getElementsByClassName('replyInput')[0].value = '';
 						},
 						error: data => {
 						}
 					});
-				} else if(replyInput == '') {
+				} else if(replyInput.trim() == '') {
 					document.getElementsByClassName('replyInput')[0].focus();
 				}
 			}

@@ -86,5 +86,15 @@ public interface SupportDAO {
 
 	ArrayList<SupportHistory> currentSupporter(int supportNo);
 
+	int getCateEndListCount(Support s);
+
+	ArrayList<Support> cateEndSupportList(RowBounds rowBounds, Support s);
+
+	int getApplyListAdmin(Support s);
+
+	ArrayList<Support> applyListAdmin(RowBounds rowBounds, Support s);
+
+	int updateSupport(Support s);
+
 
 }

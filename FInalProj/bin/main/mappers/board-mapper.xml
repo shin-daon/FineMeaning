@@ -134,7 +134,7 @@
 	<select id="replyCount" resultType="_int">
 		select count(*)
 		from reply
-		where board_no = #{boardNo}
+		where board_no = #{boardNo} and re_status = 'Y'
 	</select>
 	
 	<update id="deleteReplyAll">
@@ -142,6 +142,20 @@
 		set re_status = 'N'
 		where board_no = #{boardNo}
 	</update>
+	
+	<select id="myReplyCount" resultType="_int">
+		select count(*)
+		from reply
+		where re_writer = #{uNo} and re_status = 'Y'
+	</select>
+	
+	<select id="selectMyReply" resultMap="replyResultSet">
+		select *
+		from reply
+			 join board using(board_no)
+		where re_writer = #{uNo} and re_status = 'Y'
+		order by re_no desc
+	</select>
 	
 	<update id="deleteCommReply">
 		update reply

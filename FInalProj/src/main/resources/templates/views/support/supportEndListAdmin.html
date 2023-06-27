@@ -31,22 +31,100 @@
 
 
 			
-
-
-
-			<div class="actionArea">
-            <div class="searchArea">
-                <input class="searchInput" type="text" placeholder="검색"/>
-                <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
-            </div>
+			<div style="display:flex; width:1000px;">
+				<div style="float:left; margin-bottom:2px;">
+				<span class="dropdown" id="area-dropdown">
+	                <th:block th:if="${category == null}">
+		                <button type="button" class="dropdown-btn" id="areabtn">카테고리</button>
+		                <input type="hidden" id="area" name="supportCategory" value="none" required/>
+	                </th:block>
+	                <th:block th:if="${category != null}">
+		                <button type="button" class="dropdown-btn" id="areabtn">[[${category}]]</button>
+		                <input type="hidden" id="area" name="supportCategory" th:value="${category}" required/>
+	                </th:block>
+	                <div class="dropdown-content" id="area-content">
+	                	<span class="selectArea" th:if="${category != null}">전체</span>
+	                    <span class="selectArea">사람</span>
+	                    <span class="selectArea">동물</span>
+	                    <span class="selectArea">환경</span>
+	                    <span class="selectArea">기타</span>
+	                </div>
+	            </span>
+	            </div>
+	            
+	            <script>
+	            	document.getElementById('areabtn').addEventListener('click', ()=>{
+	            		document.getElementById('area-content').style.display="block";
+	            	})
+	            	
+	            	const categorys = document.getElementsByClassName('selectArea')
+	            	for(const category of categorys){
+	            		category.addEventListener('click',function(){
+	            			const cate = this.innerText;
+	            			location.href="categoryEndListAdmin.su?category="+cate;
+	            		})
+	            	}
+	            	
+	            	const total = document.getElementsByClassName('selectArea')[0]
+	            	if(total != null){
+	            		total.addEventListener('click', ()=>{
+	            			location.href="supportEndListAdmin.su";
+	            		})
+	            	}
+	            </script>
+	            
+	            
+	            
+	              
+				<div class="actionArea" style="float:right;">
+		            <div class="searchArea">
+		                <th:block th:if="${searchWord==null}">
+			                <input class="searchInput" type="text" name="searchWord" placeholder="제목으로 검색"/>
+		            	</th:block>
+		            	<th:block th:if="${searchWord!=null}">
+			                <input class="searchInput" type="text" name="searchWord" th:value="${searchWord}"/>
+		            	</th:block>
+		                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
+		            </div>
+	        	</div>
+	        	
+	        	
+	        	
+	        	<script>
+		        	document.getElementsByClassName('searchIcon')[0].addEventListener('click', ()=>{
+		        		const category = document.getElementById('area').value;
+		        		
+		        		if(category=='none'){
+							const searchWord = document.getElementsByClassName('searchInput')[0].value
+							location.href="searchEndList.su?searchWord="+searchWord;
+						} else{
+							const searchWord = document.getElementsByClassName('searchInput')[0].value
+							location.href="categoryEndListAdmin.su?searchWord=" + searchWord + "&category="+category;
+						}
+		        		
+		        		
+		        	})
+		        	
+		        	
+			        document.addEventListener('keyup', function(event) {
+					    if (event.key == 'Enter') {
+					        var searchIcons = document.getElementsByClassName('searchIcon');
+					        if (searchIcons.length > 0) {
+					            var searchIcon = searchIcons[0];
+					            var clickEvent = new MouseEvent('click', {
+					                bubbles: true,
+					                cancelable: true,
+					                view: window
+					            });
+					            searchIcon.dispatchEvent(clickEvent);
+					        }
+					    }
+					});
+	        	</script>
         	</div>
+			
         	
-        	<script>
-	        	document.getElementsByClassName('searchIcon')[0].addEventListener('click', ()=>{
-					const searchWord = document.getElementsByClassName('searchInput')[0].value
-					location.href="searchEndList.su?searchWord="+searchWord
-				})
-        	</script>
+        	
 
         <table class="supportTable">
             <thead>
@@ -61,6 +139,9 @@
                 </tr>
             </thead>
             <tbody>
+            		<tr th:if="${sList.isEmpty}">
+		                	<td colspan="7">종료된 후원이 없습니다.</td>
+		            <tr>
 	                <tr th:each="s:${sList}" th:if="${sList!=null}">
 	                    <td th:text="${s.supportNo}"></td>
 	                    <td th:text="${s.supportCategory}"></td>

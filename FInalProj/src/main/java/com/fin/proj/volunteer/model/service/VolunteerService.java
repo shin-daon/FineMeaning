@@ -29,4 +29,8 @@ public interface VolunteerService {
 	ArrayList<Volunteer> searchVolunteer(PageInfo pi, HashMap<String, String> map);
 
 	ArrayList<Volunteer> searchVolunteerByAjax(PageInfo pi, HashMap<String, String> ajaxMap);
+
+	int getVolunteerEnrollHistoryCount(int uNo);
+
+	ArrayList<Volunteer> selectVolunteerEnrollHistory(PageInfo pi, int uNo);
 }

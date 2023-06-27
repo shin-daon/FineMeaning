@@ -1,10 +1,14 @@
 package com.fin.proj.member.model.service;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.member.model.dao.MemberDAO;
 import com.fin.proj.member.model.vo.Member;
 
@@ -88,6 +92,38 @@ public class MemberServiceImpl implements MemberService {
 	public int searchPhoneUser2(HashMap<String, String> map) {
 		return mDAO.searchPhoneUser2(map);
 	}
+	
+	@Override
+	public int loginFailCount(String uId) {
+		return mDAO.loginFailCount(uId);
+	}
+	
+	@Override
+	public Member loginFailDate(Timestamp timestamp) {
+		return mDAO.loginFailDate(timestamp);
+	}
+	
+	@Override
+	public int getListCount() {
+		return mDAO.getListCount();
+	}
+	
+	@Override
+	public ArrayList<Member> selectUserList(PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 
+		return mDAO.selectUserList(rowBounds);
+	}
+	
+	@Override
+	public int getUserListCount(int uNo) {
+		return mDAO.getUserListCount(uNo);
+	}
+	
+	@Override
+	public ArrayList<Member> selectUserListEach(PageInfo pi, int uNo) {
+		return mDAO.selectUserListEach(uNo);
+	}
 
 }

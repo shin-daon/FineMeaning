@@ -1,7 +1,10 @@
 package com.fin.proj.member.model.service;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.member.model.vo.Member;
 
 public interface MemberService {
@@ -35,5 +38,18 @@ public interface MemberService {
 	int searchPhoneUser(HashMap<String, String> map);
 
 	int searchPhoneUser2(HashMap<String, String> map);
+
+	int loginFailCount(String uId);
+
+	Member loginFailDate(Timestamp timestamp);
+
+	int getListCount();
+
+	ArrayList<Member> selectUserList(PageInfo pi);
+
+	int getUserListCount(int uNo);
+
+	ArrayList<Member> selectUserListEach(PageInfo pi, int uNo);
+	
 
 }

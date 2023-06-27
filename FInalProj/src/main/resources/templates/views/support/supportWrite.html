@@ -33,6 +33,9 @@
 			color:darkgreen;
 		}
 		
+		#groupReprePic{
+			display:none;
+		}
 	</style>
 
 </head>
@@ -76,12 +79,12 @@
                                 <img id="preview">						
                                 <input type="file" accept="image/*" class="form-control form-control-lg" name="file" id="groupReprePic" onchange="setThumbnail(event);">
                             </div>
-                            <input type="hidden" name="imageUrl" id="imageUrl">
+                            <input type="hidden" name="imageUrl" id="imageUrl" value="none">
 	                	</td>
 	                    <td>카테고리</td>
 	                    <td>
 	                        <span class="dropdown" id="area-dropdown">
-	                            <button type="button" class="dropdown-btn" id="areabtn">선택</button>
+	                            <button type="button" class="dropdown-btn" id="areabtn">카테고리</button>
 	                            <input type="hidden" id="area" name="supportCategory" value="none" required/>
 	                            <div class="dropdown-content" id="area-content">
 	                                <span class="selectArea">사람</span>
@@ -95,7 +98,7 @@
 	                <tr>
 	                    <td>제목</td>
 	                    <td>
-	                        <input type="text" name="supportTitle" maxlength="40" required/>
+	                        <input type="text" name="supportTitle" maxlength="40" id="supportTitleInput" required/>
 	                    </td>
 	                </tr>
 	                <tr>
@@ -202,7 +205,7 @@ function setThumbnail(event){
 			document.getElementById('insertGroupPic').style.display='none';
 			const img = document.getElementById("preview");
 			img.src = data;
-            img.setAttribute("style", "width:220px; height:220px; background-color:white; margin:auto; border-radius:2em; border:3px solid #609966");
+            img.setAttribute("style", "width:224px; height:200px; background-color:white; margin:auto; border-top-left-radius:0.6em;");
             imageUrl.setAttribute('value', data);
 		},
 		error: error => {
@@ -214,7 +217,46 @@ function setThumbnail(event){
 
 $(function(){
 	  $("#confirm").click(function(){
-	      document.getElementById('supportApply').submit();
+		  const supportPic = document.getElementById('imageUrl')
+		  const categoryButton = document.getElementById('areabtn')
+		  const startDateInput = document.getElementById('startDate')
+		  const endDateInput = document.getElementById('endDate')
+		  const supportTitleInput = document.getElementById('supportTitleInput')
+		  const supportAmount = document.getElementById('vCountAll')
+		  const supportDetail = document.getElementById('summernote')
+		  if(supportPic.value =="none"){
+			  alert("후원 대표사진 설정은 필수입니다.")
+			  $("#popup").fadeOut();
+			  document.getElementById('groupReprePic').click();
+		  } else if(categoryButton.innerText =="카테고리"){
+			  alert("카테고리 설정은 필수입니다.")
+			  $("#popup").fadeOut(); 
+			  document.getElementById('area-content').style.display ="block"
+		  } else if(startDateInput.value=="" || endDateInput.value==""){
+			  alert("후원 기간 설정도 필수입니다.")
+			  $("#popup").fadeOut(); 
+			  startDate.focus();
+		  } else if(supportTitleInput.value==""){
+			  alert("후원 제목을 작성하세요")
+			  $("#popup").fadeOut();
+			  supportTitleInput.focus();
+		  } else if(supportAmount.value<100000){
+			  alert("모금 금액은 10,000원 이상이어야합니다.")
+			  $("#popup").fadeOut();
+			  supportAmount.focus();
+		  } else if(supportDetail.value ==""){
+			  alert("후원 내용을 작성하세요")
+			  $("#popup").fadeOut();
+			  supportDetail.focus();
+		  }
+		  
+		  
+		  if(supportPic.value!="none" && categoryButton.innerText !="카테고리" 
+				  && startDateInput.value!="" && endDateInput.value!="" && supportTitleInput.value !="" 
+				  && supportAmount.value >=100000 && supportDetail.value !=""){
+			  document.getElementById('supportApply').submit();
+		  }
+		  
 	  });
 	  $("#modal-open").click(function(){   
 	      $("#popup").css('display','flex').hide().fadeIn();
@@ -246,7 +288,6 @@ window.onload = () => {
         ]
 	});
 	
-	 
    	const categoryButton = document.querySelector('#areabtn')
    	categoryButton.addEventListener('click', ()=>{
    		document.querySelector('#area-content').style.display='block';
@@ -278,8 +319,9 @@ window.onload = () => {
 		endDate.setAttribute("min", this.value);
 	});
 	
-	endDate.addEventListener("change", function() {
-	});
+// 	endDate.addEventListener("change", function() {
+		
+// 	});
 	
 	
     const selectAreas = document.getElementsByClassName("selectArea");

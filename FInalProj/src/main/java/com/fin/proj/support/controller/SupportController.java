@@ -66,7 +66,6 @@ public class SupportController {
 		int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
 		
 		
-		System.out.println(s);
 		model.addAttribute("s", s);
 		model.addAttribute("dDay", dDay);
 		model.addAttribute("shList", shList);
@@ -211,17 +210,26 @@ public class SupportController {
 
 	@RequestMapping("applyDevision.su")
 	public String applyDevision(@RequestParam(value = "page", required = false) Integer currentPage,
-			@RequestParam("division") String division, Model model) {
+			@RequestParam("status") String status,@RequestParam("supportCategory") String category, @RequestParam("supportTitle") String searchWord, Model model) {
 		if (currentPage == null) {
 			currentPage = 1;
 		}
+		
+		Support s = new Support();
+		s.setSupportCategory(category);
+		s.setSupportTitle(searchWord);
+		s.setStatus(status.charAt(0));
 
-		int listCount = suService.getDListCount(division);
+		int listCount = suService.getApplyListCount(s);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
-		ArrayList<Support> sList = suService.applyDevision(pi, division);
+		ArrayList<Support> sList = suService.applyListAdmin(pi, s);
 
 		model.addAttribute("sList", sList);
 		model.addAttribute("pi", pi);
+		model.addAttribute("category", category);
+		model.addAttribute("status", status);
+		model.addAttribute("searchWord", searchWord);
+		
 		return "supportApplicationListAdmin";
 
 	}
@@ -297,6 +305,7 @@ public class SupportController {
 		ArrayList<Support> sList = suService.selectSearchListAdmin(pi, searchWord.trim());
 		model.addAttribute("pi", pi);
 		model.addAttribute("sList", sList);
+		model.addAttribute("searchWord", searchWord.trim());
 		return "supportListAdmin";
 	}
 
@@ -492,10 +501,14 @@ public class SupportController {
 							   @RequestParam(value="searchWord", required = false) String searchWord,
 								Model model) {
 		
+		
+		
 		if(category.equals("전체")) {
 			return "redirect:supportMain.su";
 		}
 		
+		int maintotalCount = suService.maintotalCount();
+		int maintotalAmount = suService.maintotalAmount();
 		
 		if (currentPage == null) {
 			currentPage = 1;
@@ -519,12 +532,16 @@ public class SupportController {
 			model.addAttribute("sList", sList);
 			model.addAttribute("pi", pi);
 			model.addAttribute("category", category);
+			model.addAttribute("totalCount", maintotalCount);
+			model.addAttribute("totalAmount", maintotalAmount);
 			return "supportMain";
 		} else {
 			model.addAttribute("sList", sList);
 			model.addAttribute("pi", pi);
 			model.addAttribute("category", category);
 			model.addAttribute("searchWord", searchWord);
+			model.addAttribute("totalCount", maintotalCount);
+			model.addAttribute("totalAmount", maintotalAmount);
 			return "supportMain";
 		}
 		
@@ -534,6 +551,10 @@ public class SupportController {
 	public String mainSearch(@RequestParam("searchWord") String searchWord,
 							@RequestParam(value = "page", required = false) Integer currentPage,
 								Model model ) {
+		
+		int maintotalCount = suService.maintotalCount();
+		int maintotalAmount = suService.maintotalAmount();
+		
 		if(searchWord.trim().equals("")) {
 			return "redirect:supportMain.su";
 		}
@@ -551,6 +572,8 @@ public class SupportController {
 		model.addAttribute("pi", pi);
 		model.addAttribute("sList", sList);
 		model.addAttribute("searchWord", searchWord.trim());
+		model.addAttribute("totalCount", maintotalCount);
+		model.addAttribute("totalAmount", maintotalAmount);
 		return "supportMain";
 		
 		
@@ -615,6 +638,64 @@ public class SupportController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("categoryEndListAdmin.su")
+	public String categoryEndListAdmin(@RequestParam("category") String category,
+										@RequestParam(value = "page", required = false) Integer currentPage,
+										@RequestParam(value = "searchWord", required=false) String searchWord, Model model) {
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+		
+		Support s = new Support();
+		s.setSupportCategory(category);
+		s.setSupportTitle(searchWord);
+		
+		int listCount = suService.getCateEndListCount(s);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Support> sList = suService.cateEndSupportList(pi, s);
+		
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("category", category);
+		model.addAttribute("sList", sList);
+		model.addAttribute("pi", pi);
+		return "supportEndListAdmin";
+	}
+	
+	@RequestMapping("deleteSupport.su")
+	public String deleteSupport(@RequestParam("supportNo") int supportNo) {
+		Support s = new Support();
+		s.setStatus('N');
+		s.setSupportNo(supportNo);
+		int result = suService.updateApplyStatus(s);
+		if (result > 0) {
+			return "redirect:supportMain.su";
+		} else {
+			throw new SupportException("후원 삭제에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("supportEdit.su")
+	public String EditView(@RequestParam("supportNo") int supportNo, Model model) {
+		Support s = suService.supportDetail(supportNo);
+		
+		model.addAttribute("s", s);
+		return "supportEdit";
+	}
+	
+	@RequestMapping("updateSupport.su")
+	public ModelAndView updateSupport(@ModelAttribute Support s, ModelMap model) {
+		System.out.println(s);
+		
+		int result = suService.updateSupport(s);
+		if(result>0) {			
+			model.addAttribute("supportNo", s.getSupportNo());
+			return new ModelAndView("redirect:supportDetail.su", model);
+		} else {
+			throw new SupportException("후원 수정에 실패했습니다.");
 		}
 	}
 }
