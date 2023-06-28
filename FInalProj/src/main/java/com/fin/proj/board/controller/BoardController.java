@@ -166,7 +166,7 @@ public class BoardController {
 			ra.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuNickName());
 			ra.addAttribute("bNo", b.getBoardNo());
 			ra.addAttribute("page", page);
-			return "redirect:faq_detail.bo";
+			return "redirect:faqDetail.bo";
 		} else {
 			throw new BoardException("글 수정 실패");
 		}
@@ -414,7 +414,7 @@ public class BoardController {
 			ra.addAttribute("bNo", b.getBoardNo());
 			ra.addAttribute("page", page);
 			
-			return "redirect:fruit_detail.bo";
+			return "redirect:fruitDetail.bo";
 		} else {
 			throw new BoardException("게시글 수정 실패");
 		}
