@@ -170,7 +170,7 @@ public class BoardController {
 			ra.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuNickName());
 			ra.addAttribute("bNo", b.getBoardNo());
 			ra.addAttribute("page", page);
-			return "redirect:faq_detail.bo";
+			return "redirect:faqDetail.bo";
 		} else {
 			throw new BoardException("글 수정 실패");
 		}
@@ -262,9 +262,28 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("updateFinePeopleForm.bo")
-	public String updateFinePeopleForm() {
-		return "updateFinePeople_form";
+	@GetMapping("finePeopleEdit.bo")
+	public String finePeopleEdit(@RequestParam("bNo") String bNo, @RequestParam("page") int page,
+									   Model model) {
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		Board b = bService.selectBoard(boardNo, false);
+//		System.out.println(b);
+		
+		model.addAttribute("board", b);
+		model.addAttribute("page", page);
+		return "finePeople_edit";
+	}
+	
+	@PostMapping("updateFinePeople.bo")
+	public String updateFinePeople(@ModelAttribute Board b, @RequestParam("page") int page) {
+		System.out.println(b);
+		System.out.println(page);
+		return "redirect:finePeopleAdmin.bo";
 	}
 	
 	@GetMapping("deleteFinePeople.bo")
@@ -418,7 +437,7 @@ public class BoardController {
 			ra.addAttribute("bNo", b.getBoardNo());
 			ra.addAttribute("page", page);
 			
-			return "redirect:fruit_detail.bo";
+			return "redirect:fruitDetail.bo";
 		} else {
 			throw new BoardException("게시글 수정 실패");
 		}
