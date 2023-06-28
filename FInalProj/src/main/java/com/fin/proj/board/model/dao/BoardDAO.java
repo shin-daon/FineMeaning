@@ -52,4 +52,8 @@ public interface BoardDAO {
 
 	int myReplyCount(int uNo);
 
+	int myBoardCount(int uNo);
+
+	ArrayList<Board> selectMyBoard(int uNo, RowBounds rowbounds);
+
 }

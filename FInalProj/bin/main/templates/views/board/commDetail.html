@@ -187,8 +187,19 @@ width: 80px;
 		</div>
 				
       
-		<button class="writeFaqBtn learn-more" onclick="location.href='commList.bo'">목록으로</button>
-		
+		<button class="writeFaqBtn learn-more" th:onclick="redirectToPage()">목록으로</button>
+		<script th:inline="javascript">
+		/* <![CDATA[ */
+		function redirectToPage() {
+			  const isAdmin = /*[[${session.loginUser.isAdmin}]]*/1;
+			  /* ]]> */
+			  if (isAdmin === 0) {
+			    location.href = 'commAdminList.bo'; // 관리자 계정일 경우 commAdminList.bo로 이동
+			  } else {
+			    location.href = 'commList.bo'; // 일반 회원일 경우 commList.bo로 이동
+			  }
+			}
+		</script>
 		
 		
 			<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">

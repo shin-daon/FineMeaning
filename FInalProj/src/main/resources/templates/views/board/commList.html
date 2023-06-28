@@ -79,11 +79,6 @@ width: 80px;
 <body>
 <div th:replace="~{../common/header :: header}"></div>
 
-<div th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}">
-  <div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
-</div>
-
-
 <section id="faqSection">
         <div>
             <div id="faqTitle">TALK</div>
