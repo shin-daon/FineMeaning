@@ -123,8 +123,9 @@
                 <input type="hidden" id="statusInput" name="statusInput" value="모집중"/>
                 <ul class="status-ul">
                     <li name="status">전체</li>
+                    <li name="status">모집전</li>
                     <li name="status">모집중</li>
-                    <li name="status">모집 완료</li>
+                    <li name="status">모집종료</li>
                 </ul>
             </div>
         </section>
@@ -145,7 +146,7 @@
                     <span class="v-locale-icon">[[${v.vArea}]]</span><input type="hidden" th:value="${v.vRecruitmentStartDate}"><span class="v-recruitment-status">[[${v.vRecruitmentEndDate}]]</span><span class="v-list-category">([[${v.vMainCategoryName}]] > [[${v.vSubCategoryName}]])</span>
                     <div class="v-list-title">[[${v.vName}]]</div>
                     <div class="v-list-info">
-                        <span class="v-bold">[모집기관]</span><span>[[${v.registrar}]]</span><span class="v-bold">[모집기간]</span><span>[[${v.vRecruitmentStartDate}]]~[[${v.vRecruitmentEndDate}]]</span><span class="v-bold">[봉사기간]</span><span>[[${v.vStartDate}]]~[[${v.vEndDate}]]</span>
+                        <span class="v-bold">[모집기관]</span><span>[[${v.registrar}]]</span><span class="v-bold">[모집기간]</span><span>[[${#strings.substring(#strings.arraySplit(v.vRecruitmentStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vRecruitmentStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vRecruitmentStartDate, "-")[2]}]]~[[${#strings.substring(#strings.arraySplit(v.vRecruitmentEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vRecruitmentEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vRecruitmentEndDate, "-")[2]}]]</span><span class="v-bold">[봉사기간]</span><span>[[${#strings.substring(#strings.arraySplit(v.vStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vStartDate, "-")[2]}]]~[[${#strings.substring(#strings.arraySplit(v.vEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vEndDate, "-")[2]}]]</span>
                     </div>
                 </div>
                 <div class="v-end-box">
@@ -383,7 +384,7 @@
 			    			recruitmentStatus.innerText = "모집전"
 			    		}
 			    	} else {
-			    		recruitmentStatus.innerText = "모집완료";
+			    		recruitmentStatus.innerText = "모집종료";
 			    	}
 			    }
 		    }
@@ -597,7 +598,10 @@
 		 						vListInfo.appendChild(vBold2);
 		 						
 		 						const recruitmentDateSpan = document.createElement("span");
-		 						recruitmentDateSpan.innerText = volunteer.vRecruitmentStartDate + "~" + volunteer.vRecruitmentEndDate;
+		 						const recruitmentStartDateArr = volunteer.vRecruitmentStartDate.split("-");
+		 						const recruitmentEndDateArr = volunteer.vRecruitmentEndDate.split("-");
+		 						recruitmentDateSpan.innerText = recruitmentStartDateArr[0] + "." + recruitmentStartDateArr[1] + "." + recruitmentStartDateArr[2] + 
+		 														"~" + recruitmentEndDateArr[0] + "." + recruitmentEndDateArr[1] + "." + recruitmentEndDateArr[2]
 		 						vListInfo.appendChild(recruitmentDateSpan);
 		 						
 		 						const vBold3 = document.createElement("span");
@@ -607,7 +611,10 @@
 		 						vListItem.appendChild(vListInfo);
 		 						
 		 						const volunteerDateSpan = document.createElement("span");
-		 						volunteerDateSpan.innerText = volunteer.vStartDate + "~" + volunteer.vEndDate;
+		 						const volunteerStartDateArr = volunteer.vStartDate.split("-");
+		 						const volunteerEndDateArr = volunteer.vEndDate.split("-");
+		 						volunteerDateSpan.innerText = volunteerStartDateArr[0] + "." + volunteerStartDateArr[1] + "." + volunteerStartDateArr[2] + 
+															  "~" + volunteerEndDateArr[0] + "." + volunteerEndDateArr[1] + "." + volunteerEndDateArr[2]
 		 						vListInfo.appendChild(volunteerDateSpan);
 		 					
 		 						
@@ -658,7 +665,7 @@
 		    	clickCategory(categories[0], categories);
 		    	clickCategory(onoffLines[0], onoffLines);
 		    	clickCategory(objects[0], objects);
-		    	clickCategory(statuses[1], statuses);
+		    	clickCategory(statuses[2], statuses);
 		    	
 		    	for(ul of ulList) {
 		    		ul.scrollTop = 0;
