@@ -166,8 +166,8 @@
 		                <li th:unless="${ pi.currentPage > 1 }">
 		                	<a th:href="@{${loc}(bNo=${ bNo },page=${ page },replyPage=${ pi.currentPage-1 })}" class="btn-gradient yellow mini prev disabled">이전</a>
 		                </li>
-		                <li style="margin-top: 21px; font-size: 15px;">
-		                	<span>[[${ pi.currentPage }]]</span>
+		                <li style="margin-top: 21px; font-size: 13px;">
+		                	<span style="font-size: 13px; font-weight: bold;">[[${ pi.currentPage }]]</span>
 		                </li>
 		                <li th:if="${ pi.currentPage < pi.maxPage} ">
 		                	<a th:href="@{${loc}(bNo=${ bNo },page=${ page },replyPage=${ pi.currentPage+1 })}" class="btn-gradient yellow mini next">다음</a>
@@ -346,8 +346,8 @@
 							const span = document.createElement('span');
 							const currentP = document.createTextNode(data.pi.currentPage);
 							
-							li3.setAttribute('style', 'margin-top: 21px; font-size: 15px;');
-							
+							li3.setAttribute('style', 'margin-top: 21px;');
+							span.setAttribute('style', 'font-size: 13px; font-weight: bold;');
 							
 							a1.appendChild(prev);
 							li1.appendChild(a1);
