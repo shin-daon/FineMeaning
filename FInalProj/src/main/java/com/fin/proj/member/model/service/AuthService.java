@@ -40,15 +40,6 @@ public class AuthService {
 	@Value("${my.phone.number}")
     private String myPhoneNumber;
 	
-	@Value("${kakao.client.id}")
-    private String kakaoClientId;
-	
-	@Value("${kakao.client.secret}")
-    private String kakaoClientSecret;
-	
-	@Value("${kakao.redirect.url}")
-    private String kakaoRedirectUrl;
-	
 	private final static String KAKAO_API_URI = "https://kapi.kakao.com";
 		
 	private int authNumber;

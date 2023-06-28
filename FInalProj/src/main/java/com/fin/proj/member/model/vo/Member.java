@@ -14,7 +14,7 @@ public class Member {
 	private String email;
 	private String uNickName;
 	private String loginType;
-	private Integer kakaoId;
+	private Long kakaoId;
 	private String uStatus;
 	private String uType;
 	private String registrar;
@@ -26,7 +26,7 @@ public class Member {
 	public Member() {};
 
 	public Member(Integer uNo, String uId, String uPwd, String uName, String residentNo, String address, String phone,
-			String email, String uNickName, String loginType, Integer kakaoId, String uStatus, String uType,
+			String email, String uNickName, String loginType, Long kakaoId, String uStatus, String uType,
 			String registrar, Date enrollDate, Integer isAdmin, Integer failedCount, Timestamp lastLoginDate) {
 		super();
 		this.uNo = uNo;
@@ -129,11 +129,11 @@ public class Member {
 		this.loginType = loginType;
 	}
 
-	public Integer getKakaoId() {
+	public Long getKakaoId() {
 		return kakaoId;
 	}
 
-	public void setKakaoId(Integer kakaoId) {
+	public void setKakaoId(Long kakaoId) {
 		this.kakaoId = kakaoId;
 	}
 
