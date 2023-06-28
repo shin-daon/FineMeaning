@@ -462,7 +462,7 @@ input:radio + .switch:after {
 		            <tr>
 	                <tr th:each="m : ${mList}" th:if="${mList!=null}">
 	                    <td th:text="${m.uNo}"></td>
-	                    <td th:text="${m.uId}"></td>
+	                    <td th:text="${m.uId != null ? m.uId : '-'}"></td>
 	                    <td th:text="${m.uName}"></td>
 	                    <td th:text="${m.residentNo}"></td>
 	                    <td th:text="${m.uNickName}"></td>
