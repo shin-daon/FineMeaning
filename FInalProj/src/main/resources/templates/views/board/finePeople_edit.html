@@ -95,10 +95,9 @@
 	    </div>
         
         <div id="finePeople_write_title">게시글 수정</div>
-		
 	        <form method="post" action="updateFinePeople.bo">
 	        	<input type="hidden" name="boardNo" th:value="${board.boardNo}">
-	        	<input type="hidden" name="page" value="${page}">
+	        	<input type="hidden" name="page" th:value="${page}">
 	            <table class="formDiv">
                     <tr>
                         <td colspan="2" rowspan="2">
@@ -108,7 +107,7 @@
                                 </span>
                                 <input type="file" accept="image/*" class="form-control form-control-lg" name="file" id="groupReprePic" onchange="setThumbnail(event);">
                             </div>
-                            <input type="hidden" name="imageUrl" id="imageUrl">
+                            <input type="hidden" name="imageUrl" id="imageUrl" th:value="${board == null ? '' : board.imageUrl}">
                         </td>
                         <td colspan="2" class="titleArea">	<!-- 제목은 16자 / 이름은 7자 -->
                             <input type="text" th:value="${board.boardTitle}" class="finePeopleTitle" name="boardTitle" placeholder="제목 (16자 입력 가능)" maxlength="16" required>
@@ -125,7 +124,7 @@
                     </tr>
                 </table>
                 <div class="btnArea">
-	                <button class="writeFaqBtn learn-more">수정하기</button>
+	                <button type="submit" class="writeFaqBtn learn-more">수정하기</button>
 	                <button type="button" class="backBtn learn-more-back">취소</button>
 	            </div>
 	        </form>
@@ -161,7 +160,7 @@
 			
 			yesBtn.addEventListener('click', () => {
 			    modal.style.display = 'none';
-			    location.href="finePeopleMain.bo";
+			    location.href="finePeopleAdmin.bo";
 			});
 			
 			noBtn.addEventListener('click', () => {

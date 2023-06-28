@@ -61,6 +61,9 @@
 		<if test="boardCate != 0">
 		, board_cate=#{boardCate}
 		</if>
+		<if test="imageUrl != null">
+		, image_url=#{imageUrl}
+		</if>
 		where board_No= #{boardNo}
 	</update>
 	
@@ -95,6 +98,19 @@
 			 join users using(u_no)
 		where board_title like '%' || #{keyword} || '%' and board_type = #{i} and board_status = 'Y'
 		order by board_no desc
+	</select>
+	
+	<select id="searchByFpName" resultMap="boardResultSet">
+		select *
+		from board
+		where fp_name like '%' || #{keyword} || '%' and board_type = #{i} and board_status = 'Y'
+		order by board_no desc
+	</select>
+	
+	<select id="finePeopleCount" resultType="_int">
+		select count(*)
+		from board
+		where fp_name like '%' || #{keyword} || '%' and board_type = #{i} and board_status = 'Y'
 	</select>
 	
 	<select id="selectReply" resultMap="replyResultSet">

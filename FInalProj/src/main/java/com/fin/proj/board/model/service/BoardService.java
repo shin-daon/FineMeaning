@@ -49,4 +49,7 @@ public interface BoardService {
 
 	ArrayList<Board> selectMyBoard(PageInfo pageInfo, int uNo);
 
+	ArrayList<Board> searchByFpName(PageInfo pageInfo, HashMap<String, Object> map);
+
+	int finePeopleCount(HashMap<String, Object> map);
 }

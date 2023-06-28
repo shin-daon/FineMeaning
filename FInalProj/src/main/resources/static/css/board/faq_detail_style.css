@@ -139,18 +139,19 @@
 	margin-top: -7px;
 }
 
-.backgroundImage::after {
-    background-image: url("image/sight3.jpg");
-    width: 100%;
-    height: 100%;
-    border-radius: 15px;
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    opacity: 0.4;
-}
+/* .backgroundImage::after { */
+/*     background-image: url("image/sight3.jpg"); */
+/* 	background-color: #eeecd9; */
+/*     width: 100%; */
+/*     height: 100%; */
+/*     border-radius: 15px; */
+/*     content: ""; */
+/*     position: absolute; */
+/*     top: 0; */
+/*     left: 0; */
+/*     z-index: -1; */
+/*     opacity: 0.4; */
+/* } */
 
 .contentMain {
     color: black;

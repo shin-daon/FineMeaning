@@ -62,7 +62,6 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int updateBoard(Board b) {
-		System.out.println(b);
 		return bDAO.updateBoard(b);
 	}
 
@@ -142,5 +141,17 @@ public class BoardServiceImpl implements BoardService {
 		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
 		RowBounds rowbounds = new RowBounds(offset, pi.getBoardLimit());
 		return bDAO.selectMyBoard(uNo, rowbounds);
+	}
+
+	@Override
+	public ArrayList<Board> searchByFpName(PageInfo pi, HashMap<String, Object> map) {
+		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		RowBounds rowbounds = new RowBounds(offset, pi.getBoardLimit());
+		return bDAO.searchByFpName(map, rowbounds);
+	}
+
+	@Override
+	public int finePeopleCount(HashMap<String, Object> map) {
+		return bDAO.finePeopleCount(map);
 	}
 }

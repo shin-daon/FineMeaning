@@ -233,29 +233,42 @@ public class BoardController {
 		int result = bService.insertBoard(b);
 		
 		if(result > 0) {
-			return "redirect:finePeopleMain.bo";
+			return "redirect:finePeopleAdmin.bo";
 		} else {
 			throw new BoardException("게시물 작성 실패");
 		}
 	}
 
 	@GetMapping("finePeopleAdmin.bo")
-	public String finePeopleAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+	public String finePeopleAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+								  @RequestParam(value="keyword", required=false) String keyword) {
+		
+//		System.out.println(keyword);
+		HashMap<String, Object> map = new HashMap<>();
+		ArrayList<Board> list;
+		PageInfo pageInfo;
+		int listCount;
 		
 		if(currentPage == null) {
 			currentPage = 1;
 		}
 		
-		int listCount = bService.getListCount("선뜻한 사람");
+		if(keyword != null) {
+			map.put("keyword", keyword);
+			map.put("i", "선뜻한 사람");
+			listCount = bService.finePeopleCount(map);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.searchByFpName(pageInfo, map);
+		} else {
+			listCount = bService.getListCount("선뜻한 사람");
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.selectBoardList(pageInfo, "선뜻한 사람");
+		}
 		
-		PageInfo pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
-		
-		ArrayList<Board> list = bService.selectBoardList(pageInfo, "선뜻한 사람");
-		
-		System.out.println(list);
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
 			model.addAttribute("list", list);
+			model.addAttribute("map", map);
 			return "finePeopleAdmin";
 		} else {
 			throw new BoardException("게시글 목록 조회 실패");
@@ -280,10 +293,18 @@ public class BoardController {
 	}
 	
 	@PostMapping("updateFinePeople.bo")
-	public String updateFinePeople(@ModelAttribute Board b, @RequestParam("page") int page) {
-		System.out.println(b);
-		System.out.println(page);
-		return "redirect:finePeopleAdmin.bo";
+	public String updateFinePeople(@ModelAttribute Board b, @RequestParam("page") int page, RedirectAttributes ra) {
+//		System.out.println(b);
+//		System.out.println(page);
+		
+		int result = bService.updateBoard(b);
+		
+		if(result > 0) {
+			ra.addAttribute("page", page);
+			return "redirect:finePeopleAdmin.bo";
+		} else {
+			throw new BoardException("글 수정 실패");
+		}
 	}
 	
 	@GetMapping("deleteFinePeople.bo")
