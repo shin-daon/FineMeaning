@@ -146,10 +146,16 @@
             <span class="link">후원 내역</span>
           </a>
         </li>
-        <li class="list">
+        <li class="list" th:if="${session.loginUser != null && session.loginUser.isAdmin == 1}">
           <a href="volunteerHistory.vo" class="nav-link">
             <i class="bx bx-heart icon"></i>
             <span class="link">자원 봉사 내역</span>
+          </a>
+        </li>
+        <li class="list" th:if="${session.loginUser != null && (session.loginUser.isAdmin == 2 || session.loginUser.isAdmin == 0)}">
+          <a href="volunteerEnrollHistory.vo" class="nav-link">
+            <i class="bx bx-heart icon"></i>
+            <span class="link">봉사 등록 내역</span>
           </a>
         </li>
         <li class="list">
