@@ -78,8 +78,13 @@ width: 80px;
 </head>
 <body>
 <div th:replace="~{../common/header :: header}"></div>
-<section id="faqSection">
 
+<div th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}">
+  <div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
+</div>
+
+
+<section id="faqSection">
         <div>
             <div id="faqTitle">TALK</div>
         </div>
@@ -122,7 +127,6 @@ width: 80px;
 	          	</tr>
             </tbody>
         </table>
-
         <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
                 <li th:if="${ pi.currentPage > 1 }">

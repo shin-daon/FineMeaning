@@ -122,8 +122,26 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public ArrayList<Member> selectUserListEach(PageInfo pi, int uNo) {
+	public Member selectUserListEach(PageInfo pi, int uNo) {
 		return mDAO.selectUserListEach(uNo);
+	}
+	
+	@Override
+	public ArrayList<Member> statusUserList() {
+		return mDAO.statusUserList();
+	}
+	
+	@Override
+	public int getCategoryCount(HashMap<String, String> map) {
+		return mDAO.getCategoryCount(map);
+	}
+	
+	@Override
+	public ArrayList<Member> selectCategoryListAdmin(PageInfo pi, Member m) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return mDAO.selectCategoryListAdmin(rowBounds, m);
 	}
 
 }

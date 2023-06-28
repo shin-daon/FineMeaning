@@ -52,6 +52,14 @@ public interface MemberDAO {
 
 	int getUserListCount(int uNo);
 
-	ArrayList<Member> selectUserListEach(int uNo);
+	Member selectUserListEach(int uNo);
+
+	ArrayList<Member> statusUserList();
+
+	int getCategoryCount(HashMap<String, String> map);
+
+	ArrayList<Member> selectCategoryListAdmin(RowBounds rowBounds, Member m);
+	
+	
 
 }

@@ -385,7 +385,7 @@ a {
 			<div class="insert nickName">
 				<label class="title">닉네임</label>
 				<div class="input">
-					<input type="text" id="normal-input" name="uNickName" th:value="${loginUser.uNickName}"/>
+					<input type="text" id="normal-input" name="uNickName" th:value="${loginUser.uNickName}" maxlength="15"/>
 					<div class="check-div"><label id="nickNameCheckResult"></label></div>
 				</div>
 			</div>
@@ -567,7 +567,12 @@ a {
 		
 	normalRadio.addEventListener('change', toggleAgencyNameInput);
 	agencyRadio.addEventListener('change', toggleAgencyNameInput);
-		
+	
+	if(agencyRadio.checked && agencyNameInput.value.trim() !== ''){
+		agencyNameInput.readOnly = true;
+		normalRadio.disabled = true;
+	}
+	
 	function toggleAgencyNameInput() {
 		if (agencyRadio.checked) {
 		  agencyNameInput.readOnly = false;
