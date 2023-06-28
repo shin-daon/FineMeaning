@@ -49,22 +49,22 @@
 	
 	<update id="updateMyInfo">
 		update users
-		set u_name = #{uName}, u_type = #{uType}, registrar = #{registrar}, address = #{address},
-		    phone = #{phone}, email = #{email, jdbcType=VARCHAR}, u_nickname = #{uNickName}
-		where u_id = #{uId}
+		set u_name = #{uName}, u_type = #{uType}, registrar = #{registrar}, address = #{address, jdbcType=VARCHAR},
+		    phone = #{phone, jdbcType=VARCHAR}, email = #{email, jdbcType=VARCHAR}, u_nickname = #{uNickName}
+		where u_no = #{uNo}
 	</update>
 	
 	<update id="deleteUser">
 		update users
 		set u_status = 'N'
-		where u_id = #{uId}
+		where u_no = #{uNo}
 	</update>
 	
 	<select id="checkNickNameModify" resultType="_int">
 	<![CDATA[
 		select count(*)
 		from users
-		where u_nickname = #{uNickName} AND u_id <> #{uId}
+		where u_nickname = #{uNickName} AND u_no <> #{uNo}
 	]]>
 	</select>
 	
@@ -174,5 +174,17 @@
 		select *
 		from users
 	</select>
+	
+	<select id="kakaoLogin" resultMap="memberResultSet">
+		select *
+		from users
+		where kakao_id = #{kakaoId} and u_status = 'Y'
+	</select>
+	
+	<insert id="kakaoEnroll">
+		insert into users
+		values(seq_uid.nextval, null, null, #{uName}, #{residentNo}, null, null, #{email},
+				#{uNickName}, '카카오', #{kakaoId}, default, #{uType}, #{registrar}, sysdate, default, default, null)
+	</insert>
 	
 </mapper>

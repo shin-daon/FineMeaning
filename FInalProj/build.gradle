@@ -54,6 +54,8 @@ dependencies {
 	// cool-sms
 	implementation 'net.nurigo:sdk:4.3.0'
 	
+	// custom properties
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 tasks.named('test') {

@@ -316,9 +316,9 @@ a {
 		
 		<form action="updateMyInfo.me" method="post">
 			<div class="insert id">
-				<label class="title">아이디</label>
+				<label class="title" th:text="${loginUser.uId == null ? 'kakao 아이디' : '아이디'}"></label>
 				<div class="input">
-					<input type="text" id="normal-input" th:value="${ loginUser.uId }" name="uId" readonly/>
+					<input type="text" id="normal-input" th:value="${loginUser.uId != null ? loginUser.uId : loginUser.kakaoId}" readonly/>
 				</div>
 			</div>
 			
@@ -341,7 +341,7 @@ a {
 			<div class="insert ssn">
 				<label class="title">생년월일</label>
 				<div class="input">
-					<input type="text" id="normal-input" name="residentNo" th:value="${ loginUser.residentNo }" readonly/>
+					<input type="text" id="normal-input" name="residentNo" th:value="${loginUser.residentNo}" th:readonly="${loginUser.residentNo != null}" />
 				</div>
 			</div>
 			
