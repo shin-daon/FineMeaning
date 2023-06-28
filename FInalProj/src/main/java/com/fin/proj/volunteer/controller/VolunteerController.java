@@ -251,7 +251,7 @@ public class VolunteerController {
 		}
 	}
 	
-	// 관리자
+	// 봉사 관리자
 	@GetMapping("volunteerEnroll.vo")
 	public String volunteerEnroll() {
 		return "volunteerEnroll";
@@ -277,6 +277,53 @@ public class VolunteerController {
 			return "volunteerEnrollHistory";
 		}
 		throw new VolunteerException("봉사 등록 내역 조회에 실패하였습니다.");
+	}
+//	
+	@GetMapping("searchVolunteerEnrollHistory.vo")
+	public String searchVolunteerEnrollHistory(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam("startDate") String startDate, 
+											   @RequestParam("endDate") String endDate, @RequestParam("vMainCategoryName") String vMainCategoryName, 
+											   @RequestParam("recruitment") String recruitment, @RequestParam("vName") String vName, @RequestParam("column") String column, 
+											   @RequestParam("vTargetCategoryName") String vTargetCategoryName, HttpSession session, Model model) {
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		if(vMainCategoryName.equals("전체")) {
+			vMainCategoryName = "";
+		} 
+		if(vTargetCategoryName.equals("전체")) {
+			vTargetCategoryName = "";
+		}
+		if(recruitment.equals("전체")) {
+			recruitment = "";
+		}
+		
+		HashMap<String, Object> searchEnrollHisMap = new HashMap<String, Object>();
+		searchEnrollHisMap.put("column", column);
+		searchEnrollHisMap.put("startDate", startDate);
+		searchEnrollHisMap.put("endDate", endDate);
+		searchEnrollHisMap.put("vMainCategoryName", vMainCategoryName);
+		searchEnrollHisMap.put("recruitment", recruitment);
+		searchEnrollHisMap.put("vName", vName);
+		searchEnrollHisMap.put("vTargetCategoryName", vTargetCategoryName);
+		searchEnrollHisMap.put("uNo", ((Member)session.getAttribute("loginUser")).getuNo());
+		
+		int searchVolunteerHistoryCount = vService.getSearchVolunteerHistoryCount(searchEnrollHisMap);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, searchVolunteerHistoryCount, 1);
+		
+		ArrayList<Volunteer> searchVEnrollHistories = vService.selectSearchVolunteerEnrollHistory(pi, searchEnrollHisMap);
+		
+		System.out.println(searchVolunteerHistoryCount);
+		System.out.println(searchVEnrollHistories);
+		
+		if(searchVEnrollHistories != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("vHistories", searchVEnrollHistories);
+			model.addAttribute("searchMap", searchEnrollHisMap);
+			return "volunteerEnrollHistory";
+		}
+		throw new VolunteerException("봉사 등록 내역 검색에 실패하였습니다.");
 	}
 	
 	@PostMapping("volunteerEdit.vo")
@@ -355,5 +402,13 @@ public class VolunteerController {
 		}
 		throw new VolunteerException("봉사 삭제에 실패하였습니다.");
 	}
+	
+	
+	// 관리자
+	@GetMapping("adminVolunteerList.vo")
+	public String adminVolunteerList() {
+		return "adminVolunteerList";
+	}
+	
 	
 }
