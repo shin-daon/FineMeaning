@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<title>Insert title here</title>
+</head>
+<style>
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+	--body-background-color: #f5f6f7;
+	--font-color: #4e4e4e;
+	--border-gray-color: #dadada;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "SUITE-Regular", sans-serif;
+}
+
+.enroll {
+	width: 360px;
+	margin: 0px auto;
+	display: block;
+}
+
+.enroll-title {
+	font-size: 30px;
+	margin-bottom: 75px;
+	text-decoration: #9DC08B wavy underline;
+	margin-left: 87px;
+}
+
+.title {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: bold;
+	word-break: keep-all;
+	color: #4e4e4e;
+}
+
+.insert {
+	margin-top: 40px;
+}
+
+.input {
+	margin-top: 15px;
+	position: relative;
+}
+
+#short-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 215px;
+	height: 40px;
+	border: 1px solid lightgray;
+}
+
+#number-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 233px;
+	height: 40px;
+	border: 1px solid lightgray;
+}
+
+.short-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 100px;
+	height: 40px;
+	font-size: 15px;
+	color: white;
+	background-color: #609966;
+	border: 1px solid #609966;
+	cursor:pointer;
+}
+
+#normal-input,
+#sample6_address {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 333px;
+	height: 40px;
+	border: 1px solid lightgray;
+}
+
+#ssn-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 154px;
+	height: 40px;
+	border: 1px solid lightgray;
+}
+
+#email-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 149px;
+	height: 40px;
+	border: 1px solid lightgray;
+}
+
+#email-select {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 150px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+.nothing {
+	margin-left: 9px;
+	margin-right: 9px;
+}
+
+.normal-btn {
+	margin-top: 8px;
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 333px;
+	height: 40px;
+	font-size: 15px;
+	color: white;
+	background-color: #609966;
+	border: 1px solid #609966;
+	cursor:pointer;
+}
+
+.enroll-btn {
+	margin-bottom: 40px;
+}
+
+.learn-more {
+	margin-top:10px;	
+	margin-left: 113px;		
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	outline: none;
+	border: 0;
+	vertical-align: middle;
+	text-decoration: none;
+	font-size: 15px;
+	font-family: inherit;
+	width:100px;
+	height:32px;
+	font-weight: 600;
+	color: #382b22;
+	text-transform: uppercase;
+	background: #EDF1D6;
+	border: 2px solid #609966;
+	border-radius: 0.75em;
+	transform-style: preserve-3d;
+	transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.learn-more::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #9DC08B;
+  border-radius: inherit;
+  box-shadow: 0 0 0 2px #609966, 0 0.625em 0 0 #EDF1D6;
+  transform: translate3d(0, 0.75em, -1em);
+  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.learn-more:hover {
+  background: #EDF1D6;
+  transform: translate(0, 0.25em);
+}
+
+.learn-more:hover::before {
+  box-shadow: 0 0 0 2px #609966, 0 0.5em 0 0 #EDF1D6;
+  transform: translate3d(0, 0.5em, -1em);
+}
+
+.learn-more:active {
+  background: #EDF1D6;
+  transform: translate(0em, 0.75em);
+}
+
+.learn-more:active::before {
+  box-shadow: 0 0 0 2px #b18597, 0 0 #EDF1D6;
+  transform: translate3d(0, 0, -1em);
+}
+
+.pwd-comment {
+	font-size: 14px;
+	color: gray;
+}
+
+.enroll-comment {
+	font-size: 14px;
+	color: gray;
+	text-align: center;
+	margin-right: 30px;
+}
+
+.last {
+	padding-top: 20px;
+	text-align: center;
+}
+
+a {
+	text-decoration: none;
+	font-size: 14px;
+	color: #4e4e4e;
+	font-weight: bold;
+}
+
+/* 모달 */
+#modal { width: 350px; height: 200px; border: 1px solid #eee; padding: 40px; margin: auto; display: none;
+		 border-radius: 20px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);  text-align: center; background-color: white;
+ 		 position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;}
+
+.modal-comment {
+	font-size: 20px;
+}
+
+#use-id-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 100px;
+	height: 35px;
+	font-size: 15px;
+	color: #609966;
+	background-color: #fff;
+	border: 1.5px solid #609966;
+}
+
+.radio-comment {
+	font-size: 15px;
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+#user-type {
+	accent-color: #609966;
+	width: 14px;
+	height: 14px;
+}
+
+#custom-email-input {
+	padding: 8px 15px 9px;
+    border-radius: 4px;
+    width: 150px;
+    height: 40px;
+    border: 1px solid lightgray;
+    outline: none;
+    position: relative;
+}
+
+.x-btn {
+	background: none;
+	border: none;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+    top: 10px;
+    left: 315px;
+    cursor: pointer;
+}
+
+#idCheckResult,
+#nickNameCheckResult,
+#pwdCheckResult,
+#ssnCheckResult,
+#phoneCheckResult,
+#pwdResult,
+#emailCheckResult,
+#emailCheckResult2 {
+	font-size: 14px;
+	color: gray;    
+} 
+
+.check-div {
+	margin-top: 7px; 
+}
+
+#emailCheckResult2 {
+	cursor: pointer;
+} 
+
+input:not([type="radio"]):focus,
+select:focus {
+	outline: 2px solid #EDF1D6;
+	box-shadow: 0px 0px 15px rgba(237, 241, 214, 0.15); 
+}
+</style>
+<body>
+<div th:replace="~{views/common/header :: header}"></div>
+<br><br><br><br>
+
+<div class="enroll">
+	<div class="enroll-title">추가 정보등록</div>
+	
+	<form action="kakaoEnrollForm.me" method="post" name="enrollForm">
+		<div class="insert id">
+			<label class="title">카카오 아이디</label>
+			<div class="input">
+				<input type="text" id="normal-input" th:value="${newUser.kakaoId}" name="kakaoId" required readonly/>
+				<div class="check-div"><label id="idCheckResult"></label></div>
+			</div>
+		</div>
+		
+		<div class="insert name">
+			<label class="title">이름</label>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="이름" name="uName" required/>
+			</div>
+		</div>
+	
+		<div class="insert agency-name">
+			<label class="title">회원 유형</label><br>
+			<span class="pwd-comment">단체 회원일 경우 기관명을 입력해주세요.</span>
+			<div class="input">
+				<input type="radio" id="user-type" name="uType" value="일반" required/><span class="radio-comment">일반</span>
+				<input type="radio" id="user-type" name="uType" value="단체"/><span class="radio-comment">단체</span>
+				<input type="text" id="short-input" name="registrar" placeholder="기관명"/>
+			</div>
+		</div>
+	
+		<div class="insert ssn">
+			<label class="title">생년월일</label><br>
+			<span class="pwd-comment">8자리로 입력해주세요.</span>
+			<div class="input">
+				<input type="text" id="normal-input" name="residentNo" placeholder="생년월일" maxlength="8" required> 
+				<div class="check-div"><label id="ssnCheckResult"></label></div>
+			</div>
+		</div>
+				
+		<div class="insert nickName">
+			<label class="title">닉네임</label>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="닉네임" name="uNickName" maxlength="15" required/>
+				<div class="check-div"><label id="nickNameCheckResult"></label></div>
+			</div>
+		</div>
+
+		<div class="insert enroll-btn">
+			<button class="learn-more" type="submit" id="enrollBtn">가입하기</button>
+		</div>							
+	</form>	
+	</div>
+		<div class="enroll-comment">이미 아이디가 있으신가요? <a href="loginView.me">로그인</a></div>
+
+	<br><br><br><br>
+<div th:replace="~{views/common/footer :: footer}"></div>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+	// 가입하기 버튼
+	const enrollButton = document.getElementById('enrollBtn');
+    
+    // 아이디, 닉네임 유효성 검사   
+    window.onload = () => {
+    		
+    		const nickName = document.getElementsByName('uNickName')[0];
+    		const nickNameResult = document.getElementById('nickNameCheckResult');
+    		
+    		nickName.addEventListener('input', function(){				
+				if(this.value.trim() == ''){
+					nickNameResult.innerText = '닉네임을 입력해주세요.';
+					nickNameResult.style.color = 'gray';
+					nickName.style.outline = '';
+					nickName.style.boxShadow = '';
+					enrollButton.disabled = true;
+				} else {
+					$.ajax({
+						url: 'checkNickName.me',
+						data: {uNickName:this.value.trim()},
+						success: data => {
+							console.log(data);
+							if(data == 'yes'){
+								nickNameResult.innerText = '사용 가능한 닉네임입니다.';
+								nickNameResult.style.color = '#609966';
+								nickName.style.outline = '1px solid #609966';
+								nickName.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+								enrollButton.disabled = false;
+							} else if(data == 'no'){
+								nickNameResult.innerText = "사용 불가능한 닉네임입니다.";
+								nickNameResult.style.color = 'red';
+								nickName.style.outline = '1px solid red';
+								nickName.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+								enrollButton.disabled = true;
+							}
+						},
+						error: data => {
+							console.log(data);
+						}
+					});
+				}
+				
+			});
+    	}
+	
+	// 회원 유형
+	const normalRadio = document.querySelector('input[name="uType"][value="일반"]');
+	const agencyRadio = document.querySelector('input[name="uType"][value="단체"]');
+	const agencyNameInput = document.getElementsByName('registrar')[0];
+	
+	normalRadio.addEventListener('change', toggleAgencyNameInput);
+	agencyRadio.addEventListener('change', toggleAgencyNameInput);
+	
+	function toggleAgencyNameInput() {
+	  if (agencyRadio.checked) {
+	    agencyNameInput.readOnly = false;	    
+	  } else {
+	    agencyNameInput.readOnly = true;
+	    agencyNameInput.value = '';
+	    agencyNameInput.style.outline = '';
+		agencyNameInput.style.boxShadow = '';
+	  }
+	}
+	
+	// 페이지 로드 시 초기 상태 설정
+	toggleAgencyNameInput();
+	
+	// 생년월일
+	const residentNo = document.querySelector('input[name="residentNo"]');
+	const ssnCheckResult = document.getElementById('ssnCheckResult');
+	
+	residentNo.addEventListener('input', validateSSN);
+	
+	function validateSSN() {
+	  const firstPart = residentNo.value;
+	  const ssnRegexFirst = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
+	
+	  if (ssnRegexFirst.test(firstPart)) {
+	    ssnCheckResult.textContent = '';
+	    residentNo.style.outline = '1px solid #609966';
+	    residentNo.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	    enrollButton.disabled = false;
+	  } else {
+	    ssnCheckResult.textContent = '올바른 생년월일을 입력해주세요.';
+	    ssnCheckResult.style.color = 'red';
+	    residentNo.style.outline = '1px solid red';
+	    residentNo.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	    enrollButton.disabled = true;
+	  }
+	}
+	
+	// 이름, 주소, 전화번호
+	const nameInput = document.querySelector('input[name="uName"]');
+	const addInput = document.querySelector('input[name="address"]');
+	const phoneInput = document.querySelector('input[name="phone"]');
+	const agencyInput = document.querySelector('input[name="registrar"]');
+	
+	nameInput.addEventListener('input', () => {
+		  if (nameInput.value.trim() === '') {
+			nameInput.style.outline = '1px solid red';
+			nameInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+		  } else {
+			nameInput.style.outline = '1px solid #609966';
+			nameInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+		  }
+		});
+		
+		agencyInput.addEventListener('input', () => {
+			  if (agencyInput.value.trim() !== '') {
+				agencyInput.style.outline = '1px solid #609966';
+				agencyInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+			  }
+			});
+	
+		
+	enrollButton.addEventListener('click', function(){	
+
+	   form.submit();
+	   alert('회원가입이 성공적으로 완료되었습니다.');
+	   
+	});
+		
+</script>
+</body>
+</html>

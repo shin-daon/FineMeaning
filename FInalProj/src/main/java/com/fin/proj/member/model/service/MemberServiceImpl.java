@@ -143,5 +143,15 @@ public class MemberServiceImpl implements MemberService {
 		
 		return mDAO.selectCategoryListAdmin(rowBounds, m);
 	}
+	
+	@Override
+	public Member kakaoLogin(Member m) {
+		return mDAO.kakaoLogin(m);
+	}
+	
+	@Override
+	public int kakaoEnroll(Member m) {
+		return mDAO.kakaoEnroll(m);
+	}
 
 }

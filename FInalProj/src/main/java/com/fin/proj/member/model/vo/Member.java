@@ -14,20 +14,18 @@ public class Member {
 	private String email;
 	private String uNickName;
 	private String loginType;
-	private Integer kakaoId;
+	private Long kakaoId;
 	private String uStatus;
 	private String uType;
 	private String registrar;
 	private Date enrollDate;
 	private Integer isAdmin;
-	private Integer failedCount;
-	private Timestamp lastLoginDate;
 	
-	public Member() {};
+	public Member() {}
 
 	public Member(Integer uNo, String uId, String uPwd, String uName, String residentNo, String address, String phone,
-			String email, String uNickName, String loginType, Integer kakaoId, String uStatus, String uType,
-			String registrar, Date enrollDate, Integer isAdmin, Integer failedCount, Timestamp lastLoginDate) {
+			String email, String uNickName, String loginType, Long kakaoId, String uStatus, String uType,
+			String registrar, Date enrollDate, Integer isAdmin) {
 		super();
 		this.uNo = uNo;
 		this.uId = uId;
@@ -45,8 +43,6 @@ public class Member {
 		this.registrar = registrar;
 		this.enrollDate = enrollDate;
 		this.isAdmin = isAdmin;
-		this.failedCount = failedCount;
-		this.lastLoginDate = lastLoginDate;
 	}
 
 	public Integer getuNo() {
@@ -129,11 +125,11 @@ public class Member {
 		this.loginType = loginType;
 	}
 
-	public Integer getKakaoId() {
+	public Long getKakaoId() {
 		return kakaoId;
 	}
 
-	public void setKakaoId(Integer kakaoId) {
+	public void setKakaoId(Long kakaoId) {
 		this.kakaoId = kakaoId;
 	}
 
@@ -177,29 +173,12 @@ public class Member {
 		this.isAdmin = isAdmin;
 	}
 
-	public Integer getFailedCount() {
-		return failedCount;
-	}
-
-	public void setFailedCount(Integer failedCount) {
-		this.failedCount = failedCount;
-	}
-
-	public Timestamp getLastLoginDate() {
-		return lastLoginDate;
-	}
-
-	public void setLastLoginDate(Timestamp lastLoginDate) {
-		this.lastLoginDate = lastLoginDate;
-	}
-
 	@Override
 	public String toString() {
 		return "Member [uNo=" + uNo + ", uId=" + uId + ", uPwd=" + uPwd + ", uName=" + uName + ", residentNo="
 				+ residentNo + ", address=" + address + ", phone=" + phone + ", email=" + email + ", uNickName="
 				+ uNickName + ", loginType=" + loginType + ", kakaoId=" + kakaoId + ", uStatus=" + uStatus + ", uType="
-				+ uType + ", registrar=" + registrar + ", enrollDate=" + enrollDate + ", isAdmin=" + isAdmin
-				+ ", failedCount=" + failedCount + ", lastLoginDate=" + lastLoginDate + "]";
+				+ uType + ", registrar=" + registrar + ", enrollDate=" + enrollDate + ", isAdmin=" + isAdmin + "]";
 	}
-
+	
 }
