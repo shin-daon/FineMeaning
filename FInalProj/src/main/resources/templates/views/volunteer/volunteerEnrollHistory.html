@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>봉사 등록 내역</title>
+	<title>봉사 목록</title>
 	<link rel="stylesheet" href="css/volunteer/volunteerEnrollHistory.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
@@ -24,7 +24,7 @@
 	<div th:replace="~{../common/header :: header}"></div>
 	
 	<section style="display: flex;">
-		<div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
+		<div th:replace="~{../common/sidebar :: sidebar}"></div>
 		
 		
 		<section id="volunteerListSection">
@@ -35,7 +35,7 @@
 			<div class="path">
 				<a class="middle" href="#"><img class="homeIconSize" src="../image/home.png"></a>
 				<img class="sub iconSize" src="../image/onenext.png">
-				<a class="middle" href="#">관리자 페이지</a>
+				<a class="middle" href="#">마이페이지</a>
 				<img class="sub iconSize" src="../image/onenext.png">
 				<a class="middle">봉사 등록 내역</a>
 			</div>
@@ -47,13 +47,14 @@
 							<tr>
 								<td width="15%">작성 기간</td>
 								<td width="30%">
-									<input type="date" id="vCreateStartDate" name="vCreateStartDate"/><span class="date-delimeter"></span><input type="date" id="vCreateEndDate" name="vCreateStartDate"/>
+									<input type="hidden" name="column" value="v_create_date">
+									<input type="date" id="vCreateStartDate" name="startDate" th:value="${searchMap == null ? '' : searchMap.startDate}"/><span class="date-delimeter"></span><input type="date" id="vCreateEndDate" name="endDate" th:value="${searchMap == null ? '' : searchMap.endDate}"/>
 								</td>
 								<td width="15%" style="text-align: center;">대분류</td>
 								<td width="15%">
 									<span class="dropdown" id="mainCategory-dropdown">
 										<button type="button" class="dropdown-btn" id="mainCategoryBtn">전체</button>
-										<input type="hidden" id="mainCategory" name="vMainCategoryName" value="all"/>
+										<input type="hidden" id="mainCategory" name="vMainCategoryName" value="전체"/>
 										<div class="dropdown-content" id="mainCategory-content">
 											<span class="selectMainCategory">전체</span>
 											<span class="selectMainCategory">생활편의지원</span>
@@ -71,7 +72,7 @@
 								<td>
 									<span class="dropdown" id="recruitment-dropdown">
 										<button type="button" class="dropdown-btn" id="recruitmentBtn">전체</button>
-										<input type="hidden" id="recruitment" name="recruitment" value="all"/>
+										<input type="hidden" id="recruitment" name="recruitment" value="전체"/>
 										<div class="dropdown-content" id="recruitment-content">
 											<span class="selectRecruitment">전체</span>
 											<span class="selectRecruitment">모집전</span>
@@ -83,12 +84,12 @@
 							</tr>
 							<tr>
 								<td>봉사활동 명</td>
-								<td style="position: relative; height: 30px"><input type="text" id="vName" name="vName"/><button class="btnClear"></button></td>
+								<td style="position: relative; height: 30px"><input type="text" id="vName" name="vName"/><button type="button" class="btnClear"></button></td>
 								<td width="15%" style="text-align: center;">대상분류</td>
 								<td width="15%">
 									<span class="dropdown" id="object-dropdown">
 										<button type="button" class="dropdown-btn" id="objectBtn">전체</button>
-										<input type="hidden" id="object" name="vTargetCategoryName" value="all"/>
+										<input type="hidden" id="object" name="vTargetCategoryName" value="전체"/>
 										<div class="dropdown-content" id="object-content">
 											<span class="selectObject">전체</span>
 											<span class="selectObject">아동·청소년</span>
@@ -109,7 +110,7 @@
 					</form>
 				</div>
 			</section>
-
+			
 			<table class="v-history-table">
 				<thead>
 					<tr>
@@ -123,17 +124,21 @@
 						<th width="7%">상태</th>
 					</tr>
 				</thead>
+				
 				<tbody style="font-size: 14px;">
-						<tr th:each="v : ${vHistories}">
-							<td th:text="${v.vName}"></td>
-							<td th:text="${v.vMainCategoryName}"></td>
-							<td th:text="${v.vTargetCategoryName}"></td>
-							<td>[[${#strings.substring(#strings.arraySplit(v.vStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vStartDate, "-")[2]}]]</td>
-							<td>[[${#strings.substring(#strings.arraySplit(v.vEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vEndDate, "-")[2]}]]</td>
-							<td>[[${v.vCount}]]/[[${v.vCountAll}]]</td>
-							<td>[[${#strings.substring(#strings.arraySplit(v.vCreateDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vCreateDate, "-")[1]}]].[[${#strings.arraySplit(v.vCreateDate, "-")[2]}]]</td>
-							<td>[[${v.vStatus}]]</td>
-						</tr>
+					<tr th:if="${vHistories.isEmpty()}">
+						<td colspan="8" style="padding: 50px; font-size: 15px; pointer-events: none;">조회 결과가 없습니다.</td>
+					</tr>
+					<tr th:each="v : ${vHistories}">
+						<td th:text="${v.vName}"></td>
+						<td th:text="${v.vMainCategoryName}"></td>
+						<td th:text="${v.vTargetCategoryName}"></td>
+						<td>[[${#strings.substring(#strings.arraySplit(v.vStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vStartDate, "-")[2]}]]</td>
+						<td>[[${#strings.substring(#strings.arraySplit(v.vEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vEndDate, "-")[2]}]]</td>
+						<td>[[${v.vCount}]]/[[${v.vCountAll}]]</td>
+						<td>[[${#strings.substring(#strings.arraySplit(v.vCreateDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vCreateDate, "-")[1]}]].[[${#strings.arraySplit(v.vCreateDate, "-")[2]}]]</td>
+						<td>[[${v.vStatus}]]</td>
+					</tr>
 				</tbody>
 			</table>
 			
@@ -188,6 +193,12 @@
 	    		this.previousElementSibling.value = "";
 	    	});
 			
+	    	/*<![CDATA[*/
+	    	const map = /*[[${searchMap}]]*/null;
+	    	console.log(map);
+	    	
+	    	/*]]>*/
+	    	
 			const selectObjects = document.getElementsByClassName("selectObject");
             const selectMainCategories = document.getElementsByClassName("selectMainCategory");
             const selectRecruitments = document.getElementsByClassName("selectRecruitment");

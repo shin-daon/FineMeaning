@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -169,7 +170,7 @@ public class BoardController {
 			ra.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuNickName());
 			ra.addAttribute("bNo", b.getBoardNo());
 			ra.addAttribute("page", page);
-			return "redirect:faq_detail.bo";
+			return "redirect:faqDetail.bo";
 		} else {
 			throw new BoardException("글 수정 실패");
 		}
@@ -261,9 +262,28 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("updateFinePeopleForm.bo")
-	public String updateFinePeopleForm() {
-		return "updateFinePeople_form";
+	@GetMapping("finePeopleEdit.bo")
+	public String finePeopleEdit(@RequestParam("bNo") String bNo, @RequestParam("page") int page,
+									   Model model) {
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		Board b = bService.selectBoard(boardNo, false);
+//		System.out.println(b);
+		
+		model.addAttribute("board", b);
+		model.addAttribute("page", page);
+		return "finePeople_edit";
+	}
+	
+	@PostMapping("updateFinePeople.bo")
+	public String updateFinePeople(@ModelAttribute Board b, @RequestParam("page") int page) {
+		System.out.println(b);
+		System.out.println(page);
+		return "redirect:finePeopleAdmin.bo";
 	}
 	
 	@GetMapping("deleteFinePeople.bo")
@@ -417,7 +437,7 @@ public class BoardController {
 			ra.addAttribute("bNo", b.getBoardNo());
 			ra.addAttribute("page", page);
 			
-			return "redirect:fruit_detail.bo";
+			return "redirect:fruitDetail.bo";
 		} else {
 			throw new BoardException("게시글 수정 실패");
 		}
@@ -595,8 +615,29 @@ public class BoardController {
 	}
 	
 	@GetMapping("myBoard.bo")
-	public String myBoard() {
-		return "myBoard";
+	public String myBoard(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+			 				HttpSession session) {
+		
+		PageInfo pageInfo;
+		int listCount;
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+		listCount = bService.myBoardCount(uNo);
+		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Board> list = bService.selectMyBoard(pageInfo, uNo);
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			return "myBoard";
+		} else {
+			throw new BoardException("내가 작성한 글 목록 조회 실패");
+		}
 	}
 	
 	@GetMapping("commList.bo")
@@ -642,21 +683,24 @@ public class BoardController {
 	
 	@GetMapping("commDetailPage.bo")
 	public String CommDetail(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
+								@RequestParam("writer") String writer,
 							  HttpSession session, Model model) {
 		
 		Member m = (Member)session.getAttribute("loginUser");
-//		System.out.println(m);
+		
+		String me = null;
+		if(m != null) {
+			me = m.getuNickName();
+		}
 		
 		boolean countYN = false;
-		if(m == null || m.getIsAdmin() == 1) {
+		if(!writer.equals(me)) {
 			countYN = true;
 		}
 		
 		Board board = bService.selectBoard(bNo, countYN);
-//		System.out.println(board);
 		
 		ArrayList<Reply> replyList = bService.selectReply(bNo);
-//		System.out.println(replyList);
 		
 		if(board != null) {
 			model.addAttribute("board", board);
@@ -678,11 +722,9 @@ public class BoardController {
 		b.setImageUrl(null);
 		System.out.println("들어간 id" + id);
 //		b.setBoardType(1);
-		
 		int result = bService.insertBoard(b);
 		if(result > 0) {
 			return "redirect:commList.bo";
-			
 		} else {
 			throw new BoardException("게시글 작성 실패 ㅠ");
 		}
@@ -735,9 +777,6 @@ public class BoardController {
 							  @RequestParam("bNo") int boardNo,
 							  @RequestParam("page") int page,
 							  RedirectAttributes ra) {
-		
-		System.out.println(replyNo);
-		System.out.println(boardNo);
 		
 		Decoder decoder = Base64.getDecoder();
 		byte[] byteArr = decoder.decode(replyNo);
@@ -813,9 +852,7 @@ public class BoardController {
 	@PostMapping("updateNotice.bo")
 	public String updateNotice(@ModelAttribute Board b, @RequestParam("page") int page, RedirectAttributes ra, HttpSession session) {
 		
-//		b.setBoardType(1);
 		int result = bService.updateBoard(b);
-//		System.out.println(result);
 		
 		if(result > 0) {
 			ra.addAttribute("bNo", b.getBoardNo());
@@ -903,7 +940,6 @@ public class BoardController {
 							  HttpSession session, Model model) {
 		
 		Member m = (Member)session.getAttribute("loginUser");
-//		System.out.println(m);
 		
 		boolean countYN = false;
 		if(m == null || m.getIsAdmin() == 1) {
@@ -911,10 +947,8 @@ public class BoardController {
 		}
 		
 		Board board = bService.selectBoard(bNo, countYN);
-//		System.out.println(board);
 		
 		ArrayList<Reply> replyList = bService.selectReply(bNo);
-//		System.out.println(replyList);
 		
 		if(board != null) {
 			model.addAttribute("board", board);
@@ -934,7 +968,6 @@ public class BoardController {
 		b.setBoardType("QA");
 		b.setImageUrl(null);
 		System.out.println("들어간 id" + id);
-//		b.setBoardType(1);
 		
 		int result = bService.insertBoard(b);
 		if(result > 0) {
@@ -948,9 +981,7 @@ public class BoardController {
 	@PostMapping("editQa.bo")
 	public String EditQa(@ModelAttribute Board b, @RequestParam("page") int page, RedirectAttributes ra, HttpSession session) {
 		
-//		b.setBoardType(1);
 		int result = bService.updateBoard(b);
-//		System.out.println(result);
 		
 		if(result > 0) {
 			ra.addAttribute("bNo", b.getBoardNo());
@@ -971,7 +1002,7 @@ public class BoardController {
 		return "editQa";
 	}
 	
-	@PostMapping("/api/replies")
+	@PostMapping("insertReply")
 	@ResponseBody
 	public ArrayList<Reply> insertQaReply(@RequestBody Reply r) {
 	    bService.insertReply(r);
@@ -1075,5 +1106,40 @@ public class BoardController {
 			throw new BoardException("게시글 목록 조회 실패");
 		}
 	}
+	
+	@GetMapping("commAdminList.bo")
+	public String CommAdminMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+							@RequestParam(value="keyword", required=false) String keyword) {
+	
+	if(currentPage == null) {
+		currentPage = 1;
+	}
+	
+	int listCount = bService.getListCount("일반");
+	
+	PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
+	HashMap<String, Object> map = new HashMap<>();
+	ArrayList<Board> list = bService.selectBoardList(pageInfo, "일반");
+	
+	if(keyword != null) {
+		map.put("keyword", keyword);
+		map.put("i", "일반");
+		listCount = bService.searchListCount(map);
+		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		list = bService.searchByTitle(pageInfo, map);
+	} else {
+		listCount = bService.getListCount("일반");
+		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		list = bService.selectBoardList(pageInfo, "일반");
+	}
+	if(list != null) {
+		model.addAttribute("pi", pageInfo);
+		model.addAttribute("list", list);
+		model.addAttribute("map", map);
+		return "commAdmin";
+	} else {
+		throw new BoardException("게시글 목록 조회 실패");
+	}
+}
 	
 }

@@ -157,9 +157,17 @@
 		order by re_no desc
 	</select>
 	
-	<update id="deleteCommReply">
-		update reply
-		set re_status = 'N'
-		where re_no = #{replyNo}
-	</update>
+	<select id="myBoardCount" resultType="_int">
+		select count(*)
+		from board
+		where u_no = #{uNo} and board_status = 'Y'
+	</select>
+	
+	<select id="selectMyBoard" resultMap="boardResultSet">
+		select *
+		from board
+		where u_no = #{uNo} and board_status = 'Y'
+		order by board_date desc
+	</select>
+	
 </mapper>

@@ -60,6 +60,14 @@
 	display: none;
 }
 
+.img-fluid {
+    block-size: 250px;
+    min-width: 250px;
+    min-height: 250px;
+    padding: 15px;
+    border-radius: 50px;
+}
+
 .finePeopleTitle {
     width: 380px;
     height: 38px;

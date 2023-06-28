@@ -79,7 +79,9 @@ width: 80px;
 <body>
 <div th:replace="~{../common/header :: header}"></div>
 
-<section id="faqSection">
+<section style="display: flex;">
+<div th:replace="~{views/common/adminSidebar :: adminSidebar}"></div>
+<section id="faqSection" style="margin-left: 300px; padding: 30px;  border-radius: 10px; border: 3px solid #ccc;">
         <div>
             <div id="faqTitle">TALK</div>
         </div>
@@ -87,7 +89,7 @@ width: 80px;
         <div class="path">
             <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
             <img class="sub iconSize" src="image/onenext.png">
-            <a class="middle" href="#">커뮤니티</a>
+            <a class="middle" href="#">관리자페이지</a>
             <img class="sub iconSize" src="image/onenext.png">
             <a class="middle">TALK</a>
         </div>
@@ -147,6 +149,7 @@ width: 80px;
             </ul>
         </div>
     </section>
+    </section>
     <div th:replace="~{../common/footer :: footer}"></div>
 </body>
 <script th:inline="javascript">
@@ -176,7 +179,7 @@ width: 80px;
 			
 			function enrollSearchKeyword(){
 				const input = document.querySelector('.searchInput').value.trim();
-				location.href = 'commList.bo?keyword=' + input;
+				location.href = 'commAdminList.bo?keyword=' + input;
 			}
 		}
 	</script>
