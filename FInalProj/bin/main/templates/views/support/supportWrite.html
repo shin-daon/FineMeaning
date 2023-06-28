@@ -98,7 +98,7 @@
 	                <tr>
 	                    <td>제목</td>
 	                    <td>
-	                        <input type="text" name="supportTitle" maxlength="40" id="supportTitleInput" required/>
+	                        <input type="text" name="supportTitle" maxlength="40" id="supportTitleInput"required/>
 	                    </td>
 	                </tr>
 	                <tr>
@@ -319,9 +319,10 @@ window.onload = () => {
 		endDate.setAttribute("min", this.value);
 	});
 	
-// 	endDate.addEventListener("change", function() {
-		
-// 	});
+	endDate.addEventListener("change", function() {
+		alert("시작일을 먼저 설정해주세요");
+		endDate.value="";
+	});
 	
 	
     const selectAreas = document.getElementsByClassName("selectArea");

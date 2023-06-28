@@ -210,7 +210,7 @@ public class SupportController {
 
 	@RequestMapping("applyDevision.su")
 	public String applyDevision(@RequestParam(value = "page", required = false) Integer currentPage,
-			@RequestParam("status") String status,@RequestParam("supportCategory") String category, @RequestParam("supportTitle") String searchWord, Model model) {
+			@RequestParam(value="status", required=false) String status,@RequestParam(value="category", required=false) String category, @RequestParam(value="searchWord", required=false) String searchWord, Model model) {
 		if (currentPage == null) {
 			currentPage = 1;
 		}
@@ -311,8 +311,16 @@ public class SupportController {
 
 	@RequestMapping("searchApplyList.su")
 	public String searchApplyList(@RequestParam(value = "page", required = false) Integer currentPage,
-								 HttpSession session, @ModelAttribute Support s, Model model) {
-		System.out.println(s);
+								 HttpSession session, @RequestParam(value="searchWord", required=false) String searchWord,
+								 @RequestParam(value="category", required=false) String category, @RequestParam(value="status", required=false) String status,
+								 Model model) {
+		
+		
+		Support s = new Support();
+		s.setSupportCategory(category);
+		s.setSupportTitle(searchWord);
+		s.setStatus(status.charAt(0));
+		
 		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
 
 		if (currentPage == null) {
@@ -644,7 +652,7 @@ public class SupportController {
 	@RequestMapping("categoryEndListAdmin.su")
 	public String categoryEndListAdmin(@RequestParam("category") String category,
 										@RequestParam(value = "page", required = false) Integer currentPage,
-										@RequestParam(value = "searchWord", required=false) String searchWord, Model model) {
+										@RequestParam(value = "searchWord", required=false) String searchWord, ModelMap model) {
 		if (currentPage == null) {
 			currentPage = 1;
 		}
