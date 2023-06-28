@@ -131,4 +131,16 @@ public class BoardServiceImpl implements BoardService {
 	public int myReplyCount(int uNo) {
 		return bDAO.myReplyCount(uNo);
 	}
+
+	@Override
+	public int myBoardCount(int uNo) {
+		return bDAO.myBoardCount(uNo);
+	}
+
+	@Override
+	public ArrayList<Board> selectMyBoard(PageInfo pi, int uNo) {
+		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		RowBounds rowbounds = new RowBounds(offset, pi.getBoardLimit());
+		return bDAO.selectMyBoard(uNo, rowbounds);
+	}
 }

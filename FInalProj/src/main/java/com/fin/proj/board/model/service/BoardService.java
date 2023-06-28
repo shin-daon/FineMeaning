@@ -45,4 +45,8 @@ public interface BoardService {
 
 	int myReplyCount(int uNo);
 
+	int myBoardCount(int uNo);
+
+	ArrayList<Board> selectMyBoard(PageInfo pageInfo, int uNo);
+
 }

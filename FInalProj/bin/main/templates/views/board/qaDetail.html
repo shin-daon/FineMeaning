@@ -174,8 +174,7 @@ button.writeFaqBtn.learn-more {
 							<div class="replySet">
 								<th:block
 									th:if="${ session.loginUser != null && session.loginUser.uNo == r.replyWriter }">
-									<a class="deleteTag"
-										th:onclick="deleteReply([[${r.replyNo}]], [[${r.boardNo}]], [[${page}]])">삭제</a>
+									<a class="deleteTag" th:onclick="deleteReply([[${r.replyNo}]], [[${r.boardNo}]], [[${page}]])">삭제</a>
 								</th:block>
 							</div>
 						</div>
@@ -189,7 +188,19 @@ button.writeFaqBtn.learn-more {
 		<br>
 		<br>
 		<br>
-		<button class="writeFaqBtn learn-more" onclick="location.href='qaList.bo'">목록으로</button>
+		<button class="writeFaqBtn learn-more" th:onclick="redirectToPage()">목록으로</button>
+		<script th:inline="javascript">
+		/* <![CDATA[ */
+		function redirectToPage() {
+			  const isAdmin = /*[[${session.loginUser.isAdmin}]]*/1;
+			  /* ]]> */
+			  if (isAdmin === 0) {
+			    location.href = 'qaAdminList.bo';
+			  } else {
+			    location.href = 'qaList.bo';
+			  }
+			}
+		</script>
 
 		<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
 			<div class="modal-dialog" role="document">
@@ -217,8 +228,8 @@ button.writeFaqBtn.learn-more {
   	window.onload = () => {
 		
   		/* <![CDATA[ */
-  		document.getElementsByClassName('qaSubmit')[0].addEventListener('click', () => {
- 		 const qaText = document.getElementsByClassName('qaText')[0].value;
+  document.getElementsByClassName('qaSubmit')[0].addEventListener('click', () => {
+  const qaText = document.getElementsByClassName('qaText')[0].value;
   
   if (qaText !== '') {
     const requestData = {
@@ -229,7 +240,7 @@ button.writeFaqBtn.learn-more {
       boardTitle: /*[[${board.boardTitle}]]*/ 1
     };
     
-    fetch('api/replies', {
+    fetch('insertReply', {
 //     	RESTAPI사용해서 댓글 구현해보기
       method: 'POST',
       headers: {
@@ -328,7 +339,7 @@ function deleteReply(replyNo, boardNo, page) {
 	    if (response.ok) {
 	      return response.json();
 	    } else {
-	      throw new Error('Error deleting reply');
+	      throw new Error('댓글 삭제 실패');
 	    }
 	  })
 	  .then(data => {
@@ -344,6 +355,7 @@ function deleteReply(replyNo, boardNo, page) {
 	    console.error(error);
 	  });
 	}
+	
   		/* ]]> */
 		
 		const deleteModal = document.getElementById('deleteModal');
