@@ -1,5 +1,12 @@
 package com.fin.proj.member.model.service;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -29,6 +39,17 @@ public class AuthService {
 	
 	@Value("${my.phone.number}")
     private String myPhoneNumber;
+	
+	@Value("${kakao.client.id}")
+    private String kakaoClientId;
+	
+	@Value("${kakao.client.secret}")
+    private String kakaoClientSecret;
+	
+	@Value("${kakao.redirect.url}")
+    private String kakaoRedirectUrl;
+	
+	private final static String KAKAO_API_URI = "https://kapi.kakao.com";
 		
 	private int authNumber;
 	 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fin.proj.board.model.exception.BoardException;
@@ -278,7 +280,7 @@ public class BoardController {
 	
 	@GetMapping("fruitDetail.bo")
 	public String fruitDetail(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
-							  HttpSession session, Model model) {
+							  HttpSession session, Model model, @RequestParam(value="replyPage", required=false) Integer replyPage) {
 		
 		Member m = (Member)session.getAttribute("loginUser");
 //		System.out.println(m);
@@ -291,13 +293,22 @@ public class BoardController {
 		Board board = bService.selectBoard(bNo, countYN);
 //		System.out.println(board);
 		
-		ArrayList<Reply> replyList = bService.selectReply(bNo);
-//		System.out.println(replyList);
+		if(replyPage == null) {
+			replyPage = 1;
+		}
+		
+		int replyListCount = bService.replyCount(bNo);
+		PageInfo pageInfo = Pagination.getPageInfo(replyPage, replyListCount, 5);
+		ArrayList<Reply> replyList = bService.selectReplyList(pageInfo, bNo);
+//		System.out.println(pageInfo);
+//		ArrayList<Reply> replyList = bService.selectReply(bNo);
 		
 		if(board != null) {
 			model.addAttribute("board", board);
 			model.addAttribute("page", page);
 			model.addAttribute("replyList", replyList);
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("bNo", bNo);
 			return "fruit_detail";
 		} else {
 			throw new BoardException("게시글 상세 조회 실패");
@@ -435,16 +446,28 @@ public class BoardController {
 	
 	// 댓글
 	@RequestMapping("insertReply.bo")
-	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response) {
-		
-		System.out.println(r);
+	public void insertReply(@ModelAttribute Reply r, HttpServletResponse response, @RequestParam("page") int page,
+							Model model) {
+		//@RequestParam(value="replyPage", required=false) Integer replyPage, 
+//		System.out.println(r);
 		bService.insertReply(r);
 		
-		ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
+//		if(replyPage == null) {
+//			replyPage = 1;
+//		}
+		
+		int replyListCount = bService.replyCount(r.getBoardNo());
+		PageInfo pageInfo = Pagination.getPageInfo(1, replyListCount, 5);
+//		System.out.println(pageInfo);
+		ArrayList<Reply> list = bService.selectReplyList(pageInfo, r.getBoardNo());
+		
 		response.setContentType("application/json; charset=UTF-8");
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd / HH:mm:ss").create();
 		try {
-			gson.toJson(list, response.getWriter());
+			Map<String, Object> data = new HashMap<>();
+			data.put("list", list);
+			data.put("pi", pageInfo);
+			gson.toJson(data, response.getWriter());
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		} 
@@ -479,17 +502,55 @@ public class BoardController {
 		// RedirectAttribute 이용!
 	}
 	
+	@RequestMapping("deleteMyReply.bo")
+//	@ResponseBody
+	public String deleteMyReply(@RequestParam("replies") String replies) {
+		
+		for(String reply : replies.split(",")) {
+			int rNo = Integer.parseInt(reply);
+			int result = bService.deleteReply(rNo);
+			if(result < 0) {
+				throw new BoardException("댓글 삭제에 실패하였습니다.");
+			}
+		}
+		
+		// 뷰로 어떻게 보낼지? 생각 .. ! ..! ..! 리로드 할 건지 .. 아니면 무슨 대책이..~~~
+		return null;
+	}
+	
 	// my page
+	@GetMapping("myReply.bo")
+	public String myReply(@RequestParam(value="page", required=false) Integer currentPage, 
+						  HttpSession session, Model model) {	// string으로 (1, 4, 5)로 보내던지 split(",")로 구분
+		
+		PageInfo pageInfo;
+		int listCount;
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+		listCount = bService.myReplyCount(uNo);
+		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Reply> list = bService.selectMyReply(pageInfo, uNo);
+		
+		System.out.println(list);
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			return "myReply";
+		} else {
+			throw new BoardException("내 댓글 목록 조회 실패");
+		}
+	}
+	
 	@GetMapping("myBoard.bo")
 	public String myBoard() {
 		return "myBoard";
 	}
-	
-	@GetMapping("myReply.bo")
-	public String myReply() {
-		return "myReply";
-	}
-	
 	
 	@GetMapping("commList.bo")
 		public String CommMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,

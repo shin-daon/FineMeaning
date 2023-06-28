@@ -84,9 +84,21 @@
 
         <section class="v-apply-info">
         	<form action="volunteerEdit.vo" method="POST">
+        		<input type="hidden" name="vNo" th:value="${v.vNo}">
+        		<input type="hidden" name="page" th:value="${page}">
+        		<input type="hidden" name="vStartDate" th:value="${searchMap.vStartDate}">
+        		<input type="hidden" name="vEndDate" th:value="${searchMap.vEndDate}">
+        		<input type="hidden" name="vName" th:value="${searchMap.vName}">
+        		<input type="hidden" name="registrar" th:value="${searchMap.registrar}">
+        		<input type="hidden" name="vArea" th:value="${searchMap.vArea}">
+        		<input type="hidden" name="vMainCategoryName" th:value="${searchMap.vMainCategoryName}">
+        		<input type="hidden" name="vActivityType" th:value="${searchMap.vActivityType}">
+        		<input type="hidden" name="vTargetCategoryName" th:value="${searchMap.vTargetCategoryName}">
+        		<input type="hidden" name="status" th:value="${searchMap.status}">
 	            <div class="v-apply-title">
 	                <span class="v-locale-icon">[[${ v.vArea }]]</span>
 	                <span class="v-org">[[${v.vName}]]</span>
+	                <input type="hidden" th:value="${v.vRecruitmentStartDate}">
 	                <span class="v-recruitment-status">[[${v.vRecruitmentEndDate}]]</span>
 	                <button type="button" class="btn-gradient mini v-list-btn" onclick="moveToList()">목록</button>
 	            </div>
@@ -163,11 +175,16 @@
 	                    </td>
 	                </tr>
 	            </table>
-	
+				
+				<script>
+					const now = new Date();
+			    	const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
+				</script>
+				
 	            <div class="v-apply-btn-div">
-	                <button type="button" id="applyBtn" class="learn-more v-apply-btn" th:if="${session.loginUser == null || (session.loginUser.uNo != v.uNo && session.loginUser.isAdmin != 0)}">신청하기</button>
-	                <button type="button" id="deleteBtn" class="learn-more v-delete-btn" th:if="${(session.loginUser != null && session.loginUser.uNo == v.uNo) || (session.loginUser != null && session.loginUser.isAdmin == 0)}">삭제</button>
-	                <button type="submit" id="modifyBtn" class="learn-more-green v-modify-btn" th:if="${(session.loginUser != null && session.loginUser.uNo == v.uNo) || (session.loginUser != null && session.loginUser.isAdmin == 0)}">수정</button>
+	                <button type="button" id="applyBtn" class="learn-more v-apply-btn" th:if="${session.loginUser != null && v.vRecruitmentEndDate <= today && (session.loginUser.uNo != v.uNo || session.loginUser.isAdmin != 0)}">신청하기</button>
+	                <button type="button" id="deleteBtn" class="learn-more v-delete-btn" th:if="${session.loginUser != null && (session.loginUser.uNo == v.uNo || session.loginUser.isAdmin == 0)}">삭제</button>
+	                <button type="submit" id="modifyBtn" class="learn-more-green v-modify-btn" th:if="${session.loginUser != null && (session.loginUser.uNo == v.uNo || session.loginUser.isAdmin == 0)}">수정</button>
 	            </div>
             </form>
         </section>
@@ -187,23 +204,26 @@
 	
     <script th:inline="javascript">
 		// 삭제 모달
-		const deleteBtn = document.getElementById('deleteBtn');
+		let deleteBtn = null;
+		deleteBtn = document.getElementById('deleteBtn');
 		const modal = document.getElementById('modal');
 		const yesBtn = document.getElementById('boardDelete-btn');
 		const noBtn = document.getElementById('rollback-btn');
 		
-// 		deleteBtn.addEventListener('click', () => {
-// 		    modal.style.display = 'block';
-// 		});
+		if(deleteBtn != null) {
+			deleteBtn.addEventListener('click', () => {
+			    modal.style.display = 'block';
+			});
+		}
 		
-// 		yesBtn.addEventListener('click', () => {
-// 		    modal.style.display = 'none';
-// 		    location.href = 'deleteVolunteer.vo?vNo=' + btoa(/*[[${v.vNo}]]*/0);
-// 		});
+		yesBtn.addEventListener('click', () => {
+		    modal.style.display = 'none';
+		    location.href = 'deleteVolunteer.vo?vNo=' + btoa(/*[[${v.vNo}]]*/0);
+		});
 		
-// 		noBtn.addEventListener('click', () => {
-// 		    modal.style.display = 'none';
-// 		});
+		noBtn.addEventListener('click', () => {
+		    modal.style.display = 'none';
+		});
 		
 		/*]]>*/
     
@@ -289,23 +309,20 @@
     	
 	    document.getElementById('summernote').innerHTML = /*[[${v.vContent}]]*/'내용';
     	
-	    const now = new Date();
-    	const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
-    	
     	const recruitmentStatuses = document.querySelectorAll(".v-recruitment-status");
 	    const applyBtn = document.querySelector("#applyBtn");
 	    let check = false;
 	    
 	    for(const recruitmentStatus of recruitmentStatuses) {
 	    	if(recruitmentStatus.innerText >= today) {
-	    		recruitmentStatus.innerText = "(모집중)";
-	    	} else {
-	    		recruitmentStatus.innerText = "(모집완료)";
-	    		recruitmentStatus.style.color = "black";
-	    		if(applyBtn != null) {
-	    			applyBtn.display.style = "none";
+	    		if(recruitmentStatus.parentElement.querySelector("input").value <= today) {
+		    		recruitmentStatus.innerText = "모집중";
+		    		recruitmentStatus.style.color = "blue";
+	    		} else {
+	    			recruitmentStatus.innerText = "모집전"
 	    		}
-	    		check = true;
+	    	} else {
+	    		recruitmentStatus.innerText = "모집완료";
 	    	}
 	    }
 	    

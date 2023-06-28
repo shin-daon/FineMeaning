@@ -175,7 +175,6 @@
 	flex-direction: column;
 	margin-top: 20px;
 	margin-bottom: 10px;
-	padding-bottom: 20px;
 	border-radius: 15px;
 	width: 600px;
 	min-height: 130px;
@@ -320,6 +319,7 @@
 /* 	font-family: inherit; */
 /* } */
 
+
 /* 취소 버튼 */
 .backBtn {
     width: 85px;
@@ -374,4 +374,61 @@
 .learn-more-back:active::before {
     box-shadow: 0 0 0 2px #949494, 0 0 #e2e2e1;
     transform: translate3d(0, 0, -1em);
+}
+
+/* 이전 다음 버튼 */
+
+.disabled{
+	pointer-events: none;
+	opacity: 0.5;
+}
+
+.btn-gradient:hover {
+    color: #ccd8c9;
+}
+
+.btn-gradient {
+	margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.next {
+    margin-left: 10px;
+}
+
+.prev {
+    margin-right: 10px;
+}
+
+.btn-gradient.mini {
+    padding: 5px 12px;
+    font-size: 15px;
+    border-radius: 50px;
+}
+
+/* Gradient buttons */
+.btn-gradient {
+	text-decoration: none;
+	color: white;
+	display: inline-block;
+	position: relative;
+	border: 1px solid rgba(0,0,0,0.21);
+	border-bottom: 4px solid rgba(0,0,0,0.21);
+	border-radius: 20px;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+.btn-gradient.yellow {
+	background: #3e6041;
+}
+
+.arrowBtn {
+	align-self: center;
+    width: 150px;
+}
+
+.pagination {
+	display: flex;
+    width: 100%;
+    justify-content: space-between;
 }

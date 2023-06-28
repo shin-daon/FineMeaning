@@ -39,4 +39,6 @@ public interface MemberDAO {
 
 	int searchPhoneUser2(HashMap<String, String> map);
 
+	int loginFailCount(String uId);
+
 }
