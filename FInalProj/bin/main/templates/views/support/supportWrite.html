@@ -320,8 +320,10 @@ window.onload = () => {
 	});
 	
 	endDate.addEventListener("change", function() {
-		alert("시작일을 먼저 설정해주세요");
-		endDate.value="";
+		if(startDate.value==""){
+			alert("시작일을 먼저 설정해주세요");
+			endDate.value="";
+		}
 	});
 	
 	
