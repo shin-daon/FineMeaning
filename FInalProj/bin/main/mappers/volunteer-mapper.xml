@@ -42,7 +42,7 @@
 		<![CDATA[
 			select count(*)
 			from volunteer
-			where v_status='Y' and to_date(v_recruitment_end_date) >= to_date(to_char(sysdate, 'yyyy-mm-dd'))
+			where v_status='Y' and v_recruitment_start_date <= sysdate and v_recruitment_end_date >= sysdate 
 		]]>
 	</select>
 	
@@ -54,7 +54,7 @@
 				 join v_main_category using(v_main_category_no)
 				 join v_sub_category using(v_sub_category_no)
 				 join v_target_category using(v_target_category_no)
-			where v_status='Y'and to_date(v_recruitment_end_date) >= to_date(to_char(sysdate, 'yyyy-mm-dd'))
+			where v_status='Y' and v_recruitment_start_date <= sysdate and v_recruitment_end_date >= sysdate
 			order by v_no desc
 		]]>
 	</select>
@@ -117,11 +117,17 @@
 		<if test="vTargetCategoryName != null and !vTargetCategoryName.equals('')">
 			and v_target_category_name like '%' || #{vTargetCategoryName} || '%'
 		</if>
-		<if test="status != null and !status.equals('') and status.equals('모집중')">
-			and <![CDATA[to_date(v_recruitment_end_date) >= to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
-		</if>
-		<if test="status != null and !status.equals('') and status.equals('모집 완료')">
-			and <![CDATA[to_date(v_recruitment_end_date) < to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
+		<if test="status != null and !status.equals('')">
+			<if test="status.equals('모집전')">
+				<![CDATA[and v_recruitment_start_date > sysdate]]>
+			</if>
+			<if test="status.equals('모집중')">
+				<![CDATA[and v_recruitment_start_date <= sysdate]]>
+				<![CDATA[and v_recruitment_end_date >= sysdate]]>
+			</if>
+			<if test="status.equals('모집종료')">
+				<![CDATA[and v_recruitment_end_date < sysdate]]>
+			</if>
 		</if>
 		<if test="vName != null and !vName.equals('')">
 			and v_name like '%' || #{vName} || '%'
@@ -157,11 +163,17 @@
 		<if test="vTargetCategoryName != null and !vTargetCategoryName.equals('')">
 			and v_target_category_name like '%' || #{vTargetCategoryName} || '%'
 		</if>
-		<if test="status != null and !status.equals('') and status.equals('모집중')">
-			and <![CDATA[to_date(v_recruitment_end_date) >= to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
-		</if>
-		<if test="status != null and !status.equals('') and status.equals('모집 완료')">
-			and <![CDATA[to_date(v_recruitment_end_date) < to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
+		<if test="status != null and !status.equals('')">
+			<if test="status.equals('모집전')">
+				<![CDATA[and v_recruitment_start_date > sysdate]]>
+			</if>
+			<if test="status.equals('모집중')">
+				<![CDATA[and v_recruitment_start_date <= sysdate]]>
+				<![CDATA[and v_recruitment_end_date >= sysdate]]>
+			</if>
+			<if test="status.equals('모집종료')">
+				<![CDATA[and v_recruitment_end_date < sysdate]]>
+			</if>
 		</if>
 		<if test="vName != null and !vName.equals('')">
 			and v_name like '%' || #{vName} || '%'
@@ -179,10 +191,105 @@
 	</select>
 	
 	<select id="getVolunteerEnrollHistoryCount" resultType="_int">
-		select count(*) from volunteer where u_no = #{uNo}
+		select count(*) 
+		from volunteer 
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+		where u_no = #{uNo}
 	</select>
 	
 	<select id="getSelectVolunteerEnrollHistory" resultMap="volunteerResultSet">
-		select * from volunteer where u_no = #{uNo}
+		select * 
+		from volunteer 
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+		where u_no = #{uNo}
 	</select>
+	
+	<select id="getSearchVolunteerHistoryCount" resultType="_int">
+		select count(*)
+		from volunteer
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+		<where>
+			<if test="startDate != null and !startDate.equals('')">
+				and <![CDATA[to_date(to_char(${column}, 'yyyy-mm-dd')) >= #{startDate}]]>
+			</if>
+			<if test="endDate != null and !endDate.equals('')">
+				and <![CDATA[to_date(to_char(${column}, 'yyyy-mm-dd')) <= #{endDate}]]>
+			</if>
+			<if test="vMainCategoryName != null and !vMainCategoryName.equals('')">
+				and v_main_category_name like '%${vMainCategoryName}%'
+			</if>
+			<if test="vName != null and !vName.equals('')">
+				and v_name like '%${vName}%'
+			</if>
+			<if test="vTargetCategoryName != null and !vTargetCategoryName.equals('')">
+				and v_target_category_name like '%${vTargetCategoryName}%'
+			</if>
+			<if test="uNo != null and !uNo.equals('')">
+				and u_no = #{uNo}
+			</if>
+			<if test="recruitment != null and !recruitment.equals('')">
+				<if test="recruitment.equals('모집전')">
+					<![CDATA[and v_recruitment_start_date > sysdate]]>
+				</if>
+				<if test="recruitment.equals('모집중')">
+					<![CDATA[and v_recruitment_start_date <= sysdate]]>
+					<![CDATA[and v_recruitment_end_date >= sysdate]]>
+				</if>
+				<if test="recruitment.equals('모집종료')">
+					<![CDATA[and v_recruitment_end_date < sysdate]]>
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectSearchVolunteerEnrollHistory" resultMap="volunteerResultSet">
+		select *
+		from volunteer
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+		<where>
+			<if test="startDate != null and !startDate.equals('')">
+				and <![CDATA[to_date(to_char(${column}, 'yyyy-mm-dd')) >= #{startDate}]]>
+			</if>
+			<if test="endDate != null and !endDate.equals('')">
+				and <![CDATA[to_date(to_char(${column}, 'yyyy-mm-dd')) <= #{endDate}]]>
+			</if>
+			<if test="vMainCategoryName != null and !vMainCategoryName.equals('')">
+				and v_main_category_name like '%${vMainCategoryName}%'
+			</if>
+			<if test="vName != null and !vName.equals('')">
+				and v_name like '%${vName}%'
+			</if>
+			<if test="vTargetCategoryName != null and !vTargetCategoryName.equals('')">
+				and v_target_category_name like '%${vTargetCategoryName}%'
+			</if>
+			<if test="uNo != null and !uNo.equals('')">
+				and u_no = #{uNo}
+			</if>
+			<if test="recruitment != null and !recruitment.equals('')">
+				<if test="recruitment.equals('모집전')">
+					<![CDATA[and v_recruitment_start_date > sysdate]]>
+				</if>
+				<if test="recruitment.equals('모집중')">
+					<![CDATA[and v_recruitment_start_date <= sysdate]]>
+					<![CDATA[and v_recruitment_end_date >= sysdate]]>
+				</if>
+				<if test="recruitment.equals('모집종료')">
+					<![CDATA[and v_recruitment_end_date < sysdate]]>
+				</if>
+			</if>
+		</where>
+	</select>
+	
 </mapper>

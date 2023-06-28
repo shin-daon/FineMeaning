@@ -144,7 +144,7 @@ input::-webkit-search-results-decoration{
 	background-color: white;
 }
 
-.v-category .status-ul li:nth-child(2) {
+.v-category .status-ul li:nth-child(3) {
 	background-color: #d7f1c8;
 	border-radius: 8px;
 }

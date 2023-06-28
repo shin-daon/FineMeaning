@@ -11,9 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -61,7 +65,7 @@ public class BoardController {
 			listCount = bService.searchListCount(map);
 			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.searchByTitle(pageInfo, map);
-//			System.out.println(list);
+			System.out.println(list);
 		} else {
 			listCount = bService.getListCount("자주 묻는 질문");
 			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
@@ -481,7 +485,6 @@ public class BoardController {
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
 			model.addAttribute("list", list);
-//			System.out.println(list);
 			return "fineNews";
 		} else {
 			throw new BoardException("게시글 목록 조회 실패");
@@ -558,7 +561,7 @@ public class BoardController {
 		if(result > 0) {
 			ra.addAttribute("bNo", boardNo);
 			ra.addAttribute("page", page);
-			return "redirect:fruitDetail.bo";
+			return "redirect:fruit_detail.bo";
 		} else {
 			throw new BoardException("댓글 삭제에 실패하였습니다.");
 		}
@@ -612,8 +615,29 @@ public class BoardController {
 	}
 	
 	@GetMapping("myBoard.bo")
-	public String myBoard() {
-		return "myBoard";
+	public String myBoard(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+			 				HttpSession session) {
+		
+		PageInfo pageInfo;
+		int listCount;
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+		listCount = bService.myBoardCount(uNo);
+		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Board> list = bService.selectMyBoard(pageInfo, uNo);
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			return "myBoard";
+		} else {
+			throw new BoardException("내가 작성한 글 목록 조회 실패");
+		}
 	}
 	
 	@GetMapping("commList.bo")
@@ -659,21 +683,24 @@ public class BoardController {
 	
 	@GetMapping("commDetailPage.bo")
 	public String CommDetail(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
+								@RequestParam("writer") String writer,
 							  HttpSession session, Model model) {
 		
 		Member m = (Member)session.getAttribute("loginUser");
-//		System.out.println(m);
+		
+		String me = null;
+		if(m != null) {
+			me = m.getuNickName();
+		}
 		
 		boolean countYN = false;
-		if(m == null || m.getIsAdmin() == 1) {
+		if(!writer.equals(me)) {
 			countYN = true;
 		}
 		
 		Board board = bService.selectBoard(bNo, countYN);
-//		System.out.println(board);
 		
 		ArrayList<Reply> replyList = bService.selectReply(bNo);
-//		System.out.println(replyList);
 		
 		if(board != null) {
 			model.addAttribute("board", board);
@@ -695,11 +722,9 @@ public class BoardController {
 		b.setImageUrl(null);
 		System.out.println("들어간 id" + id);
 //		b.setBoardType(1);
-		
 		int result = bService.insertBoard(b);
 		if(result > 0) {
 			return "redirect:commList.bo";
-			
 		} else {
 			throw new BoardException("게시글 작성 실패 ㅠ");
 		}
@@ -752,9 +777,6 @@ public class BoardController {
 							  @RequestParam("bNo") int boardNo,
 							  @RequestParam("page") int page,
 							  RedirectAttributes ra) {
-		
-		System.out.println(replyNo);
-		System.out.println(boardNo);
 		
 		Decoder decoder = Base64.getDecoder();
 		byte[] byteArr = decoder.decode(replyNo);
@@ -820,7 +842,7 @@ public class BoardController {
 		
 		int result = bService.insertBoard(b);
 		if(result > 0) {
-			return "redirect:noticeList.bo";
+			return "redirect:noticeListAdmin.bo";
 			
 		} else {
 			throw new BoardException("공지 작성 에러");
@@ -830,14 +852,12 @@ public class BoardController {
 	@PostMapping("updateNotice.bo")
 	public String updateNotice(@ModelAttribute Board b, @RequestParam("page") int page, RedirectAttributes ra, HttpSession session) {
 		
-//		b.setBoardType(1);
 		int result = bService.updateBoard(b);
-//		System.out.println(result);
 		
 		if(result > 0) {
 			ra.addAttribute("bNo", b.getBoardNo());
 			ra.addAttribute("page", page);
-			return "redirect:noticeList.bo";
+			return "redirect:noticeListAdmin.bo";
 			
 		} else {
 			throw new BoardException("공지 수정 실패");
@@ -867,7 +887,7 @@ public class BoardController {
 		
 		int result = bService.deleteBoard(bId);
 		if(result > 0) {
-			return "redirect:noticeList.bo";
+			return "redirect:noticeListAdmin.bo";
 		} else {
 			throw new BoardException("공지 삭제 실패");
 		}
@@ -920,7 +940,6 @@ public class BoardController {
 							  HttpSession session, Model model) {
 		
 		Member m = (Member)session.getAttribute("loginUser");
-//		System.out.println(m);
 		
 		boolean countYN = false;
 		if(m == null || m.getIsAdmin() == 1) {
@@ -928,10 +947,8 @@ public class BoardController {
 		}
 		
 		Board board = bService.selectBoard(bNo, countYN);
-//		System.out.println(board);
 		
 		ArrayList<Reply> replyList = bService.selectReply(bNo);
-//		System.out.println(replyList);
 		
 		if(board != null) {
 			model.addAttribute("board", board);
@@ -951,7 +968,6 @@ public class BoardController {
 		b.setBoardType("QA");
 		b.setImageUrl(null);
 		System.out.println("들어간 id" + id);
-//		b.setBoardType(1);
 		
 		int result = bService.insertBoard(b);
 		if(result > 0) {
@@ -965,9 +981,7 @@ public class BoardController {
 	@PostMapping("editQa.bo")
 	public String EditQa(@ModelAttribute Board b, @RequestParam("page") int page, RedirectAttributes ra, HttpSession session) {
 		
-//		b.setBoardType(1);
 		int result = bService.updateBoard(b);
-//		System.out.println(result);
 		
 		if(result > 0) {
 			ra.addAttribute("bNo", b.getBoardNo());
@@ -988,14 +1002,144 @@ public class BoardController {
 		return "editQa";
 	}
 	
-	@GetMapping("replyQa.bo")
-	public String replyQa() {
-		return "replyQa";
+	@PostMapping("insertReply")
+	@ResponseBody
+	public ArrayList<Reply> insertQaReply(@RequestBody Reply r) {
+	    bService.insertReply(r);
+	    ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
+	    return list;
 	}
 	
-	@GetMapping("editQa.bo")
-	public String editQa() {
-		return "editQa";
+	@DeleteMapping("/api/replies/{replyNo}")
+	@ResponseBody
+	public ArrayList<Reply> deleteReply(@PathVariable int replyNo, @RequestParam int boardNo) {
+	    bService.deleteReply(replyNo);
+	    ArrayList<Reply> list = bService.selectReply(boardNo);
+	    return list;
 	}
+	
+	@RequestMapping("qaDelete.bo")
+	public String deleteQaBoard(@RequestParam("bId") String encode) {
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(encode);
+		String decode = new String(byteArr);
+		int bId = Integer.parseInt(decode);
+		
+		int result = bService.deleteBoard(bId);
+		if(result > 0) {
+			return "redirect:qaList.bo";
+		} else {
+			throw new BoardException("게시글 삭제 실패했습니다.");
+		}
+	}
+	
+	@GetMapping("noticeListAdmin.bo")
+	public String CommAdminNotice(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+							@RequestParam(value="keyword", required=false) String keyword) {
+	
+	if(currentPage == null) {
+		currentPage = 1;
+	}
+	
+	int listCount = bService.getListCount("공지");
+	
+	PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
+	HashMap<String, Object> map = new HashMap<>();
+	ArrayList<Board> list = bService.selectBoardList(pageInfo, "공지");
+	
+	
+	if(keyword != null) {
+		map.put("keyword", keyword);
+		map.put("i", "공지");
+		listCount = bService.searchListCount(map);
+		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		list = bService.searchByTitle(pageInfo, map);
+	} else {
+		listCount = bService.getListCount("공지");
+		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		list = bService.selectBoardList(pageInfo, "공지");
+	}
+	if(list != null) {
+		model.addAttribute("pi", pageInfo);
+		model.addAttribute("list", list);
+		model.addAttribute("map", map);
+		model.addAttribute("page", currentPage);
+		return "noticeAdminList";
+	} else {
+		throw new BoardException("공지 목록 조회 실패");
+	}
+}
+	
+	@GetMapping("qaAdminList.bo")
+	public String qaAdminMain(@RequestParam(value = "page", required = false) Integer currentPage, Model model,
+						@RequestParam(value = "keyword", required = false) String keyword, HttpSession session) {
+
+		if (currentPage == null) {
+			currentPage = 1;
+		}
+
+		int listCount = bService.getListCount("QA");
+
+		PageInfo pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		HashMap<String, Object> map = new HashMap<>();
+		ArrayList<Board> list = bService.selectBoardList(pageInfo, "QA");
+		
+
+		if (keyword != null) {
+			map.put("keyword", keyword);
+			map.put("i", "QA");
+			listCount = bService.searchListCount(map);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.searchByTitle(pageInfo, map);
+		} else {
+			listCount = bService.getListCount("QA");
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.selectBoardList(pageInfo, "QA");
+		}
+		if (list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			model.addAttribute("map", map);
+			return "qaAdmin";
+		} else {
+			throw new BoardException("게시글 목록 조회 실패");
+		}
+	}
+	
+	@GetMapping("commAdminList.bo")
+	public String CommAdminMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+							@RequestParam(value="keyword", required=false) String keyword) {
+	
+	if(currentPage == null) {
+		currentPage = 1;
+	}
+	
+	int listCount = bService.getListCount("일반");
+	
+	PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
+	HashMap<String, Object> map = new HashMap<>();
+	ArrayList<Board> list = bService.selectBoardList(pageInfo, "일반");
+	
+	if(keyword != null) {
+		map.put("keyword", keyword);
+		map.put("i", "일반");
+		listCount = bService.searchListCount(map);
+		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		list = bService.searchByTitle(pageInfo, map);
+	} else {
+		listCount = bService.getListCount("일반");
+		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+		list = bService.selectBoardList(pageInfo, "일반");
+	}
+	if(list != null) {
+		model.addAttribute("pi", pageInfo);
+		model.addAttribute("list", list);
+		model.addAttribute("map", map);
+		return "commAdmin";
+	} else {
+		throw new BoardException("게시글 목록 조회 실패");
+	}
+}
 	
 }

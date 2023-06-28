@@ -294,9 +294,10 @@ button[name='loginBtn'] {
 			</form> 
 			<section class="kakao-login">
 			  <button class="kakao-login">
-			    <a href="kakaoConnect.me"><img src="image/kakao_login.png" class="kakao-logo"/></a>
+			    <a href="https://kauth.kakao.com/oauth/authorize?client_id=d392a24d656df0f5e3a1b5da3446b6f9
+&redirect_uri=http://localhost:8080/login/oauth2/kakao&response_type=code"><img src="image/kakao_login.png" class="kakao-logo" id="kakaoBtn"/></a>
 			  </button>	
-			</section>			
+			</section>	
 		</div>
 	</div>
 <br>
@@ -322,7 +323,6 @@ button[name='loginBtn'] {
 	const uPwd = document.getElementsByName('uPwd')[0];
 	const loginBtn = document.querySelector('[name="loginBtn"]');
 	const loginForm = document.querySelector('[name="loginForm"]');
-	let errorCount = 1;
 	
 	loginBtn.addEventListener("click", function() {
 		event.preventDefault();
@@ -334,27 +334,16 @@ button[name='loginBtn'] {
 			loginCheckResult.innerText = '아이디를 입력해주세요.';
 		} else if(pwdInput.trim() == '') {
 			loginCheckResult.innerText = '비밀번호를 입력해주세요.';	
-		} else {			
+		} else {
+			
 			$.ajax({
 	            url: 'checkLogin.me',
 	            data: { uId:idInput.trim(), uPwd:pwdInput.trim() },
 	            success: data => {
 	                console.log("데이터 전송 성공: " + data);
-	                
+
 	                if(data.trim() !== ''){
-	                	loginCheckResult.innerHTML = '아이디 또는 비밀번호가 일치하지 않습니다. (' + errorCount + '/5)';
-	                	errorCount++;
-	                	
-// 	                	$.ajax({
-// 	        	            url: 'loginFailCount.me',
-// 	        	            data: { uId:idInput.trim() },
-// 	        	            success: data => {
-// 	        	                console.log("데이터 전송 성공: " + data);
-// 	        	            },
-// 	        	            error: data => {
-// 	        	                console.log("데이터 전송 실패");
-// 	        	            }
-// 	        	        });
+	                	loginCheckResult.innerHTML = '아이디 또는 비밀번호가 일치하지 않습니다.';               	
 	                	
 	                } else {
 	                	loginForm.submit();
@@ -366,6 +355,28 @@ button[name='loginBtn'] {
 	        });
 	    }        
 	});
+	
+	const kakaoBtn = document.querySelector('[name="kakaoBtn"]');
+	
+	kakaoBtn.addEventListener("click", function() {
+		event.preventDefault();
+			$.ajax({
+	            url: 'checkKakaoLogin.me',
+	            data: { kakaoId:kakaoId },
+	            success: data => {
+	                console.log("데이터 전송 성공: " + data);
+
+	                if(data.trim() !== ''){
+	                	alert('아이디 또는 비밀번호가 일치하지 않습니다.');	                	
+	                } else {
+	                	loginForm.submit();
+	                }
+	            },
+	            error: data => {
+	                console.log("데이터 전송 실패");
+	            }
+	        });
+	    });
 
 </script>
 </html>

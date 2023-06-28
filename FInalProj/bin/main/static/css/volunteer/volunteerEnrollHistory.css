@@ -14,12 +14,25 @@
 	font-family: "SUITE-Regular", sans-serif;
 }
 
+.btnClear {
+	position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 35px;
+    height: inherit;
+    background: url(https://img.icons8.com/pastel-glyph/2x/cancel.png) center center no-repeat;
+    background-size: 50%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
 #volunteerListSection {
     display: flex;
     align-items: center;
     flex-direction: column; 
     margin-top: 100px;
-	margin-left: 20%;
+    margin-left: 250px;
 }
 
 #volunteerList {
@@ -29,7 +42,7 @@
 
 .path {
     margin-top: 30px;
-    width: 740px;
+    width: 1000px;
     font-size: 14px;
 }
 
@@ -52,7 +65,7 @@
 }
 
 .v-history-table {
-    width: 750px;
+    width: 1000px;
     margin-top: 40px;
     padding: 10px;
     text-align: center;
@@ -95,10 +108,13 @@ th, td {
 
 .pagination > li > .num {
     margin: 10px;
-    padding: 1px 8px;
+    width: 20px;
+    height: 20px;
     text-decoration-line: none;
     color: black;
-    font-size: 15;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center
 }
 
 .pagination > li > .num:hover {
@@ -107,10 +123,22 @@ th, td {
     border-radius: 100%;
 }
 
+.currentPage{
+	color: white;
+    background-color: #9bc08d;
+    border-radius: 100%;
+}
+
 .arrowKey {
+    margin-top: 12px;
     margin-left: 10px;
     margin-right: 10px;
-    block-size: 12px;
+    block-size: 14px;
+    display: block;
+}
+
+.disabled {
+	opacity: 0.3;
 }
 
 
@@ -196,7 +224,7 @@ button {
 .v-search {
     display: flex;
     text-align: center;
-    width: 750px;
+    width: 1000px;
     margin-top: 30px;
 }
 
@@ -234,7 +262,7 @@ button {
     font-size: 12px;
 }
 
-.v-search-inner input[type="search"] {
+.v-search-inner input[type="text"] {
     width: 247px;
     font-size: 14px;
 }

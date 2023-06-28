@@ -3,15 +3,28 @@
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>봉사 등록 내역</title>
+	<title>봉사 목록</title>
 	<link rel="stylesheet" href="css/volunteer/volunteerEnrollHistory.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+   		.num {
+   			cursor: pointer;
+   		}
+   		
+   		.arrowKey {
+   			cursor: pointer;
+   		}
+   		
+   		.disabled {
+   			cursor: default;
+   		}
+   	</style>
 </head>
 <body>
 	<div th:replace="~{../common/header :: header}"></div>
 	
 	<section style="display: flex;">
-		<div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
+		<div th:replace="~{../common/sidebar :: sidebar}"></div>
 		
 		
 		<section id="volunteerListSection">
@@ -22,196 +35,141 @@
 			<div class="path">
 				<a class="middle" href="#"><img class="homeIconSize" src="../image/home.png"></a>
 				<img class="sub iconSize" src="../image/onenext.png">
-				<a class="middle" href="#">관리자 페이지</a>
+				<a class="middle" href="#">마이페이지</a>
 				<img class="sub iconSize" src="../image/onenext.png">
 				<a class="middle">봉사 등록 내역</a>
 			</div>
 
 			<section class="v-search">
 				<div class="v-search-inner">
-					<table>
-						<tr>
-							<td width="15%">작성 기간</td>
-							<td width="38%" colspan="2">
-								<input type="date" id="WritingStartDate"/><span class="date-delimeter"></span><input type="date" id="WritingStartDate"/>
-							</td>
-							<td colspan="3">
-								<button type="button" class="select-date-btn">3개월</button>
-								<button type="button" class="select-date-btn">6개월</button>
-								<button type="button" class="select-date-btn">1년</button>
-								<button type="button" class="select-date-btn">3년</button>
-								<button type="button" class="select-date-btn">5년</button>
-								<button type="button" class="select-date-btn">전체</button>
-							</td>
-						</tr>
-						<tr>
-							<td>봉사활동 명</td>
-							<td colspan="7"><input type="search" id="volunteerName"/></td>
-						</tr>
-						<tr>
-							<td>대분류</td>
-							<td width="23%">
-								<span class="dropdown" id="mainCategory-dropdown">
-									<button class="dropdown-btn" id="mainCategoryBtn">전체</button>
-									<input type="hidden" id="mainCategory" name="mainCategory" value="all"/>
-									<div class="dropdown-content" id="mainCategory-content">
-										<span class="selectMainCategory">전체</span>
-										<span class="selectMainCategory">생활편의지원</span>
-										<span class="selectMainCategory">주거환경</span>
-										<span class="selectMainCategory">상담</span>
-										<span class="selectMainCategory">교육</span>
-										<span class="selectMainCategory">문화행사</span>
-										<span class="selectMainCategory">환경보호</span>
-										<span class="selectMainCategory">안전·예방</span>
-										<span class="selectMainCategory">재해·재난</span>
-									</div>
-								</span>
-							</td>
-							<td width="15%">대상분류</td>
-							<td width="23%">
-								<span class="dropdown" id="object-dropdown">
-									<button class="dropdown-btn" id="objectBtn">전체</button>
-									<input type="hidden" id="object" name="object" value="all"/>
-									<div class="dropdown-content" id="object-content">
-										<span class="selectObject">전체</span>
-										<span class="selectObject">아동·청소년</span>
-										<span class="selectObject">장애인</span>
-										<span class="selectObject">노인</span>
-										<span class="selectObject">여성</span>
-										<span class="selectObject">환경</span>
-										<span class="selectObject">기타</span>
-									</div>
-								</span> 
-							</td>
-							<td width="10%">모집</td>
-							<td>
-								<span class="dropdown" id="recruitment-dropdown">
-									<button class="dropdown-btn" id="recruitmentBtn">전체</button>
-									<input type="hidden" id="recruitment" name="recruitment" value="all"/>
-									<div class="dropdown-content" id="recruitment-content">
-										<span class="selectRecruitment">전체</span>
-										<span class="selectRecruitment">모집전</span>
-										<span class="selectRecruitment">모집중</span>
-										<span class="selectRecruitment">모집종료</span>
-									</div>
-								</span>  
-							</td>
-						</tr>
-					</table>
-					<div class="v-search-inner-btn">
-						<button id="v-search-btn" class="learn-more">검색</button>
-						<button id="v-reset-btn" class="learn-more-gray">초기화</button>
-					</div>
+					<form action="searchVolunteerEnrollHistory.vo">
+						<table>
+							<tr>
+								<td width="15%">작성 기간</td>
+								<td width="30%">
+									<input type="hidden" name="column" value="v_create_date">
+									<input type="date" id="vCreateStartDate" name="startDate" th:value="${searchMap == null ? '' : searchMap.startDate}"/><span class="date-delimeter"></span><input type="date" id="vCreateEndDate" name="endDate" th:value="${searchMap == null ? '' : searchMap.endDate}"/>
+								</td>
+								<td width="15%" style="text-align: center;">대분류</td>
+								<td width="15%">
+									<span class="dropdown" id="mainCategory-dropdown">
+										<button type="button" class="dropdown-btn" id="mainCategoryBtn">전체</button>
+										<input type="hidden" id="mainCategory" name="vMainCategoryName" value="전체"/>
+										<div class="dropdown-content" id="mainCategory-content">
+											<span class="selectMainCategory">전체</span>
+											<span class="selectMainCategory">생활편의지원</span>
+											<span class="selectMainCategory">주거환경</span>
+											<span class="selectMainCategory">상담</span>
+											<span class="selectMainCategory">교육</span>
+											<span class="selectMainCategory">문화행사</span>
+											<span class="selectMainCategory">환경보호</span>
+											<span class="selectMainCategory">안전·예방</span>
+											<span class="selectMainCategory">재해·재난</span>
+										</div>
+									</span>
+								</td>
+								<td width="10%" style="text-align: center;">모집</td>
+								<td>
+									<span class="dropdown" id="recruitment-dropdown">
+										<button type="button" class="dropdown-btn" id="recruitmentBtn">전체</button>
+										<input type="hidden" id="recruitment" name="recruitment" value="전체"/>
+										<div class="dropdown-content" id="recruitment-content">
+											<span class="selectRecruitment">전체</span>
+											<span class="selectRecruitment">모집전</span>
+											<span class="selectRecruitment">모집중</span>
+											<span class="selectRecruitment">모집종료</span>
+										</div>
+									</span>  
+								</td>
+							</tr>
+							<tr>
+								<td>봉사활동 명</td>
+								<td style="position: relative; height: 30px"><input type="text" id="vName" name="vName"/><button type="button" class="btnClear"></button></td>
+								<td width="15%" style="text-align: center;">대상분류</td>
+								<td width="15%">
+									<span class="dropdown" id="object-dropdown">
+										<button type="button" class="dropdown-btn" id="objectBtn">전체</button>
+										<input type="hidden" id="object" name="vTargetCategoryName" value="전체"/>
+										<div class="dropdown-content" id="object-content">
+											<span class="selectObject">전체</span>
+											<span class="selectObject">아동·청소년</span>
+											<span class="selectObject">장애인</span>
+											<span class="selectObject">노인</span>
+											<span class="selectObject">여성</span>
+											<span class="selectObject">환경</span>
+											<span class="selectObject">기타</span>
+										</div>
+									</span> 
+								</td>
+							</tr>
+						</table>
+						<div class="v-search-inner-btn">
+							<button id="v-search-btn" class="learn-more">검색</button>
+							<button type="button" id="v-reset-btn" class="learn-more-gray">초기화</button>
+						</div>
+					</form>
 				</div>
 			</section>
-
+			
 			<table class="v-history-table">
 				<thead>
 					<tr>
-						<th width="30%">봉사활동 명</th>
-						<th width="15%">대분류</th>
-						<th width="15%">대상분류</th>
-						<th width="10%">모집일</th>
+						<th width="35%">봉사활동 명</th>
+						<th width="10%">대분류</th>
+						<th width="10%">대상분류</th>
+						<th width="10%">모집시작일</th>
+						<th width="10%">모집종료일</th>
 						<th width="8%">인원</th>
 						<th width="10%">작성일</th>
+						<th width="7%">상태</th>
 					</tr>
 				</thead>
-				<tbody>
-						<tr>
-							<td>오산시 함께자람센터...</td>
-							<td>교육</td>
-							<td>아동·청소년</td>
-							<td>23.06.09~23.06.09</td>
-							<td>0/20</td>
-							<td>23.06.09</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터...</td>
-							<td>생활편의지원</td>
-							<td>아동·청소년</td>
-							<td>23.06.09~23.06.09</td>
-							<td>0/20</td>
-							<td>23.06.09</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터...</td>
-							<td>생활편의지원</td>
-							<td>아동·청소년</td>
-							<td>23.06.09~23.06.09</td>
-							<td>0/20</td>
-							<td>23.06.09</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터...</td>
-							<td>생활편의지원</td>
-							<td>아동·청소년</td>
-							<td>23.06.09~23.06.09</td>
-							<td>0/20</td>
-							<td>23.06.09</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터...</td>
-							<td>생활편의지원</td>
-							<td>아동·청소년</td>
-							<td>23.06.09~23.06.09</td>
-							<td>0/20</td>
-							<td>23.06.09</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터...</td>
-							<td>생활편의지원</td>
-							<td>아동·청소년</td>
-							<td>23.06.09~23.06.09</td>
-							<td>0/20</td>
-							<td>23.06.09</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터...</td>
-							<td>생활편의지원</td>
-							<td>아동·청소년</td>
-							<td>23.06.09~23.06.09</td>
-							<td>20/20</td>
-							<td>23.06.09</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터...</td>
-							<td>생활편의지원</td>
-							<td>아동·청소년</td>
-							<td>23.06.09~23.06.09</td>
-							<td>20/20</td>
-							<td>23.06.09</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터...</td>
-							<td>생활편의지원</td>
-							<td>아동·청소년</td>
-							<td>23.06.09~23.06.09</td>
-							<td>20/20</td>
-							<td>23.06.09</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터...</td>
-							<td>생활편의지원</td>
-							<td>아동·청소년</td>
-							<td>23.06.09~23.06.09</td>
-							<td>20/20</td>
-							<td>23.06.09</td>
-						</tr>
-						
+				
+				<tbody style="font-size: 14px;">
+					<tr th:if="${vHistories.isEmpty()}">
+						<td colspan="8" style="padding: 50px; font-size: 15px; pointer-events: none;">조회 결과가 없습니다.</td>
+					</tr>
+					<tr th:each="v : ${vHistories}">
+						<td th:text="${v.vName}"></td>
+						<td th:text="${v.vMainCategoryName}"></td>
+						<td th:text="${v.vTargetCategoryName}"></td>
+						<td>[[${#strings.substring(#strings.arraySplit(v.vStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vStartDate, "-")[2]}]]</td>
+						<td>[[${#strings.substring(#strings.arraySplit(v.vEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vEndDate, "-")[2]}]]</td>
+						<td>[[${v.vCount}]]/[[${v.vCountAll}]]</td>
+						<td>[[${#strings.substring(#strings.arraySplit(v.vCreateDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vCreateDate, "-")[1]}]].[[${#strings.arraySplit(v.vCreateDate, "-")[2]}]]</td>
+						<td>[[${v.vStatus}]]</td>
+					</tr>
 				</tbody>
 			</table>
 			
-			<div class="page">
-				<ul class="pagination">
-					<li><a href="#" class="first"><img class="arrowKey" src="../image/before.png"></a></li>
-					<li><a href="#" class="num">1</a></li>
-					<li><a href="#" class="num">2</a></li>
-					<li><a href="#" class="num">3</a></li>
-					<li><a href="#" class="num">4</a></li>
-					<li><a href="#" class="num">5</a></li>
-					<li><a href="#" class="last"><img class="arrowKey" src="../image/next.png"></a></li>
-				</ul>
-			</div>
+			<div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
+	            <ul class="pagination">
+	                <li th:if="${ pi.currentPage > 1 }">
+		                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+		                	<img class="arrowKey" src="image/before.png">
+		                </a>
+	                </li>
+	                <li th:unless="${ pi.currentPage > 1 }">
+		                	<img class="arrowKey disabled" src="image/before.png">
+	                </li>
+	                
+	                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+	                	<th:block th:if="${p != 0}">
+	                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+	                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+	                	</th:block>
+	                </li>
+	                
+	                <li th:if="${ pi.currentPage < pi.maxPage} ">
+		                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+		                	<img class="arrowKey" src="image/next.png">
+		                </a>
+	                </li>
+	                <li th:unless="${ pi.currentPage < pi.maxPage }">
+		                	<img class="arrowKey disabled" src="image/next.png">
+	                </li>
+	            </ul>
+        	</div>
 		</section>
 	</section>
 	
@@ -219,6 +177,28 @@
 	
 	<script>
 		window.onload = () => {
+			document.addEventListener('click', (event) => {
+                const target = event.target;
+                const dropdownContents = document.querySelectorAll('.dropdown-content');
+                const dropbtns = document.querySelectorAll('.dropdown-btn');
+                for(let i=0; i<dropbtns.length; i++) {
+                	if (target !== dropdownContents[i] && target !== dropbtns[i]) {
+                        dropdownContents[i].style.display = 'none';
+                    }
+                }
+            });
+			
+			const btnClear = document.querySelector(".btnClear");
+	    	btnClear.addEventListener("click", function() {
+	    		this.previousElementSibling.value = "";
+	    	});
+			
+	    	/*<![CDATA[*/
+	    	const map = /*[[${searchMap}]]*/null;
+	    	console.log(map);
+	    	
+	    	/*]]>*/
+	    	
 			const selectObjects = document.getElementsByClassName("selectObject");
             const selectMainCategories = document.getElementsByClassName("selectMainCategory");
             const selectRecruitments = document.getElementsByClassName("selectRecruitment");

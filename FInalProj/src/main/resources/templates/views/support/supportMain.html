@@ -20,7 +20,6 @@
 
 .pagination > li > .num {
     margin: 10px;
-    padding: 1px 8px;
     text-decoration-line: none;
     color: black;
     font-size: 15;
@@ -225,6 +224,7 @@
 				</tr>
 				<tr>
 					<td>
+						[[${param.category}]]
 						[[${totalCount}]]명이<br>
 						총 
 						<script th:inline="javascript">
@@ -236,6 +236,10 @@
 				    	</script>을 <br>
 						기부하였습니다.
 					</td>
+					<td>
+						
+					</td>
+					
 				</tr>
 			</table>
 		</div>
@@ -257,7 +261,7 @@
 	<div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
                 <li th:if="${ pi.currentPage > 1 }">
-	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 },category=${category}, searchWord=${searchWord})}">
 	                	<img class="arrowKey" src="image/before.png">
 	                </a>
                 </li>
@@ -266,12 +270,12 @@
                 </li>
                 <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
                 	<th:block th:if="${p != 0}">
-                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+                	<a th:href="@{${loc}(page=${p},category=${category})}" th:text="${p}"
                 		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
                 	</th:block>
                 </li>
                 <li th:if="${ pi.currentPage < pi.maxPage} ">
-	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 },category=${category}, searchWord=${searchWord})}">
 	                	<img class="arrowKey" src="image/next.png">
 	                </a>
                 </li>

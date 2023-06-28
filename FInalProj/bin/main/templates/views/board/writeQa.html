@@ -38,6 +38,7 @@
   			<option value="봉사관련">봉사관련</option>
   			<option value="기타">기타</option>
 		</select>
+		<br><br>
 		<input type="text" id="title" name="boardTitle" placeholder="문의할 제목을 입력해주세요" font-weight="normal">
 		<br><br> 
 		<textarea id="summernote" name="boardContent" required></textarea><br>
@@ -68,22 +69,5 @@ $('#summernote').summernote({
     ]
 });
 
-//드롭박스 값이 변경될 때 이벤트 처리
-document.getElementById('categoryDropdown').addEventListener('change', function() {
-  var dropdownValue = this.value; // 드롭박스에서 선택된 값
-  var titleInput = document.getElementById('title'); // 제목 입력 필드
-
-  // 이전 선택 카테고리 제거
-  var previousCategory = titleInput.value.match(/^\[.*?\]\s/);
-  if (previousCategory) {
-    titleInput.value = titleInput.value.replace(previousCategory[0], '');
-  }
-
-  // 선택된 값과 제목을 결합하여 새로운 제목 생성
-  var newTitle = '[' + dropdownValue + '] ' + titleInput.value.trim();
-
-  // 제목 필드에 새로운 제목 설정
-  titleInput.value = newTitle;
-});
 </script>
 </html>
