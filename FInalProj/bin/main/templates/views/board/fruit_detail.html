@@ -182,7 +182,8 @@
 		</div>
 		
         <div class="btnArea">		
-            <button type="button" class="backBtn learn-more-back" th:onclick="|location.href='fruitMain.bo?page='+${page}|">목록으로</button>
+<!--             <button type="button" class="backBtn learn-more-back" th:onclick="|location.href='fruitMain.bo?page='+${page}|">목록으로</button> -->
+            <button type="button" class="backBtn learn-more-back" th:onclick="goList()">목록으로</button>
         </div>
 	</section>
 	<div th:replace="~{views/common/footer :: footer}"></div>
@@ -198,6 +199,16 @@
 	</div>
 	
 	<script th:inline="javascript">
+	
+		const admin = /*[[${session.loginUser == null ? '' : session.loginUser.isAdmin}]]*/0;
+		function goList() {
+			if(admin == 0){
+				location.href="fruitAdmin.bo";
+			} else {
+				location.href="fruitMain.bo";
+			}
+		}
+		
 		window.onload = () => {
 			
 			/* <![CDATA[ */

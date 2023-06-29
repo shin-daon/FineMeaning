@@ -85,7 +85,7 @@ public class BoardController {
 	@GetMapping("faqDetail.bo")
 	public String faqDetail(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer,
 							@RequestParam("page") int page, HttpSession session, Model model) {
-//		System.out.println(bNo + ", " + writer + ", "+ page);
+		System.out.println(bNo + ", " + writer + ", "+ page);
 		// 상세보기의 경우 조회수 +1, but 내 글 클릭 시 조회수 +0 (로그인 유저 정보 가져와서 비교)
 		// 파라미터로 받은 page를 통해 목록으로 돌아갔을 시 원래 보던 페이지 노출
 		
@@ -419,9 +419,52 @@ public class BoardController {
 		int result = bService.insertFruit(b);
 		
 		if(result > 0) {
-			return "redirect:fruitMain.bo";
+			return "redirect:fruitAdmin.bo";
 		} else {
 			throw new BoardException("게시글 작성 실패");
+		}
+	}
+	
+	@GetMapping("fruitAdmin.bo")
+	public String fruitAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+							 @RequestParam(value="category", required=false) Integer category, // '선택 없음' 시 null일 수 있음
+							 @RequestParam(value="keyword", required=false) String keyword) {
+		
+		ArrayList<Board> list;
+		int listCount;
+		PageInfo pageInfo;
+		
+		HashMap<String, Object> params = new HashMap<>();
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		if(keyword != null) {
+			params.put("keyword", keyword);
+			params.put("i", "결실");
+			if(category == null) { // '선택 없음'의 경우
+				params.put("category", 0);
+			} else {	 // '후원' 혹은 '봉사'의 경우
+				params.put("category", category);
+			}
+			listCount = bService.searchListCount(params);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.searchByTitleAndCategory(pageInfo, params);
+		} else { // 페이지 로드 시 메인 페이지
+			listCount = bService.getListCount("결실");
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.selectBoardList(pageInfo, "결실");
+//			System.out.println(list);
+		}
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			model.addAttribute("params", params);
+			return "fruitAdmin";
+		} else {
+			throw new BoardException("게시글 목록 조회 실패");
 		}
 	}
 	
@@ -483,7 +526,7 @@ public class BoardController {
 		int result = bService.deleteBoard(boardNo);
 		
 		if(result > 0) {
-			return "redirect:fruitMain.bo";
+			return "redirect:fruitAdmin.bo";
 		} else {
 			throw new BoardException("게시글 삭제 실패");
 		}
@@ -659,7 +702,7 @@ public class BoardController {
 		if(result > 0) {
 			ra.addAttribute("bNo", boardNo);
 			ra.addAttribute("page", page);
-			return "redirect:fruit_detail.bo";
+			return "redirect:fruitDetail.bo";
 		} else {
 			throw new BoardException("댓글 삭제에 실패하였습니다.");
 		}
@@ -700,8 +743,7 @@ public class BoardController {
 		listCount = bService.myReplyCount(uNo);
 		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Reply> list = bService.selectMyReply(pageInfo, uNo);
-		
-		System.out.println(list);
+//		System.out.println(list);
 		
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);

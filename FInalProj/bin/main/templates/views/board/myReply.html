@@ -33,8 +33,8 @@
 	                <tr>
 	                    <th>✔️</th>
 	                    <th>No</th>
-	                    <th style="width: 240px">글 제목</th>
-	                    <th style="width: 260px;">댓글 내용</th>
+	                    <th style="width: 25%">글 제목</th>
+	                    <th style="width: 40%;">댓글 내용</th>
 	                    <th>작성일</th>
 	                </tr>
 	            </thead>
@@ -112,6 +112,14 @@
                 });
             }
 			
+// 			for(const td of tds){
+// 				td.addEventListener('dblclick', function(){
+// 					const tr = this.parentElement;
+// 					const replyNo = tr.children[1].innerText;
+					
+// 					location.href='replyToBoard.bo?' + replyNo;
+// 				})
+// 			}
 			
             const inputs = document.querySelectorAll('.checkBoard');
             
