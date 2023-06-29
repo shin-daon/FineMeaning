@@ -38,8 +38,9 @@ public class OAuthController {
         Member loginUser = mService.kakaoLogin(m);
        
         if(loginUser != null) {
-        	mv.addObject("loginUser", loginUser);
-        	session.setAttribute("loginUser", loginUser);
+        	//mv.addObject("loginUser", loginUser);
+        	//session.setAttribute("loginUser", loginUser);
+        	model.addAttribute("loginUser", loginUser);
         	mv.setViewName("redirect:/");        	
         } else {
         	redirectAttributes.addFlashAttribute("newUser", m);

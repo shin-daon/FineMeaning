@@ -488,6 +488,7 @@ public class MemberController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 
 		Member uList = mService.selectUserListEach(pi, uNo);
+		System.out.println(uList);
 		model.addAttribute("uList", uList);
 		model.addAttribute("pi", pi);
 		model.addAttribute("uNo", uNo);
