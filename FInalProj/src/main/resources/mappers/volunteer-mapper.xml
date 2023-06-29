@@ -220,6 +220,7 @@
 				u_no = #{uNo}
 			</if>
 		</where>
+		order by v_no desc
 	</select>
 	
 	<select id="getSearchVolunteerHistoryCount" resultType="_int">
@@ -302,6 +303,7 @@
 				</if>
 			</if>
 		</where>
+		order by v_no desc
 	</select>
 	
 </mapper>
