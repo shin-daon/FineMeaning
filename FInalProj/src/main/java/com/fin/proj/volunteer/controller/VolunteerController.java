@@ -282,7 +282,7 @@ public class VolunteerController {
 	@GetMapping("searchVolunteerEnrollHistory.vo")
 	public String searchVolunteerEnrollHistory(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam("startDate") String startDate, 
 											   @RequestParam("endDate") String endDate, @RequestParam("vMainCategoryName") String vMainCategoryName, 
-											   @RequestParam("recruitment") String recruitment, @RequestParam("vName") String vName, @RequestParam("column") String column, 
+											   @RequestParam("status") String status, @RequestParam("vName") String vName, @RequestParam("column") String column, 
 											   @RequestParam("vTargetCategoryName") String vTargetCategoryName, HttpSession session, Model model) {
 		if(currentPage == null) {
 			currentPage = 1;
@@ -294,8 +294,8 @@ public class VolunteerController {
 		if(vTargetCategoryName.equals("전체")) {
 			vTargetCategoryName = "";
 		}
-		if(recruitment.equals("전체")) {
-			recruitment = "";
+		if(status.equals("전체")) {
+			status = "";
 		}
 		
 		HashMap<String, Object> searchEnrollHisMap = new HashMap<String, Object>();
@@ -303,7 +303,7 @@ public class VolunteerController {
 		searchEnrollHisMap.put("startDate", startDate);
 		searchEnrollHisMap.put("endDate", endDate);
 		searchEnrollHisMap.put("vMainCategoryName", vMainCategoryName);
-		searchEnrollHisMap.put("recruitment", recruitment);
+		searchEnrollHisMap.put("status", status);
 		searchEnrollHisMap.put("vName", vName);
 		searchEnrollHisMap.put("vTargetCategoryName", vTargetCategoryName);
 		searchEnrollHisMap.put("uNo", ((Member)session.getAttribute("loginUser")).getuNo());
