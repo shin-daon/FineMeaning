@@ -25,75 +25,78 @@
 				<a class="middle" href="#">마이페이지</a>
 				<img class="sub iconSize" src="../image/onenext.png">
 				<a class="middle">봉사 내역</a>
+				<div style="font-size: 14px; color: gray; float: right; margin-top: 40px;">초기화 후 검색 버튼을 클릭해야 적용됩니다.</div>
 			</div>
 
-			<section class="v-search">
+			<section class="v-search" style="margin-top: 5px">
 				<div class="v-search-inner">
-					<table>
-						<tr>
-							<td width="20%">기간</td>
-							<td>
-								<input type="date" id="startDate"/><span class="date-delimeter"></span><input type="date" id="endDate"/>
-							</td>
-							<td colspan="2">
-								<button type="button" class="select-date-btn">3개월</button>
-								<button type="button" class="select-date-btn">6개월</button>
-								<button type="button" class="select-date-btn">1년</button>
-								<button type="button" class="select-date-btn">3년</button>
-								<button type="button" class="select-date-btn">5년</button>
-								<button type="button" class="select-date-btn">전체</button>
-							</td>
-						</tr>
-						<tr>
-							<td>봉사활동 명</td>
-							<td><input type="search" id="volunteerName"/></td>
-							<td width="90px">지역</td>
-							<td>
-								<span class="dropdown" id="area-dropdown">
-									<button class="dropdown-btn" id="areabtn">전체</button>
-									<input type="hidden" id="area" name="area" value="all"/>
-									<div class="dropdown-content" id="area-content">
-										<span class="selectArea">전체</span>
-										<span class="selectArea">서울</span>
-										<span class="selectArea">세종</span>
-										<span class="selectArea">경기</span>
-										<span class="selectArea">인천</span>
-										<span class="selectArea">부산</span>
-										<span class="selectArea">광주</span>
-										<span class="selectArea">울산</span>
-										<span class="selectArea">대전</span>
-										<span class="selectArea">대구</span>
-										<span class="selectArea">충청</span>
-										<span class="selectArea">강원</span>
-										<span class="selectArea">경상</span>
-										<span class="selectArea">전라</span>
-										<span class="selectArea">제주</span>
-									</div>
-								</span>  
-							</td>
-						</tr>
-						<tr>
-							<td>장소</td>
-							<td><input type="search" id="volunteerLocation"/></td>
-							<td>상태</td>
-							<td>
-								<span class="dropdown" id="status-dropdown">
-									<button class="dropdown-btn" id="statusbtn">전체</button>
-									<input type="hidden" id="status" name="status" value="all"/>
-									<div class="dropdown-content" id="status-content">
-										<span class="selectStatus">전체</span>
-										<span class="selectStatus">신청</span>
-										<span class="selectStatus">진행</span>
-										<span class="selectStatus">종료</span>
-									</div>
-								</span>  
-							</td>
-						</tr>
-					</table>
-					<div class="v-search-inner-btn">
-						<button id="v-search-btn" class="learn-more">검색</button>
-						<button id="v-reset-btn" class="learn-more-gray">초기화</button>
-					</div>
+					<form action="searchMyVolunteerHistory.vo">
+						<table>
+							<tr>
+								<td width="20%">봉사활동 기간</td>
+								<td>
+									<input type="date" id="startDate" name="startDate"/><span class="date-delimeter"></span><input type="date" id="endDate" name="endDate"/>
+								</td>
+								<td colspan="2">
+									<button type="button" class="select-date-btn" data-value="3">3개월</button>
+									<button type="button" class="select-date-btn" data-value="6">6개월</button>
+									<button type="button" class="select-date-btn" data-value="12">1년</button>
+									<button type="button" class="select-date-btn" data-value="36">3년</button>
+									<button type="button" class="select-date-btn" data-value="60">5년</button>
+									<button type="button" class="select-date-btn" data-value="all">전체</button>
+								</td>
+							</tr>
+							<tr>
+								<td>봉사활동 명</td>
+								<td style="position: relative; height: 30px"><input type="text" id="volunteerName"/><button type="button" class="btnClear"></button></td>
+								<td width="90px">지역</td>
+								<td>
+									<span class="dropdown" id="area-dropdown">
+										<button type="button" class="dropdown-btn" id="areabtn">전체</button>
+										<input type="hidden" id="area" name="vArea" value="전체"/>
+										<div class="dropdown-content" id="area-content">
+											<span class="selectArea">전체</span>
+											<span class="selectArea">서울</span>
+											<span class="selectArea">세종</span>
+											<span class="selectArea">경기</span>
+											<span class="selectArea">인천</span>
+											<span class="selectArea">부산</span>
+											<span class="selectArea">광주</span>
+											<span class="selectArea">울산</span>
+											<span class="selectArea">대전</span>
+											<span class="selectArea">대구</span>
+											<span class="selectArea">충청</span>
+											<span class="selectArea">강원</span>
+											<span class="selectArea">경상</span>
+											<span class="selectArea">전라</span>
+											<span class="selectArea">제주</span>
+										</div>
+									</span>  
+								</td>
+							</tr>
+							<tr>
+								<td>수요처</td>
+								<td style="position: relative; height: 30px"><input type="text" id="registrar" name="registrar"/><button type="button" class="btnClear"></button></td>
+								<td>상태</td>
+								<td>
+									<span class="dropdown" id="status-dropdown">
+										<button type="button" class="dropdown-btn" id="statusbtn">전체</button>
+										<input type="hidden" id="status" name="status" value="전체"/>
+										<div class="dropdown-content" id="status-content">
+											<span class="selectStatus">전체</span>
+											<span class="selectStatus">신청</span>
+											<span class="selectStatus">진행</span>
+											<span class="selectStatus">종료</span>
+										</div>
+									</span>  
+								</td>
+							</tr>
+						</table>
+						<div class="v-search-inner-btn">
+							<button type="submit" id="v-search-btn" class="learn-more">검색</button>
+							<button type="button" id="v-reset-btn" class="learn-more-gray">초기화</button>
+						</div>
+					</form>
 				</div>
 			</section>
 
@@ -101,84 +104,25 @@
 				<thead>
 					<tr>
 						<th width="40%">봉사활동 명</th>
+						<th width="5%">지역</th>
+						<th width="10%">수요처</th>
 						<th width="20%">봉사활동 기간</th>
-						<th width="10%">지역</th>
-						<th width="20%">장소</th>
-						<th width="10%">상태</th>
+						<th width="20%">신청일</th>
+						<th width="5%">상태</th>
 					</tr>
 				</thead>
-				<tbody>
-						<tr>
-							<td>오산시 함께자람센터 (재능기부 봉사자 모집)</td>
-							<td>23.05.31~23.06.12</td>
-							<td>경기</td>
-							<td>오산시함께자람센터</td>
-							<td>신청</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터 (재능기부 봉사자 모집)</td>
-							<td>23.05.31~23.06.12</td>
-							<td>강원</td>
-							<td>오산시함께자람센터</td>
-							<td>진행</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터 (재능기부 봉사자 모집)</td>
-							<td>23.05.31~23.06.12</td>
-							<td>서울</td>
-							<td>오산시함께자람센터</td>
-							<td>종료 </td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터 (재능기부 봉사자 모집)</td>
-							<td>23.05.31~23.06.12</td>
-							<td>부산</td>
-							<td>오산시함께자람센터</td>
-							<td>신청</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터 (재능기부 봉사자 모집)</td>
-							<td>23.05.31~23.06.12</td>
-							<td>대구</td>
-							<td>오산시함께자람센터</td>
-							<td>진행</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터 (재능기부 봉사자 모집)</td>
-							<td>23.05.31~23.06.12</td>
-							<td>대전</td>
-							<td>오산시함께자람센터</td>
-							<td>진행</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터 (재능기부 봉사자 모집)</td>
-							<td>23.05.31~23.06.12</td>
-							<td>광주</td>
-							<td>오산시함께자람센터</td>
-							<td>종료</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터 (재능기부 봉사자 모집)</td>
-							<td>23.05.31~23.06.12</td>
-							<td>강원</td>
-							<td>오산시함께자람센터</td>
-							<td>신청</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터 (재능기부 봉사자 모집)</td>
-							<td>23.05.31~23.06.12</td>
-							<td>충청</td>
-							<td>오산시함께자람센터</td>
-							<td>신청</td>
-						</tr>
-						<tr>
-							<td>오산시 함께자람센터 (재능기부 봉사자 모집)</td>
-							<td>23.05.31~23.06.12</td>
-							<td>제주</td>
-							<td>오산시함께자람센터</td>
-							<td>종료</td>
-						</tr>
-						
+				<tbody style="font-size: 14px;">
+					<tr th:if="${vHistories.isEmpty()}">
+						<td colspan="8" style="padding: 50px; font-size: 15px; pointer-events: none;">조회 결과가 없습니다.</td>
+					</tr>
+					<tr th:each="v : ${vHistories}">
+						<td th:text="${v.vName}"></td>
+						<td th:text="${v.vArea}"></td>
+						<td th:text="${v.registrar}"></td>
+						<td>[[${#strings.substring(#strings.arraySplit(v.vStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vStartDate, "-")[2]}]]~[[${#strings.substring(#strings.arraySplit(v.vEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vEndDate, "-")[2]}]]</td>
+						<td th:text="${v.vHisDate}"></td>
+						<td>신청</td>
+					</tr>
 				</tbody>
 			</table>
 			
@@ -200,6 +144,76 @@
 	
 	<script>
 		window.onload = () => {
+			const now = new Date();
+			const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
+			
+			const startDate = document.querySelector("#startDate");
+            const endDate = document.querySelector("#endDate");
+            const selectDateBtns = document.querySelectorAll(".select-date-btn");
+            
+            startDate.addEventListener("change", function() {
+            	endDate.setAttribute("min", this.value);
+            });
+            
+            endDate.addEventListener("change", function() {
+            	startDate.setAttribute("max", this.value);
+            });
+            
+            for(const selectDateBtn of selectDateBtns) {
+            	selectDateBtn.addEventListener("click", function() {
+	            	const data = this.getAttribute("data-value");
+					if(data == "all") {
+						startDate.value = "";
+						endDate.value = "";
+					} else {
+						const date = new Date(new Date().setMonth(now.getMonth() - data));
+						const changedDate = date.getFullYear() + "-" + ('0' + (date.getMonth() + 1)).slice(-2) + "-" + ('0' + date.getDate()).slice(-2);
+						startDate.value = changedDate;
+						endDate.value = today;
+					}        	
+            	});
+            }
+			
+			const dropdownBtns = document.querySelectorAll(".dropdown-btn");
+			/*<![CDATA[*/
+	    	const searchMap = /*[[${searchMap}]]*/null;
+	    	if(searchMap != null) {
+	    		if(searchMap.vMainCategoryName == '') {
+	    			searchMap.vMainCategoryName = "전체";
+	    		} 
+	    		if(searchMap.status == '') {
+	    			searchMap.status = "전체";
+	    		}
+	    		if(searchMap.vTargetCategoryName == '') {
+	    			searchMap.vTargetCategoryName = "전체";
+	    		}
+	    		dropdownBtns[0].innerText = searchMap.vMainCategoryName;
+	    		dropdownBtns[0].parentElement.querySelector("input").value = searchMap.vMainCategoryName;
+	    		dropdownBtns[1].innerText = searchMap.status;
+	    		dropdownBtns[1].parentElement.querySelector("input").value = searchMap.status;
+	    		dropdownBtns[2].innerText = searchMap.vTargetCategoryName;
+	    		dropdownBtns[2].parentElement.querySelector("input").value = searchMap.vTargetCategoryName;
+	    	}
+		    /*]]>*/
+		    
+			document.addEventListener('click', (event) => {
+                const target = event.target;
+                const dropdownContents = document.querySelectorAll('.dropdown-content');
+                for(let i=0; i<dropdownBtns.length; i++) {
+                	if (target !== dropdownContents[i] && target !== dropdownBtns[i]) {
+                        dropdownContents[i].style.display = 'none';
+                        dropdownBtns[i].style.border = "none";
+                    }
+                }
+            });
+		    
+			const btnClears = document.querySelectorAll(".btnClear");
+			for(const btnClear of btnClears) {
+		    	btnClear.addEventListener("click", function() {
+		    		this.previousElementSibling.value = "";
+		    	});
+			}
+		    
 			const selectAreas = document.getElementsByClassName("selectArea");
 			const selectStatuses = document.getElementsByClassName("selectStatus");
 

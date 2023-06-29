@@ -176,23 +176,6 @@ public class VolunteerController {
 		return "volunteerApply";
 	}
 	
-	@GetMapping("volunteerHistory.vo")
-	public String volunteerHistory(@RequestParam(value="page", required=false) Integer currentPage, HttpSession session, Model model) {
-		if(currentPage == null) {
-			currentPage = 1;
-		}
-		
-		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
-		
-//		int vHistoryCount = vService.getVolunteerHistoryCount(uNo);
-//		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 5);
-			
-//		ArrayList<Volunteer> vHistories = vService.selectVolunteerHistory(pi, uNo);
-//		model.addAttribute("vHistories", vHistories);
-		
-		return "volunteerHistory";
-	}
-	
 	@PostMapping("applyVolunteer.vo")
 	public String applyVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
 		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
@@ -263,6 +246,28 @@ public class VolunteerController {
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@GetMapping("volunteerHistory.vo")
+	public String volunteerHistory(@RequestParam(value="page", required=false) Integer currentPage, HttpSession session, Model model) {
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+		int vHistoryCount = vService.getMyVolunteerHistoryCount(uNo);
+		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 1);
+			
+		ArrayList<Volunteer> vHistories = vService.selectMyVolunteerHistory(pi, uNo);
+		model.addAttribute("vHistories", vHistories);
+		
+		return "volunteerHistory";
+	}
+	
+	@GetMapping("searchMyVolunteerHistory.vo")
+	public String searchMyVolunteerHistory() {
+		return null;
 	}
 	
 	// 봉사 관리자

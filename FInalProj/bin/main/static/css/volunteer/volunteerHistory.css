@@ -14,6 +14,19 @@
 	font-family: "SUITE-Regular", sans-serif;
 }
 
+.btnClear {
+	position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 35px;
+    height: inherit;
+    background: url(https://img.icons8.com/pastel-glyph/2x/cancel.png) center center no-repeat;
+    background-size: 50%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
 #volunteerListSection {
     display: flex;
     align-items: center;
@@ -74,11 +87,11 @@ th, td {
     background-color: #EDF1D6;
 }
 
-.v-history-table thead tr th:nth-child(1) {
+.v-history-table thead tr th:first-child {
     border-radius: 10px 0px 0px 0px;
 }
 
-.v-history-table thead tr th:nth-child(5) {
+.v-history-table thead tr th:last-child {
     border-radius: 0px 10px 0px 0px;
 }
 
@@ -230,7 +243,7 @@ button {
     font-size: 12px;
 }
 
-.v-search-inner input[type="search"] {
+.v-search-inner input[type="text"] {
     width: 247px;
     font-size: 14px;
 }

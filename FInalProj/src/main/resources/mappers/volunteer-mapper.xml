@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fin.proj.volunteer.model.dao.VolunteerDAO">
-	
-	<insert id="insertVolunteer">
-		insert into volunteer values(SEQ_VOID.NEXTVAL, #{uNo}, #{vMainCategoryNo}, #{vSubCategoryNo}, #{vTargetCategoryNo}, #{vArea}, #{vName}, #{vContent}, #{vStartDate}, #{vEndDate},
-		#{vStartTime}, #{vEndTime}, #{vRecruitmentStartDate}, #{vRecruitmentEndDate}, #{vDay}, #{vCountAll}, default, #{vLocation}, #{vActivityType}, default, default, #{vChargeName}, #{vChargePhone})
-	</insert>
-	
+
 	<resultMap type="Volunteer" id="volunteerResultSet">
 		<id column="V_NO" property="vNo"/>
 		<result column="U_NO" property="uNo"/>
@@ -35,7 +30,13 @@
 		<result column="V_STATUS" property="vStatus"/>
 		<result column="V_CHARGE_NAME" property="vChargeName"/>
 		<result column="V_CHARGE_PHONE" property="vChargePhone"/>
+		<result column="V_HIS_DATE" property="vHisDate"/>
 	</resultMap>
+	
+	<insert id="insertVolunteer">
+		insert into volunteer values(SEQ_VOID.NEXTVAL, #{uNo}, #{vMainCategoryNo}, #{vSubCategoryNo}, #{vTargetCategoryNo}, #{vArea}, #{vName}, #{vContent}, #{vStartDate}, #{vEndDate},
+		#{vStartTime}, #{vEndTime}, #{vRecruitmentStartDate}, #{vRecruitmentEndDate}, #{vDay}, #{vCountAll}, default, #{vLocation}, #{vActivityType}, default, default, #{vChargeName}, #{vChargePhone})
+	</insert>
 	
 	<select id="getVolunteerCount" resultType="_int">
 		<![CDATA[
@@ -193,6 +194,29 @@
 		order by v_no desc
 	</select>
 	
+	<select id="getMyVolunteerHistoryCount" resultType="_int">
+		select count(*)
+		from volunteer
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+			 join v_history using(v_no)
+		where v_history.u_no = #{uNo} 
+	</select>
+		
+	<select id="selectMyVolunteerHistory" resultMap="volunteerResultSet">
+		select *
+		from volunteer
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+			 join v_history using(v_no)
+		where v_history.u_no = #{uNo} 
+	</select>
+	
+	<!-- 관리자 -->
 	<select id="getVolunteerEnrollHistoryCount" resultType="_int">
 		select count(*) 
 		from volunteer 
