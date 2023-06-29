@@ -400,6 +400,16 @@ public class VolunteerController {
 		throw new VolunteerException("봉사 삭제에 실패하였습니다.");
 	}
 	
+	@ResponseBody
+	@GetMapping("updateVolunteerStatus.vo")
+	public String updateVolunteerStatus(@RequestParam("vNo") int vNo, @RequestParam("status") String status) {
+		HashMap<String, Object> updateStatusMap = new HashMap<String, Object>();
+		updateStatusMap.put("vNo", vNo);
+		updateStatusMap.put("status", status);
+		
+		int result = vService.updateVolunteerStatus(updateStatusMap);
+		return result == 1 ? "success" : "fail";
+	}
 	
 	// 관리자
 	@GetMapping("adminVolunteerList.vo")
@@ -409,7 +419,7 @@ public class VolunteerController {
 		}
 		
 		int vEnrollHistoryCount = vService.getVolunteerEnrollHistoryCount(null);
-		PageInfo pi = Pagination.getPageInfo(currentPage, vEnrollHistoryCount, 1);
+		PageInfo pi = Pagination.getPageInfo(currentPage, vEnrollHistoryCount, 10);
 			
 		ArrayList<Volunteer> vHistories = vService.selectVolunteerEnrollHistory(pi, null);
 		
@@ -454,7 +464,7 @@ public class VolunteerController {
 		
 		int searchVolunteerHistoryCount = vService.getSearchVolunteerHistoryCount(searchEnrollHisMap);
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, searchVolunteerHistoryCount, 1);
+		PageInfo pi = Pagination.getPageInfo(currentPage, searchVolunteerHistoryCount, 10);
 		
 		ArrayList<Volunteer> searchVEnrollHistories = vService.selectSearchVolunteerEnrollHistory(pi, searchEnrollHisMap);
 		

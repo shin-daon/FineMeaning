@@ -102,4 +102,9 @@ public class VolunteerServiceImpl implements VolunteerService {
 		return vDAO.selectSearchVolunteerEnrollHistory(searchEnrollHisMap, rowBounds);
 	}
 
+	@Override
+	public int updateVolunteerStatus(HashMap<String, Object> updateStatusMap) {
+		return vDAO.updateVolunteerStatus(updateStatusMap);
+	}
+
 }

@@ -305,4 +305,9 @@
 		order by v_no desc
 	</select>
 	
+	<update id="updateVolunteerStatus">
+		update volunteer
+		set v_status = #{status}
+		where v_no = #{vNo}
+	</update>
 </mapper>

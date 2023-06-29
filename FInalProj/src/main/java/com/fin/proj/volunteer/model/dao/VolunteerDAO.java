@@ -41,4 +41,6 @@ public interface VolunteerDAO {
 
 	ArrayList<Volunteer> selectSearchVolunteerEnrollHistory(HashMap<String, Object> searchEnrollHisMap, RowBounds rowBounds);
 
+	int updateVolunteerStatus(HashMap<String, Object> updateStatusMap);
+
 }
