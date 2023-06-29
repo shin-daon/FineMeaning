@@ -436,14 +436,22 @@ select:focus {
 	
 	function toggleAgencyNameInput() {
 	  if (agencyRadio.checked) {
-	    agencyNameInput.readOnly = false;	    
+	    agencyNameInput.readOnly = false;
+	    
+	    if(agencyNameInput.value.trim() === ''){
+	    	enrollButton.disabled = true;
+	    	checkAllConditions();
+	    } else {
+	    	enrollButton.disabled = false;
+	    }   
+	    
 	  } else {
 	    agencyNameInput.readOnly = true;
 	    agencyNameInput.value = '';
 	    agencyNameInput.style.outline = '';
 		agencyNameInput.style.boxShadow = '';
 	  }
-	  checkAllConditions();
+	  
 	}
 	
 	// 페이지 로드 시 초기 상태 설정
@@ -495,12 +503,17 @@ select:focus {
 		});
 		
 		agencyInput.addEventListener('input', () => {
-			  if (agencyInput.value.trim() !== '') {
+			  if (agencyRadio.checked && agencyInput.value.trim() !== '') {
 				agencyInput.style.outline = '1px solid #609966';
 				agencyInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+				enrollButton.disabled = false;
+				
 			  } else if (agencyRadio.checked && agencyInput.value.trim() === '') {
 				agencyInput.style.outline = '1px solid red';
 				agencyInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+				enrollButton.disabled = true;
+				checkAllConditions();
+				
 			  }
 			});
 
@@ -518,7 +531,8 @@ select:focus {
 		   (agencyRadio.checked && agencyInput.value.trim() === '') ||
 		   residentNo.value.trim() === '' ||
 		   (residentNo.value.trim() !== '' && !ssnRegexFirst.test(firstPart)) ||
-		   nickName.value.trim() === '') {
+		   nickName.value.trim() === '' ||
+		   (!normalRadio.checked && !agencyRadio.checked)) {
 			 
 
 		   enrollButton.disabled = true;
