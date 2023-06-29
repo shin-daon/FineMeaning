@@ -305,6 +305,8 @@ public class MemberController {
 							 @RequestParam("emailId") String emailId,
 							 @RequestParam("emailDomain") String emailDomain, Model model) {
 		
+		System.out.println("findId 폼에서 넘어온 정보 : " + m);
+		
 		String email = emailId + "@" + emailDomain;
 		String uName = m.getuName();
 		String phone = m.getPhone();
@@ -313,11 +315,13 @@ public class MemberController {
 		m.setuName(uName);
 		m.setPhone(phone);
 		
-		Member foundUser = mService.searchUser(m);
+		System.out.println("m에 값을 넣음 (이름, 이메일, 폰) : " + m);
 		
+		Member foundUser = mService.searchUser(m);
+	
 		if(foundUser != null) {
 			model.addAttribute("foundUser", foundUser);
-			System.out.println(foundUser);
+			System.out.println("foundUser : " + foundUser);
 			return "findIdResult";
 		} else {
 			throw new MemberException("아이디 찾기에 실패하였습니다.");
@@ -435,22 +439,6 @@ public class MemberController {
     	}
     	
     	out.print(result + "," + randomNum);  	
-	}
-	
-	
-	@RequestMapping(value="loginFailCount.me")
-	public void loginFailCount(Member m, @RequestParam("uId") String uId, Model model, PrintWriter out) {
-		
-		Date now = new Date();
-		Timestamp timestamp = new Timestamp(now.getTime());
-		
-		int result = mService.loginFailCount(uId);
-			
-		if(result >= 5) {
-			Member failUser = mService.loginFailDate(timestamp);
-			System.out.println(failUser);
-		}
-		out.print(result);	
 	}
 	
 	@RequestMapping("editUserInfo.me")
