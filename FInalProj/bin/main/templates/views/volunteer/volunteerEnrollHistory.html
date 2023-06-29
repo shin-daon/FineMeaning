@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>봉사 등록 내역</title>
-	<link rel="stylesheet" href="css/volunteer/volunteerEnrollHistory.css">
+	<link rel="stylesheet" href="css/volunteer/volunteerSearch.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<style>
    		.num {
@@ -245,7 +245,6 @@
 			const btnClear = document.querySelector(".btnClear");
 	    	btnClear.addEventListener("click", function() {
 	    		this.previousElementSibling.value = "";
-	    		document.querySelector("#searchForm").submit();
 	    	});
 	    	
 			const selectObjects = document.getElementsByClassName("selectObject");

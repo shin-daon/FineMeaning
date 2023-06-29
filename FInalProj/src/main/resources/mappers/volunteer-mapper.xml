@@ -201,7 +201,11 @@
 			 join v_main_category using(v_main_category_no)
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
-		where u_no = #{uNo}
+		<where>
+			<if test="uNo != null">
+				u_no = #{uNo}
+			</if>
+		</where>
 	</select>
 	
 	<select id="getSelectVolunteerEnrollHistory" resultMap="volunteerResultSet">
@@ -211,7 +215,11 @@
 			 join v_main_category using(v_main_category_no)
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
-		where u_no = #{uNo}
+		<where>
+			<if test="uNo != null">
+				u_no = #{uNo}
+			</if>
+		</where>
 	</select>
 	
 	<select id="getSearchVolunteerHistoryCount" resultType="_int">
