@@ -174,12 +174,10 @@ public class MemberController {
 		System.out.println(m);
 		
 		if(result > 0) {
-			if(m.getKakaoId() == null) {
-				System.out.println("일반네요");
+			if(m.getLoginType() == "일반") {
 				model.addAttribute("loginUser", mService.login(m));
 				return "redirect:/editMyInfo.me";
 			} else {
-				System.out.println("카카오네요");
 				model.addAttribute("loginUser", mService.kakaoLogin(m));
 				return "redirect:/editMyInfo.me";
 			}

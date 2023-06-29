@@ -32,18 +32,6 @@ public class OAuthController {
     
     @Autowired
     private MemberService mService;
-    
-    public static void alert(HttpServletResponse response, String msg) {
-        try {
-    		response.setContentType("text/html; charset=utf-8");
-    		PrintWriter w = response.getWriter();
-    		w.write("<script>alert('"+ msg +"');</script>");
-    		w.flush();
-    		w.close();
-        } catch(Exception e) {
-    		e.printStackTrace();
-        }
-    }
 
     @ResponseBody
     @GetMapping("/login/oauth2/kakao")
@@ -61,8 +49,7 @@ public class OAuthController {
         	model.addAttribute("loginUser", loginUser);
         	mv.setViewName("redirect:/");        	
         } else {
-        	redirectAttributes.addFlashAttribute("alertMessage", "카카오 아이디가 존재하지 않아 추가 정보를 등록해주셔야 합니다.");
-        	
+        	redirectAttributes.addFlashAttribute("alertMessage", "카카오 아이디가 존재하지 않아 추가 정보를 등록해야 합니다.");
         	redirectAttributes.addFlashAttribute("newUser", m);
         	model.addAttribute("newUser", m);
         	System.out.println("newUser : " + m);
