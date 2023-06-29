@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -185,9 +184,9 @@ public class BoardController {
 		String decode = new String(byteArr);
 		int boardNo = Integer.parseInt(decode);
 		
-		int boardResult = bService.deleteBoard(boardNo);
+		int result = bService.deleteBoard(boardNo);
 		
-		if(boardResult > 0) {
+		if(result > 0) {
 			return "redirect:faqMain.bo";
 		} else {
 			throw new BoardException("게시글 삭제 실패");
@@ -315,9 +314,9 @@ public class BoardController {
 		String decode = new String(byteArr);
 		int boardNo = Integer.parseInt(decode);
 		
-		int boardResult = bService.deleteBoard(boardNo);
+		int result = bService.deleteBoard(boardNo);
 		
-		if(boardResult > 0) {
+		if(result > 0) {
 			return "redirect:finePeopleAdmin.bo";
 		} else {
 			throw new BoardException("게시글 삭제 실패");
@@ -481,9 +480,9 @@ public class BoardController {
 			}
 		}
 		
-		int boardResult = bService.deleteBoard(boardNo);
+		int result = bService.deleteBoard(boardNo);
 		
-		if(boardResult > 0) {
+		if(result > 0) {
 			return "redirect:fruitMain.bo";
 		} else {
 			throw new BoardException("게시글 삭제 실패");
@@ -530,6 +529,84 @@ public class BoardController {
 			return "redirect:fineNewsMain.bo";
 		} else {
 			throw new BoardException("게시물 작성 실패");
+		}
+	}
+	
+	@GetMapping("fineNewsAdmin.bo")
+	public String fineNewsAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+			  					@RequestParam(value="keyword", required=false) String keyword) {
+		
+		HashMap<String, Object> map = new HashMap<>();
+		ArrayList<Board> list;
+		PageInfo pageInfo;
+		int listCount;
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		if(keyword != null) {
+			map.put("keyword", keyword);
+			map.put("i", "선한 뉴스");
+			listCount = bService.searchListCount(map);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.searchByTitle(pageInfo, map);
+		} else {
+			listCount = bService.getListCount("선한 뉴스");
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.selectBoardList(pageInfo, "선한 뉴스");
+		}
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			model.addAttribute("map", map);
+		}
+		return "fineNewsAdmin";
+	}
+	
+	@GetMapping("fineNewsEdit.bo")
+	public String fineNewsEdit(@RequestParam("bNo") String bNo, @RequestParam("page") int page,
+									Model model) {
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		Board b = bService.selectBoard(boardNo, false);
+		
+		model.addAttribute("board", b);
+		model.addAttribute("page", page);
+		return "fineNews_edit";
+	}
+	
+	@PostMapping("updateFineNews.bo")
+	public String updateFineNews(@ModelAttribute Board b, @RequestParam("page") int page, RedirectAttributes ra) {
+		
+		int result = bService.updateBoard(b);
+		
+		if(result > 0) {
+			ra.addAttribute("page", page);
+			return "redirect:fineNewsAdmin.bo";
+		} else {
+			throw new BoardException("글 수정 실패");
+		}
+	}
+	
+	@GetMapping("deleteFineNews.bo")
+	public String deleteFineNews(@RequestParam("bNo") String bNo) {
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		int result = bService.deleteBoard(boardNo);
+		if(result > 0) {
+			return "redirect:fineNewsAdmin.bo";
+		} else {
+			throw new BoardException("게시글 삭제 실패");
 		}
 	}
 	

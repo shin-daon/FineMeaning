@@ -4,7 +4,7 @@
       	display: flex;
 }
 
-#finePeopleAdmin_section {
+#fineNewsAdmin_section {
     margin-top: 80px;
     margin-bottom: 50px;
     margin-left: 200px;
@@ -15,7 +15,7 @@
     flex-direction: column; /* 세로 방향, row는 가로 방향 */
 }
 
-#finePeopleAdminTitle {
+#fineNewsAdminTitle {
     font-size: 30px;
     border-bottom: 2px solid #40513B;
     margin-top: 30px;
@@ -24,12 +24,29 @@
 
 .actionArea {
     margin-top: 30px;
-    width: 750px;
+    width: 800px;
 }
 
 .writeArea {
     float: left;
     display: flex;
+}
+
+#connectAdmin {
+	text-decoration: none;
+	font-size: 15px;
+	color: #849232;
+	margin-left: 10px;
+	margin-top: 25px;
+	height: 20px;
+}
+
+#connectAdmin:hover{
+	text-decoration: #9DC08B wavy underline;
+	background-color: #ecf0d2;
+	color: black;
+	border-radius: 10px;
+	height: 20px;
 }
 
 /* .writeFaqBtn { */
@@ -71,7 +88,7 @@
 
 /* 제목 ... 처리 */
 
-.finePeople_title_wrap, .finePeople_name_wrap {
+.fineNews_title_wrap, .fineNews_content_wrap {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1; /* 표시할 줄 수 */
@@ -79,7 +96,7 @@
     text-overflow: ellipsis;
 }
 
-.finePeople_title, .finePeople_name{
+.fineNews_title, .fineNews_content{
     word-break: break-all;
     font-size: 15px;
     text-align: center;
@@ -91,8 +108,8 @@
 	pointer-events: none;
 }
 
-.finePeopleAdminTable {
-    width: 750px;
+.fineNewsAdminTable {
+    width: 800px;
     margin-top: 10px;
     padding: 10px;
     text-align: center;
@@ -109,20 +126,20 @@ th, td {
     padding: 10px;
 }
 
-.finePeopleAdminTable thead tr th {
+.fineNewsAdminTable thead tr th {
     border-bottom: 1px dotted black;
     background-color: #EDF1D6;
 }
 
-.finePeopleAdminTable thead tr th:first-child {
+.fineNewsAdminTable thead tr th:first-child {
     border-radius: 10px 0px 0px 0px;
 }
 
-.finePeopleAdminTable thead tr th:last-child {
+.fineNewsAdminTable thead tr th:last-child {
     border-radius: 0px 10px 0px 0px;
 }
 
-.finePeopleAdminTable > tbody > tr:hover{
+.fineNewsAdminTable > tbody > tr:hover{
     background-color: #e1e4d2;
     cursor: pointer;
 }
@@ -131,11 +148,11 @@ th, td {
 /* 	background-color: #c4caa8; */
 /* } */
 
-.finePeopleAdminTable > tbody td:first-child {
+.fineNewsAdminTable > tbody td:first-child {
     border-radius: 8px 0px 0px 8px;
 }
 
-.finePeopleAdminTable > tbody td:last-child {
+.fineNewsAdminTable > tbody td:last-child {
     border-radius: 0px 8px 8px 0px;
 }
 
@@ -261,20 +278,4 @@ button:active {
 .learn-more:active::before {
     box-shadow: 0 0 0 2px #609966, 0 0 #EDF1D6;
     transform: translate3d(0, 0, -1em);
-}
-
-#connectAdmin {
-	text-decoration: none;
-	font-size: 15px;
-	color: #849232;
-	margin-left: 10px;
-	margin-top: 25px;
-}
-
-#connectAdmin:hover{
-	text-decoration: #9DC08B wavy underline;
-	background-color: #ecf0d2;
-	color: black;
-	border-radius: 10px;
-	height: 20px;
 }

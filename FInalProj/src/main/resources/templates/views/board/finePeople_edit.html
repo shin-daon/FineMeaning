@@ -84,56 +84,64 @@
 		border-radius:2em; 
 		border:2px solid #415645;
 	}
+	
+	.flex-container {
+      	display: flex;
+	}
    </style>
 </head>
 <body>
 	<div th:replace="~{../common/header :: header}"></div>
-    <section id="finePeople_write_section">
-        
-		<div>
-	        <div id="finePeople_title">선뜻한 사람</div>
-	    </div>
-        
-        <div id="finePeople_write_title">게시글 수정</div>
-	        <form method="post" action="updateFinePeople.bo">
-	        	<input type="hidden" name="boardNo" th:value="${board.boardNo}">
-	        	<input type="hidden" name="page" th:value="${page}">
-	            <table class="formDiv">
-                    <tr>
-                        <td colspan="2" rowspan="2">
-                            <div id="groupPic">
-                                <span id="insertGroupPic" style="padding-top: 0px">
-                                	<img th:src="@{${board.imageUrl}}" id="preview" alt="🫢">
-                                </span>
-                                <input type="file" accept="image/*" class="form-control form-control-lg" name="file" id="groupReprePic" onchange="setThumbnail(event);">
-                            </div>
-                            <input type="hidden" name="imageUrl" id="imageUrl" th:value="${board == null ? '' : board.imageUrl}">
-                        </td>
-                        <td colspan="2" class="titleArea">	<!-- 제목은 16자 / 이름은 7자 -->
-                            <input type="text" th:value="${board.boardTitle}" class="finePeopleTitle" name="boardTitle" placeholder="제목 (16자 입력 가능)" maxlength="16" required>
-                            <input type="text" th:value="${board.fpName}"class="finePeopleName" name="fpName" placeholder="이름 (7자 입력 가능)" maxlength="7" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-							<div class="finePeopleContentContainer">
-								<span style="color:#aaa;" id="counter">「 0 / 190 」</span>
-                            	<textarea th:text="${board.boardContent}" class="finePeopleContent" name="boardContent" placeholder="내용을 입력하세요. (190자 입력 가능)" required></textarea>
-							</div>
-                        </td>
-                    </tr>
-                </table>
-                <div class="btnArea">
-	                <button type="submit" class="writeFaqBtn learn-more">수정하기</button>
-	                <button type="button" class="backBtn learn-more-back">취소</button>
-	            </div>
-	        </form>
-	</section>
+	<div class="flex-container">
+		<div th:replace="~{views/common/adminSidebar :: adminSidebar}"></div>
+	    <section id="finePeople_write_section">
+	        
+			<div>
+		        <div id="finePeople_title">선뜻한 사람</div>
+		    </div>
+	        
+	        <div id="finePeople_write_title">게시글 수정</div>
+		        <form method="post" action="updateFinePeople.bo">
+		        	<input type="hidden" name="boardNo" th:value="${board.boardNo}">
+		        	<input type="hidden" name="page" th:value="${page}">
+		            <table class="formDiv">
+	                    <tr>
+	                        <td colspan="2" rowspan="2">
+	                            <div id="groupPic">
+	                                <span id="insertGroupPic" style="padding-top: 0px">
+	                                	<img th:src="@{${board.imageUrl}}" id="preview" alt="🫢">
+	                                </span>
+	                                <input type="file" accept="image/*" class="form-control form-control-lg" name="file" id="groupReprePic" onchange="setThumbnail(event);">
+	                            </div>
+	                            <input type="hidden" name="imageUrl" id="imageUrl" th:value="${board == null ? '' : board.imageUrl}">
+	                        </td>
+	                        <td colspan="2" class="titleArea">	<!-- 제목은 16자 / 이름은 7자 -->
+	                            <input type="text" th:value="${board.boardTitle}" class="finePeopleTitle" name="boardTitle" placeholder="제목 (16자 입력 가능)" maxlength="16" required>
+	                            <input type="text" th:value="${board.fpName}"class="finePeopleName" name="fpName" placeholder="이름 (7자 입력 가능)" maxlength="7" required>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td colspan="2">
+								<div class="finePeopleContentContainer">
+									<span style="color:#aaa;" id="counter">「 0 / 190 」</span>
+	                            	<textarea th:text="${board.boardContent}" class="finePeopleContent" name="boardContent" placeholder="내용을 입력하세요. (190자 입력 가능)" required></textarea>
+								</div>
+	                        </td>
+	                    </tr>
+	                </table>
+	                <div class="btnArea">
+		                <button type="submit" class="writeFaqBtn learn-more">수정하기</button>
+		                <button type="button" class="backBtn learn-more-back">취소</button>
+		            </div>
+		        </form>
+		</section>
+	</div>
+	<br><br>
 	<div th:replace="~{views/common/footer :: footer}"></div>
 	<!-- 모달창 -->
 	<div id="modal"><br>
 		<img id="heartImage" src="image/heart2.png"/><br><br>
-		<span class="modal-comment modal-comment2">글 작성을 취소하시겠어요?</span><br>
+		<span class="modal-comment modal-comment2">글 수정을 취소하시겠어요?</span><br>
 		<span class="modal-comment">확인 선택 시 작성한 글 내용은</span><br>
 		<span class="modal-comment">절대 복구되지 않습니다.</span><br><br>
 		<button id="rollback-btn">취소</button>
