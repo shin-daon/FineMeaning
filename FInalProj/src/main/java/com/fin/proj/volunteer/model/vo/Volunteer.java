@@ -24,7 +24,7 @@ public class Volunteer {
 	private String vLocation;
 	private String vActivityType;
 	private Date vCreateDate;
-	private char vStatus;
+	private String vStatus;
 	
 	// ▼ 모집기관
 	private String registrar;
@@ -47,7 +47,7 @@ public class Volunteer {
 	public Volunteer(int vNo, Integer uNo, String address, int vMainCategoryNo, int vSubCategoryNo, int vTargetCategoryNo,
 			String vArea, String vName, String vContent, Date vStartDate, Date vEndDate, String vStartTime,
 			String vEndTime, Date vRecruitmentStartDate, Date vRecruitmentEndDate, String vDay, int vCountAll,
-			int vCount, String vLocation, String vActivityType, Date vCreateDate, char vStatus, String registrar,
+			int vCount, String vLocation, String vActivityType, Date vCreateDate, String vStatus, String registrar,
 			String vMainCategoryName, String vSubCategoryName, String vTargetCategoryName, String vChargeName,
 			String vChargePhone, Date vHisDate, String vHisStatus) {
 		super();
@@ -253,11 +253,11 @@ public class Volunteer {
 		this.vCreateDate = vCreateDate;
 	}
 
-	public char getvStatus() {
+	public String getvStatus() {
 		return vStatus;
 	}
 
-	public void setvStatus(char vStatus) {
+	public void setvStatus(String vStatus) {
 		this.vStatus = vStatus;
 	}
 

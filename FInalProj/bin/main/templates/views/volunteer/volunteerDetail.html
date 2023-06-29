@@ -83,7 +83,7 @@
         </div>
 
         <section class="v-apply-info">
-        	<form action="volunteerEdit.vo" method="POST">
+        	<form id="detailForm" action="volunteerEdit.vo" method="POST">
         		<input type="hidden" name="vNo" th:value="${v.vNo}">
         		<input type="hidden" name="page" th:value="${page}">
         		<input type="hidden" name="vStartDate" th:value="${searchMap.vStartDate}">
@@ -99,19 +99,19 @@
 	                <span class="v-locale-icon">[[${ v.vArea }]]</span>
 	                <span class="v-org">[[${v.vName}]]</span>
 	                <input type="hidden" th:value="${v.vRecruitmentStartDate}">
-	                <span class="v-recruitment-status">[[${v.vRecruitmentEndDate}]]</span>
+	                <span class="v-recruitment-status" style="color:white">[[${v.vRecruitmentEndDate}]]</span>
 	                <button type="button" class="btn-gradient mini v-list-btn" onclick="moveToList()">목록</button>
 	            </div>
 	            <table>
 	                <tr>
 	                    <td width="15%">봉사기간</td>
-	                    <td width="35%">[[${v.vStartDate}]]~[[${v.vEndDate}]]</td>
+	                    <td width="35%">[[${#strings.substring(#strings.arraySplit(v.vStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vStartDate, "-")[2]}]]~[[${#strings.substring(#strings.arraySplit(v.vEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vEndDate, "-")[2]}]]</td>
 	                    <td width="15%">봉사시간</td>
 	                    <td width="35%">[[${#strings.arraySplit(v.vStartTime, ":")[0]}]]시 [[${#strings.arraySplit(v.vStartTime, ":")[1]}]]분 ~ [[${#strings.arraySplit(v.vEndTime, ":")[0]}]]시 [[${#strings.arraySplit(v.vEndTime, ":")[1]}]]분</td>
 	                </tr>
 	                <tr>
 	                    <td>모집기간</td>
-	                    <td>[[${v.vRecruitmentStartDate}]]~[[${v.vRecruitmentEndDate}]]</td>
+	                    <td>[[${#strings.substring(#strings.arraySplit(v.vRecruitmentStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vRecruitmentStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vRecruitmentStartDate, "-")[2]}]]~[[${#strings.substring(#strings.arraySplit(v.vRecruitmentEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vRecruitmentEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vRecruitmentEndDate, "-")[2]}]]</td>
 	                    <td>활동요일</td>
 	                    <td>[[${v.vDay}]]</td>
 	                </tr>
@@ -143,7 +143,7 @@
 	                        <div>
 	                        	<input type="hidden" id="x" th:value="${ map.x }"/>
 	                        	<input type="hidden" id="y" th:value="${ map.y }"/>
-	                            <div>[수요처지도]</div>
+	                            <div>[봉사장소 지도]</div>
 	                            <div id="map"></div>
 	                            <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=144e8e9bda1bec907d87788df99a299d"></script>
 	                            <script>
@@ -169,7 +169,7 @@
 	                                <span class="v-charge-phone">전화번호 : [[${v.vChargePhone}]]</span>
 	                            </div>
 	                            <div class="v-charge-address-div">
-	                                <span class="v-charge-address">주소 : [[${v.address}]]</span>
+	                                <span class="v-charge-address">주소 : [[${v.vLocation}]]</span>
 	                            </div>
 	                        </div>
 	                    </td>
@@ -309,22 +309,22 @@
     	
 	    document.getElementById('summernote').innerHTML = /*[[${v.vContent}]]*/'내용';
     	
-    	const recruitmentStatuses = document.querySelectorAll(".v-recruitment-status");
+    	const recruitmentStatus = document.querySelector(".v-recruitment-status");
 	    const applyBtn = document.querySelector("#applyBtn");
 	    let check = false;
 	    
-	    for(const recruitmentStatus of recruitmentStatuses) {
-	    	if(recruitmentStatus.innerText >= today) {
-	    		if(recruitmentStatus.parentElement.querySelector("input").value <= today) {
-		    		recruitmentStatus.innerText = "모집중";
-		    		recruitmentStatus.style.color = "blue";
-	    		} else {
-	    			recruitmentStatus.innerText = "모집전"
-	    		}
-	    	} else {
-	    		recruitmentStatus.innerText = "모집완료";
-	    	}
-	    }
+    	if(recruitmentStatus.innerText >= today) {
+    		if(recruitmentStatus.parentElement.querySelector("input").value <= today) {
+	    		recruitmentStatus.innerText = "모집중";
+	    		recruitmentStatus.style.color = "blue";
+    		} else {
+    			recruitmentStatus.innerText = "모집전"
+   				recruitmentStatus.style.color = "black";
+    		}
+    	} else {
+    		recruitmentStatus.innerText = "모집종료";
+    		recruitmentStatus.style.color = "black";
+    	}
 	    
     	if(applyBtn != null) {
     		applyBtn.addEventListener("click", () => {
@@ -333,9 +333,13 @@
         		if(check) {
         			alert("비정상적인 접근입니다.");
         			event.preventDefault();
-        		}else if(vCountAll == vCount){
+        		} else if(recruitmentStatus.innerText == "모집전") {
+					alert("모집 기간에 신청해주세요.")        		
+					event.preventDefault();
+        		} else if(vCountAll == vCount){
         			alert("신청 인원이 마감되었습니다.");
-        		}else {
+        			event.preventDefault();
+        		} else {
         			$.ajax({
         				url: 'checkVolunteerApply.vo',
         				type: 'post',
@@ -346,9 +350,11 @@
         					if(data === "no") {
         						alert("이미 신청한 봉사입니다.");
         					} else if(data === "yes") {
-			        			location.href='volunteerApply.vo?vNo=' + /*[[${v.vNo}]]*/1;
+        						const detailForm = document.querySelector("#detailForm");
+        						detailForm.setAttribute("action", "volunteerApply.vo");
+        						detailForm.submit();
         					}
-        				}, error: data => {
+						}, error: data => {
         					
         				}
         			});
