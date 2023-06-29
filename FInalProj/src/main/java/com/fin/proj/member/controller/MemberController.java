@@ -153,21 +153,36 @@ public class MemberController {
 	}
 
 	@PostMapping("updateMyInfo.me")
-	public String updateMyInfo(@ModelAttribute Member m,
+	public String updateMyInfo(@ModelAttribute Member m, HttpSession session,
 			   				   @RequestParam(value="emailId") String emailId,
 			   				   @RequestParam("emailDomain") String emailDomain, Model model) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		m.setuNo(loginUser.getuNo());
+		m.setuId(loginUser.getuId());
+		m.setKakaoId(loginUser.getKakaoId());
+		m.setuStatus(loginUser.getuStatus());
 		
 		if(!emailId.trim().equals("")) {
 			m.setEmail(emailId + "@" + emailDomain);
 		} else {
 			m.setEmail(null);
 		}
-
+		
 		int result = mService.updateMyInfo(m);
+		System.out.println(loginUser);
+		System.out.println(m);
 		
 		if(result > 0) {
-			model.addAttribute("loginUser", mService.login(m));
-			return "redirect:/editMyInfo.me";
+			if(m.getKakaoId() == null) {
+				System.out.println("일반네요");
+				model.addAttribute("loginUser", mService.login(m));
+				return "redirect:/editMyInfo.me";
+			} else {
+				System.out.println("카카오네요");
+				model.addAttribute("loginUser", mService.kakaoLogin(m));
+				return "redirect:/editMyInfo.me";
+			}
 		} else {
 			throw new MemberException("회원정보 수정 실패");
 		}	
@@ -176,9 +191,9 @@ public class MemberController {
 	@RequestMapping(value="deleteUser.me")
 	public String deleteUser(Model model) {
 		
-		String uId = ((Member)model.getAttribute("loginUser")).getuId();
+		String uNo = ((Member)model.getAttribute("loginUser")).getuNo()+"";
 		
-		int result = mService.deleteUser(uId);
+		int result = mService.deleteUser(uNo);
 		
 		if(result > 0) {
 			return "redirect:/logout.me";
@@ -207,8 +222,8 @@ public class MemberController {
 	@RequestMapping(value="checkNickNameModify.me") 
 	public void checkNickNameModify(Member m, Model model, @RequestParam("uNickName") String uNickName, PrintWriter out) {
 		
-		String uId = ((Member)model.getAttribute("loginUser")).getuId();
-		m.setuId(uId);
+		Integer uNo = ((Member)model.getAttribute("loginUser")).getuNo();
+		m.setuNo(uNo);
 		m.setuNickName(uNickName);
 		
 		int count = mService.checkNickNameModify(m);

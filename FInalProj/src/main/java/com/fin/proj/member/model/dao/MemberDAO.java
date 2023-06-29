@@ -59,7 +59,8 @@ public interface MemberDAO {
 	int getCategoryCount(HashMap<String, String> map);
 
 	ArrayList<Member> selectCategoryListAdmin(RowBounds rowBounds, Member m);
-	
-	
 
+	Member kakaoLogin(Member m);
+
+	int kakaoEnroll(Member m);
 }

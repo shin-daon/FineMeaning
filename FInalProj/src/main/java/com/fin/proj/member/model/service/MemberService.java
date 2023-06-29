@@ -56,6 +56,10 @@ public interface MemberService {
 	int getCategoryCount(HashMap<String, String> map);
 
 	ArrayList<Member> selectCategoryListAdmin(PageInfo pi, Member m);
+
+	Member kakaoLogin(Member m);
+
+	int kakaoEnroll(Member m);
 	
 
 }
