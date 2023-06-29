@@ -2,6 +2,7 @@ package com.fin.proj.board.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,4 +144,20 @@ public class BoardServiceImpl implements BoardService {
 		RowBounds rowbounds = new RowBounds(offset, pi.getBoardLimit());
 		return bDAO.selectMyBoard(uNo, rowbounds);
 	}
+
+	@Override
+	public List<Reply> findAllComment(int boardNo) {
+		return bDAO.findAllComment(boardNo);
+	}
+
+	@Override
+	public int saveComment(Reply params) {
+		return bDAO.saveComment(params);
+	}
+
+	@Override
+	public Reply findCommentById(int id) {
+		return bDAO.findCommentById(id);
+	}
+
 }

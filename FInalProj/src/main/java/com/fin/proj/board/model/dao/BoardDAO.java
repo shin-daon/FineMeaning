@@ -2,6 +2,7 @@ package com.fin.proj.board.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -55,5 +56,11 @@ public interface BoardDAO {
 	int myBoardCount(int uNo);
 
 	ArrayList<Board> selectMyBoard(int uNo, RowBounds rowbounds);
+
+	List<Reply> findAllComment(int boardNo);
+
+	int saveComment(Reply params);
+
+	Reply findCommentById(int id);
 
 }
