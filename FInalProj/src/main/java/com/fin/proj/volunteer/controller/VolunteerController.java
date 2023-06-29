@@ -282,7 +282,7 @@ public class VolunteerController {
 	@GetMapping("searchVolunteerEnrollHistory.vo")
 	public String searchVolunteerEnrollHistory(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam("startDate") String startDate, 
 											   @RequestParam("endDate") String endDate, @RequestParam("vMainCategoryName") String vMainCategoryName, 
-											   @RequestParam("status") String status, @RequestParam("vName") String vName, @RequestParam("column") String column, 
+											   @RequestParam("status") String status, @RequestParam("vName") String vName, @RequestParam(value="column", required=false) String column, 
 											   @RequestParam("vTargetCategoryName") String vTargetCategoryName, HttpSession session, Model model) {
 		if(currentPage == null) {
 			currentPage = 1;
@@ -313,9 +313,6 @@ public class VolunteerController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, searchVolunteerHistoryCount, 1);
 		
 		ArrayList<Volunteer> searchVEnrollHistories = vService.selectSearchVolunteerEnrollHistory(pi, searchEnrollHisMap);
-		
-		System.out.println(searchVolunteerHistoryCount);
-		System.out.println(searchVEnrollHistories);
 		
 		if(searchVEnrollHistories != null) {
 			model.addAttribute("pi", pi);
