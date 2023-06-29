@@ -7,6 +7,7 @@ public class Kakao {
     private String tokenUri;
     private String authorizationUri;
     private String userInfoUri;
+    
 	public String getClientId() {
 		return clientId;
 	}
