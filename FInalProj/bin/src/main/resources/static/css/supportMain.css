@@ -1,0 +1,198 @@
+@charset "UTF-8";
+
+#supportTitle{
+    border-bottom: 2px solid gray;
+    width: 100px;
+    font-size: 30px;
+}
+#supportMainTitle{
+	margin-top:50px;
+	display:flex;
+	flex-direction:column;
+	align-items: center;
+}
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "SUITE-Regular", sans-serif;
+} 
+
+#supportMainTitle .category{
+	margin-left:100px;
+	margin-right: 100px;
+}
+#supportMainTitle .cate-table{
+	border-collapse:separate;
+	text-align:center;
+	margin-top:30px;
+	border-spacing:10px;
+}
+#supportMainTitle .categorys{
+	width: 70px;
+	cursor: pointer;
+	padding-top: 10px;
+	padding-bottom: 13px;
+	border:2px solid #EDF1D6 ;
+	border-radius:50px;
+	border-spacing:10px;
+	color:gray;
+}
+#supportMainTitle .categorys:hover{
+	background-color:#EDF1D6;
+	
+}
+/* 카테고리 항목 글자크기 */
+#supportMainTitle .category-name{
+	font-size: 13px;
+	text-decoration:none;
+	color:gray;
+} 
+#supportMainTitle .fa-solid{
+	margin-top:2px;
+	font-size: 10px;
+}
+#supportMainTitle .fa-solid:hover{
+	color:white;
+}
+#supportMainTitle .categorys:hover{color: white;}
+#supportMainTitle .categorys:active {color: white;}
+#supportMainTitle .categorys:hover .category-name{
+	color: white;
+}
+
+#supportMainTitle .supportLists{
+	width:900px;
+	margin-left:auto;
+	margin-right:auto;
+}
+#supportMainTitle .supportList{
+	float:left;
+	width:32%;
+	height:350px;
+	border:2px solid #40513B;
+	margin:5px;
+}
+#supportMainTitle .page{
+	float:none;
+}
+#supportMainTitle #supportInfo{
+	background-color:#EDF1D6;
+	border:2px solid #9DC08B;
+}
+
+#supportMainTitle .todayButton{
+	background-color:white;
+	border-radius:2em;
+	margin-left:auto;
+	margin-right:auto;
+	width:80px;
+	height:25px;
+	font-size:15px;
+	text-align:center;
+}
+
+#supportMainTitle .supportTotal td{
+	text-align:center;
+	height:30px;
+	font-size:20px;
+	padding-top:20px;
+}
+
+#supportMainTitle .supportThumnails{
+	height:220px;
+	width:100%;
+	object-fit: cover;
+}
+
+#supportMainTitle .supportName{
+	padding-top:15px;
+	color:grey;
+	font-size:18px;
+}
+
+#supportMainTitle .supportGroup{
+	padding-top:5px;
+	color:lightgrey;
+	font-size:15px;
+}
+
+#supportProgress {
+    appearance: none;
+    width:200px;
+}
+#supportProgress::-webkit-progress-bar {
+    background:#f0f0f0;
+    border-radius:10px;
+}
+#supportProgress::-webkit-progress-value {
+    border-radius:10px;
+    background: #9DC08B;
+/*     background: -webkit-linear-gradient(to right, #93F9B9, #1D976C); */
+	margin-top:20px;
+}
+
+
+.searchArea {
+    float: right;
+}
+
+.searchInput {
+    float: right;
+    width: 160px;
+    height: 30px;
+    padding: 10px 12px;
+    padding-right: 20px;
+    border-radius: 0.4rem;
+    background-color: #f3f3f3;
+}
+
+.searchIcon {
+    width: 15px;
+    margin-top:-8px;
+}
+
+.searchIconATag {
+    position: relative;
+    left: 155px;
+    top: 6px;
+}
+
+.actionArea{
+	padding-right:10px;
+	margin-bottom:5px;
+}
+
+.path {
+    margin-top: 30px;
+    font-size: 14px;
+    float:left;
+
+    
+}
+
+.middle {
+    vertical-align: middle;
+    text-decoration: none;
+    color: black;
+}
+
+.iconSize {
+    block-size: 12px;
+}
+
+.homeIconSize {
+    block-size: 14px;
+}
+
+.sub {
+    vertical-align: sub;
+}
+

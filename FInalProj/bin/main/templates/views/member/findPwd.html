@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+	--body-background-color: #f5f6f7;
+	--font-color: #4e4e4e;
+	--border-gray-color: #dadada;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "SUITE-Regular", sans-serif;
+}
+
+.enroll {
+	width: 360px;
+	margin: 0px auto;
+	display: block;
+}
+
+.enroll-title {
+	font-size: 30px;
+	margin-bottom: 75px;
+	text-decoration: #9DC08B wavy underline;
+	margin-left: 85px;
+}
+
+.title {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: bold;
+	word-break: keep-all;
+	color: #4e4e4e;
+}
+
+.insert {
+	margin-top: 40px;
+}
+
+.input {
+	margin-top: 15px;
+}
+
+#short-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 233px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+.short-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 100px;
+	height: 40px;
+	font-size: 15px;
+	color: white;
+	background-color: #609966;
+	border: 1px solid #609966;
+	cursor: pointer;
+}
+
+#normal-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 335px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+#email-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 149px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+#email-select {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 150px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+.normal-btn {
+	margin-top: 50px;
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 335px;
+	height: 40px;
+	font-size: 15px;
+	color: white;
+	background-color: #609966;
+	border: 1px solid #609966;
+}
+
+a {
+	text-decoration: none;
+	font-size: 14px;
+	color: #4e4e4e;
+	font-weight: bold;
+}
+
+input[type="radio"]{
+    display: none;
+}
+
+.choose-radio{
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    width: 130px; height: 25px;
+}
+
+.choose-radio span{
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px 10px 10px;
+    border-radius: 50px;
+    transition: .25s ease;
+    font-size: 17px;
+}
+
+.choose-radio span:hover,
+input[type="radio"]:checked + span{
+    background-color: #EDF1D6;
+}
+
+.choose-radio span:before{
+    content: "";
+    background-color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: .25s ease;
+    box-shadow:  inset 0 0 0 2px #609966;
+}
+
+input[type="radio"]:checked + span:before{
+    box-shadow: inset 0 0 0 5px #609966;
+}
+
+.phone-div {
+	display: none;
+}
+
+.nothing {
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.result {
+	width: 360px;
+	margin: 0px auto;
+	display: none;
+}
+
+.pwd-comment {
+	font-size: 14px;
+	color: gray;
+}
+
+.result-nemo {
+	margin-top: 30px;
+	width: 300px;
+	height: 85px;
+	border: 1px solid #EDF1D6;
+	background: #EDF1D6;
+	justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center;
+}
+
+.result-user-id,
+.result-user-date {
+	text-align: center;
+	margin-top: 13px;
+}
+
+.result-user-id {
+	font-size: 18px;
+}
+
+.result-user-date {
+	font-size: 14px;
+}
+
+#withdrawal-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 145px;
+	height: 40px;
+	font-size: 15px;
+	color: #fff;
+	background-color: #609966;
+	border: 1.5px solid #609966;
+	cursor: pointer;
+}
+
+#rollback-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 145px;
+	height: 40px;
+	font-size: 15px;
+	color: #609966;
+	background-color: #fff;
+	border: 1.5px solid #609966;
+	margin-top: 3px;
+	margin-bottom: 40px;
+	cursor: pointer;
+}
+
+.last-button {
+	margin-top: 40px;
+}
+
+#custom-email-input {
+	padding: 8px 15px 9px;
+    border-radius: 4px;
+    width: 150px;
+    height: 40px;
+    border: 1px solid lightgray;
+    outline: none;
+	position: relative;
+}
+
+.input.email-input {
+    position: relative; /* 추가: 위치를 고정하기 위해 부모 요소에 position: relative 적용 */
+}
+ 
+.x-btn {
+	background: none;
+	border: none;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	top: 10px;
+    left: 315px;
+    cursor: pointer; 
+}
+
+#nextBtn{
+    width:90px;
+	height:32px;
+    cursor: pointer;
+}
+
+.learn-more {
+	margin-top:40px;	
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	outline: none;
+	border: 0;
+	vertical-align: middle;
+	text-decoration: none;
+	font-size: 15px;
+	font-family: inherit;
+	width:100px;
+	height:32px;
+	font-weight: 600;
+	color: #382b22;
+	text-transform: uppercase;
+	background: #EDF1D6;
+	border: 2px solid #609966;
+	border-radius: 0.75em;
+	transform-style: preserve-3d;
+	transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.learn-more::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #9DC08B;
+  border-radius: inherit;
+  box-shadow: 0 0 0 2px #609966, 0 0.625em 0 0 #EDF1D6;
+  transform: translate3d(0, 0.75em, -1em);
+  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.learn-more:hover {
+  background: #EDF1D6;
+  transform: translate(0, 0.25em);
+}
+
+.learn-more:hover::before {
+  box-shadow: 0 0 0 2px #609966, 0 0.5em 0 0 #EDF1D6;
+  transform: translate3d(0, 0.5em, -1em);
+}
+
+.learn-more:active {
+  background: #EDF1D6;
+  transform: translate(0em, 0.75em);
+}
+
+.learn-more:active::before {
+  box-shadow: 0 0 0 2px #b18597, 0 0 #EDF1D6;
+  transform: translate3d(0, 0, -1em);
+}
+
+.address-btn {
+	width:335px;
+	height:45px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#pwdCheckResult {
+	font-size: 15px;
+	color: #609966;
+} 
+
+.check-div {
+	margin-top: 30px;
+	width: 335px;
+	display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+</style>
+<body>
+<div th:replace="~{views/common/header :: header}"></div>
+<br><br><br><br>
+
+<div class="enroll">
+	<div class="enroll-title">비밀번호 찾기</div>
+		
+		<form action="findPwdForm.me" id="findPwdForm" method="post">
+		<div class="insert name">
+			<label class="title">아이디</label>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="아이디" name="uId" required/>
+			</div>
+		</div>
+		
+		<div class="insert">
+			<label class="title">인증방식</label><br>
+				<div class="container">
+					<label class="choose-radio">
+						<input type="radio" id="email" name="authMethod" value="이메일" checked/> <span>이메일</span>
+					</label>
+					<label class="choose-radio">
+						<input type="radio" id="phone-number" name="authMethod" value="전화번호" /> <span>전화번호</span>
+					</label>
+				</div>
+			</div>
+			
+		<div class="insert email-div">
+			<label class="title">이메일</label>
+			<div class="input email-input">
+				<input type="text" id="email-input" name="emailId" placeholder="이메일"/><span class="nothing">@</span>
+				
+				<select name="emailDomain" id="email-select">
+					<option>naver.com</option>
+					<option>gmail.com</option>
+					<option>daum.net</option>
+					<option>nate.com</option>
+					<option>직접입력</option>
+				</select>
+				
+           		<input type="text" id="custom-email-input" name="emailDomain" style="display: none;" />
+           		<span class="x-btn" style="display: none;"><img src="image/x.png"></span>
+			</div>			
+		</div>
+			
+			
+		<div class="insert phone-div">
+			<label class="title">전화번호</label>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="전화번호" name="phone"/>
+			</div>
+		</div>
+		
+		<div class="insert result-number">
+			<label class="title">인증번호</label>
+			<div class="input">
+				<input type="text" id="short-input" name="randomNumInput" placeholder="인증번호"/>
+				<button class="short-btn" id="emailBtn">전송받기</button>			
+			</div>
+		</div>
+		
+		<div class="check-div"><label id="pwdCheckResult"></label></div>
+
+		<div class="address-btn">
+			<button type="submit" id="nextBtn" class="learn-more">확인하기</button>
+		</div>				
+	</form>
+</div>
+	
+<br><br><br><br>
+<div th:replace="~{views/common/footer :: footer}"></div>
+
+<script>
+
+	// 이메일 or 전화번호 선택
+	
+	const emailRadio = document.getElementById('email');
+	const phoneRadio = document.getElementById('phone-number');
+	
+	const emailDiv = document.getElementsByClassName('email-div')[0];
+	const phoneDiv = document.getElementsByClassName('phone-div')[0];
+	
+	emailRadio.addEventListener('change', () => {
+		event.preventDefault();
+		emailDiv.style.display = 'block';
+		phoneDiv.style.display = 'none';
+		emailRadio.checked = true;
+		phoneRadio.checked = false;
+	});
+	
+	phoneRadio.addEventListener('change', () => {
+		event.preventDefault();
+		phoneDiv.style.display = 'block';
+		emailDiv.style.display = 'none';
+		phoneRadio.checked = true;
+		emailRadio.checked = false;
+	});
+	
+	
+	// 다음
+	
+	const nextBtn = document.getElementById('nextBtn');
+	
+	const firstDiv = document.getElementsByClassName('enroll')[0];
+	const nextDiv = document.getElementsByClassName('result')[0];
+	
+	nextBtn.disabled = true;
+	
+	// 이메일
+
+    const emailSelect = document.getElementById('email-select');
+    const customEmailInput = document.getElementById('custom-email-input');
+    const emailInput = document.getElementsByClassName('email-input')[0];
+    const xBtn = document.getElementsByClassName('x-btn')[0];
+
+    emailSelect.addEventListener('change', function() {
+        if (emailSelect.value === '직접입력') {
+            emailSelect.style.display = 'none';
+            customEmailInput.style.display = 'inline-block';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'block';
+        }
+    });
+
+    customEmailInput.addEventListener('input', function() {
+        if (customEmailInput.value === '') {
+            emailSelect.style.display = 'none';
+            emailSelect.selectedIndex = 0;
+        }
+    });
+    
+    xBtn.addEventListener('click', function() {
+            emailSelect.style.display = 'inline-block';
+            customEmailInput.style.display = 'none';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'none';
+            emailSelect.value = 'naver.com';
+            customEmailInput.value = '';
+    });
+    
+    // 이메일 폼
+	const form = document.querySelector('form');
+
+	form.addEventListener('submit', function(event) {
+  		if (customEmailInput.value === '') {
+  			customEmailInput.setAttribute('name', '');
+    		emailSelect.setAttribute('name', 'emailDomain');
+  		} else {
+  			customEmailInput.setAttribute('name', 'emailDomain');
+   			emailSelect.setAttribute('name', '');
+  		}
+	});
+	
+	// 이메일 인증		
+	const emailBtn = document.getElementById('emailBtn');
+	
+	emailBtn.addEventListener("click", function() {
+		event.preventDefault();
+		const uId = document.getElementsByName("uId")[0].value;
+		const emailId = document.getElementsByName("emailId")[0].value;
+		const emailDomain = document.getElementById("email-select").value;
+		const customEmailDomain = document.getElementById("custom-email-input").value;
+		const phone = document.getElementsByName("phone")[0].value;
+		const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
+		const pwdCheckResult = document.getElementById('pwdCheckResult');
+		
+		let emailAddress;
+
+		if (emailDomain === "직접입력") {
+			emailAddress = emailId + "@" + customEmailDomain;
+		} else {
+			emailAddress = emailId + "@" + emailDomain;
+		}
+		
+		if (uId.trim() == ''){
+			pwdCheckResult.innerText = '아이디를 입력해주세요.';
+		} else if(emailRadio.checked && emailId.trim() == ''){
+			pwdCheckResult.innerText = '이메일을 입력해주세요.';
+		} else if(phoneRadio.checked && phone.trim() == ''){
+			pwdCheckResult.innerText = '전화번호를 입력해주세요.';
+		} else if(emailRadio.checked && !(uId.trim() == '') && !(emailId.trim() == '')) {			
+			console.log(emailAddress);
+			$.ajax({
+	            url: 'findMyPwd.me',
+	            data: { uId: uId, emailAddress: emailAddress },
+	            success: data => {
+	                console.log("데이터 전송 성공: " + data);
+	                
+	                const [result, randomNum] = data.split(',');	                
+	                
+	                if(result == 'no'){
+	                	pwdCheckResult.innerText = '입력하신 정보와 일치하는 회원이 존재하지 않습니다.';
+	                } else if(result == 'yes'){
+	                	pwdCheckResult.innerText = '메일이 전송되었습니다. 인증번호를 입력해주세요.';	
+	                	nextBtn.disabled = false;     
+	                }
+	                
+	                console.log("인증번호: " + randomNum);
+	                
+	                nextBtn.addEventListener("click", function() {
+						const emailId = document.getElementsByName("emailId")[0];
+						const emailDomain = document.getElementById("email-select");
+						const customEmailDomain = document.getElementById("custom-email-input");
+						const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
+						const pwdCheckResult = document.getElementById('pwdCheckResult');
+						const findPwdForm = document.getElementById('findPwdForm');
+						
+						if (randomNumInput === randomNum) {
+							nextBtn.disabled = false;
+							findPwdForm.submit();
+					    } else {
+					    	event.preventDefault();
+					    	pwdCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
+					    	pwdCheckResult.style.color = 'red';
+					    }
+					});	
+	            },
+	            error: data => {
+	                console.log("데이터 전송 실패");
+	            }
+	        });
+	    } else if (phoneRadio.checked && !(uId.trim() == '') && !(phone.trim() == '')){
+	    	$.ajax({
+	            url: 'findMyPwd2.me',
+	            data: { uId: uId, phone: phone },
+	            success: data => {
+	                console.log("데이터 전송 성공: " + data);
+	                
+	                const [result, randomNum] = data.split(',');	                
+	                
+	                if(result == 'no'){
+	                	pwdCheckResult.innerText = '입력하신 정보와 일치하는 회원이 존재하지 않습니다.';
+	                } else if(result == 'yes'){
+	                	pwdCheckResult.innerText = '문자가 전송되었습니다. 인증번호를 입력해주세요.';	
+	                	nextBtn.disabled = false;     
+	                }
+	                
+	                console.log("인증번호: " + randomNum);
+	                
+	                nextBtn.addEventListener("click", function() {
+	                	const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
+	                	const pwdCheckResult = document.getElementById('pwdCheckResult');
+	                	const findIdForm = document.getElementById('findIdForm');
+						
+						if (randomNumInput === randomNum) {
+							nextBtn.disabled = false;
+							findPwdForm.submit();						
+					    } else {
+					    	event.preventDefault();
+					    	pwdCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
+					    	pwdCheckResult.style.color = 'red';
+					    }
+					});	
+	            },
+	            error: data => {
+	                console.log("데이터 전송 실패");
+	            }
+	        });
+	    }    
+	});
+		
+		
+	
+</script>
+</body>
+</html>

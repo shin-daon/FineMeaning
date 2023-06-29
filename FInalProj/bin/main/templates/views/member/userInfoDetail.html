@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>회원 상세 조회</title>
+<link rel="stylesheet" href="faq_style.css">
+<style>
+@font-face {
+   font-family: 'SUITE-Regular';
+   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+   font-weight: 400;
+   font-style: normal;
+}
+        
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: "SUITE-Regular", sans-serif;
+} 
+
+#faqSection {
+    margin-top: 80px;
+    margin-left: 18%;
+    display: flex;
+
+    align-items: center;
+    flex-direction: column; /* 세로 방향, row는 가로 방향 */
+}
+
+#faqTitle {
+    font-size: 30px;
+    border-bottom: 2px solid #40513B;
+}
+
+.path {
+    margin-top: 30px;
+    width: 740px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.middle {
+    vertical-align: middle;
+    text-decoration: none;
+    color: black;
+}
+
+.iconSize {
+    block-size: 12px;
+}
+
+.homeIconSize {
+    block-size: 14px;
+}
+
+.sub {
+    vertical-align: sub;
+}
+
+.writeFaqBtn {
+    width: 80px;
+    height: 30px;
+    background-color: #9DC08B;
+    color: white;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    border: 1px solid black;
+    font-size: 14px;
+}
+
+.actionArea {
+    margin-top: 30px;
+    width: 750px;
+}
+
+.writeArea {
+    float: left;
+}
+
+.searchArea {
+    float: right;
+}
+
+.faqTable {
+    width: 750px;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+th, td {
+    padding: 10px;
+}
+
+.faqTable thead tr th {
+    border-bottom: 1px dotted black;
+    background-color: #EDF1D6;
+}
+
+.first {
+    border-radius: 10px 0px 0px 0px;
+}
+
+.last {
+    border-radius: 0px 0px 0px 10px;
+}
+
+.title {
+    border-right: 1px dotted black;
+    background-color: #EDF1D6;
+}
+
+.page {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: row;
+}
+
+.pagination > li {
+    list-style-type: none;
+    float: left;
+}
+
+.pagination > li > .num {
+    margin: 10px;
+    width: 20px;
+    height: 20px;
+    text-decoration-line: none;
+    color: black;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center
+}
+
+.pagination > li > .num:hover {
+    color: white;
+    background-color: #40513B;
+    border-radius: 100%;
+}
+
+.arrowKey {
+    margin-top: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
+    block-size: 14px;
+    display: block;
+}
+
+.faqTable > tbody > tr:hover{
+    background-color: #f9fceb;
+    cursor: pointer;
+}
+
+/* 토글 */
+input[type=checkbox] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+.switch {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 50px; /* 너비 조절 */
+  height: 26px; /* 높이 조절 */
+  background: gray;
+  display: block;
+  border-radius: 50px; /* 원형 모양 조절 */
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+  top: -10px;
+}
+
+.switch:after {
+  content: '';
+  position: absolute;
+  top: 3.6px; /* 상단 위치 조절 */
+  left: 4.5px; /* 왼쪽 위치 조절 */
+  width: 18px; /* 너비 조절 */
+  height: 18px; /* 높이 조절 */
+  background: #fff;
+  border-radius: 18px; /* 원형 모양 조절 */
+  transition: 0.3s;
+}
+
+input:checked + .switch {
+  background: #9DC08B;
+}
+
+input:checked + .switch:after {
+  left: calc(100% - 4.5px);
+  transform: translateX(-100%);
+}
+
+.switch:active:after {
+  width: 30px; /* 너비 조절 */
+}
+
+.switch-div {
+	justify-content: center;
+  	align-items: center;
+  	display: inline-block;
+  	vertical-align: middle;
+}
+
+.select-cate {
+	width: 90px;
+    height: 30px;
+    border-radius: 0.4rem;
+    background-color: #f3f3f3;
+}
+
+.cate-btn {
+	padding: 8px 15px 9px;
+	border-radius: 30px;
+	width: 111px;
+	height: 33px;
+	font-size: 13px;
+	color: #9DC08B;
+	background-color: #fff;
+	border: 1.5px solid #9DC08B;
+}
+
+.isstatus-user {
+	display: inline-block;
+}
+
+.switch-div {
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.admin-user {
+	margin-left: 10px;
+}
+
+.normal-btn {
+	margin-top: 60px;
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 300px;
+	height: 40px;
+	font-size: 15px;
+	color: white;
+	background-color: #609966;
+	border: 1px solid #609966;
+	cursor: pointer;
+}
+
+</style>
+</head>
+<body>
+<div th:replace="~{views/common/header :: header}"></div>
+
+<div>
+    <section style="display: flex;">
+	<div th:replace="~{views/common/adminSidebar :: adminSidebar}"></div>
+	
+	<section id="faqSection">
+        <div>
+            <div id="faqTitle">회원 상세</div>
+        </div>
+
+        <div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/화살표.png">
+            <a class="middle" href="#">관리자 페이지</a>
+            <img class="sub iconSize" src="image/화살표.png">
+            <a class="middle">회원</a>
+        </div>
+
+		<div class="actionArea">
+			<div class="isstatus-user">회원 활동 여부</div>
+			<div class="switch-div">
+			  <input type="checkbox" id="switch1" th:checked="${uList.uStatus == 'Y'}" />
+			  <label for="switch1" class="switch">Toggle</label>
+			</div>
+        </div>
+
+        <table class="faqTable">
+            <tbody>
+                <tr>
+                    <td class="title first">아이디</td>
+                    <td th:text="${ uList.uId }"></td>
+                </tr>
+                <tr>
+                    <td class="title">이름</td>
+                    <td th:text="${ uList.uName }"></td>
+                </tr>
+                <tr>
+                    <td class="title">생년월일</td>
+                    <td th:text="${ uList.residentNo }"></td>
+                </tr>
+                <tr>
+                    <td class="title">주소</td>
+                    <td th:text="${ uList.address }"></td>                   
+                </tr>
+                <tr>
+                    <td class="title">전화번호</td>
+                    <td th:text="${ uList.phone }"></td>
+                </tr>
+                <tr>
+                    <td class="title">이메일</td>
+                    <td th:text="${ uList.email }"></td>
+                </tr>
+                <tr>
+                    <td class="title">닉네임</td>
+                    <td th:text="${ uList.uNickName }"></td>
+                </tr>
+                <tr>
+                    <td class="title">가입타입</td>
+                    <td th:text="${ uList.loginType }"></td>
+                </tr>
+                <tr>
+                    <td class="title">회원 유형</td>
+                    <td th:text="${ uList.uType }"></td>
+                </tr>
+                <tr>
+                	<td class="title">등록 기관</td>
+                    <td th:text="${uList.registrar != null ? uList.registrar : '-'}"></td>
+                </tr>
+                <tr>
+                	<td class="title">관리자 여부</td>
+                    <td th:text="${uList.isAdmin == 1 ? '일반' : (uList.isAdmin == 0 ? '관리자' : (uList.isAdmin == 2 ? '봉사관리자' : ''))}"></td>
+                </tr>
+                <tr>
+                	<td class="title last">가입 일자</td>
+                    <td th:text="${ uList.enrollDate }"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="address-btn">
+			<button class="normal-btn" id="search-ad" onClick="location.href='editUserInfo.me'">목록으로</button>
+		</div>		
+
+        </section>
+    </section>
+  </div>
+  
+<br><br><br><br>
+<div th:replace="~{views/common/footer :: footer}"></div>
+
+</body>
+</html>

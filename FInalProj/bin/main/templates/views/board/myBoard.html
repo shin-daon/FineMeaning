@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>작성 글</title>
+    <link rel="stylesheet" href="css/board/myBoard_style.css">
+    <style>
+    	.flex-container {
+        	display: flex;
+   		}
+    </style>
+</head>
+<body>
+	<div th:replace="~{../common/header :: header}"></div>
+	
+	<div class="flex-container">
+	   	<div th:replace="~{views/common/sidebar :: sidebar}"></div>
+	    <section id="myBoardSection">
+	        <div>
+	            <div id="myBoardTitle">내가 작성한 글</div>
+	        </div>
+	
+	        <table class="myBoardTable">
+	            <thead>
+	                <tr>
+	                    <th>No</th>
+	                    <th style="width: 350px;">제목</th>
+	                    <th>작성일</th>
+	                    <th>조회수</th>
+	                    <th>게시판</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr th:each = "b : ${list}">
+	                    <td th:text = "${b.boardNo}"></td>
+	                    <td th:text = "${b.boardTitle}"></td>
+	                    <td th:text = "${b.boardDate}"></td>
+	                    <td th:text = "${b.boardCount}"></td>
+	                    <td th:text = "${b.boardType}"></td>
+	                </tr>
+	            </tbody>
+	        </table>
+			
+	        <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
+            <ul class="pagination">
+                <li th:if="${ pi.currentPage > 1 }">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage > 1 }">
+	                	<img class="arrowKey disabled" src="image/before.png">
+                </li>
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0}">
+                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                <li th:if="${ pi.currentPage < pi.maxPage} ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage < pi.maxPage }">
+	                	<img class="arrowKey disabled" src="image/next.png">
+                </li>
+            </ul>
+        </div>
+	    </section>
+    </div>
+    <div th:replace="~{views/common/footer :: footer}"></div>
+    <script>
+    	window.onload = () => {
+			//작성한 게시판에 따라서 상세보기페이지로 이동
+            const tbody = document.querySelector('tbody');
+            const tds = tbody.querySelectorAll('td');
+            for (const td of tds) {
+              td.addEventListener('click', function() {
+                const trTds = this.parentElement.children;
+                const bNo = trTds[0].innerText;
+                const writer = trTds[2].innerText;
+                const category = trTds[4].innerText; // 작성 카테고리 값 가져오기
+
+                let page = 1; // 페이지 초기값 설정
+                let url = ''; // 이동할 URL 초기값 설정
+
+                if (category === '일반') {
+                  url = 'commDetailPage.bo';
+                } else if (category === 'QA') {
+                  url = 'qaDetailPage.bo';
+                }
+
+                location.href = url + '?bNo=' + bNo + '&writer=' + writer + '&page=' + page;
+              });
+            }
+            
+            document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
+				enrollSearchKeyword();
+			});
+			
+			document.getElementsByClassName('searchInput')[0].addEventListener('keyup', (e)=>{
+				if(e.key == 'Enter'){
+					enrollSearchKeyword()
+				}
+			});
+			
+    	}
+    </script>
+</body>
+</html>

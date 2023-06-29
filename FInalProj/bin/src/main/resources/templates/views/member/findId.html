@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<style>
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+	--body-background-color: #f5f6f7;
+	--font-color: #4e4e4e;
+	--border-gray-color: #dadada;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "SUITE-Regular", sans-serif;
+}
+
+.enroll {
+	width: 360px;
+	margin: 0px auto;
+	display: block;
+}
+
+.enroll-title {
+	font-size: 30px;
+	margin-bottom: 75px;
+	text-decoration: #9DC08B wavy underline;
+	margin-left: 100px;
+}
+
+.title {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: bold;
+	word-break: keep-all;
+	color: #4e4e4e;
+}
+
+.insert {
+	margin-top: 40px;
+}
+
+.input {
+	margin-top: 15px;
+}
+
+#short-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 233px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+.short-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 100px;
+	height: 40px;
+	font-size: 15px;
+	color: white;
+	background-color: #609966;
+	border: 1px solid #609966;
+}
+
+#normal-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 335px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+#email-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 149px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+#email-select {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 150px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+.normal-btn {
+	margin-top: 50px;
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 335px;
+	height: 40px;
+	font-size: 15px;
+	color: white;
+	background-color: #609966;
+	border: 1px solid #609966;
+}
+
+a {
+	text-decoration: none;
+	font-size: 14px;
+	color: #4e4e4e;
+	font-weight: bold;
+}
+
+input[type="radio"]{
+    display: none;
+}
+
+.choose-radio{
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    width: 130px; height: 25px;
+}
+
+.choose-radio span{
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px 10px 10px;
+    border-radius: 50px;
+    transition: .25s ease;
+    font-size: 17px;
+}
+
+.choose-radio span:hover,
+input[type="radio"]:checked + span{
+    background-color: #EDF1D6;
+}
+
+.choose-radio span:before{
+    content: "";
+    background-color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: .25s ease;
+    box-shadow:  inset 0 0 0 2px #609966;
+}
+
+input[type="radio"]:checked + span:before{
+    box-shadow: inset 0 0 0 5px #609966;
+}
+
+.phone-div {
+	display: none;
+}
+
+.nothing {
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.result {
+	width: 360px;
+	margin: 0px auto;
+	display: none;
+}
+
+.pwd-comment {
+	font-size: 14px;
+	color: gray;
+}
+
+.result-nemo {
+	margin-top: 30px;
+	width: 300px;
+	height: 85px;
+	border: 1px solid #EDF1D6;
+	background: #EDF1D6;
+	justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center;
+}
+
+.result-user-id,
+.result-user-date {
+	text-align: center;
+	margin-top: 13px;
+}
+
+.result-user-id {
+	font-size: 18px;
+}
+
+.result-user-date {
+	font-size: 14px;
+}
+
+#withdrawal-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 145px;
+	height: 40px;
+	font-size: 15px;
+	color: #fff;
+	background-color: #609966;
+	border: 1.5px solid #609966;
+}
+
+#rollback-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 145px;
+	height: 40px;
+	font-size: 15px;
+	color: #609966;
+	background-color: #fff;
+	border: 1.5px solid #609966;
+	margin-top: 3px;
+	margin-bottom: 40px;
+}
+
+.last-button {
+	margin-top: 40px;
+}
+
+#custom-email-input {
+	padding: 8px 15px 9px;
+    border-radius: 4px;
+    width: 150px;
+    height: 40px;
+    border: 1px solid lightgray;
+    outline: none;
+	position: relative;
+}
+
+.input.email-input {
+    position: relative; /* 추가: 위치를 고정하기 위해 부모 요소에 position: relative 적용 */
+}
+ 
+.x-btn {
+	background: none;
+	border: none;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	top: 10px;
+    left: 315px;
+    cursor: pointer; 
+}
+
+</style>
+<body>
+<div th:replace="~{views/common/header :: header}"></div>
+<br><br><br><br>
+
+<div class="enroll">
+	<div class="enroll-title">아이디 찾기</div>
+		
+		<form>
+		<div class="insert name">
+			<label class="title">이름</label>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="이름"/>
+			</div>
+		</div>
+		
+		<div class="insert">
+			<label class="title">인증방식</label><br>
+				<div class="container">
+					<label class="choose-radio">
+						<input type="radio" id="email" name="radio" checked/> <span>이메일</span>
+					</label>
+					<label class="choose-radio">
+						<input type="radio" id="phone-number" name="radio" /> <span>전화번호</span>
+					</label>
+				</div>
+			</div>
+			
+		<div class="insert email-div">
+			<label class="title">이메일</label>
+			<div class="input email-input">
+				<input type="text" id="email-input" placeholder="이메일"/><span class="nothing">@</span>
+				
+				<select name="email" id="email-select">
+					<option>naver.com</option>
+					<option>gmail.com</option>
+					<option>daum.net</option>
+					<option>nate.com</option>
+					<option>직접입력</option>
+				</select>
+				
+           		<input type="text" id="custom-email-input" style="display: none;" />
+           		<span class="x-btn" style="display: none;"><img src="image/x.png"></span>
+			</div>			
+		</div>
+			
+			
+		<div class="insert phone-div">
+			<label class="title">전화번호</label>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="전화번호"/>
+			</div>
+		</div>
+		
+		<div class="insert result-number">
+			<label class="title">인증번호</label>
+			<div class="input">
+				<input type="text" id="short-input" placeholder="인증번호"/>
+				<button class="short-btn">전송받기</button>
+			</div>
+		</div>
+
+		<div class="address-btn">
+			<button class="normal-btn" id="search-ad">다음</button>
+		</div>				
+	</form>
+</div>
+
+<div class="result">
+	<div class="insert name">
+		<label class="title">아이디 확인</label><br>
+		<span class="pwd-comment">회원님의 정보와 일치하는 아이디입니다.</span>
+		<div class="result-nemo">
+			<div class="result-user-id">user01</div><div class="result-user-date">(가입일 : 2020. 05. 25)</div>
+		</div>
+	</div>
+	
+	<div class="last-button">
+		<button id="rollback-btn" onClick="location.href='loginView.me'">로그인</button> &nbsp;
+		<button id="withdrawal-btn" onClick="location.href='findPwd.me'">비밀번호 찾기</button>	
+	</div>	
+</div>
+	
+<br><br><br><br>
+<div th:replace="~{views/common/footer :: footer}"></div>
+
+<script>
+
+	// 이메일 or 전화번호 선택
+	
+	const emailRadio = document.getElementById('email');
+	const phoneRadio = document.getElementById('phone-number');
+	
+	const emailDiv = document.getElementsByClassName('email-div')[0];
+	const phoneDiv = document.getElementsByClassName('phone-div')[0];
+	
+	emailRadio.addEventListener('change', () => {
+		event.preventDefault();
+		emailDiv.style.display = 'block';
+		phoneDiv.style.display = 'none';
+	});
+	
+	phoneRadio.addEventListener('change', () => {
+		event.preventDefault();
+		phoneDiv.style.display = 'block';
+		emailDiv.style.display = 'none';
+	});
+	
+	
+	// 다음
+	
+	const nextBtn = document.getElementById('search-ad');
+	
+	const firstDiv = document.getElementsByClassName('enroll')[0];
+	const nextDiv = document.getElementsByClassName('result')[0];
+	
+	nextBtn.addEventListener('click', () => {
+		event.preventDefault();
+		nextDiv.style.display = 'block';
+		firstDiv.style.display = 'none';
+	});
+	
+	// 이메일
+
+    const emailSelect = document.getElementById('email-select');
+    const customEmailInput = document.getElementById('custom-email-input');
+    const emailInput = document.getElementsByClassName('email-input')[0];
+    const xBtn = document.getElementsByClassName('x-btn')[0];
+
+    emailSelect.addEventListener('change', function() {
+        if (emailSelect.value === '직접입력') {
+            emailSelect.style.display = 'none';
+            customEmailInput.style.display = 'inline-block';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'block';
+        }
+    });
+
+    customEmailInput.addEventListener('input', function() {
+        if (customEmailInput.value === '') {
+            emailSelect.style.display = 'none';
+            emailSelect.selectedIndex = 0;
+        }
+    });
+    
+    xBtn.addEventListener('click', function() {
+            emailSelect.style.display = 'inline-block';
+            customEmailInput.style.display = 'none';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'none';
+            emailSelect.value = 'naver.com';
+    });
+</script>
+</body>
+</html>
