@@ -108,7 +108,7 @@ public class VolunteerController {
 								  @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
 		if(v != null) {
-			HashMap<String, Double> map = Map.getLongitudeAndLatitude(v.getAddress());
+			HashMap<String, Double> map = Map.getLongitudeAndLatitude(v.getvLocation());
 			model.addAttribute("v", v);
 			model.addAttribute("page", page);
 			model.addAttribute("map", map);
