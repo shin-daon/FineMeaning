@@ -35,7 +35,7 @@
 	font-size: 30px;
 	margin-bottom: 75px;
 	text-decoration: #9DC08B wavy underline;
-	margin-left: 87px;
+	margin-left: 83px;
 }
 
 .title {
@@ -288,6 +288,11 @@ a {
 	color: gray;    
 } 
 
+#enrollCheckResult {
+	font-size: 16px;
+	color: black; 
+}
+
 .check-div {
 	margin-top: 7px; 
 }
@@ -351,23 +356,34 @@ select:focus {
 				<div class="check-div"><label id="nickNameCheckResult"></label></div>
 			</div>
 		</div>
-
+		
+		<div class="check-div"><label id="enrollCheckResult"></label></div>
 		<div class="insert enroll-btn">
 			<button class="learn-more" type="submit" id="enrollBtn">가입하기</button>
 		</div>							
 	</form>	
 	</div>
-		<div class="enroll-comment">이미 아이디가 있으신가요? <a href="loginView.me">로그인</a></div>
+		<div class="enroll-comment">일반 아이디가 있으신가요? <a href="loginView.me">로그인</a></div>
 
 	<br><br><br><br>
 <div th:replace="~{views/common/footer :: footer}"></div>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-	// 가입하기 버튼
-	const enrollButton = document.getElementById('enrollBtn');
+<script th:inline="javascript">
+	var alertMessage = /*[[${alertMessage}]]*/alert;
+    if (alertMessage) {
+        alert(alertMessage);
+    }
     
-    // 아이디, 닉네임 유효성 검사   
+    // 가입하기 버튼
+    const enrollButton = document.getElementById('enrollBtn');
+    const enrollResult = document.getElementById('enrollCheckResult');
+	enrollButton.disabled = true;
+	
+	// form
+	const form = document.getElementsByName('enrollForm')[0];
+    
+    // 닉네임 유효성 검사
     window.onload = () => {
     		
     		const nickName = document.getElementsByName('uNickName')[0];
@@ -392,6 +408,7 @@ select:focus {
 								nickName.style.outline = '1px solid #609966';
 								nickName.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
 								enrollButton.disabled = false;
+								checkAllConditions();
 							} else if(data == 'no'){
 								nickNameResult.innerText = "사용 불가능한 닉네임입니다.";
 								nickNameResult.style.color = 'red';
@@ -426,6 +443,7 @@ select:focus {
 	    agencyNameInput.style.outline = '';
 		agencyNameInput.style.boxShadow = '';
 	  }
+	  checkAllConditions();
 	}
 	
 	// 페이지 로드 시 초기 상태 설정
@@ -446,6 +464,7 @@ select:focus {
 	    residentNo.style.outline = '1px solid #609966';
 	    residentNo.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
 	    enrollButton.disabled = false;
+	    checkAllConditions();
 	  } else {
 	    ssnCheckResult.textContent = '올바른 생년월일을 입력해주세요.';
 	    ssnCheckResult.style.color = 'red';
@@ -465,9 +484,13 @@ select:focus {
 		  if (nameInput.value.trim() === '') {
 			nameInput.style.outline = '1px solid red';
 			nameInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+			enrollButton.disabled = true;
+			
 		  } else {
 			nameInput.style.outline = '1px solid #609966';
 			nameInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+			enrollButton.disabled = false;
+			checkAllConditions();
 		  }
 		});
 		
@@ -475,12 +498,37 @@ select:focus {
 			  if (agencyInput.value.trim() !== '') {
 				agencyInput.style.outline = '1px solid #609966';
 				agencyInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+			  } else if (agencyRadio.checked && agencyInput.value.trim() === '') {
+				agencyInput.style.outline = '1px solid red';
+				agencyInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
 			  }
 			});
-	
-		
-	enrollButton.addEventListener('click', function(){	
 
+	 function checkAllConditions() {
+		 const nameInput = document.querySelector('input[name="uName"]');
+		 const agencyRadio = document.querySelector('input[name="uType"][value="단체"]');
+		 const agencyNameInput = document.getElementsByName('registrar')[0];
+		 const residentNo = document.querySelector('input[name="residentNo"]');
+		 const firstPart = residentNo.value;
+		 const ssnRegexFirst = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
+		 const nickName = document.getElementsByName('uNickName')[0];
+		 
+		 
+		 if(nameInput.value.trim() === '' ||
+		   (agencyRadio.checked && agencyInput.value.trim() === '') ||
+		   residentNo.value.trim() === '' ||
+		   (residentNo.value.trim() !== '' && !ssnRegexFirst.test(firstPart)) ||
+		   nickName.value.trim() === '') {
+			 
+
+		   enrollButton.disabled = true;
+			 	 
+		 }
+	 }
+		 
+	enrollButton.addEventListener('click', function(){
+
+	   const form = document.getElementsByName('enrollForm')[0];	   
 	   form.submit();
 	   alert('회원가입이 성공적으로 완료되었습니다.');
 	   
