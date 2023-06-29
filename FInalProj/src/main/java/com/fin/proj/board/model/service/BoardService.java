@@ -2,6 +2,7 @@ package com.fin.proj.board.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.fin.proj.board.model.vo.Board;
 import com.fin.proj.board.model.vo.Reply;
@@ -48,5 +49,11 @@ public interface BoardService {
 	int myBoardCount(int uNo);
 
 	ArrayList<Board> selectMyBoard(PageInfo pageInfo, int uNo);
+
+	List<Reply> findAllComment(int boardNo);
+
+	int saveComment(Reply params);
+
+	Reply findCommentById(int id);
 
 }
