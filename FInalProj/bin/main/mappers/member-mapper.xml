@@ -72,59 +72,47 @@
 		where u_id = #{uId}
 	</update>
 	
-	<select id="selectPwd">
+	<select id="selectPwd" resultMap="memberResultSet">
 		select u_pwd
 		from users
 		where u_id = #{uId}
 	</select>
 	
-	<select id="searchEmailUser">
+	<select id="searchEmailUser" resultType="_int">
 		select count(*)
 		from users
-		where u_name = #{uName} and email = #{email}
+		where u_name = #{uName} and email = #{email} and u_status = 'Y'
 	</select>
 	
-	<select id="searchUser">
+	<select id="searchUser" resultMap="memberResultSet">
 		select *
 		from users
-		where (u_name = #{uName} and email = #{email}) or (u_name = #{uName} and phone = #{phone})
+		where (u_name = #{uName} and email = #{email} and u_status = 'Y') or (u_name = #{uName} and phone = #{phone} and u_status = 'Y')
 	</select>
 	
-	<select id="searchEmailUser2">
+	<select id="searchEmailUser2" resultType="_int">
 		select count(*)
 		from users
-		where u_id = #{uId} and email = #{email}
+		where u_id = #{uId} and email = #{email} and u_status = 'Y'
 	</select>
 	
-	<select id="searchUserPwd">
+	<select id="searchUserPwd" resultMap="memberResultSet">
 		select *
 		from users
-		where (u_id = #{uId} and email = #{email}) or (u_id = #{uId} and phone = #{phone})
+		where (u_id = #{uId} and email = #{email} and u_status = 'Y') or (u_id = #{uId} and phone = #{phone} and u_status = 'Y')
 	</select>
 	
-	<select id="searchPhoneUser">
+	<select id="searchPhoneUser" resultType="_int">
 		select count(*)
 		from users
-		where u_name = #{uName} and phone = #{phone}
+		where u_name = #{uName} and phone = #{phone} and u_status = 'Y'
 	</select>
 	
-	<select id="searchPhoneUser2">
+	<select id="searchPhoneUser2" resultType="_int">
 		select count(*)
 		from users
-		where u_id = #{uId} and phone = #{phone}
+		where u_id = #{uId} and phone = #{phone} and u_status = 'Y'
 	</select>
-	
-	<update id="loginFailCount">
-		update users
-		set failed_count = failed_count + 1
-		where u_id = #{uId}
-	</update>
-	
-	<update id="loginFailDate">
-		update users
-		set last_login_date = #{timestamp}
-		where u_id = #{uId}
-	</update>
 	
 	<select id="getListCount" resultType="_int">
 		select count(*)

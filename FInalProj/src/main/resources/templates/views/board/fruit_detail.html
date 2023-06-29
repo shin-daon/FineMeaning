@@ -85,7 +85,7 @@
                 <div class="fruit_write_title" th:text="${board.boardTitle}"></div>
             </div>    
             <div class="dropdown">
-            	<th:block th:if="${ session.loginUser != null && session.loginUser.uNo == board.uNo }">
+            	<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0 }">
                 	<img class="seeMore" src="image/seeMore.png">
                 </th:block>
                 <input type="hidden" name="category" value="none">

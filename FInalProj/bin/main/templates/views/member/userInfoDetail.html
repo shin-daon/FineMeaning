@@ -292,8 +292,8 @@ input:checked + .switch:after {
         <table class="faqTable">
             <tbody>
                 <tr>
-                    <td class="title first">아이디</td>
-                    <td th:text="${ uList.uId }"></td>
+                    <td class="title first" th:text="${ uList.uId == null ? '카카오아이디' : '아이디' }">아이디</td>
+                    <td th:text="${ uList.uId != null ? uList.uId : uList.kakaoId }"></td>
                 </tr>
                 <tr>
                     <td class="title">이름</td>
@@ -309,7 +309,7 @@ input:checked + .switch:after {
                 </tr>
                 <tr>
                     <td class="title">전화번호</td>
-                    <td th:text="${ uList.phone }"></td>
+                    <td th:text="${ uList.phone != null ? uList.phone : '-' }"></td>
                 </tr>
                 <tr>
                     <td class="title">이메일</td>

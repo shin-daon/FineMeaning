@@ -33,7 +33,7 @@
 	            </div>
             </th:block>
             <div class="searchArea">
-                <input class="searchInput" type="text" placeholder="검색"/>
+                <input class="searchInput" type="text" placeholder="검색" th:value="${map.isEmpty() ? '' : map.keyword}"/>
                 <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
             </div>
         </div>
@@ -70,21 +70,39 @@
 
         <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
-                <li th:if="${ pi.currentPage > 1 }">
+                <li th:if="${ pi.currentPage > 1 && !map.isEmpty()}">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 }, keyword=${map.keyword})}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:if="${ pi.currentPage > 1 && map.isEmpty()}">
 	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
 	                	<img class="arrowKey" src="image/before.png">
 	                </a>
                 </li>
-                <li th:unless="${ pi.currentPage > 1 }">
+                <li th:unless="${ pi.currentPage > 1}">
 	                	<img class="arrowKey disabled" src="image/before.png">
                 </li>
+                
                 <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
-                	<th:block th:if="${p != 0}">
+                	<th:block th:if="${p != 0 && !map.isEmpty()}">
+                	<a th:href="@{${loc}(page=${p}, keyword=${map.keyword})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0 && map.isEmpty()}">
                 	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
                 		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
                 	</th:block>
                 </li>
-                <li th:if="${ pi.currentPage < pi.maxPage} ">
+                
+                <li th:if="${ pi.currentPage < pi.maxPage && !map.isEmpty()}">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${map.keyword})}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:if="${ pi.currentPage < pi.maxPage && map.isEmpty()}">
 	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
 	                	<img class="arrowKey" src="image/next.png">
 	                </a>

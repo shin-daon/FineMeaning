@@ -5,6 +5,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.fin.proj.common.interceptor.CheckAdminInterceptor;
+import com.fin.proj.common.interceptor.CheckKakaoInterceptor;
 import com.fin.proj.common.interceptor.CheckLoginInterceptor;
 
 @Configuration
@@ -28,5 +29,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 								 "/supporterListEach.su",
 								 "/supporterListAdmin.su",
 								 "/searchEndList.su");
+		
+		registry.addInterceptor(new CheckKakaoInterceptor())
+				.addPathPatterns("/editMyPwd.me");
 	}
 }

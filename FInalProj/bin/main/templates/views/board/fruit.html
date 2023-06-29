@@ -35,7 +35,7 @@
                 <button id="dropbtn">
                 	[[${params.isEmpty() ? '🕊️카테고리' : (params.category == 0 ? '선택없음' : (params.category == 1 ? '후원' : '봉사'))}]]
                 </button>	<!-- isEmpty()인 이유 : 컨트롤러에서 처음부터 map을 만들기 때문에 객체{} 내부에 빈 값이 있어도 보내진다.  -->
-                <input type="hidden" name="category" value="none">
+                <input type="hidden" name="category" th:value="${params.isEmpty() ? '' : params.category}">
                 <div class="dropdown-content">
                     <span class="selectCate">선택없음</span>
                     <span class="selectCate">후원</span>
@@ -78,27 +78,47 @@
 
         <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
             <ul class="pagination">
-                <li th:if="${ pi.currentPage > 1 }">
+                <li th:if="${ pi.currentPage > 1 && !params.isEmpty()}">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 }, keyword=${params.keyword}, category=${params.category})}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                
+                <li th:if="${ pi.currentPage > 1 && params.isEmpty()}">
 	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
 	                	<img class="arrowKey" src="image/before.png">
 	                </a>
                 </li>
+                
                 <li th:unless="${ pi.currentPage > 1 }">
 	                	<img class="arrowKey disabled" src="image/before.png">
                 </li>
                 
                 <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
-                	<th:block th:if="${p != 0}">
+                	<th:block th:if="${p != 0 && !params.isEmpty()}">
+                	<a th:href="@{${loc}(page=${p}, keyword=${params.keyword}, category=${params.category})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0 && params.isEmpty()}">
                 	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
                 		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
                 	</th:block>
                 </li>
-                
-                <li th:if="${ pi.currentPage < pi.maxPage} ">
+<!--                 			keyword랑 category도 받기 -->
+                <li th:if="${ pi.currentPage < pi.maxPage && params.isEmpty()} ">
 	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
 	                	<img class="arrowKey" src="image/next.png">
 	                </a>
                 </li>
+                
+                <li th:if="${ pi.currentPage < pi.maxPage && !params.isEmpty()} ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${params.keyword}, category=${params.category})}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                
                 <li th:unless="${ pi.currentPage < pi.maxPage }">
 	                	<img class="arrowKey disabled" src="image/next.png">
                 </li>
@@ -169,10 +189,10 @@
 				const category = document.getElementsByName('category')[0].value;
 				let cate;
 				let link = 'fruitMain.bo?keyword=' + input;
-				if(category == "후원"){
+				if(category == "후원" || category == 1){
 					cate = 1;
 					link += '&category=' + cate;
-				} else if(category == "봉사"){
+				} else if(category == "봉사" || category == 2){
 					cate = 2;
 					link += '&category=' + cate;
 				}

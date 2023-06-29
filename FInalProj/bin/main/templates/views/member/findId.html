@@ -529,7 +529,8 @@ input[type="radio"]:checked + span:before{
 		idCheckResult.innerText = '이메일을 입력해주세요.';
 	} else if(phoneRadio.checked && phone.trim() == ''){
 		idCheckResult.innerText = '전화번호를 입력해주세요.';
-	} else if(emailRadio.checked && !(uName.trim() == '') && !(emailId.trim() == '')) {			
+	} else if(emailRadio.checked && !(uName.trim() == '') && !(emailId.trim() == '')) {
+		idCheckResult.innerText = '메일 전송 중입니다. 잠시만 기다려주세요.';
 		console.log(emailAddress);
 		$.ajax({
             url: 'findMyId.me',
@@ -562,7 +563,6 @@ input[type="radio"]:checked + span:before{
 				    } else {
 				    	event.preventDefault();
 				    	idCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
-				    	idCheckResult.style.color = 'red';
 				    }
 				});	
             },
@@ -599,7 +599,6 @@ input[type="radio"]:checked + span:before{
 				    } else {
 				    	event.preventDefault();
 				    	idCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
-				    	idCheckResult.style.color = 'red';
 				    }
 				});	
             },

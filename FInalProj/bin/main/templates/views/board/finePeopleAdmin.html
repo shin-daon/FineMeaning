@@ -43,7 +43,7 @@
 				            </td>
 				            <td th:text="${b.boardDate}"></td>
 				            <td>
-				            	<button id="updateBtn" th:onclick="location.href='updateFinePeopleForm.bo'">수정</button>
+				            	<button id="updateBtn" th:onclick="location.href='finePeopleEdit.bo?bNo=' + btoa([[${b.boardNo}]]) + '&page=' + [[${pi.currentPage}]]">수정</button>
 				            	<button id="deleteBtn" th:onclick="location.href='deleteFinePeople.bo?bNo=' + btoa([[${b.boardNo}]])">삭제</button>
 				            </td>												<!-- pi.currentPage 보내기? -->
 				        </th:block>
