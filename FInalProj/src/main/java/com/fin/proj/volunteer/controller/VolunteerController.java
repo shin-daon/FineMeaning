@@ -152,13 +152,27 @@ public class VolunteerController {
 		throw new VolunteerException("봉사 상세 조회에 실패하였습니다.");
 	}
 	
-	@GetMapping("volunteerApply.vo")
-	public String volunteerApply(@RequestParam("vNo") int vNo, HttpSession session, Model model) {
+	@PostMapping("volunteerApply.vo")
+	public String volunteerApply(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, 
+								 @RequestParam("vName") String vName, @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, 
+								 @RequestParam("vMainCategoryName") String vMainCategoryName, @RequestParam("vActivityType") String vActivityType, 
+								 @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status, HttpSession session, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
-		Member m = (Member)session.getAttribute("loginUser");
-		
 		model.addAttribute("v", v);
-		model.addAttribute("m", m);
+		model.addAttribute("page", page);
+		
+		HashMap<String, String> searchMap = new HashMap<String, String>();
+		searchMap.put("vStartDate", vStartDate);
+		searchMap.put("vEndDate", vEndDate);
+		searchMap.put("vName", vName);
+		searchMap.put("registrar", registrar);
+		searchMap.put("vArea", vArea);
+		searchMap.put("vMainCategoryName", vMainCategoryName);
+		searchMap.put("vActivityType", vActivityType);
+		searchMap.put("vTargetCategoryName", vTargetCategoryName);
+		searchMap.put("status", status);
+		model.addAttribute("searchMap", searchMap);
+		
 		return "volunteerApply";
 	}
 	
