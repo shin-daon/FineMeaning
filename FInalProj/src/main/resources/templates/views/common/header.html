@@ -11,10 +11,10 @@
         <a href="/"><img src="image/logo.png"/></a>
         <nav id="main">
             <ul class="menu SMN_effect-6">
-                <li><a href="fineNews.bo" data-hover="선뜻">선뜻</a></li>
+                <li><a href="finePeopleMain.bo" data-hover="선뜻">선뜻</a></li>
                 <li><a href="volunteer.vo" data-hover="봉사">봉사</a></li>
                 <li><a href="supportMain.su" data-hover="후원">후원</a></li>
-                <li><a href="talkMain.bo" data-hover="커뮤니티">커뮤니티</a></li>
+                <li><a href="commList.bo" data-hover="커뮤니티">커뮤니티</a></li>
                 <li><a href="editMyInfo.me" data-hover="MY">MY</a></li>
                 <li th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}"><a href="supportListAdmin.su" data-hover="ADMIN">ADMIN</a></li>
             </ul>
@@ -23,21 +23,20 @@
             <i class="fa-solid fa-bars"></i>
             <div class="hamburgerMenu">
                 <ul class="menu">
-                    <li><a href="fineNews.bo" data-hover="선뜻">선뜻</a></li>
+                    <li><a href="finePeopleMain.bo" data-hover="선뜻">선뜻</a></li>
                     <li><a href="volunteer.vo" data-hover="봉사">봉사</a></li>
                     <li><a href="supportMain.su" data-hover="후원">후원</a></li>
-                    <li><a href="talkMain.bo" data-hover="커뮤니티">커뮤니티</a></li>
-                    <li><a href="myPage.me" data-hover="MY">MY</a></li>
+                    <li><a href="commList.bo" data-hover="커뮤니티">커뮤니티</a></li>
+                    <li><a href="editMyInfo.me" data-hover="MY">MY</a></li>
                     <li th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}"><a href="supportListAdmin.su" data-hover="ADMIN">ADMIN</a></li>
                 </ul>
             </div>
         </div>
     </header>
-    <section id="subMenu" th:class="${session.loginUser != null ? 'isLogin' : 'notLogin'}">
+    <section id="subMenu" th:class="${session.loginUser == null ? 'notLogin' : session.loginUser.isAdmin == 0 ? '' : 'isLogin'}">
         <div>
-            <div><a href="noticeList.bo">NOTICE</a></div>
-            <div><a href="fineNewsMain.bo">선한 뉴스</a></div>
             <div><a href="finePeopleMain.bo">선뜻한 사람</a></div>
+            <div><a href="fineNewsMain.bo">선한 뉴스</a></div>
             <div><a href="fruitMain.bo">결실</a></div>
         </div>
         <div>
@@ -47,6 +46,7 @@
             <div><a href="supportMain.su">모금함</a></div>
         </div>
         <div>
+        	<div><a href="noticeList.bo">NOTICE</a></div>
             <div><a href="commList.bo">TALK</a></div>
             <div><a href="faqMain.bo">자주 묻는 질문</a></div>
             <div><a href="qaList.bo">Q&A</a></div>
@@ -71,16 +71,15 @@
         </div>
         <div th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}">
         	<div><a href="editUserInfo.me">회원 목록</a></div>
-        	<div><a href="#">봉사</a></div>
+        	<div><a href="adminVolunteerList.vo">봉사</a></div>
         	<div><a href="supportListAdmin.su">모금함</a></div>
-        	<div><a href="#">선뜻</a></div>
-        	<div><a href="#">선한 뉴스 목록</a></div>
-        	<div><a href="#">결실 목록</a></div>
         	<div><a href="finePeopleAdmin.bo">선뜻한 사람 목록</a></div>
-        	<div><a href="#">커뮤니티</a></div>
+        	<div><a href="fineNewsAdmin.bo">선한 뉴스 목록</a></div>
+        	<div><a href="fruitAdmin.bo">결실 목록</a></div>
+        	<div><a href="noticeListAdmin.bo">NOTICE</a></div>
+        	<div><a href="#">TALK</a></div>
         	<div><a href="#">자주 묻는 질문</a></div>
         	<div><a href="#">1:1 문의</a></div>
-        	<div><a href="#">NOTICE</a></div>
         </div>
     </section>
     <script>

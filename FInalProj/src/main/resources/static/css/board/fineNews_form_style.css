@@ -61,6 +61,14 @@
 	display: none;
 }
 
+.img-fluid {
+    block-size: 250px;
+    min-width: 250px;
+    min-height: 250px;
+    padding: 15px;
+    border-radius: 50px;
+}
+
 .fineNewsTitle {
     width: 300px;
     height: 38px;
@@ -74,7 +82,7 @@
     width: 196px;
     height: 38px;
     border-radius: 0.6em;
-    padding-left: 6px;
+    padding: 0 6px 0 6px;
     margin-right: 5px;
     border: 1px solid black;
 }

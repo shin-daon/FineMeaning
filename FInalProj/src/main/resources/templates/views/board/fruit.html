@@ -107,14 +107,14 @@
                 	</th:block>
                 </li>
 <!--                 			keyword랑 category도 받기 -->
-                <li th:if="${ pi.currentPage < pi.maxPage && params.isEmpty()} ">
-	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+                <li th:if="${ pi.currentPage < pi.maxPage && !params.isEmpty()} ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${params.keyword}, category=${params.category})}">
 	                	<img class="arrowKey" src="image/next.png">
 	                </a>
                 </li>
                 
-                <li th:if="${ pi.currentPage < pi.maxPage && !params.isEmpty()} ">
-	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${params.keyword}, category=${params.category})}">
+                <li th:if="${ pi.currentPage < pi.maxPage && params.isEmpty()} ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
 	                	<img class="arrowKey" src="image/next.png">
 	                </a>
                 </li>
@@ -158,7 +158,7 @@
 			// 게시글 선택 
 			const tbody = document.querySelector('tbody');
 			const tds = tbody.querySelectorAll('td');
-			
+			/* <![CDATA[ */
 			for(const td of tds){	// for of 배열 안 요소, for in 배열 안 인덱스(객체는 키)
 // 				console.log(td);
 				td.addEventListener('click', function(){
@@ -167,11 +167,24 @@
 					
 					const trTds= this.parentElement.children; // = querySelectorAll
 					const boardNo = trTds[0].innerText;
-					/* <![CDATA[ */
-					location.href='fruitDetail.bo?bNo=' + boardNo + '&page=' + /*${pi.currentPage}*/1;
-					/* ]]> */
+					const params = /*[[${params}]]*/1;
+					const page = /*[[${pi.currentPage}]]*/1;
+					
+					let url = '';
+					
+					if(params != null){
+						if(params.hasOwnProperty('keyword')){
+							url += '&keyword=' + params.keyword;
+						}
+						if(params.hasOwnProperty('category')){
+							url += '&category=' + params.category;
+						}
+					}
+					
+					location.href='fruitDetail.bo?bNo=' + boardNo + '&page=' + page + url;
 				});
 			}
+			/* ]]> */
 			
 			// 검색 기능
 			document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
@@ -187,8 +200,9 @@
 			function enrollSearchKeyword() {
 				const input = document.querySelector('.searchInput').value.trim();
 				const category = document.getElementsByName('category')[0].value;
+				console.log(category);
 				let cate;
-				let link = 'fruitMain.bo?keyword=' + input;
+				let link = 'fruitMain.bo?keyword=' + encodeURI(input);
 				if(category == "후원" || category == 1){
 					cate = 1;
 					link += '&category=' + cate;

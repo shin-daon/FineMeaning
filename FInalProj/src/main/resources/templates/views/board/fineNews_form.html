@@ -149,7 +149,7 @@
 			
 			yesBtn.addEventListener('click', () => {
 			    modal.style.display = 'none';
-			    location.href="fineNewsMain.bo";
+			    location.href="fineNewsAdmin.bo";
 			});
 			
 			noBtn.addEventListener('click', () => {
@@ -222,7 +222,7 @@
    			});
         });
        
-		// finePeopleContent 글자 수 카운팅
+		// fineNewsContent 글자 수 카운팅
 		document.querySelector('.fineNewsContent').addEventListener('keyup', function(e) {
     		var content = this.value;
     		document.querySelector('#counter').innerHTML = "「 " + content.length + " / 300 」";    //글자수 실시간 카운팅

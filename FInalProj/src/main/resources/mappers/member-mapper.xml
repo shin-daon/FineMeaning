@@ -81,37 +81,37 @@
 	<select id="searchEmailUser" resultType="_int">
 		select count(*)
 		from users
-		where u_name = #{uName} and email = #{email} and u_status = 'Y'
+		where u_name = #{uName} and email = #{email} and u_status = 'Y' and login_type = '일반'
 	</select>
 	
 	<select id="searchUser" resultMap="memberResultSet">
 		select *
 		from users
-		where (u_name = #{uName} and email = #{email} and u_status = 'Y') or (u_name = #{uName} and phone = #{phone} and u_status = 'Y')
+		where (u_name = #{uName} and email = #{email} and u_status = 'Y' and login_type = '일반') or (u_name = #{uName} and phone = #{phone} and u_status = 'Y' and login_type = '일반')
 	</select>
 	
 	<select id="searchEmailUser2" resultType="_int">
 		select count(*)
 		from users
-		where u_id = #{uId} and email = #{email} and u_status = 'Y'
+		where u_id = #{uId} and email = #{email} and u_status = 'Y' and login_type = '일반'
 	</select>
 	
 	<select id="searchUserPwd" resultMap="memberResultSet">
 		select *
 		from users
-		where (u_id = #{uId} and email = #{email} and u_status = 'Y') or (u_id = #{uId} and phone = #{phone} and u_status = 'Y')
+		where (u_id = #{uId} and email = #{email} and u_status = 'Y' and login_type = '일반') or (u_id = #{uId} and phone = #{phone} and u_status = 'Y' and login_type = '일반')
 	</select>
 	
 	<select id="searchPhoneUser" resultType="_int">
 		select count(*)
 		from users
-		where u_name = #{uName} and phone = #{phone} and u_status = 'Y'
+		where u_name = #{uName} and phone = #{phone} and u_status = 'Y' and login_type = '일반'
 	</select>
 	
 	<select id="searchPhoneUser2" resultType="_int">
 		select count(*)
 		from users
-		where u_id = #{uId} and phone = #{phone} and u_status = 'Y'
+		where u_id = #{uId} and phone = #{phone} and u_status = 'Y' and login_type = '일반'
 	</select>
 	
 	<select id="getListCount" resultType="_int">
@@ -140,25 +140,80 @@
 	<select id="statusUserList" resultMap="memberResultSet">
 		select *
 		from users
-		where u_status = 'Y'	
+		where u_status = 'Y'
+		order by u_no desc	
 	</select>
 	
 	<select id="getCategoryCount" resultType="_int">
-		<if test="#{category} == '활동중인 회원'">		
+		<if test="category == '전체'">
 			select count(*)
 			from users
-			where u_status = 'Y'
+			<if test="searchWord != null and searchWord != ''">
+			where u_id like '%${searchWord}%'
+			</if>
 		</if>
-		<if test="#{category} != '활동중인 회원'">		
+		<if test="category == '활동중인 회원'">
 			select count(*)
 			from users
 			where u_status = 'Y'
+			<if test="searchWord != null and searchWord != ''">
+			and u_id like '%${searchWord}%'
+			</if>
+		</if>
+		<if test="category == '관리자인 회원'">
+			select count(*)
+			from users
+			where (is_admin = '0' or is_admin = '2')
+			<if test="searchWord != null and searchWord != ''">
+			and u_id like '%${searchWord}%'
+			</if>
+		</if>
+		<if test="category == '미승인 기관'">
+			select count(*)
+			from users
+			where (u_type = '단체' and is_admin != '2')
+			<if test="searchWord != null and searchWord != ''">
+			and u_id like '%${searchWord}%'
+			</if>
 		</if>
 	</select>
 	
 	<select id="selectCategoryListAdmin" resultMap="memberResultSet">
-		select *
-		from users
+		<if test="category == '전체'">
+			select *
+			from users
+			<if test="searchWord != null and searchWord != ''">
+			where u_id like '%${searchWord}%'
+			</if>
+			order by u_no desc
+		</if>
+		<if test="category == '활동중인 회원'">
+			select *
+			from users
+			where u_status = 'Y'
+			<if test="searchWord != null and searchWord != ''">
+			and u_id like '%${searchWord}%'
+			</if>
+			order by u_no desc
+		</if>
+		<if test="category == '관리자인 회원'">
+			select *
+			from users
+			where (is_admin = '0' or is_admin = '2')
+			<if test="searchWord != null and searchWord != ''">
+			and u_id like '%${searchWord}%'
+			</if>
+			order by u_no desc
+		</if>
+		<if test="category == '미승인 기관'">
+			select *
+			from users
+			where (u_type = '단체' and is_admin != '2')
+			<if test="searchWord != null and searchWord != ''">
+			and u_id like '%${searchWord}%'
+			</if>
+			order by u_no desc
+		</if>
 	</select>
 	
 	<select id="kakaoLogin" resultMap="memberResultSet">
@@ -172,5 +227,23 @@
 		values(seq_uid.nextval, null, null, #{uName}, #{residentNo}, null, null, #{email},
 				#{uNickName}, '카카오', #{kakaoId}, default, #{uType}, #{registrar}, sysdate, default)
 	</insert>
+	
+	<select id="checkEmail" resultType="_int">
+		select count(*)
+		from users
+		where email = #{emailAddress} and u_status = 'Y' and login_type = '일반'
+	</select>
+	
+	<select id="getSearchListCount" resultType="_int">
+		select count(*)
+		from users
+		where u_id like '%${searchWord}%'
+	</select>
+	
+	<select id="selectSearchListAdmin" resultMap="memberResultSet">
+		select *
+		from users
+		where u_id like '%${searchWord}%'
+	</select>
 	
 </mapper>
