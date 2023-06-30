@@ -5,6 +5,7 @@
 	<resultMap type="Volunteer" id="volunteerResultSet">
 		<id column="V_NO" property="vNo"/>
 		<result column="U_NO" property="uNo"/>
+		<result column="u_name" property="uName"/>
 		<result column="REGISTRAR" property="registrar"/>
 		<result column="V_MAIN_CATEGORY_NO" property="vMainCategoryNo"/>
 		<result column="V_SUB_CATEGORY_NO" property="vSubCategoryNo"/>
@@ -415,4 +416,36 @@
 		set v_status = #{status}
 		where v_no = #{vNo}
 	</update>
+	
+	<select id="getVolunteerApplyCount" resultType="_int">
+		select count(*) 
+		from volunteer 
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+			 join v_history using(v_no)
+		<where>
+			<if test="vNo != null">
+				v_no = #{vNo}
+			</if>
+		</where>
+		order by v_his_no desc
+	</select>
+	
+	<select id="selectVolunteerApplyList" resultMap="volunteerResultSet">
+		select * 
+		from volunteer 
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+			 join v_history using(v_no)
+		<where>
+			<if test="vNo != null">
+				v_no = #{vNo}
+			</if>
+		</where>
+		order by v_his_no desc
+	</select>
 </mapper>

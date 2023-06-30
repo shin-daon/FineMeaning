@@ -36,9 +36,13 @@ public class Volunteer {
 	// ▼ 담당자
 	private String vChargeName;
 	private String vChargePhone;
+	
 	// ▼ 봉사 내역
 	private Date vHisDate;
 	private String vHisStatus;
+	
+	// ▼ 봉사 신청 내역
+	private String uName;
 	
 	public Volunteer() {
 		super();
@@ -49,7 +53,7 @@ public class Volunteer {
 			String vEndTime, Date vRecruitmentStartDate, Date vRecruitmentEndDate, String vDay, int vCountAll,
 			int vCount, String vLocation, String vActivityType, Date vCreateDate, String vStatus, String registrar,
 			String vMainCategoryName, String vSubCategoryName, String vTargetCategoryName, String vChargeName,
-			String vChargePhone, Date vHisDate, String vHisStatus) {
+			String vChargePhone, Date vHisDate, String vHisStatus, String uName) {
 		super();
 		this.vNo = vNo;
 		this.uNo = uNo;
@@ -81,9 +85,8 @@ public class Volunteer {
 		this.vChargePhone = vChargePhone;
 		this.vHisDate = vHisDate;
 		this.vHisStatus = vHisStatus;
+		this.uName = uName;
 	}
-
-
 
 	public int getvNo() {
 		return vNo;
@@ -324,6 +327,14 @@ public class Volunteer {
 	public void setvHisStatus(String vHisStatus) {
 		this.vHisStatus = vHisStatus;
 	}
+	
+	public String getuName() {
+		return uName;
+	}
+	
+	public void setuName(String uName) {
+		this.uName = uName;
+	}
 
 	@Override
 	public String toString() {
@@ -336,7 +347,8 @@ public class Volunteer {
 				+ ", vActivityType=" + vActivityType + ", vCreateDate=" + vCreateDate + ", vStatus=" + vStatus
 				+ ", registrar=" + registrar + ", vMainCategoryName=" + vMainCategoryName + ", vSubCategoryName="
 				+ vSubCategoryName + ", vTargetCategoryName=" + vTargetCategoryName + ", vChargeName=" + vChargeName
-				+ ", vChargePhone=" + vChargePhone + ", vHisDate=" + vHisDate + ", vHisStatus=" + vHisStatus + "]";
+				+ ", vChargePhone=" + vChargePhone + ", vHisDate=" + vHisDate + ", vHisStatus=" + vHisStatus 
+				+ ", uName=" + uName +"]";
 	}
 
 }

@@ -260,10 +260,13 @@ public class VolunteerController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 5);
 			
 		ArrayList<Volunteer> vHistories = vService.selectMyVolunteerHistory(pi, uNo);
-		model.addAttribute("pi", pi);
-		model.addAttribute("vHistories", vHistories);
-		
-		return "volunteerHistory";
+		if(vHistories != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("vHistories", vHistories);
+			
+			return "volunteerHistory";
+		}
+		throw new VolunteerException("봉사 내역 조회에 실패하였습니다.");
 	}
 	
 	@GetMapping("searchMyVolunteerHistory.vo")
@@ -297,11 +300,13 @@ public class VolunteerController {
 		
 		ArrayList<Volunteer> vHistories = vService.selectSearchMyVolunteerHistory(pi, myHistorySearchMap);
 		
-		model.addAttribute("pi", pi);
-		model.addAttribute("vHistories", vHistories);
-		model.addAttribute("searchMap", myHistorySearchMap);
-		
-		return "volunteerHistory";
+		if(vHistories != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("vHistories", vHistories);
+			model.addAttribute("searchMap", myHistorySearchMap);
+			return "volunteerHistory";
+		}
+		throw new VolunteerException("봉사 내역 검색에 실패하였습니다.");
 	}
 	
 	// 봉사 관리자
@@ -534,7 +539,20 @@ public class VolunteerController {
 	}
 	
 	@GetMapping("adminVolunteerApplyList.vo")
-	public String adminVolunteerApplyList() {
-		return "adminVolunteerApplyList";
+	public String adminVolunteerApplyList(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int volunteerApplyCount = vService.getVolunteerApplyCount(null);
+		PageInfo pi = Pagination.getPageInfo(currentPage, volunteerApplyCount, 10);
+		ArrayList<Volunteer> vHistories = vService.selectVolunteerApplyList(pi, null);
+		
+		if(vHistories != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("vHistories", vHistories);
+			return "adminVolunteerApplyList";
+		}
+		throw new VolunteerException("봉사 신청 목록 조회에 실패하였습니다.");
 	}
 }

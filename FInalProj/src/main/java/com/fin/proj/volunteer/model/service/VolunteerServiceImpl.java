@@ -131,4 +131,16 @@ public class VolunteerServiceImpl implements VolunteerService {
 		return vDAO.selectSearchMyVolunteerHistory(myHistorySearchMap, rowBounds);
 	}
 
+	@Override
+	public int getVolunteerApplyCount(Object vNo) {
+		return vDAO.getVolunteerApplyCount(vNo);
+	}
+
+	@Override
+	public ArrayList<Volunteer> selectVolunteerApplyList(PageInfo pi, Object vNo) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return vDAO.selectVolunteerApplyList(vNo, rowBounds);
+	}
+
 }
