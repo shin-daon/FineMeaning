@@ -31,7 +31,8 @@
 		<result column="V_STATUS" property="vStatus"/>
 		<result column="V_CHARGE_NAME" property="vChargeName"/>
 		<result column="V_CHARGE_PHONE" property="vChargePhone"/>
-		<result column="V_HIS_DATE" property="vHisDate"/>
+		<result column="V_HIS_NO" property="vHisNo"/>
+ 		<result column="V_HIS_DATE" property="vHisDate"/>
 	</resultMap>
 	
 	<insert id="insertVolunteer">

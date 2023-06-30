@@ -114,13 +114,21 @@
 				</div>
 			</section>
 			
-			<div style="width:1000px">
-				<div style="text-align: right; font-size: 14px; color: gray; margin-top: 30px; margin-bottom: 5px;">게시 여부 선택 시 게시 상태가 변경됩니다.</div>
+			<div style="width:1000px; display:flex; justify-content: space-between;">
+				<div>
+					<button type="button" id="v-enroll-btn" class="learn-more" onclick="location.href='volunteerEnroll.vo'" style="width: 80px; margin-top: 40px;">등록하기</button>
+				</div>
+				<div>
+					<div style="text-align: right; font-size: 14px; color: gray; margin-top: 30px;">인원 선택시 <span style="color: #4f9739; font-weight: bold;">신청자 목록</span>으로 이동합니다.</div>
+					<div style="text-align: right; font-size: 14px; color: gray;">게시 여부 선택 시 <span style="color: #4f9739; font-weight: bold;">게시 상태</span>가 변경됩니다.</div>
+					<div style="text-align: right; font-size: 14px; color: gray; margin-bottom: 5px;">봉사활동 명 선택 시 <span style="color: #4f9739; font-weight: bold;">봉사 상세 조회 화면</span>으로 이동합니다.</div>
+				</div>
 			</div>
 			
 			<table class="v-history-table">
 				<thead>
 					<tr>
+						<th>No</th>
 						<th width="35%">봉사활동 명</th>
 						<th width="10%">대분류</th>
 						<th width="10%">대상분류</th>
@@ -137,7 +145,7 @@
 						<td colspan="8" style="padding: 50px; font-size: 15px; pointer-events: none;">조회 결과가 없습니다.</td>
 					</tr>
 					<tr th:each="v : ${vHistories}">
-						<input type="hidden" th:value="${v.vNo}">
+						<td th:text="${v.vNo}"></td>
 						<td th:text="${v.vName}"></td>
 						<td th:text="${v.vMainCategoryName}"></td>
 						<td th:text="${v.vTargetCategoryName}"></td>
@@ -328,10 +336,21 @@
                 document.getElementById("recruitment").value = "전체";
             });
             
+            const tbody = document.querySelector('.v-history-table').querySelector('tbody');
+            const tds = tbody.querySelectorAll('td');
+            
+            for(let i=0; i<tds.length; i++) {
+            	if(i%9 == 6) {
+            		tds[i].addEventListener("click", function() {
+            			location.href="adminVolunteerApplyList.vo?vNo=" + this.parentElement.children[0].innerText;
+            		});
+            	}
+            }
+            
             const stateBtns = document.querySelectorAll(".state-btn");
             for(const stateBtn of stateBtns) {
             	stateBtn.addEventListener("click", function() {
-            		const vNo = this.parentElement.parentElement.querySelector("input").value;
+            		const vNo = this.parentElement.parentElement.children[0].innerText;
             		const status = this.classList.contains("state-y") ? "N" : "Y";
             		$.ajax({
             			url: "updateVolunteerStatus.vo",

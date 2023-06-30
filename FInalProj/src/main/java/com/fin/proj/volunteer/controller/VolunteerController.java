@@ -324,7 +324,7 @@ public class VolunteerController {
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		
 		int vEnrollHistoryCount = vService.getVolunteerEnrollHistoryCount(uNo);
-		PageInfo pi = Pagination.getPageInfo(currentPage, vEnrollHistoryCount, 1);
+		PageInfo pi = Pagination.getPageInfo(currentPage, vEnrollHistoryCount, 10);
 			
 		ArrayList<Volunteer> vHistories = vService.selectVolunteerEnrollHistory(pi, uNo);
 		
@@ -368,7 +368,7 @@ public class VolunteerController {
 		
 		int searchVolunteerHistoryCount = vService.getSearchVolunteerHistoryCount(searchEnrollHisMap);
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, searchVolunteerHistoryCount, 1);
+		PageInfo pi = Pagination.getPageInfo(currentPage, searchVolunteerHistoryCount, 10);
 		
 		ArrayList<Volunteer> searchVEnrollHistories = vService.selectSearchVolunteerEnrollHistory(pi, searchEnrollHisMap);
 		
@@ -539,18 +539,19 @@ public class VolunteerController {
 	}
 	
 	@GetMapping("adminVolunteerApplyList.vo")
-	public String adminVolunteerApplyList(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+	public String adminVolunteerApplyList(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam(value="vNo", required=false) Integer vNo, Model model) {
 		if(currentPage == null) {
 			currentPage = 1;
 		}
 		
-		int volunteerApplyCount = vService.getVolunteerApplyCount(null);
+		int volunteerApplyCount = vService.getVolunteerApplyCount(vNo);
 		PageInfo pi = Pagination.getPageInfo(currentPage, volunteerApplyCount, 10);
-		ArrayList<Volunteer> vHistories = vService.selectVolunteerApplyList(pi, null);
+		ArrayList<Volunteer> vHistories = vService.selectVolunteerApplyList(pi, vNo);
 		
 		if(vHistories != null) {
 			model.addAttribute("pi", pi);
 			model.addAttribute("vHistories", vHistories);
+			model.addAttribute("vNo", vNo);
 			return "adminVolunteerApplyList";
 		}
 		throw new VolunteerException("봉사 신청 목록 조회에 실패하였습니다.");
