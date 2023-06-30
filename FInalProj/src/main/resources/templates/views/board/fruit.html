@@ -107,14 +107,14 @@
                 	</th:block>
                 </li>
 <!--                 			keyword랑 category도 받기 -->
-                <li th:if="${ pi.currentPage < pi.maxPage && params.isEmpty()} ">
-	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+                <li th:if="${ pi.currentPage < pi.maxPage && !params.isEmpty()} ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${params.keyword}, category=${params.category})}">
 	                	<img class="arrowKey" src="image/next.png">
 	                </a>
                 </li>
                 
-                <li th:if="${ pi.currentPage < pi.maxPage && !params.isEmpty()} ">
-	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${params.keyword}, category=${params.category})}">
+                <li th:if="${ pi.currentPage < pi.maxPage && params.isEmpty()} ">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
 	                	<img class="arrowKey" src="image/next.png">
 	                </a>
                 </li>
@@ -187,6 +187,7 @@
 			function enrollSearchKeyword() {
 				const input = document.querySelector('.searchInput').value.trim();
 				const category = document.getElementsByName('category')[0].value;
+				console.log(category);
 				let cate;
 				let link = 'fruitMain.bo?keyword=' + encodeURI(input);
 				if(category == "후원" || category == 1){

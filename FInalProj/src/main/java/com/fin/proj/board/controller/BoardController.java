@@ -45,15 +45,18 @@ public class BoardController {
 
 	@GetMapping("faqMain.bo")
 	public String faqMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+						  @RequestParam(value="category", required=false) Integer category, // '선택 없음' 시 null일 수 있음
 						  @RequestParam(value="keyword", required=false) String keyword) {
 		
 //		System.out.println(keyword);
+//		System.out.println(category);
 		// 키워드 매개변수로 받아서 전체적인 흐름은 fruitMain.bo와 비슷한 맥락으로 진행!
 		
-		HashMap<String, Object> map = new HashMap<>();
 		ArrayList<Board> list;
 		PageInfo pageInfo;
 		int listCount;
+		
+		HashMap<String, Object> map = new HashMap<>();
 		
 		if(currentPage == null) {
 			currentPage = 1;
@@ -62,15 +65,18 @@ public class BoardController {
 		if(keyword != null) {
 			map.put("keyword", keyword);
 			map.put("i", "자주 묻는 질문");
+			if(category == null) { // '선택 없음'의 경우
+				map.put("category", 0);
+			} else {
+				map.put("category", category);
+			}
 			listCount = bService.searchListCount(map);
 			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
-			list = bService.searchByTitle(pageInfo, map);
-			System.out.println(list);
+			list = bService.searchByTitleAndCategory(pageInfo, map);
 		} else {
 			listCount = bService.getListCount("자주 묻는 질문");
 			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.selectBoardList(pageInfo, "자주 묻는 질문");
-//			System.out.println(list);
 		}
 		
 		if(list != null) {

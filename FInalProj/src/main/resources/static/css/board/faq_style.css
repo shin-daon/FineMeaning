@@ -93,6 +93,67 @@
     top: 6px;
 }
 
+/* 카테고리 드롭다운 */
+
+.dropdown{
+    float: right;
+    margin-top: 10px;
+    margin-right: -10px;
+}
+
+#dropbtn{
+    border: 1px solid #40513B;
+    border-radius: 8px;
+    background-color: #f3f3f3;
+    color: gray;
+    width :80px;
+    height: 31px;
+    text-align: center;
+    cursor : pointer;
+    font-size : 13px;
+}
+
+.dropdown-content{
+    display : none;
+    position : absolute;
+    z-index : 9999;
+    font-weight: 400;
+    min-width : 80px;
+}
+
+.dropdown-content span{
+    display: flex;
+    align-items: center;
+    justify-content: center;   /* 가로 세로 가운데 정렬하려면 4줄 추가 */
+    flex-direction: column;
+    color : rgb(37, 37, 37);
+    font-size: 13px;
+}
+
+.dropdown-content span:first-child {
+    border-radius: 8px 8px 0 0;
+}
+
+.dropdown-content span:last-child {
+    border-radius: 0 0 8px 8px;
+}
+
+.dropdown-content span:hover{
+    cursor: pointer;
+    background-color : #609966;
+    color:white;
+}
+
+.dropdown:active .dropdown-content {
+    display: block;
+}
+
+.selectCate{
+    width: 80px;
+    height: 35px;
+    background-color: #dde4af;
+}
+
 /* 목록 */
 
 .faq_title_wrap {
