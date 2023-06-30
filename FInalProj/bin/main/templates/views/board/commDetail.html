@@ -124,13 +124,15 @@ width: 80px;
         </table>
          <table class="contentTable">
 			<tr>
-            <td th:utext="${board.boardContent}">
+            <td align="left" th:utext="${board.boardContent}">
             </td>
             <td></td>
             </tr>
         </table>
         
-        <th:block th:if="${session.loginUser != null && session.loginUser.uNo eq board.uNo}"> 
+        
+        <th:block
+				th:if="${session.loginUser != null && session.loginUser.uNo eq board.uNo || session.loginUser.isAdmin == 0}">
          <div class="actionArea">
             <div class="writeArea">
                 <button class="writeFaqBtn learn-more" onclick="location.href='editComm.bo'">수정하기</button>
@@ -139,51 +141,23 @@ width: 80px;
 			</div>
 		</th:block>
 		</form>
+		<br>
+		<br>
+		<br>
         
-       <div class="replyArea">
-	 		<div class="replyTitle">댓글</div>
-	 		<th:block th:if="${ session.loginUser != null }">
-		 		<div class="replyWriteArea">
-				 	<input type="text" class="replyInput" required/>
-				 	<button type="submit" class="replyBtn">작성</button>
-		 		</div>
-	 		</th:block>
-	 		<th:block th:if="${ session.loginUser == null }">
-	 			<div class="replyWriteArea">
-				 	<input type="text" class="replyInput" placeholder="로그인 후 댓글을 남겨주세요." disabled required/>
-				 	<button type="submit" class="replyBtn" disabled>작성</button>
-		 		</div>
-	 		</th:block>
-	 		
-	 		<div id="meaningless">
-			 	<div class="reply" th:each=" r : ${replyList}">
-			 		<div class="replyRow1">
-			 			<div class="replyInfo">
-				 			<div class="replyWriter" th:text="${ r.nickName }"></div>
-				 			<div class="replyDate" th:text="${ r.replyTime }"></div>
-			 			</div>
-			 			<script>
-		 					function deleteReply(rNo, bNo, page){
-		 						console.log(rNo);
-		 						console.log(bNo);
-		 						location.href = 'deleteCommReply.bo?rNo=' + btoa(rNo) + '&bNo=' + bNo + '&page=' + page;
-		 					}
-	 					</script>
-			 			<div class="replyInfo2">
-		 					<div class="replySet">
-				 				<th:block th:if="${ session.loginUser != null && session.loginUser.uNo == r.replyWriter }">
-<!-- 			 						<a class="aTags" th:href="'deleteReply.bo?rNo=' + ${r.replyNo} + '&bNo=' + ${r.boardNo} + '&page=' + ${page}">삭제</a> -->
-			 						<a class="aTags" th:onclick="deleteReply([[${r.replyNo}]], [[${r.boardNo}]], [[${page}]])">삭제</a>
-			 										<!-- th:onclick에 함수 걸어두고 돌아가는 방향으로 해야 함  -->
-			 					</th:block>
-		 					</div>
-		 				</div>
-			 		</div>
-			 		<div class="replyRow2">
-			 			<div class="replyContent" th:text="${ r.replyContent }"></div>
-			 		</div>
-		 		</div>
-	 		</div>
+       <div class="cm_write">
+			<fieldset>
+            <legend class="skipinfo">댓글 등록</legend>
+            <div class="cm_input">
+                <p><textarea id="content" name="content" onkeyup="countingLength(this);" cols="90" rows="4" placeholder="댓글을 입력해 주세요."></textarea></p>
+                <span><button type="button" class="btns" th:onclick="saveComment();">등록</button> <i id="counter">0/300자</i></span>
+            </div>
+            <br><hr><br>
+        </fieldset>
+       
+			<!--/* 댓글 렌더링 영역 */-->
+		    <div class="cm_list">
+		    </div>
 		</div>
 				
       
@@ -222,98 +196,207 @@ width: 80px;
 <div th:replace="~{../common/footer :: footer}"></div>
 
 <script th:inline="javascript">
-  	window.onload = () => {
-		
-  		/* <![CDATA[ */
-		document.getElementsByClassName('replyBtn')[0].addEventListener('click', ()=>{
-			const replyInput = document.getElementsByClassName('replyInput')[0].value;
-			if(replyInput != '') {
-				$.ajax({
-					url:'insertReply.bo',
-					data: {
-						replyContent:document.getElementsByClassName('replyInput')[0].value,
-						replyWriter:/*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/1,
-						nickName:/*[[${session.loginUser == null ? '' : session.loginUser.uNickName}]]*/1,
-						boardNo:/*[[${board.boardNo}]]*/1,
-						boardTitle:/*[[${board.boardTitle}]]*/1
-					},
-					success: data =>{
-						console.log(data);
-						const meaningless = document.querySelector('#meaningless');
-						meaningless.innerHTML = '';
-						
-						for(const r of data) {
-							const reply = document.createElement('div');
-							reply.classList.add('reply');
-							
-							const replyRow1 = document.createElement('div');
-							replyRow1.classList.add('replyRow1');
-							
-							const replyInfo = document.createElement('div');
-							replyInfo.classList.add('replyInfo');
-							
-							const replyWriter = document.createElement('div');
-							replyWriter.classList.add('replyWriter');
-							replyWriter.innerText = r.nickName;
-							replyInfo.appendChild(replyWriter);
-							
-							const replyDate = document.createElement('div');
-							replyDate.classList.add('replyDate');
-							replyDate.innerText = r.replyTime;
-							replyInfo.appendChild(replyDate);
-							
-							replyRow1.appendChild(replyInfo);
-							
-							const replyInfo2 = document.createElement('div');
-							replyInfo2.classList.add('replyInfo2');
-							
-							const replySet = document.createElement('div');
-							replySet.classList.add('replySet');
-							
-							const loginUser = /*[[${session.loginUser}]]*/1;
+		window.onload = () => {
+        findAllComment();
+    }
+  			/* <![CDATA[ */
+  		// 댓글 길이 카운팅
+    function countingLength(content) {
+        if (content.value.length > 300) {
+            alert('댓글을 300자 이하로 입력해 주세요.');
+            content.value = content.value.substring(0, 300);
+            content.focus();
+        }
+        document.getElementById('counter').innerText = content.value.length + '/300자';
+    }
 
-							const loginUserNo = /*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/1;
-							
-							if(loginUser != null && loginUserNo == r.replyWriter) {
-								const deleteLink = document.createElement('a');
-								deleteLink.classList.add('aTags');
-								const replyNo = r.replyNo;
-								const replyBoardNo = r.boardNo;
-								deleteLink.setAttribute('href', 'deleteCommReply.bo?rNo=' + btoa(replyNo) + '&bNo=' + replyBoardNo + '&page=' + /*[[${ page }]]*/0);
-								deleteLink.innerText = '삭제';
-								replySet.appendChild(deleteLink);
-							}
-							
-							replyInfo2.appendChild(replySet);
-							
-							replyRow1.appendChild(replyInfo2);
-							
-							const replyRow2 = document.createElement('div');
-							replyRow2.classList.add('replyRow2');
-							
-							const replyContent = document.createElement('div');
-							replyContent.classList.add('replyContent');
-							replyContent.innerText = r.replyContent;
-							
-							replyRow2.appendChild(replyContent);
-							
-							reply.appendChild(replyRow1);
-							reply.appendChild(replyRow2);
-							
-							meaningless.appendChild(reply);
-						}
-						
-						document.getElementsByClassName('replyInput')[0].value = '';
-					},
-					error: data => {
-					}
-				});
-			} else if(replyInput == '') {
-				document.getElementsByClassName('replyInput')[0].focus();
-			}
-		});
+
+    // 댓글 저장
+    function saveComment() {
+
+        const content = document.getElementById('content');
+        const boardNo = /*[[ ${board.boardNo} ]]*/1;
+        const replyWriter = /*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/ 1;
+        
+        const params = {
+        	replyWriter : replyWriter,
+            replyContent : content.value,
+            boardNo : boardNo
+        }
+
+        $.ajax({
+            url : `/board/${boardNo}/comments`,
+            type : 'post',
+            contentType : 'application/json; charset=utf-8',
+            dataType : 'json',
+            data : JSON.stringify(params),
+            async : false,
+            success : function (response) {
+            	console.log(params)
+            	console.log(response);
+                alert('등록되었습니다.');
+                content.value = '';
+                document.getElementById('counter').innerText = '0/300자';
+                findAllComment();
+            },
+            error : function (request, status, error) {
+                console.log(error)
+            }
+        })
+    }
+  		
+  		
+    // 전체 댓글 조회
+    	function findAllComment() {
+    	
+        const boardNo = /*[[ ${board.boardNo} ]]*/1;
+        const uNo = /*[[ ${session.loginUser.uNo} ]]*/1;
+
+        $.ajax({
+            url : `/board/${boardNo}/comments`,
+            type : 'get',
+            dataType : 'json',
+            async : false,
+            success : function (response) {
+                console.log(response);
+                if ( !response.length ) {
+                    document.querySelector('.cm_list').innerHTML = '<div class="cm_none"><p>등록된 댓글이 없습니다.</p></div>';
+                    return false;
+                }
+            	// 2. 렌더링 할 HTML을 저장할 변수
+                let commentHtml = '';
+
+                // 3. 댓글 HTML 추가 (row는 response에 담긴 각 객체를 의미함)
+                response.forEach(row => {
+                	const isAdmin = uNo === 6; // 관리자인지 확인
+                	const isCurrentUser = row.replyWriter === uNo;
+                	
+                    commentHtml += `
+                        <div>
+                            <p class="writer">
+                                <em>${row.nickName}</em>
+                                <span class="date">${row.replyTime}</span>
+                            </p>
+                            <div class="cont"><div class="txt_con">${row.replyContent}</div></div>
+                            <p class="func_btns">
+                            ${isCurrentUser || isAdmin ? `<button type="button" onclick="enableCommentUpdate(this);" data-replyNo="${row.replyNo}" class="btns"><span class="icons icon_modify">수정</span></button>` : ''}
+                            ${isCurrentUser || isAdmin ? `<button type="button" onclick="deleteComment(${row.replyNo});" class="btns"><span class="icons icon_del">삭제</span></button>` : ''}
+                            </p>
+                        </div>
+                    `;
+                })
+                 // 4. class가 "cm_list"인 요소를 찾아 HTML을 렌더링
+                document.querySelector('.cm_list').innerHTML = commentHtml;
+            },
+            error : function (request, status, error) {
+                console.log(error)
+            }
+        })
 		
-		/* ]]> */
+    }
+    
+    	// 댓글 수정 팝업 open
+        function openCommentUpdatePopup(replyNo) {
+
+            const boardNo = /*[[ ${board.boardNo} ]]*/1;
+            
+            $.ajax({
+                url : `/board/${boardNo}/comments/${replyNo}`,
+                type : 'get',
+                dataType : 'json',
+                async : false,
+                success : function (response) {
+                    document.getElementById('modalContent').value = response.content;
+                    document.getElementById('commentUpdateBtn').setAttribute('onclick', `updateComment(${replyNo})`);
+                    layerPop('commentUpdatePopup');
+                },
+                error : function (request, status, error) {
+                    console.log(error)
+                }
+            })
+            
+        }
+
+
+        // 댓글 수정 팝업 close
+        function closeCommentUpdatePopup() {
+            document.querySelectorAll('#modalContent').forEach(element => element.value = '');
+            document.getElementById('commentUpdateBtn').removeAttribute('onclick');
+            layerPopClose('commentUpdatePopup');
+        }
+        
+     // 댓글 수정
+        function updateComment(replyNo) {
+
+            const content = document.getElementById('modalContent');
+
+            const boardNo = /*[[ ${board.boardNo} ]]*/1;
+            const params = {
+            	replyNo : replyNo,
+            	boardNo : boardNo,
+            	replyContent : content.value,
+            }
+
+            $.ajax({
+                url : `/board/${boardNo}/comments/${replyNo}`,
+                type : 'patch',
+                contentType : 'application/json; charset=utf-8',
+                dataType : 'json',
+                data : JSON.stringify(params),
+                async : false,
+                success : function (response) {
+                	console.log(response);
+                    alert('수정되었습니다.');
+                    closeCommentUpdatePopup();
+                    findAllComment();
+                },
+                error : function (request, status, error) {
+                    console.log(error)
+                }
+            })
+        }
+		
+        function enableCommentUpdate(button) {
+            const replyNo = button.getAttribute('data-replyNo');
+            const commentText = button.parentElement.previousElementSibling.querySelector('.txt_con');
+          
+            const textarea = document.createElement('textarea');
+            textarea.className = 'comment-update-textarea';
+            textarea.value = commentText.textContent.trim();
+
+            commentText.innerHTML = '';
+            commentText.appendChild(textarea);
+
+            button.innerHTML = '<span class="icons icon_check">확인</span>';
+            button.setAttribute('onclick', `updateComment(${replyNo})`);
+        }
+        
+     // 댓글 삭제
+        function deleteComment(replyNo) {
+
+            if ( !confirm('선택하신 댓글을 삭제할까요?') ) {
+                return false;
+            }
+            
+            const boardNo = /*[[ ${board.boardNo} ]]*/1;
+
+            $.ajax({
+                url : `/board/${boardNo}/comments/${replyNo}`,
+                type : 'delete',
+                dataType : 'json',
+                async : false,
+                success : function (response) {
+                    alert('삭제되었습니다.');
+                    findAllComment();
+                },
+                error : function (request, status, error) {
+                    console.log(error)
+                }
+            })
+        }
+        /* ]]> */
+  			
+	
 		
 		const deleteModal = document.getElementById('deleteModal');
 		if(deleteModal != null){
@@ -325,7 +408,6 @@ width: 80px;
     /*<![CDATA[*/
     document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/ 5;
     /*]]>*/	
-  	}
 	</script>
 </body>
 </html>

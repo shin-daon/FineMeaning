@@ -43,4 +43,13 @@ public interface VolunteerService {
 	int getMyVolunteerHistoryCount(int uNo);
 
 	ArrayList<Volunteer> selectMyVolunteerHistory(PageInfo pi, int uNo);
+
+	int getSearchMyVolunteerHistoryCount(HashMap<String, Object> myHistorySearchMap);
+
+	ArrayList<Volunteer> selectSearchMyVolunteerHistory(PageInfo pi, HashMap<String, Object> myHistorySearchMap);
+
+	int getVolunteerApplyCount(Object vNo);
+
+	ArrayList<Volunteer> selectVolunteerApplyList(PageInfo pi, Object vNo);
+
 }

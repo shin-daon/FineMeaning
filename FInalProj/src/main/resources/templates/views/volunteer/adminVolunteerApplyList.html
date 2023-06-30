@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>봉사 신청 목록</title>
+	<link rel="stylesheet" href="css/volunteer/volunteerSearch.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<style>
+   		.num {
+   			cursor: pointer;
+   		}
+   		
+   		.arrowKey {
+   			cursor: pointer;
+   		}
+   		
+   		.disabled {
+   			cursor: default;
+   		}
+   	</style>
+</head>
+<body>
+	<div th:replace="~{../common/header :: header}"></div>
+	
+	<section style="display: flex;">
+		<th:block th:if="${session.loginUser.isAdmin == 0}">
+			<div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
+		</th:block>
+		
+		<th:block th:if="${session.loginUser.isAdmin == 2}">
+			<div th:replace="~{../common/sidebar :: sidebar}" th:if="${session.loginUser.isAdmin == 2}"></div>
+		</th:block>
+		
+		<section id="volunteerListSection">
+			<div>
+				<div id="volunteerList">봉사 신청 목록</div>
+			</div>
+
+			<div class="path" th:if="${session.loginUser.isAdmin == 0}">
+				<a class="middle" href="#"><img class="homeIconSize" src="../image/home.png"></a>
+				<img class="sub iconSize" src="../image/onenext.png">
+				<a class="middle" href="#">관리자페이지</a>
+				<img class="sub iconSize" src="../image/onenext.png">
+				<a class="middle">봉사 신청 목록</a>
+				<button type="button" class="btn-gradient mini v-list-btn" style="margin-top: 20px;">목록</button>
+			</div>
+			
+			<div class="path" th:if="${session.loginUser.isAdmin == 2}">
+				<a class="middle" href="#"><img class="homeIconSize" src="../image/home.png"></a>
+				<img class="sub iconSize" src="../image/onenext.png">
+				<a class="middle" href="#">마이페이지</a>
+				<img class="sub iconSize" src="../image/onenext.png">
+				<a class="middle" href="#">봉사</a>
+				<img class="sub iconSize" src="../image/onenext.png">
+				<a class="middle">봉사 신청 목록</a>
+				<button type="button" class="btn-gradient mini v-list-btn" onclick="moveToList()" style="margin-top: 20px;">목록</button>
+			</div>
+			
+
+			<table class="v-history-table" style="margin-top: 10px">
+				<thead>
+					<tr>
+						<th width="5%">No</th>
+						<th width="8%">이름</th>
+						<th width="35%">봉사활동 명</th>
+						<th width="10%">대분류</th>
+						<th width="10%">대상분류</th>
+						<th width="5%">지역</th>
+						<th width="15%">수요처</th>
+						<th width="10%">신청일</th>
+					</tr>
+				</thead>
+				
+				<tbody style="font-size: 14px;">
+					<tr th:if="${vHistories.isEmpty()}">
+						<td colspan="8" style="padding: 50px; font-size: 15px; pointer-events: none;">신청자가 없습니다.</td>
+					</tr>
+					<tr th:each="v : ${vHistories}">
+						<td>[[${v.vHisNo}]]</td>
+						<td>[[${v.uName}]]</td>
+						<td>[[${v.vName}]]</td>
+						<td>[[${v.vMainCategoryName}]]</td>
+						<td>[[${v.vTargetCategoryName}]]</td>
+						<td>[[${v.vArea}]]</td>
+						<td>[[${v.registrar}]]</td>
+						<td>[[${#strings.substring(#strings.arraySplit(v.vHisDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vHisDate, "-")[1]}]].[[${#strings.arraySplit(v.vHisDate, "-")[2]}]]</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
+	            <ul class="pagination">
+	            	<th:block th:if="${vNo == null}">
+		                <li th:if="${ pi.currentPage > 1 }">
+			                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+			                	<img class="arrowKey" src="image/before.png">
+			                </a>
+		                </li>
+		                <li th:unless="${ pi.currentPage > 1 }">
+			                	<img class="arrowKey disabled" src="image/before.png">
+		                </li>
+		                
+		                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+		                	<th:block th:if="${p != 0}">
+		                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+		                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+		                	</th:block>
+		                </li>
+		                
+		                <li th:if="${ pi.currentPage < pi.maxPage} ">
+			                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+			                	<img class="arrowKey" src="image/next.png">
+			                </a>
+		                </li>
+		                <li th:unless="${ pi.currentPage < pi.maxPage }">
+			                	<img class="arrowKey disabled" src="image/next.png">
+		                </li>
+	                </th:block>
+	                
+	            	<th:block th:unless="${vNo == null}">
+		                <li th:if="${ pi.currentPage > 1 }">
+			                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 }, vNo= ${vNo})}">
+			                	<img class="arrowKey" src="image/before.png">
+			                </a>
+		                </li>
+		                <li th:unless="${ pi.currentPage > 1 }">
+			                	<img class="arrowKey disabled" src="image/before.png">
+		                </li>
+		                
+		                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+		                	<th:block th:if="${p != 0}">
+		                	<a th:href="@{${loc}(page=${p}, vNo= ${vNo})}" th:text="${p}"
+		                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+		                	</th:block>
+		                </li>
+		                
+		                <li th:if="${ pi.currentPage < pi.maxPage} ">
+			                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, vNo= ${vNo})}">
+			                	<img class="arrowKey" src="image/next.png">
+			                </a>
+		                </li>
+		                <li th:unless="${ pi.currentPage < pi.maxPage }">
+			                	<img class="arrowKey disabled" src="image/next.png">
+		                </li>
+	                </th:block>
+	            </ul>
+        	</div>
+		</section>
+	</section>
+	
+	<div th:replace="~{../common/footer :: footer}"></div>  
+	
+	<script th:inline="javascript">
+		const beforeURL = document.referrer;
+
+		document.querySelector('.path').querySelector('button').addEventListener('click', function() {
+			location.href = beforeURL;
+		});
+		
+		/*<![CDATA[*/
+		const vNo = /*[[${vNo}]]*/null;
+		if(vNo == null) {
+			document.querySelector('.path').querySelector('button').style.display = "none";
+		}
+		/*]]>*/
+	</script>
+</body>
+</html>
