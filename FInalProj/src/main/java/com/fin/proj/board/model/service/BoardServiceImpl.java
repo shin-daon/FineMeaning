@@ -155,9 +155,23 @@ public class BoardServiceImpl implements BoardService {
 		return bDAO.saveComment(params);
 	}
 
+	
 	@Override
-	public Reply findCommentById(int id) {
-		return bDAO.findCommentById(id);
+	public Reply findCommentById(int replyNo) {
+		return bDAO.findCommentById(replyNo);
 	}
+
+	@Override
+	public int deleteComment(int replyNo) {
+		return bDAO.deleteComment(replyNo);
+	}
+
+	@Override
+	public void updateComment(Reply params) {
+	}
+
+	
+
+	
 
 }
