@@ -169,6 +169,7 @@ public class MemberController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		m.setuNo(loginUser.getuNo());
 		m.setuId(loginUser.getuId());
+		m.setLoginType(loginUser.getLoginType());
 		m.setKakaoId(loginUser.getKakaoId());
 		m.setuStatus(loginUser.getuStatus());
 		
@@ -183,7 +184,7 @@ public class MemberController {
 		System.out.println(m);
 		
 		if(result > 0) {
-			if(m.getLoginType() == "일반") {
+			if(m.getLoginType() == "일반" || m.getKakaoId() == null) {
 				model.addAttribute("loginUser", mService.login(m));
 				return "redirect:/editMyInfo.me";
 			} else {
