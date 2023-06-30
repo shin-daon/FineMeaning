@@ -250,7 +250,7 @@
                 }
             });
 			
-			const btnClears = document.querySelector(".btnClear");
+			const btnClears = document.querySelectorAll(".btnClear");
 			for(const btnClear of btnClears) {
 		    	btnClear.addEventListener("click", function() {
 		    		this.previousElementSibling.value = "";

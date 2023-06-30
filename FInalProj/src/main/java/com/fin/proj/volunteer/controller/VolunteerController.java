@@ -257,17 +257,18 @@ public class VolunteerController {
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		
 		int vHistoryCount = vService.getMyVolunteerHistoryCount(uNo);
-		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 1);
+		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 5);
 			
 		ArrayList<Volunteer> vHistories = vService.selectMyVolunteerHistory(pi, uNo);
+		model.addAttribute("pi", pi);
 		model.addAttribute("vHistories", vHistories);
 		
 		return "volunteerHistory";
 	}
 	
 	@GetMapping("searchMyVolunteerHistory.vo")
-	public String searchMyVolunteerHistory(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam("startDate") String startDate,
-										   @RequestParam("endDate") String endDate, @RequestParam("vArea") String vArea, @RequestParam("registrar") String registrar,
+	public String searchMyVolunteerHistory(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, 
+										   @RequestParam("vName") String vName, @RequestParam("vArea") String vArea, @RequestParam("registrar") String registrar,
 										   @RequestParam("status") String status, HttpSession session, Model model) {
 		if(currentPage == null) {
 			currentPage = 1;
@@ -286,14 +287,19 @@ public class VolunteerController {
 		myHistorySearchMap.put("uNo", uNo);
 		myHistorySearchMap.put("startDate", startDate);
 		myHistorySearchMap.put("endDate", endDate);
+		myHistorySearchMap.put("vName", vName);
 		myHistorySearchMap.put("vArea", vArea);
 		myHistorySearchMap.put("registrar", registrar);
 		myHistorySearchMap.put("status", status);
 		
 		int vHistoryCount = vService.getSearchMyVolunteerHistoryCount(myHistorySearchMap);
-		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 1);
+		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 5);
 		
 		ArrayList<Volunteer> vHistories = vService.selectSearchMyVolunteerHistory(pi, myHistorySearchMap);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("vHistories", vHistories);
+		model.addAttribute("searchMap", myHistorySearchMap);
 		
 		return "volunteerHistory";
 	}
@@ -525,5 +531,10 @@ public class VolunteerController {
 			return "adminVolunteerList";
 		}
 		throw new VolunteerException("봉사 목록 검색에 실패하였습니다.");
+	}
+	
+	@GetMapping("adminVolunteerApplyList.vo")
+	public String adminVolunteerApplyList() {
+		return "adminVolunteerApplyList";
 	}
 }

@@ -35,7 +35,7 @@
 							<tr>
 								<td width="20%">봉사활동 기간</td>
 								<td>
-									<input type="date" id="startDate" name="startDate"/><span class="date-delimeter"></span><input type="date" id="endDate" name="endDate"/>
+									<input type="date" id="startDate" name="startDate" th:value="${searchMap == null ? '' : searchMap.startDate}"/><span class="date-delimeter"></span><input type="date" id="endDate" name="endDate" th:value="${searchMap == null ? '' : searchMap.endDate}"/>
 								</td>
 								<td colspan="2">
 									<button type="button" class="select-date-btn" data-value="3">3개월</button>
@@ -48,7 +48,7 @@
 							</tr>
 							<tr>
 								<td>봉사활동 명</td>
-								<td style="position: relative; height: 30px"><input type="text" id="volunteerName"/><button type="button" class="btnClear"></button></td>
+								<td style="position: relative; height: 30px"><input type="text" id="vName" name="vName" th:value="${searchMap == null ? '' : searchMap.vName}"/><button type="button" class="btnClear"></button></td>
 								<td width="90px">지역</td>
 								<td>
 									<span class="dropdown" id="area-dropdown">
@@ -76,7 +76,7 @@
 							</tr>
 							<tr>
 								<td>수요처</td>
-								<td style="position: relative; height: 30px"><input type="text" id="registrar" name="registrar"/><button type="button" class="btnClear"></button></td>
+								<td style="position: relative; height: 30px"><input type="text" id="registrar" name="registrar" th:value="${searchMap == null ? '' : searchMap.registrar}"/><button type="button" class="btnClear"></button></td>
 								<td>상태</td>
 								<td>
 									<span class="dropdown" id="status-dropdown">
@@ -105,9 +105,9 @@
 					<tr>
 						<th width="40%">봉사활동 명</th>
 						<th width="8%">지역</th>
-						<th width="15%">수요처</th>
+						<th width="17%">수요처</th>
 						<th width="15%">봉사활동 기간</th>
-						<th width="15%">신청일</th>
+						<th width="13%">신청일</th>
 						<th width="7%">상태</th>
 					</tr>
 				</thead>
@@ -121,20 +121,65 @@
 						<td th:text="${v.registrar}"></td>
 						<td>[[${#strings.substring(#strings.arraySplit(v.vStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vStartDate, "-")[2]}]]~[[${#strings.substring(#strings.arraySplit(v.vEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vEndDate, "-")[2]}]]</td>
 						<td th:text="${v.vHisDate}"></td>
-						<td>신청</td>
+						<td class="v-status"></td>
 					</tr>
 				</tbody>
 			</table>
 			
 			<div class="page">
 				<ul class="pagination">
-					<li><a href="#" class="first"><img class="arrowKey" src="../image/before.png"></a></li>
-					<li><a href="#" class="num">1</a></li>
-					<li><a href="#" class="num">2</a></li>
-					<li><a href="#" class="num">3</a></li>
-					<li><a href="#" class="num">4</a></li>
-					<li><a href="#" class="num">5</a></li>
-					<li><a href="#" class="last"><img class="arrowKey" src="../image/next.png"></a></li>
+					<th:block th:if="${searchMap == null}">
+		                <li th:if="${ pi.currentPage > 1 }">
+			                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+			                	<img class="arrowKey" src="image/before.png">
+			                </a>
+		                </li>
+		                <li th:unless="${ pi.currentPage > 1 }">
+			                	<img class="arrowKey disabled" src="image/before.png">
+		                </li>
+		                
+		                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+		                	<th:block th:if="${p != 0}">
+		                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+		                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+		                	</th:block>
+		                </li>
+		                
+		                <li th:if="${ pi.currentPage < pi.maxPage} ">
+			                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+			                	<img class="arrowKey" src="image/next.png">
+			                </a>
+		                </li>
+		                <li th:unless="${ pi.currentPage < pi.maxPage }">
+			                	<img class="arrowKey disabled" src="image/next.png">
+		                </li>
+	                </th:block>
+	                
+	                <th:block th:unless="${searchMap == null}">
+		                <li th:if="${ pi.currentPage > 1 }">
+			                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 }, startDate=${searchMap.startDate}, endDate=${searchMap.endDate}, vName=${searchMap.vName}, vArea=${searchMap.vArea}, registrar=${searchMap.registrar}, status=${searchMap.status})}">
+			                	<img class="arrowKey" src="image/before.png">
+			                </a>
+		                </li>
+		                <li th:unless="${ pi.currentPage > 1 }">
+			                	<img class="arrowKey disabled" src="image/before.png">
+		                </li>
+		                
+		                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+		                	<th:block th:if="${p != 0}">
+		                	<a th:href="@{${loc}(page=${p}, startDate=${searchMap.startDate}, endDate=${searchMap.endDate}, vName=${searchMap.vName}, vArea=${searchMap.vArea}, registrar=${searchMap.registrar}, status=${searchMap.status})}" th:text="${p}" th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+		                	</th:block>
+		                </li>
+		                
+		                <li th:if="${ pi.currentPage < pi.maxPage} ">
+			                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, startDate=${searchMap.startDate}, endDate=${searchMap.endDate}, vName=${searchMap.vName}, vArea=${searchMap.vArea}, registrar=${searchMap.registrar}, status=${searchMap.status})}">
+			                	<img class="arrowKey" src="image/next.png">
+			                </a>
+		                </li>
+		                <li th:unless="${ pi.currentPage < pi.maxPage }">
+			                	<img class="arrowKey disabled" src="image/next.png">
+		                </li>
+	                </th:block>
 				</ul>
 			</div>
 		</section>
@@ -142,7 +187,7 @@
 	
 	<div th:replace="~{../common/footer :: footer}"></div>  
 	
-	<script>
+	<script th:inline="javascript">
 		window.onload = () => {
 			const now = new Date();
 			const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
@@ -150,6 +195,17 @@
 			const startDate = document.querySelector("#startDate");
             const endDate = document.querySelector("#endDate");
             const selectDateBtns = document.querySelectorAll(".select-date-btn");
+            
+            document.querySelector("#v-reset-btn").addEventListener("click", () => {
+            	startDate.value = "";
+            	endDate.value = "";
+            	document.getElementById("vName").value = "";
+            	document.getElementById("areabtn").innerText = "전체";
+                document.getElementById("area").value = "전체";
+                document.getElementById("statusbtn").innerText = "전체";
+                document.getElementById("status").value = "전체";
+                document.getElementById("registrar").value = "";
+            });
             
             startDate.addEventListener("change", function() {
             	endDate.setAttribute("min", this.value);
@@ -176,23 +232,32 @@
 			
 			const dropdownBtns = document.querySelectorAll(".dropdown-btn");
 			/*<![CDATA[*/
+			const vHistories = /*[[${vHistories}]]*/null;
+			if(vHistories != null) {
+				const statusTds = document.querySelectorAll('.v-status');
+	    		for(let i=0; i<statusTds.length; i++) {
+	    			if(vHistories[i].vStartDate <= today && vHistories[i].vEndDate >= today) {
+		    			statusTds[i].innerText = '진행';
+		    		} else if(vHistories[i].vStartDate > today) {
+		    			statusTds[i].innerText = '신청';
+		    		}else {
+		    			statusTds[i].innerText = '종료';
+		    		}
+	    		}
+			}
+    		
 	    	const searchMap = /*[[${searchMap}]]*/null;
 	    	if(searchMap != null) {
-	    		if(searchMap.vMainCategoryName == '') {
-	    			searchMap.vMainCategoryName = "전체";
+	    		if(searchMap.vArea == '') {
+	    			searchMap.vArea = "전체";
 	    		} 
 	    		if(searchMap.status == '') {
 	    			searchMap.status = "전체";
 	    		}
-	    		if(searchMap.vTargetCategoryName == '') {
-	    			searchMap.vTargetCategoryName = "전체";
-	    		}
-	    		dropdownBtns[0].innerText = searchMap.vMainCategoryName;
-	    		dropdownBtns[0].parentElement.querySelector("input").value = searchMap.vMainCategoryName;
+	    		dropdownBtns[0].innerText = searchMap.vArea;
+	    		dropdownBtns[0].parentElement.querySelector("input").value = searchMap.vArea;
 	    		dropdownBtns[1].innerText = searchMap.status;
 	    		dropdownBtns[1].parentElement.querySelector("input").value = searchMap.status;
-	    		dropdownBtns[2].innerText = searchMap.vTargetCategoryName;
-	    		dropdownBtns[2].parentElement.querySelector("input").value = searchMap.vTargetCategoryName;
 	    	}
 		    /*]]>*/
 		    
