@@ -151,7 +151,7 @@
 			
 			function enrollSearchKeyword(){
 				const input = document.querySelector('.searchInput').value.trim();
-				location.href = 'faqMain.bo?keyword=' + input;
+				location.href = 'faqMain.bo?keyword=' + encodeURI(input);
 			}
 			
     	}

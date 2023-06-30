@@ -57,10 +57,13 @@ public interface BoardDAO {
 
 	ArrayList<Board> selectMyBoard(int uNo, RowBounds rowbounds);
 
+	ArrayList<Board> searchByFpName(HashMap<String, Object> map, RowBounds rowbounds);
+
+	int finePeopleCount(HashMap<String, Object> map);
+	
 	List<Reply> findAllComment(int boardNo);
 
 	int saveComment(Reply params);
 
 	Reply findCommentById(int id);
-
 }

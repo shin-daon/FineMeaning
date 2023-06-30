@@ -27,6 +27,7 @@
         <div class="actionArea">
         	<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0 }">
 	            <div class="writeArea">
+	                <a id="connectAdmin"th:href="|finePeopleAdmin.bo|">관리자 페이지로 이동</a>
 	                <button class="writeFaqBtn learn-more" onclick="location.href='finePeopleForm.bo'">글쓰기</button>
 	            </div>
 	        </th:block>
