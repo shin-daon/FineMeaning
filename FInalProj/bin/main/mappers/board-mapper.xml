@@ -61,6 +61,12 @@
 		<if test="boardCate != 0">
 		, board_cate=#{boardCate}
 		</if>
+		<if test="imageUrl != null and !imageUrl.equals('')">
+		, image_url=#{imageUrl}
+		</if>
+		<if test="newsURL != null and !newsURL.equals('')">
+		, news_url=#{newsURL}
+		</if>
 		where board_No= #{boardNo}
 	</update>
 	
@@ -95,6 +101,19 @@
 			 join users using(u_no)
 		where board_title like '%' || #{keyword} || '%' and board_type = #{i} and board_status = 'Y'
 		order by board_no desc
+	</select>
+	
+	<select id="searchByFpName" resultMap="boardResultSet">
+		select *
+		from board
+		where fp_name like '%' || #{keyword} || '%' and board_type = #{i} and board_status = 'Y'
+		order by board_no desc
+	</select>
+	
+	<select id="finePeopleCount" resultType="_int">
+		select count(*)
+		from board
+		where fp_name like '%' || #{keyword} || '%' and board_type = #{i} and board_status = 'Y'
 	</select>
 	
 	<select id="selectReply" resultMap="replyResultSet">
@@ -146,6 +165,7 @@
 	<select id="myReplyCount" resultType="_int">
 		select count(*)
 		from reply
+			join board using(board_no)
 		where re_writer = #{uNo} and re_status = 'Y'
 	</select>
 	
@@ -153,6 +173,7 @@
 		select *
 		from reply
 			 join board using(board_no)
+			 join users on(re_writer = users.u_no)
 		where re_writer = #{uNo} and re_status = 'Y'
 		order by re_no desc
 	</select>

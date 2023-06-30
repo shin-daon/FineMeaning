@@ -185,9 +185,9 @@ public class BoardController {
 		String decode = new String(byteArr);
 		int boardNo = Integer.parseInt(decode);
 		
-		int boardResult = bService.deleteBoard(boardNo);
+		int result = bService.deleteBoard(boardNo);
 		
-		if(boardResult > 0) {
+		if(result > 0) {
 			return "redirect:faqMain.bo";
 		} else {
 			throw new BoardException("게시글 삭제 실패");
@@ -233,29 +233,42 @@ public class BoardController {
 		int result = bService.insertBoard(b);
 		
 		if(result > 0) {
-			return "redirect:finePeopleMain.bo";
+			return "redirect:finePeopleAdmin.bo";
 		} else {
 			throw new BoardException("게시물 작성 실패");
 		}
 	}
 
 	@GetMapping("finePeopleAdmin.bo")
-	public String finePeopleAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+	public String finePeopleAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+								  @RequestParam(value="keyword", required=false) String keyword) {
+		
+//		System.out.println(keyword);
+		HashMap<String, Object> map = new HashMap<>();
+		ArrayList<Board> list;
+		PageInfo pageInfo;
+		int listCount;
 		
 		if(currentPage == null) {
 			currentPage = 1;
 		}
 		
-		int listCount = bService.getListCount("선뜻한 사람");
+		if(keyword != null) {
+			map.put("keyword", keyword);
+			map.put("i", "선뜻한 사람");
+			listCount = bService.finePeopleCount(map);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.searchByFpName(pageInfo, map);
+		} else {
+			listCount = bService.getListCount("선뜻한 사람");
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.selectBoardList(pageInfo, "선뜻한 사람");
+		}
 		
-		PageInfo pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
-		
-		ArrayList<Board> list = bService.selectBoardList(pageInfo, "선뜻한 사람");
-		
-		System.out.println(list);
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
 			model.addAttribute("list", list);
+			model.addAttribute("map", map);
 			return "finePeopleAdmin";
 		} else {
 			throw new BoardException("게시글 목록 조회 실패");
@@ -280,10 +293,18 @@ public class BoardController {
 	}
 	
 	@PostMapping("updateFinePeople.bo")
-	public String updateFinePeople(@ModelAttribute Board b, @RequestParam("page") int page) {
-		System.out.println(b);
-		System.out.println(page);
-		return "redirect:finePeopleAdmin.bo";
+	public String updateFinePeople(@ModelAttribute Board b, @RequestParam("page") int page, RedirectAttributes ra) {
+//		System.out.println(b);
+//		System.out.println(page);
+		
+		int result = bService.updateBoard(b);
+		
+		if(result > 0) {
+			ra.addAttribute("page", page);
+			return "redirect:finePeopleAdmin.bo";
+		} else {
+			throw new BoardException("글 수정 실패");
+		}
 	}
 	
 	@GetMapping("deleteFinePeople.bo")
@@ -294,9 +315,9 @@ public class BoardController {
 		String decode = new String(byteArr);
 		int boardNo = Integer.parseInt(decode);
 		
-		int boardResult = bService.deleteBoard(boardNo);
+		int result = bService.deleteBoard(boardNo);
 		
-		if(boardResult > 0) {
+		if(result > 0) {
 			return "redirect:finePeopleAdmin.bo";
 		} else {
 			throw new BoardException("게시글 삭제 실패");
@@ -399,9 +420,52 @@ public class BoardController {
 		int result = bService.insertFruit(b);
 		
 		if(result > 0) {
-			return "redirect:fruitMain.bo";
+			return "redirect:fruitAdmin.bo";
 		} else {
 			throw new BoardException("게시글 작성 실패");
+		}
+	}
+	
+	@GetMapping("fruitAdmin.bo")
+	public String fruitAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+							 @RequestParam(value="category", required=false) Integer category, // '선택 없음' 시 null일 수 있음
+							 @RequestParam(value="keyword", required=false) String keyword) {
+		
+		ArrayList<Board> list;
+		int listCount;
+		PageInfo pageInfo;
+		
+		HashMap<String, Object> params = new HashMap<>();
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		if(keyword != null) {
+			params.put("keyword", keyword);
+			params.put("i", "결실");
+			if(category == null) { // '선택 없음'의 경우
+				params.put("category", 0);
+			} else {	 // '후원' 혹은 '봉사'의 경우
+				params.put("category", category);
+			}
+			listCount = bService.searchListCount(params);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.searchByTitleAndCategory(pageInfo, params);
+		} else { // 페이지 로드 시 메인 페이지
+			listCount = bService.getListCount("결실");
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.selectBoardList(pageInfo, "결실");
+//			System.out.println(list);
+		}
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			model.addAttribute("params", params);
+			return "fruitAdmin";
+		} else {
+			throw new BoardException("게시글 목록 조회 실패");
 		}
 	}
 	
@@ -460,10 +524,10 @@ public class BoardController {
 			}
 		}
 		
-		int boardResult = bService.deleteBoard(boardNo);
+		int result = bService.deleteBoard(boardNo);
 		
-		if(boardResult > 0) {
-			return "redirect:fruitMain.bo";
+		if(result > 0) {
+			return "redirect:fruitAdmin.bo";
 		} else {
 			throw new BoardException("게시글 삭제 실패");
 		}
@@ -509,6 +573,84 @@ public class BoardController {
 			return "redirect:fineNewsMain.bo";
 		} else {
 			throw new BoardException("게시물 작성 실패");
+		}
+	}
+	
+	@GetMapping("fineNewsAdmin.bo")
+	public String fineNewsAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+			  					@RequestParam(value="keyword", required=false) String keyword) {
+		
+		HashMap<String, Object> map = new HashMap<>();
+		ArrayList<Board> list;
+		PageInfo pageInfo;
+		int listCount;
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		if(keyword != null) {
+			map.put("keyword", keyword);
+			map.put("i", "선한 뉴스");
+			listCount = bService.searchListCount(map);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.searchByTitle(pageInfo, map);
+		} else {
+			listCount = bService.getListCount("선한 뉴스");
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.selectBoardList(pageInfo, "선한 뉴스");
+		}
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			model.addAttribute("map", map);
+		}
+		return "fineNewsAdmin";
+	}
+	
+	@GetMapping("fineNewsEdit.bo")
+	public String fineNewsEdit(@RequestParam("bNo") String bNo, @RequestParam("page") int page,
+									Model model) {
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		Board b = bService.selectBoard(boardNo, false);
+		
+		model.addAttribute("board", b);
+		model.addAttribute("page", page);
+		return "fineNews_edit";
+	}
+	
+	@PostMapping("updateFineNews.bo")
+	public String updateFineNews(@ModelAttribute Board b, @RequestParam("page") int page, RedirectAttributes ra) {
+		
+		int result = bService.updateBoard(b);
+		
+		if(result > 0) {
+			ra.addAttribute("page", page);
+			return "redirect:fineNewsAdmin.bo";
+		} else {
+			throw new BoardException("글 수정 실패");
+		}
+	}
+	
+	@GetMapping("deleteFineNews.bo")
+	public String deleteFineNews(@RequestParam("bNo") String bNo) {
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(bNo);
+		String decode = new String(byteArr);
+		int boardNo = Integer.parseInt(decode);
+		
+		int result = bService.deleteBoard(boardNo);
+		if(result > 0) {
+			return "redirect:fineNewsAdmin.bo";
+		} else {
+			throw new BoardException("게시글 삭제 실패");
 		}
 	}
 	
@@ -561,7 +703,7 @@ public class BoardController {
 		if(result > 0) {
 			ra.addAttribute("bNo", boardNo);
 			ra.addAttribute("page", page);
-			return "redirect:fruit_detail.bo";
+			return "redirect:fruitDetail.bo";
 		} else {
 			throw new BoardException("댓글 삭제에 실패하였습니다.");
 		}
@@ -602,7 +744,6 @@ public class BoardController {
 		listCount = bService.myReplyCount(uNo);
 		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Reply> list = bService.selectMyReply(pageInfo, uNo);
-		
 		System.out.println(list);
 		
 		if(list != null) {

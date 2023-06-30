@@ -188,7 +188,7 @@
 				const input = document.querySelector('.searchInput').value.trim();
 				const category = document.getElementsByName('category')[0].value;
 				let cate;
-				let link = 'fruitMain.bo?keyword=' + input;
+				let link = 'fruitMain.bo?keyword=' + encodeURI(input);
 				if(category == "후원" || category == 1){
 					cate = 1;
 					link += '&category=' + cate;
