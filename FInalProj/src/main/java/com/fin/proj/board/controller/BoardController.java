@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -72,11 +71,11 @@ public class BoardController {
 				map.put("category", category);
 			}
 			listCount = bService.searchListCount(map);
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 3);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
 			list = bService.searchByTitleAndCategory(pageInfo, map);
 		} else {
 			listCount = bService.getListCount("자주 묻는 질문");
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 3);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
 			list = bService.selectBoardList(pageInfo, "자주 묻는 질문");
 		}
 		
@@ -92,7 +91,8 @@ public class BoardController {
 	
 	@GetMapping("faqDetail.bo")
 	public String faqDetail(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer,
-							@RequestParam("page") int page, HttpSession session, Model model) {
+							@RequestParam("page") int page, HttpSession session, Model model,
+							@RequestParam(value="keyword", required=false) String keyword, @RequestParam(value="category", required=false) Integer category) {
 //		System.out.println(bNo + ", " + writer + ", "+ page);
 		// 상세보기의 경우 조회수 +1, but 내 글 클릭 시 조회수 +0 (로그인 유저 정보 가져와서 비교)
 		// 파라미터로 받은 page를 통해 목록으로 돌아갔을 시 원래 보던 페이지 노출
@@ -119,7 +119,12 @@ public class BoardController {
 		if(board != null) {
 			model.addAttribute("board", board);
 			model.addAttribute("page", page);
-//			model.addAttribute("replyList", replyList);
+			if(keyword != null) {
+				model.addAttribute("keyword", keyword);
+			}
+			if(category != null) {
+				model.addAttribute("category", category);
+			}
 			return "faq_Detail";
 		} else {
 			throw new BoardException("게시글 상세 조회 실패");
@@ -462,11 +467,11 @@ public class BoardController {
 				params.put("category", category);
 			}
 			listCount = bService.searchListCount(params);
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
 			list = bService.searchByTitleAndCategory(pageInfo, params);
 		} else { // 페이지 로드 시 메인 페이지
 			listCount = bService.getListCount("결실");
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
 			list = bService.selectBoardList(pageInfo, "결실");
 //			System.out.println(list);
 		}

@@ -53,11 +53,11 @@
         <table class="faqTable">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>카테고리</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>작성일</th>
+                    <th style="width: 10%">No</th>
+                    <th style="width: 15%">카테고리</th>
+                    <th style="width: 45%">제목</th>
+                    <th style="width: 10%">작성자</th>
+                    <th style="width: 20%">작성일</th>
                 </tr>
             </thead>
             <tbody>
@@ -135,7 +135,7 @@
     		// 게시글 선택
 			const tbody = document.querySelector('tbody');
 			const tds = tbody.querySelectorAll('td');
-			
+			/* <![CDATA[ */
 			for(const td of tds){	// for of 배열 안 요소, for in 배열 안 인덱스(객체는 키)
 // 				console.log(td);
 				td.addEventListener('click', function(){
@@ -145,12 +145,24 @@
 					const trTds= this.parentElement.children; // = querySelectorAll
 					const boardNo = trTds[0].innerText;
 					const writer = trTds[3].innerText;			// url에 들어가기 때문에 = 양쪽에 띄어쓰기 금지
-					/* <![CDATA[ */
+					const map = /*[[${map}]]*/0;
+					const page = /*[[${pi.currentPage}]]*/0;
+					
+					let url = '';
+					
+					if(map != null){
+						if(map.hasOwnProperty('keyword')){
+							url += '&keyword=' + map.keyword;
+						}
+						if(map.hasOwnProperty('category')){
+							url += '&category=' + map.category;
+						}
+					}
 					location.href='faqDetail.bo?bNo=' + boardNo 
-							+ '&writer=' + writer + '&page=' + /*[[${pi.currentPage}]]*/1;
-					/* ]]> */
+							+ '&writer=' + writer + '&page=' + page + url;
 				});
 			}
+			/* ]]> */
 			
 			// 카테고리 선택
 			const selectCates = document.getElementsByClassName('selectCate');

@@ -165,7 +165,6 @@ public class BoardServiceImpl implements BoardService {
 		return bDAO.saveComment(params);
 	}
 
-	
 	@Override
 	public Reply findCommentById(int replyNo) {
 		return bDAO.findCommentById(replyNo);
@@ -179,9 +178,5 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void updateComment(Reply params) {
 	}
-
-	
-
-	
 
 }

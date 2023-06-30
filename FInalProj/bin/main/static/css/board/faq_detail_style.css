@@ -133,6 +133,12 @@
     z-index: 1;
 }
 
+.boardCategory {
+	float: right;
+	font-size: 12px;
+	margin-top: -7px;
+}
+
 .boardDate {
 	float: right;
 	font-size: 12px;

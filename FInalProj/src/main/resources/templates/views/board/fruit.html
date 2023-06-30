@@ -162,16 +162,12 @@
 			for(const td of tds){	// for of 배열 안 요소, for in 배열 안 인덱스(객체는 키)
 // 				console.log(td);
 				td.addEventListener('click', function(){
-					// 부모 요소로 올라가 자식 중 0번째(글번호), 2번째(작성자) 가져오기
-// 					console.log(this.parentElement); // <tr>...</tr> 반환
-					
 					const trTds= this.parentElement.children; // = querySelectorAll
 					const boardNo = trTds[0].innerText;
 					const params = /*[[${params}]]*/1;
 					const page = /*[[${pi.currentPage}]]*/1;
 					
 					let url = '';
-					
 					if(params != null){
 						if(params.hasOwnProperty('keyword')){
 							url += '&keyword=' + params.keyword;

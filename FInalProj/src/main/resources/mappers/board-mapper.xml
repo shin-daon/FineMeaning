@@ -88,6 +88,7 @@
 	<select id="searchByTitleAndCategory" parameterType="map" resultMap="boardResultSet">
 		select *
 		from board
+			 join users using(u_no)
 		WHERE board_title like '%' || #{keyword} || '%' and board_type = #{i} and board_status='Y'
 		<if test="category != null and category != 0">
 	    and board_cate = #{category}
