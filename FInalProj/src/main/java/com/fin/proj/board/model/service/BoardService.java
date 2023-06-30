@@ -26,7 +26,7 @@ public interface BoardService {
 
 	int deleteBoard(int bId);
 
-	int insertFruit(Board b);
+	int insertBoardWithCategory(Board b);
 
 	int deleteReply(int replyNo);
 

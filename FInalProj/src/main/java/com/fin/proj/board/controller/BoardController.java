@@ -136,11 +136,11 @@ public class BoardController {
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		b.setuNo(uNo);
 		b.setBoardType("자주 묻는 질문");
-		b.setImageUrl(null);
-		b.setNewsURL(null);
-		b.setFpName(null);
+//		b.setImageUrl(null);
+//		b.setNewsURL(null);
+//		b.setFpName(null);
 		
-		int result = bService.insertBoard(b);
+		int result = bService.insertBoardWithCategory(b);
 		
 		if(result > 0) {
 			return "redirect:faqMain.bo";
@@ -423,7 +423,7 @@ public class BoardController {
 		b.setuNo(uNo);
 		b.setBoardType("결실");
 		
-		int result = bService.insertFruit(b);
+		int result = bService.insertBoardWithCategory(b);
 		
 		if(result > 0) {
 			return "redirect:fruitAdmin.bo";
