@@ -137,11 +137,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public ArrayList<Member> selectCategoryListAdmin(PageInfo pi, Member m) {
+	public ArrayList<Member> selectCategoryListAdmin(PageInfo pi, HashMap<String, String> map) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
-		return mDAO.selectCategoryListAdmin(rowBounds, m);
+		return mDAO.selectCategoryListAdmin(rowBounds, map);
 	}
 	
 	@Override
@@ -154,5 +154,8 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.kakaoEnroll(m);
 	}
 
-
+	@Override
+	public int checkEmail(String emailAddress) {
+		return mDAO.checkEmail(emailAddress);
+	}
 }

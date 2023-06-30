@@ -146,10 +146,19 @@ public class MemberController {
 	public void checkEmail(@RequestParam("emailAddress") String emailAddress, PrintWriter out) {
 		
 		System.out.println("보낼 이메일 : " + emailAddress);
-		int count = aService.checkEmail(emailAddress);
 		
-		String result = Integer.toString(count);
-		out.print(result);	
+		int statusEmail = mService.checkEmail(emailAddress);
+		
+		if(statusEmail != 0) {
+			String result = "registered email";
+			out.print(result);
+		} else {
+			int count = aService.checkEmail(emailAddress);
+		
+			String result = Integer.toString(count);
+			out.print(result);
+		}	
+			
 	}
 
 	@PostMapping("updateMyInfo.me")
@@ -484,85 +493,41 @@ public class MemberController {
 	
 	@RequestMapping("categoryListAdmin.me")
 	public String categoryListAdmin(@RequestParam("category") String category,
-									@RequestParam(value = "page", required = false) Integer currentPage,
 									@RequestParam(value = "searchWord", required=false) String searchWord,
+									@RequestParam(value = "page", required = false) Integer currentPage,
 									Model model) {
 		
 		System.out.println(category);
-		System.out.println(searchWord);
 		
 		if (currentPage == null) {
 			currentPage = 1;
 		}
 		
-		Member m = new Member();
-		
-		if(searchWord == null || searchWord.trim().equals("")) {
-			switch (category) {
-	        case "활동중인 회원":
-	            ArrayList<Member> suList = mService.statusUserList();
-	            model.addAttribute("suList", suList);
-	            break;
-
-//	        case "관리자인 회원":
-//	            ArrayList<Member> auList = mService.adminUserList();
-//	            model.addAttribute("auList", auList);
-//	            break;
-//
-//	        case "기관 승인":
-//	            ArrayList<Member> vuList = mService.volUserList();
-//	            model.addAttribute("vuList", vuList);
-//	            break;
-
-	        default: break;
-			}
-	        
-		} else {
-			switch (category) {
-//	        case "활동중인 회원":
-//	            ArrayList<Member> suList = mService.statusUserListWithSearch(searchWord.trim());
-//	            model.addAttribute("suList", suList);
-//	            break;
-//
-//	        case "관리자인 회원":
-//	            ArrayList<Member> auList = mService.adminUserListWithSearch(searchWord.trim());
-//	            model.addAttribute("auList", auList);
-//	            break;
-//
-//	        case "기관 승인":
-//	            ArrayList<Member> vuList = mService.volUserListWithSearch(searchWord.trim());
-//	            model.addAttribute("vuList", vuList);
-//	            break;
-
-	        default: break;
-			}
-		}
-		
 		HashMap<String, String> map = new HashMap<String, String>();
-    	map.put("category", category);
-    	map.put("searchWord", searchWord);
-    	map.put("uNo", m.getuNo()+"");
+		map.put("category", category);
+		map.put("searchWord", searchWord);
 		
 		int listCount = mService.getCategoryCount(map);
-
+		System.out.println(searchWord);
+		System.out.println(listCount);
+		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		
-		ArrayList<Member> uList = mService.selectCategoryListAdmin(pi, m);
-
-		if(searchWord == null || searchWord.trim().equals("")) {			
-			model.addAttribute("uList", uList);
+		Member m = new Member();
+		ArrayList<Member> mList = mService.selectCategoryListAdmin(pi, map);
+		
+		if(searchWord == null || searchWord.trim().equals("")) {
+			model.addAttribute("mList", mList);
 			model.addAttribute("pi", pi);
 			model.addAttribute("category", category);
-			
 			return "editUserInfo";
 		} else {
-			model.addAttribute("uList", uList);
+			model.addAttribute("mList", mList);
 			model.addAttribute("pi", pi);
 			model.addAttribute("category", category);
 			model.addAttribute("searchWord", searchWord);
-			
 			return "editUserInfo";
-		}	
+		}
 
 	}
 		
