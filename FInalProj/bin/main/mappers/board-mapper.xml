@@ -165,6 +165,7 @@
 	<select id="myReplyCount" resultType="_int">
 		select count(*)
 		from reply
+			join board using(board_no)
 		where re_writer = #{uNo} and re_status = 'Y'
 	</select>
 	
@@ -172,6 +173,7 @@
 		select *
 		from reply
 			 join board using(board_no)
+			 join users on(re_writer = users.u_no)
 		where re_writer = #{uNo} and re_status = 'Y'
 		order by re_no desc
 	</select>

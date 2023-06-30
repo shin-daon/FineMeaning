@@ -85,7 +85,7 @@ public class BoardController {
 	@GetMapping("faqDetail.bo")
 	public String faqDetail(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer,
 							@RequestParam("page") int page, HttpSession session, Model model) {
-		System.out.println(bNo + ", " + writer + ", "+ page);
+//		System.out.println(bNo + ", " + writer + ", "+ page);
 		// 상세보기의 경우 조회수 +1, but 내 글 클릭 시 조회수 +0 (로그인 유저 정보 가져와서 비교)
 		// 파라미터로 받은 page를 통해 목록으로 돌아갔을 시 원래 보던 페이지 노출
 		
@@ -743,7 +743,7 @@ public class BoardController {
 		listCount = bService.myReplyCount(uNo);
 		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Reply> list = bService.selectMyReply(pageInfo, uNo);
-//		System.out.println(list);
+		System.out.println(list);
 		
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
