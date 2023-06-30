@@ -32,7 +32,7 @@
     align-items: center;
     flex-direction: column; 
     margin-top: 100px;
-	margin-left: 20%;
+	margin-left: 250px;
 }
 
 #volunteerList {
@@ -42,7 +42,7 @@
 
 .path {
     margin-top: 30px;
-    width: 740px;
+    width: 900px;
     font-size: 14px;
 }
 
@@ -65,7 +65,7 @@
 }
 
 .v-history-table {
-    width: 750px;
+    width: 900px;
     margin-top: 40px;
     padding: 10px;
     text-align: center;
@@ -209,7 +209,7 @@ button {
 .v-search {
     display: flex;
     text-align: center;
-    width: 750px;
+    width: 900px;
     margin-top: 30px;
 }
 
