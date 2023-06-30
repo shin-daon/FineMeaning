@@ -724,9 +724,15 @@ select:focus {
 		});
 		
 		agencyInput.addEventListener('input', () => {
-			  if (agencyInput.value.trim() !== '') {
+			  if (agencyRadio.checked && agencyInput.value.trim() !== '') {
 				agencyInput.style.outline = '1px solid #609966';
 				agencyInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+				enrollButton.disabled = false;
+				
+			  } else if (agencyRadio.checked && agencyInput.value.trim() === '') {
+				agencyInput.style.outline = '1px solid red';
+				agencyInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+				enrollButton.disabled = true;
 			  }
 			});
 		
@@ -765,6 +771,12 @@ select:focus {
 	            success: function(response) {
 	                data = response; // 데이터 변수에 서버 응답값을 할당합니다.
 	                console.log("데이터 전송 성공: " + data);	
+	                
+	                if(data == "registered email"){
+	                	emailCheckResult.innerText = '이미 등록된 이메일 입니다.';
+	                	enrollButton.disabled = true;
+	                } else {
+	                
 	                emailBtn.style.display = 'none';
 	                emailBtn2.style.display = 'inline-block';
 	                emailCheckResult.innerHTML = '메일이 전송되었습니다. 인증번호를 입력한 뒤 <br> 확인 버튼을 클릭해주세요.';
@@ -809,7 +821,9 @@ select:focus {
 	        				form.submit();
 	        				alert('회원가입이 성공적으로 완료되었습니다.');
 	        			}
+	                
 	        		});
+	                }
    
 	            },
 	            error: function() {

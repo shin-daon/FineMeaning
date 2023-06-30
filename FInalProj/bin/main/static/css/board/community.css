@@ -357,8 +357,11 @@ button {
 
 
 .qaInfo {
-  border: 1px solid black;
+  border: 1px solid #9bc08d;
   padding: 10px;
+  color: lightblack;
+  background-color: #EDF1D6;
+  border-radius: 10px;
 }
 
 th, td {

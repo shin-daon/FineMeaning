@@ -55,11 +55,17 @@ public interface MemberService {
 
 	int getCategoryCount(HashMap<String, String> map);
 
-	ArrayList<Member> selectCategoryListAdmin(PageInfo pi, Member m);
+	ArrayList<Member> selectCategoryListAdmin(PageInfo pi, HashMap<String, String> map);
 
 	Member kakaoLogin(Member m);
 
 	int kakaoEnroll(Member m);
+
+	int checkEmail(String emailAddress);
+
+	int getSearchListCount(String searchWord);
+
+	ArrayList<Member> selectSearchListAdmin(PageInfo pi, String searchWord);
 	
 
 }

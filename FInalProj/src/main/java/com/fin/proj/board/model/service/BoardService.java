@@ -26,7 +26,7 @@ public interface BoardService {
 
 	int deleteBoard(int bId);
 
-	int insertFruit(Board b);
+	int insertBoardWithCategory(Board b);
 
 	int deleteReply(int replyNo);
 
@@ -57,5 +57,14 @@ public interface BoardService {
 
 	int saveComment(Reply params);
 
+<<<<<<< HEAD
+	void updateComment(Reply params);
+
+	Reply findCommentById(int replyNo);
+
+	int deleteComment(int replyNo);
+
+=======
 	Reply findCommentById(int id);
+>>>>>>> cccbe355b4cd86db1c92de1635bab3ccabed5bc3
 }

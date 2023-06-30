@@ -33,7 +33,7 @@ public interface BoardDAO {
 
 	int deleteBoard(int bId);
 
-	int insertFruit(Board b);
+	int insertBoardWithCategory(Board b);
 
 	int deleteReply(int replyNo);
 
@@ -66,4 +66,12 @@ public interface BoardDAO {
 	int saveComment(Reply params);
 
 	Reply findCommentById(int id);
+<<<<<<< HEAD
+
+	void updateComment(int replyNo);
+
+	int deleteComment(int replyNo);
+
+=======
+>>>>>>> cccbe355b4cd86db1c92de1635bab3ccabed5bc3
 }
