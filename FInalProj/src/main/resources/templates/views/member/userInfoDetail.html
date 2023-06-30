@@ -18,7 +18,31 @@
    padding: 0;
    box-sizing: border-box;
    font-family: "SUITE-Regular", sans-serif;
-} 
+}
+
+::selection {
+		background-color: #9DC08B;
+		color: #fff;
+	}
+
+#normal-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 180px;
+	height: 33px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+input[type="text"] {
+  text-align: center; /* 가운데 정렬 설정 */
+}
+
+input[type="radio"] {
+	accent-color: #609966;
+	width: 14px;
+	height: 14px;
+}
 
 #faqSection {
     margin-top: 80px;
@@ -61,7 +85,7 @@
 
 .writeFaqBtn {
     width: 80px;
-    height: 30px;
+    height: 25px;
     background-color: #9DC08B;
     color: white;
     border-radius: 0.4rem;
@@ -100,6 +124,9 @@
 th, td {
     padding: 10px;
 }
+
+.title { width: 268px; }
+td { width: 460px; }
 
 .faqTable thead tr th {
     border-bottom: 1px dotted black;
@@ -304,7 +331,7 @@ input:checked + .switch:after {
                 </tr>
                 <tr>
                     <td class="title">주소</td>
-                    <td th:text="${ uList.address }"></td>                   
+                    <td th:text="${ uList.address != null ? uList.address : '-' }"></td>                   
                 </tr>
                 <tr>
                     <td class="title">전화번호</td>
@@ -342,7 +369,7 @@ input:checked + .switch:after {
         </table>
         
         <div class="address-btn">
-			<button class="normal-btn" id="search-ad" onClick="location.href='editUserInfo.me'">목록으로</button>
+			<button class="normal-btn" id="search-ad" onClick="history.back();">목록으로</button>
 		</div>		
 
         </section>
@@ -351,6 +378,181 @@ input:checked + .switch:after {
   
 <br><br><br><br>
 <div th:replace="~{views/common/footer :: footer}"></div>
+<script>
+		let beforeData = null;
+		const tds = document.getElementsByTagName('td');
+		
+		document.querySelector('body').addEventListener('click', (event)=>{
+			for(let i = 0; i < tds.length; i++){
+				if(tds[i].children[0] != undefined && tds[i].children[0].value != undefined){
+					if(event.target.value == undefined){
+						tds[i].innerHTML = '<td>' + beforeData + '</td>';
+					}				
+				}
+			}
+		})
+		
+		for(let i = 0; i < tds.length; i++){
+			const index = i;
+					
+			tds[i].addEventListener('dblclick', function(){
+				if(index % 2 === 1){
+					for(let j = 0; j < tds.length; j++){
+						if(tds[j].children[0] != undefined && tds[j].children[0].value != undefined){
+							tds[j].innerHTML = '<td>' + tds[j].children[0].value + '</td>';
+						}
+					}
+				} else { return; }
+				
+				// 더블클릭해서 수정칸 만들기
+				
+				if(index != 1 && index != 15 && index != 23){
+					beforeData = this.innerText;
+					
+					if(index == 17){ // 회원 유형
+						let checked = null;
+						if(beforeData == '일반'){
+							checked = '<input type="radio" name="uType" class="updateData" value="일반" checked> 일반\
+									   <input type="radio" name="uType" class="updateData" value="단체"> 단체';
+						} else if(beforeData == '단체'){
+							checked = '<input type="radio" name="uType" class="updateData" value="일반"> 일반\
+									   <input type="radio" name="uType" class="updateData" value="단체" checked> 단체';
+						}
+						
+						this.innerHTML = checked;
+						
+					} else if(index == 21){ // 관리자 여부
+						let checked = null;
+						if(beforeData == '일반'){
+							checked = '<input type="radio" name="isAdmin" class="updateData" value="일반" checked> 일반\
+									   <input type="radio" name="isAdmin" class="updateData" value="관리자"> 관리자\
+									   <input type="radio" name="isAdmin" class="updateData" value="봉사 관리자"> 봉사 관리자';
+						} else if(beforeData == '관리자'){
+							checked = '<input type="radio" name="isAdmin" class="updateData" value="일반"> 일반\
+								   	   <input type="radio" name="isAdmin" class="updateData" value="관리자" checked> 관리자\
+								       <input type="radio" name="isAdmin" class="updateData" value="봉사 관리자"> 봉사 관리자';
+						} else if(beforeData == '봉사 관리자'){
+							checked = '<input type="radio" name="isAdmin" class="updateData" value="일반"> 일반\
+							   		   <input type="radio" name="isAdmin" class="updateData" value="관리자"> 관리자\
+							   		   <input type="radio" name="isAdmin" class="updateData" value="봉사 관리자" checked> 봉사 관리자';
+						}
+						
+						this.innerHTML = checked;
+					} else { // 나머지
+						this.innerHTML = '<input type="text" id="normal-input" class="updateData" value="' + this.innerText + '">';
+					}
+					
+					// 데이터 수정 ajax 적용
+					const updateDatas = document.getElementsByClassName('updateData');
+					for(const update of updateDatas){
+						update.addEventListener('keyup', function(event){
+							if(event.key == 'Enter'){
+								let datas = '';
+								if(updateDatas[0].type == 'radio'){
+									for(let i = 0; i < updateDatas.length; i++){
+										if(updateDatas[i].checked){
+											datas = updateDatas[i].value;
+											break;
+										}
+									}
+								} else {
+									for(let i = 0; i < updateDatas.length; i++){
+										if(i == 0){
+											datas = updateDatas[i].value;
+										} else {
+											datas += '@' + updateDatas[i].value;
+										}
+									}
+								}
+								
+								if(index != 2) { // 닉네임이 아닐 때
+									$.ajax({
+									url: 'updateInfo.adm',
+									data: {data:datas, column:document.querySelectorAll('th')[index].innerText, id:this.parentElement.parentElement.children[0].innerText},
+									success: data => {
+										if(data == 'success'){
+											tds[i].innerHTML = '<td>' + datas + "</td>";
+										} else { // fail
+											alert('수정이 실패하여 페이지가 새로고침 됩니다.');
+											location.reload();
+										}
+									},
+									error: data => {
+										console.log(data);
+									}
+								});
+							} else {
+								$.ajax({
+									url: 'checkNickName.me',
+									data: {nickName: datas},
+									success : data => {
+										if(data == 'yes'){
+											$.ajax({
+											url: 'updateInfo.adm',
+											data: {data:datas, column:document.querySelectorAll('th')[index].innerText, id:this.parentElement.parentElement.children[0].innerText},
+											success: data => {
+												if(data == 'success'){
+													tds[i].innerHTML = '<td>' + datas + "</td>";
+												} else { // fail
+													alert('수정이 실패하여 페이지가 새로고침 됩니다.');
+													location.reload();
+												}
+											},
+											error: data => {
+												console.log(data);
+											}
+										});
+									} else {
+										this.classList.add('vibration');
+										
+										setTimeout(()=>{
+											this.classList.remove('vibration');
+										}, 400);
+									}
+								},
+								error : data => {
+									console.log(data);
+								}
+							})
+						}
+					}
+				})
+			}
+									
+			} else {
+				alert('수정할 수 없는 항목입니다.');
+			}
+		});
+		
+		const stateButtons = tds[i].querySelectorAll('div');
+		for(const button of stateButtons){
+			button.addEventListener('click', function(){
+				if(this.className == 'unselectState'){
+					$.ajax({
+						url: 'updateState.adm',
+						data: {id:this.parentElement.parentElement.children[0].innerText, column:document.querySelectorAll('th')[index].innerText, value:this.innerText},
+						success: data => {
+							if(data == 'success'){
+								this.className = 'selectState';
+								for(const siblings of this.parentElement.children){
+									if(siblings != this){
+										siblings.className = 'unselectState';
+									}
+								}
+							} else {
+								alert('상태 변경에 실패하여 페이지가 새로고침 됩니다.');
+								location.reload();
+							}
+						},
+						error: data => {
+							console.log(data);
+						}
+					});
+				}
+			})
+		}			
+	}
 
+</script>
 </body>
 </html>
