@@ -50,7 +50,7 @@
 							<tr>
 								<td width="15%">작성 기간</td>
 								<td width="30%">
-<!-- 									<input type="hidden" name="column" value="v_create_date"> -->
+									<input type="hidden" name="column" value="v_create_date">
 									<input type="date" id="startDate" name="startDate" th:value="${searchMap == null ? '' : searchMap.startDate}"/><span class="date-delimeter"></span><input type="date" id="endDate" name="endDate" th:value="${searchMap == null ? '' : searchMap.endDate}"/>
 								</td>
 								<td width="15%" style="text-align: center;">대분류</td>
@@ -105,6 +105,10 @@
 									</span> 
 								</td>
 							</tr>
+							<tr>
+								<td>수요처</td>
+								<td style="position: relative; height: 20px"><input type="text" id="registrar" name="registrar" th:value="${searchMap == null ? '' : searchMap.registrar}"/><button type="button" class="btnClear"></button></td>
+							</tr>
 						</table>
 						<div class="v-search-inner-btn">
 							<button id="v-search-btn" class="learn-more">검색</button>
@@ -124,8 +128,7 @@
 						<th width="35%">봉사활동 명</th>
 						<th width="10%">대분류</th>
 						<th width="10%">대상분류</th>
-						<th width="10%">모집시작일</th>
-						<th width="10%">모집종료일</th>
+						<th width="20%">수요처</th>
 						<th width="7%">인원</th>
 						<th width="10%">작성일</th>
 						<th width="10%">게시 여부</th>
@@ -141,8 +144,7 @@
 						<td th:text="${v.vName}"></td>
 						<td th:text="${v.vMainCategoryName}"></td>
 						<td th:text="${v.vTargetCategoryName}"></td>
-						<td>[[${#strings.substring(#strings.arraySplit(v.vStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vStartDate, "-")[2]}]]</td>
-						<td>[[${#strings.substring(#strings.arraySplit(v.vEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vEndDate, "-")[2]}]]</td>
+						<td th:text="${v.registrar}"></td>
 						<td>[[${v.vCount}]]/[[${v.vCountAll}]]</td>
 						<td>[[${#strings.substring(#strings.arraySplit(v.vCreateDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vCreateDate, "-")[1]}]].[[${#strings.arraySplit(v.vCreateDate, "-")[2]}]]</td>
 						<td><button type="button" th:class="${v.vStatus == 'Y'? 'state-btn state-y' : 'state-btn state-n'}"></button></td>
@@ -181,7 +183,7 @@
 	                
 	                <th:block th:unless="${searchMap == null}">
 		                <li th:if="${ pi.currentPage > 1 }">
-			                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 }, startDate=${searchMap.startDate}, endDate=${searchMap.endDate}, vMainCategoryName=${searchMap.vMainCategoryName}, status=${searchMap.status}, vName=${searchMap.vName}, vTargetCategoryName=${searchMap.vTargetCategoryName})}">
+			                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 }, startDate=${searchMap.startDate}, endDate=${searchMap.endDate}, vMainCategoryName=${searchMap.vMainCategoryName}, status=${searchMap.status}, vName=${searchMap.vName}, vTargetCategoryName=${searchMap.vTargetCategoryName}, registrar=${searchMap.registrar})}">
 			                	<img class="arrowKey" src="image/before.png">
 			                </a>
 		                </li>
@@ -191,13 +193,13 @@
 		                
 		                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
 		                	<th:block th:if="${p != 0}">
-		                	<a th:href="@{${loc}(page=${p}, startDate=${searchMap.startDate}, endDate=${searchMap.endDate}, vMainCategoryName=${searchMap.vMainCategoryName}, status=${searchMap.status}, vName=${searchMap.vName}, vTargetCategoryName=${searchMap.vTargetCategoryName})}" th:text="${p}"
+		                	<a th:href="@{${loc}(page=${p}, startDate=${searchMap.startDate}, endDate=${searchMap.endDate}, vMainCategoryName=${searchMap.vMainCategoryName}, status=${searchMap.status}, vName=${searchMap.vName}, vTargetCategoryName=${searchMap.vTargetCategoryName}, registrar=${searchMap.registrar})}" th:text="${p}"
 		                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
 		                	</th:block>
 		                </li>
 		                
 		                <li th:if="${ pi.currentPage < pi.maxPage} ">
-			                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, startDate=${searchMap.startDate}, endDate=${searchMap.endDate}, vMainCategoryName=${searchMap.vMainCategoryName}, status=${searchMap.status}, vName=${searchMap.vName}, vTargetCategoryName=${searchMap.vTargetCategoryName})}">
+			                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, startDate=${searchMap.startDate}, endDate=${searchMap.endDate}, vMainCategoryName=${searchMap.vMainCategoryName}, status=${searchMap.status}, vName=${searchMap.vName}, vTargetCategoryName=${searchMap.vTargetCategoryName}, registrar=${searchMap.registrar})}">
 			                	<img class="arrowKey" src="image/next.png">
 			                </a>
 		                </li>
@@ -248,10 +250,12 @@
                 }
             });
 			
-			const btnClear = document.querySelector(".btnClear");
-	    	btnClear.addEventListener("click", function() {
-	    		this.previousElementSibling.value = "";
-	    	});
+			const btnClears = document.querySelector(".btnClear");
+			for(const btnClear of btnClears) {
+		    	btnClear.addEventListener("click", function() {
+		    		this.previousElementSibling.value = "";
+		    	});
+			}
 	    	
 			const selectObjects = document.getElementsByClassName("selectObject");
             const selectMainCategories = document.getElementsByClassName("selectMainCategory");
@@ -326,6 +330,7 @@
                 document.getElementById("mainCategory").value = "전체";
                 document.getElementById("recruitmentBtn").innerText = "전체";
                 document.getElementById("recruitment").value = "전체";
+                document.getElementById("registrar").value = "";
             });
             
             const stateBtns = document.querySelectorAll(".state-btn");

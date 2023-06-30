@@ -47,4 +47,8 @@ public interface VolunteerDAO {
 
 	ArrayList<Volunteer> selectMyVolunteerHistory(int uNo, RowBounds rowBounds);
 
+	int getSearchMyVolunteerHistoryCount(HashMap<String, Object> myHistorySearchMap);
+
+	ArrayList<Volunteer> selectSearchMyVolunteerHistory(HashMap<String, Object> myHistorySearchMap, RowBounds rowBounds);
+
 }

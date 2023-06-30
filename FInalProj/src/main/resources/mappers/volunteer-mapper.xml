@@ -216,6 +216,33 @@
 		where v_history.u_no = #{uNo} 
 	</select>
 	
+	<select id="getSearchMyVolunteerHistoryCount" resultType="_int">
+		select count(*)
+		from volunteer
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+			 join v_history using(v_no)
+		where v_history.u_no = #{uNo} 
+		<if test="startDate != null and !startDate.equals('')">
+			 
+		</if>
+		<if test="endDate != null and !endDate.equals('')">
+			 
+		</if>
+		<if test="vArea != null and !vArea.equals('')">
+			 and v_area like '%${vArea}%'
+		</if>
+		<if test="registrar != null and !registrar.equals('')">
+			 and registrar like '%{registrar}'
+		</if>
+	</select>
+	
+	<select id="selectSearchMyVolunteerHistory" resultMap="volunteerResultSet">
+	
+	</select>
+	
 	<!-- 관리자 -->
 	<select id="getVolunteerEnrollHistoryCount" resultType="_int">
 		select count(*) 
@@ -284,6 +311,9 @@
 					<![CDATA[and to_date(v_recruitment_end_date) < to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
 				</if>
 			</if>
+			<if test="registrar != null">
+				and registrar like '%${registrar}%'
+			</if>
 		</where>
 	</select>
 	
@@ -324,6 +354,9 @@
 				<if test="status.equals('모집종료')">
 					<![CDATA[and to_date(v_recruitment_end_date) < to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
 				</if>
+			</if>
+			<if test="registrar != null">
+				and registrar like '%${registrar}%'
 			</if>
 		</where>
 		order by v_no desc

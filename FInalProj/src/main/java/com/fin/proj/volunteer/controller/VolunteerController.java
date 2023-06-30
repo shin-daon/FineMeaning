@@ -266,8 +266,36 @@ public class VolunteerController {
 	}
 	
 	@GetMapping("searchMyVolunteerHistory.vo")
-	public String searchMyVolunteerHistory() {
-		return null;
+	public String searchMyVolunteerHistory(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam("startDate") String startDate,
+										   @RequestParam("endDate") String endDate, @RequestParam("vArea") String vArea, @RequestParam("registrar") String registrar,
+										   @RequestParam("status") String status, HttpSession session, Model model) {
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		if(vArea.equals("전체")) {
+			vArea = "";
+		} 
+		
+		if(status.equals("전체")) {
+			status = "";
+		}
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		HashMap<String, Object> myHistorySearchMap = new HashMap<String, Object>();
+		myHistorySearchMap.put("uNo", uNo);
+		myHistorySearchMap.put("startDate", startDate);
+		myHistorySearchMap.put("endDate", endDate);
+		myHistorySearchMap.put("vArea", vArea);
+		myHistorySearchMap.put("registrar", registrar);
+		myHistorySearchMap.put("status", status);
+		
+		int vHistoryCount = vService.getSearchMyVolunteerHistoryCount(myHistorySearchMap);
+		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 1);
+		
+		ArrayList<Volunteer> vHistories = vService.selectSearchMyVolunteerHistory(pi, myHistorySearchMap);
+		
+		return "volunteerHistory";
 	}
 	
 	// 봉사 관리자
@@ -456,7 +484,8 @@ public class VolunteerController {
 	public String searchAdminVolunteerList(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam("startDate") String startDate, 
 										   @RequestParam("endDate") String endDate, @RequestParam("vMainCategoryName") String vMainCategoryName, 
 										   @RequestParam("status") String status, @RequestParam("vName") String vName, @RequestParam(value="column", required=false) String column, 
-										   @RequestParam("vTargetCategoryName") String vTargetCategoryName, HttpSession session, Model model) {
+										   @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam(value="registrar", required=false) String registrar,
+										   HttpSession session, Model model) {
 		if(currentPage == null) {
 			currentPage = 1;
 		}
@@ -479,7 +508,9 @@ public class VolunteerController {
 		searchEnrollHisMap.put("status", status);
 		searchEnrollHisMap.put("vName", vName);
 		searchEnrollHisMap.put("vTargetCategoryName", vTargetCategoryName);
-		searchEnrollHisMap.put("uNo", ((Member)session.getAttribute("loginUser")).getuNo());
+		if(registrar != null) {
+			searchEnrollHisMap.put("registrar", registrar);
+		}
 		
 		int searchVolunteerHistoryCount = vService.getSearchVolunteerHistoryCount(searchEnrollHisMap);
 		
