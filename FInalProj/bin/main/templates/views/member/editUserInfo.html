@@ -457,7 +457,7 @@ input:radio + .switch:after {
                 </tr>
             </thead>
             <tbody>
-            		<tr th:if="${mList == null}">
+            		<tr th:if="${mList == null or mList.size() == 0}">
 		                <td colspan="8">해당하는 회원이 없습니다.</td>
 		            <tr>
 	                <tr th:each="m : ${mList}" th:if="${mList!=null}">
@@ -513,7 +513,13 @@ input:radio + .switch:after {
 	for(const tr of trs){
 		tr.addEventListener('click', function(){
 			const uNo = this.querySelector('td').innerText;
-			location.href="userInfoDetail.me?uNo=" + uNo;
+			console.log(uNo);
+			if(uNo === '해당하는 회원이 없습니다.'){
+				return;
+			} else {
+				location.href="userInfoDetail.me?uNo=" + uNo;
+			}
+	
 		})
 	}	
 </script>

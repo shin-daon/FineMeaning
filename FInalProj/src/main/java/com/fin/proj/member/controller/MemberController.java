@@ -510,11 +510,14 @@ public class MemberController {
 		int listCount = mService.getCategoryCount(map);
 		System.out.println(searchWord);
 		System.out.println(listCount);
+		System.out.println(map);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		
 		Member m = new Member();
 		ArrayList<Member> mList = mService.selectCategoryListAdmin(pi, map);
+		System.out.println(mList);
+		
 		
 		if(searchWord == null || searchWord.trim().equals("")) {
 			model.addAttribute("mList", mList);
@@ -530,5 +533,24 @@ public class MemberController {
 		}
 
 	}
+	
+	@RequestMapping("searchUserListAdmin.me")
+	public String searchUserListAdmin(@RequestParam(value = "searchWord", required=false) String searchWord,
+									  @RequestParam(value = "page", required = false) Integer currentPage, Model model) {
+	
+		if (currentPage == null) {
+			currentPage = 1;
+		}
 		
+		int listCount = mService.getSearchListCount(searchWord.trim());
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+
+		ArrayList<Member> mList = mService.selectSearchListAdmin(pi, searchWord.trim());
+		model.addAttribute("pi", pi);
+		model.addAttribute("mList", mList);
+		model.addAttribute("searchWord", searchWord.trim());
+		return "editUserInfo";
+		
+	}
 }

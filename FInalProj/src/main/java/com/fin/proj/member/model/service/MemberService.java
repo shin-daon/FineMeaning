@@ -62,6 +62,10 @@ public interface MemberService {
 	int kakaoEnroll(Member m);
 
 	int checkEmail(String emailAddress);
+
+	int getSearchListCount(String searchWord);
+
+	ArrayList<Member> selectSearchListAdmin(PageInfo pi, String searchWord);
 	
 
 }

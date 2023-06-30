@@ -65,4 +65,8 @@ public interface MemberDAO {
 	int kakaoEnroll(Member m);
 
 	int checkEmail(String emailAddress);
+
+	int getSearchListCount(String searchWord);
+
+	ArrayList<Member> selectSearchListAdmin(RowBounds rowBounds, String searchWord);
 }

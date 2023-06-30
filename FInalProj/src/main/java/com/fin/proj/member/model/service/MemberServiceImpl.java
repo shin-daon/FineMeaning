@@ -158,4 +158,17 @@ public class MemberServiceImpl implements MemberService {
 	public int checkEmail(String emailAddress) {
 		return mDAO.checkEmail(emailAddress);
 	}
+	
+	@Override
+	public int getSearchListCount(String searchWord) {
+		return mDAO.getSearchListCount(searchWord);
+	}
+	
+	@Override
+	public ArrayList<Member> selectSearchListAdmin(PageInfo pi, String searchWord) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return mDAO.selectSearchListAdmin(rowBounds, searchWord);
+	}
 }
