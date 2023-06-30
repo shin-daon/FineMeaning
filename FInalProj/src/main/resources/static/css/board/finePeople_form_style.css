@@ -1,6 +1,7 @@
+@charset "UTF-8";
+
 #finePeople_write_section {
-    margin-top: 150px;
-    margin-left: 200px;
+    margin-top: 50px;
     display: flex;
     /* justify-content(가로 가운데)랑 align-items(세로 가운데) 쓰기 위해 선언!
         ≫ column을 하는 순간 반대로 다 바뀜 */

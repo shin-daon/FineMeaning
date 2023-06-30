@@ -72,8 +72,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int insertFruit(Board b) {
-		return bDAO.insertFruit(b);
+	public int insertBoardWithCategory(Board b) {
+		return bDAO.insertBoardWithCategory(b);
 	}
 
 	@Override

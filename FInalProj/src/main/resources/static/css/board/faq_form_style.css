@@ -47,12 +47,76 @@
     flex-direction: column;
 }
 
+/* 카테고리 드롭다운 */
+
+.dropdown{
+    float: left;
+    position: relative; /* 추가 */
+}
+
+#dropbtn{
+    border: 1px solid #40513B;
+    border-radius: 8px;
+    background-color: #f3f3f3;
+    color: gray;
+    width :80px;
+    height: 35px;
+    text-align: center;
+    font-size : 13px;
+}
+
+#dropbtn:hover {
+	cursor : pointer;
+}
+
+.dropdown-content{
+    display : none;
+    position : absolute;
+    z-index : 9999;
+    font-weight: 400;
+    min-width : 80px;
+}
+
+.dropdown-content span{
+    display: flex;
+    align-items: center;
+    justify-content: center;   /* 가로 세로 가운데 정렬하려면 4줄 추가 */
+    flex-direction: column;
+    color : rgb(37, 37, 37);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.dropdown-content span:nth-child(1) {
+    border-radius: 8px 8px 0 0;
+}
+
+.dropdown-content span:nth-child(3) {
+    border-radius: 0 0 8px 8px;
+}
+
+.dropdown-content span:hover{
+    background-color : #609966;
+    color: white;
+}
+
+.dropdown:active .dropdown-content {
+    display: block;
+}
+
+.selectCate{
+    width: 80px;
+    height: 35px;
+    background-color: #dde4af;
+}
+
 #title {
+    float: left;
     font-size: 15px;
-    width: 660px;
+    width: 580px;
     height: 35px;
     padding: 10px 12px;
-    border-radius: 0.4rem;
+    border-radius: 8px;
     border: 1px solid black;
     margin-bottom: 10px;
 }

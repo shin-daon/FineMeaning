@@ -45,15 +45,18 @@ public class BoardController {
 
 	@GetMapping("faqMain.bo")
 	public String faqMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+						  @RequestParam(value="category", required=false) Integer category, // '선택 없음' 시 null일 수 있음
 						  @RequestParam(value="keyword", required=false) String keyword) {
 		
 //		System.out.println(keyword);
+//		System.out.println(category);
 		// 키워드 매개변수로 받아서 전체적인 흐름은 fruitMain.bo와 비슷한 맥락으로 진행!
 		
-		HashMap<String, Object> map = new HashMap<>();
 		ArrayList<Board> list;
 		PageInfo pageInfo;
 		int listCount;
+		
+		HashMap<String, Object> map = new HashMap<>();
 		
 		if(currentPage == null) {
 			currentPage = 1;
@@ -62,15 +65,18 @@ public class BoardController {
 		if(keyword != null) {
 			map.put("keyword", keyword);
 			map.put("i", "자주 묻는 질문");
+			if(category == null) { // '선택 없음'의 경우
+				map.put("category", 0);
+			} else {
+				map.put("category", category);
+			}
 			listCount = bService.searchListCount(map);
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
-			list = bService.searchByTitle(pageInfo, map);
-			System.out.println(list);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 3);
+			list = bService.searchByTitleAndCategory(pageInfo, map);
 		} else {
 			listCount = bService.getListCount("자주 묻는 질문");
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 3);
 			list = bService.selectBoardList(pageInfo, "자주 묻는 질문");
-//			System.out.println(list);
 		}
 		
 		if(list != null) {
@@ -130,11 +136,8 @@ public class BoardController {
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		b.setuNo(uNo);
 		b.setBoardType("자주 묻는 질문");
-		b.setImageUrl(null);
-		b.setNewsURL(null);
-		b.setFpName(null);
 		
-		int result = bService.insertBoard(b);
+		int result = bService.insertBoardWithCategory(b);
 		
 		if(result > 0) {
 			return "redirect:faqMain.bo";
@@ -348,11 +351,11 @@ public class BoardController {
 				params.put("category", category);
 			}
 			listCount = bService.searchListCount(params);
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
 			list = bService.searchByTitleAndCategory(pageInfo, params);
 		} else { // 페이지 로드 시 메인 페이지
 			listCount = bService.getListCount("결실");
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
 			list = bService.selectBoardList(pageInfo, "결실");
 //			System.out.println(list);
 		}
@@ -369,7 +372,9 @@ public class BoardController {
 	
 	@GetMapping("fruitDetail.bo")
 	public String fruitDetail(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
-							  HttpSession session, Model model, @RequestParam(value="replyPage", required=false) Integer replyPage) {
+							  HttpSession session, Model model, @RequestParam(value="replyPage", required=false) Integer replyPage,
+							  @RequestParam(value="keyword", required=false) String keyword, @RequestParam(value="category", required=false) Integer category) {
+		
 		
 		Member m = (Member)session.getAttribute("loginUser");
 //		System.out.println(m);
@@ -398,6 +403,12 @@ public class BoardController {
 			model.addAttribute("replyList", replyList);
 			model.addAttribute("pi", pageInfo);
 			model.addAttribute("bNo", bNo);
+			if(keyword != null) {
+				model.addAttribute("keyword", keyword);
+			}
+			if(category!= null) {
+				model.addAttribute("category", category);
+			}
 			return "fruit_detail";
 		} else {
 			throw new BoardException("게시글 상세 조회 실패");
@@ -417,7 +428,7 @@ public class BoardController {
 		b.setuNo(uNo);
 		b.setBoardType("결실");
 		
-		int result = bService.insertFruit(b);
+		int result = bService.insertBoardWithCategory(b);
 		
 		if(result > 0) {
 			return "redirect:fruitAdmin.bo";
