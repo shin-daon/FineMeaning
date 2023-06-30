@@ -81,6 +81,16 @@
 
 .searchIcon {
     width: 15px;
+    cursor: pointer;
+    transition: all 0.1s linear;
+}
+
+.searchIcon:hover{
+	transform: scale(1.3);	
+}
+
+.searchIcon:active{
+	transform: scale(1.3);	
 }
 
 .searchIconATag {

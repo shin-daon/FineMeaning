@@ -199,6 +199,7 @@
 	</div>
 	
 	<script th:inline="javascript">
+	
 		/* <![CDATA[ */	
 		const admin = /*[[${session.loginUser == null ? '' : session.loginUser.isAdmin}]]*/0;
 		const keyword = /*[[${keyword}]]*/1;
@@ -220,7 +221,6 @@
 				location.href="fruitMain.bo?" + "page=" + page + url;
 			}
 		}
-		
 		
 		window.onload = () => {
 			
