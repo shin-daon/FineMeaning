@@ -169,8 +169,6 @@ button.writeFaqBtn.learn-more {
 					<img class="sub iconSize" src="image/alert.png" />
 					<td>제목
 						:&nbsp;[[${b.boardTitle}]]&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;</td>
-					<img class="sub iconSize" src="image/adminTitle.png" />
-					<td class="author">작성자:&nbsp;[[${b.nickName}]]&nbsp;&nbsp;/&nbsp;&nbsp;</td>
 					<td class="date">작성일:&nbsp;[[${b.boardDate}]]&nbsp;</td>
 			</button>
 			</tr>
@@ -244,22 +242,32 @@ button.writeFaqBtn.learn-more {
  <script>
  //토글 JS
  $(function(){
-	 const items = document.querySelectorAll('.question');
+  const items = document.querySelectorAll('.question');
 
-	  function openCloseAnswer() {
-	    const answerId = this.id.replace('que', 'ans');
+  function openCloseAnswer() {
+    const answerId = this.id.replace('que', 'ans');
 
-	    if(document.getElementById(answerId).style.display === 'block') {
-	      document.getElementById(answerId).style.display = 'none';
-	      document.getElementById(this.id + '-toggle').textContent = '+';
-	    } else {
-	      document.getElementById(answerId).style.display = 'block';
-	      document.getElementById(this.id + '-toggle').textContent = '-';
-	    }
-	  }
+    if (document.getElementById(answerId).style.display === 'block') {
+      document.getElementById(answerId).style.display = 'none';
+      document.getElementById(this.id + '-toggle').textContent = '+';
+    } else {
+      // 다른 토글 닫기
+      const openAnswers = document.querySelectorAll('.answer');
+      openAnswers.forEach(answer => {
+        if (answer.style.display === 'block') {
+          answer.style.display = 'none';
+          const questionId = answer.id.replace('ans', 'que');
+          document.getElementById(questionId + '-toggle').textContent = '+';
+        }
+      });
 
-	  items.forEach(item => item.addEventListener('click', openCloseAnswer));	
-})
+      document.getElementById(answerId).style.display = 'block';
+      document.getElementById(this.id + '-toggle').textContent = '-';
+    }
+  }
+
+  items.forEach(item => item.addEventListener('click', openCloseAnswer));
+});
 // 삭제 모달JS
 window.onload = () =>{
 	const deleteModal = document.getElementById('deleteModal');

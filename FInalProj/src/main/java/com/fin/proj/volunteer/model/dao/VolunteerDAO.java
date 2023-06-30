@@ -33,12 +33,18 @@ public interface VolunteerDAO {
 
 	ArrayList<Volunteer> searchVolunteerByAjax(HashMap<String, String> ajaxMap, RowBounds rowBounds);
 
-	int getVolunteerEnrollHistoryCount(int uNo);
+	int getVolunteerEnrollHistoryCount(Integer uNo);
 
-	ArrayList<Volunteer> getSelectVolunteerEnrollHistory(int uNo, RowBounds rowBounds);
+	ArrayList<Volunteer> getSelectVolunteerEnrollHistory(Integer uNo, RowBounds rowBounds);
 
 	int getSearchVolunteerHistoryCount(HashMap<String, Object> searchEnrollHisMap);
 
 	ArrayList<Volunteer> selectSearchVolunteerEnrollHistory(HashMap<String, Object> searchEnrollHisMap, RowBounds rowBounds);
+
+	int updateVolunteerStatus(HashMap<String, Object> updateStatusMap);
+
+	int getMyVolunteerHistoryCount(int uNo);
+
+	ArrayList<Volunteer> selectMyVolunteerHistory(int uNo, RowBounds rowBounds);
 
 }

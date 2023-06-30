@@ -108,7 +108,7 @@ public class VolunteerController {
 								  @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
 		if(v != null) {
-			HashMap<String, Double> map = Map.getLongitudeAndLatitude(v.getAddress());
+			HashMap<String, Double> map = Map.getLongitudeAndLatitude(v.getvLocation());
 			model.addAttribute("v", v);
 			model.addAttribute("page", page);
 			model.addAttribute("map", map);
@@ -152,31 +152,28 @@ public class VolunteerController {
 		throw new VolunteerException("봉사 상세 조회에 실패하였습니다.");
 	}
 	
-	@GetMapping("volunteerApply.vo")
-	public String volunteerApply(@RequestParam("vNo") int vNo, HttpSession session, Model model) {
+	@PostMapping("volunteerApply.vo")
+	public String volunteerApply(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, 
+								 @RequestParam("vName") String vName, @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, 
+								 @RequestParam("vMainCategoryName") String vMainCategoryName, @RequestParam("vActivityType") String vActivityType, 
+								 @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status, HttpSession session, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
-		Member m = (Member)session.getAttribute("loginUser");
-		
 		model.addAttribute("v", v);
-		model.addAttribute("m", m);
+		model.addAttribute("page", page);
+		
+		HashMap<String, String> searchMap = new HashMap<String, String>();
+		searchMap.put("vStartDate", vStartDate);
+		searchMap.put("vEndDate", vEndDate);
+		searchMap.put("vName", vName);
+		searchMap.put("registrar", registrar);
+		searchMap.put("vArea", vArea);
+		searchMap.put("vMainCategoryName", vMainCategoryName);
+		searchMap.put("vActivityType", vActivityType);
+		searchMap.put("vTargetCategoryName", vTargetCategoryName);
+		searchMap.put("status", status);
+		model.addAttribute("searchMap", searchMap);
+		
 		return "volunteerApply";
-	}
-	
-	@GetMapping("volunteerHistory.vo")
-	public String volunteerHistory(@RequestParam(value="page", required=false) Integer currentPage, HttpSession session, Model model) {
-		if(currentPage == null) {
-			currentPage = 1;
-		}
-		
-		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
-		
-//		int vHistoryCount = vService.getVolunteerHistoryCount(uNo);
-//		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 5);
-			
-//		ArrayList<Volunteer> vHistories = vService.selectVolunteerHistory(pi, uNo);
-//		model.addAttribute("vHistories", vHistories);
-		
-		return "volunteerHistory";
 	}
 	
 	@PostMapping("applyVolunteer.vo")
@@ -251,6 +248,28 @@ public class VolunteerController {
 		}
 	}
 	
+	@GetMapping("volunteerHistory.vo")
+	public String volunteerHistory(@RequestParam(value="page", required=false) Integer currentPage, HttpSession session, Model model) {
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		
+		int vHistoryCount = vService.getMyVolunteerHistoryCount(uNo);
+		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 1);
+			
+		ArrayList<Volunteer> vHistories = vService.selectMyVolunteerHistory(pi, uNo);
+		model.addAttribute("vHistories", vHistories);
+		
+		return "volunteerHistory";
+	}
+	
+	@GetMapping("searchMyVolunteerHistory.vo")
+	public String searchMyVolunteerHistory() {
+		return null;
+	}
+	
 	// 봉사 관리자
 	@GetMapping("volunteerEnroll.vo")
 	public String volunteerEnroll() {
@@ -282,7 +301,7 @@ public class VolunteerController {
 	@GetMapping("searchVolunteerEnrollHistory.vo")
 	public String searchVolunteerEnrollHistory(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam("startDate") String startDate, 
 											   @RequestParam("endDate") String endDate, @RequestParam("vMainCategoryName") String vMainCategoryName, 
-											   @RequestParam("recruitment") String recruitment, @RequestParam("vName") String vName, @RequestParam("column") String column, 
+											   @RequestParam("status") String status, @RequestParam("vName") String vName, @RequestParam(value="column", required=false) String column, 
 											   @RequestParam("vTargetCategoryName") String vTargetCategoryName, HttpSession session, Model model) {
 		if(currentPage == null) {
 			currentPage = 1;
@@ -294,8 +313,8 @@ public class VolunteerController {
 		if(vTargetCategoryName.equals("전체")) {
 			vTargetCategoryName = "";
 		}
-		if(recruitment.equals("전체")) {
-			recruitment = "";
+		if(status.equals("전체")) {
+			status = "";
 		}
 		
 		HashMap<String, Object> searchEnrollHisMap = new HashMap<String, Object>();
@@ -303,7 +322,7 @@ public class VolunteerController {
 		searchEnrollHisMap.put("startDate", startDate);
 		searchEnrollHisMap.put("endDate", endDate);
 		searchEnrollHisMap.put("vMainCategoryName", vMainCategoryName);
-		searchEnrollHisMap.put("recruitment", recruitment);
+		searchEnrollHisMap.put("status", status);
 		searchEnrollHisMap.put("vName", vName);
 		searchEnrollHisMap.put("vTargetCategoryName", vTargetCategoryName);
 		searchEnrollHisMap.put("uNo", ((Member)session.getAttribute("loginUser")).getuNo());
@@ -313,9 +332,6 @@ public class VolunteerController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, searchVolunteerHistoryCount, 1);
 		
 		ArrayList<Volunteer> searchVEnrollHistories = vService.selectSearchVolunteerEnrollHistory(pi, searchEnrollHisMap);
-		
-		System.out.println(searchVolunteerHistoryCount);
-		System.out.println(searchVEnrollHistories);
 		
 		if(searchVEnrollHistories != null) {
 			model.addAttribute("pi", pi);
@@ -403,12 +419,80 @@ public class VolunteerController {
 		throw new VolunteerException("봉사 삭제에 실패하였습니다.");
 	}
 	
+	@ResponseBody
+	@GetMapping("updateVolunteerStatus.vo")
+	public String updateVolunteerStatus(@RequestParam("vNo") int vNo, @RequestParam("status") String status) {
+		HashMap<String, Object> updateStatusMap = new HashMap<String, Object>();
+		updateStatusMap.put("vNo", vNo);
+		updateStatusMap.put("status", status);
+		
+		int result = vService.updateVolunteerStatus(updateStatusMap);
+		return result == 1 ? "success" : "fail";
+	}
 	
 	// 관리자
 	@GetMapping("adminVolunteerList.vo")
-	public String adminVolunteerList() {
-		return "adminVolunteerList";
+	public String adminVolunteerList(@RequestParam(value="page", required=false) Integer currentPage, Model model) {
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		int vEnrollHistoryCount = vService.getVolunteerEnrollHistoryCount(null);
+		PageInfo pi = Pagination.getPageInfo(currentPage, vEnrollHistoryCount, 10);
+			
+		ArrayList<Volunteer> vHistories = vService.selectVolunteerEnrollHistory(pi, null);
+		
+		if(vHistories != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("vHistories", vHistories);
+			
+			return "adminVolunteerList";
+		}
+		
+		throw new VolunteerException("봉사 목록 조회에 실패하였습니다.");
 	}
 	
-	
+	@GetMapping("searchAdminVolunteerList.vo")
+	public String searchAdminVolunteerList(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam("startDate") String startDate, 
+										   @RequestParam("endDate") String endDate, @RequestParam("vMainCategoryName") String vMainCategoryName, 
+										   @RequestParam("status") String status, @RequestParam("vName") String vName, @RequestParam(value="column", required=false) String column, 
+										   @RequestParam("vTargetCategoryName") String vTargetCategoryName, HttpSession session, Model model) {
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		if(vMainCategoryName.equals("전체")) {
+			vMainCategoryName = "";
+		} 
+		if(vTargetCategoryName.equals("전체")) {
+			vTargetCategoryName = "";
+		}
+		if(status.equals("전체")) {
+			status = "";
+		}
+		
+		HashMap<String, Object> searchEnrollHisMap = new HashMap<String, Object>();
+		searchEnrollHisMap.put("column", column);
+		searchEnrollHisMap.put("startDate", startDate);
+		searchEnrollHisMap.put("endDate", endDate);
+		searchEnrollHisMap.put("vMainCategoryName", vMainCategoryName);
+		searchEnrollHisMap.put("status", status);
+		searchEnrollHisMap.put("vName", vName);
+		searchEnrollHisMap.put("vTargetCategoryName", vTargetCategoryName);
+		searchEnrollHisMap.put("uNo", ((Member)session.getAttribute("loginUser")).getuNo());
+		
+		int searchVolunteerHistoryCount = vService.getSearchVolunteerHistoryCount(searchEnrollHisMap);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, searchVolunteerHistoryCount, 10);
+		
+		ArrayList<Volunteer> searchVEnrollHistories = vService.selectSearchVolunteerEnrollHistory(pi, searchEnrollHisMap);
+		
+		if(searchVEnrollHistories != null) {
+			model.addAttribute("pi", pi);
+			model.addAttribute("vHistories", searchVEnrollHistories);
+			model.addAttribute("searchMap", searchEnrollHisMap);
+			return "adminVolunteerList";
+		}
+		throw new VolunteerException("봉사 목록 검색에 실패하였습니다.");
+	}
 }

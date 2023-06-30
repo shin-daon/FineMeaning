@@ -191,4 +191,30 @@
 		order by board_date desc
 	</select>
 	
+	<select id="findAllComment" resultMap="replyResultSet">
+		select RE_NO, RE_WRITER, U_NICKNAME, BOARD_NO,
+			   RE_CONTENT, TO_CHAR(RE_CREATE_DATE, 'YY-MM-DD (DY) PM HH:MI:SS') AS "DATE", RE_STATUS
+		from reply
+			 join users on(re_writer = u_no)
+			 join board using(board_no)
+		where board_no = #{bNo} and re_status = 'Y'
+		order by re_no desc
+	</select>
+	
+	<insert id="saveComment">
+		insert into reply
+		values(seq_rid.nextval, #{replyWriter}, #{boardNo}, #{replyContent},
+			   default, default)
+	</insert>
+	
+	<select id="findCommentById" resultType="_int">
+    select RE_NO, RE_WRITER, U_NICKNAME, BOARD_NO,
+			   RE_CONTENT, TO_CHAR(RE_CREATE_DATE, 'YY-MM-DD (DY) PM HH:MI:SS') AS "DATE", RE_STATUS
+		from reply
+			 join users on(re_writer = u_no)
+			 join board using(board_no)
+		where board_no = #{bNo} and re_status = 'Y'
+		order by re_no desc
+	</select>
+	
 </mapper>

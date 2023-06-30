@@ -355,28 +355,7 @@ button[name='loginBtn'] {
 	        });
 	    }        
 	});
-	
-	const kakaoBtn = document.querySelector('[name="kakaoBtn"]');
-	
-	kakaoBtn.addEventListener("click", function() {
-		event.preventDefault();
-			$.ajax({
-	            url: 'checkKakaoLogin.me',
-	            data: { kakaoId:kakaoId },
-	            success: data => {
-	                console.log("데이터 전송 성공: " + data);
 
-	                if(data.trim() !== ''){
-	                	alert('아이디 또는 비밀번호가 일치하지 않습니다.');	                	
-	                } else {
-	                	loginForm.submit();
-	                }
-	            },
-	            error: data => {
-	                console.log("데이터 전송 실패");
-	            }
-	        });
-	    });
 
 </script>
 </html>

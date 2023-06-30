@@ -2,6 +2,7 @@ package com.fin.proj.board.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.fin.proj.board.model.vo.Board;
 import com.fin.proj.board.model.vo.Reply;
@@ -52,4 +53,9 @@ public interface BoardService {
 	ArrayList<Board> searchByFpName(PageInfo pageInfo, HashMap<String, Object> map);
 
 	int finePeopleCount(HashMap<String, Object> map);
+	List<Reply> findAllComment(int boardNo);
+
+	int saveComment(Reply params);
+
+	Reply findCommentById(int id);
 }

@@ -2,6 +2,7 @@ package com.fin.proj.board.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,4 +155,19 @@ public class BoardServiceImpl implements BoardService {
 	public int finePeopleCount(HashMap<String, Object> map) {
 		return bDAO.finePeopleCount(map);
 	}
+	
+	public List<Reply> findAllComment(int boardNo) {
+		return bDAO.findAllComment(boardNo);
+	}
+
+	@Override
+	public int saveComment(Reply params) {
+		return bDAO.saveComment(params);
+	}
+
+	@Override
+	public Reply findCommentById(int id) {
+		return bDAO.findCommentById(id);
+	}
+
 }

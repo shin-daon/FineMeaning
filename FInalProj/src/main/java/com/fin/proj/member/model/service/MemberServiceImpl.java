@@ -154,4 +154,5 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.kakaoEnroll(m);
 	}
 
+
 }

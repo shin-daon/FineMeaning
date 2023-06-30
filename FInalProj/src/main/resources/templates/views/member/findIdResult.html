@@ -337,7 +337,12 @@ input[type="radio"]:checked + span:before{
 			<label class="title">아이디 확인</label><br>
 			<span class="pwd-comment">회원님의 정보와 일치하는 아이디입니다.</span>
 			<div class="result-nemo">
-				<div class="result-user-id">[[${foundUser.uId}]]</div><div class="result-user-date">(가입일 : [[${foundUser.enrollDate}]])</div>
+				<th:block th:if="${foundUser.uId} != null">
+					<div class="result-user-id">[[${foundUser.uId}]]</div><div class="result-user-date">(가입일 : [[${foundUser.enrollDate}]])</div>
+				</th:block>
+				<th:block th:unless="${foundUser.uId} != null">
+					<div class="result-user-id">카카오를 통해 가입된 회원입니다.</div><div class="result-user-date">카카오 로그인을 진행해주세요.</div>
+				</th:block>
 			</div>
 		</div>
 		

@@ -1,5 +1,8 @@
 package com.fin.proj.auth.oauth.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,7 @@ import com.fin.proj.member.model.exception.MemberException;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @SessionAttributes("loginUser")
@@ -31,7 +35,9 @@ public class OAuthController {
 
     @ResponseBody
     @GetMapping("/login/oauth2/kakao")
-    public ModelAndView kakaoCalllback(@RequestParam String code, HttpSession session, RedirectAttributes redirectAttributes, Model model) {
+    public ModelAndView kakaoCalllback(@RequestParam String code, HttpSession session,
+    								   RedirectAttributes redirectAttributes, Model model,
+    								   HttpServletResponse response) throws IOException {
     	ModelAndView mv = new ModelAndView();
     	
         Member m = kakaoOAuthService.login(code);     
@@ -43,6 +49,7 @@ public class OAuthController {
         	model.addAttribute("loginUser", loginUser);
         	mv.setViewName("redirect:/");        	
         } else {
+        	redirectAttributes.addFlashAttribute("alertMessage", "카카오 아이디가 존재하지 않아 추가 정보를 등록해야 합니다.");
         	redirectAttributes.addFlashAttribute("newUser", m);
         	model.addAttribute("newUser", m);
         	System.out.println("newUser : " + m);
@@ -78,4 +85,6 @@ public class OAuthController {
 			throw new MemberException("회원가입 실패");
 		}
     }
+    
+    
 }

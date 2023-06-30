@@ -27,13 +27,14 @@
         </div>
 
         <div class="va-prev-next-btn-div">
-            <a href="#" class="btn-gradient yellow mini prev" onclick="location.href='javascript:history.back()'">이전</a>
+            <button id="backBtn" class="btn-gradient yellow mini prev">이전</button>
         </div>
 
         <section class="v-apply-info">
             <div class="v-apply-title">
                 <span class="v-locale-icon">[[${v.vArea}]]</span>
                 <span class="v-org">[[${v.vName}]]</span>
+                <input type="hidden" th:value="${v.vRecruitmentStartDate}">
                 <span class="v-recruitment-status">[[${v.vRecruitmentEndDate}]]</span>
             </div>
             
@@ -59,7 +60,7 @@
 			
 			<div class="v-detail-info">
 				<div class="v-detail-title">봉사일자</div>
-				<div class="v-detail-content">[[${v.vStartDate}]] ~ [[${v.vEndDate}]]</div>
+				<div class="v-detail-content">[[${#strings.substring(#strings.arraySplit(v.vStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vStartDate, "-")[2]}]]~[[${#strings.substring(#strings.arraySplit(v.vEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vEndDate, "-")[2]}]]</div>
 				<div class="v-detail-title">활동요일</div>
 				<div class="v-detail-content">[[${v.vDay}]]</div>
 				<div class="v-detail-title">봉사시간</div>
@@ -98,31 +99,123 @@
     <script th:inline="javascript">
 		/* 달력 출처 https://songsong.dev/11*/
 		$(document).ready(function() {
+			
+			document.querySelector("#backBtn").addEventListener('click', () => {
+			    formAction();
+			});
+			
+			const formAction = () => {
+       	    	/*<!CDATA[[*/
+       	    	const volunteer = /*[[${v}]]*/null;
+       	    	const page = /*[[${page}]]*/1;
+       	    	const searchMap = /*[[${searchMap}]]*/null;
+       	    	/*]]>*/
+       		    const form  = document.createElement("form");
+           	    form.setAttribute("method", "post");
+           	    form.setAttribute("action", "volunteerDetail.vo");
+           	    
+           	    const hiddenVNo = document.createElement("input");
+           	    hiddenVNo.setAttribute("type", "hidden");
+           	    hiddenVNo.setAttribute("name", "vNo");
+           	    hiddenVNo.setAttribute("value", volunteer.vNo);
+           	    form.appendChild(hiddenVNo);
+       		    
+       		    const hiddenPage = document.createElement("input");
+       		    hiddenPage.setAttribute("type", "hidden");
+       		    hiddenPage.setAttribute("name", "page");
+       		    hiddenPage.setAttribute("value", page);
+       		    form.appendChild(hiddenPage);
+       		    
+       		    const hiddenStartDate = document.createElement("input");
+       		    hiddenStartDate.setAttribute("type", "hidden");
+       		    hiddenStartDate.setAttribute("name", "vStartDate");
+       		    hiddenStartDate.setAttribute("value", searchMap.vStartDate);
+       		    form.appendChild(hiddenStartDate);
+       		    
+       		    const hiddenEndDate = document.createElement("input");
+       		    hiddenEndDate.setAttribute("type", "hidden");
+       		    hiddenEndDate.setAttribute("name", "vEndDate");
+       		    hiddenEndDate.setAttribute("value", searchMap.vEndDate);
+       		    form.appendChild(hiddenEndDate);
+       		    
+       		    const hiddenVolunteerName = document.createElement("input");
+       		    hiddenVolunteerName.setAttribute("type", "hidden");
+       		    hiddenVolunteerName.setAttribute("name", "vName");
+       		    hiddenVolunteerName.setAttribute("value", searchMap.vName);
+       		    form.appendChild(hiddenVolunteerName);
+       		    
+       		    const hiddenRegistrar = document.createElement("input");
+       		    hiddenRegistrar.setAttribute("type", "hidden");
+       		    hiddenRegistrar.setAttribute("name", "registrar");
+       		    hiddenRegistrar.setAttribute("value", searchMap.registrar);
+       		    form.appendChild(hiddenRegistrar);
+       		    
+       		    const hiddenLocation = document.createElement("input");
+       		    hiddenLocation.setAttribute("type", "hidden");
+       		    hiddenLocation.setAttribute("name", "vArea");
+       		    hiddenLocation.setAttribute("value", searchMap.vArea);
+       		    form.appendChild(hiddenLocation);
+       		    
+       		    const hiddenCategory = document.createElement("input");
+       		    hiddenCategory.setAttribute("type", "hidden");
+       		    hiddenCategory.setAttribute("name", "vMainCategoryName");
+       		    hiddenCategory.setAttribute("value", searchMap.vMainCategoryName);
+       		    form.appendChild(hiddenCategory);
+       		    
+       		    const hiddenOnOffLine = document.createElement("input");
+       		    hiddenOnOffLine.setAttribute("type", "hidden");
+       		    hiddenOnOffLine.setAttribute("name", "vActivityType");
+       		    hiddenOnOffLine.setAttribute("value", searchMap.vActivityType);
+       		    form.appendChild(hiddenOnOffLine);
+       		    
+       		    const hiddenObject = document.createElement("input");
+       		    hiddenObject.setAttribute("type", "hidden");
+       		    hiddenObject.setAttribute("name", "vTargetCategoryName");
+       		    hiddenObject.setAttribute("value", searchMap.vTargetCategoryName);
+       		    form.appendChild(hiddenObject);		
+       		    
+       		    const hiddenStatus = document.createElement("input");
+       		    hiddenStatus.setAttribute("type", "hidden");
+       		    hiddenStatus.setAttribute("name", "status");
+       		    hiddenStatus.setAttribute("value", searchMap.status);
+       		    form.appendChild(hiddenStatus);	
+       			
+       		    document.body.appendChild(form);
+       		    form.submit();
+       		}
+			
 			const now = new Date();
 	    	const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
 	    
-		    const recruitmentStatuses = document.querySelectorAll(".v-recruitment-status");
+		    const recruitmentStatus = document.querySelector(".v-recruitment-status");
 		    const applyBtn = document.querySelector("#applyBtn");
 		    let check = false;
 		    
-		    for(const recruitmentStatus of recruitmentStatuses) {
-		    	if(recruitmentStatus.innerText >= today) {
-		    		recruitmentStatus.innerText = "(모집중)";
-		    	} else {
-		    		recruitmentStatus.innerText = "(모집완료)";
-		    		recruitmentStatus.style.color = "black";
-		    		if(applyBtn != null) {
-		    			applyBtn.display.style = "none";
-		    		}
-		    		check = true;
-		    	}
-		    }
+	    	if(recruitmentStatus.innerText >= today) {
+	    		if(recruitmentStatus.parentElement.querySelector("input").value <= today) {
+		    		recruitmentStatus.innerText = "모집중";
+		    		recruitmentStatus.style.color = "blue";
+	   			} else {
+	   				recruitmentStatus.innerText = "모집전"
+	  				}
+	    	} else {
+				recruitmentStatus.innerText = "(모집종료)";
+				recruitmentStatus.style.color = "black";
+				
+				if(applyBtn != null) {
+					applyBtn.display.style = "none";
+				}
+				check = true;
+	    	}
 		    
 		    /*<![CDATA[*/
 	    	if(applyBtn != null) {
 	    		applyBtn.addEventListener("click", () => {
 	        		if(check) {
 	        			alert("비정상적인 접근입니다.");
+	        		} else if(recruitmentStatus.innerText == "모집전") {
+						alert("모집 기간에 신청해주세요.")        		
+						event.preventDefault();
 	        		} else {
 	        			$.ajax({
 	        				url: 'checkVolunteerApply.vo',

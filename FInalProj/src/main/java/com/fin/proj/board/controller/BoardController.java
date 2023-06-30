@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -912,28 +913,6 @@ public class BoardController {
 		}
 	}
 	
-	@RequestMapping("deleteCommReply.bo")
-	public String deleteCommReply(@RequestParam("rNo") String replyNo,
-							  @RequestParam("bNo") int boardNo,
-							  @RequestParam("page") int page,
-							  RedirectAttributes ra) {
-		
-		Decoder decoder = Base64.getDecoder();
-		byte[] byteArr = decoder.decode(replyNo);
-		String decode = new String(byteArr);
-		int rNo = Integer.parseInt(decode);
-		
-		int result = bService.deleteReply(rNo);
-
-		if(result > 0) {
-			ra.addAttribute("bNo", boardNo);
-			ra.addAttribute("page", page);
-			return "redirect:commDetailPage.bo";
-		} else {
-			throw new BoardException("댓글 삭제에 실패하였습니다.");
-		}
-	}
-	
 	@GetMapping("noticeList.bo")
 		public String CommNotice(@RequestParam(value="page", required=false) Integer currentPage, Model model,
 								@RequestParam(value="keyword", required=false) String keyword) {
@@ -1142,13 +1121,20 @@ public class BoardController {
 		return "editQa";
 	}
 	
-	@PostMapping("insertReply")
 	@ResponseBody
-	public ArrayList<Reply> insertQaReply(@RequestBody Reply r) {
-	    bService.insertReply(r);
-	    ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
-	    return list;
-	}
+	@GetMapping("/board/{boardNo}/comments")
+    public List<Reply> findAllComment(@PathVariable int boardNo) {
+		System.out.println(boardNo);
+        return bService.findAllComment(boardNo);
+    }
+	
+	@ResponseBody
+	@PostMapping("/board/{boardNo}/comments")
+    public Reply saveComment(@PathVariable int boardNo, @RequestBody Reply params) {
+        int id = bService.saveComment(params);
+        System.out.println("머가 넘어오는거니?" + params);
+        return null;
+    }
 	
 	@DeleteMapping("/api/replies/{replyNo}")
 	@ResponseBody
