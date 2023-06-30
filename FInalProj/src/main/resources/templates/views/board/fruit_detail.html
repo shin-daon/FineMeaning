@@ -199,19 +199,31 @@
 	</div>
 	
 	<script th:inline="javascript">
-	
+		/* <![CDATA[ */	
 		const admin = /*[[${session.loginUser == null ? '' : session.loginUser.isAdmin}]]*/0;
+		const keyword = /*[[${keyword}]]*/1;
+		const category = /*[[${category}]]*/1;
+		const page = /*[[${page}]]*/1;
+		
+		let url = '';
+		
+		if(keyword != null){
+			url = '&keyword=' + keyword;
+		}
+		if(category != null){
+			url += '&category=' + category;
+		}
 		function goList() {
 			if(admin == 0){
-				location.href="fruitAdmin.bo";
+				location.href="fruitAdmin.bo?" + "page=" + page + url;
 			} else {
-				location.href="fruitMain.bo";
+				location.href="fruitMain.bo?" + "page=" + page + url;
 			}
 		}
 		
+		
 		window.onload = () => {
 			
-			/* <![CDATA[ */
 			document.getElementsByClassName('contentMain')[0].innerHTML = /*[[${board.boardContent}]]*/1;
 
 			document.getElementsByClassName('replyBtn')[0].addEventListener('click', ()=>{
