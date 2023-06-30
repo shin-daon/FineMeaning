@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -1132,6 +1133,7 @@ public class BoardController {
 		return "editQa";
 	}
 	
+	//댓글조회
 	@ResponseBody
 	@GetMapping("/board/{boardNo}/comments")
     public List<Reply> findAllComment(@PathVariable int boardNo) {
@@ -1139,21 +1141,22 @@ public class BoardController {
         return bService.findAllComment(boardNo);
     }
 	
+	//댓글 등록
 	@ResponseBody
 	@PostMapping("/board/{boardNo}/comments")
-    public Reply saveComment(@PathVariable int boardNo, @RequestBody Reply params) {
+    public List<Reply> saveComment(@PathVariable int boardNo, @RequestBody Reply params) {
         int id = bService.saveComment(params);
         System.out.println("머가 넘어오는거니?" + params);
-        return null;
+        return bService.findAllComment(boardNo);
     }
 	
-	@DeleteMapping("/api/replies/{replyNo}")
+	// 댓글 삭제
 	@ResponseBody
-	public ArrayList<Reply> deleteReply(@PathVariable int replyNo, @RequestParam int boardNo) {
-	    bService.deleteReply(replyNo);
-	    ArrayList<Reply> list = bService.selectReply(boardNo);
-	    return list;
-	}
+    @DeleteMapping("/board/{boardNo}/comments/{replyNo}")
+    public int deleteComment(@PathVariable int replyNo, @PathVariable int boardNo) {
+        return bService.deleteComment(replyNo);
+    }
+	
 	
 	@RequestMapping("qaDelete.bo")
 	public String deleteQaBoard(@RequestParam("bId") String encode) {
