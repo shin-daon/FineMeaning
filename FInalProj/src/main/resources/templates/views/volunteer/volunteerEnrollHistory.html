@@ -340,6 +340,11 @@
             const tds = tbody.querySelectorAll('td');
             
             for(let i=0; i<tds.length; i++) {
+            	if(i%9 == 1) {
+            		tds[i].addEventListener("click", function() {
+            			location.href="volunteerDetail.vo?vNo=" + this.parentElement.children[0].innerText;
+            		});
+            	}
             	if(i%9 == 6) {
             		tds[i].addEventListener("click", function() {
             			location.href="volunteerApplyList.vo?vNo=" + this.parentElement.children[0].innerText;

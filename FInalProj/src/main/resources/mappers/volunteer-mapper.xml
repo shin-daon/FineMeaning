@@ -76,8 +76,7 @@
 				 join v_main_category using(v_main_category_no)
 				 join v_sub_category using(v_sub_category_no)
 				 join v_target_category using(v_target_category_no)
-			where v_status='Y' 
-				  and v_no = #{vNo}
+			where v_no = #{vNo}
 		]]>
 	</select>
 	
@@ -207,7 +206,7 @@
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 			 join v_history using(v_no)
-		where v_history.u_no = #{uNo} 
+		where v_history.u_no = #{uNo} and v_status = 'Y'
 	</select>
 		
 	<select id="selectMyVolunteerHistory" resultMap="volunteerResultSet">
@@ -218,7 +217,7 @@
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 			 join v_history using(v_no)
-		where v_history.u_no = #{uNo}
+		where v_history.u_no = #{uNo} and v_status = 'Y'
 		order by v_his_no desc
 	</select>
 	
@@ -230,7 +229,7 @@
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 			 join v_history using(v_no)
-		where v_history.u_no = #{uNo}
+		where v_history.u_no = #{uNo} and v_status = 'Y'
 		<if test="startDate != null and !startDate.equals('')">
 			 and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) >= #{startDate}]]>
 		</if>
@@ -267,7 +266,7 @@
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 			 join v_history using(v_no)
-		where v_history.u_no = #{uNo}
+		where v_history.u_no = #{uNo} and v_status = 'Y'
 		<if test="startDate != null and !startDate.equals('')">
 			 and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) >= #{startDate}]]>
 		</if>

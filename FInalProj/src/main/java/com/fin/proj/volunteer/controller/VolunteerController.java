@@ -87,14 +87,52 @@ public class VolunteerController {
 	}
 	
 	@RequestMapping("volunteerDetail.vo")
-	public String volunteerDetail(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam(value="searchObject", required=false) String searchObject, Model model) {
+	public String volunteerDetail(@RequestParam("vNo") int vNo, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="searchObject", required=false) String searchObject, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
 		if(v != null) {
+			if(page == null) {
+				page = 1;
+			}
+			
 			HashMap<String, Double> map = Map.getLongitudeAndLatitude(v.getvLocation());
 			model.addAttribute("v", v);
 			model.addAttribute("page", page);
 			model.addAttribute("map", map);
 			
+			if(searchObject != null) {
+				HashMap<String, String> searchMap = new Gson().fromJson(String.valueOf(searchObject), new TypeToken<HashMap<String, Object>>(){}.getType());
+				
+				if(searchMap.get("vArea").equals("전체")) {
+					searchMap.put("vArea", "");
+				} 
+				if(searchMap.get("vMainCategoryName").equals("전체")) {
+					searchMap.put("vMainCategoryName", "");
+				} 
+				if(searchMap.get("vActivityType").equals("전체")) {
+					searchMap.put("vActivityType", "");
+				} 
+				if(searchMap.get("vTargetCategoryName").equals("전체")) {
+					searchMap.put("vTargetCategoryName", "");
+				} 
+				if(searchMap.get("status").equals("전체")) {
+					searchMap.put("status", "");
+				}
+				
+				model.addAttribute("searchMap", searchMap);
+			}
+			
+			return "volunteerDetail";
+		} 
+		throw new VolunteerException("봉사 상세 조회에 실패하였습니다.");
+	}
+	
+	@PostMapping("volunteerApply.vo")
+	public String volunteerApply(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam(value="searchObject") String searchObject, HttpSession session, Model model) {
+		Volunteer v = vService.selectVolunteer(vNo);
+		model.addAttribute("v", v);
+		model.addAttribute("page", page);
+		
+		if(searchObject != null) {
 			HashMap<String, String> searchMap = new Gson().fromJson(String.valueOf(searchObject), new TypeToken<HashMap<String, Object>>(){}.getType());
 			
 			if(searchMap.get("vArea").equals("전체")) {
@@ -114,37 +152,7 @@ public class VolunteerController {
 			}
 			
 			model.addAttribute("searchMap", searchMap);
-			
-			return "volunteerDetail";
-		} 
-		throw new VolunteerException("봉사 상세 조회에 실패하였습니다.");
-	}
-	
-	@PostMapping("volunteerApply.vo")
-	public String volunteerApply(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam(value="searchObject") String searchObject, HttpSession session, Model model) {
-		Volunteer v = vService.selectVolunteer(vNo);
-		model.addAttribute("v", v);
-		model.addAttribute("page", page);
-		
-		HashMap<String, String> searchMap = new Gson().fromJson(String.valueOf(searchObject), new TypeToken<HashMap<String, Object>>(){}.getType());
-		
-		if(searchMap.get("vArea").equals("전체")) {
-			searchMap.put("vArea", "");
-		} 
-		if(searchMap.get("vMainCategoryName").equals("전체")) {
-			searchMap.put("vMainCategoryName", "");
-		} 
-		if(searchMap.get("vActivityType").equals("전체")) {
-			searchMap.put("vActivityType", "");
-		} 
-		if(searchMap.get("vTargetCategoryName").equals("전체")) {
-			searchMap.put("vTargetCategoryName", "");
-		} 
-		if(searchMap.get("status").equals("전체")) {
-			searchMap.put("status", "");
 		}
-		
-		model.addAttribute("searchMap", searchMap);
 		
 		return "volunteerApply";
 	}
@@ -344,25 +352,27 @@ public class VolunteerController {
 		model.addAttribute("v", v);
 		model.addAttribute("page", page);
 		
-		HashMap<String, String> searchMap = new Gson().fromJson(String.valueOf(searchObject), new TypeToken<HashMap<String, Object>>(){}.getType());
-		
-		if(searchMap.get("vArea").equals("전체")) {
-			searchMap.put("vArea", "");
-		} 
-		if(searchMap.get("vMainCategoryName").equals("전체")) {
-			searchMap.put("vMainCategoryName", "");
-		} 
-		if(searchMap.get("vActivityType").equals("전체")) {
-			searchMap.put("vActivityType", "");
-		} 
-		if(searchMap.get("vTargetCategoryName").equals("전체")) {
-			searchMap.put("vTargetCategoryName", "");
-		} 
-		if(searchMap.get("status").equals("전체")) {
-			searchMap.put("status", "");
+		if(searchObject != null) {
+			HashMap<String, String> searchMap = new Gson().fromJson(String.valueOf(searchObject), new TypeToken<HashMap<String, Object>>(){}.getType());
+			
+			if(searchMap.get("vArea").equals("전체")) {
+				searchMap.put("vArea", "");
+			} 
+			if(searchMap.get("vMainCategoryName").equals("전체")) {
+				searchMap.put("vMainCategoryName", "");
+			} 
+			if(searchMap.get("vActivityType").equals("전체")) {
+				searchMap.put("vActivityType", "");
+			} 
+			if(searchMap.get("vTargetCategoryName").equals("전체")) {
+				searchMap.put("vTargetCategoryName", "");
+			} 
+			if(searchMap.get("status").equals("전체")) {
+				searchMap.put("status", "");
+			}
+			
+			model.addAttribute("searchMap", searchMap);
 		}
-		
-		model.addAttribute("searchMap", searchMap);
 		
 		return "volunteerEdit";
 	}
@@ -385,7 +395,9 @@ public class VolunteerController {
 		if(result > 0) {
 			ra.addAttribute("vNo", v.getvNo());
 			ra.addAttribute("page", page);
-			ra.addAttribute("searchObject", searchObject);
+			if(searchObject != null) {
+				ra.addAttribute("searchObject", searchObject);
+			}
 			
 			return "redirect:volunteerDetail.vo";
 		}

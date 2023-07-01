@@ -38,7 +38,6 @@
 				<a class="middle" href="#">관리자페이지</a>
 				<img class="sub iconSize" src="../image/onenext.png">
 				<a class="middle">봉사 신청 목록</a>
-				<button type="button" class="btn-gradient mini v-list-btn" style="margin-top: 20px;">목록</button>
 			</div>
 			
 			<table class="v-history-table" style="margin-top: 10px">
@@ -46,11 +45,12 @@
 					<tr>
 						<th width="5%">No</th>
 						<th width="8%">회원번호</th>
-						<th width="35%">봉사활동 명</th>
+						<th width="20%">봉사활동 명</th>
 						<th width="10%">대분류</th>
 						<th width="10%">대상분류</th>
 						<th width="5%">지역</th>
 						<th width="15%">수요처</th>
+						<th width="10%">모집마감일</th>
 						<th width="10%">신청일</th>
 					</tr>
 				</thead>
@@ -60,6 +60,7 @@
 						<td colspan="8" style="padding: 50px; font-size: 15px; pointer-events: none;">신청자가 없습니다.</td>
 					</tr>
 					<tr th:each="v : ${vHistories}">
+						<input type="hidden" th:value="${v.vNo}">
 						<td>[[${v.vHisNo}]]</td>
 						<td>[[${v.uNo}]]</td>
 						<td>[[${v.vName}]]</td>
@@ -67,6 +68,7 @@
 						<td>[[${v.vTargetCategoryName}]]</td>
 						<td>[[${v.vArea}]]</td>
 						<td>[[${v.registrar}]]</td>
+						<td>[[${#strings.substring(#strings.arraySplit(v.vRecruitmentEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vRecruitmentEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vRecruitmentEndDate, "-")[2]}]]</td>
 						<td>[[${#strings.substring(#strings.arraySplit(v.vHisDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vHisDate, "-")[1]}]].[[${#strings.arraySplit(v.vHisDate, "-")[2]}]]</td>
 					</tr>
 				</tbody>
@@ -135,16 +137,14 @@
 	<div th:replace="~{../common/footer :: footer}"></div>  
 	
 	<script th:inline="javascript">
-		document.querySelector('.path').querySelector('button').addEventListener('click', function() {
-			location.href = document.referrer;
-		});
-		
-		/*<![CDATA[*/
-		const vNo = /*[[${vNo}]]*/null;
-		if(vNo == null) {
-			document.querySelector('.path').querySelector('button').style.display = "none";
-		}
-		/*]]>*/
+		const tbody = document.querySelector(".v-history-table").querySelector("tbody");
+		const tds = tbody.querySelectorAll("td");
+		for(const td of tds) {
+			td.addEventListener("click", function() {
+				const vNo = this.parentElement.children[0].value;
+				location.href="volunteerDetail.vo?vNo=" + vNo; 
+			});
+		}		
 	</script>
 </body>
 </html>

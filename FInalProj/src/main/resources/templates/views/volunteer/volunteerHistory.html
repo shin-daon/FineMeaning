@@ -122,6 +122,7 @@
 						<td colspan="8" style="padding: 50px; font-size: 15px; pointer-events: none;">조회 결과가 없습니다.</td>
 					</tr>
 					<tr th:each="v : ${vHistories}">
+						<input type="hidden" th:value="${v.vNo}"/>
 						<td th:text="${v.vName}"></td>
 						<td th:text="${v.vArea}"></td>
 						<td th:text="${v.registrar}"></td>
@@ -315,6 +316,15 @@
 					document.getElementById("statusbtn").style.border = "none";
 				});
 			}	
+			
+			const tbody = document.querySelector(".v-history-table").querySelector("tbody");
+			const tds = tbody.querySelectorAll("td");
+			for(const td of tds) {
+				td.addEventListener("click", function() {
+					const vNo = this.parentElement.children[0].value;
+					location.href="volunteerDetail.vo?vNo=" + vNo; 
+				});
+			}
 		}
 	</script>
 </body>

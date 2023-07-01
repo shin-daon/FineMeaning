@@ -221,48 +221,62 @@
 			/*]]>*/
 	    
 	    	/*<![CDATA[*/
+    		const beforeURL = document.referrer;
+			if(beforeURL.includes('volunteerEdit.vo')) {
+				document.querySelector("#listBtn").innerText = "봉사 목록";
+			} else {
+				document.querySelector("#listBtn").innerText = "목록";
+			}    	
 	    	document.querySelector("#listBtn").addEventListener("click", () => {
 	    		const vNo = /*[[${v.vNo}]]*/1;
 	    		const page = /*[[${page}]]*/1;
 	    		const searchMap = /*[[${searchMap}]]*/null;		
-		    		
-	    		const form  = document.createElement("form");
-	    	    form.setAttribute("method", "post");
-	    	    form.setAttribute("action", "volunteer.vo");
-	    	    
-	    	    const hiddenVNo = document.createElement("input");
-	    	    hiddenVNo.setAttribute("type", "hidden");
-	    	    hiddenVNo.setAttribute("name", "vNo");
-	    	    hiddenVNo.setAttribute("value", vNo);
-	    	    form.appendChild(hiddenVNo);
-	    	    
-	    	    const hiddenPage = document.createElement("input");
-	    	    hiddenPage.setAttribute("type", "hidden");
-	    	    hiddenPage.setAttribute("name", "page");
-	    	    hiddenPage.setAttribute("value", page);
-	    	    form.appendChild(hiddenPage);
-	    	    
-				
-	    	    const searchObject = {
-		    	    	vStartDate: searchMap.vStartDate,
-		    	    	vEndDate: searchMap.vEndDate,
-		    	    	vName: searchMap.vName,
-		    	    	registrar: searchMap.registrar,
-		    	    	vArea: searchMap.vArea,
-		    	    	vMainCategoryName: searchMap.vMainCategoryName,
-		    	    	vActivityType: searchMap.vActivityType,
-		    	    	vTargetCategoryName: searchMap.vTargetCategoryName,
-		    	    	status: searchMap.status
-		    		};
-	    	    
-	    	    const hiddenSearchObject = document.createElement("input");
-	    	    hiddenSearchObject.setAttribute("type", "hidden");
-	    	    hiddenSearchObject.setAttribute("name", "searchObject");
-	    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchObject));
-	    	    form.appendChild(hiddenSearchObject);
-				
-	    	    document.body.appendChild(form);
-	    	    form.submit();	    		
+	    		
+	    		if(searchMap != null) {
+	    			const form  = document.createElement("form");
+		    	    form.setAttribute("method", "post");
+		    	    form.setAttribute("action", "volunteer.vo");
+		    	    
+		    	    const hiddenVNo = document.createElement("input");
+		    	    hiddenVNo.setAttribute("type", "hidden");
+		    	    hiddenVNo.setAttribute("name", "vNo");
+		    	    hiddenVNo.setAttribute("value", vNo);
+		    	    form.appendChild(hiddenVNo);
+		    	    
+		    	    const hiddenPage = document.createElement("input");
+		    	    hiddenPage.setAttribute("type", "hidden");
+		    	    hiddenPage.setAttribute("name", "page");
+		    	    hiddenPage.setAttribute("value", page);
+		    	    form.appendChild(hiddenPage);
+		    	    
+					
+		    	    const searchObject = {
+			    	    	vStartDate: searchMap.vStartDate,
+			    	    	vEndDate: searchMap.vEndDate,
+			    	    	vName: searchMap.vName,
+			    	    	registrar: searchMap.registrar,
+			    	    	vArea: searchMap.vArea,
+			    	    	vMainCategoryName: searchMap.vMainCategoryName,
+			    	    	vActivityType: searchMap.vActivityType,
+			    	    	vTargetCategoryName: searchMap.vTargetCategoryName,
+			    	    	status: searchMap.status
+			    		};
+		    	    
+		    	    const hiddenSearchObject = document.createElement("input");
+		    	    hiddenSearchObject.setAttribute("type", "hidden");
+		    	    hiddenSearchObject.setAttribute("name", "searchObject");
+		    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchObject));
+		    	    form.appendChild(hiddenSearchObject);
+					
+		    	    document.body.appendChild(form);
+		    	    form.submit();	 
+	    		} else {
+	    			if(beforeURL.includes('volunteerEdit.vo')) {
+	    				location.href = 'volunteer.vo';
+	    			} else {
+	    				location.href = beforeURL;
+	    			}
+	    		}
 	    	});
 	    	
 		    document.getElementById('summernote').innerHTML = /*[[${v.vContent}]]*/'내용';
@@ -294,10 +308,7 @@
 	        		} else if(recruitmentStatus.innerText == "모집전") {
 						alert("모집 기간에 신청해주세요.")        		
 						event.preventDefault();
-	        		} else if(vCountAll == vCount){
-	        			alert("신청 인원이 마감되었습니다.");
-	        			event.preventDefault();
-	        		} else {
+	        		} else if(true) {
 	        			$.ajax({
 	        				url: 'checkVolunteerApply.vo',
 	        				type: 'post',
@@ -326,7 +337,10 @@
 	        					
 	        				}
 	        			});
-	        		} 
+	        		} else {
+	        			alert("신청 인원이 마감되었습니다.");
+	        			event.preventDefault();
+	        		}
 	        	});
 	    	}
 	    	

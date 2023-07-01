@@ -345,6 +345,12 @@
             const tds = tbody.querySelectorAll('td');
             
             for(let i=0; i<tds.length; i++) {
+            	if(i%8 == 1) {
+            		tds[i].addEventListener("click", function() {
+            			location.href="volunteerDetail.vo?vNo=" + this.parentElement.children[0].innerText;
+            		});
+            	}
+            	
             	if(i%8 == 5) {
             		tds[i].addEventListener("click", function() {
             			location.href="adminVolunteerApplyList.vo?vNo=" + this.parentElement.children[0].innerText;

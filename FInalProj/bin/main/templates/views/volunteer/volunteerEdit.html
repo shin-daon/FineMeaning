@@ -297,6 +297,7 @@
        	    	const page = /*[[${page}]]*/1;
        	    	const searchMap = /*[[${searchMap}]]*/null;
        	    	/*]]>*/
+		    	    
        		    const form  = document.createElement("form");
            	    form.setAttribute("method", "post");
            	    form.setAttribute("action", "volunteerDetail.vo");
@@ -313,63 +314,28 @@
        		    hiddenPage.setAttribute("value", page);
        		    form.appendChild(hiddenPage);
        		    
-       		    const hiddenStartDate = document.createElement("input");
-       		    hiddenStartDate.setAttribute("type", "hidden");
-       		    hiddenStartDate.setAttribute("name", "vStartDate");
-       		    hiddenStartDate.setAttribute("value", searchMap.vStartDate);
-       		    form.appendChild(hiddenStartDate);
-       		    
-       		    const hiddenEndDate = document.createElement("input");
-       		    hiddenEndDate.setAttribute("type", "hidden");
-       		    hiddenEndDate.setAttribute("name", "vEndDate");
-       		    hiddenEndDate.setAttribute("value", searchMap.vEndDate);
-       		    form.appendChild(hiddenEndDate);
-       		    
-       		    const hiddenVolunteerName = document.createElement("input");
-       		    hiddenVolunteerName.setAttribute("type", "hidden");
-       		    hiddenVolunteerName.setAttribute("name", "vName");
-       		    hiddenVolunteerName.setAttribute("value", searchMap.vName);
-       		    form.appendChild(hiddenVolunteerName);
-       		    
-       		    const hiddenRegistrar = document.createElement("input");
-       		    hiddenRegistrar.setAttribute("type", "hidden");
-       		    hiddenRegistrar.setAttribute("name", "registrar");
-       		    hiddenRegistrar.setAttribute("value", searchMap.registrar);
-       		    form.appendChild(hiddenRegistrar);
-       		    
-       		    const hiddenLocation = document.createElement("input");
-       		    hiddenLocation.setAttribute("type", "hidden");
-       		    hiddenLocation.setAttribute("name", "vArea");
-       		    hiddenLocation.setAttribute("value", searchMap.vArea);
-       		    form.appendChild(hiddenLocation);
-       		    
-       		    const hiddenCategory = document.createElement("input");
-       		    hiddenCategory.setAttribute("type", "hidden");
-       		    hiddenCategory.setAttribute("name", "vMainCategoryName");
-       		    hiddenCategory.setAttribute("value", searchMap.vMainCategoryName);
-       		    form.appendChild(hiddenCategory);
-       		    
-       		    const hiddenOnOffLine = document.createElement("input");
-       		    hiddenOnOffLine.setAttribute("type", "hidden");
-       		    hiddenOnOffLine.setAttribute("name", "vActivityType");
-       		    hiddenOnOffLine.setAttribute("value", searchMap.vActivityType);
-       		    form.appendChild(hiddenOnOffLine);
-       		    
-       		    const hiddenObject = document.createElement("input");
-       		    hiddenObject.setAttribute("type", "hidden");
-       		    hiddenObject.setAttribute("name", "vTargetCategoryName");
-       		    hiddenObject.setAttribute("value", searchMap.vTargetCategoryName);
-       		    form.appendChild(hiddenObject);		
-       		    
-       		    const hiddenStatus = document.createElement("input");
-       		    hiddenStatus.setAttribute("type", "hidden");
-       		    hiddenStatus.setAttribute("name", "status");
-       		    hiddenStatus.setAttribute("value", searchMap.status);
-       		    form.appendChild(hiddenStatus);	
-       			
-       		    document.body.appendChild(form);
-       		    form.submit();
-       		}
+	    		if(searchMap != null) {
+		    	    const searchObject = {
+			    	    	vStartDate: searchMap.vStartDate,
+			    	    	vEndDate: searchMap.vEndDate,
+			    	    	vName: searchMap.vName,
+			    	    	registrar: searchMap.registrar,
+			    	    	vArea: searchMap.vArea,
+			    	    	vMainCategoryName: searchMap.vMainCategoryName,
+			    	    	vActivityType: searchMap.vActivityType,
+			    	    	vTargetCategoryName: searchMap.vTargetCategoryName,
+			    	    	status: searchMap.status
+			    		};
+		    	    
+		    	    const hiddenSearchObject = document.createElement("input");
+		    	    hiddenSearchObject.setAttribute("type", "hidden");
+		    	    hiddenSearchObject.setAttribute("name", "searchObject");
+		    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchObject));
+		    	    form.appendChild(hiddenSearchObject);
+       			}
+		   	    document.body.appendChild(form);
+		   	    form.submit();
+       	    }
         	    
         	/*<![CDATA[*/
         	// 취소 버튼 모달
