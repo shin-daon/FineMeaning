@@ -67,7 +67,7 @@ public class BoardController {
 			map.put("i", "자주 묻는 질문");
 			if(category == null) { // '선택 없음'의 경우
 				map.put("category", 0);
-			} else {
+			} else {	// 나머지 카테고리 있는 경우
 				map.put("category", category);
 			}
 			listCount = bService.searchListCount(map);
@@ -149,6 +149,49 @@ public class BoardController {
 			return "redirect:faqMain.bo";
 		} else {
 			throw new BoardException("게시글 작성 실패");
+		}
+	}
+	
+	@GetMapping("faqAdmin.bo")
+	public String faqAdmin(@RequestParam(value="page", required=false) Integer currentPage, Model model,
+			 			   @RequestParam(value="category", required=false) Integer category, // '선택 없음' 시 null일 수 있음
+			 			   @RequestParam(value="keyword", required=false) String keyword) {
+		
+		ArrayList<Board> list;
+		int listCount;
+		PageInfo pageInfo;
+		
+		HashMap<String, Object> params = new HashMap<>();
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		if(keyword != null) {
+			params.put("keyword", keyword);
+			params.put("i", "자주 묻는 질문");
+			if(category == null) { // '선택 없음'의 경우
+				params.put("category", 0);
+			} else {	 // 나머지 카테고리 있는 경우
+				params.put("category", category);
+			}
+			listCount = bService.searchListCount(params);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
+			list = bService.searchByTitleAndCategory(pageInfo, params);
+		} else { // 페이지 로드 시 메인 페이지
+			listCount = bService.getListCount("자주 묻는 질문");
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
+			list = bService.selectBoardList(pageInfo, "자주 묻는 질문");
+//			System.out.println(list);
+		}
+		
+		if(list != null) {
+			model.addAttribute("pi", pageInfo);
+			model.addAttribute("list", list);
+			model.addAttribute("map", params);
+			return "faqAdmin";
+		} else {
+			throw new BoardException("게시글 목록 조회 실패");
 		}
 	}
 	
