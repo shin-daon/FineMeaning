@@ -5,7 +5,6 @@ import java.sql.Date;
 public class Volunteer {
 	private int vNo;
 	private Integer uNo;
-	private String address;
 	private int vMainCategoryNo;
 	private int vSubCategoryNo;
 	private int vTargetCategoryNo;
@@ -44,21 +43,24 @@ public class Volunteer {
 	
 	// ▼ 봉사 신청 내역
 	private String uName;
+	private String residentNo;
+	private String address;
+	private String phone;
 	
 	public Volunteer() {
 		super();
 	}
 
-	public Volunteer(int vNo, Integer uNo, String address, int vMainCategoryNo, int vSubCategoryNo, int vTargetCategoryNo,
-			String vArea, String vName, String vContent, Date vStartDate, Date vEndDate, String vStartTime,
-			String vEndTime, Date vRecruitmentStartDate, Date vRecruitmentEndDate, String vDay, int vCountAll,
-			int vCount, String vLocation, String vActivityType, Date vCreateDate, String vStatus, String registrar,
+	public Volunteer(int vNo, Integer uNo, int vMainCategoryNo, int vSubCategoryNo, int vTargetCategoryNo, String vArea,
+			String vName, String vContent, Date vStartDate, Date vEndDate, String vStartTime, String vEndTime,
+			Date vRecruitmentStartDate, Date vRecruitmentEndDate, String vDay, int vCountAll, int vCount,
+			String vLocation, String vActivityType, Date vCreateDate, String vStatus, String registrar,
 			String vMainCategoryName, String vSubCategoryName, String vTargetCategoryName, String vChargeName,
-			String vChargePhone, Date vHisDate, String vHisStatus, String uName, int vHisNo) {
+			String vChargePhone, int vHisNo, Date vHisDate, String vHisStatus, String uName, String residentNo,
+			String address, String phone) {
 		super();
 		this.vNo = vNo;
 		this.uNo = uNo;
-		this.address = address;
 		this.vMainCategoryNo = vMainCategoryNo;
 		this.vSubCategoryNo = vSubCategoryNo;
 		this.vTargetCategoryNo = vTargetCategoryNo;
@@ -84,10 +86,13 @@ public class Volunteer {
 		this.vTargetCategoryName = vTargetCategoryName;
 		this.vChargeName = vChargeName;
 		this.vChargePhone = vChargePhone;
+		this.vHisNo = vHisNo;
 		this.vHisDate = vHisDate;
 		this.vHisStatus = vHisStatus;
 		this.uName = uName;
-		this.vHisNo = vHisNo;
+		this.residentNo = residentNo;
+		this.address = address;
+		this.phone = phone;
 	}
 
 	public int getvNo() {
@@ -104,14 +109,6 @@ public class Volunteer {
 
 	public void setuNo(Integer uNo) {
 		this.uNo = uNo;
-	}
-	
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public int getvMainCategoryNo() {
@@ -314,6 +311,14 @@ public class Volunteer {
 		this.vChargePhone = vChargePhone;
 	}
 
+	public int getvHisNo() {
+		return vHisNo;
+	}
+
+	public void setvHisNo(int vHisNo) {
+		this.vHisNo = vHisNo;
+	}
+
 	public Date getvHisDate() {
 		return vHisDate;
 	}
@@ -329,36 +334,53 @@ public class Volunteer {
 	public void setvHisStatus(String vHisStatus) {
 		this.vHisStatus = vHisStatus;
 	}
-	
+
 	public String getuName() {
 		return uName;
 	}
-	
+
 	public void setuName(String uName) {
 		this.uName = uName;
 	}
-	
-	public int getvHisNo() {
-		return vHisNo;
-	} 
-	
-	public void setvHisNo(int vHisNo) {
-		this.vHisNo = vHisNo;
+
+	public String getResidentNo() {
+		return residentNo;
+	}
+
+	public void setResidentNo(String residentNo) {
+		this.residentNo = residentNo;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	@Override
 	public String toString() {
-		return "Volunteer [vNo=" + vNo + ", uNo=" + uNo + ", address=" + address + ", vMainCategoryNo="
-				+ vMainCategoryNo + ", vSubCategoryNo=" + vSubCategoryNo + ", vTargetCategoryNo=" + vTargetCategoryNo
-				+ ", vArea=" + vArea + ", vName=" + vName + ", vContent=" + vContent + ", vStartDate=" + vStartDate
-				+ ", vEndDate=" + vEndDate + ", vStartTime=" + vStartTime + ", vEndTime=" + vEndTime
-				+ ", vRecruitmentStartDate=" + vRecruitmentStartDate + ", vRecruitmentEndDate=" + vRecruitmentEndDate
-				+ ", vDay=" + vDay + ", vCountAll=" + vCountAll + ", vCount=" + vCount + ", vLocation=" + vLocation
-				+ ", vActivityType=" + vActivityType + ", vCreateDate=" + vCreateDate + ", vStatus=" + vStatus
-				+ ", registrar=" + registrar + ", vMainCategoryName=" + vMainCategoryName + ", vSubCategoryName="
-				+ vSubCategoryName + ", vTargetCategoryName=" + vTargetCategoryName + ", vChargeName=" + vChargeName
-				+ ", vChargePhone=" + vChargePhone + ", vHisDate=" + vHisDate + ", vHisStatus=" + vHisStatus 
-				+ ", uName=" + uName + ", vHisNo=" + vHisNo + "]";
+		return "Volunteer [vNo=" + vNo + ", uNo=" + uNo + ", vMainCategoryNo=" + vMainCategoryNo + ", vSubCategoryNo="
+				+ vSubCategoryNo + ", vTargetCategoryNo=" + vTargetCategoryNo + ", vArea=" + vArea + ", vName=" + vName
+				+ ", vContent=" + vContent + ", vStartDate=" + vStartDate + ", vEndDate=" + vEndDate + ", vStartTime="
+				+ vStartTime + ", vEndTime=" + vEndTime + ", vRecruitmentStartDate=" + vRecruitmentStartDate
+				+ ", vRecruitmentEndDate=" + vRecruitmentEndDate + ", vDay=" + vDay + ", vCountAll=" + vCountAll
+				+ ", vCount=" + vCount + ", vLocation=" + vLocation + ", vActivityType=" + vActivityType
+				+ ", vCreateDate=" + vCreateDate + ", vStatus=" + vStatus + ", registrar=" + registrar
+				+ ", vMainCategoryName=" + vMainCategoryName + ", vSubCategoryName=" + vSubCategoryName
+				+ ", vTargetCategoryName=" + vTargetCategoryName + ", vChargeName=" + vChargeName + ", vChargePhone="
+				+ vChargePhone + ", vHisNo=" + vHisNo + ", vHisDate=" + vHisDate + ", vHisStatus=" + vHisStatus
+				+ ", uName=" + uName + ", residentNo=" + residentNo + ", address=" + address + ", phone=" + phone + "]";
 	}
 
+	
 }

@@ -25,8 +25,7 @@
 	<div th:replace="~{../common/header :: header}"></div>
 	
 	<section style="display: flex;">
-		
-		<div th:replace="~{../common/sidebar :: sidebar}" th:if="${session.loginUser.isAdmin == 2}"></div>
+		<div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
 		
 		<section id="volunteerListSection">
 			<div>
@@ -36,24 +35,22 @@
 			<div class="path">
 				<a class="middle" href="#"><img class="homeIconSize" src="../image/home.png"></a>
 				<img class="sub iconSize" src="../image/onenext.png">
-				<a class="middle" href="#">마이페이지</a>
-				<img class="sub iconSize" src="../image/onenext.png">
-				<a class="middle" href="#">봉사</a>
+				<a class="middle" href="#">관리자페이지</a>
 				<img class="sub iconSize" src="../image/onenext.png">
 				<a class="middle">봉사 신청 목록</a>
-				<button type="button" class="btn-gradient mini v-list-btn" onclick="moveToList()" style="margin-top: 20px;">목록</button>
+				<button type="button" class="btn-gradient mini v-list-btn" style="margin-top: 20px;">목록</button>
 			</div>
 			
-
 			<table class="v-history-table" style="margin-top: 10px">
 				<thead>
 					<tr>
 						<th width="5%">No</th>
-						<th width="8%">이름</th>
+						<th width="8%">회원번호</th>
 						<th width="35%">봉사활동 명</th>
 						<th width="10%">대분류</th>
 						<th width="10%">대상분류</th>
 						<th width="5%">지역</th>
+						<th width="15%">수요처</th>
 						<th width="10%">신청일</th>
 					</tr>
 				</thead>
@@ -64,11 +61,12 @@
 					</tr>
 					<tr th:each="v : ${vHistories}">
 						<td>[[${v.vHisNo}]]</td>
-						<td>[[${v.uName}]]</td>
+						<td>[[${v.uNo}]]</td>
 						<td>[[${v.vName}]]</td>
 						<td>[[${v.vMainCategoryName}]]</td>
 						<td>[[${v.vTargetCategoryName}]]</td>
 						<td>[[${v.vArea}]]</td>
+						<td>[[${v.registrar}]]</td>
 						<td>[[${#strings.substring(#strings.arraySplit(v.vHisDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vHisDate, "-")[1]}]].[[${#strings.arraySplit(v.vHisDate, "-")[2]}]]</td>
 					</tr>
 				</tbody>
@@ -137,10 +135,8 @@
 	<div th:replace="~{../common/footer :: footer}"></div>  
 	
 	<script th:inline="javascript">
-		const beforeURL = document.referrer;
-
 		document.querySelector('.path').querySelector('button').addEventListener('click', function() {
-			location.href = beforeURL;
+			location.href = document.referrer;
 		});
 		
 		/*<![CDATA[*/

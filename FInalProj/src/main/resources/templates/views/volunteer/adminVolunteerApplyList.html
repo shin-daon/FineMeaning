@@ -25,6 +25,7 @@
 	<div th:replace="~{../common/header :: header}"></div>
 	
 	<section style="display: flex;">
+		
 		<div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
 		
 		<section id="volunteerListSection">
@@ -37,20 +38,22 @@
 				<img class="sub iconSize" src="../image/onenext.png">
 				<a class="middle" href="#">관리자페이지</a>
 				<img class="sub iconSize" src="../image/onenext.png">
+				<a class="middle" href="#">봉사</a>
+				<img class="sub iconSize" src="../image/onenext.png">
 				<a class="middle">봉사 신청 목록</a>
-				<button type="button" class="btn-gradient mini v-list-btn" style="margin-top: 20px;">목록</button>
+				<button type="button" class="btn-gradient mini v-list-btn" onclick="moveToList()" style="margin-top: 20px;">목록</button>
 			</div>
 			
+
 			<table class="v-history-table" style="margin-top: 10px">
 				<thead>
 					<tr>
-						<th width="5%">No</th>
-						<th width="8%">이름</th>
-						<th width="35%">봉사활동 명</th>
-						<th width="10%">대분류</th>
-						<th width="10%">대상분류</th>
-						<th width="5%">지역</th>
-						<th width="10%">신청일</th>
+						<th width="6%">No</th>
+						<th width="16%">이름</th>
+						<th width="16%">생년월일</th>
+						<th width="30%">주소</th>
+						<th width="16%">전화번호</th>
+						<th width="16%">신청일</th>
 					</tr>
 				</thead>
 				
@@ -61,11 +64,10 @@
 					<tr th:each="v : ${vHistories}">
 						<td>[[${v.vHisNo}]]</td>
 						<td>[[${v.uName}]]</td>
-						<td>[[${v.vName}]]</td>
-						<td>[[${v.vMainCategoryName}]]</td>
-						<td>[[${v.vTargetCategoryName}]]</td>
-						<td>[[${v.vArea}]]</td>
-						<td>[[${#strings.substring(#strings.arraySplit(v.vHisDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vHisDate, "-")[1]}]].[[${#strings.arraySplit(v.vHisDate, "-")[2]}]]</td>
+						<td>[[${#strings.substring(v.residentNo, 0, 4) + '.' + #strings.substring(v.residentNo, 4, 6) + '.' + #strings.substring(v.residentNo, 6)}]]</td>
+						<td>[[${v.address == null? '-' : v.address}]]</td>
+						<td>[[${v.phone == null? '-' : #strings.substring(v.phone, 0, 3) + '-' + #strings.substring(v.phone, 3, 7) + '-' + #strings.substring(v.phone, 7)}]]</td>
+						<td>[[${v.vHisDate}]]</td>
 					</tr>
 				</tbody>
 			</table>

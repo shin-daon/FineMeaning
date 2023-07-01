@@ -54,5 +54,9 @@ public interface VolunteerDAO {
 	int getVolunteerApplyCount(Object vNo);
 
 	ArrayList<Volunteer> selectVolunteerApplyList(Object vNo, RowBounds rowBounds);
-
+	
+	int getAdminVolunteerApplyCount(Integer vNo);
+	
+	ArrayList<Volunteer> selectAdminVolunteerApplyList(Integer vNo, RowBounds rowBounds);
+	
 }
