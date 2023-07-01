@@ -5,6 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>회원 상세 조회</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 @font-face {
    font-family: 'SUITE-Regular';
@@ -285,6 +286,12 @@ input:checked + .switch:after {
 	cursor: pointer;
 }
 
+.vibration{animation: vibration 0.1s infinite;}
+@Keyframes vibration{
+	from{transform: rotate(1deg);}
+	to{transform: rotate(-1deg);}
+}
+
 </style>
 </head>
 <body>
@@ -310,8 +317,8 @@ input:checked + .switch:after {
 		<div class="actionArea">
 			<div class="isstatus-user">회원 활동 여부</div>
 			<div class="switch-div">
-			  <input type="checkbox" id="switch1" th:checked="${uList.uStatus == 'Y'}" />
-			  <label for="switch1" class="switch">Toggle</label>
+			  <input type="checkbox" id="switch" th:checked="${uList.uStatus == 'Y'}" />
+			  <label for="switch" class="switch">Toggle</label>
 			</div>
         </div>
 
@@ -378,7 +385,7 @@ input:checked + .switch:after {
   
 <br><br><br><br>
 <div th:replace="~{views/common/footer :: footer}"></div>
-<script>
+<script th:inline="javascript">
 		let beforeData = null;
 		const tds = document.getElementsByTagName('td');
 		
@@ -387,6 +394,7 @@ input:checked + .switch:after {
 				if(tds[i].children[0] != undefined && tds[i].children[0].value != undefined){
 					if(event.target.value == undefined){
 						tds[i].innerHTML = '<td>' + beforeData + '</td>';
+						console.log("beforData = " + beforeData);
 					}				
 				}
 			}
@@ -400,6 +408,7 @@ input:checked + .switch:after {
 					for(let j = 0; j < tds.length; j++){
 						if(tds[j].children[0] != undefined && tds[j].children[0].value != undefined){
 							tds[j].innerHTML = '<td>' + tds[j].children[0].value + '</td>';
+							console.log("tds[j].innerHTML = " + tds[j].innerHTML);
 						}
 					}
 				} else { return; }
@@ -464,11 +473,14 @@ input:checked + .switch:after {
 										}
 									}
 								}
+																						
 								
-								if(index != 2) { // 닉네임이 아닐 때
+								if(index != 13) { // 닉네임이 아닐 때
 									$.ajax({
-									url: 'updateInfo.adm',
-									data: {data:datas, column:document.querySelectorAll('th')[index].innerText, id:this.parentElement.parentElement.children[0].innerText},
+									url: 'updateUserInfo.me',
+									/*<![CDATA[*/
+									data: {data:datas, column:document.querySelectorAll('td')[index].previousElementSibling.innerText, uNo:/*[[${uList.uNo}]]*/''},
+									/*]]>*/
 									success: data => {
 										if(data == 'success'){
 											tds[i].innerHTML = '<td>' + datas + "</td>";
@@ -484,12 +496,14 @@ input:checked + .switch:after {
 							} else {
 								$.ajax({
 									url: 'checkNickName.me',
-									data: {nickName: datas},
+									data: {uNickName: datas},
 									success : data => {
 										if(data == 'yes'){
 											$.ajax({
-											url: 'updateInfo.adm',
-											data: {data:datas, column:document.querySelectorAll('th')[index].innerText, id:this.parentElement.parentElement.children[0].innerText},
+											url: 'updateUserInfo.me',
+											/*<![CDATA[*/
+											data: {data:datas, column:document.querySelectorAll('td')[index].previousElementSibling.innerText, uNo:/*[[${uList.uNo}]]*/''},
+											/*]]>*/
 											success: data => {
 												if(data == 'success'){
 													tds[i].innerHTML = '<td>' + datas + "</td>";
@@ -523,21 +537,27 @@ input:checked + .switch:after {
 				alert('수정할 수 없는 항목입니다.');
 			}
 		});
+		}
 		
-		const stateButtons = tds[i].querySelectorAll('div');
-		for(const button of stateButtons){
-			button.addEventListener('click', function(){
-				if(this.className == 'unselectState'){
+		const stateButton = document.getElementById('switch');
+		console.log(stateButton);
+		 stateButton.addEventListener('click', function(){
+			 if(stateButton.checked){
+				 this.value = "Y";
+			 } else {
+				 this.value = "N";
+			 }
 					$.ajax({
-						url: 'updateState.adm',
-						data: {id:this.parentElement.parentElement.children[0].innerText, column:document.querySelectorAll('th')[index].innerText, value:this.innerText},
+						url: 'updateState.me',
+						/*<![CDATA[*/
+						data: {uNo:/*[[${uList.uNo}]]*/'', value:this.value},
+						/*]]>*/
 						success: data => {
 							if(data == 'success'){
-								this.className = 'selectState';
-								for(const siblings of this.parentElement.children){
-									if(siblings != this){
-										siblings.className = 'unselectState';
-									}
+								if(value === "Y"){
+									stateButton.checked = true;
+								} else {
+									stateButton.checked = false;
 								}
 							} else {
 								alert('상태 변경에 실패하여 페이지가 새로고침 됩니다.');
@@ -548,10 +568,8 @@ input:checked + .switch:after {
 							console.log(data);
 						}
 					});
-				}
-			})
-		}			
-	}
+				})		
+			
 
 </script>
 </body>

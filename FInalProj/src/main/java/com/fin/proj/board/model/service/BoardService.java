@@ -60,7 +60,7 @@ public interface BoardService {
 
 	void updateComment(Reply params);
 
-	Reply findCommentById(int replyNo);
+	//Reply findCommentById(int replyNo);
 
 	int deleteComment(int replyNo);
 
