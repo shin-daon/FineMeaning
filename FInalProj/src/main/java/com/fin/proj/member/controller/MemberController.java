@@ -603,10 +603,10 @@ public class MemberController {
 	
 	@GetMapping("updateState.me")
 	@ResponseBody
-	public String updateState(@RequestParam("value") String value, @RequestParam("uNo") Integer uNo) {
+	public String updateState(@RequestParam("status") String status, @RequestParam("uNo") Integer uNo) {
 		
 		Properties prop = new Properties();
-		prop.setProperty("value", value);
+		prop.setProperty("status", status);
 		prop.setProperty("uNo", uNo+"");
 		System.out.println(prop);
 		int result = mService.updateState(prop);

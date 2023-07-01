@@ -254,7 +254,7 @@
 	
 	<update id="updateState">
 		update users
-		set u_status = #{value}
+		set u_status = #{status}
 		where u_no = #{uNo} 
 	</update>
 </mapper>

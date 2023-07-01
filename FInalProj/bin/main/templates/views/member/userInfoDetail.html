@@ -286,6 +286,16 @@ input:checked + .switch:after {
 	cursor: pointer;
 }
 
+.comment {
+	display: inline-block;
+	margin-left: 350px;
+}
+
+.com {
+	font-size: 14px;
+	color: gray;
+}
+
 .vibration{animation: vibration 0.1s infinite;}
 @Keyframes vibration{
 	from{transform: rotate(1deg);}
@@ -319,6 +329,9 @@ input:checked + .switch:after {
 			<div class="switch-div">
 			  <input type="checkbox" id="switch" th:checked="${uList.uStatus == 'Y'}" />
 			  <label for="switch" class="switch">Toggle</label>
+			</div>
+			<div class="comment">
+				<span class="com">더블 클릭 후 회원 정보를 수정할 수 있습니다.</span>
 			</div>
         </div>
 
@@ -542,19 +555,15 @@ input:checked + .switch:after {
 		const stateButton = document.getElementById('switch');
 		console.log(stateButton);
 		 stateButton.addEventListener('click', function(){
-			 if(stateButton.checked){
-				 this.value = "Y";
-			 } else {
-				 this.value = "N";
-			 }
+			 const status = this.checked ? "Y" : "N";
 					$.ajax({
 						url: 'updateState.me',
 						/*<![CDATA[*/
-						data: {uNo:/*[[${uList.uNo}]]*/'', value:this.value},
+						data: {uNo:/*[[${uList.uNo}]]*/'', status:status},
 						/*]]>*/
 						success: data => {
 							if(data == 'success'){
-								if(value === "Y"){
+								if(status === "Y"){
 									stateButton.checked = true;
 								} else {
 									stateButton.checked = false;
