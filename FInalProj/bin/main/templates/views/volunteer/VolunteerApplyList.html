@@ -25,7 +25,8 @@
 	<div th:replace="~{../common/header :: header}"></div>
 	
 	<section style="display: flex;">
-		<div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
+		
+		<div th:replace="~{../common/sidebar :: sidebar}" th:if="${session.loginUser.isAdmin == 2}"></div>
 		
 		<section id="volunteerListSection">
 			<div>
@@ -35,12 +36,15 @@
 			<div class="path">
 				<a class="middle" href="#"><img class="homeIconSize" src="../image/home.png"></a>
 				<img class="sub iconSize" src="../image/onenext.png">
-				<a class="middle" href="#">관리자페이지</a>
+				<a class="middle" href="#">마이페이지</a>
+				<img class="sub iconSize" src="../image/onenext.png">
+				<a class="middle" href="#">봉사</a>
 				<img class="sub iconSize" src="../image/onenext.png">
 				<a class="middle">봉사 신청 목록</a>
-				<button type="button" class="btn-gradient mini v-list-btn" style="margin-top: 20px;">목록</button>
+				<button type="button" class="btn-gradient mini v-list-btn" onclick="moveToList()" style="margin-top: 20px;">목록</button>
 			</div>
 			
+
 			<table class="v-history-table" style="margin-top: 10px">
 				<thead>
 					<tr>

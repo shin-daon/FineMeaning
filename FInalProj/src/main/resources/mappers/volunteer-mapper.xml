@@ -199,7 +199,7 @@
 	<select id="getMyVolunteerHistoryCount" resultType="_int">
 		select count(*)
 		from volunteer
-			 join users using(u_no)
+			 join users on(volunteer.u_no = users.u_no)
 			 join v_main_category using(v_main_category_no)
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
@@ -210,24 +210,24 @@
 	<select id="selectMyVolunteerHistory" resultMap="volunteerResultSet">
 		select *
 		from volunteer
-			 join users using(u_no)
+			 join users on(volunteer.u_no = users.u_no)
 			 join v_main_category using(v_main_category_no)
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 			 join v_history using(v_no)
-		where v_history.u_no = #{uNo} 
+		where v_history.u_no = #{uNo}
 		order by v_his_no desc
 	</select>
 	
 	<select id="getSearchMyVolunteerHistoryCount" resultType="_int">
 		select count(*)
 		from volunteer
-			 join users using(u_no)
+			 join users on(volunteer.u_no = users.u_no)
 			 join v_main_category using(v_main_category_no)
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 			 join v_history using(v_no)
-		where v_history.u_no = #{uNo} 
+		where v_history.u_no = #{uNo}
 		<if test="startDate != null and !startDate.equals('')">
 			 and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) >= #{startDate}]]>
 		</if>
@@ -259,12 +259,12 @@
 	<select id="selectSearchMyVolunteerHistory" resultMap="volunteerResultSet">
 		select *
 		from volunteer
-			 join users using(u_no)
+			 join users on(volunteer.u_no = users.u_no)
 			 join v_main_category using(v_main_category_no)
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 			 join v_history using(v_no)
-		where v_history.u_no = #{uNo} 
+		where v_history.u_no = #{uNo}
 		<if test="startDate != null and !startDate.equals('')">
 			 and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) >= #{startDate}]]>
 		</if>
@@ -419,32 +419,32 @@
 	</update>
 	
 	<select id="getVolunteerApplyCount" resultType="_int">
-		select count(*) 
-		from volunteer 
+		select count(*)
+		from v_history
 			 join users using(u_no)
+			 join volunteer on (v_history.v_no = volunteer.v_no)
 			 join v_main_category using(v_main_category_no)
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
-			 join v_history using(v_no)
 		<where>
 			<if test="vNo != null">
-				v_no = #{vNo}
+				v_history.v_no = #{vNo}
 			</if>
 		</where>
 		order by v_his_no desc
 	</select>
 	
 	<select id="selectVolunteerApplyList" resultMap="volunteerResultSet">
-		select * 
-		from volunteer 
+		select *
+		from v_history
 			 join users using(u_no)
+			 join volunteer on (v_history.v_no = volunteer.v_no)
 			 join v_main_category using(v_main_category_no)
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
-			 join v_history using(v_no)
 		<where>
 			<if test="vNo != null">
-				v_no = #{vNo}
+				v_history.v_no = #{vNo}
 			</if>
 		</where>
 		order by v_his_no desc
