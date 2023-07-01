@@ -804,7 +804,8 @@ public class BoardController {
 		listCount = bService.myReplyCount(uNo);
 		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Reply> list = bService.selectMyReply(pageInfo, uNo);
-		System.out.println(list);
+//		System.out.println(list);
+//		System.out.println(pageInfo);
 		
 		if(list != null) {
 			model.addAttribute("pi", pageInfo);
