@@ -3,6 +3,7 @@ package com.fin.proj.member.model.dao;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
@@ -69,4 +70,8 @@ public interface MemberDAO {
 	int getSearchListCount(String searchWord);
 
 	ArrayList<Member> selectSearchListAdmin(RowBounds rowBounds, String searchWord);
+
+	int updateUserInfo(Properties prop);
+
+	int updateState(Properties prop);
 }

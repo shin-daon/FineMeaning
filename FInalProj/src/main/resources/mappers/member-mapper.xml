@@ -246,4 +246,15 @@
 		where u_id like '%${searchWord}%'
 	</select>
 	
+	<update id="updateUserInfo">
+		update users
+		set ${column} = #{data}
+		where u_no = #{uNo} 
+	</update>
+	
+	<update id="updateState">
+		update users
+		set u_status = #{status}
+		where u_no = #{uNo} 
+	</update>
 </mapper>

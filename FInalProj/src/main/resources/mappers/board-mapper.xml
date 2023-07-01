@@ -118,7 +118,7 @@
 	</select>
 	
 	<select id="selectReply" resultMap="replyResultSet">
-		select RE_NO, RE_WRITER, U_NICKNAME, BOARD_NO,
+		select RE_NO, RE_WRITER, U_NICKNAME, BOARD_NO, BOARD_TYPE,
 			   RE_CONTENT, TO_CHAR(RE_CREATE_DATE, 'YY-MM-DD (DY) PM HH:MI:SS') AS "DATE", RE_STATUS
 		from reply
 			 join users on(re_writer = u_no)
@@ -132,6 +132,7 @@
 		<result column="RE_WRITER" property="replyWriter"/>
 		<result column="U_NICKNAME" property="nickName"/>
 		<result column="BOARD_NO" property="boardNo"/>
+		<result column="BOARD_TYPE" property="boardType"/>
 		<result column="BOARD_TITLE" property="boardTitle"/>
 		<result column="RE_CONTENT" property="replyContent"/>
 		<result column="DATE" property="replyTime"/>

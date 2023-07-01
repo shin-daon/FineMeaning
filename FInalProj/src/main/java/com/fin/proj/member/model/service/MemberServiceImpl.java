@@ -3,6 +3,7 @@ package com.fin.proj.member.model.service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -170,5 +171,15 @@ public class MemberServiceImpl implements MemberService {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
 		return mDAO.selectSearchListAdmin(rowBounds, searchWord);
+	}
+	
+	@Override
+	public int updateUserInfo(Properties prop) {
+		return mDAO.updateUserInfo(prop);
+	}
+	
+	@Override
+	public int updateState(Properties prop) {
+		return mDAO.updateState(prop);
 	}
 }
