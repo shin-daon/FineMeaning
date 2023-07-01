@@ -74,15 +74,6 @@
         	<form id="vForm" action="updateVolunteer.vo" method="post">
         		<input type="hidden" name="vNo" th:value="${v.vNo}">
         		<input type="hidden" name="page" th:value="${page}">
-        		<input type="hidden" name="sStartDate" th:value="${searchMap.vStartDate}">
-        		<input type="hidden" name="sEndDate" th:value="${searchMap.vEndDate}">
-        		<input type="hidden" name="sName" th:value="${searchMap.vName}">
-        		<input type="hidden" name="sRegistrar" th:value="${searchMap.registrar}">
-        		<input type="hidden" name="sArea" th:value="${searchMap.vArea}">
-        		<input type="hidden" name="sMainCategoryName" th:value="${searchMap.vMainCategoryName}">
-        		<input type="hidden" name="sActivityType" th:value="${searchMap.vActivityType}">
-        		<input type="hidden" name="sTargetCategoryName" th:value="${searchMap.vTargetCategoryName}">
-        		<input type="hidden" name="sStatus" th:value="${searchMap.status}">
 	            <table class="v-table">
 	                <tr>
 	                    <td>지역</td>
@@ -220,7 +211,7 @@
 	                </tr>
 	            </table>
 	            <div class="v-apply-btn-div">
-	                <button type="submit" id="modifyBtn" class="learn-more-green v-apply-btn">수정하기</button>
+	                <button type="button" id="modifyBtn" class="learn-more-green v-apply-btn">수정하기</button>
 	            </div>
             </form>
         </section>
@@ -239,7 +230,23 @@
 	</div>
 
     <script th:inline="javascript">
-        window.onload = () => {      
+        window.onload = () => {    
+        	document.querySelector("#modifyBtn").addEventListener("click", () => {
+        		const searchMap = /*[[${searchMap}]]*/null;
+        		
+        		const vForm = document.querySelector("#vForm");
+        		
+        		if(searchMap != null) {
+					const hiddenSearchObject = document.createElement("input");
+		    	    hiddenSearchObject.setAttribute("type", "hidden");
+		    	    hiddenSearchObject.setAttribute("name", "searchObject");
+		    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchMap));
+		    	    vForm.appendChild(hiddenSearchObject);
+				}
+        		
+        		vForm.submit();
+        	});
+        	
         	document.getElementsByName("vLocation")[0].addEventListener("click", function() {
         		new daum.Postcode({
     	            oncomplete: function(data) {

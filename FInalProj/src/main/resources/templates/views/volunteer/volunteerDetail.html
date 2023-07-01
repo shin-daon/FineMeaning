@@ -86,21 +86,12 @@
         	<form id="detailForm" action="volunteerEdit.vo" method="POST">
         		<input type="hidden" name="vNo" th:value="${v.vNo}">
         		<input type="hidden" name="page" th:value="${page}">
-        		<input type="hidden" name="vStartDate" th:value="${searchMap.vStartDate}">
-        		<input type="hidden" name="vEndDate" th:value="${searchMap.vEndDate}">
-        		<input type="hidden" name="vName" th:value="${searchMap.vName}">
-        		<input type="hidden" name="registrar" th:value="${searchMap.registrar}">
-        		<input type="hidden" name="vArea" th:value="${searchMap.vArea}">
-        		<input type="hidden" name="vMainCategoryName" th:value="${searchMap.vMainCategoryName}">
-        		<input type="hidden" name="vActivityType" th:value="${searchMap.vActivityType}">
-        		<input type="hidden" name="vTargetCategoryName" th:value="${searchMap.vTargetCategoryName}">
-        		<input type="hidden" name="status" th:value="${searchMap.status}">
 	            <div class="v-apply-title">
 	                <span class="v-locale-icon">[[${ v.vArea }]]</span>
 	                <span class="v-org">[[${v.vName}]]</span>
 	                <input type="hidden" th:value="${v.vRecruitmentStartDate}">
 	                <span class="v-recruitment-status" style="color:white">[[${v.vRecruitmentEndDate}]]</span>
-	                <button type="button" class="btn-gradient mini v-list-btn" onclick="moveToList()">목록</button>
+	                <button type="button" class="btn-gradient mini v-list-btn" id="listBtn">목록</button>
 	            </div>
 	            <table>
 	                <tr>
@@ -184,7 +175,7 @@
 	            <div class="v-apply-btn-div">
 	                <button type="button" id="applyBtn" class="learn-more v-apply-btn" th:if="${session.loginUser != null && v.vRecruitmentEndDate >= today && (session.loginUser.uNo != v.uNo || session.loginUser.isAdmin != 0)}">신청하기</button>
 	                <button type="button" id="deleteBtn" class="learn-more v-delete-btn" th:if="${session.loginUser != null && (session.loginUser.uNo == v.uNo || session.loginUser.isAdmin == 0)}">삭제</button>
-	                <button type="submit" id="modifyBtn" class="learn-more-green v-modify-btn" th:if="${session.loginUser != null && (session.loginUser.uNo == v.uNo || session.loginUser.isAdmin == 0)}">수정</button>
+	                <button type="button" id="modifyBtn" class="learn-more-green v-modify-btn" th:if="${session.loginUser != null && (session.loginUser.uNo == v.uNo || session.loginUser.isAdmin == 0)}">수정</button>
 	            </div>
             </form>
         </section>
@@ -203,163 +194,156 @@
 	</div>
 	
     <script th:inline="javascript">
-		// 삭제 모달
-		let deleteBtn = null;
-		deleteBtn = document.getElementById('deleteBtn');
-		const modal = document.getElementById('modal');
-		const yesBtn = document.getElementById('boardDelete-btn');
-		const noBtn = document.getElementById('rollback-btn');
-		
-		if(deleteBtn != null) {
-			deleteBtn.addEventListener('click', () => {
-			    modal.style.display = 'block';
-			});
-		}
-		
-		yesBtn.addEventListener('click', () => {
-		    modal.style.display = 'none';
-		    location.href = 'deleteVolunteer.vo?vNo=' + btoa(/*[[${v.vNo}]]*/0);
-		});
-		
-		noBtn.addEventListener('click', () => {
-		    modal.style.display = 'none';
-		});
-		
-		/*]]>*/
-    
-    	/*<![CDATA[*/
-    	function moveToList() {
-    		const vNo = /*[[${v.vNo}]]*/1;
-    		const page = /*[[${page}]]*/1;
-    		const searchMap = /*[[${searchMap}]]*/null;		
-	    		
-    		const form  = document.createElement("form");
-    	    form.setAttribute("method", "post");
-    	    form.setAttribute("action", "volunteer.vo");
-    	    
-    	    const hiddenVNo = document.createElement("input");
-    	    hiddenVNo.setAttribute("type", "hidden");
-    	    hiddenVNo.setAttribute("name", "vNo");
-    	    hiddenVNo.setAttribute("value", vNo);
-    	    form.appendChild(hiddenVNo);
-    	    
-    	    const hiddenPage = document.createElement("input");
-    	    hiddenPage.setAttribute("type", "hidden");
-    	    hiddenPage.setAttribute("name", "page");
-    	    hiddenPage.setAttribute("value", page);
-    	    form.appendChild(hiddenPage);
-    	    
-    	    const hiddenStartDate = document.createElement("input");
-    	    hiddenStartDate.setAttribute("type", "hidden");
-    	    hiddenStartDate.setAttribute("name", "vStartDate");
-    	    hiddenStartDate.setAttribute("value", searchMap.vStartDate);
-    	    form.appendChild(hiddenStartDate);
-    	    
-    	    const hiddenEndDate = document.createElement("input");
-    	    hiddenEndDate.setAttribute("type", "hidden");
-    	    hiddenEndDate.setAttribute("name", "vEndDate");
-    	    hiddenEndDate.setAttribute("value", searchMap.vEndDate);
-    	    form.appendChild(hiddenEndDate);
-    	    
-    	    const hiddenVolunteerName = document.createElement("input");
-    	    hiddenVolunteerName.setAttribute("type", "hidden");
-    	    hiddenVolunteerName.setAttribute("name", "vName");
-    	    hiddenVolunteerName.setAttribute("value", searchMap.vName);
-    	    form.appendChild(hiddenVolunteerName);
-    	    
-    	    const hiddenRegistrar = document.createElement("input");
-    	    hiddenRegistrar.setAttribute("type", "hidden");
-    	    hiddenRegistrar.setAttribute("name", "registrar");
-    	    hiddenRegistrar.setAttribute("value", searchMap.registrar);
-    	    form.appendChild(hiddenRegistrar);
-    	    
-    	    const hiddenLocation = document.createElement("input");
-    	    hiddenLocation.setAttribute("type", "hidden");
-    	    hiddenLocation.setAttribute("name", "vArea");
-    	    hiddenLocation.setAttribute("value", searchMap.vArea);
-    	    form.appendChild(hiddenLocation);
-    	    
-    	    const hiddenCategory = document.createElement("input");
-    	    hiddenCategory.setAttribute("type", "hidden");
-    	    hiddenCategory.setAttribute("name", "vMainCategoryName");
-    	    hiddenCategory.setAttribute("value", searchMap.vMainCategoryName);
-    	    form.appendChild(hiddenCategory);
-    	    
-    	    const hiddenOnOffLine = document.createElement("input");
-    	    hiddenOnOffLine.setAttribute("type", "hidden");
-    	    hiddenOnOffLine.setAttribute("name", "vActivityType");
-    	    hiddenOnOffLine.setAttribute("value", searchMap.vActivityType);
-    	    form.appendChild(hiddenOnOffLine);
-    	    
-    	    const hiddenObject = document.createElement("input");
-    	    hiddenObject.setAttribute("type", "hidden");
-    	    hiddenObject.setAttribute("name", "vTargetCategoryName");
-    	    hiddenObject.setAttribute("value", searchMap.vTargetCategoryName);
-    	    form.appendChild(hiddenObject);		
-    	    
-    	    const hiddenStatus = document.createElement("input");
-    	    hiddenStatus.setAttribute("type", "hidden");
-    	    hiddenStatus.setAttribute("name", "status");
-    	    hiddenStatus.setAttribute("value", searchMap.status);
-    	    form.appendChild(hiddenStatus);	
+    	window.onload = () => {
+    		/*<![CDATA[*/
+			// 삭제 모달
+			let deleteBtn = null;
+			deleteBtn = document.getElementById('deleteBtn');
+			const modal = document.getElementById('modal');
+			const yesBtn = document.getElementById('boardDelete-btn');
+			const noBtn = document.getElementById('rollback-btn');
 			
-    	    document.body.appendChild(form);
-    	    form.submit();
-		}
-    	
-	    document.getElementById('summernote').innerHTML = /*[[${v.vContent}]]*/'내용';
-    	
-    	const recruitmentStatus = document.querySelector(".v-recruitment-status");
-	    const applyBtn = document.querySelector("#applyBtn");
-	    let check = false;
+			if(deleteBtn != null) {
+				deleteBtn.addEventListener('click', () => {
+				    modal.style.display = 'block';
+				});
+			}
+			
+			yesBtn.addEventListener('click', () => {
+			    modal.style.display = 'none';
+			    location.href = 'deleteVolunteer.vo?vNo=' + btoa(/*[[${v.vNo}]]*/0);
+			});
+			
+			noBtn.addEventListener('click', () => {
+			    modal.style.display = 'none';
+			});
+			
+			/*]]>*/
 	    
-    	if(recruitmentStatus.innerText >= today) {
-    		if(recruitmentStatus.parentElement.querySelector("input").value <= today) {
-	    		recruitmentStatus.innerText = "모집중";
-	    		recruitmentStatus.style.color = "blue";
-    		} else {
-    			recruitmentStatus.innerText = "모집전"
-   				recruitmentStatus.style.color = "black";
-    		}
-    	} else {
-    		recruitmentStatus.innerText = "모집종료";
-    		recruitmentStatus.style.color = "black";
-    	}
-	    
-    	if(applyBtn != null) {
-    		applyBtn.addEventListener("click", () => {
-    			const vCountAll = /*[[${v.vCountAll}]]*/1;
-    			const vCount = /*[[${v.vCount}]]*/1;
-        		if(check) {
-        			alert("비정상적인 접근입니다.");
-        			event.preventDefault();
-        		} else if(recruitmentStatus.innerText == "모집전") {
-					alert("모집 기간에 신청해주세요.")        		
-					event.preventDefault();
-        		} else if(vCountAll == vCount){
-        			alert("신청 인원이 마감되었습니다.");
-        			event.preventDefault();
-        		} else {
-        			$.ajax({
-        				url: 'checkVolunteerApply.vo',
-        				type: 'post',
-        				data: {
-        					vNo: /*[[${v.vNo}]]*/1,
-        					uNo: /*[[${session.loginUser == null? '' : session.loginUser.uNo}]]*/1
-        				}, success: data => {
-        					if(data === "no") {
-        						alert("이미 신청한 봉사입니다.");
-        					} else if(data === "yes") {
-        						const detailForm = document.querySelector("#detailForm");
-        						detailForm.setAttribute("action", "volunteerApply.vo");
-        						detailForm.submit();
-        					}
-						}, error: data => {
-        					
-        				}
-        			});
-        		} 
-        	});
+	    	/*<![CDATA[*/
+	    	document.querySelector("#listBtn").addEventListener("click", () => {
+	    		const vNo = /*[[${v.vNo}]]*/1;
+	    		const page = /*[[${page}]]*/1;
+	    		const searchMap = /*[[${searchMap}]]*/null;		
+		    		
+	    		const form  = document.createElement("form");
+	    	    form.setAttribute("method", "post");
+	    	    form.setAttribute("action", "volunteer.vo");
+	    	    
+	    	    const hiddenVNo = document.createElement("input");
+	    	    hiddenVNo.setAttribute("type", "hidden");
+	    	    hiddenVNo.setAttribute("name", "vNo");
+	    	    hiddenVNo.setAttribute("value", vNo);
+	    	    form.appendChild(hiddenVNo);
+	    	    
+	    	    const hiddenPage = document.createElement("input");
+	    	    hiddenPage.setAttribute("type", "hidden");
+	    	    hiddenPage.setAttribute("name", "page");
+	    	    hiddenPage.setAttribute("value", page);
+	    	    form.appendChild(hiddenPage);
+	    	    
+				
+	    	    const searchObject = {
+		    	    	vStartDate: searchMap.vStartDate,
+		    	    	vEndDate: searchMap.vEndDate,
+		    	    	vName: searchMap.vName,
+		    	    	registrar: searchMap.registrar,
+		    	    	vArea: searchMap.vArea,
+		    	    	vMainCategoryName: searchMap.vMainCategoryName,
+		    	    	vActivityType: searchMap.vActivityType,
+		    	    	vTargetCategoryName: searchMap.vTargetCategoryName,
+		    	    	status: searchMap.status
+		    		};
+	    	    
+	    	    const hiddenSearchObject = document.createElement("input");
+	    	    hiddenSearchObject.setAttribute("type", "hidden");
+	    	    hiddenSearchObject.setAttribute("name", "searchObject");
+	    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchObject));
+	    	    form.appendChild(hiddenSearchObject);
+				
+	    	    document.body.appendChild(form);
+	    	    form.submit();	    		
+	    	});
+	    	
+		    document.getElementById('summernote').innerHTML = /*[[${v.vContent}]]*/'내용';
+	    	
+	    	const recruitmentStatus = document.querySelector(".v-recruitment-status");
+		    const applyBtn = document.querySelector("#applyBtn");
+		    let check = false;
+		    
+	    	if(recruitmentStatus.innerText >= today) {
+	    		if(recruitmentStatus.parentElement.querySelector("input").value <= today) {
+		    		recruitmentStatus.innerText = "모집중";
+		    		recruitmentStatus.style.color = "blue";
+	    		} else {
+	    			recruitmentStatus.innerText = "모집전"
+	   				recruitmentStatus.style.color = "black";
+	    		}
+	    	} else {
+	    		recruitmentStatus.innerText = "모집종료";
+	    		recruitmentStatus.style.color = "black";
+	    	}
+		    
+	    	if(applyBtn != null) {
+	    		applyBtn.addEventListener("click", () => {
+	    			const vCountAll = /*[[${v.vCountAll}]]*/1;
+	    			const vCount = /*[[${v.vCount}]]*/1;
+	        		if(check) {
+	        			alert("비정상적인 접근입니다.");
+	        			event.preventDefault();
+	        		} else if(recruitmentStatus.innerText == "모집전") {
+						alert("모집 기간에 신청해주세요.")        		
+						event.preventDefault();
+	        		} else if(vCountAll == vCount){
+	        			alert("신청 인원이 마감되었습니다.");
+	        			event.preventDefault();
+	        		} else {
+	        			$.ajax({
+	        				url: 'checkVolunteerApply.vo',
+	        				type: 'post',
+	        				data: {
+	        					vNo: /*[[${v.vNo}]]*/1,
+	        					uNo: /*[[${session.loginUser == null? '' : session.loginUser.uNo}]]*/1
+	        				}, success: data => {
+	        					if(data === "no") {
+	        						alert("이미 신청한 봉사입니다.");
+	        					} else if(data === "yes") {
+	        						const searchMap = /*[[${searchMap}]]*/null;
+	        						
+	        						const detailForm = document.querySelector("#detailForm");
+	        						detailForm.setAttribute("action", "volunteerApply.vo");
+	        						
+	        						if(searchMap != null) {
+	        							const hiddenSearchObject = document.createElement("input");
+	        				    	    hiddenSearchObject.setAttribute("type", "hidden");
+	        				    	    hiddenSearchObject.setAttribute("name", "searchObject");
+	        				    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchMap));
+	        				    	    detailForm.appendChild(hiddenSearchObject);
+	        						}
+	        						detailForm.submit();
+	        					}
+							}, error: data => {
+	        					
+	        				}
+	        			});
+	        		} 
+	        	});
+	    	}
+	    	
+	    	document.querySelector("#modifyBtn").addEventListener("click", () => {
+	    		const searchMap = /*[[${searchMap}]]*/null;
+				
+				const detailForm = document.querySelector("#detailForm");
+				
+				if(searchMap != null) {
+					const hiddenSearchObject = document.createElement("input");
+		    	    hiddenSearchObject.setAttribute("type", "hidden");
+		    	    hiddenSearchObject.setAttribute("name", "searchObject");
+		    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchMap));
+		    	    detailForm.appendChild(hiddenSearchObject);
+				}
+				detailForm.submit();
+	    	});
     	}
     	/*]]>*/
     </script>

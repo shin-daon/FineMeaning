@@ -28,6 +28,7 @@ import com.fin.proj.volunteer.model.vo.Volunteer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.google.gson.reflect.TypeToken;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -39,51 +40,35 @@ public class VolunteerController {
 	private VolunteerService vService;
 	
 	@RequestMapping("volunteer.vo")
-	public String volunteer(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam(value="vStartDate", required=false) String vStartDate, 
-							@RequestParam(value="vEndDate", required=false) String vEndDate, @RequestParam(value="vName", required=false) String vName, 
-							@RequestParam(value="registrar", required=false) String registrar, @RequestParam(value="vArea", required=false) String vArea, 
-							@RequestParam(value="vMainCategoryName", required=false) String vMainCategoryName, @RequestParam(value="vActivityType", required=false) String vActivityType, 
-							@RequestParam(value="vTargetCategoryName", required=false) String vTargetCategoryName, @RequestParam(value="status", required=false) String status, Model model) {
+	public String volunteer(@RequestParam(value="page", required=false) Integer currentPage, @RequestParam(value="searchObject", required=false) String searchObject, Model model) {
 		if(currentPage == null) {
 			currentPage = 1;
 		}
+		
 		PageInfo pi = null;
 		ArrayList<Volunteer> list = null;
-		if(vStartDate == null) {
+		if(searchObject == null) {
 			int volunteerCount = vService.getVolunteerCount();
 			pi = Pagination.getPageInfo(currentPage, volunteerCount, 5);
 			list = vService.selectVolunteerList(pi);
 		} else {
-			if(vArea.equals("전체")) {
-				vArea = "";
+			HashMap<String, String> searchMap = new Gson().fromJson(String.valueOf(searchObject), new TypeToken<HashMap<String, Object>>(){}.getType());
+			
+			if(searchMap.get("vArea").equals("전체")) {
+				searchMap.put("vArea", "");
 			} 
-			
-			if(vMainCategoryName.equals("전체")) {
-				vMainCategoryName = "";
-			}
-			
-			if(vActivityType.equals("전체")) {
-				vActivityType = "";
-			}
-			
-			if(vTargetCategoryName.equals("전체")) {
-				vTargetCategoryName = "";
-			}
-			
-			if(status.equals("전체")) {
-				status = "";
-			}
-			
-			HashMap<String, String> searchMap = new HashMap<String, String>();
-			searchMap.put("vStartDate", vStartDate);
-			searchMap.put("vEndDate", vEndDate);
-			searchMap.put("vName", vName);
-			searchMap.put("registrar", registrar);
-			searchMap.put("vArea", vArea);
-			searchMap.put("vMainCategoryName", vMainCategoryName);
-			searchMap.put("vActivityType", vActivityType);
-			searchMap.put("vTargetCategoryName", vTargetCategoryName);
-			searchMap.put("status", status);
+			if(searchMap.get("vMainCategoryName").equals("전체")) {
+				searchMap.put("vMainCategoryName", "");
+			} 
+			if(searchMap.get("vActivityType").equals("전체")) {
+				searchMap.put("vActivityType", "");
+			} 
+			if(searchMap.get("vTargetCategoryName").equals("전체")) {
+				searchMap.put("vTargetCategoryName", "");
+			} 
+			if(searchMap.get("status").equals("전체")) {
+				searchMap.put("status", "");
+			} 
 			
 			int searchVolunteerCount = vService.getSearchVolunteerCount(searchMap);
 			pi = Pagination.getPageInfo(currentPage, searchVolunteerCount, 5);
@@ -102,10 +87,7 @@ public class VolunteerController {
 	}
 	
 	@RequestMapping("volunteerDetail.vo")
-	public String volunteerDetail(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, 
-								  @RequestParam("vName") String vName, @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, 
-								  @RequestParam("vMainCategoryName") String vMainCategoryName, @RequestParam("vActivityType") String vActivityType, 
-								  @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status, Model model) {
+	public String volunteerDetail(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam(value="searchObject", required=false) String searchObject, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
 		if(v != null) {
 			HashMap<String, Double> map = Map.getLongitudeAndLatitude(v.getvLocation());
@@ -113,37 +95,23 @@ public class VolunteerController {
 			model.addAttribute("page", page);
 			model.addAttribute("map", map);
 			
-			HashMap<String, String> searchMap = new HashMap<String, String>();
+			HashMap<String, String> searchMap = new Gson().fromJson(String.valueOf(searchObject), new TypeToken<HashMap<String, Object>>(){}.getType());
 			
-			if(vArea.equals("전체")) {
-				vArea = "";
+			if(searchMap.get("vArea").equals("전체")) {
+				searchMap.put("vArea", "");
 			} 
-			
-			if(vMainCategoryName.equals("전체")) {
-				vMainCategoryName = "";
+			if(searchMap.get("vMainCategoryName").equals("전체")) {
+				searchMap.put("vMainCategoryName", "");
+			} 
+			if(searchMap.get("vActivityType").equals("전체")) {
+				searchMap.put("vActivityType", "");
+			} 
+			if(searchMap.get("vTargetCategoryName").equals("전체")) {
+				searchMap.put("vTargetCategoryName", "");
+			} 
+			if(searchMap.get("status").equals("전체")) {
+				searchMap.put("status", "");
 			}
-			
-			if(vActivityType.equals("전체")) {
-				vActivityType = "";
-			}
-			
-			if(vTargetCategoryName.equals("전체")) {
-				vTargetCategoryName = "";
-			}
-			
-			if(status.equals("전체")) {
-				status = "";
-			}
-			
-			searchMap.put("vStartDate", vStartDate);
-			searchMap.put("vEndDate", vEndDate);
-			searchMap.put("vName", vName);
-			searchMap.put("registrar", registrar);
-			searchMap.put("vArea", vArea);
-			searchMap.put("vMainCategoryName", vMainCategoryName);
-			searchMap.put("vActivityType", vActivityType);
-			searchMap.put("vTargetCategoryName", vTargetCategoryName);
-			searchMap.put("status", status);
 			
 			model.addAttribute("searchMap", searchMap);
 			
@@ -153,24 +121,29 @@ public class VolunteerController {
 	}
 	
 	@PostMapping("volunteerApply.vo")
-	public String volunteerApply(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, 
-								 @RequestParam("vName") String vName, @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, 
-								 @RequestParam("vMainCategoryName") String vMainCategoryName, @RequestParam("vActivityType") String vActivityType, 
-								 @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status, HttpSession session, Model model) {
+	public String volunteerApply(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam(value="searchObject") String searchObject, HttpSession session, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
 		model.addAttribute("v", v);
 		model.addAttribute("page", page);
 		
-		HashMap<String, String> searchMap = new HashMap<String, String>();
-		searchMap.put("vStartDate", vStartDate);
-		searchMap.put("vEndDate", vEndDate);
-		searchMap.put("vName", vName);
-		searchMap.put("registrar", registrar);
-		searchMap.put("vArea", vArea);
-		searchMap.put("vMainCategoryName", vMainCategoryName);
-		searchMap.put("vActivityType", vActivityType);
-		searchMap.put("vTargetCategoryName", vTargetCategoryName);
-		searchMap.put("status", status);
+		HashMap<String, String> searchMap = new Gson().fromJson(String.valueOf(searchObject), new TypeToken<HashMap<String, Object>>(){}.getType());
+		
+		if(searchMap.get("vArea").equals("전체")) {
+			searchMap.put("vArea", "");
+		} 
+		if(searchMap.get("vMainCategoryName").equals("전체")) {
+			searchMap.put("vMainCategoryName", "");
+		} 
+		if(searchMap.get("vActivityType").equals("전체")) {
+			searchMap.put("vActivityType", "");
+		} 
+		if(searchMap.get("vTargetCategoryName").equals("전체")) {
+			searchMap.put("vTargetCategoryName", "");
+		} 
+		if(searchMap.get("status").equals("전체")) {
+			searchMap.put("status", "");
+		}
+		
 		model.addAttribute("searchMap", searchMap);
 		
 		return "volunteerApply";
@@ -198,40 +171,24 @@ public class VolunteerController {
 	}
 	
 	@PostMapping("volunteerAjax.vo")
-	public void volunteerAjax(@RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, @RequestParam("vName") String vName, 
-							  @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, @RequestParam("vMainCategoryName") String vMainCategoryName, 
-							  @RequestParam("vActivityType") String vActivityType, @RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status,
-							  HttpServletResponse response) {
-		HashMap<String, String> ajaxMap = new HashMap<String, String>();
-		if(vArea.equals("전체")) {
-			vArea = "";
+	public void volunteerAjax(@RequestParam("searchObject") String searchObject, HttpServletResponse response) {
+		HashMap<String, String> ajaxMap = new Gson().fromJson(String.valueOf(searchObject), new TypeToken<HashMap<String, Object>>(){}.getType());
+		
+		if(ajaxMap.get("vArea").equals("전체")) {
+			ajaxMap.put("vArea", "");
 		} 
-		
-		if(vMainCategoryName.equals("전체")) {
-			vMainCategoryName = "";
-		}
-		
-		if(vActivityType.equals("전체")) {
-			vActivityType = "";
-		}
-		
-		if(vTargetCategoryName.equals("전체")) {
-			vTargetCategoryName = "";
-		}
-		
-		if(status.equals("전체")) {
-			status = "";
-		}
-		
-		ajaxMap.put("vStartDate", vStartDate);
-		ajaxMap.put("vEndDate", vEndDate);
-		ajaxMap.put("vName", vName);
-		ajaxMap.put("registrar", registrar);
-		ajaxMap.put("vArea", vArea);
-		ajaxMap.put("vMainCategoryName", vMainCategoryName);
-		ajaxMap.put("vActivityType", vActivityType);
-		ajaxMap.put("vTargetCategoryName", vTargetCategoryName);
-		ajaxMap.put("status", status);
+		if(ajaxMap.get("vMainCategoryName").equals("전체")) {
+			ajaxMap.put("vMainCategoryName", "");
+		} 
+		if(ajaxMap.get("vActivityType").equals("전체")) {
+			ajaxMap.put("vActivityType", "");
+		} 
+		if(ajaxMap.get("vTargetCategoryName").equals("전체")) {
+			ajaxMap.put("vTargetCategoryName", "");
+		} 
+		if(ajaxMap.get("status").equals("전체")) {
+			ajaxMap.put("status", "");
+		} 
 		
 		int searchVolunteerAjaxCount = vService.getSearchVolunteerCount(ajaxMap);
 		PageInfo pi = Pagination.getPageInfo(1, searchVolunteerAjaxCount, 5);
@@ -382,24 +339,29 @@ public class VolunteerController {
 	}
 	
 	@PostMapping("volunteerEdit.vo")
-	public String volunteerEdit(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam("vStartDate") String vStartDate, @RequestParam("vEndDate") String vEndDate, 
-								@RequestParam("vName") String vName, @RequestParam("registrar") String registrar, @RequestParam("vArea") String vArea, 
-								@RequestParam("vMainCategoryName") String vMainCategoryName, @RequestParam("vActivityType") String vActivityType, 
-								@RequestParam("vTargetCategoryName") String vTargetCategoryName, @RequestParam("status") String status, Model model) {
+	public String volunteerEdit(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam(value="searchObject", required=false) String searchObject, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
 		model.addAttribute("v", v);
 		model.addAttribute("page", page);
 		
-		HashMap<String, String> searchMap = new HashMap<String, String>();
-		searchMap.put("vStartDate", vStartDate);
-		searchMap.put("vEndDate", vEndDate);
-		searchMap.put("vName", vName);
-		searchMap.put("registrar", registrar);
-		searchMap.put("vArea", vArea);
-		searchMap.put("vMainCategoryName", vMainCategoryName);
-		searchMap.put("vActivityType", vActivityType);
-		searchMap.put("vTargetCategoryName", vTargetCategoryName);
-		searchMap.put("status", status);
+		HashMap<String, String> searchMap = new Gson().fromJson(String.valueOf(searchObject), new TypeToken<HashMap<String, Object>>(){}.getType());
+		
+		if(searchMap.get("vArea").equals("전체")) {
+			searchMap.put("vArea", "");
+		} 
+		if(searchMap.get("vMainCategoryName").equals("전체")) {
+			searchMap.put("vMainCategoryName", "");
+		} 
+		if(searchMap.get("vActivityType").equals("전체")) {
+			searchMap.put("vActivityType", "");
+		} 
+		if(searchMap.get("vTargetCategoryName").equals("전체")) {
+			searchMap.put("vTargetCategoryName", "");
+		} 
+		if(searchMap.get("status").equals("전체")) {
+			searchMap.put("status", "");
+		}
+		
 		model.addAttribute("searchMap", searchMap);
 		
 		return "volunteerEdit";
@@ -416,27 +378,14 @@ public class VolunteerController {
 	}
 	
 	@PostMapping("updateVolunteer.vo")
-	public String updateVolunteer(@ModelAttribute Volunteer v, @RequestParam("page") int page, @RequestParam("sStartDate") String vStartDate, @RequestParam("sEndDate") String vEndDate, 
-								  @RequestParam("sName") String vName, @RequestParam("sRegistrar") String registrar, @RequestParam("sArea") String vArea, 
-								  @RequestParam("sMainCategoryName") String vMainCategoryName, @RequestParam("sActivityType") String vActivityType, 
-								  @RequestParam("sTargetCategoryName") String vTargetCategoryName, @RequestParam("sStatus") String status,
-								  HttpSession session, RedirectAttributes ra) {
+	public String updateVolunteer(@ModelAttribute Volunteer v, @RequestParam("page") int page, @RequestParam(value="searchObject", required=false) String searchObject, HttpSession session, RedirectAttributes ra) {
 		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
 		
 		int result = vService.updateVolunteer(v);
 		if(result > 0) {
 			ra.addAttribute("vNo", v.getvNo());
 			ra.addAttribute("page", page);
-			
-			ra.addAttribute("vStartDate", vStartDate);
-			ra.addAttribute("vEndDate", vEndDate);
-			ra.addAttribute("vName", vName);
-			ra.addAttribute("registrar", registrar);
-			ra.addAttribute("vArea", vArea);
-			ra.addAttribute("vMainCategoryName", vMainCategoryName);
-			ra.addAttribute("vActivityType", vActivityType);
-			ra.addAttribute("vTargetCategoryName", vTargetCategoryName);
-			ra.addAttribute("status", status);
+			ra.addAttribute("searchObject", searchObject);
 			
 			return "redirect:volunteerDetail.vo";
 		}
