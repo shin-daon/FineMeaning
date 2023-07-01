@@ -3,6 +3,7 @@ package com.fin.proj.member.model.service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 
 import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.member.model.vo.Member;
@@ -66,6 +67,10 @@ public interface MemberService {
 	int getSearchListCount(String searchWord);
 
 	ArrayList<Member> selectSearchListAdmin(PageInfo pi, String searchWord);
+
+	int updateUserInfo(Properties prop);
+
+	int updateState(Properties prop);
 	
 
 }
