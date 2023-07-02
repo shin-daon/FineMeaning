@@ -1072,13 +1072,18 @@ public class BoardController {
 	}
 	
 	@GetMapping("qaDetailPage.bo")
-	public String QaDetail(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
+	public String QaDetail(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer, @RequestParam("page") int page,
 							  HttpSession session, Model model) {
 		
 		Member m = (Member)session.getAttribute("loginUser");
 		
+		String me = null;
+		if(m != null) {
+			me = m.getuNickName();
+		}
+		
 		boolean countYN = false;
-		if(m == null || m.getIsAdmin() == 1) {
+		if(!writer.equals(me)) {
 			countYN = true;
 		}
 		

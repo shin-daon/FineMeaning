@@ -154,13 +154,9 @@ th, td {
     border-radius: 0px 10px 0px 0px;
 }
 
-.myBoardTable > tbody > tr:hover{
+tr.hoverable:hover {
     background-color: #e1e4d2;
     cursor: pointer;
-}
-
-.myBoardTable > tbody > tr:active{
-	background-color: #c4caa8;
 }
 
 .myBoardTable > tbody td:first-child {
