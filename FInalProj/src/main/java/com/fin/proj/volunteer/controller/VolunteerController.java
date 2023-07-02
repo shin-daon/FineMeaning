@@ -127,10 +127,11 @@ public class VolunteerController {
 	}
 	
 	@PostMapping("volunteerApply.vo")
-	public String volunteerApply(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam(value="searchObject") String searchObject, HttpSession session, Model model) {
+	public String volunteerApply(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam(value="searchObject", required=false) String searchObject, HttpSession session, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
 		model.addAttribute("v", v);
 		model.addAttribute("page", page);
+		model.addAttribute("u", ((Member)session.getAttribute("loginUser")));
 		
 		if(searchObject != null) {
 			HashMap<String, String> searchMap = new Gson().fromJson(String.valueOf(searchObject), new TypeToken<HashMap<String, Object>>(){}.getType());
