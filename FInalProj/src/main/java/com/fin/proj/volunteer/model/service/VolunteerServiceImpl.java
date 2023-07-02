@@ -143,4 +143,16 @@ public class VolunteerServiceImpl implements VolunteerService {
 		return vDAO.selectVolunteerApplyList(vNo, rowBounds);
 	}
 
+	@Override
+	public int getAdminVolunteerApplyCount(Integer vNo) {
+		return vDAO.getAdminVolunteerApplyCount(vNo);
+	}
+
+	@Override
+	public ArrayList<Volunteer> selectAdminVolunteerApplyList(PageInfo pi, Integer vNo) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return vDAO.selectAdminVolunteerApplyList(vNo, rowBounds);
+	}
+
 }

@@ -33,6 +33,9 @@
 		<result column="V_CHARGE_PHONE" property="vChargePhone"/>
 		<result column="V_HIS_NO" property="vHisNo"/>
  		<result column="V_HIS_DATE" property="vHisDate"/>
+ 		<result column="RESIDENT_NO" property="residentNo"/>
+ 		<result column="ADDRESS" property="address"/>
+ 		<result column="PHONE" property="phone"/>
 	</resultMap>
 	
 	<insert id="insertVolunteer">
@@ -73,8 +76,7 @@
 				 join v_main_category using(v_main_category_no)
 				 join v_sub_category using(v_sub_category_no)
 				 join v_target_category using(v_target_category_no)
-			where v_status='Y' 
-				  and v_no = #{vNo}
+			where v_no = #{vNo}
 		]]>
 	</select>
 	
@@ -199,35 +201,35 @@
 	<select id="getMyVolunteerHistoryCount" resultType="_int">
 		select count(*)
 		from volunteer
-			 join users using(u_no)
+			 join users on(volunteer.u_no = users.u_no)
 			 join v_main_category using(v_main_category_no)
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 			 join v_history using(v_no)
-		where v_history.u_no = #{uNo} 
+		where v_history.u_no = #{uNo} and v_status = 'Y'
 	</select>
 		
 	<select id="selectMyVolunteerHistory" resultMap="volunteerResultSet">
 		select *
 		from volunteer
-			 join users using(u_no)
+			 join users on(volunteer.u_no = users.u_no)
 			 join v_main_category using(v_main_category_no)
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 			 join v_history using(v_no)
-		where v_history.u_no = #{uNo} 
+		where v_history.u_no = #{uNo} and v_status = 'Y'
 		order by v_his_no desc
 	</select>
 	
 	<select id="getSearchMyVolunteerHistoryCount" resultType="_int">
 		select count(*)
 		from volunteer
-			 join users using(u_no)
+			 join users on(volunteer.u_no = users.u_no)
 			 join v_main_category using(v_main_category_no)
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 			 join v_history using(v_no)
-		where v_history.u_no = #{uNo} 
+		where v_history.u_no = #{uNo} and v_status = 'Y'
 		<if test="startDate != null and !startDate.equals('')">
 			 and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) >= #{startDate}]]>
 		</if>
@@ -259,12 +261,12 @@
 	<select id="selectSearchMyVolunteerHistory" resultMap="volunteerResultSet">
 		select *
 		from volunteer
-			 join users using(u_no)
+			 join users on(volunteer.u_no = users.u_no)
 			 join v_main_category using(v_main_category_no)
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 			 join v_history using(v_no)
-		where v_history.u_no = #{uNo} 
+		where v_history.u_no = #{uNo} and v_status = 'Y'
 		<if test="startDate != null and !startDate.equals('')">
 			 and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) >= #{startDate}]]>
 		</if>
@@ -419,6 +421,29 @@
 	</update>
 	
 	<select id="getVolunteerApplyCount" resultType="_int">
+		select count(*)
+		from v_history
+			 join users using(u_no)
+			 join volunteer on (v_history.v_no = volunteer.v_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+		where v_history.v_no = #{vNo}
+	</select>
+	
+	<select id="selectVolunteerApplyList" resultMap="volunteerResultSet">
+		select *
+		from v_history
+			 join users using(u_no)
+			 join volunteer on (v_history.v_no = volunteer.v_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+		where v_history.v_no = #{vNo}
+		order by v_his_no desc
+	</select>
+	
+	<select id="getAdminVolunteerApplyCount" resultType="_int">
 		select count(*) 
 		from volunteer 
 			 join users using(u_no)
@@ -431,20 +456,21 @@
 				v_no = #{vNo}
 			</if>
 		</where>
-		order by v_his_no desc
 	</select>
 	
-	<select id="selectVolunteerApplyList" resultMap="volunteerResultSet">
-		select * 
-		from volunteer 
-			 join users using(u_no)
-			 join v_main_category using(v_main_category_no)
-			 join v_sub_category using(v_sub_category_no)
-			 join v_target_category using(v_target_category_no)
-			 join v_history using(v_no)
+	<select id="selectAdminVolunteerApplyList" resultMap="volunteerResultSet">
+		select v.v_no, v_area, v_name, v_content, v_start_date, v_end_date, v_start_time, v_end_time, v_recruitment_start_date,
+	       	   v_recruitment_end_date, v_day, v_countall, v_count, v_location, v_activity_type, v_create_date, v_status, v_charge_name, 
+	           v_charge_phone, v_main_category_name, v_sub_category_name, v_target_category_name, registrar, vh.u_no, v_his_no, v_his_date
+	    from volunteer v
+		     join users u on (v.u_no = u.u_no)
+			 join v_main_category vmc on (v.v_main_category_no = vmc.v_main_category_no)
+			 join v_sub_category vsc on (v.v_sub_category_no = vsc.v_sub_category_no)
+			 join v_target_category vtc on (v.v_target_category_no = vtc.v_target_category_no)
+			 join v_history vh on (v.v_no = vh.v_no)
 		<where>
 			<if test="vNo != null">
-				v_no = #{vNo}
+				v.v_no = #{vNo}
 			</if>
 		</where>
 		order by v_his_no desc
