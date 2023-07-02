@@ -60,7 +60,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public String selectPwd(String uId) {
+	public Member selectPwd(String uId) {
 		return mDAO.selectPwd(uId);
 	}
 	
