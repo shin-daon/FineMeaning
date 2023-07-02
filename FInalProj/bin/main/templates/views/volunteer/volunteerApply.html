@@ -7,6 +7,19 @@
     <title>봉사 신청</title>
     <script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
     <link rel="stylesheet" href="css/volunteer/volunteerApply.css">
+    <style>
+   		.num {
+   			cursor: pointer;
+   		}
+   		
+   		.arrowKey {
+   			cursor: pointer;
+   		}
+   		
+   		.disabled {
+   			cursor: default;
+   		}
+   	</style>
 </head>
 <body>
 	<div th:replace="~{../common/header :: header}"></div>
@@ -72,11 +85,11 @@
 				<input type="hidden" name="vNo" th:value="${v.vNo}"/>
 				<div>
 					<span class="v-detail-title">신청자 정보</span>
-					<button type="button" id="v-modify-phone-btn">연락처 수정 </button>
-					<div class="v-detail-content detail-phone">연락처 번호 변경은 위쪽 연락처 수정 버튼을 클릭한 후 <span class="v-emphasize">'마이페이지 > 정보 수정'</span>에서 수정하시기 바랍니다.</div>
+					<button type="button" id="v-modify-phone-btn" onclick="location.href='editMyInfo.me'">연락처 수정 </button>
+					<div class="v-detail-content detail-phone">연락처 번호 변경은 위쪽 연락처 수정 버튼을 클릭한 후 <span class="v-emphasize">'마이페이지 > 내 정보 수정'</span>에서 수정하시기 바랍니다.</div>
 					<div class="v-applicant-info-div">
-						<div class="v-applicant-info">휴대폰 번호 : </div>
-						<div class="v-applicant-info">e-mail : </div>
+						<div class="v-applicant-info">휴대폰 번호 : [[${u.phone == null? '-' : #strings.substring(u.phone, 0, 3) + '-' + #strings.substring(u.phone, 3, 7) + '-' + #strings.substring(u.phone, 7)}]]</div>
+						<div class="v-applicant-info">e-mail : [[${u.email}]]</div>
 					</div>
 					<div class="v-caution">
 						<div class="v-caution-info">회원님이 등록하신 정보가 표시됩니다. 등록된 정보가 정확한지 확인해주세요.</div>
@@ -110,78 +123,44 @@
        	    	const page = /*[[${page}]]*/1;
        	    	const searchMap = /*[[${searchMap}]]*/null;
        	    	/*]]>*/
-       		    const form  = document.createElement("form");
-           	    form.setAttribute("method", "post");
-           	    form.setAttribute("action", "volunteerDetail.vo");
-           	    
-           	    const hiddenVNo = document.createElement("input");
-           	    hiddenVNo.setAttribute("type", "hidden");
-           	    hiddenVNo.setAttribute("name", "vNo");
-           	    hiddenVNo.setAttribute("value", volunteer.vNo);
-           	    form.appendChild(hiddenVNo);
-       		    
-       		    const hiddenPage = document.createElement("input");
-       		    hiddenPage.setAttribute("type", "hidden");
-       		    hiddenPage.setAttribute("name", "page");
-       		    hiddenPage.setAttribute("value", page);
-       		    form.appendChild(hiddenPage);
-       		    
-       		    const hiddenStartDate = document.createElement("input");
-       		    hiddenStartDate.setAttribute("type", "hidden");
-       		    hiddenStartDate.setAttribute("name", "vStartDate");
-       		    hiddenStartDate.setAttribute("value", searchMap.vStartDate);
-       		    form.appendChild(hiddenStartDate);
-       		    
-       		    const hiddenEndDate = document.createElement("input");
-       		    hiddenEndDate.setAttribute("type", "hidden");
-       		    hiddenEndDate.setAttribute("name", "vEndDate");
-       		    hiddenEndDate.setAttribute("value", searchMap.vEndDate);
-       		    form.appendChild(hiddenEndDate);
-       		    
-       		    const hiddenVolunteerName = document.createElement("input");
-       		    hiddenVolunteerName.setAttribute("type", "hidden");
-       		    hiddenVolunteerName.setAttribute("name", "vName");
-       		    hiddenVolunteerName.setAttribute("value", searchMap.vName);
-       		    form.appendChild(hiddenVolunteerName);
-       		    
-       		    const hiddenRegistrar = document.createElement("input");
-       		    hiddenRegistrar.setAttribute("type", "hidden");
-       		    hiddenRegistrar.setAttribute("name", "registrar");
-       		    hiddenRegistrar.setAttribute("value", searchMap.registrar);
-       		    form.appendChild(hiddenRegistrar);
-       		    
-       		    const hiddenLocation = document.createElement("input");
-       		    hiddenLocation.setAttribute("type", "hidden");
-       		    hiddenLocation.setAttribute("name", "vArea");
-       		    hiddenLocation.setAttribute("value", searchMap.vArea);
-       		    form.appendChild(hiddenLocation);
-       		    
-       		    const hiddenCategory = document.createElement("input");
-       		    hiddenCategory.setAttribute("type", "hidden");
-       		    hiddenCategory.setAttribute("name", "vMainCategoryName");
-       		    hiddenCategory.setAttribute("value", searchMap.vMainCategoryName);
-       		    form.appendChild(hiddenCategory);
-       		    
-       		    const hiddenOnOffLine = document.createElement("input");
-       		    hiddenOnOffLine.setAttribute("type", "hidden");
-       		    hiddenOnOffLine.setAttribute("name", "vActivityType");
-       		    hiddenOnOffLine.setAttribute("value", searchMap.vActivityType);
-       		    form.appendChild(hiddenOnOffLine);
-       		    
-       		    const hiddenObject = document.createElement("input");
-       		    hiddenObject.setAttribute("type", "hidden");
-       		    hiddenObject.setAttribute("name", "vTargetCategoryName");
-       		    hiddenObject.setAttribute("value", searchMap.vTargetCategoryName);
-       		    form.appendChild(hiddenObject);		
-       		    
-       		    const hiddenStatus = document.createElement("input");
-       		    hiddenStatus.setAttribute("type", "hidden");
-       		    hiddenStatus.setAttribute("name", "status");
-       		    hiddenStatus.setAttribute("value", searchMap.status);
-       		    form.appendChild(hiddenStatus);	
-       			
-       		    document.body.appendChild(form);
-       		    form.submit();
+       	    	
+       	    	const form  = document.createElement("form");
+	    	    form.setAttribute("method", "post");
+	    	    form.setAttribute("action", "volunteerDetail.vo");
+	    	    
+	    	    const hiddenVNo = document.createElement("input");
+	    	    hiddenVNo.setAttribute("type", "hidden");
+	    	    hiddenVNo.setAttribute("name", "vNo");
+	    	    hiddenVNo.setAttribute("value", volunteer.vNo);
+	    	    form.appendChild(hiddenVNo);
+	    	    
+	    	    const hiddenPage = document.createElement("input");
+	    	    hiddenPage.setAttribute("type", "hidden");
+	    	    hiddenPage.setAttribute("name", "page");
+	    	    hiddenPage.setAttribute("value", page);
+	    	    form.appendChild(hiddenPage);
+	    	    
+				
+	    	    const searchObject = {
+		    	    	vStartDate: searchMap.vStartDate,
+		    	    	vEndDate: searchMap.vEndDate,
+		    	    	vName: searchMap.vName,
+		    	    	registrar: searchMap.registrar,
+		    	    	vArea: searchMap.vArea,
+		    	    	vMainCategoryName: searchMap.vMainCategoryName,
+		    	    	vActivityType: searchMap.vActivityType,
+		    	    	vTargetCategoryName: searchMap.vTargetCategoryName,
+		    	    	status: searchMap.status
+		    		};
+	    	    
+	    	    const hiddenSearchObject = document.createElement("input");
+	    	    hiddenSearchObject.setAttribute("type", "hidden");
+	    	    hiddenSearchObject.setAttribute("name", "searchObject");
+	    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchObject));
+	    	    form.appendChild(hiddenSearchObject);
+				
+	    	    document.body.appendChild(form);
+	    	    form.submit();	 
        		}
 			
 			const now = new Date();

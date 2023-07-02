@@ -5,7 +5,7 @@
 <title>Insert title here</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <title>Document</title>
 
 </head>
@@ -111,8 +111,12 @@
     border-radius: 10px;
 }
 
-th, td {
+th {
     padding: 10px;
+}
+
+td {
+    padding: 8px;
 }
 
 .supportTable thead tr th {
@@ -288,57 +292,21 @@ th, td {
 	opacity: 0.3;
 }
 
-/* 토글 */
-input[type=radio] {
-  height: 0;
-  width: 0;
-  visibility: hidden;
+.state-btn {
+    margin: 0;
+	width: 23px;
+    height: 23px;
+    border-radius: 7px;
+    outline: none;
+    border: none;
 }
 
-.switch {
-  cursor: pointer;
-  text-indent: -9999px;
-  width: 50px; /* 너비 조절 */
-  height: 26px; /* 높이 조절 */
-  background: gray;
-  display: block;
-  border-radius: 50px; /* 원형 모양 조절 */
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  top: -8px;
+.state-y {
+	background: #4f9739;
 }
 
-.switch:after {
-  content: '';
-  position: absolute;
-  top: 3.6px; /* 상단 위치 조절 */
-  left: 4.5px; /* 왼쪽 위치 조절 */
-  width: 18px; /* 너비 조절 */
-  height: 18px; /* 높이 조절 */
-  background: #fff;
-  border-radius: 18px; /* 원형 모양 조절 */
-  transition: 0.3s;
-}
-
-input:radio + .switch {
-  background: #9DC08B;
-}
-
-input:radio + .switch:after {
-  left: calc(100% - 4.5px);
-  transform: translateX(-100%);
-}
-
-.switch:active:after {
-  width: 30px; /* 너비 조절 */
-}
-
-.switch-div {
-	justify-content: center;
-  	align-items: center;
-  	display: inline-block;
-  	vertical-align: middle;
+.state-n {
+	background: lightgray;
 }
 
 </style>
@@ -468,11 +436,8 @@ input:radio + .switch:after {
 	                    <td th:text="${m.uNickName}"></td>
 	                    <td th:text="${m.registrar != null ? m.registrar : '-'}"></td>
 	                    <td th:text="${m.isAdmin == 1 ? '일반' : (m.isAdmin == 0 ? '관리자' : (m.isAdmin == 2 ? '봉사관리자' : ''))}"></td>
-	                    <td th:text="${m.uStatus}">
-							<div style="margin:0 auto;" class="switch-div">
-								<input type="radio" id="switch1" th:checked="${m.uStatus == 'Y'}" />
-								<label for="switch1" class="switch">Toggle</label>
-							</div>
+	                    <td>
+	                    	<button type="button" th:class="${m.uStatus == 'Y'? 'state-btn state-y' : 'state-btn state-n'}"></button>
 						</td>
 	                </tr>	                
             </tbody>
@@ -521,7 +486,32 @@ input:radio + .switch:after {
 			}
 	
 		})
-	}	
+	}		
+	
+	const stateBtns = document.querySelectorAll(".state-btn");
+    for(const stateBtn of stateBtns) {
+    	stateBtn.addEventListener("click", function() {
+    		event.stopPropagation();
+    		const uNo = this.closest('tr').querySelector('td:first-child').innerText;
+    		const status = this.classList.contains("state-y") ? "N" : "Y";
+    		$.ajax({
+    			url: "updateState.me",
+				data: {uNo:uNo, status:status},
+    			success: data => {
+    				if(data == "success") {
+    					if(status == "N") {
+    						this.classList.remove("state-y");
+    						this.classList.add("state-n");
+    					} else {
+    						this.classList.remove("state-n");
+    						this.classList.add("state-y");
+    					}
+    				}
+    			},
+    			error: data => console.log(data)
+    		});
+    	});
+    }
 </script>
         
 </body>

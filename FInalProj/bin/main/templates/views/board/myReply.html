@@ -20,6 +20,7 @@
 	        <div>
 	            <div id="myReplyTitle">내가 작성한 댓글</div>
 	        </div>
+	        <p id="subMyReplyTitle">＊더블 클릭 시 해당 게시글로 이동</p>
 	
 	        <div class="actionArea">
 	            <div class="checkArea">
@@ -27,36 +28,37 @@
 	                <button class="deleteReplyBtn" onclick="location.href='#'">삭제</button>
 	            </div>
 	        </div>
-			
 	        <table class="myReplyTable">
 	            <thead>
 	                <tr>
 	                    <th>✔️</th>
-	                    <th>작성자</th>
+	                    <th>게시판</th>
 	                    <th>댓글 번호</th>
-	                    <th style="width: 20%;">댓글 내용</th>
-	                    <th>글 번호</th>
-	                    <th style="width: 20%">글 제목</th>
-	                    <th>작성일</th>
+	                    <th style="width: 30%;">댓글 내용</th>
+	                    <th style="width: 30%">글 제목</th>
+	                    <th style="width: 17%">작성일</th>
 	                </tr>
 	            </thead>
 	            <tbody>
 	                <tr th:each=" r : ${list}">
-	                    <td><input type="checkbox" class="checkBoard"></td>
-	                    <td th:text="${r.nickName}"></td>
-	                    <td id="replyNo">[[${r.replyNo}]]</td>
+	                    <td>
+	                    	<input type="checkbox" class="checkBoard">
+	                    	<input type="hidden" th:value="${r.nickName}" name="nickName">
+							<input type="hidden" th:value="${r.boardNo}" name="boardNo">
+	                    </td>
+	                    <td th:text="${r.boardType}"></td>
+	                    <td th:text="${r.replyNo}" id="replyNo"></td>
 	                    <td>
 	                        <div class="myReply_wrap">
-	                            <p class="myReply">[[${r.replyContent}]]</p>
+	                            <p th:text="${r.replyContent}" class="myReply"></p>
 	                        </div>
 	                    </td>
-	                    <td>[[${r.boardNo}]]</td>
 	                    <td>
 	                        <div class="myBoardTitle_wrap">
-								<p class="myBoardTitle">[[${r.boardTitle}]]</p>
+								<p th:text="${r.boardTitle}"class="myBoardTitle"></p>
 							</div>
 	                    </td>
-	                    <td>[[${r.replyDate}]]</td>
+	                    <td th:text="${r.replyDate}"></td>
 	                </tr>
 	                <tr>
 		        	<th:block th:if="${#lists.isEmpty(list)}">
@@ -97,21 +99,44 @@
 	</div>
 	<br><br>
     <div th:replace="~{views/common/footer :: footer}"></div>
-    <script>
+    <script th:inline="javascript">
     	window.onload = () => {
     		
 			const tds = document.querySelector('tbody').querySelectorAll('td');
 			
 			/*<![CDATA[ */
+				
+			// 더블 클릭 시 해당 댓글이 위치한 글 본문으로 이동
+			// 결실 : fruitDetail.bo?bNo=225&page=1
+			// TALK : commDetailPage.bo?bNo=179&writer=선뜻&page=1
+			// 1:1 문의 : qaDetailPage.bo?bNo=181&writer=피치딸기피지오&page=1
+			
 			for(const td of tds){
 				td.addEventListener('dblclick', function(){
 					const tr = this.parentElement;
-					const replyNo = tr.children[1].innerText;
+					const replyNo = tr.children[2].innerText;
+					const writer = tr.children[0].children[1].value;
+					const boardNo = tr.children[0].children[2].value;
+					const boardType = tr.children[1].innerText;
+					const page = /*[[${pi.currentPage}]]*/0;
 					
-// 					console.log(replyNo);
+					if(boardType == '결실'){
+						location.href = 'fruitDetail.bo?bNo=' + boardNo + '&page=' + page;
+					} else if(boardType == '일반'){
+						location.href = 'commDetailPage.bo?bNo=' + boardNo + '&writer=' + writer + '&page=' + page;
+					} else if(boardType == 'QA'){
+						location.href = 'qaDetailPage.bo?bNo=' + boardNo + '&writer=' + writer + '&page=' + page;
+					}
+					
+// 					console.log(writer);
+// 					console.log(boardNo);
+// 					console.log(boardType);
+// 					console.log(boardType);
+// 					console.log(page);
 				})
 			}
 			/* ]]> */
+			
 			
 			for(const td of tds){
                 td.addEventListener('click', function(){

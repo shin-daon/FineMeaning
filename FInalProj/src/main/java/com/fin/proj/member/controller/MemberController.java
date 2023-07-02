@@ -1,19 +1,23 @@
 package com.fin.proj.member.controller;
 
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -23,8 +27,8 @@ import com.fin.proj.member.model.exception.MemberException;
 import com.fin.proj.member.model.service.AuthService;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
-import com.fin.proj.support.model.vo.Support;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @SessionAttributes("loginUser")
@@ -44,7 +48,7 @@ public class MemberController {
 	public String loginView() {
 		return "login";
 	}
-	
+		
 	@PostMapping("login.me")
 	public String login(Member m, Model model, HttpSession session) {
 		
@@ -244,16 +248,16 @@ public class MemberController {
 	public void checkPwd(Member m, Model model, @RequestParam("uPwd") String uPwd, PrintWriter out) {
 		
 		String uId = ((Member)model.getAttribute("loginUser")).getuId();
-		String password = mService.selectPwd(uId);
+		String password = ((Member)model.getAttribute("loginUser")).getuPwd();
 		
-		String result = null;
+		int result = 0;
 		
 		if(bcrypt.matches(uPwd, password)) {
-			result = "yes";
+			result = 0;
 		} else {
-			result = "no";
+			result = 1;
 		}
-			
+		
 		out.print(result);			
 	}
 	
@@ -552,6 +556,66 @@ public class MemberController {
 		model.addAttribute("mList", mList);
 		model.addAttribute("searchWord", searchWord.trim());
 		return "editUserInfo";
+		
+	}
+	
+	@GetMapping("updateUserInfo.me")
+	@ResponseBody
+	public String updateUserInfo(@RequestParam("column") String column,
+								 @RequestParam("data") String data, @RequestParam("uNo") Integer uNo) {
+		
+		if (column.equals("이름")) {
+		    column = "u_name";
+		} else if (column.equals("생년월일")) {
+		    column = "resident_no";
+		} else if (column.equals("주소")) {
+		    column = "address";
+		} else if (column.equals("전화번호")) {
+		    column = "phone";
+		} else if (column.equals("이메일")) {
+			column = "email";
+		} else if (column.equals("닉네임")) {
+			column = "u_nickname"; 
+		} else if (column.equals("회원 유형")) {
+			column = "u_type";
+		} else if (column.equals("등록 기관")) {
+			column = "registrar";
+		} else if (column.equals("관리자 여부")) {
+			column = "is_admin";
+			
+			if (data.equals("일반")) {
+				data = "1";
+			} else if (data.equals("관리자")) {
+				data = "0";
+			} else if (data.equals("봉사 관리자")) {
+				data = "2";
+			}
+		}
+
+		Properties prop = new Properties();
+		prop.setProperty("column", column);
+		prop.setProperty("data", data);
+		prop.setProperty("uNo", uNo+"");
+		
+		System.out.println(prop);
+		
+		int result = mService.updateUserInfo(prop);
+		
+		return result == 1 ? "success" : "fail";
+		
+	}
+	
+	@GetMapping("updateState.me")
+	@ResponseBody
+	public String updateState(@RequestParam("status") String status, @RequestParam("uNo") Integer uNo) {
+		
+		Properties prop = new Properties();
+		prop.setProperty("status", status);
+		prop.setProperty("uNo", uNo+"");
+		System.out.println(prop);
+		int result = mService.updateState(prop);
+		
+		return result == 1 ? "success" : "fail";
 		
 	}
 }

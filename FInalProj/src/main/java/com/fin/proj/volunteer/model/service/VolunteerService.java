@@ -52,4 +52,8 @@ public interface VolunteerService {
 
 	ArrayList<Volunteer> selectVolunteerApplyList(PageInfo pi, Object vNo);
 
+	int getAdminVolunteerApplyCount(Integer vNo);
+
+	ArrayList<Volunteer> selectAdminVolunteerApplyList(PageInfo pi, Integer vNo);
+
 }

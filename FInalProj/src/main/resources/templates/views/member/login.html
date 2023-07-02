@@ -270,13 +270,11 @@ button[name='loginBtn'] {
 					    password
 					  </span>
 				</div>
+				
 				<div class="login-button-wrap">
 					<button type="submit" name="loginBtn">로그인</button>
 				</div>
-<!-- 				<div class="login-stay-sign-in"> -->
-<!-- 					<img src="image/check_gray.png" id="changeImage" onclick="changeImage()"/> -->
-<!-- 					<span>로그인 상태 유지</span> -->
-<!-- 				</div> -->
+				
 				<div class="check-div"><label id="loginCheckResult"></label></div>
 				<div class="others">
 				<a class="forget-msg" href="findId.me">아이디 찾기 · </a>
@@ -304,20 +302,6 @@ button[name='loginBtn'] {
 <div th:replace="~{views/common/footer :: footer}"></div>
 </body>
 <script th:inline="javascript">
-	// 로그인 유지하기
-// 	const changeImage = () => {
-// 	  const image = document.getElementById("changeImage");
-
-// 	  if (image.src.endsWith("check_gray.png")) {
-// 	    image.src = "image/check.png";
-// 	  } else {
-// 	    image.src = "image/check_gray.png";
-// 	  }
-// 	};
-
-// 	const imageElement = document.getElementById("changeImage");
-// 	imageElement.addEventListener("click", changeImage);
-	
 	// 유효성 검사
 	const uId = document.getElementsByName('uId')[0];
 	const uPwd = document.getElementsByName('uPwd')[0];
@@ -329,6 +313,7 @@ button[name='loginBtn'] {
 		const idInput = uId.value;
 		const pwdInput = uPwd.value;
 		const loginCheckResult = document.getElementById('loginCheckResult');
+		let errorCount = 1;
 		
 		if(idInput.trim() == ''){
 			loginCheckResult.innerText = '아이디를 입력해주세요.';
@@ -343,8 +328,9 @@ button[name='loginBtn'] {
 	                console.log("데이터 전송 성공: " + data);
 
 	                if(data.trim() !== ''){
-	                	loginCheckResult.innerHTML = '아이디 또는 비밀번호가 일치하지 않습니다.';               	
-	                	
+	                	loginCheckResult.innerHTML = '아이디 또는 비밀번호가 일치하지 않습니다.';
+	                	errorCount++;
+
 	                } else {
 	                	loginForm.submit();
 	                }

@@ -171,66 +171,30 @@
 	    	    const objectInput = document.querySelector("#objectInput").value;
 	    	    const statusInput = document.querySelector("#statusInput").value;
 	    	    
+	    	    const searchObject = {
+	    	    	vStartDate: startDate,
+	    	    	vEndDate: endDate,
+	    	    	vName: volunteerName,
+	    	    	registrar: registrar,
+	    	    	vArea: locationInput,
+	    	    	vMainCategoryName: categoryInput,
+	    	    	vActivityType: onoffLineInput,
+	    	    	vTargetCategoryName: objectInput,
+	    	    	status: statusInput
+	    		};
+	    	    
 	    	    const hiddenPage = document.createElement("input");
 	    	    hiddenPage.setAttribute("type", "hidden");
 	    	    hiddenPage.setAttribute("name", "page");
 	    	    hiddenPage.setAttribute("value", page);
 	    	    form.appendChild(hiddenPage);
 	    	    
-	    	    const hiddenStartDate = document.createElement("input");
-	    	    hiddenStartDate.setAttribute("type", "hidden");
-	    	    hiddenStartDate.setAttribute("name", "vStartDate");
-	    	    hiddenStartDate.setAttribute("value", startDate);
-	    	    form.appendChild(hiddenStartDate);
+	    	    const hiddenSearchObject = document.createElement("input");
+	    	    hiddenSearchObject.setAttribute("type", "hidden");
+	    	    hiddenSearchObject.setAttribute("name", "searchObject");
+	    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchObject));
+	    	    form.appendChild(hiddenSearchObject);
 	    	    
-	    	    const hiddenEndDate = document.createElement("input");
-	    	    hiddenEndDate.setAttribute("type", "hidden");
-	    	    hiddenEndDate.setAttribute("name", "vEndDate");
-	    	    hiddenEndDate.setAttribute("value", endDate);
-	    	    form.appendChild(hiddenEndDate);
-	    	    
-	    	    const hiddenVolunteerName = document.createElement("input");
-	    	    hiddenVolunteerName.setAttribute("type", "hidden");
-	    	    hiddenVolunteerName.setAttribute("name", "vName");
-	    	    hiddenVolunteerName.setAttribute("value", volunteerName);
-	    	    form.appendChild(hiddenVolunteerName);
-	    	    
-	    	    const hiddenRegistrar = document.createElement("input");
-	    	    hiddenRegistrar.setAttribute("type", "hidden");
-	    	    hiddenRegistrar.setAttribute("name", "registrar");
-	    	    hiddenRegistrar.setAttribute("value", registrar);
-	    	    form.appendChild(hiddenRegistrar);
-	    	    
-	    	    const hiddenLocation = document.createElement("input");
-	    	    hiddenLocation.setAttribute("type", "hidden");
-	    	    hiddenLocation.setAttribute("name", "vArea");
-	    	    hiddenLocation.setAttribute("value", locationInput);
-	    	    form.appendChild(hiddenLocation);
-	    	    
-	    	    const hiddenCategory = document.createElement("input");
-	    	    hiddenCategory.setAttribute("type", "hidden");
-	    	    hiddenCategory.setAttribute("name", "vMainCategoryName");
-	    	    hiddenCategory.setAttribute("value", categoryInput);
-	    	    form.appendChild(hiddenCategory);
-	    	    
-	    	    const hiddenOnOffLine = document.createElement("input");
-	    	    hiddenOnOffLine.setAttribute("type", "hidden");
-	    	    hiddenOnOffLine.setAttribute("name", "vActivityType");
-	    	    hiddenOnOffLine.setAttribute("value", onoffLineInput);
-	    	    form.appendChild(hiddenOnOffLine);
-	    	    
-	    	    const hiddenObject = document.createElement("input");
-	    	    hiddenObject.setAttribute("type", "hidden");
-	    	    hiddenObject.setAttribute("name", "vTargetCategoryName");
-	    	    hiddenObject.setAttribute("value", objectInput);
-	    	    form.appendChild(hiddenObject);		
-	    	    
-	    	    const hiddenStatus = document.createElement("input");
-	    	    hiddenStatus.setAttribute("type", "hidden");
-	    	    hiddenStatus.setAttribute("name", "status");
-	    	    hiddenStatus.setAttribute("value", statusInput);
-	    	    form.appendChild(hiddenStatus);	
-				
 	    	    document.body.appendChild(form);
 	    	    form.submit();
 	    	}
@@ -520,19 +484,23 @@
 	    	    const objectInput = document.querySelector("#objectInput").value;
 	    	    const statusInput = document.querySelector("#statusInput").value;
 	    		
+	    	    const searchObject = {
+	    	    	vStartDate: startDate,
+	    	    	vEndDate: endDate,
+	    	    	vName: volunteerName,
+	    	    	registrar: registrar,
+	    	    	vArea: locationInput,
+	    	    	vMainCategoryName: categoryInput,
+	    	    	vActivityType: onoffLineInput,
+	    	    	vTargetCategoryName: objectInput,
+	    	    	status: statusInput
+	    		};
+	    	    
 	    		$.ajax({
 	    			url: 'volunteerAjax.vo',
 	    			type: 'post',
 	    			data: {
-	    				vStartDate: startDate,
-	    		        vEndDate: endDate,
-	    		        vName: volunteerName,
-	    		        registrar: registrar,
-	    		        vArea: locationInput,
-	    		        vMainCategoryName: categoryInput,
-	    		        vActivityType: onoffLineInput,
-	    		        vTargetCategoryName: objectInput,
-	    		        status: statusInput
+	    				searchObject: JSON.stringify(searchObject)
 	    			},
 	 				success: data => {
 	 					const vList = document.querySelector(".v-list");

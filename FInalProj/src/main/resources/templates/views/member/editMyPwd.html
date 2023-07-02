@@ -272,9 +272,9 @@ window.onload = () => {
 	      url: 'checkPwd.me',
 	      data: { uPwd: uPwd.value.trim() },
 	      success: (data) => {
-	        if (data === 'yes') {
+	        if (data === '0') {
 	          validateNewPasswordFormat();
-	        } else if (data === 'no') {
+	        } else if (data === '1') {
 	          handleInvalidCurrentPassword();
 	        }
 	      },
