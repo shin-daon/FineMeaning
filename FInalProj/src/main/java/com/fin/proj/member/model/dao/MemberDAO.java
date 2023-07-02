@@ -29,7 +29,7 @@ public interface MemberDAO {
 
 	int updatePwd(HashMap<String, String> map);
 
-	String selectPwd(String uId);
+	Member selectPwd(String uId);
 
 	int searchEmailUser(HashMap<String, String> map);
 
