@@ -1,11 +1,13 @@
 package com.fin.proj.member.controller;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -25,6 +28,7 @@ import com.fin.proj.member.model.service.AuthService;
 import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @SessionAttributes("loginUser")
@@ -44,7 +48,7 @@ public class MemberController {
 	public String loginView() {
 		return "login";
 	}
-	
+		
 	@PostMapping("login.me")
 	public String login(Member m, Model model, HttpSession session) {
 		
@@ -244,16 +248,16 @@ public class MemberController {
 	public void checkPwd(Member m, Model model, @RequestParam("uPwd") String uPwd, PrintWriter out) {
 		
 		String uId = ((Member)model.getAttribute("loginUser")).getuId();
-		String password = mService.selectPwd(uId);
+		String password = ((Member)model.getAttribute("loginUser")).getuPwd();
 		
-		String result = null;
+		int result = 0;
 		
 		if(bcrypt.matches(uPwd, password)) {
-			result = "yes";
+			result = 0;
 		} else {
-			result = "no";
+			result = 1;
 		}
-			
+		
 		out.print(result);			
 	}
 	
