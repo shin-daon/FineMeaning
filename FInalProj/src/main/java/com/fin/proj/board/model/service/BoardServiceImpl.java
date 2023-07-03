@@ -176,7 +176,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void updateComment(Reply params) {
+	public int updateComment(int replyNo) {
+		return bDAO.updateComment(replyNo);
 	}
 
+	
 }

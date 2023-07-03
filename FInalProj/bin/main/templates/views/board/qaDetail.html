@@ -195,7 +195,7 @@ button.writeFaqBtn.learn-more {
 					<div class="modal-footer flex-nowrap p-0">
 						<button type="button"
 							class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
-							th:onclick="location.href='qaDelete.bo?bId='+btoa([[${board.boardNo}]])">
+							th:onclick="location.href='qaDeleteAdmin.bo?bId='+btoa([[${board.boardNo}]])">
 							<strong>네</strong>
 						</button>
 						<button type="button"
@@ -310,46 +310,16 @@ button.writeFaqBtn.learn-more {
 		
     }
     
-    	// 댓글 수정 팝업 open
-        function openCommentUpdatePopup(replyNo) {
-
-            const boardNo = /*[[ ${board.boardNo} ]]*/1;
-            
-            $.ajax({
-                url : `/board/${boardNo}/comments/${replyNo}`,
-                type : 'get',
-                dataType : 'json',
-                async : false,
-                success : function (response) {
-                    document.getElementById('modalContent').value = response.content;
-                    document.getElementById('commentUpdateBtn').setAttribute('onclick', `updateComment(${replyNo})`);
-                    layerPop('commentUpdatePopup');
-                },
-                error : function (request, status, error) {
-                    console.log(error)
-                }
-            })
-            
-        }
-
-
-        // 댓글 수정 팝업 close
-        function closeCommentUpdatePopup() {
-            document.querySelectorAll('#modalContent').forEach(element => element.value = '');
-            document.getElementById('commentUpdateBtn').removeAttribute('onclick');
-            layerPopClose('commentUpdatePopup');
-        }
-        
-     // 댓글 수정
+		// 댓글 수정
         function updateComment(replyNo) {
-
-            const content = document.getElementById('modalContent');
-
+		
+        	const textarea = document.querySelector('.comment-update-textarea');
             const boardNo = /*[[ ${board.boardNo} ]]*/1;
+            
             const params = {
             	replyNo : replyNo,
             	boardNo : boardNo,
-            	replyContent : content.value,
+            	replyContent : textarea.value,
             }
 
             $.ajax({
@@ -362,7 +332,6 @@ button.writeFaqBtn.learn-more {
                 success : function (response) {
                 	console.log(response);
                     alert('수정되었습니다.');
-                    closeCommentUpdatePopup();
                     findAllComment();
                 },
                 error : function (request, status, error) {
