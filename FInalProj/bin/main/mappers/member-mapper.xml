@@ -171,7 +171,7 @@
 		<if test="category == '미승인 기관'">
 			select count(*)
 			from users
-			where (u_type = '단체' and is_admin != '2')
+			where (u_type = '단체' and is_admin = '1')
 			<if test="searchWord != null and searchWord != ''">
 			and u_id like '%${searchWord}%'
 			</if>
@@ -208,7 +208,7 @@
 		<if test="category == '미승인 기관'">
 			select *
 			from users
-			where (u_type = '단체' and is_admin != '0')
+			where (u_type = '단체' and is_admin = '1')
 			<if test="searchWord != null and searchWord != ''">
 			and u_id like '%${searchWord}%'
 			</if>

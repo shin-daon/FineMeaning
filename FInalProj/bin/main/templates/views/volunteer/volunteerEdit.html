@@ -183,7 +183,7 @@
 										class="selectMainCategory" data-value="3">상담</span> <span
 										class="selectMainCategory" data-value="4">교육</span> <span
 										class="selectMainCategory" data-value="5">문화행사</span> <span
-										class="selectMainCategory" data-value="6">환경보호</span> <span
+										class="selectMainCategory" data-value="6">동물·환경보호</span> <span
 										class="selectMainCategory" data-value="7">안전·예방</span> <span
 										class="selectMainCategory" data-value="8">재해·재난</span>
 								</div>
@@ -204,7 +204,7 @@
 										class="selectObject" data-value="2">장애인</span> <span
 										class="selectObject" data-value="3">노인</span> <span
 										class="selectObject" data-value="4">여성</span> <span
-										class="selectObject" data-value="5">환경</span> <span
+										class="selectObject" data-value="5">동물·환경</span> <span
 										class="selectObject" data-value="6">기타</span>
 								</div>
 						</span></td>
@@ -568,7 +568,7 @@
         const consultation = ['말벗·상담', '전문상담', '기타'];
         const education = ['방과후 교육', '학습지도 교육', '특수교육', '평생교육', '전문교육', '진로체험지도', '기타'];
         const cultureEvent = ['행사보조', '공연활동', '캠페인', '관광안내', '사진촬영', '기타'];
-        const environmentalProtection = ['환경정화', '환경감시', '기타'];
+        const environmentalProtection = ['동물복지', '환경정화', '환경감시', '기타'];
         const safetyPevention = ['지역안전', '교통안전', '어린이 안전', '청소년 안전', '취약계층 안전', '안전신고·활동', '기타'];
         const disaster = ['피해복구', '긴급구조', '예방접종지원', '기타'];
 
@@ -599,15 +599,15 @@
             } else if(category == '문화행사') {
                 subCateName = cultureEvent;
                 subValue = 20;
-            } else if(category == '환경보호') {
+            } else if(category == '동물·환경보호') {
                 subCateName = environmentalProtection;
                 subValue = 26;
             } else if(category == '안전·예방') {
                 subCateName = safetyPevention;
-                subValue = 29;
+                subValue = 30;
             } else if(category == '재해·재난') {
                 subCateName = disaster;
-                subValue = 36;
+                subValue = 37;
             }
             
             for(let i=0; i < subCateName.length; i++) {
