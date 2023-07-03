@@ -240,7 +240,7 @@ public class BoardController {
 		int result = bService.deleteBoard(boardNo);
 		
 		if(result > 0) {
-			return "redirect:faqMain.bo";
+			return "redirect:faqAdmin.bo";
 		} else {
 			throw new BoardException("게시글 삭제 실패");
 		}
