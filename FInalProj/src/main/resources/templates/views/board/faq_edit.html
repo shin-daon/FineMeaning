@@ -68,7 +68,20 @@
 	            <input type="hidden" name="boardNo" th:value="${ board.boardNo }">
 	            <input type="hidden" name="page" th:value="${ page }">
 	            <div id="writeForm">
-	                <input type="text" id="title" name="boardTitle" th:value="${ board.boardTitle }" required>
+	                <div class="titleArea">
+	                	<div class="dropdown">
+                            <button type="button" id="dropbtn"> 
+                                [[${board.boardCate == 1 ? "후원" : (board.boardCate == 2 ? "봉사" : "기타")}]]
+                            </button>
+                            <input type="hidden" name="boardCate" value="none">
+                            <div class="dropdown-content">
+                                <span class="selectCate">후원</span>
+                                <span class="selectCate">봉사</span>
+                                <span class="selectCate">기타</span>
+                            </div>
+                        </div>
+	                	<input type="text" id="title" name="boardTitle" th:value="${ board.boardTitle }" required>
+	                </div>
 	                <textarea id="summernote" name="boardContent" required>[[${board.boardContent}]]</textarea>
 	            </div>
 	            <div class="btnArea">
@@ -93,6 +106,51 @@
 	
 	<script>
 		$(document).ready(function() {
+			
+			const selectCates = document.getElementsByClassName('selectCate');
+			for(const selectCate of selectCates){
+				selectCate.addEventListener('click', function(){
+					document.getElementById('dropbtn').innerText = this.innerHTML;
+					document.getElementsByName('boardCate')[0].value= this.innerHTML;
+// 					console.log(document.getElementsByClassName('dropdown-content')[0])
+					document.getElementsByClassName('dropdown-content')[0].style.display='none';
+				});
+			}
+			
+			document.getElementById('dropbtn').addEventListener('click', ()=>{
+				document.getElementsByClassName('dropdown-content')[0].style.display='block';	
+			});
+			
+			
+			// dropbtn 이나 dropdownContent 외의 다른 영역 클릭 시 none
+			document.addEventListener('click', (event) => {
+                const target = event.target;
+                const dropdownContent = document.getElementsByClassName('dropdown-content')[0];
+                const dropbtn = document.getElementById('dropbtn');
+                if (target !== dropdownContent && target !== dropbtn) {
+                    dropdownContent.style.display = 'none';
+                }
+            });
+			
+			
+			// span selectCate를 선택하면 name boardCate value에 해당 값이 들어가게 하기.
+			const categories = document.querySelectorAll('.selectCate');
+			for(const category of categories){
+				category.addEventListener('click', function(){
+					const cate = this.innerText;
+					
+					const boardCate = document.getElementsByName('boardCate')[0];
+					
+					if(cate == '후원'){
+						boardCate.value = 1;
+					} else if(cate == '봉사'){
+						boardCate.value = 2;
+					} else {
+						boardCate.value = 3;
+					}
+// 					console.log(boardCate.value);
+				});
+			}
 			
 			// 취소 버튼 모달
 			const backBtn = document.getElementsByClassName('backBtn')[0];
