@@ -1,0 +1,350 @@
+@charset "UTF-8";
+
+#faqSection {
+	margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    /* justify-content(가로 가운데)랑 align-items(세로 가운데) 쓰기 위해 선언!
+        ≫ column을 하는 순간 반대로 다 바뀜 */
+    align-items: center;
+    flex-direction: column; /* 세로 방향, row는 가로 방향 */
+}
+
+#faqTitle {
+    font-size: 30px;
+    border-bottom: 2px solid #40513B;
+}
+
+#subFaqTitle {
+	font-size: 15px;
+    margin-top: 20px;
+}
+
+.path {
+    margin-top: 30px;
+    width: 740px;
+    font-size: 14px;
+}
+
+.middle {
+    vertical-align: middle;
+    text-decoration: none;
+    color: black;
+}
+
+.middle:hover {
+	color: black;
+}
+
+.iconSize {
+    block-size: 12px;
+    vertical-align: sub;
+}
+
+.homeIconSize {
+    block-size: 14px;
+    margin-top: 2px;
+}
+
+.actionArea {
+    margin-top: 30px;
+    width: 750px;
+}
+
+.writeArea {
+    float: left;
+}
+
+.writeFaqBtn {
+    width: 80px;
+    height: 30px;
+    background-color: #9DC08B;
+    color: white;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    border: 1px solid black;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.searchArea {
+    float: right;
+    margin-top: 20px;
+}
+
+.searchInput {
+    float: right;
+    width: 160px;
+    height: 30px;
+    padding: 10px 12px;
+    padding-right: 20px;
+    border-radius: 0.4rem;
+    background-color: #f3f3f3;
+    border: 1px solid black;
+}
+
+.searchIcon {
+    width: 15px;
+    cursor: pointer;
+    transition: all 0.1s linear;
+}
+
+.searchIcon:hover{
+	transform: scale(1.3);	
+}
+
+.searchIcon:active{
+	transform: scale(1.3);	
+}
+
+.searchIconATag {
+	cursor: pointer;
+    position: relative;
+    left: 155px;
+    top: 6px;
+}
+
+/* 카테고리 드롭다운 */
+
+.dropdown{
+    float: right;
+    margin-top: 10px;
+    margin-right: -10px;
+}
+
+#dropbtn{
+    border: 1px solid #40513B;
+    border-radius: 8px;
+    background-color: #f3f3f3;
+    color: gray;
+    width :80px;
+    height: 31px;
+    text-align: center;
+    cursor : pointer;
+    font-size : 13px;
+}
+
+.dropdown-content{
+    display : none;
+    position : absolute;
+    z-index : 9999;
+    font-weight: 400;
+    min-width : 80px;
+}
+
+.dropdown-content span{
+    display: flex;
+    align-items: center;
+    justify-content: center;   /* 가로 세로 가운데 정렬하려면 4줄 추가 */
+    flex-direction: column;
+    color : rgb(37, 37, 37);
+    font-size: 13px;
+}
+
+.dropdown-content span:first-child {
+    border-radius: 8px 8px 0 0;
+}
+
+.dropdown-content span:last-child {
+    border-radius: 0 0 8px 8px;
+}
+
+.dropdown-content span:hover{
+    cursor: pointer;
+    background-color : #609966;
+    color:white;
+}
+
+.dropdown:active .dropdown-content {
+    display: block;
+}
+
+.selectCate{
+    width: 80px;
+    height: 35px;
+    background-color: #dde4af;
+}
+
+/* 목록 */
+
+.faq_title_wrap {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1; /* 표시할 줄 수 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.faq_title {
+    word-break: break-all;
+    font-size: 15px;
+    text-align: center;
+}
+
+.faqTable {
+    width: 750px;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px;
+    border-radius: 10px;
+}
+
+th, td {
+    padding: 10px;
+}
+
+.faqTable thead tr th {
+    border-bottom: 1px dotted black;
+    background-color: #EDF1D6;
+}
+
+/* .faqTable thead tr th:nth-child(1) { */
+/*     border-radius: 10px 0px 0px 0px; */
+/* } */
+
+/* .faqTable thead tr th:nth-child(4) { */
+/*     border-radius: 0px 10px 0px 0px; */
+/* } */
+
+.faqTable thead tr th:first-child {
+    border-radius: 10px 0px 0px 0px;
+}
+
+.faqTable thead tr th:last-child {
+    border-radius: 0px 10px 0px 0px;
+}
+
+
+.faqTable > tbody > tr:hover{
+    background-color: #e1e4d2;
+    cursor: pointer;
+}
+
+.faqTable > tbody > tr:active{
+	background-color: #c4caa8;
+}
+
+.faqTable > tbody td:first-child {
+    border-radius: 8px 0px 0px 8px;
+}
+
+.faqTable > tbody td:last-child {
+    border-radius: 0px 8px 8px 0px;
+}
+
+#emptyBoardList {
+    pointer-events: none;
+}
+
+/* 페이징 처리 */
+
+.page {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: row;
+}
+
+.pagination > li {
+    list-style-type: none;
+    float: left;
+}
+
+.pagination > li > .num {
+    margin: 10px;
+    width: 20px;
+    height: 20px;
+    text-decoration-line: none;
+    color: black;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center
+}
+
+.pagination > li > .num:hover {
+    color: white;
+    background-color: #40513B;
+    border-radius: 100%;
+}
+
+.currentPage{
+	color: white;
+    background-color: #9bc08d;
+    border-radius: 100%;
+}
+
+.arrowKey {
+    margin-top: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
+    block-size: 14px;
+    display: block;
+}
+
+.disabled {
+	opacity: 0.3;
+}
+
+
+/* 귀여운 버튼 */
+
+button {
+	margin-top:10px;			
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	outline: none;
+	border: 0;
+	vertical-align: middle;
+	text-decoration: none;
+	font-size: 15px;
+	font-family: inherit;
+}
+
+.learn-more {
+    font-weight: 600;
+    color: #382b22;
+    text-transform: uppercase;
+    /*   padding: 1.25em 2em; */
+    background: #EDF1D6;
+    border: 2px solid #609966;
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+.learn-more::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #9DC08B;
+    border-radius: inherit;
+    box-shadow: 0 0 0 2px #609966, 0 0.625em 0 0 #EDF1D6;
+    transform: translate3d(0, 0.75em, -1em);
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+.learn-more:hover {
+    background: #EDF1D6;
+    transform: translate(0, 0.25em);
+}
+.learn-more:hover::before {
+    box-shadow: 0 0 0 2px #609966, 0 0.5em 0 0 #EDF1D6;
+    transform: translate3d(0, 0.5em, -1em);
+}
+.learn-more:active {
+    background: #EDF1D6;
+    transform: translate(0em, 0.75em);
+}
+.learn-more:active::before {
+    box-shadow: 0 0 0 2px #609966, 0 0 #EDF1D6;
+    transform: translate3d(0, 0, -1em);
+}
