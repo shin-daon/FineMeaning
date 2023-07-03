@@ -2,14 +2,14 @@
 
 @charset "UTF-8";
 
-#faqSection {
+#noticeSection {
     margin-top: 50px;
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
-#faqTitle {
+#noticeTitle {
     font-size: 30px;
     border-bottom: 2px solid #40513B;
 }
@@ -189,21 +189,7 @@ button {
     top: 6px;
 }
 
-.faqTable {
-    width: 750px;
-    margin-top: 10px;
-    padding: 10px;
-    text-align: center;
-    border-width: 1px;
-    border-style: solid;
-    border-color: black;
-    border-collapse: separate;
-    border-spacing: 0;
-    font-size: 15px;
-    border-radius: 10px;
-}
-
-.faqTable1 {
+.noticeTable {
     width: 750px;
     margin-top: 10px;
     padding: 10px;
@@ -221,16 +207,16 @@ th, td {
     padding: 10px;
 }
 
-.faqTable thead tr th {
+.noticeTable thead tr th {
     border-bottom: 1px dotted black;
     background-color: #EDF1D6;
 }
 
-.faqTable thead tr th:nth-child(1) {
+.noticeTable thead tr th:nth-child(1) {
     border-radius: 10px 0px 0px 0px;
 }
 
-.faqTable thead tr th:nth-child(5) {
+.noticeTable thead tr th:nth-child(5) {
     border-radius: 0px 10px 0px 0px;
 }
 
@@ -289,32 +275,4 @@ th, td {
     margin-bottom: 30px;
     display: flex;
     justify-content: center;
-}
-
-/* 글쓰기 버튼 */
-
-/* button { */
-/* 	margin-top:10px;			 */
-/* 	position: relative; */
-/* 	display: inline-block; */
-/* 	cursor: pointer; */
-/* 	outline: none; */
-/* 	border: 0; */
-/* 	vertical-align: middle; */
-/* 	text-decoration: none; */
-/* 	font-size: 15px; */
-/* 	font-family: inherit; */
-/* } */
-
-/* 취소 버튼 */
-.backBtn {
-    width: 85px;
-    height: 35px;
-    background-color: #b2bdac;
-    color: white;
-    border-radius: 0.4rem;
-    cursor: pointer;
-    border: 1px solid black;
-    font-size: 13px;
-    margin-bottom: 15px;
 }
