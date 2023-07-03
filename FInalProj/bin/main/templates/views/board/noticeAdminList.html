@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="css/board/notice.css">
+<script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/1c67f557d9.js" crossorigin="anonymous"></script>
+<style>
+#noticeSection{
+width: 1000;
+height: 780;
+}
+button.writeFaqBtn.learn-more {
+	width: 80px;
+    height: 30px;
+    background-color: #9DC08B;
+    color: white;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    border: 1px solid black;
+    font-size: 14px;
+    margin-bottom: 15px;
+    /* 추가로 learn-more 클래스 스타일을 더 구체적으로 지정합니다 */
+    font-weight: 600;
+    color: #382b22;
+    text-transform: uppercase;
+    background: #EDF1D6;
+    border: 2px solid #609966;
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+.learn-more {
+    font-weight: 600;
+    color: #382b22;
+    text-transform: uppercase;
+    /*   padding: 1.25em 2em; */
+    background: #EDF1D6;
+    border: 2px solid #609966;
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.learn-more::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #9DC08B;
+    border-radius: inherit;
+    box-shadow: 0 0 0 2px #609966, 0 0.625em 0 0 #EDF1D6;
+    transform: translate3d(0, 0.75em, -1em);
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.learn-more:hover {
+    background: #EDF1D6;
+    transform: translate(0, 0.25em);
+}
+
+.learn-more:hover::before {
+    box-shadow: 0 0 0 2px #609966, 0 0.5em 0 0 #EDF1D6;
+    transform: translate3d(0, 0.5em, -1em);
+}
+
+.learn-more:active {
+    background: #EDF1D6;
+    transform: translate(0em, 0.75em);
+}
+
+.learn-more:active::before {
+    box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
+    transform: translate3d(0, 0, -1em);
+}
+        
+.writeFaqBtnSmall {
+   	float: right;
+}
+
+.noticeTable .answer {
+    display: none;
+    padding-left: 50px;
+    border: 1px solid #000; /* 테두리 스타일과 색상 설정 */
+  	padding: 7px; /* 원하는 여백 값으로 설정 */
+    
+}
+
+.page {
+    margin-top: 35px;
+    display: flex;
+    flex-direction: row;
+}
+
+.pagination > li {
+    list-style-type: none;
+    float: left;
+}
+
+.pagination > li > .num {
+    margin: 10px;
+    width: 33px;
+    height: 33px;
+    text-decoration-line: none;
+    color: black;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center
+}
+
+.pagination > li > .num:hover {
+    color: white;
+    background-color: #40513B;
+    border-radius: 100%;
+}
+
+.currentPage{
+	color: white;
+    background-color: #9bc08d;
+    border-radius: 100%;
+}
+
+.arrowKey {
+    margin-top: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
+    block-size: 14px;
+    display: block;
+}
+
+.disabled {
+	opacity: 0.3;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  width: 100%; /* 또는 원하는 너비 값으로 설정 */
+  height: 50px;
+  font-weight: bold;
+  border: 1px solid #000; /* 테두리 스타일과 색상 설정 */
+  padding: 3px; /* 원하는 여백 값으로 설정 */
+}
+</style>
+</head>
+
+<body>
+<div th:replace="~{../common/header :: header}"></div>
+<section style="display: flex;">
+<div th:replace="~{views/common/adminSidebar :: adminSidebar}"></div>
+<section id="noticeSection" style="margin-left: 300px; padding: 30px;  border-radius: 10px; border: 3px solid #ccc;">
+		<div>
+            <div id="noticeTitle">공지사항 등록</div>
+        </div>
+<div class="path">
+            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle" href="#">관리자페이지</a>
+            <img class="sub iconSize" src="image/onenext.png">
+            <a class="middle">공지사항</a>
+        </div>
+        <div class="actionArea">
+            <div class="writeArea">
+            <th:block th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}">
+                <button class="writeFaqBtn learn-more" onclick="location.href='writeNotice.bo'">작성하기</button>
+            </div>
+            </th:block>
+            <div class="searchArea">
+                <input class="searchInput" type="text" placeholder="검색"/>
+                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
+            </div>
+        </div>
+
+<table class="noticeTable">
+  <tbody>
+    <tr th:each="b : ${list}">
+      <td>
+        <button class="question" th:id="'que-' + ${b.boardNo}">
+          <img class="sub iconSize" src="image/alert.png" />&nbsp;&nbsp;
+          <span>제목: [[${b.boardTitle}]] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;작성일: [[${b.boardDate}]]</span>
+        </button>
+        <div class="answer" th:id="'ans-' + ${b.boardNo}">
+          <form class="needs-validation" action="updateNoticeForm.bo" method="POST">
+            <input type="hidden" th:value="${b.boardNo}" name="bNo">
+            <input type="hidden" th:value="${page}" name="page">
+            <br><br>
+            <p th:utext="${b.boardContent}"></p>
+            <th:block th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}">
+              <button class="writeFaqBtnSmall learn-more" onclick="location.href='updateNoticeForm.bo'">수정하기</button>
+              <button class="writeFaqBtnSmall learn-more" type="button" id="deleteModal">삭제하기</button>
+            </th:block>
+            <br><br><br>
+          </form>
+        </div>
+      </td>
+      
+      
+       <div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content rounded-3 shadow">
+					<div class="modal-body p-4 text-center">
+						<h3 class="mb-0">정말로 삭제하시겠습니까?</h3>
+						<p class="mb-0">삭제 후 게시글은 되돌릴 수 없습니다.</p>
+					</div>
+					<div class="modal-footer flex-nowrap p-0">
+						<button type="button"
+							class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
+							th:onclick="location.href='deleteNotice.bo?bId='+btoa([[${b.boardNo}]])">
+							<strong>네</strong>
+						</button>
+						<button type="button"
+							class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
+							th:onclick="$('#modalChoice').modal('hide')">아니오</button>
+					</div>
+				</div>
+			</div>
+		</div>
+    </tr>
+  </tbody>
+</table>
+		
+		<div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
+            <ul class="pagination">
+                <li th:if="${ pi.currentPage > 1 && !map.isEmpty()}">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 }, keyword=${map.keyword})}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:if="${ pi.currentPage > 1 && map.isEmpty()}">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage > 1}">
+	                	<img class="arrowKey disabled" src="image/before.png">
+                </li>
+                
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0 && !map.isEmpty()}">
+                	<a th:href="@{${loc}(page=${p}, keyword=${map.keyword})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0 && map.isEmpty()}">
+                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                
+                <li th:if="${ pi.currentPage < pi.maxPage && !map.isEmpty()}">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${map.keyword}, category=${map.category})}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:if="${ pi.currentPage < pi.maxPage && map.isEmpty()}">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage < pi.maxPage }">
+	                	<img class="arrowKey disabled" src="image/next.png">
+                </li>
+            </ul>
+        </div>
+		
+    </section>
+    </section>
+    <div th:replace="~{../common/footer :: footer}"></div>
+</body>
+ <script th:inline="javascript">
+ //토글 JS
+ $(function(){
+   const questions = document.querySelectorAll('.question');
+
+   function openCloseAnswer() {
+     const answerId = this.id.replace('que', 'ans');
+     const answer = document.getElementById(answerId);
+     const toggle = this.querySelector('.toggle');
+
+     if (answer.style.display === 'block') {
+       answer.style.display = 'none';
+       toggle.textContent = '+';
+     } else {
+       const openAnswer = document.querySelector('.answer[style="display: block;"]');
+       if (openAnswer) {
+         openAnswer.style.display = 'none';
+         const openQuestion = openAnswer.parentNode.querySelector('.question');
+         openQuestion.querySelector('.toggle').textContent = '+';
+       }
+
+       answer.style.display = 'block';
+       toggle.textContent = '-';
+     }
+   }
+
+   questions.forEach(question => {
+     const toggle = document.createElement('td');
+     toggle.className = 'toggle';
+     toggle.textContent = '+';
+     question.prepend(toggle);
+
+     question.addEventListener('click', openCloseAnswer);
+   });
+ });
+// 삭제 모달JS
+window.onload = () =>{
+	const deleteModal = document.getElementById('deleteModal');
+	if(deleteModal != null){
+		deleteModal.addEventListener('click', ()=>{
+			$('#modalChoice').modal('show');
+		})
+	}
+	
+	// 검색 기능 (키워드만)
+	document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
+		enrollSearchKeyword();
+	});
+	
+	document.getElementsByClassName('searchInput')[0].addEventListener('keyup', (e)=>{
+		if(e.key == 'Enter'){
+			enrollSearchKeyword()
+		}
+	});
+	
+	function enrollSearchKeyword(){
+		const input = document.querySelector('.searchInput').value.trim();
+		location.href = 'noticeList.bo?keyword=' + input;
+	}
+}
+</script>
+</html>

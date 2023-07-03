@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자주 묻는 질문</title>
+<link rel="stylesheet" href="css/board/faq_style.css">
+<style>
+</style>
+</head>
+<body>
+	<div th:replace="~{../common/header :: header}"></div>
+	
+	<section id="faqSection">
+        <div>
+            <div id="faqTitle">자주 묻는 질문</div>
+        </div>
+        <p id="subFaqTitle">FAQ</p>
+		
+        <div class="path">
+            <a class="middle" href="/"><img class="homeIconSize" src="image/home.png"></a>
+            <img class="sub iconSize" src="image/arrow.png">
+            <a class="middle" href="commList.bo">커뮤니티</a>
+            <img class="sub iconSize" src="image/arrow.png">
+            <a class="middle">자주 묻는 질문</a>
+        </div>
+
+        <div class="actionArea">
+        	<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0 }">
+	            <div class="writeArea">
+	                <button class="writeFaqBtn learn-more" onclick="location.href='faqForm.bo'">글쓰기</button>
+	            </div>
+            </th:block>
+            <div class="searchArea">
+                <input class="searchInput" type="text" placeholder="검색" th:value="${map.isEmpty() ? '' : map.keyword}"/>
+                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
+            </div>
+            <div class="dropdown">
+                <button id="dropbtn">
+                	[[${map.isEmpty() ? '🕊️카테고리' : (map.category == 0 ? '선택없음' : (map.category == 1 ? '후원' : (map.category == 2 ? '봉사' : '기타')))}]]
+                </button>	<!-- isEmpty()인 이유 : 컨트롤러에서 처음부터 map을 만들기 때문에 객체{} 내부에 빈 값이 있어도 보내진다.  -->
+                <input type="hidden" name="category" th:value="${map.isEmpty() ? '' : map.category}">
+                <div class="dropdown-content">
+                	<span class="selectCate">선택없음</span>
+                    <span class="selectCate">후원</span>
+                    <span class="selectCate">봉사</span>
+                    <span class="selectCate">기타</span>
+                </div>
+            </div>
+        </div>
+
+        <table class="faqTable">
+            <thead>
+                <tr>
+                    <th style="width: 10%">No</th>
+                    <th style="width: 15%">카테고리</th>
+                    <th style="width: 45%">제목</th>
+                    <th style="width: 10%">작성자</th>
+                    <th style="width: 20%">작성일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="b : ${ list }">
+                	<th:block th:if="${b != null}">
+	                    <td th:text="${ b.boardNo }"></td>
+	                    <td th:text="${b.boardCate == 1 ? '후원' : (b.boardCate == 2 ? '봉사' : '기타')}"></td>
+	                    <td>
+	                    	<div class="faq_title_wrap">
+								<p class="faq_title" th:text="${ b.boardTitle }"></p>
+							</div>
+	                    </td>
+	                    <td th:text="${ b.nickName }"></td>
+	                    <td th:text="${ b.boardDate }"></td>
+                    </th:block>
+                </tr>
+                <tr>
+		        	<th:block th:if="${#lists.isEmpty(list)}">
+			            <td colspan="5" id="emptyBoardList">게시글이 없습니다.</td>
+			        </th:block>
+				</tr>
+            </tbody>
+        </table>
+
+        <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
+            <ul class="pagination">
+                <li th:if="${ pi.currentPage > 1 && !map.isEmpty()}">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 }, keyword=${map.keyword}, category=${map.category})}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:if="${ pi.currentPage > 1 && map.isEmpty()}">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage > 1}">
+	                	<img class="arrowKey disabled" src="image/before.png">
+                </li>
+                
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0 && !map.isEmpty()}">
+                	<a th:href="@{${loc}(page=${p}, keyword=${map.keyword}, category=${map.category})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0 && map.isEmpty()}">
+                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                
+                <li th:if="${ pi.currentPage < pi.maxPage && !map.isEmpty()}">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${map.keyword}, category=${map.category})}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:if="${ pi.currentPage < pi.maxPage && map.isEmpty()}">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage < pi.maxPage }">
+	                	<img class="arrowKey disabled" src="image/next.png">
+                </li>
+            </ul>
+        </div>
+    </section>
+    <div th:replace="~{views/common/footer :: footer}"></div>
+    
+    <script th:inline="javascript">
+    	window.onload = () =>{
+    		
+    		// 게시글 선택
+			const tbody = document.querySelector('tbody');
+			const tds = tbody.querySelectorAll('td');
+			/* <![CDATA[ */
+			for(const td of tds){	// for of 배열 안 요소, for in 배열 안 인덱스(객체는 키)
+// 				console.log(td);
+				td.addEventListener('click', function(){
+					// 부모 요소로 올라가 자식 중 0번째(글번호), 2번째(작성자) 가져오기
+					console.log(this.parentElement); // <tr>...</tr> 반환
+					
+					const trTds= this.parentElement.children; // = querySelectorAll
+					const boardNo = trTds[0].innerText;
+					const writer = trTds[3].innerText;			// url에 들어가기 때문에 = 양쪽에 띄어쓰기 금지
+					const map = /*[[${map}]]*/0;
+					const page = /*[[${pi.currentPage}]]*/0;
+					
+					let url = '';
+					
+					if(map != null){
+						if(map.hasOwnProperty('keyword')){
+							url += '&keyword=' + map.keyword;
+						}
+						if(map.hasOwnProperty('category')){
+							url += '&category=' + map.category;
+						}
+					}
+					location.href='faqDetail.bo?bNo=' + boardNo 
+							+ '&writer=' + writer + '&page=' + page + url;
+				});
+			}
+			/* ]]> */
+			
+			// 카테고리 선택
+			const selectCates = document.getElementsByClassName('selectCate');
+			for(const selectCate of selectCates){
+				selectCate.addEventListener('click', function(){
+					document.getElementById('dropbtn').innerText = this.innerHTML;
+					document.getElementsByName('category')[0].value= this.innerHTML;
+// 					console.log(document.getElementsByClassName('dropdown-content')[0])
+					document.getElementsByClassName('dropdown-content')[0].style.display='none';
+				});
+			}
+			
+			document.getElementById('dropbtn').addEventListener('click', ()=>{
+				document.getElementsByClassName('dropdown-content')[0].style.display='block';	
+			});
+			
+			
+			// dropbtn 이나 dropdownContent 외의 다른 영역 클릭 시 none
+			document.addEventListener('click', (event) => {
+                const target = event.target;
+                const dropdownContent = document.getElementsByClassName('dropdown-content')[0];
+                const dropbtn = document.getElementById('dropbtn');
+                if (target !== dropdownContent && target !== dropbtn) {
+                    dropdownContent.style.display = 'none';
+                }
+            });
+			
+			
+			// 검색 기능
+			document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
+				enrollSearchKeyword();
+			});
+			
+			document.getElementsByClassName('searchInput')[0].addEventListener('keyup', (e)=>{
+				if(e.key == 'Enter'){
+					enrollSearchKeyword()
+				}
+			});
+			
+			function enrollSearchKeyword() {
+				const input = document.querySelector('.searchInput').value.trim();
+				const category = document.getElementsByName('category')[0].value;
+				let cate;
+				let link = 'faqMain.bo?keyword=' + encodeURI(input);
+				if(category == "후원" || category == 1){
+					cate = 1;
+					link += '&category=' + cate;
+				} else if(category == "봉사" || category == 2){
+					cate = 2;
+					link += '&category=' + cate;
+				} else if(category == '기타' || category == 3){
+					cate = 3;
+					link += '&category=' + cate;
+				}
+				location.href = link;
+			}
+			
+    	}
+    </script>
+</body>
+</html>
