@@ -19,6 +19,57 @@
    		.disabled {
    			cursor: default;
    		}
+   		
+		#modal {
+			width: 300px;
+			height: 350px;
+			border: 1px solid #eee;
+			padding: 30px;
+			margin: auto;
+			display: none;
+			border-radius: 20px;
+			box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+			text-align: center;
+			background-color: white;
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 9999;
+		}
+		
+		.modal-comment {
+			font-size: 16px;
+		}
+		
+		#withdrawal-btn {
+			border-radius: 4px;
+			width: 90px;
+			height: 35px;
+			font-size: 15px;
+			color: #fff;
+			background-color: #609966;
+			border: 1.5px solid #609966;
+		}
+		
+		#rollback-btn {
+			border-radius: 4px;
+			width: 90px;
+			height: 35px;
+			font-size: 15px;
+			color: #609966;
+			background-color: #fff;
+			border: 1.5px solid #609966;
+		}
+		
+		.modal-comment2 {
+			font-weight: bold;
+			font-size: 17px;
+		}
+		
+		#heartImage {
+			block-size: 120px;
+		}
    	</style>
 </head>
 <body>
@@ -101,20 +152,69 @@
     
     <div th:replace="~{../common/footer :: footer}"></div>  
     
+    <!-- 모달창 -->
+	<div id="modal">
+		<br> <img id="heartImage" src="image/heart2.png" /><br>
+		<br> <span class="modal-comment modal-comment2">봉사를 신청하시겠습니까?</span><br> 
+		<span class="modal-comment">확인 선택 시 봉사 신청이 완료됩니다.</span><br>
+		<br>
+		<button id="rollback-btn">취소</button>
+		<button id="withdrawal-btn">확인</button>
+	</div>
+    
     <script th:inline="javascript">
+	    /*<![CDATA[*/
 		/* 달력 출처 https://songsong.dev/11*/
 		$(document).ready(function() {
+			const applyBtn = document.querySelector("#applyBtn");
+			// 모달
+			const backBtn = document.getElementById('backBtn');
+			const yesBtn = document.getElementById('withdrawal-btn');
+			const noBtn = document.getElementById('rollback-btn');
+			const modal = document.getElementById('modal');
+			
+			applyBtn.addEventListener('click', () => {
+				event.preventDefault();
+			    modal.style.display = 'block';
+			});
+			
+			yesBtn.addEventListener('click', () => {
+			    modal.style.display = 'none';
+			    if(recruitmentStatus.innerText == "모집전") {
+					alert("모집 기간에 신청해주세요.")        		
+					event.preventDefault();
+        		} else {
+        			$.ajax({
+        				url: 'checkVolunteerApply.vo',
+        				type: 'post',
+        				data: {
+        					vNo: /*[[${v.vNo}]]*/1,
+        					uNo: /*[[${session.loginUser == null? '' : session.loginUser.uNo}]]*/1
+        				}, success: data => {
+        					if(data === "no") {
+        						alert("이미 신청한 봉사입니다.");
+        					} else if(data === "yes") {
+        						$('#applyForm').submit();
+        					}
+        				}, error: data => {
+        					
+        				}
+        			});
+        		}
+			});
+			
+			noBtn.addEventListener('click', () => {
+			    modal.style.display = 'none';
+			});
 			
 			document.querySelector("#backBtn").addEventListener('click', () => {
 			    formAction();
 			});
 			
 			const formAction = () => {
-       	    	/*<!CDATA[[*/
        	    	const volunteer = /*[[${v}]]*/null;
        	    	const page = /*[[${page}]]*/1;
        	    	const searchMap = /*[[${searchMap}]]*/null;
-       	    	/*]]>*/
        	    	
        	    	const form  = document.createElement("form");
 	    	    form.setAttribute("method", "post");
@@ -159,7 +259,6 @@
 	    	const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
 	    
 		    const recruitmentStatus = document.querySelector(".v-recruitment-status");
-		    const applyBtn = document.querySelector("#applyBtn");
 		    let check = false;
 		    
 	    	if(recruitmentStatus.innerText >= today) {
@@ -177,35 +276,6 @@
 					applyBtn.display.style = "none";
 				}
 				check = true;
-	    	}
-		    
-		    /*<![CDATA[*/
-	    	if(applyBtn != null) {
-	    		applyBtn.addEventListener("click", () => {
-	        		if(check) {
-	        			alert("비정상적인 접근입니다.");
-	        		} else if(recruitmentStatus.innerText == "모집전") {
-						alert("모집 기간에 신청해주세요.")        		
-						event.preventDefault();
-	        		} else {
-	        			$.ajax({
-	        				url: 'checkVolunteerApply.vo',
-	        				type: 'post',
-	        				data: {
-	        					vNo: /*[[${v.vNo}]]*/1,
-	        					uNo: /*[[${session.loginUser == null? '' : session.loginUser.uNo}]]*/1
-	        				}, success: data => {
-	        					if(data === "no") {
-	        						alert("이미 신청한 봉사입니다.");
-	        					} else if(data === "yes") {
-	        						$('#applyForm').submit();
-	        					}
-	        				}, error: data => {
-	        					
-	        				}
-	        			});
-	        		}
-	        	});
 	    	}
 		    
 		    calendarInit();
@@ -335,9 +405,7 @@
 		        renderCalender(thisMonth); 
 		        calendarColor(currentMonth + 1);
 		    });
-		    
-		    
-		    /*]]>*/
+	    	/*]]>*/
 		}          
 	</script>
 </body>
