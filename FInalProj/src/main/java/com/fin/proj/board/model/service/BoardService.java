@@ -58,9 +58,9 @@ public interface BoardService {
 
 	int saveComment(Reply params);
 
-	void updateComment(Reply params);
-
 	int deleteComment(int replyNo);
-
+	
 	Reply findCommentById(int id);
+
+	int updateComment(int replyNo);
 }

@@ -18,6 +18,11 @@
     display: flex;
     justify-content: right;
 }
+
+#title{
+width:750px
+}
+
 </style>
 </head>
 <body>
@@ -30,7 +35,7 @@
 <div id="faq_write_title2">공지사항 작성✏️</div>
 <div id="formDiv">
 	<form method="post" action="insertNoticeBoard.bo">
-		<input type="text" id="title" name="boardTitle" placeholder="제목을 입력해주세요">
+		<input type="text" id="title" name="boardTitle" placeholder="제목을 입력해주세요" required>
 		<br><br> 
 		<textarea id="summernote" name="boardContent" required></textarea><br>
 		<div class="btnArea">
@@ -47,7 +52,7 @@
 $('#summernote').summernote({
     placeholder: '내용을 입력해주세요. (욕설이나 비방은 금지 입니다)',
     tabsize: 2,
-    width: 700,
+    width: 750,
     height: 300,
     toolbar: [
       ['style', ['style']],

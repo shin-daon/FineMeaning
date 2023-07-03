@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -965,6 +966,7 @@ public class BoardController {
 		byte[] byteArr = decoder.decode(encode);
 		String decode = new String(byteArr);
 		int bId = Integer.parseInt(decode);
+		
 		int result = bService.deleteBoard(bId);
 		if(result > 0) {
 			return "redirect:commList.bo";
@@ -1210,6 +1212,13 @@ public class BoardController {
         return bService.deleteComment(replyNo);
     }
 	
+	// 댓글 수정
+	@ResponseBody
+    @PatchMapping("/board/{boardNo}/comments/{replyNo}")
+    public int updateComment(@PathVariable int replyNo, @PathVariable int boardNo) {
+        return bService.updateComment(replyNo);
+    }
+	
 	
 	@RequestMapping("qaDelete.bo")
 	public String deleteQaBoard(@RequestParam("bId") String encode) {
@@ -1222,6 +1231,22 @@ public class BoardController {
 		int result = bService.deleteBoard(bId);
 		if(result > 0) {
 			return "redirect:qaList.bo";
+		} else {
+			throw new BoardException("게시글 삭제 실패했습니다.");
+		}
+	}
+	
+	@RequestMapping("qaDeleteAdmin.bo")
+	public String deleteQaAdminBoard(@RequestParam("bId") String encode) {
+		
+		Decoder decoder = Base64.getDecoder();
+		byte[] byteArr = decoder.decode(encode);
+		String decode = new String(byteArr);
+		int bId = Integer.parseInt(decode);
+		
+		int result = bService.deleteBoard(bId);
+		if(result > 0) {
+			return "redirect:qaAdminList.bo";
 		} else {
 			throw new BoardException("게시글 삭제 실패했습니다.");
 		}
