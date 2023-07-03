@@ -344,6 +344,7 @@
         	});
         	
         	endDate.addEventListener("change", function() {
+        		startDate.setAttribute("max", this.value);
         		rEndDate.setAttribute("max", this.value);
         	});
         	
@@ -424,7 +425,7 @@
                 });
             }
             
-            const regPhone = /^(01[016789]|0[2-9]\d{1,2})\d{3,4}\d{4}$/;
+            const regPhone = /^(01[016789]|0[2-9]\d{0,2})\d{3,4}\d{4}$/;
             let vDayVal = '';
             let checkAllVal = false;
             document.querySelector("#enrollbtn").addEventListener("click", () => {
