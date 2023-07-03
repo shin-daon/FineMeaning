@@ -14,7 +14,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new CheckLoginInterceptor())
-				.addPathPatterns("/*.su", "/*.bo", "/*.vo")
+				.addPathPatterns("/*.su", "/*.bo", "/editMyInfo.me", "/editMyPwd.me")
 				.excludePathPatterns("/supportMain.su",
 									 "/faqMain.bo", "/fineNewsMain.bo", "/finePeopleMain.bo", "/fruitMain.bo",
 									 "/noticeList.bo", "/commList.bo", "/qaList.bo",
@@ -35,7 +35,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 								 "/fineNewsAdmin.bo", "/fineNewsForm.bo", "/fineNewsEdit.bo",
 								 "/fruitAdmin.bo", "/fruitForm.bo", "/fruitEdit.bo",
 								 "/faqAdmin.bo", "/faqForm.bo", "/faqEdit.bo",
-								 "/adminVolunteerList.vo", "/searchAdminVolunteerList.vo", "/adminAllVolunteerApplyList.vo", "/adminVolunteerApplyList.vo"
+								 "/adminVolunteerList.vo", "/searchAdminVolunteerList.vo", "/adminAllVolunteerApplyList.vo", "/adminVolunteerApplyList.vo",
+								 "/editUserInfo.me", "/userInfoDetail.me"
 								 );
 		
 		registry.addInterceptor(new CheckKakaoInterceptor())
