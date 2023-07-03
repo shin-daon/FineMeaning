@@ -73,7 +73,7 @@
                             <button type="button" id="dropbtn"> 
                                 [[${board.boardCate == 1 ? "후원" : (board.boardCate == 2 ? "봉사" : "기타")}]]
                             </button>
-                            <input type="hidden" name="boardCate" value="none">
+                            <input type="hidden" name="boardCate" th:value="${ board.boardCate }">
                             <div class="dropdown-content">
                                 <span class="selectCate">후원</span>
                                 <span class="selectCate">봉사</span>
