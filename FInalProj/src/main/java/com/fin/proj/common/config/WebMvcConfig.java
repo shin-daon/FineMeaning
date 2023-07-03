@@ -7,16 +7,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.fin.proj.common.interceptor.CheckAdminInterceptor;
 import com.fin.proj.common.interceptor.CheckKakaoInterceptor;
 import com.fin.proj.common.interceptor.CheckLoginInterceptor;
+import com.fin.proj.common.interceptor.CheckVolunteerAdminInterceptor;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new CheckLoginInterceptor())
-				.addPathPatterns("/*.su", "/*.bo")
+				.addPathPatterns("/*.su", "/*.bo", "/*.vo")
 				.excludePathPatterns("/supportMain.su",
-									 "/faqMain.bo", "/fineNewsMain.bo", "/finePeopleMain.bo", "/fruitMain.bo",
-									 "/noticeList.bo", "/commList.bo", "/qaList.bo");
+									 "/faqMain.bo", "/faqDetail.bo", "/fineNewsMain.bo", "/finePeopleMain.bo", "/fruitMain.bo", "/fruitDetail.bo",
+									 "/noticeList.bo", "/commList.bo", "/qaList.bo",
+									 "/volunteer.vo", "/volunteerDetail.vo", "/volunteerAjax.vo");
 		
 		registry.addInterceptor(new CheckAdminInterceptor())
 				.addPathPatterns("/supportListAdmin.su",
@@ -32,10 +34,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
 								 "/finePeopleAdmin.bo", "/finePeopleForm.bo", "/finePeopleEdit.bo",
 								 "/fineNewsAdmin.bo", "/fineNewsForm.bo", "/fineNewsEdit.bo",
 								 "/fruitAdmin.bo", "/fruitForm.bo", "/fruitEdit.bo",
-								 "/faqAdmin.bo", "/faqForm.bo", "/faqEdit.bo"								 
+								 "/faqAdmin.bo", "/faqForm.bo", "/faqEdit.bo",
+								 "/adminVolunteerList.vo", "/searchAdminVolunteerList.vo", "/adminAllVolunteerApplyList.vo", "/adminVolunteerApplyList.vo"
 								 );
 		
 		registry.addInterceptor(new CheckKakaoInterceptor())
 				.addPathPatterns("/editMyPwd.me");
+		
+		registry.addInterceptor(new CheckVolunteerAdminInterceptor())
+				.addPathPatterns("/volunteerEnroll.vo", "/volunteerEnrollHistory.vo", "/searchVolunteerEnrollHistory.vo",
+								"/volunteerEdit.vo", "/insertVolunteer.vo", "/updateVolunteer.vo", "/deleteVolunteer.vo",
+								"/updateVolunteerStatus.vo", "/volunteerApplyList.vo");
 	}
 }
