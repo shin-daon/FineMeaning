@@ -533,7 +533,7 @@ public class SupportController {
 		
 		int listCount = suService.getCategoryCount(s);
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 11);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 1);
 		ArrayList<Support> sList = suService.selectCategoryListAdmin(pi, s);
 		
 		if(searchWord == null || searchWord.trim().equals("")) {
