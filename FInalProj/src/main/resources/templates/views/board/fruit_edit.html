@@ -98,7 +98,7 @@
 		<span class="modal-comment">확인 선택 시 작성한 글 내용은</span><br>
 		<span class="modal-comment">절대 복구되지 않습니다.</span><br><br>
 		<button id="rollback-btn">취소</button>
-		<button id="withdrawal-btn">확인</button>
+		<button id="withdrawal-btn" onclick="javascript:history.back();">확인</button>
 	</div>
 	<script>
     	window.onload = () => {
@@ -167,10 +167,10 @@
 			    modal.style.display = 'block';
 			});
 			
-			yesBtn.addEventListener('click', () => {
-			    modal.style.display = 'none';
-			    location.href="fruitMain.bo";
-			});
+// 			yesBtn.addEventListener('click', () => {
+// 			    modal.style.display = 'none';
+// 			    location.href="fruitMain.bo";
+// 			});
 			
 			noBtn.addEventListener('click', () => {
 			    modal.style.display = 'none';
