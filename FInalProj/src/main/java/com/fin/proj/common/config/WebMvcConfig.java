@@ -14,11 +14,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new CheckLoginInterceptor())
-				.addPathPatterns("/*.su", "/*.bo", "/editMyInfo.me", "/editMyPwd.me")
+				.addPathPatterns("/*.su", "/*.bo", "/*.vo")
 				.excludePathPatterns("/supportMain.su",
 									 "/faqMain.bo", "/fineNewsMain.bo", "/finePeopleMain.bo", "/fruitMain.bo",
 									 "/noticeList.bo", "/commList.bo", "/qaList.bo",
-									 "/volunteerApply.vo", "/applyVolunteer.vo", "/checkVolunteerApply.vo", "/volunteerHistory.vo", "/searchMyVolunteerHistory.vo");
+									 "/volunteer.vo", "/volunteerDetail.vo", "/volunteerAjax.vo");
 		
 		registry.addInterceptor(new CheckAdminInterceptor())
 				.addPathPatterns("/supportListAdmin.su",
@@ -35,8 +35,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 								 "/fineNewsAdmin.bo", "/fineNewsForm.bo", "/fineNewsEdit.bo",
 								 "/fruitAdmin.bo", "/fruitForm.bo", "/fruitEdit.bo",
 								 "/faqAdmin.bo", "/faqForm.bo", "/faqEdit.bo",
-								 "/adminVolunteerList.vo", "/searchAdminVolunteerList.vo", "/adminAllVolunteerApplyList.vo", "/adminVolunteerApplyList.vo",
-								 "/editUserInfo.me", "/userInfoDetail.me"
+								 "/adminVolunteerList.vo", "/searchAdminVolunteerList.vo", "/adminAllVolunteerApplyList.vo", "/adminVolunteerApplyList.vo"
 								 );
 		
 		registry.addInterceptor(new CheckKakaoInterceptor())
