@@ -177,7 +177,6 @@ input[type="radio"]:checked + span:before{
 .result-nemo {
 	margin-top: 30px;
 	width: 300px;
-	height: 85px;
 	border: 1px solid #EDF1D6;
 	background: #EDF1D6;
 	justify-content: center; /* 수평 가운데 정렬 */
@@ -188,6 +187,7 @@ input[type="radio"]:checked + span:before{
 .result-user-date {
 	text-align: center;
 	margin-top: 13px;
+	margin-bottom: 13px;
 }
 
 .result-user-id {
@@ -336,8 +336,9 @@ input[type="radio"]:checked + span:before{
 		<div class="insert name">
 			<label class="title">아이디 확인</label><br>
 			<span class="pwd-comment">회원님의 정보와 일치하는 아이디입니다.</span>
-			<div class="result-nemo">
-				<div class="result-user-id">[[${foundUser.uId}]]</div><div class="result-user-date">(가입일 : [[${foundUser.enrollDate}]])</div>
+			<div class="result-nemo" th:each="fu : ${foundUser}">
+				<div class="result-user-id">[[${fu.uId}]]</div>
+				<div class="result-user-date">(가입일 : [[${fu.enrollDate}]])</div>
 			</div>
 		</div>
 		

@@ -588,18 +588,33 @@ select:focus {
 	const pwdInput = document.querySelector('input[name="uPwd"]');
 	const pwdResult = document.getElementById('pwdResult');
 	
+	const passwordInput = document.querySelector('input[name="uPwd"]');
+	const confirmPasswordInput = document.querySelector('input[name="checkPwd"]');
+	const pwdCheckResult = document.getElementById('pwdCheckResult');
+	
 	pwdInput.addEventListener('input', validatePwd);
+	confirmPasswordInput.addEventListener('input', validatePwd);
 	
 	function validatePwd() {
 	  const pwdInputValue = pwdInput.value;
 	  const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
+	  const password = passwordInput.value;
+	  const confirmPassword = confirmPasswordInput.value;
 	
 	  if (pwdRegex.test(pwdInputValue)) {
 		pwdResult.textContent = '';
 		pwdResult.style.color = '#609966';
 		pwdInput.style.outline = '1px solid #609966';
 		pwdInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
-	    enrollButton.disabled = false;
+	    
+	    if(password !== confirmPassword){
+	    	enrollButton.disabled = true;
+	    } else {
+	    	enrollButton.disabled = false;
+	    }
+	    
+	    checkAllConditions();
+	    
 	  } else {
 		pwdResult.textContent = '올바른 비밀번호를 입력해주세요.';
 		pwdResult.style.color = 'red';
@@ -607,13 +622,44 @@ select:focus {
 		pwdInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
 	    enrollButton.disabled = true;
 	  }
+	  
+	  if (confirmPassword.trim() == '') {
+		  	pwdCheckResult.textContent = '';
+		  	confirmPasswordInput.style.outline = '';
+		  	confirmPasswordInput.style.boxShadow = '';
+		  	enrollButton.disabled = true;
+	  } else if (password === confirmPassword) {
+		  	pwdCheckResult.innerText = '';
+		  	pwdCheckResult.style.color = '#609966';
+		  	confirmPasswordInput.style.outline = '1px solid #609966';
+		  	confirmPasswordInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+		  	enrollButton.disabled = false;
+		  	checkAllConditions();
+	  } else if (password !== confirmPassword) {
+	  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
+	  		pwdCheckResult.style.color = 'red';
+	  		confirmPasswordInput.style.outline = '1px solid red';
+	  		confirmPasswordInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  		enrollButton.disabled = true;
+	  }  
 	}
 	
+	 function checkAllConditions() {
+		const passwordInput = document.querySelector('input[name="uPwd"]');
+		const confirmPasswordInput = document.querySelector('input[name="checkPwd"]');
+		const password = passwordInput.value;
+		const confirmPassword = confirmPasswordInput.value;
+		const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
+		const pwdInputValue = passwordInput.value;
+		 
+		 if(password.trim == '' || confirmPassword.trim() == '' ||
+		     !pwdRegex.test(pwdInputValue) || password !== confirmPassword) {
+			  enrollButton.disabled = true;
+		  }
+	 }
 	
 	// 비밀번호 확인	
-	const passwordInput = document.querySelector('input[name="uPwd"]');
-	const confirmPasswordInput = document.querySelector('input[name="checkPwd"]');
-	const pwdCheckResult = document.getElementById('pwdCheckResult');
+	
 	
 	confirmPasswordInput.addEventListener('input', validatePassword);
 	
@@ -640,6 +686,7 @@ select:focus {
 	  		enrollButton.disabled = true;
 	  }
 	}
+	
 	
 	// 회원 유형
 	const normalRadio = document.querySelector('input[name="uType"][value="일반"]');
@@ -770,12 +817,7 @@ select:focus {
 	            data: { emailAddress: emailAddress },
 	            success: function(response) {
 	                data = response; // 데이터 변수에 서버 응답값을 할당합니다.
-	                console.log("데이터 전송 성공: " + data);	
-	                
-	                if(data == "registered email"){
-	                	emailCheckResult.innerText = '이미 등록된 이메일 입니다.';
-	                	enrollButton.disabled = true;
-	                } else {
+	                console.log("데이터 전송 성공: " + data);		    
 	                
 	                emailBtn.style.display = 'none';
 	                emailBtn2.style.display = 'inline-block';
@@ -823,7 +865,7 @@ select:focus {
 	        			}
 	                
 	        		});
-	                }
+	                
    
 	            },
 	            error: function() {
