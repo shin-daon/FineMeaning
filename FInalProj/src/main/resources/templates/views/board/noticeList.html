@@ -81,7 +81,7 @@ button.writeFaqBtn.learn-more {
    	float: right;
 }
 
-.faqTable .answer {
+.noticeTable .answer {
     display: none;
     padding-left: 50px;
     border: 1px solid #000; /* 테두리 스타일과 색상 설정 */
@@ -151,9 +151,9 @@ button.writeFaqBtn.learn-more {
 <body>
 <div th:replace="~{../common/header :: header}"></div>
 
-<section id="faqSection">
+<section id="noticeSection">
         <div>
-            <div id="faqTitle">공지사항</div>
+            <div id="noticeTitle">공지사항</div>
         </div>
 
         <div class="path">
@@ -176,7 +176,7 @@ button.writeFaqBtn.learn-more {
             </div>
         </div>
 
-		<table class="faqTable">
+		<table class="noticeTable">
   <tbody>
     <tr th:each="b : ${list}">
       <td>
@@ -198,6 +198,28 @@ button.writeFaqBtn.learn-more {
           </form>
         </div>
       </td>
+      
+      <div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content rounded-3 shadow">
+					<div class="modal-body p-4 text-center">
+						<h3 class="mb-0">정말로 삭제하시겠습니까?</h3>
+						<p class="mb-0">삭제 후 게시글은 되돌릴 수 없습니다.</p>
+					</div>
+					<div class="modal-footer flex-nowrap p-0">
+						<button type="button"
+							class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"
+							th:onclick="location.href='deleteNotice.bo?bId='+btoa([[${b.boardNo}]])">
+							<strong>네</strong>
+						</button>
+						<button type="button"
+							class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
+							th:onclick="$('#modalChoice').modal('hide')">아니오</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
     </tr>
   </tbody>
 </table>
@@ -247,22 +269,6 @@ button.writeFaqBtn.learn-more {
             </ul>
         </div>
         
-        <div class="modal fade" tabindex="-1" role="dialog" id="modalChoice" th:each="b : ${list}">
-			<div class="modal-dialog" role="document">
-	    		<div class="modal-content rounded-3 shadow">
-	      			<div class="modal-body p-4 text-center">
-	        			<h3 class="mb-0">정말로 삭제하시겠습니까?</h3>
-	        			<p class="mb-0">삭제 후 게시글은 되돌릴 수 없습니다.</p>
-	      			</div>
-	      			<div class="modal-footer flex-nowrap p-0">
-	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" th:onclick="location.href='deleteNotice.bo?bId='+btoa([[${b.boardNo}]])">
-	        				<strong>네</strong>
-	        			</button>
-	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
-	      			</div>
-	    		</div>
-	  		</div>
-		</div>
     </section>
     <div th:replace="~{../common/footer :: footer}"></div>
 </body>

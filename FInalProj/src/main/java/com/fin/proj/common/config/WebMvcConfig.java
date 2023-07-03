@@ -35,7 +35,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 								 "/fineNewsAdmin.bo", "/fineNewsForm.bo", "/fineNewsEdit.bo",
 								 "/fruitAdmin.bo", "/fruitForm.bo", "/fruitEdit.bo",
 								 "/faqAdmin.bo", "/faqForm.bo", "/faqEdit.bo",
-								 "/adminVolunteerList.vo", "/searchAdminVolunteerList.vo", "/adminAllVolunteerApplyList.vo", "/adminVolunteerApplyList.vo"
+								 "/adminVolunteerList.vo", "/searchAdminVolunteerList.vo", "/adminAllVolunteerApplyList.vo", "/adminVolunteerApplyList.vo",
+								 "/noticeListAdmin.bo", "/qaAdminList.bo", "/commAdminList.bo"
+								 
 								 );
 		
 		registry.addInterceptor(new CheckKakaoInterceptor())
