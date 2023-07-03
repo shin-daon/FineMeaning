@@ -965,7 +965,6 @@ public class BoardController {
 		byte[] byteArr = decoder.decode(encode);
 		String decode = new String(byteArr);
 		int bId = Integer.parseInt(decode);
-		
 		int result = bService.deleteBoard(bId);
 		if(result > 0) {
 			return "redirect:commList.bo";
