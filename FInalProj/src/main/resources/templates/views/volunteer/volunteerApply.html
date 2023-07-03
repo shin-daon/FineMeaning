@@ -226,6 +226,38 @@
 		    금월 마지막일 날짜와 요일
 		    전월 마지막일 날짜와 요일
 		*/
+		const calendarColor = month => {
+		    const startMonth = /*[[${#strings.arraySplit(v.vStartDate, '-')[1]}]]*/1;
+		    const endMonth = /*[[${#strings.arraySplit(v.vEndDate, '-')[1]}]]*/1;
+		    const startDate = /*[[${#strings.arraySplit(v.vStartDate, '-')[2]}]]*/1;
+		    const endDate = /*[[${#strings.arraySplit(v.vEndDate, '-')[2]}]]*/1;
+		    const dates = document.querySelector(".dates").querySelectorAll(".current");
+		    for(const date of dates) {
+		    	if(startMonth == endMonth) {
+		    		if(startMonth == month) {
+		    			if(Number(startDate) <= Number(date.innerText) && Number(date.innerText) <= Number(endDate)) {
+				    		date.style.backgroundColor = '#d7f1c8';
+				    		date.style.borderRadius = 0;
+				    	}
+		    		}
+		    	} else if(startMonth <= month && month <= endMonth) {
+		    		date.style.backgroundColor = '#d7f1c8';
+		    		date.style.borderRadius = 0;
+		    		if(startMonth == month) {
+		    			if(Number(startDate) > Number(date.innerText)) {
+				    		date.style.backgroundColor = 'white';
+				    		date.style.borderRadius = 0;
+				    	}
+		    		}
+		    		if(endMonth == month) {
+		    			if(Number(date.innerText) > Number(endDate)) {
+		 		    		date.style.backgroundColor = 'white';
+		 		    		date.style.borderRadius = 0;
+		 		    	}
+		    		} 
+		    	}
+		    }
+	    }
 		
 		function calendarInit() {
 		
@@ -294,29 +326,24 @@
 		            var currentMonthDate = document.querySelectorAll('.dates .current');
 		            currentMonthDate[todayDate -1].classList.add('today');
 		        }
+		        
+		        calendarColor(currentMonth + 1);
 		    }
 		
 		    // 이전달로 이동
 		    $('.go-prev').on('click', function() {
 		        thisMonth = new Date(currentYear, currentMonth - 1, 1);
 		        renderCalender(thisMonth);
+		        calendarColor(currentMonth + 1);
 		    });
 		
 		    // 다음달로 이동
 		    $('.go-next').on('click', function() {
 		        thisMonth = new Date(currentYear, currentMonth + 1, 1);
 		        renderCalender(thisMonth); 
+		        calendarColor(currentMonth + 1);
 		    });
 		    
-		    const startDate = /*[[${#strings.arraySplit(v.vStartDate, '-')[2]}]]*/1;
-		    const endDate = /*[[${#strings.arraySplit(v.vEndDate, '-')[2]}]]*/1;
-		    const dates = document.querySelector(".dates").querySelectorAll(".current");
-		    for(const date of dates) {
-		    	if(Number(startDate) <= Number(date.innerText) && Number(date.innerText) <= Number(endDate)) {
-		    		date.style.backgroundColor = '#d7f1c8';
-		    		date.style.borderRadius = 0;
-		    	}
-		    }
 		    
 		    /*]]>*/
 		}          
