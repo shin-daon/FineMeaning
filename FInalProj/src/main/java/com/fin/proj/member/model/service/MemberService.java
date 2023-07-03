@@ -30,7 +30,7 @@ public interface MemberService {
 
 	int searchEmailUser(HashMap<String, String> map);
 
-	Member searchUser(Member m);
+	ArrayList<Member> searchUser(Member m);
 
 	int searchEmailUser2(HashMap<String, String> map);
 
@@ -71,6 +71,8 @@ public interface MemberService {
 	int updateUserInfo(Properties prop);
 
 	int updateState(Properties prop);
+
+	int checkLogin(String uId);
 	
 
 }

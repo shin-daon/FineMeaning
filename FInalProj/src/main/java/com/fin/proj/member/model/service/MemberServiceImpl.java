@@ -70,7 +70,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public Member searchUser(Member m) {
+	public ArrayList<Member> searchUser(Member m) {
 		return mDAO.searchUser(m);
 	}
 	
@@ -181,5 +181,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int updateState(Properties prop) {
 		return mDAO.updateState(prop);
+	}
+	
+	@Override
+	public int checkLogin(String uId) {
+		return mDAO.checkLogin(uId);
 	}
 }
