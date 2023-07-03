@@ -16,7 +16,7 @@ public class CheckAdminInterceptor implements HandlerInterceptor{
 		HttpSession session = request.getSession();
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
-		if( loginUser== null || loginUser.getIsAdmin().equals("N") ) {
+		if( loginUser == null || loginUser.getIsAdmin() != 0 ) {
 						
 			response.setContentType("text/html; charset=UTF-8");
 			response.getWriter().write("<script>alert('잘못된 접근입니다.'); location.href='loginView.me';</script>");

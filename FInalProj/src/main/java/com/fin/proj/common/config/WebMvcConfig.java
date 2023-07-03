@@ -28,7 +28,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 								 "/searchSupportListAdmin.su",
 								 "/supporterListEach.su",
 								 "/supporterListAdmin.su",
-								 "/searchEndList.su");
+								 "/searchEndList.su",
+								 "/finePeopleAdmin.bo", "/finePeopleForm.bo", "/finePeopleEdit.bo",
+								 "/fineNewsAdmin.bo", "/fineNewsForm.bo", "/fineNewsEdit.bo",
+								 "/fruitAdmin.bo", "/fruitForm.bo", "/fruitEdit.bo",
+								 "/faqAdmin.bo", "/faqForm.bo", "/faqEdit.bo"								 
+								 );
 		
 		registry.addInterceptor(new CheckKakaoInterceptor())
 				.addPathPatterns("/editMyPwd.me");
