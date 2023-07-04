@@ -72,13 +72,6 @@ public class VolunteerServiceImpl implements VolunteerService {
 	}
 
 	@Override
-	public ArrayList<Volunteer> searchVolunteerByAjax(PageInfo pi, HashMap<String, String> ajaxMap) {
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return vDAO.searchVolunteer(ajaxMap, rowBounds);
-	}
-
-	@Override
 	public int getVolunteerEnrollHistoryCount(Integer uNo) {
 		return vDAO.getVolunteerEnrollHistoryCount(uNo);
 	}
