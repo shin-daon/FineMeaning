@@ -164,15 +164,23 @@ width: 80px;
 		<button class="writeFaqBtn learn-more" th:onclick="redirectToPage()">목록으로</button>
 		<script th:inline="javascript">
 		/* <![CDATA[ */
+		const admin = /*[[${session.loginUser == null ? 1 : session.loginUser.isAdmin}]]*/0;
+		const keyword = /*[[${keyword}]]*/1;
+		const page = /*[[${page}]]*/1;
+		
+		let url = '';
+		
+		if(keyword != null){
+			url = '&keyword=' + keyword;
+		}
 		function redirectToPage() {
-			  const isAdmin = /*[[${session.loginUser.isAdmin}]]*/1;
-			  /* ]]> */
-			  if (isAdmin === 0) {
-			    location.href = 'commAdminList.bo'; // 관리자 계정일 경우 commAdminList.bo로 이동
-			  } else {
-			    location.href = 'commList.bo'; // 일반 회원일 경우 commList.bo로 이동
-			  }
+			if(admin == 0){
+				location.href="commAdminList.bo?" + "page=" + page + url;
+			} else {
+				location.href="commList.bo?" + "page=" + page + url;
 			}
+		}
+		/* ]]> */
 		</script>
 		
 		
@@ -222,6 +230,11 @@ width: 80px;
         const content = document.getElementById('content');
         const boardNo = /*[[ ${board.boardNo} ]]*/1;
         const replyWriter = /*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/ 1;
+        
+        if (!content.value) {
+            alert('댓글을 입력해주세요.');
+            return;
+        }
         
         const params = {
         	replyWriter : replyWriter,

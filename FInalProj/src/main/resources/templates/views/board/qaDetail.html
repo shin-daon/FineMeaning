@@ -155,7 +155,7 @@ button.writeFaqBtn.learn-more {
 			<fieldset>
             <legend class="skipinfo">답변 등록<h6>(관리자만 이용가능합니다)</h6></legend>
             <div class="cm_input">
-                <p><textarea id="content" name="content" onkeyup="countingLength(this);" cols="90" rows="4" placeholder="답변을 입력해 주세요."></textarea></p>
+                <p><textarea id="content" name="content" onkeyup="countingLength(this);" cols="90" rows="4" placeholder="답변을 입력해 주세요." required></textarea></p>
                 <span><button type="button" class="btns" th:onclick="saveComment();">등록</button> <i id="counter">0/300자</i></span>
             </div>
             <br><hr><br>
@@ -233,6 +233,11 @@ button.writeFaqBtn.learn-more {
         const boardNo = /*[[ ${board.boardNo} ]]*/1;
         const replyWriter = /*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/ 1;
         
+        if (!content.value) {
+            alert('답변을 입력해주세요.');
+            return;
+        }
+        
         const params = {
         	replyWriter : replyWriter,
             replyContent : content.value,
@@ -275,7 +280,7 @@ button.writeFaqBtn.learn-more {
             success : function (response) {
                 console.log(response);
                 if ( !response.length ) {
-                    document.querySelector('.cm_list').innerHTML = '<div class="cm_none"><p>등록된 댓글이 없습니다.</p></div>';
+                    document.querySelector('.cm_list').innerHTML = '<div class="cm_none"><p>등록된 답변이 없습니다.</p></div>';
                     return false;
                 }
             	// 2. 렌더링 할 HTML을 저장할 변수
