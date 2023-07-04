@@ -435,7 +435,7 @@ td {
 	                    <td th:text="${m.residentNo}"></td>
 	                    <td th:text="${m.uNickName}"></td>
 	                    <td th:text="${m.registrar != null ? m.registrar : '-'}"></td>
-	                    <td th:text="${m.isAdmin == 1 ? '일반' : (m.isAdmin == 0 ? '관리자' : (m.isAdmin == 2 ? '봉사관리자' : ''))}" </td>
+	                    <td th:text="${m.isAdmin == 1 ? '일반' : (m.isAdmin == 0 ? '관리자' : (m.isAdmin == 2 ? '봉사관리자' : ''))}"></td>
 	                    <td>
 	                    	<button type="button" th:class="${m.uStatus == 'Y'? 'state-btn state-y' : 'state-btn state-n'}"></button>
 						</td>

@@ -71,11 +71,11 @@ public class BoardController {
 				map.put("category", category);
 			}
 			listCount = bService.searchListCount(map);
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.searchByTitleAndCategory(pageInfo, map);
 		} else {
 			listCount = bService.getListCount("자주 묻는 질문");
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.selectBoardList(pageInfo, "자주 묻는 질문");
 		}
 		
@@ -176,11 +176,11 @@ public class BoardController {
 				params.put("category", category);
 			}
 			listCount = bService.searchListCount(params);
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.searchByTitleAndCategory(pageInfo, params);
 		} else { // 페이지 로드 시 메인 페이지
 			listCount = bService.getListCount("자주 묻는 질문");
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.selectBoardList(pageInfo, "자주 묻는 질문");
 //			System.out.println(list);
 		}
@@ -256,7 +256,7 @@ public class BoardController {
 		int listCount = bService.getListCount("선뜻한 사람");
 //		System.out.println(listCount);
 		
-		PageInfo pageInfo = Pagination.getPageInfo(currentPage, listCount, 5);
+		PageInfo pageInfo = Pagination.getPageInfo(currentPage, listCount, 4);
 		
 		ArrayList<Board> list = bService.selectBoardList(pageInfo, "선뜻한 사람");
 //		System.out.println(list);
@@ -400,11 +400,11 @@ public class BoardController {
 				params.put("category", category);
 			}
 			listCount = bService.searchListCount(params);
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.searchByTitleAndCategory(pageInfo, params);
 		} else { // 페이지 로드 시 메인 페이지
 			listCount = bService.getListCount("결실");
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.selectBoardList(pageInfo, "결실");
 //			System.out.println(list);
 		}
@@ -510,11 +510,11 @@ public class BoardController {
 				params.put("category", category);
 			}
 			listCount = bService.searchListCount(params);
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.searchByTitleAndCategory(pageInfo, params);
 		} else { // 페이지 로드 시 메인 페이지
 			listCount = bService.getListCount("결실");
-			pageInfo = Pagination.getPageInfo(currentPage, listCount, 2);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 			list = bService.selectBoardList(pageInfo, "결실");
 //			System.out.println(list);
 		}
