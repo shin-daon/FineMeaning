@@ -967,7 +967,7 @@ public class BoardController {
 		
 		if(result > 0) {
 			ra.addAttribute("bNo", b.getBoardNo());
-			ra.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuId());
+			ra.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuNickName());
 			ra.addAttribute("page", page);
 			return "redirect:commDetailPage.bo";
 		} else {
