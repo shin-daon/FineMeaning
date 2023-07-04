@@ -5,6 +5,47 @@
 <title>선뜻한 사람(관리자)</title>
 <link rel="stylesheet" href="css/board/finePeopleAdmin_style.css">
 <script src="http://code.jquery.com/jquery-3.6.1.min.js"></script>
+<style>
+	/* 모달 */
+	#modal { width: 300px; height: 350px; border: 1px solid #eee; padding: 30px 30px 30px 30px; margin: auto; display: none;
+		border-radius: 20px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);  text-align: center; background-color: white;
+ 		position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;}
+	
+	.modal-comment {
+		font-size: 14px;
+	}
+		
+	.modal-comment2 {
+		font-weight: bold;
+		font-size: 18px;
+	}
+	
+	#boardDelete-btn {
+		border-radius: 5px;
+		width: 90px;
+		height: 37px;
+		font-size: 15px;
+		color: #fff;
+		background-color: #848484;
+		border: 1.5px solid black;
+		cursor: pointer;
+	}
+	
+	#rollback-btn {
+		border-radius: 5px;
+		width: 90px;
+		height: 37px;
+		font-size: 15px;
+		color: black;
+		background-color: #fff;
+		border: 1.5px solid #6E6E6E;
+		cursor: pointer;
+	}
+
+	#trash {
+		block-size: 105px;
+	}
+</style>
 </head>
 <body>
 	<div th:replace="~{../common/header :: header}"></div>
@@ -58,7 +99,7 @@
 				            <td th:text="${b.boardDate}"></td>
 				            <td>
 				            	<button id="updateBtn" th:onclick="location.href='finePeopleEdit.bo?bNo=' + btoa([[${b.boardNo}]]) + '&page=' + [[${pi.currentPage}]]">수정</button>
-				            	<button id="deleteBtn" th:onclick="location.href='deleteFinePeople.bo?bNo=' + btoa([[${b.boardNo}]])">삭제</button>
+				            	<button class="deleteBtn">삭제</button>
 				            </td>												<!-- pi.currentPage 보내기? -->
 				        </th:block>
 				    </tr>
@@ -120,7 +161,17 @@
 	<br><br>
 	<div th:replace="~{views/common/footer :: footer}"></div>
 	
-	<script>
+	<!-- 모달창 -->
+	<div id="modal"><br>
+		<img id="trash" src="image/trash2.png"/><br><br>
+		<span class="modal-comment modal-comment2">글을 삭제하시겠어요❔</span><br><br>
+		<span class="modal-comment">삭제 버튼을 클릭하시면</span><br>
+		<span class="modal-comment">영구적으로 삭제됩니다.</span><br><br>
+		<button id="rollback-btn">취소</button>
+		<button id="boardDelete-btn">삭제</button>
+	</div>
+	
+	<script th:inline="javaScript">
 		// 검색 기능 (키워드만)
 		document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
 			enrollSearchKeyword();
@@ -136,6 +187,34 @@
 			const input = document.querySelector('.searchInput').value.trim();
 			location.href = 'finePeopleAdmin.bo?keyword=' + encodeURI(input);
 		}
+		
+		/* <![CDATA[ */
+		
+		// 삭제 모달
+		const deleteBtns = document.getElementsByClassName('deleteBtn');
+		const modal = document.getElementById('modal');
+		const yesBtn = document.getElementById('boardDelete-btn');
+		const noBtn = document.getElementById('rollback-btn');
+		
+		let boardNo = '';
+		
+		for(const deleteBtn of deleteBtns){
+			deleteBtn.addEventListener('click', function(){
+			    modal.style.display = 'block';
+				boardNo = this.parentElement.parentElement.querySelector('td').innerText;
+			});
+		}
+		
+		yesBtn.addEventListener('click', () => {
+		    modal.style.display = 'none';
+		    location.href="deleteFinePeople.bo?bNo=" + btoa(boardNo);
+		});
+		
+		noBtn.addEventListener('click', () => {
+		    modal.style.display = 'none';
+		});
+		
+		/* ]]> */
 	</script>
 </body>
 </html>

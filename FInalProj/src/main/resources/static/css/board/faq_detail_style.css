@@ -118,19 +118,23 @@
 }
 
 .detailArea {
-    width: 750px;
+    width: 600px;
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
 .contentArea {
-    width: 600px;
+	min-width: 600px;
     min-height: 400px;
     padding: 20px;
     margin: 20px;
     position: relative;
     z-index: 1;
+}
+
+.contentMain img {
+	max-width: 550px;
 }
 
 .boardCategory {
