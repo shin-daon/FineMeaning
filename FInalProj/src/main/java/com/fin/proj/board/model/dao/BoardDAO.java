@@ -53,10 +53,6 @@ public interface BoardDAO {
 
 	int myReplyCount(int uNo);
 
-	int myBoardCount(int uNo);
-
-	ArrayList<Board> selectMyBoard(int uNo, RowBounds rowbounds);
-
 	ArrayList<Board> searchByFpName(HashMap<String, Object> map, RowBounds rowbounds);
 
 	int finePeopleCount(HashMap<String, Object> map);
@@ -71,4 +67,18 @@ public interface BoardDAO {
 
 	int deleteComment(int replyNo);
 
+	int myBoardCount(int uNo);
+
+	ArrayList<Board> selectMyBoard(int uNo, RowBounds rowbounds);
+
+	ArrayList<Board> searchByMyBoard(HashMap<String, Object> map, RowBounds rowbounds);
+
+	int searchMyBoardListCount(HashMap<String, Object> params);
+
+	int getListMyQaCount(int uNo);
+
+	ArrayList<Board> selectMyQaList(int uNo, RowBounds rowbounds);
+
+	ArrayList<Board> searchByQaTitle(HashMap<String, Object> map, RowBounds rowbounds);
+	
 }

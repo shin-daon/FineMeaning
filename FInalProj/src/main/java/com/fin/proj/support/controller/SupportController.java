@@ -254,7 +254,12 @@ public class SupportController {
 
 		s.setStatus(status.charAt(0));
 		s.setSupportNo(supportNo);
+		
 		int result = suService.updateApplyStatus(s);
+		if(status.equals("Y")) {			
+			int result2 = suService.updateStartDate(supportNo);
+		}
+		
 		if (result > 0) {
 			if (status.equals('Y')) {
 				model.addAttribute("supportNo", supportNo);

@@ -72,7 +72,7 @@ public class VolunteerController {
 			
 			int searchVolunteerCount = vService.getSearchVolunteerCount(searchMap);
 			pi = Pagination.getPageInfo(currentPage, searchVolunteerCount, 5);
-			list = vService.searchVolunteerByAjax(pi, searchMap);
+			list = vService.searchVolunteer(pi, searchMap);
 			
 			model.addAttribute("searchMap", searchMap);
 		}
@@ -201,7 +201,7 @@ public class VolunteerController {
 		
 		int searchVolunteerAjaxCount = vService.getSearchVolunteerCount(ajaxMap);
 		PageInfo pi = Pagination.getPageInfo(1, searchVolunteerAjaxCount, 5);
-		ArrayList<Volunteer> volunteerList = vService.searchVolunteerByAjax(pi, ajaxMap);
+		ArrayList<Volunteer> volunteerList = vService.searchVolunteer(pi, ajaxMap);
 		HashMap<String, Object> data = new HashMap<String, Object>();
 		data.put("pi", pi);
 		data.put("volunteerList", volunteerList);
@@ -223,7 +223,7 @@ public class VolunteerController {
 		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
 		
 		int vHistoryCount = vService.getMyVolunteerHistoryCount(uNo);
-		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 5);
+		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 10);
 			
 		ArrayList<Volunteer> vHistories = vService.selectMyVolunteerHistory(pi, uNo);
 		if(vHistories != null) {
@@ -262,7 +262,7 @@ public class VolunteerController {
 		myHistorySearchMap.put("status", status);
 		
 		int vHistoryCount = vService.getSearchMyVolunteerHistoryCount(myHistorySearchMap);
-		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 5);
+		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 10);
 		
 		ArrayList<Volunteer> vHistories = vService.selectSearchMyVolunteerHistory(pi, myHistorySearchMap);
 		

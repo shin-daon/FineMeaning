@@ -93,11 +93,11 @@ button.writeFaqBtn.learn-more {
         </div>
         <br><br>
         <div class="qaInfo">
-        <h4 style="text-align:center;">-1:1 문의 전 유의사항-</h4>
+        <h4 style="text-align:center;">1:1 문의 전 유의사항</h4>
         <br>
             	<p>1. '자주 묻는 질문' 탭에 주로 올라오는 문의들을 따로 정리해놨으니 1:1 문의 전 참고바랍니다.</p>
             	<p>2. 답변에 대한 내용은 관리자와 작성자만 확인 가능합니다.</p>
-            	<p>3. 답변확인 후 글 삭제 부탁드립니다.(추가적인 답변을 원하시면 밑에 댓글 달아주세요)</p>
+            	<p>3. 답변은 관리자만 등록 가능합니다.</p>
             </div>
 
         <div class="path">
@@ -123,19 +123,22 @@ button.writeFaqBtn.learn-more {
                 <tr>
                     <th>No</th>
                     <th style="width: 300px;">제목</th>
-                    <th>작성자</th>
                     <th>작성일</th>
-                    <th>조회수</th>
+                    <th>답변수</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="b : ${ list }">
 	          				<td th:text = "${ b.boardNo }"></td>
 	          				<td th:text = "${ b.boardTitle }"></td>
-	          				<td th:text = "${ b.nickName }"></td>
 	          				<td th:text = "${ b.boardDate }"></td>
-	          				<td th:text = "${ b.boardCount }"></td>
+	          				<td th:text="${b.replyCount > 0 ? '답변완료' : '답변미완료'}"></td>
 	          	</tr>
+	          	<tr>
+					<th:block th:if="${#lists.isEmpty(list)}">
+				      <td colspan="5" id="emptyBoardList">게시글이 없습니다</td>
+				    </th:block>
+				</tr>
             </tbody>
         </table>
 

@@ -122,6 +122,11 @@ width: 80px;
 	          				<td th:text = "${ b.boardDate }"></td>
 	          				<td th:text = "${ b.boardCount }"></td>
 	          	</tr>
+	          	<tr>
+	          		<th:block th:if="${#lists.isEmpty(list)}">
+			            <td colspan="5" id="emptyBoardList">게시글이 없습니다</td>
+			        </th:block>
+	          	</tr>
             </tbody>
         </table>
         <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">

@@ -46,10 +46,6 @@ public interface BoardService {
 
 	int myReplyCount(int uNo);
 
-	int myBoardCount(int uNo);
-
-	ArrayList<Board> selectMyBoard(PageInfo pageInfo, int uNo);
-
 	ArrayList<Board> searchByFpName(PageInfo pageInfo, HashMap<String, Object> map);
 
 	int finePeopleCount(HashMap<String, Object> map);
@@ -63,4 +59,18 @@ public interface BoardService {
 	Reply findCommentById(int id);
 
 	int updateComment(int replyNo);
+
+	int myBoardCount(int uNo);
+
+	ArrayList<Board> selectMyBoard(PageInfo pageInfo, int uNo);
+
+	ArrayList<Board> searchByMyBoard(PageInfo pageInfo, HashMap<String, Object> map);
+
+	int searchMyBoardListCount(HashMap<String, Object> params);
+
+	int getListMyQaCount(int uNo);
+
+	ArrayList<Board> selectMyQaList(PageInfo pageInfo, int uNo);
+
+	ArrayList<Board> searchByQaTitle(PageInfo pageInfo, HashMap<String, Object> map);
 }

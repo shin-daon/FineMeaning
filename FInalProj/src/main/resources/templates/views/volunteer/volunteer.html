@@ -30,9 +30,9 @@
         </div>
 
         <div class="path">
-            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+            <a class="middle" href="/"><img class="homeIconSize" src="image/home.png"></a>
             <img class="sub iconSize" src="image/화살표.png">
-            <a class="middle" href="#">봉사</a>
+            <a class="middle" href="volunteer.vo">봉사</a>
         </div>
     </section>
 
@@ -568,8 +568,8 @@
 		 						const recruitmentDateSpan = document.createElement("span");
 		 						const recruitmentStartDateArr = volunteer.vRecruitmentStartDate.split("-");
 		 						const recruitmentEndDateArr = volunteer.vRecruitmentEndDate.split("-");
-		 						recruitmentDateSpan.innerText = recruitmentStartDateArr[0] + "." + recruitmentStartDateArr[1] + "." + recruitmentStartDateArr[2] + 
-		 														"~" + recruitmentEndDateArr[0] + "." + recruitmentEndDateArr[1] + "." + recruitmentEndDateArr[2]
+		 						recruitmentDateSpan.innerText = recruitmentStartDateArr[0].substring(2) + "." + recruitmentStartDateArr[1] + "." + recruitmentStartDateArr[2] + 
+		 														"~" + recruitmentEndDateArr[0].substring(2) + "." + recruitmentEndDateArr[1] + "." + recruitmentEndDateArr[2]
 		 						vListInfo.appendChild(recruitmentDateSpan);
 		 						
 		 						const vBold3 = document.createElement("span");
@@ -581,8 +581,8 @@
 		 						const volunteerDateSpan = document.createElement("span");
 		 						const volunteerStartDateArr = volunteer.vStartDate.split("-");
 		 						const volunteerEndDateArr = volunteer.vEndDate.split("-");
-		 						volunteerDateSpan.innerText = volunteerStartDateArr[0] + "." + volunteerStartDateArr[1] + "." + volunteerStartDateArr[2] + 
-															  "~" + volunteerEndDateArr[0] + "." + volunteerEndDateArr[1] + "." + volunteerEndDateArr[2]
+		 						volunteerDateSpan.innerText = volunteerStartDateArr[0].substring(2) + "." + volunteerStartDateArr[1] + "." + volunteerStartDateArr[2] + 
+															  "~" + volunteerEndDateArr[0].substring(2) + "." + volunteerEndDateArr[1] + "." + volunteerEndDateArr[2]
 		 						vListInfo.appendChild(volunteerDateSpan);
 		 					
 		 						

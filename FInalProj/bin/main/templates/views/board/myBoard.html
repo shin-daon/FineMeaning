@@ -20,6 +20,14 @@
 	        <div>
 	            <div id="myBoardTitle">내가 작성한 글</div>
 	        </div>
+	        
+	    <div class="actionArea">
+            <div class="searchArea">
+                <input class="searchInput" type="text" placeholder="검색"/>
+                <a class="searchIconATag"><img class="searchIcon" src="image/search.png"></a>
+            </div>
+        </div>
+	        
 	
 	        <table class="myBoardTable">
 	            <thead>
@@ -39,41 +47,60 @@
 	                    <td th:text = "${b.boardCount}"></td>
 	                    <td th:text = "${b.boardType}"></td>
 	                </tr>
+	                <th:block th:if="${#lists.isEmpty(list)}">
+				      <td colspan="5" id="emptyBoardList">게시글이 없습니다</td>
+				    </th:block>
 	            </tbody>
 	        </table>
 			
 	        <div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
-	            <ul class="pagination">
-	                <li th:if="${ pi.currentPage > 1 }">
-		                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
-		                	<img class="arrowKey" src="image/before.png">
-		                </a>
-	                </li>
-	                <li th:unless="${ pi.currentPage > 1 }">
-		                	<img class="arrowKey disabled" src="image/before.png">
-	                </li>
-	                
-	                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
-	                	<th:block th:if="${p != 0}">
-	                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
-	                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
-	                	</th:block>
-	                </li>
-	                
-	                <li th:if="${ pi.currentPage < pi.maxPage} ">
-		                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
-		                	<img class="arrowKey" src="image/next.png">
-		                </a>
-	                </li>
-	                <li th:unless="${ pi.currentPage < pi.maxPage }">
-		                	<img class="arrowKey disabled" src="image/next.png">
-	                </li>
-	            </ul>
-	        </div>
+            <ul class="pagination">
+                <li th:if="${ pi.currentPage > 1 && !map.isEmpty()}">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 }, keyword=${map.keyword})}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:if="${ pi.currentPage > 1 && map.isEmpty()}">
+	                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+	                	<img class="arrowKey" src="image/before.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage > 1}">
+	                	<img class="arrowKey disabled" src="image/before.png">
+                </li>
+                
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0 && !map.isEmpty()}">
+                	<a th:href="@{${loc}(page=${p}, keyword=${map.keyword})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+                	<th:block th:if="${p != 0 && map.isEmpty()}">
+                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+                	</th:block>
+                </li>
+                
+                <li th:if="${ pi.currentPage < pi.maxPage && !map.isEmpty()}">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${map.keyword})}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:if="${ pi.currentPage < pi.maxPage && map.isEmpty()}">
+	                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+	                	<img class="arrowKey" src="image/next.png">
+	                </a>
+                </li>
+                <li th:unless="${ pi.currentPage < pi.maxPage }">
+	                	<img class="arrowKey disabled" src="image/next.png">
+                </li>
+            </ul>
+        </div>
 	    </section>
     </div>
     <div th:replace="~{views/common/footer :: footer}"></div>
-    <script>
+    <script th:inline="javascript">
     window.onload = () => {
         const tbody = document.querySelector('tbody');
         const trs = tbody.querySelectorAll('tr');
@@ -90,7 +117,7 @@
             row.addEventListener('click', function() {
                 const trTds = this.children;
                 const bNo = trTds[0].innerText;
-                const writer = trTds[2].innerText;
+                const writer = /*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/ 1;
                 const category = trTds[4].innerText;
                 let page = 1;
                 let url = '';
@@ -109,6 +136,21 @@
             });
         }
     };
+    
+    document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
+		enrollSearchKeyword();
+	});
+	
+	document.getElementsByClassName('searchInput')[0].addEventListener('keyup', (e)=>{
+		if(e.key == 'Enter'){
+			enrollSearchKeyword()
+		}
+	});
+	
+	function enrollSearchKeyword(){
+		const input = document.querySelector('.searchInput').value.trim();
+		location.href = 'myBoard.bo?keyword=' + input;
+	}
     </script>
 </body>
 </html>

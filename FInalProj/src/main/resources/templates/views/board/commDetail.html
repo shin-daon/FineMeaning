@@ -113,6 +113,7 @@ width: 80px;
             
             <tr>
             <td align="left">작성자: [[${board.nickName}]] </td>
+            <td align="left">댓글수: [[${comment}]] </td>
              <td align="left">조회수: [[${board.boardCount}]] </td>
             </tr>
         </table>
@@ -152,7 +153,7 @@ width: 80px;
                 <span><button type="button" class="btns" th:onclick="saveComment();">등록</button> <i id="counter">0/300자</i></span>
             </div>
             <br><hr><br>
-        </fieldset>
+        	</fieldset>
        
 			<!--/* 댓글 렌더링 영역 */-->
 		    <div class="cm_list">
@@ -299,36 +300,6 @@ width: 80px;
 		
     }
     
-    	// 댓글 수정 팝업 open
-        function openCommentUpdatePopup(replyNo) {
-
-            const boardNo = /*[[ ${board.boardNo} ]]*/1;
-            
-            $.ajax({
-                url : `/board/${boardNo}/comments/${replyNo}`,
-                type : 'get',
-                dataType : 'json',
-                async : false,
-                success : function (response) {
-                    document.getElementById('modalContent').value = response.content;
-                    document.getElementById('commentUpdateBtn').setAttribute('onclick', `updateComment(${replyNo})`);
-                    layerPop('commentUpdatePopup');
-                },
-                error : function (request, status, error) {
-                    console.log(error)
-                }
-            })
-            
-        }
-
-
-        // 댓글 수정 팝업 close
-        function closeCommentUpdatePopup() {
-            document.querySelectorAll('#modalContent').forEach(element => element.value = '');
-            document.getElementById('commentUpdateBtn').removeAttribute('onclick');
-            layerPopClose('commentUpdatePopup');
-        }
-        
      // 댓글 수정
         function updateComment(replyNo) {
 

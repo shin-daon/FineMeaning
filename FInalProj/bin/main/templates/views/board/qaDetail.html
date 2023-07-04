@@ -123,7 +123,7 @@ button.writeFaqBtn.learn-more {
 
 				<tr>
 					<td align="left">작성자: [[${board.nickName}]]</td>
-					<td align="left">조회수: [[${board.boardCount}]]</td>
+					<td align="left">답변상태: <span th:text="${comment > 0 ? '답변완료' : '답변미완료'}"></span></td>
 				</tr>
 			</table>
 			<table class="titleTable">
@@ -139,7 +139,7 @@ button.writeFaqBtn.learn-more {
 			</table>
 
 			<th:block
-				th:if="${session.loginUser != null && session.loginUser.uNo eq board.uNo || session.loginUser.isAdmin == 0}">
+				th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}">
 				<div class="actionArea">
 					<div class="writeArea">
 						<button class="writeFaqBtn learn-more"
@@ -150,24 +150,24 @@ button.writeFaqBtn.learn-more {
 			</th:block>
 		</form>
 		<br><br><br>
-		<th:block th:if="${ session.loginUser != null && session.loginUser.uNo eq board.uNo || session.loginUser.isAdmin == 0}">
+		<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0}">
 		<div class="cm_write">
 			<fieldset>
-            <legend class="skipinfo">답변 등록<h6>(관리자와 작성자만 이용가능합니다)</h6></legend>
+            <legend class="skipinfo">답변 등록<h6>(관리자만 이용가능합니다)</h6></legend>
             <div class="cm_input">
-                <p><textarea id="content" name="content" onkeyup="countingLength(this);" cols="90" rows="4" placeholder="댓글을 입력해 주세요."></textarea></p>
+                <p><textarea id="content" name="content" onkeyup="countingLength(this);" cols="90" rows="4" placeholder="답변을 입력해 주세요."></textarea></p>
                 <span><button type="button" class="btns" th:onclick="saveComment();">등록</button> <i id="counter">0/300자</i></span>
             </div>
             <br><hr><br>
         </fieldset>
-       
+       </th:block>
 			<!--/* 댓글 렌더링 영역 */-->
 			
 		    <div class="cm_list">
 			
 		    </div>
 		</div>
-		 </th:block>
+		 
 		<br>
 		<br>
 		<br>

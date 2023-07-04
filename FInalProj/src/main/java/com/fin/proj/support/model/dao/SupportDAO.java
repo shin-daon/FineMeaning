@@ -96,5 +96,7 @@ public interface SupportDAO {
 
 	int updateSupport(Support s);
 
+	int updateStartDate(int supportNo);
+
 
 }

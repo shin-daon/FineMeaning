@@ -37,7 +37,7 @@ width:750px
 		<input type="hidden" name="boardNo" th:value="${ board.boardNo }">
 		<input type="hidden" name="page" th:value="${ page }">
 		<input type="hidden" name="boardType" th:value="${ board.boardType }">
-		<input type="text" class="form-control" id="boardTitle" name="boardTitle" th:value="${ board.boardTitle }">
+		<input type="text" class="form-control" id="boardTitle" name="boardTitle" th:value="${ board.boardTitle }" required>
 		<br><br> 
 		<textarea id="summernote" name="boardContent" required>[[${ board.boardContent }]]</textarea><br>
 		<div class="btnArea">
@@ -66,5 +66,21 @@ $('#summernote').summernote({
       ['view', ['help']]
     ]
 });
+
+$('form').submit(function() {
+	  var title = $('#boardTitle').val();
+	  var content = $('#summernote').summernote('code');
+
+	  if (title.trim() === '' && content.trim() === '') {
+	    alert('제목과 내용을 입력해주세요.');
+	    return false; // 폼 제출 취소
+	  } else if (title.trim() === '') {
+	    alert('제목을 입력해주세요.');
+	    return false; // 폼 제출 취소
+	  } else if (content.trim() === '') {
+	    alert('내용을 입력해주세요.');
+	    return false; // 폼 제출 취소
+	  }
+	});
 </script>
 </html>

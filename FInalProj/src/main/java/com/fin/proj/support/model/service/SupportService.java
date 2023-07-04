@@ -92,6 +92,8 @@ public interface SupportService {
 
 	int updateSupport(Support s);
 
+	int updateStartDate(int supportNo);
+
 
 
 

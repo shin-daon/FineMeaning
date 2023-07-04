@@ -102,11 +102,11 @@ button.writeFaqBtn.learn-more {
 
 .pagination > li > .num {
     margin: 10px;
-    width: 33px;
-    height: 33px;
+    width: 30px;
+    height: 30px;
     text-decoration-line: none;
     color: black;
-    font-size: 16px;
+    font-size: 14px;
     display: inline-block;
     text-align: center
 }
@@ -221,6 +221,11 @@ button.writeFaqBtn.learn-more {
 		</div>
 		
     </tr>
+    <tr>
+		<th:block th:if="${#lists.isEmpty(list)}">
+	      <td colspan="5" id="emptyBoardList">게시글이 없습니다</td>
+	    </th:block>
+	</tr>
   </tbody>
 </table>
 		

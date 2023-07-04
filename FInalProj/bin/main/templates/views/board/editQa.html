@@ -37,7 +37,7 @@ width:750px
 		<input type="hidden" name="boardNo" th:value="${ b.boardNo }">
 		<input type="hidden" name="page" th:value="${ page }">
 		<input type="hidden" name="boardType" th:value="${ b.boardType }">
-		<input type="text" class="form-control" id="boardTitle" name="boardTitle" th:value="${ b.boardTitle }">
+		<input type="text" class="form-control" id="boardTitle" name="boardTitle" th:value="${ b.boardTitle }" required>
 		<br><br> 
 		<textarea id="summernote" name="boardContent" required>[[${ b.boardContent }]]</textarea><br>
 		<div class="btnArea">
