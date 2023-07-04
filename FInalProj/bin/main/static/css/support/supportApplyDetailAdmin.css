@@ -15,7 +15,7 @@
 }
 
 #supportListSection {
-    margin-top: 48px;
+    margin-top: 46px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -105,6 +105,9 @@
     font-weight: bold;    
 }
 
+.supportDetailContent{
+	width:750px;
+}
 
  
 @import url("https://fonts.googleapis.com/css?family=Rubik:700&display=swap");

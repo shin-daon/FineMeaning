@@ -152,6 +152,7 @@
 			
 			// 카테고리 연관된 input="hidden"에 값이 없을 경우 submit 막기
 			const submitBtn = document.querySelector('.writeFaqBtn');
+			
 			submitBtn.addEventListener('click', function(){
 				const boardCate = document.getElementsByName('boardCate')[0];
 				if(boardCate.value === 'none'){
