@@ -144,8 +144,7 @@
 			and registrar like '%' || #{registrar} || '%'
 		</if>
 		<if test="vStartDate != null and !vStartDate.equals('')">
-			and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) <= #{vStartDate}]]>
-			and <![CDATA[to_date(to_char(v_end_date, 'yyyy-mm-dd')) >= #{vStartDate}]]>
+			and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) >= #{vStartDate}]]>
 		</if>
 		<if test="vEndDate != null and !vEndDate.equals('')">
 			and <![CDATA[to_date(to_char(v_end_date, 'yyyy-mm-dd')) <= #{vEndDate}]]>
@@ -191,8 +190,7 @@
 			and registrar like '%' || #{registrar} || '%'
 		</if>
 		<if test="vStartDate != null and !vStartDate.equals('')">
-			and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) <= #{vStartDate}]]>
-			and <![CDATA[to_date(to_char(v_end_date, 'yyyy-mm-dd')) >= #{vStartDate}]]>
+			and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) >= #{vStartDate}]]>
 		</if>
 		<if test="vEndDate != null and !vEndDate.equals('')">
 			and <![CDATA[to_date(to_char(v_end_date, 'yyyy-mm-dd')) <= #{vEndDate}]]>
