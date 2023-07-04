@@ -67,4 +67,10 @@ public interface BoardService {
 	ArrayList<Board> searchByMyBoard(PageInfo pageInfo, HashMap<String, Object> map);
 
 	int searchMyBoardListCount(HashMap<String, Object> params);
+
+	int getListMyQaCount(int uNo);
+
+	ArrayList<Board> selectMyQaList(PageInfo pageInfo, int uNo);
+
+	ArrayList<Board> searchByQaTitle(PageInfo pageInfo, HashMap<String, Object> map);
 }

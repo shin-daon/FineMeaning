@@ -10,6 +10,7 @@ public class Board {
 	private String boardType;
 	private String boardTitle;
 	private String boardContent;
+	private int replyCount;
 	private Date boardDate;
 	private char boardStatus;
 	private int boardCount;
@@ -21,8 +22,8 @@ public class Board {
 	public Board() {}
 
 	public Board(int boardNo, int uNo, String uId, String nickName, String boardType, String boardTitle,
-			String boardContent, Date boardDate, char boardStatus, int boardCount, String newsURL, String fpName,
-			int boardCate, String imageUrl) {
+			String boardContent, int replyCount, Date boardDate, char boardStatus, int boardCount, String newsURL,
+			String fpName, int boardCate, String imageUrl) {
 		super();
 		this.boardNo = boardNo;
 		this.uNo = uNo;
@@ -31,6 +32,7 @@ public class Board {
 		this.boardType = boardType;
 		this.boardTitle = boardTitle;
 		this.boardContent = boardContent;
+		this.replyCount = replyCount;
 		this.boardDate = boardDate;
 		this.boardStatus = boardStatus;
 		this.boardCount = boardCount;
@@ -96,6 +98,14 @@ public class Board {
 		this.boardContent = boardContent;
 	}
 
+	public int getReplyCount() {
+		return replyCount;
+	}
+
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
+	}
+
 	public Date getBoardDate() {
 		return boardDate;
 	}
@@ -155,9 +165,9 @@ public class Board {
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", uNo=" + uNo + ", uId=" + uId + ", nickName=" + nickName + ", boardType="
-				+ boardType + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent + ", boardDate="
-				+ boardDate + ", boardStatus=" + boardStatus + ", boardCount=" + boardCount + ", newsURL=" + newsURL
-				+ ", fpName=" + fpName + ", boardCate=" + boardCate + ", imageUrl=" + imageUrl + "]";
+				+ boardType + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent + ", replyCount="
+				+ replyCount + ", boardDate=" + boardDate + ", boardStatus=" + boardStatus + ", boardCount="
+				+ boardCount + ", newsURL=" + newsURL + ", fpName=" + fpName + ", boardCate=" + boardCate
+				+ ", imageUrl=" + imageUrl + "]";
 	}
-
 }

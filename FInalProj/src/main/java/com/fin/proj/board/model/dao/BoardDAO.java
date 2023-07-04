@@ -74,5 +74,11 @@ public interface BoardDAO {
 	ArrayList<Board> searchByMyBoard(HashMap<String, Object> map, RowBounds rowbounds);
 
 	int searchMyBoardListCount(HashMap<String, Object> params);
+
+	int getListMyQaCount(int uNo);
+
+	ArrayList<Board> selectMyQaList(int uNo, RowBounds rowbounds);
+
+	ArrayList<Board> searchByQaTitle(HashMap<String, Object> map, RowBounds rowbounds);
 	
 }
