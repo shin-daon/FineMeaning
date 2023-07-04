@@ -136,6 +136,11 @@ button.writeFaqBtn.learn-more {
 	          				<td th:text = "${ b.boardDate }"></td>
 	          				<td th:text = "${ b.boardCount }"></td>
 	          	</tr>
+	          	<tr>
+					<th:block th:if="${#lists.isEmpty(list)}">
+				      <td colspan="5" id="emptyBoardList">게시글이 없습니다</td>
+				    </th:block>
+				</tr>
             </tbody>
         </table>
 

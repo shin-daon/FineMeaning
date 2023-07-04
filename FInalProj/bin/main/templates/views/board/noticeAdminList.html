@@ -223,6 +223,11 @@ button.writeFaqBtn.learn-more {
 		</div>
       
     </tr>
+    <tr>
+		<th:block th:if="${#lists.isEmpty(list)}">
+	      <td colspan="5" id="emptyBoardList">게시글이 없습니다</td>
+		</th:block>
+	</tr>
   </tbody>
 </table>
 		
@@ -334,7 +339,7 @@ window.onload = () =>{
 	
 	function enrollSearchKeyword(){
 		const input = document.querySelector('.searchInput').value.trim();
-		location.href = 'noticeList.bo?keyword=' + input;
+		location.href = 'noticeListAdmin.bo?keyword=' + input;
 	}
 }
 </script>

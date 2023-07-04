@@ -35,7 +35,7 @@ width:750px
 <div id="faq_write_title2">일반게시글 작성✏️</div>
 <div id="formDiv">
 	<form method="post" action="insertCommBoard.bo">
-		<input type="text" id="title" name="boardTitle" placeholder="제목을 입력해주세요">
+		<input type="text" id="title" name="boardTitle" placeholder="제목을 입력해주세요" required>
 		<br><br> 
 		<textarea id="summernote" name="boardContent" required></textarea><br>
 		<div class="btnArea">
@@ -64,5 +64,6 @@ $('#summernote').summernote({
       ['view', ['help']]
     ]
 });
+
 </script>
 </html>
