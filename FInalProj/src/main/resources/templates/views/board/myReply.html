@@ -60,10 +60,10 @@
 	                    </td>
 	                    <td th:text="${r.replyDate}"></td>
 	                </tr>
-	                <tr>
-		        	<th:block th:if="${#lists.isEmpty(list)}">
-			            <td colspan="7" id="emptyReplyList">작성한 댓글이 없습니다.</td>
-			        </th:block>
+	                <tr id="emptyReplyList">
+			        	<th:block th:if="${#lists.isEmpty(list)}">
+				            <td colspan="7" id="emptyReplyList">작성한 댓글이 없습니다.</td>
+				        </th:block>
 					</tr>
 	            </tbody>
 	        </table>
@@ -184,6 +184,9 @@
             
             
             // 선택한 댓글 삭제
+            
+            const emptyReplyList = document.getElementById('emptyReplyList');
+            
             document.getElementsByClassName('deleteReplyBtn')[0].addEventListener('click', function(){
             	let replies = '';
             	
