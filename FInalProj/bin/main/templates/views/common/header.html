@@ -28,7 +28,7 @@
                     <li><a href="supportMain.su" data-hover="후원">후원</a></li>
                     <li><a href="commList.bo" data-hover="커뮤니티">커뮤니티</a></li>
                     <li><a href="editMyInfo.me" data-hover="MY">MY</a></li>
-                    <li th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}"><a href="supportListAdmin.su" data-hover="ADMIN">ADMIN</a></li>
+                    <li th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}"><a href="editUserInfo.me" data-hover="ADMIN">ADMIN</a></li>
                 </ul>
             </div>
         </div>

@@ -72,7 +72,7 @@ public class VolunteerController {
 			
 			int searchVolunteerCount = vService.getSearchVolunteerCount(searchMap);
 			pi = Pagination.getPageInfo(currentPage, searchVolunteerCount, 5);
-			list = vService.searchVolunteerByAjax(pi, searchMap);
+			list = vService.searchVolunteer(pi, searchMap);
 			
 			model.addAttribute("searchMap", searchMap);
 		}
@@ -201,7 +201,7 @@ public class VolunteerController {
 		
 		int searchVolunteerAjaxCount = vService.getSearchVolunteerCount(ajaxMap);
 		PageInfo pi = Pagination.getPageInfo(1, searchVolunteerAjaxCount, 5);
-		ArrayList<Volunteer> volunteerList = vService.searchVolunteerByAjax(pi, ajaxMap);
+		ArrayList<Volunteer> volunteerList = vService.searchVolunteer(pi, ajaxMap);
 		HashMap<String, Object> data = new HashMap<String, Object>();
 		data.put("pi", pi);
 		data.put("volunteerList", volunteerList);
