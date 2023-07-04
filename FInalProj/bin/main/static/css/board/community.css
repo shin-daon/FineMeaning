@@ -218,8 +218,44 @@ th, td {
     border-radius: 0px 10px 0px 0px;
 }
 
-/* 페이징 */
+/* 댓글 */
+.writer{
+font-weight: bold;
+}
 
+em{
+font-size: 22px
+}
+
+.btns{
+width: 50px;
+height: 20px;
+background-color: #9DC08B;
+color: white;
+border-radius: 0.4rem;
+cursor: pointer;
+border: 1px solid black;
+font-size: 14px;
+}
+
+.cm_input textarea {
+  width: 750px;
+  height: 100px;
+  resize: none;
+}
+
+.cont{
+font-size: 17px;
+display: inline-block;
+width: 600px;
+height: 50px;
+border: 1px solid #609966;
+border-radius: 10px;
+background-color: #EDF1D6;
+}
+
+
+/* 페이징 */
 .page {
     margin-top: 35px;
     display: flex;

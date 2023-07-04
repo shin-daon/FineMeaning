@@ -180,5 +180,16 @@ public class BoardServiceImpl implements BoardService {
 		return bDAO.updateComment(replyNo);
 	}
 
-	
+	@Override
+	public ArrayList<Board> searchByMyBoard(PageInfo pi, HashMap<String, Object> map) {
+		int offset = (pi.getCurrentPage() -1 ) * pi.getBoardLimit();
+		RowBounds rowbounds = new RowBounds(offset, pi.getBoardLimit());
+		return bDAO.searchByMyBoard(map, rowbounds);
+	}
+
+	@Override
+	public int searchMyBoardListCount(HashMap<String, Object> params) {
+		return bDAO.searchMyBoardListCount(params);
+	}
+
 }
