@@ -239,6 +239,26 @@
 		update reply
 		set re_status = 'N'
 		where re_no = #{replyNo}
-	</delete>	
+	</delete>
 	
+	<select id="getListMyQaCount" resultType="_int">
+		select count(*)
+		from board
+		where u_no = #{uNo} and board_status = 'Y' and board_type = 'QA'
+	</select>
+	
+	<select id="selectMyQaList" resultMap="boardResultSet">
+		select *
+		from board
+		where u_no = #{uNo} and board_status = 'Y' and board_type = 'QA'
+		order by board_date desc
+	</select>
+	
+	<select id="searchByQaTitle" resultMap="boardResultSet">
+		select *
+		from board
+			 join users using(u_no)
+		where board_title like '%' || #{keyword} || '%' and board_type = 'QA' and board_status = 'Y' and u_no = #{uNo}
+		order by board_no desc
+	</select>
 </mapper>

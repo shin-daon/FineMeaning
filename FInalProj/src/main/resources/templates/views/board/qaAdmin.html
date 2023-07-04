@@ -120,7 +120,7 @@ button.writeFaqBtn.learn-more {
                     <th style="width: 300px;">제목</th>
                     <th>작성자</th>
                     <th>작성일</th>
-                    <th>조회수</th>
+                    <th>답변상태</th>
                 </tr>
             </thead>
             <tbody>
@@ -129,7 +129,7 @@ button.writeFaqBtn.learn-more {
 	          				<td th:text = "${ b.boardTitle }"></td>
 	          				<td th:text = "${ b.nickName }"></td>
 	          				<td th:text = "${ b.boardDate }"></td>
-	          				<td th:text = "${ b.boardCount }"></td>
+	          				<td th:text="${b.replyCount > 0 ? '답변완료' : '답변미완료'}"></td>
 	          	</tr>
 	          	<tr>
 					<th:block th:if="${#lists.isEmpty(list)}">
