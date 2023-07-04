@@ -82,7 +82,7 @@
                         </div>
 	                	<input type="text" id="title" name="boardTitle" th:value="${ board.boardTitle }" required>
 	                </div>
-	                <textarea id="summernote" name="boardContent" required>[[${board.boardContent}]]</textarea>
+	                <textarea id="summernote" name="boardContent" th:text="${board.boardContent}" required></textarea>
 	            </div>
 	            <div class="btnArea">
 	                <button type="submit" class="writeFaqBtn learn-more">수정하기</button>
@@ -187,6 +187,16 @@
 		          ['insert', ['link', 'picture', 'video']],
 		          ['view', ['help']]
 		        ]
+			});
+			
+			const submitBtn = document.querySelector('.writeFaqBtn');
+			submitBtn.addEventListener('click', function(){
+				const boardContent = document.getElementsByName('boardContent')[0].innerHTML;
+				console.log(boardContent);
+				if(boardContent == '<p><br></p>'){
+					event.preventDefault(); // 폼 제출 막기
+					alert('글 작성 시 카테고리 선택은 필수입니다.');
+				}
 			});
 			
 		});

@@ -292,4 +292,8 @@
 	 where s_no =#{supportNo}
 	</update>
 	
+<update id="updateStartDate">
+		update support set S_START_DATE=sysdate where s_no = #{supportNo}
+	</update>
+	
 </mapper>

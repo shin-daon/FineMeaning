@@ -258,6 +258,7 @@
 .replyWriter {
 	margin-right: 10px;
 	font-size: 15px;
+	font-weight: bold;
 	text-decoration: #9DC08B wavy underline;
 }
 

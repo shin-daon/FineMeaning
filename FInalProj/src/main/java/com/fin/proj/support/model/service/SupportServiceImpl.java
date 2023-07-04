@@ -298,4 +298,10 @@ public class SupportServiceImpl implements SupportService {
 		return suDAO.updateSupport(s);
 	}
 
+
+	@Override
+	public int updateStartDate(int supportNo) {
+		return suDAO.updateStartDate(supportNo);
+	}
+
 }

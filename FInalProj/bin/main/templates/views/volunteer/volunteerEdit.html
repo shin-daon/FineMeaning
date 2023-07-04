@@ -254,22 +254,6 @@
 
 	<script th:inline="javascript">
         window.onload = () => {    
-        	document.querySelector("#modifyBtn").addEventListener("click", () => {
-        		const searchMap = /*[[${searchMap}]]*/null;
-        		
-        		const vForm = document.querySelector("#vForm");
-        		
-        		if(searchMap != null) {
-					const hiddenSearchObject = document.createElement("input");
-		    	    hiddenSearchObject.setAttribute("type", "hidden");
-		    	    hiddenSearchObject.setAttribute("name", "searchObject");
-		    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchMap));
-		    	    vForm.appendChild(hiddenSearchObject);
-				}
-        		
-        		vForm.submit();
-        	});
-        	
         	document.getElementsByName("vLocation")[0].addEventListener("click", function() {
         		new daum.Postcode({
     	            oncomplete: function(data) {
@@ -555,6 +539,18 @@
             	
             	if(!checkAllVal) {
             		event.preventDefault();
+            	} else {
+            		const searchMap = /*[[${searchMap}]]*/null;
+            		const vForm = document.querySelector("#vForm");
+            		
+            		if(searchMap != null) {
+    					const hiddenSearchObject = document.createElement("input");
+    		    	    hiddenSearchObject.setAttribute("type", "hidden");
+    		    	    hiddenSearchObject.setAttribute("name", "searchObject");
+    		    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchMap));
+    		    	    vForm.appendChild(hiddenSearchObject);
+    				}
+            		vForm.submit();
             	}
             	vDayVal = '';
             });
