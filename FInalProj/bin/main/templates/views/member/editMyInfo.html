@@ -443,13 +443,17 @@ a {
     /*<![CDATA[*/
     const emailDomain = /*[[${loginUser.email != null ? loginUser.email.substring(loginUser.email.indexOf('@') + 1) : ''}]]*/'';
     /*]]>*/
+    console.log(emailDomain);
     
     if (!['naver.com', 'gmail.com', 'daum.net', 'nate.com'].includes(emailDomain)) {
         customEmailInput.value = emailDomain;
+        console.log(123);
         emailSelect.style.display = 'none';
         customEmailInput.style.display = 'inline-block';
         emailInput.style.display = 'block';
         xBtn.style.display = 'block';
+    } else {
+    	customEmailInput.value = '';
     }
     
     emailSelect.addEventListener('change', function() {

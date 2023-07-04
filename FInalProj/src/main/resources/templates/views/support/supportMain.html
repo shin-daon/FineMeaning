@@ -270,7 +270,7 @@
                 </li>
                 <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
                 	<th:block th:if="${p != 0}">
-                	<a th:href="@{${loc}(page=${p},category=${category})}" th:text="${p}"
+                	<a th:href="@{${loc}(page=${p},category=${category}, searchWord=${searchWord})}" th:text="${p}"
                 		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
                 	</th:block>
                 </li>

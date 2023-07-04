@@ -151,17 +151,10 @@ public class MemberController {
 		
 		System.out.println("보낼 이메일 : " + emailAddress);
 		
-		int statusEmail = mService.checkEmail(emailAddress);
+		int count = aService.checkEmail(emailAddress);
 		
-		if(statusEmail != 0) {
-			String result = "registered email";
-			out.print(result);
-		} else {
-			int count = aService.checkEmail(emailAddress);
-		
-			String result = Integer.toString(count);
-			out.print(result);
-		}	
+		String result = Integer.toString(count);
+		out.print(result);	
 			
 	}
 
@@ -182,6 +175,8 @@ public class MemberController {
 		} else {
 			m.setEmail(null);
 		}
+		
+		System.out.println("이메일 : " + m.getEmail());
 		
 		int result = mService.updateMyInfo(m);
 		System.out.println(loginUser);
@@ -220,7 +215,7 @@ public class MemberController {
 		m.setuId(uId);
 		Member loginUser = mService.login(m);
 		
-		int count = mService.checkId(uId);
+		int count = mService.checkLogin(uId);
 		
 		if(count == 0) {
 			out.print(count);
@@ -329,7 +324,7 @@ public class MemberController {
 		
 		System.out.println("m에 값을 넣음 (이름, 이메일, 폰) : " + m);
 		
-		Member foundUser = mService.searchUser(m);
+		ArrayList<Member> foundUser = mService.searchUser(m);
 	
 		if(foundUser != null) {
 			model.addAttribute("foundUser", foundUser);

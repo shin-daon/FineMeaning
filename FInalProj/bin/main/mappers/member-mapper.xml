@@ -39,6 +39,12 @@
 		where u_id = #{uId}
 	</select>
 	
+	<select id="checkLogin" resultType="_int">
+		select count(*)
+		from users
+		where u_id = #{uId} and u_status = 'Y'
+	</select>
+	
 	<select id="checkNickName" resultType="_int">
 		select count(*)
 		from users
