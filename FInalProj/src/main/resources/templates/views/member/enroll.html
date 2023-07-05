@@ -313,7 +313,7 @@ select:focus {
 		<div class="insert id">
 			<label class="title">아이디</label>
 			<div class="input">
-				<input type="text" id="normal-input" placeholder="아이디" name="uId" required/>
+				<input type="text" id="normal-input" placeholder="아이디" name="uId" required maxlength="20"/>
 				<div class="check-div"><label id="idCheckResult"></label></div>
 			</div>
 		</div>
@@ -462,7 +462,8 @@ select:focus {
     // 아이디, 닉네임 유효성 검사   
     window.onload = () => {
     		const id = document.getElementsByName('uId')[0];
-    		const idResult = document.getElementById('idCheckResult');   		
+    		const idResult = document.getElementById('idCheckResult');
+    		const regExp = /^[^ㄱ-ㅎㅏ-ㅣ가-힣]{5,20}$/
     		
     		id.addEventListener('input', function(){
 				if(this.value.trim() == ''){
@@ -470,6 +471,12 @@ select:focus {
 					idResult.style.color = 'gray';
 					id.style.outline = '';
 					id.style.boxShadow = '';
+					enrollButton.disabled = true;
+				} else if(!regExp.test(id.value)) {
+					idResult.innerText = '아이디는 5자 이상의 영문자, 숫자만 입력 가능 합니다.';
+					idResult.style.color = 'red';
+					id.style.outline = '1px solid red';
+					id.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
 					enrollButton.disabled = true;
 				} else {
 					$.ajax({
@@ -482,6 +489,7 @@ select:focus {
 								idResult.style.color = '#609966';
 								id.style.outline = '1px solid #609966';
 								id.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+								checkAllConditions();
 								enrollButton.disabled = false;
 							} else if(data == 'no'){
 								idResult.innerText = "사용 불가능한 아이디입니다.";
@@ -520,6 +528,7 @@ select:focus {
 								nickNameResult.style.color = '#609966';
 								nickName.style.outline = '1px solid #609966';
 								nickName.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+								checkAllConditions2();
 								enrollButton.disabled = false;
 							} else if(data == 'no'){
 								nickNameResult.innerText = "사용 불가능한 닉네임입니다.";
@@ -610,6 +619,8 @@ select:focus {
 	    if(password !== confirmPassword){
 	    	enrollButton.disabled = true;
 	    } else {
+	    	checkAllConditions2();
+	    	checkAllConditions();
 	    	enrollButton.disabled = false;
 	    }
 	    
@@ -633,8 +644,8 @@ select:focus {
 		  	pwdCheckResult.style.color = '#609966';
 		  	confirmPasswordInput.style.outline = '1px solid #609966';
 		  	confirmPasswordInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+		  	checkAllConditions2();
 		  	enrollButton.disabled = false;
-		  	checkAllConditions();
 	  } else if (password !== confirmPassword) {
 	  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
 	  		pwdCheckResult.style.color = 'red';
@@ -677,6 +688,7 @@ select:focus {
 		  	pwdCheckResult.style.color = '#609966';
 		  	confirmPasswordInput.style.outline = '1px solid #609966';
 		  	confirmPasswordInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+		  	checkAllConditions2();
 		  	enrollButton.disabled = false;
 	  } else if (password !== confirmPassword) {
 	  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
@@ -724,6 +736,7 @@ select:focus {
 	    ssnCheckResult.textContent = '';
 	    residentNo.style.outline = '1px solid #609966';
 	    residentNo.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	    checkAllConditions2();
 	    enrollButton.disabled = false;
 	  } else {
 	    ssnCheckResult.textContent = '올바른 생년월일을 입력해주세요.';
@@ -774,6 +787,7 @@ select:focus {
 			  if (agencyRadio.checked && agencyInput.value.trim() !== '') {
 				agencyInput.style.outline = '1px solid #609966';
 				agencyInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+				checkAllConditions2();
 				enrollButton.disabled = false;
 				
 			  } else if (agencyRadio.checked && agencyInput.value.trim() === '') {
@@ -884,6 +898,8 @@ select:focus {
 			const randomNumInput = document.getElementsByName("randomNumInput")[0];
 			const emailCheckResult = document.getElementById('emailCheckResult');
 			const emailCheckResult2 = document.getElementById('emailCheckResult2');
+			const password = document.querySelector('input[name="uPwd"]').value;
+			const confirmPassword = document.querySelector('input[name="checkPwd"]').value;
 			
 			if (data === randomNum) {
 		        emailCheckResult.innerText = '인증이 완료되었습니다.';
@@ -892,7 +908,13 @@ select:focus {
 		        randomNumInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
 		        emailBtn2.innerHTML = '인증 완료';
 		        emailCheckResult2.innerHTML = '';
-		        enrollButton.disabled = false;
+		        checkAllConditions2();
+		        
+		        if(password !== confirmPassword){
+			    	enrollButton.disabled = true;
+			    } else {
+			    	enrollButton.disabled = false;
+			    }
 		        
 		    } else {
 		        emailCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
@@ -903,8 +925,31 @@ select:focus {
 		        enrollButton.disabled = true;
 		    }
 		});
-
 		
+		
+		function checkAllConditions2() {
+			const id = document.getElementsByName('uId')[0];
+    		const regExp = /^[^ㄱ-ㅎㅏ-ㅣ가-힣]{5,20}$/
+			const nickName = document.getElementsByName('uNickName')[0];
+			const pwdInput = document.querySelector('input[name="uPwd"]');
+			const pwdInputValue = pwdInput.value;
+			const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
+			const passwordInput = document.querySelector('input[name="uPwd"]');
+			const confirmPasswordInput = document.querySelector('input[name="checkPwd"]');
+			const password = passwordInput.value;
+			const confirmPassword = confirmPasswordInput.value;
+			const emailBtn2 = document.getElementById('emailBtn2');	
+			 
+			 if(id.value.trim() !== '' && regExp.test(id.value) &&
+				nickName.value.trim() !== '' && pwdRegex.test(pwdInputValue) &&
+				password === confirmPassword && emailBtn2.checked) {
+				 
+				 enrollButton.disabled = true;
+			 } else {
+				 enrollButton.disabled = false;
+			 }
+				 	 
+		}
 		
 </script>
 </body>
