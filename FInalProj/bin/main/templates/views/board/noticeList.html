@@ -32,7 +32,7 @@
 			</div>
 			</th:block>
 			<div class="searchArea">
-				<input class="searchInput" type="text" placeholder="검색" /> <a
+				<input class="searchInput" type="text" placeholder="검색" th:value="${map.isEmpty() ? '' : map.keyword}"/> <a
 					class="searchIconATag"><img class="searchIcon"
 					src="image/search.png"></a>
 			</div>
@@ -106,7 +106,7 @@
 
 				<li th:if="${ pi.currentPage < pi.maxPage && !map.isEmpty()}">
 					<a class="last"
-					th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${map.keyword}, category=${map.category})}">
+					th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${map.keyword})}">
 						<img class="arrowKey" src="image/next.png">
 				</a>
 				</li>

@@ -32,7 +32,7 @@
 				</div>
 				</th:block>
 				<div class="searchArea">
-					<input class="searchInput" type="text" placeholder="검색" /> <a
+					<input class="searchInput" type="text" placeholder="검색" th:value="${map.isEmpty() ? '' : map.keyword}"/> <a
 						class="searchIconATag"><img class="searchIcon"
 						src="image/search.png"></a>
 				</div>

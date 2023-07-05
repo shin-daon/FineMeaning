@@ -185,15 +185,23 @@ button.writeFaqBtn.learn-more {
 		<button class="writeFaqBtn learn-more" th:onclick="redirectToPage()">목록으로</button>
 		<script th:inline="javascript">
 		/* <![CDATA[ */
+		const admin = /*[[${session.loginUser == null ? 1 : session.loginUser.isAdmin}]]*/0;
+		const keyword = /*[[${keyword}]]*/1;
+		const page = /*[[${page}]]*/1;
+		
+		let url = '';
+		
+		if(keyword != null){
+			url = '&keyword=' + keyword;
+		}
 		function redirectToPage() {
-			  const isAdmin = /*[[${session.loginUser.isAdmin}]]*/1;
-			  /* ]]> */
-			  if (isAdmin === 0) {
-			    location.href = 'qaAdminList.bo';
-			  } else {
-			    location.href = 'qaList.bo';
-			  }
+			if(admin == 0){
+				location.href="qaAdminList.bo?" + "page=" + page + url;
+			} else {
+				location.href="qaList.bo?" + "page=" + page + url;
 			}
+		}
+		/* ]]> */
 		</script>
 
 		<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">

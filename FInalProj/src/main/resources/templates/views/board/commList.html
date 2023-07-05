@@ -131,7 +131,7 @@ button.writeFaqBtn.learn-more {
 				</tr>
 				<tr>
 					<th:block th:if="${#lists.isEmpty(list)}">
-						<td colspan="5" id="emptyBoardList">게시글이 없습니다</td>
+						<td colspan="6" id="emptyBoardList">게시글이 없습니다</td>
 					</th:block>
 				</tr>
 			</tbody>
@@ -167,7 +167,7 @@ button.writeFaqBtn.learn-more {
 
 				<li th:if="${ pi.currentPage < pi.maxPage && !map.isEmpty()}">
 					<a class="last"
-					th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${map.keyword}, category=${map.category})}">
+					th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${map.keyword})}">
 						<img class="arrowKey" src="image/next.png">
 				</a>
 				</li>
@@ -186,16 +186,29 @@ button.writeFaqBtn.learn-more {
  		window.onload = () => {
 			const tbody = document.querySelector('tbody');
 			const tds = tbody.querySelectorAll('td');
+			/* <![CDATA[ */
 			for(const td of tds){
-				td.addEventListener('click', function() {
-					const trTds = this.parentElement.children;
-					const bNo = trTds[0].innerText;
-					const writer = trTds[2].innerText;
-					/*<![CDATA[*/
-					location.href = 'commDetailPage.bo?bNo=' + bNo + '&writer=' + writer + '&page=' + /*[[${pi.currentPage}]]*/1;
-					/*]]>*/
+ 			
+				td.addEventListener('click', function(){
+					
+					const trTds= this.parentElement.children;
+					const boardNo = trTds[0].innerText;
+					const writer = trTds[2].innerText;			
+					const map = /*[[${map}]]*/0;
+					const page = /*[[${pi.currentPage}]]*/0;
+					
+					let url = '';
+					
+					if(map != null){
+						if(map.hasOwnProperty('keyword')){
+							url += '&keyword=' + map.keyword;
+						}
+					}
+					location.href='commDetailPage.bo?bNo=' + boardNo 
+							+ '&writer=' + writer + '&page=' + page + url;
 				});
 			}
+			/* ]]> */
 			
 			document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
 				enrollSearchKeyword();
