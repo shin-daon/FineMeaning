@@ -18,13 +18,18 @@
 }
 
 .dropdown-content{
-	margin-right:15px;
-	margin-bottom :5px;
+	margin-right:55px;
+	margin-bottom :auto;
 	float:right;
 	font-size:15px;
 	cursor:pointer;
 	color:lightgrey;
 	width:80px;
+}
+.selectCate:hover{
+	color:gray;
+	font-weight:bold;
+	text-decoration: #9DC08B wavy underline;
 }
 .supportBigBigSection{
   margin-bottom: 50px;
@@ -251,7 +256,11 @@ th, td {
     background-color: #EDF1D6;
 }
 
-
+.noOne{
+	margin-top:50px;
+	font-size:20px;
+	color:lightgray;
+}
 
 .supportTable thead tr th:nth-child(5) {
     border-radius: 0px 10px 0px 0px;
