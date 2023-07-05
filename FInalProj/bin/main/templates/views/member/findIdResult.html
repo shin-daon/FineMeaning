@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+@font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+	--body-background-color: #f5f6f7;
+	--font-color: #4e4e4e;
+	--border-gray-color: #dadada;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "SUITE-Regular", sans-serif;
+}
+
+.enroll {
+	width: 360px;
+	margin: 0px auto;
+	display: block;
+}
+
+.enroll-title {
+	font-size: 30px;
+	margin-bottom: 75px;
+	text-decoration: #9DC08B wavy underline;
+	margin-left: 78px;
+}
+
+.title {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: bold;
+	word-break: keep-all;
+	color: #4e4e4e;
+}
+
+.insert {
+	margin-top: 40px;
+}
+
+.input {
+	margin-top: 15px;
+}
+
+#short-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 233px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+.short-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 100px;
+	height: 40px;
+	font-size: 15px;
+	color: white;
+	background-color: #609966;
+	border: 1px solid #609966;
+	cursor: pointer;
+}
+
+#normal-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 335px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+#email-input {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 149px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+#email-select {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 150px;
+	height: 40px;
+	border: 1px solid lightgray;
+	outline: none;
+}
+
+.normal-btn {
+	margin-top: 50px;
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 335px;
+	height: 40px;
+	font-size: 15px;
+	color: white;
+	background-color: #609966;
+	border: 1px solid #609966;
+}
+
+a {
+	text-decoration: none;
+	font-size: 14px;
+	color: #4e4e4e;
+	font-weight: bold;
+}
+
+.choose-radio{
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    width: 130px; height: 25px;
+}
+
+.choose-radio span{
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px 10px 10px;
+    border-radius: 50px;
+    transition: .25s ease;
+    font-size: 17px;
+}
+
+.choose-radio span:hover,
+input[type="radio"]:checked + span{
+    background-color: #EDF1D6;
+}
+
+.choose-radio span:before{
+    content: "";
+    background-color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: .25s ease;
+    box-shadow:  inset 0 0 0 2px #609966;
+}
+
+input[type="radio"]:checked + span:before{
+    box-shadow: inset 0 0 0 5px #609966;
+}
+
+.nothing {
+	margin-left: 8px;
+	margin-right: 8px;
+}
+
+.result {
+	width: 360px;
+	margin: 0px auto;
+}
+
+.pwd-comment {
+	font-size: 14px;
+	color: gray;
+}
+
+.result-nemo {
+	margin-top: 30px;
+	width: 300px;
+	border: 1px solid #EDF1D6;
+	background: #EDF1D6;
+	justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center;
+}
+
+.result-user-id,
+.result-user-date {
+	text-align: center;
+	margin-top: 13px;
+	margin-bottom: 13px;
+}
+
+.result-user-id {
+	font-size: 18px;
+}
+
+.result-user-date {
+	font-size: 14px;
+}
+
+#withdrawal-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 145px;
+	height: 40px;
+	font-size: 15px;
+	color: #fff;
+	background-color: #609966;
+	border: 1.5px solid #609966;
+	cursor: pointer;
+}
+
+#rollback-btn {
+	padding: 8px 15px 9px;
+	border-radius: 4px;
+	width: 145px;
+	height: 40px;
+	font-size: 15px;
+	color: #609966;
+	background-color: #fff;
+	border: 1.5px solid #609966;
+	margin-top: 3px;
+	margin-bottom: 40px;
+	cursor: pointer;
+}
+
+.last-button {
+	margin-top: 40px;
+}
+
+#custom-email-input {
+	padding: 8px 15px 9px;
+    border-radius: 4px;
+    width: 150px;
+    height: 40px;
+    border: 1px solid lightgray;
+    outline: none;
+	position: relative;
+}
+
+.input.email-input {
+    position: relative; /* 추가: 위치를 고정하기 위해 부모 요소에 position: relative 적용 */
+}
+ 
+.x-btn {
+	background: none;
+	border: none;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	top: 10px;
+    left: 315px;
+    cursor: pointer; 
+}
+
+#nextBtn{
+    width:90px;
+	height:32px;
+    cursor: pointer;
+}
+
+.learn-more-gray {
+	margin-top: 50px;
+    font-weight: 600;
+    color: #382b22;
+    text-transform: uppercase;
+    /*   padding: 1.25em 2em; */
+    background: #d3d3d3;
+    border: 2px solid #808080;
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+.learn-more-gray::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #b9b9b9;
+    border-radius: inherit;
+    box-shadow: 0 0 0 2px #808080, 0 0.625em 0 0 #d3d3d3;
+    transform: translate3d(0, 0.75em, -1em);
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+.learn-more-gray:hover {
+    background: #d3d3d3;
+    transform: translate(0, 0.25em);
+}
+.learn-more-gray:hover::before {
+    box-shadow: 0 0 0 2px #808080, 0 0.5em 0 0 #d3d3d3;
+    transform: translate3d(0, 0.5em, -1em);
+}
+.learn-more-gray:active {
+    background: #d3d3d3;
+    transform: translate(0em, 0.75em);
+}
+.learn-more-gray:active::before {
+    box-shadow: 0 0 0 2px #b3b3b3, 0 0 #d3d3d3;
+    transform: translate3d(0, 0, -1em);
+}
+
+.address-btn {
+	width:335px;
+	height:45px;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#idCheckResult {
+	font-size: 15px;
+	color: #609966;
+} 
+
+.check-div {
+	margin-top: 30px;
+	width: 335px;
+	display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+</style>
+<body>
+<div th:replace="~{views/common/header :: header}"></div>
+<br><br><br><br>
+
+<div class="enroll">
+	<div class="enroll-title">아이디 찾기</div>
+
+	<div class="result">
+		<div class="insert name">
+			<label class="title">아이디 확인</label><br>
+			<span class="pwd-comment">회원님의 정보와 일치하는 아이디입니다.</span>
+			<div class="result-nemo" th:each="fu : ${foundUser}">
+				<div class="result-user-id">[[${fu.uId}]]</div>
+				<div class="result-user-date">(가입일 : [[${fu.enrollDate}]])</div>
+			</div>
+		</div>
+		
+		<div class="last-button">
+			<button id="rollback-btn" onClick="location.href='loginView.me'">로그인</button> &nbsp;
+			<button id="withdrawal-btn" onClick="location.href='findPwd.me'">비밀번호 찾기</button>	
+		</div>	
+	</div>
+</div>
+	
+<br><br><br><br>
+<div th:replace="~{views/common/footer :: footer}"></div>
+</body>
+</html>

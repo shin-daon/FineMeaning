@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fin.proj.support.model.dao.SupportDAO">
+	
+	<insert id="supportApply">
+		insert into support values(SEQ_SUID.NEXTVAL, #{userNo}, #{supportCategory}, #{supportTitle}, #{supportContent}, sysdate, #{startDate}, #{endDate}, #{targetAmount}, 0, default, default)
+	</insert>
+	
+	<insert id="insertSupportDetail">
+		insert into supportdetail values(SEQ_SDID.NEXTVAL, #{supportDetailContent}, #{supportDetailAmount}, seq_suid.currval)
+	</insert>
+	
+	<select id="selectApplayListUser" resultMap="supportResultSet">
+		select * from support join users using(u_no) where u_no = #{uNo}
+	</select>
+	
+	<resultMap type="Support" id="supportResultSet">
+		<id column="S_NO" property="supportNo" />		
+		<result column="U_NO" property="userNo" />
+		<result column="S_CATEGORY" property="supportCategory" />
+		<result column="S_TITLE" property="supportTitle" />
+		<result column="S_CONTENT" property="supportContent" />
+		<result column="S_CREATE_DATE" property="createDate" />
+		<result column="S_START_DATE" property="startDate" />
+		<result column="S_END_DATE" property="endDate" />
+		<result column="TARGET_AMOUNT" property="targetAmount" />
+		<result column="FUND_AMOUNT" property="fundAmount" />
+		<result column="S_COUNT" property="supportCount" />
+		<result column="S_STATUS" property="status" />
+		<result column="PHONE" property="phone" />
+		<result column="EMAIL" property="email" />
+		<result column="REGISTRAR" property="registar" />
+		<result column="U_ID" property="userId" />
+		<result column="ENROLL_DATE" property="enrollDate" />
+	</resultMap>
+	
+	
+	<resultMap type="SupportDetail" id="supportDetailResultSet">
+		<id column="S_DETAIL_NO" property="supportDetailNo" />		
+		<result column="S_DETAIL_CONTENT" property="supportDetailContent" />
+		<result column="S_DETAIL_AMOUNT" property="supportDetailAmount" />
+		<result column="S_NO" property="supportNo" />
+	</resultMap>
+	
+	<select id="supportDetail" resultMap="supportResultSet">
+		select * from support join users using(u_no) where s_no = #{supportNo}
+	</select>
+	
+	<select id="supportUsageDetail" resultMap="supportDetailResultSet">
+		select * from supportdetail where s_no = #{supportNo}
+	</select>
+	
+	<select id="getListCount" resultType="_int">
+		select count(*) from support where s_status = 'Y' and sysdate &lt;= s_end_date 
+	</select>
+	
+	<select id="selectSupportList" resultMap="supportResultSet">
+	  select * from support join users using(u_no) where s_status = 'Y' and sysdate &lt;= s_end_date
+	</select>
+
+	
+	<select id="getWListCount" resultType="_int">
+		select count(*) from support where s_status = 'W' or s_status = 'N'
+	</select>
+	
+	<select id="selectApplyList" resultMap="supportResultSet">
+		select * from support join users using(u_no) where s_status='W' or s_status ='N' order by S_CREATE_DATE desc
+	</select>
+	
+	<select id="getDListCount" resultType="_int">
+		select count(*) from support where s_status = #{devision}
+	</select>
+	
+	<select id="selectApplyDevision" resultMap="supportResultSet">
+		select * from support join users using(u_no) where s_status= #{devision} order by S_CREATE_DATE desc
+	</select>
+	
+	<update id="updateApplyStatus">
+		update support set s_status= #{status} where s_no = #{supportNo}
+	</update>
+	
+	<select id="getEListCount" resultType="_int">
+		select count(*) from support where s_status = 'Y' and sysdate &gt;= s_end_date
+	</select>
+	
+	<select id="selectEndSupportList" resultMap="supportResultSet">
+		select * from support join users using(u_no) where (s_status='Y' or s_status ='N') and sysdate &gt;= s_end_date order by S_CREATE_DATE desc
+	</select>
+	
+	<select id="getSearchListCount" resultType="_int">
+		select count(*) from support where s_status = 'Y' and sysdate &lt;= s_end_date and s_title like '%${searchWord}%'
+	</select>
+	
+	<select id="selectSearchListAdmin" resultMap="supportResultSet">
+		select * from support join users using(u_no) where (s_status='Y' or s_status ='N') and sysdate &lt;= s_end_date and s_title like '%${searchWord}%' order by S_CREATE_DATE desc
+	</select>
+	
+	<select id="getSupporterListCount" resultType="_int">
+		select count(*) from s_history left join support using(s_no) where s_no = #{supportNo}
+	</select>
+	
+	<select id="selectSupporterListEach" resultMap="supportHistoryResultSet">
+		select * from s_history left join support using(s_no) where s_no = #{supportNo} order by S_HIS_PAYDATE desc
+	</select>
+	
+	<resultMap type="SupportHistory" id="supportHistoryResultSet">
+		<id column="S_HIS_NO" property="supportHistoryNo" />		
+		<result column="U_NO" property="userNo" />
+		<result column="S_NO" property="supportNo" />
+		<result column="S_HIS_NAME" property="supporterName" />
+		<result column="S_HIS_AMOUNT" property="supportAmount" />
+		<result column="S_HIS_PAYDATE" property="payDate" />
+		<result column="S_HIS_PAYTYPE" property="payType" />
+		<result column="S_HIS_TYPE" property="supporterType" />
+		<result column="S_title" property="supportTitle" />
+		<result column="S_CATEGORY" property="category" />
+	</resultMap>
+	
+	<select id="getSupporterListAllCount" resultType="_int">
+		select count(*) from s_history left join support using(s_no)
+	</select>
+	
+	<select id="selectSupporterList" resultMap="supportHistoryResultSet">
+		select * from s_history left join support using(s_no) order by S_HIS_PAYDATE desc
+	</select>
+	
+	
+	<select id="getMListCount" resultType="_int">
+		select count(*) from s_history sh left join support using(s_no) where sh.u_no = #{uNo}
+	</select>
+	
+	<select id="selectMySupportList" resultMap="supportHistoryResultSet">
+		select * from s_history sh left join support using(s_no) where sh.u_no = #{uNo} order by s_his_paydate desc
+	</select>
+	
+	<select id="getsearchApplyListCount" resultType="_int">
+		select count(*) from support where u_no= #{userNo} and S_TITLE like '%${supportTitle}%'
+	</select>
+	
+	<select id="selectApplySearchList" resultMap="supportResultSet">
+		select * from support join users using(u_no) where u_no= #{userNo} and S_TITLE like '%${supportTitle}%'
+	</select>
+	
+	<insert id="insertSupporter">
+		insert into s_history values(seq_shid.nextval, #{userNo}, #{supportNo}, #{supporterName}, #{supportAmount}, sysdate, #{payType}, #{supporterType})
+	</insert>
+	
+	<select id="getSearchMyListCount" resultType="_int">
+		select count(*) from s_history sh left join support using(s_no) where sh.u_no = #{userNo} and s_title like '%${supportTitle}%'
+	</select>
+	
+	<select id="searchMyList" resultMap="supportHistoryResultSet">
+		select * from s_history sh left join support using(s_no) where sh.u_no = #{userNo} and s_title like '%${supportTitle}%'
+	</select>
+	
+	<select id="searchEListCount" resultType="_int">
+		select count(*) from support where s_status = 'Y' and sysdate &gt;= s_end_date and s_title like '%${supportTitle}%'
+	</select>
+	
+	<select id="selectSearchEndList" resultMap="supportResultSet">
+		select * from support join users using(u_no) where (s_status='Y' or s_status ='N') and sysdate &gt;= s_end_date and s_title like '%${supportTitle}%' order by S_CREATE_DATE desc
+	</select>
+	
+	<select id="getCategoryCount" resultType="_int">
+		select count(*) from support where S_CATEGORY = #{category} and sysdate &lt;= s_end_date
+	</select>
+	<select id="selectCategoryListAdmin" resultMap="supportResultSet">
+		select * from support where S_CATEGORY = #{category} and sysdate &lt;= s_end_date
+	</select>
+</mapper>
