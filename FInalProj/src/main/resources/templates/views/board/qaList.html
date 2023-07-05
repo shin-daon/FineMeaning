@@ -121,7 +121,7 @@ button.writeFaqBtn.learn-more {
 					onclick="location.href='writeQa.bo'">1:1 질문하기</button>
 			</div>
 			<div class="searchArea">
-				<input class="searchInput" type="text" placeholder="검색" /> <a
+				<input class="searchInput" type="text" placeholder="검색" th:value="${map.isEmpty() ? '' : map.keyword}"/> <a
 					class="searchIconATag"><img class="searchIcon"
 					src="image/search.png"></a>
 			</div>
@@ -182,7 +182,7 @@ button.writeFaqBtn.learn-more {
 
 				<li th:if="${ pi.currentPage < pi.maxPage && !map.isEmpty()}">
 					<a class="last"
-					th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${map.keyword}, category=${map.category})}">
+					th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${map.keyword})}">
 						<img class="arrowKey" src="image/next.png">
 				</a>
 				</li>
@@ -199,18 +199,29 @@ button.writeFaqBtn.learn-more {
 </body>
 <script th:inline="javascript">
  		window.onload = () => {
+ 			/*<![CDATA[*/
 			const tbody = document.querySelector('tbody');
 			const tds = tbody.querySelectorAll('td');
 			for(const td of tds){
 				td.addEventListener('click', function() {
 					const trTds = this.parentElement.children;
-					const bNo = trTds[0].innerText;
-					const writer = trTds[2].innerText;
-					/*<![CDATA[*/
-					location.href = 'qaDetailPage.bo?bNo=' + bNo + '&writer=' + writer + '&page=' + /*[[${pi.currentPage}]]*/1;
-					/*]]>*/
+					const boardNo = trTds[0].innerText;
+					const writer = /*[[ ${session.loginUser.uNickName} ]]*/1;
+					const map = /*[[${map}]]*/0;
+					const page = /*[[${pi.currentPage}]]*/0;
+					
+					let url = '';
+					
+					if(map != null){
+						if(map.hasOwnProperty('keyword')){
+							url += '&keyword=' + map.keyword;
+						}
+					}
+					location.href='qaDetailPage.bo?bNo=' + boardNo 
+							+ '&writer=' + writer + '&page=' + page + url;
 				});
 			}
+			/* ]]> */
 			
 			document.getElementsByClassName('searchIconATag')[0].addEventListener('click', ()=>{
 				enrollSearchKeyword();

@@ -1146,7 +1146,8 @@ public class BoardController {
 	
 	@GetMapping("qaDetailPage.bo")
 	public String QaDetail(@RequestParam("bNo") int bNo, @RequestParam("writer") String writer, @RequestParam("page") int page,
-							  HttpSession session, Model model) {
+							  HttpSession session, Model model,
+							  @RequestParam(value="keyword", required=false) String keyword) {
 		
 		Member m = (Member)session.getAttribute("loginUser");
 		
@@ -1168,6 +1169,9 @@ public class BoardController {
 			model.addAttribute("board", board);
 			model.addAttribute("page", page);
 			model.addAttribute("comment", comment);
+			if(keyword != null) {
+				model.addAttribute("keyword", keyword);
+			}
 			System.out.println("댓글수는?"+comment);
 			return "qaDetail";
 		} else {
@@ -1350,10 +1354,13 @@ public class BoardController {
 	            int commentCount = bService.replyCount(boardNo);
 	            board.setReplyCount(commentCount);
 	        }
-
+	        
 	        model.addAttribute("pi", pageInfo);
 	        model.addAttribute("list", list);
 	        model.addAttribute("map", map);
+	        if(keyword != null) {
+				model.addAttribute("keyword", keyword);
+			}
 	        return "qaAdmin";
 	    } else {
 	        throw new BoardException("게시글 목록 조회 실패");
@@ -1363,35 +1370,40 @@ public class BoardController {
 	@GetMapping("commAdminList.bo")
 	public String CommAdminMain(@RequestParam(value="page", required=false) Integer currentPage, Model model,
 							@RequestParam(value="keyword", required=false) String keyword) {
-	
-	if(currentPage == null) {
-		currentPage = 1;
+		
+		ArrayList<Board> list;
+		PageInfo pageInfo;
+		int listCount;
+		HashMap<String, Object> map = new HashMap<>();
+		
+		if(currentPage == null) {
+			currentPage = 1;
+		}
+		
+		if(keyword != null) {
+			map.put("keyword", keyword);
+			map.put("i", "일반");
+			listCount = bService.searchListCount(map);
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.searchByTitle(pageInfo, map);
+		} else {
+			listCount = bService.getListCount("일반");
+			pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
+			list = bService.selectBoardList(pageInfo, "일반");
+		}
+		if (list != null) {
+	        for (Board board : list) {
+	            int boardNo = board.getBoardNo();
+	            int commentCount = bService.replyCount(boardNo);
+	            board.setReplyCount(commentCount);
+	        }
+
+	        model.addAttribute("pi", pageInfo);
+	        model.addAttribute("list", list);
+	        model.addAttribute("map", map);
+	        return "commAdmin";
+	    } else {
+	        throw new BoardException("게시글 목록 조회 실패");
+	    }
 	}
-	
-	int listCount = bService.getListCount("일반");
-	
-	PageInfo pageInfo= Pagination.getPageInfo(currentPage, listCount, 10);
-	HashMap<String, Object> map = new HashMap<>();
-	ArrayList<Board> list = bService.selectBoardList(pageInfo, "일반");
-	
-	if(keyword != null) {
-		map.put("keyword", keyword);
-		map.put("i", "일반");
-		listCount = bService.searchListCount(map);
-		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
-		list = bService.searchByTitle(pageInfo, map);
-	} else {
-		listCount = bService.getListCount("일반");
-		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
-		list = bService.selectBoardList(pageInfo, "일반");
-	}
-	if(list != null) {
-		model.addAttribute("pi", pageInfo);
-		model.addAttribute("list", list);
-		model.addAttribute("map", map);
-		return "commAdmin";
-	} else {
-		throw new BoardException("게시글 목록 조회 실패");
-	}
-}
 }
