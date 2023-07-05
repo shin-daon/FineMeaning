@@ -905,7 +905,8 @@ public class BoardController {
 	@GetMapping("commDetailPage.bo")
 	public String CommDetail(@RequestParam("bNo") int bNo, @RequestParam("page") int page,
 								@RequestParam("writer") String writer,
-							  HttpSession session, Model model) {
+							  HttpSession session, Model model, 
+							  @RequestParam(value="keyword", required=false) String keyword) {
 		
 		Member m = (Member)session.getAttribute("loginUser");
 		
@@ -926,6 +927,9 @@ public class BoardController {
 			model.addAttribute("board", board);
 			model.addAttribute("page", page);
 			model.addAttribute("comment", comment);
+			if(keyword != null) {
+				model.addAttribute("keyword", keyword);
+			}
 			return "commDetail";
 		} else {
 			throw new BoardException("게시글 상세 조회 실패");
