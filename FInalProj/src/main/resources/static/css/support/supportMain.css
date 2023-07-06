@@ -79,6 +79,7 @@
 	height:370px;
 	border:2px solid #40513B;
 	margin:5px;
+	margin-top:10px;
 }
 #supportMainTitle .page{
 	float:none;
@@ -99,6 +100,18 @@
 	text-align:center;
 }
 
+.supportWrite{
+	float:left;
+	color: #40513B;
+	padding-top:3px;	
+	font-size:18px;
+}
+
+.supportWrite:hover{
+	color: #40513B;
+	font-weight:bold;
+    text-decoration: #9DC08B wavy underline;
+}
 #supportMainTitle .supportTotal td{
 	text-align:center;
 	height:30px;

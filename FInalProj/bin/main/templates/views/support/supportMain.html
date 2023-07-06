@@ -164,11 +164,16 @@
 		          <input class="searchInput" type="text" name="searchWord" th:value="${searchWord}"/>
 	        </th:block>
             <a class="searchIconATag" href="#"><img class="searchIcon" src="image/search.png"></a>
+            <div class="supportWrite" th:if="${session.loginUser !=null && session.loginUser.registrar !=null}"> 후원 신청하기 </div>
         </div>
     </div>
     
     <script th:inline="javascript">
-    	
+    	document.getElementsByClassName('supportWrite')[0].addEventListener('click', ()=>{
+    		location.href="supportWrite.su";
+    	})
+    
+    
     	document.querySelector('.searchIcon').addEventListener('click', ()=>{
     		const searchWord = document.querySelector('.searchInput').value;
     		const category = document.querySelector('.categoryInput').value;
@@ -208,7 +213,7 @@
 			
 			<table class="supportTotal">
 				<tr>
-					<td style="padding-top:30px;">
+					<td style="padding-top:70px;">
 						<div class="todayButton">today</div>
 					</td>
 				</tr>
@@ -224,7 +229,6 @@
 				</tr>
 				<tr>
 					<td>
-						[[${param.category}]]
 						[[${totalCount}]]명이<br>
 						총 
 						<script th:inline="javascript">
@@ -241,7 +245,8 @@
 					</td>
 					
 				</tr>
-			</table>
+			</table>		
+			
 		</div>
 			<th:block th:each="s:${ sList }">
 			<div class="supportList supportListD" th:onclick="location.href='supportDetail.su?supportNo=[[${s.supportNo}]]'">
