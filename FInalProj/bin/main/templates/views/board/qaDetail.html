@@ -103,9 +103,9 @@ button.writeFaqBtn.learn-more {
 		</div>
 
 		<div class="path">
-			<a class="middle" href="#"><img class="homeIconSize"
+			<a class="middle" href="/"><img class="homeIconSize"
 				src="image/home.png"></a> <img class="sub iconSize"
-				src="image/onenext.png"> <a class="middle" href="#">커뮤니티</a> <img
+				src="image/onenext.png"> <a class="middle" href="commList.bo">커뮤니티</a> <img
 				class="sub iconSize" src="image/onenext.png"> <a
 				class="middle">1:1문의</a> <img class="sub iconSize"
 				src="image/onenext.png"> <a class="middle">1:1문의 상세보기</a>
@@ -154,8 +154,7 @@ button.writeFaqBtn.learn-more {
 		<br>
 		<br>
 		<br>
-		<th:block
-			th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0}">
+		
 			<div class="cm_write">
 				<fieldset>
 					<legend class="skipinfo">
@@ -168,6 +167,7 @@ button.writeFaqBtn.learn-more {
 								onkeyup="countingLength(this);" cols="90" rows="4"
 								placeholder="답변을 입력해 주세요." required></textarea>
 						</p>
+			<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0}">
 						<span><button type="button" class="btns"
 								th:onclick="saveComment();">등록</button> <i id="counter">0/300자</i></span>
 					</div>
@@ -311,7 +311,7 @@ button.writeFaqBtn.learn-more {
                     commentHtml += `
                         <div>
                             <p class="writer">
-                                <em>${row.nickName}</em>
+                                <span class="writerName">${row.nickName}</span>
                                 <span class="date">${row.replyTime}</span>
                             </p>
                             <div class="cont"><div class="txt_con">${row.replyContent}</div></div>

@@ -7,6 +7,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    min-height: calc(100vh - 100px); /* 푸터를 제외한 화면 높이로 설정 */
 }
 
 #noticeTitle {
@@ -184,7 +185,7 @@ button.writeFaqBtn.learn-more {
 
 .noticeTable {
     width: 750px;
-    height: 300px;
+    height: 100px;
     margin-top: 10px;
     padding: 10px;
     text-align: center;
@@ -197,21 +198,9 @@ button.writeFaqBtn.learn-more {
     border-radius: 10px;
 }
 
-th, td {
-    padding: 10px;
-}
-
-.noticeTable thead tr th {
-    border-bottom: 1px dotted black;
-    background-color: #EDF1D6;
-}
-
-.noticeTable thead tr th:nth-child(1) {
-    border-radius: 10px 0px 0px 0px;
-}
-
-.noticeTable thead tr th:nth-child(5) {
-    border-radius: 0px 10px 0px 0px;
+.noticeTable tr {
+    vertical-align: middle;
+    margin-bottom: 0;
 }
 
 .noticeTable .answer {
