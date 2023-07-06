@@ -245,6 +245,7 @@ font-size: 14px;
 }
 
 .cont{
+padding: 7px;
 font-size: 14px;
 display: inline-block;
 width: 600px;
@@ -252,6 +253,18 @@ height: 50px;
 border: 1px solid #609966;
 border-radius: 10px;
 background-color: #EDF1D6;
+}
+
+.comment-update-textarea{
+padding: 7px;
+font-size: 14px;
+display: inline-block;
+width: 300px;
+height: 50px;
+border: 1px solid #609966;
+border-radius: 10px;
+background-color: white;
+resize: none;
 }
 
 

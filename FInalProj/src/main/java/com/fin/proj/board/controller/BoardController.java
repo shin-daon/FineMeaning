@@ -1248,8 +1248,8 @@ public class BoardController {
 	// 댓글 수정
 	@ResponseBody
     @PatchMapping("/board/{boardNo}/comments/{replyNo}")
-    public int updateComment(@PathVariable int replyNo, @PathVariable int boardNo) {
-        return bService.updateComment(replyNo);
+    public int updateComment(@PathVariable int replyNo, @PathVariable int boardNo, @RequestBody Reply params) {
+        return bService.updateComment(params);
     }
 	
 	

@@ -63,7 +63,7 @@ public interface BoardDAO {
 
 	Reply findCommentById(int id);
 
-	int updateComment(int replyNo);
+	int updateComment(Reply params);
 
 	int deleteComment(int replyNo);
 
