@@ -179,11 +179,12 @@ button.writeFaqBtn.learn-more {
 .searchIconATag {
     position: relative;
     left: 155px;
-    top: 3px;
+    top: 6px;
 }
 
 .noticeTable {
     width: 750px;
+    height: 300px;
     margin-top: 10px;
     padding: 10px;
     text-align: center;
