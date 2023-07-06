@@ -43,7 +43,7 @@
 		                <input type="hidden" id="area" name="supportCategory" th:value="${category}" required/>
 	                </th:block>
 	                <div class="dropdown-content" id="area-content">
-	                	<span class="selectArea" th:if="${category != null}">전체</span>
+	                	<span class="selectArea totalButton" th:if="${category != null}">전체</span>
 	                    <span class="selectArea">사람</span>
 	                    <span class="selectArea">동물</span>
 	                    <span class="selectArea">환경</span>
@@ -65,7 +65,7 @@
 	            		})
 	            	}
 	            	
-	            	const total = document.getElementsByClassName('selectArea')[0]
+	            	const total = document.getElementsByClassName('totalButton')[0]
 	            	if(total != null){
 	            		total.addEventListener('click', ()=>{
 	            			location.href="supportEndListAdmin.su";

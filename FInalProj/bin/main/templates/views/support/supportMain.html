@@ -169,9 +169,11 @@
     </div>
     
     <script th:inline="javascript">
-    	document.getElementsByClassName('supportWrite')[0].addEventListener('click', ()=>{
-    		location.href="supportWrite.su";
-    	})
+    	if(document.getElementsByClassName('supportWrite')[0] !=null){    		
+	    	document.getElementsByClassName('supportWrite')[0].addEventListener('click', ()=>{
+	    		location.href="supportWrite.su";
+	    	})
+    	}
     
     
     	document.querySelector('.searchIcon').addEventListener('click', ()=>{
