@@ -210,5 +210,4 @@ public class BoardServiceImpl implements BoardService {
 		RowBounds rowbounds = new RowBounds(offset, pi.getBoardLimit());
 		return bDAO.searchByQaTitle(map, rowbounds);
 	}
-
 }
