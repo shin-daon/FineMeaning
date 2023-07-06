@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    min-height: calc(100vh - 100px); /* 푸터를 제외한 화면 높이로 설정 */
+    min-height: calc(100vh - 100px);
 }
 
 #noticeTitle {

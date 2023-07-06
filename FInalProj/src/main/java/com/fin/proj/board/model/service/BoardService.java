@@ -73,4 +73,5 @@ public interface BoardService {
 	ArrayList<Board> selectMyQaList(PageInfo pageInfo, int uNo);
 
 	ArrayList<Board> searchByQaTitle(PageInfo pageInfo, HashMap<String, Object> map);
+
 }
