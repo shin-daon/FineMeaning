@@ -328,16 +328,16 @@ button.writeFaqBtn.learn-more {
 		
     }
     
-     // 댓글 수정
+    	// 댓글 수정
         function updateComment(replyNo) {
-
-            const content = document.getElementById('modalContent');
-
+		
+        	const textarea = document.querySelector('.comment-update-textarea');
             const boardNo = /*[[ ${board.boardNo} ]]*/1;
+            
             const params = {
             	replyNo : replyNo,
             	boardNo : boardNo,
-            	replyContent : content.value,
+            	replyContent : textarea.value,
             }
 
             $.ajax({
@@ -348,9 +348,8 @@ button.writeFaqBtn.learn-more {
                 data : JSON.stringify(params),
                 async : false,
                 success : function (response) {
-                	console.log(response);
+                	console.log(params);
                     alert('수정되었습니다.');
-                    closeCommentUpdatePopup();
                     findAllComment();
                 },
                 error : function (request, status, error) {

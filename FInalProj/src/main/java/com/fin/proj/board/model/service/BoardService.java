@@ -58,7 +58,7 @@ public interface BoardService {
 	
 	Reply findCommentById(int id);
 
-	int updateComment(int replyNo);
+	int updateComment(Reply params);
 
 	int myBoardCount(int uNo);
 
