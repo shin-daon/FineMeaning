@@ -219,6 +219,11 @@ th, td {
 }
 
 /* 댓글 */
+.cm_list{
+overflow-y: auto; /* 세로 스크롤 적용 */
+max-height: 600px; /* 스크롤 가능한 최대 높이 설정 */
+}
+
 .writerName{
 font-size: 17px;
 font-weight: bold;
