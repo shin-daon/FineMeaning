@@ -536,8 +536,6 @@ input[type="radio"]:checked + span:before{
             url: 'findMyId.me',
             data: { uName: uName, emailAddress: emailAddress },
             success: data => {
-                console.log("데이터 전송 성공: " + data);
-                
                 const [result, randomNum] = data.split(',');	                
                 
                 if(result == 'no'){
@@ -546,8 +544,6 @@ input[type="radio"]:checked + span:before{
                 	idCheckResult.innerText = '메일이 전송되었습니다. 인증번호를 입력해주세요.';	
                 	nextBtn.disabled = false;     
                 }
-                
-                console.log("인증번호: " + randomNum);
                 
                 nextBtn.addEventListener("click", function() {
 					const emailId = document.getElementsByName("emailId")[0];

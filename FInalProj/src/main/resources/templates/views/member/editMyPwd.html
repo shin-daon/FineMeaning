@@ -289,7 +289,7 @@ window.onload = () => {
 	    const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/;
 	
 	    if (!pwdRegex.test(pwdInputValue)) {
-	      pwdResult.textContent = '올바른 비밀번호를 입력해주세요.';
+	      pwdResult.textContent = '올바른 형식의 비밀번호를 입력해주세요.';
 	    } else {
 	      validatePasswordMatch();
 	    }
@@ -302,7 +302,7 @@ window.onload = () => {
 	    if (confirmPassword === '') {
 	      pwdResult.textContent = '비밀번호 확인을 입력해주세요.';
 	    } else if (password !== confirmPassword) {
-	      pwdResult.textContent = '비밀번호가 일치하지 않습니다.';
+	      pwdResult.textContent = '새 비밀번호와 확인 값이 일치하지 않습니다.';
 	    } else {
 	      editMyPwdForm.submit();
 	      alert('비밀번호가 성공적으로 변경되었습니다.');
