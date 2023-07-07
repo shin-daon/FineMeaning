@@ -126,8 +126,7 @@
 				<input type="hidden" name="vNo" th:value="${v.vNo}"/>
 				<div>
 					<span class="v-detail-title">신청자 정보</span>
-					<button type="button" id="v-modify-phone-btn" onclick="location.href='editMyInfo.me'">연락처 수정 </button>
-					<div class="v-detail-content detail-phone">연락처 번호 변경은 위쪽 연락처 수정 버튼을 클릭한 후 <span class="v-emphasize">'마이페이지 > 내 정보 수정'</span>에서 수정하시기 바랍니다.</div>
+					<div class="v-detail-content detail-phone">연락처 번호 변경은 <span class="v-emphasize">'마이페이지 > 내 정보 수정'</span>에서 수정하시기 바랍니다.</div>
 					<div class="v-applicant-info-div">
 						<div class="v-applicant-info">휴대폰 번호 : [[${u.phone == null? '-' : #strings.substring(u.phone, 0, 3) + '-' + #strings.substring(u.phone, 3, 7) + '-' + #strings.substring(u.phone, 7)}]]</div>
 						<div class="v-applicant-info">e-mail : [[${u.email}]]</div>
