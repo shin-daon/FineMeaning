@@ -252,10 +252,7 @@ button {
   font-family: "SUITE-Regular", sans-serif;
 }
 
-.supportBigBigSection{
-  margin-bottom: 50px;
 
-}
 #supportDetailSection {
     display: flex;
     /* justify-content(가로 가운데)랑 align-items(세로 가운데) 쓰기 위해 선언!
