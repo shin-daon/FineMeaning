@@ -49,7 +49,7 @@
 	</select>
 	
 	<select id="selectSupportList" resultMap="supportResultSet">
-	  select * from support join users using(u_no) where s_status = 'Y' and sysdate &lt;= s_end_date order by s_no desc
+	  select * from support join users using(u_no) where s_status = 'Y' and sysdate &lt;= s_end_date order by s_no desc, s_no desc
 	</select>
 
 	
@@ -58,7 +58,7 @@
 	</select>
 	
 	<select id="selectApplyList" resultMap="supportResultSet">
-		select * from support join users using(u_no) where s_status='W' or s_status ='N' order by s_status desc
+		select * from support join users using(u_no) where s_status='W' or s_status ='N' order by s_status desc, s_no desc
 	</select>
 	
 <!-- 	<select id="getDListCount" resultType="_int"> -->
@@ -78,7 +78,7 @@
 	</select>
 	
 	<select id="selectEndSupportList" resultMap="supportResultSet">
-		select * from support join users using(u_no) where (s_status='Y' or s_status ='N') and sysdate &gt; s_end_date order by S_CREATE_DATE desc
+		select * from support join users using(u_no) where (s_status='Y' or s_status ='N') and sysdate &gt; s_end_date order by S_NO desc
 	</select>
 	
 	<select id="getSearchListCount" resultType="_int">
@@ -86,7 +86,7 @@
 	</select>
 	
 	<select id="selectSearchListAdmin" resultMap="supportResultSet">
-		select * from support join users using(u_no) where (s_status='Y' or s_status ='N') and sysdate &lt;= s_end_date and s_title like '%${searchWord}%' order by S_CREATE_DATE desc
+		select * from support join users using(u_no) where (s_status='Y' or s_status ='N') and sysdate &lt;= s_end_date and s_title like '%${searchWord}%' order by S_No desc
 	</select>
 	
 	<select id="getSupporterListCount" resultType="_int">
@@ -163,14 +163,14 @@
 	</select>
 	
 	<select id="searchMyList" resultMap="supportHistoryResultSet">
-		select * from s_history sh left join support using(s_no) where sh.u_no = #{userNo} and s_title like '%${supportTitle}%'
+		select * from s_history sh left join support using(s_no) where sh.u_no = #{userNo} and s_title like '%${supportTitle}%' order by s_no desc
 	</select>
 	
 	<select id="searchEListCount" resultType="_int">
 		select count(*) from support where s_status = 'Y' and sysdate &gt; s_end_date and s_title like '%${supportTitle}%'
 	</select>
 	<select id="selectSearchEndList" resultMap="supportResultSet">
-		select * from support join users using(u_no) where (s_status='Y' or s_status ='N') and sysdate &gt; s_end_date and s_title like '%${supportTitle}%' order by S_CREATE_DATE desc
+		select * from support join users using(u_no) where (s_status='Y' or s_status ='N') and sysdate &gt; s_end_date and s_title like '%${supportTitle}%' order by S_No desc
 	</select>
 	
 	<select id="getCategoryCount" resultType="_int">
