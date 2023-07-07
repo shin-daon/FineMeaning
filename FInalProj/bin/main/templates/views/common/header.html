@@ -17,7 +17,7 @@
                 <li><a href="supportMain.su" data-hover="후원">후원</a></li>
                 <li><a href="commList.bo" data-hover="커뮤니티">커뮤니티</a></li>
                 <li><a href="editMyInfo.me" data-hover="MY">MY</a></li>
-                <li th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}"><a href="supportListAdmin.su" data-hover="ADMIN">ADMIN</a></li>
+                <li th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}"><a href="editUserInfo.me" data-hover="ADMIN">ADMIN</a></li>
             </ul>
         </nav>
         <div class="bar">
@@ -61,7 +61,8 @@
 	        </div>
 
             <div th:if="${session.loginUser != null}">
-	            <div><a href="logout.me">로그아웃</a></div>
+            	<div th:if="${session.loginUser.kakaoId == null}"><a href="logout.me">로그아웃</a></div>
+	            <div th:unless="${session.loginUser.kakaoId == null}"><a href="https://kauth.kakao.com/oauth/logout?client_id=d392a24d656df0f5e3a1b5da3446b6f9&logout_redirect_uri=http://localhost:8080/logout.me">로그아웃</a></div>
 	            <div><a href="editMyInfo.me">내 정보 수정</a></div>
 	            <div><a href="supportListUser.su">후원 내역</a></div>
 	            <div th:if="${session.loginUser.isAdmin == 1}"><a href="volunteerHistory.vo">자원 봉사 내역</a></div>

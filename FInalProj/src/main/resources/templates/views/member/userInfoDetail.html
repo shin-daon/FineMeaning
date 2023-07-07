@@ -379,7 +379,7 @@ input:checked + .switch:after {
                 </tr>
                 <tr>
                 	<td class="title">관리자 여부</td>
-                    <td th:text="${uList.isAdmin == 1 ? '일반' : (uList.isAdmin == 0 ? '관리자' : (uList.isAdmin == 2 ? '봉사관리자' : ''))}"></td>
+                    <td th:text="${uList.isAdmin == 1 ? '일반' : (uList.isAdmin == 0 ? '관리자' : (uList.isAdmin == 2 ? '봉사 관리자' : ''))}"></td>
                 </tr>
                 <tr>
                 	<td class="title last">가입 일자</td>
@@ -453,7 +453,7 @@ input:checked + .switch:after {
 							checked = '<input type="radio" name="isAdmin" class="updateData" value="일반"> 일반\
 								   	   <input type="radio" name="isAdmin" class="updateData" value="관리자" checked> 관리자\
 								       <input type="radio" name="isAdmin" class="updateData" value="봉사 관리자"> 봉사 관리자';
-						} else if(beforeData == '봉사관리자'){
+						} else if(beforeData == '봉사 관리자'){
 							checked = '<input type="radio" name="isAdmin" class="updateData" value="일반"> 일반\
 							   		   <input type="radio" name="isAdmin" class="updateData" value="관리자"> 관리자\
 							   		   <input type="radio" name="isAdmin" class="updateData" value="봉사 관리자" checked> 봉사 관리자';
