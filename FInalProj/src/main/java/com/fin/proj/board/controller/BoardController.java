@@ -1221,21 +1221,13 @@ public class BoardController {
 		return "editQa";
 	}
 	
+	//댓글조회
 	@ResponseBody
 	@GetMapping("/board/{boardNo}/comments")
-	public Map<String, Object> findAllComment(@PathVariable int boardNo,
-	                                          @RequestParam(defaultValue = "1") int page) {
-	    int replyListCount = bService.replyCount(boardNo);
-	    PageInfo pageInfo = Pagination.getPageInfo(page, replyListCount, 5);
-	    List<Reply> commentList = bService.selectReplyList(pageInfo, boardNo);
-
-	    Map<String, Object> map = new HashMap<>();
-	    map.put("pageInfo", pageInfo);
-	    map.put("boardNo", boardNo);
-	    map.put("commentList", commentList);
-
-	    return map;
-	}
+    public List<Reply> findAllComment(@PathVariable int boardNo) {
+		System.out.println(boardNo);
+        return bService.findAllComment(boardNo);
+    }
 	
 	//댓글 등록
 	@ResponseBody

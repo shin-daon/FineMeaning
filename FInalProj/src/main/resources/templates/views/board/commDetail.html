@@ -173,10 +173,7 @@ button.writeFaqBtn.learn-more {
 
 			<!--/* 댓글 렌더링 영역 */-->
 			<div class="cm_list"></div>
-
-			<div class="pagination">
 			</div>
-		</div>
 
 
 		<button class="writeFaqBtn learn-more" th:onclick="redirectToPage()">목록으로</button>
@@ -283,104 +280,54 @@ button.writeFaqBtn.learn-more {
     }
   		
   		
-    // 전체 댓글 조회
-function findAllComment(page) {
-    const boardNo = /*[[ ${board.boardNo} ]]*/ 1;
-    const uNo = /*[[ ${session.loginUser.uNo} ]]*/ 1;
+ // 전체 댓글 조회
+    	function findAllComment() {
+    	
+        const boardNo = /*[[ ${board.boardNo} ]]*/1;
+        const uNo = /*[[ ${session.loginUser.uNo} ]]*/1;
 
-    $.ajax({
-        url: `/board/${boardNo}/comments`,
-        type: 'get',
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            console.log(response);
-            if (response.commentList.length === 0) {
-                document.querySelector('.cm_list').innerHTML = '<div class="cm_none"><p>등록된 댓글이 없습니다.</p></div>';
-                return false;
+        $.ajax({
+            url : `/board/${boardNo}/comments`,
+            type : 'get',
+            dataType : 'json',
+            async : false,
+            success : function (response) {
+                console.log(response);
+                if ( !response.length ) {
+                    document.querySelector('.cm_list').innerHTML = '<div class="cm_none"><p>등록된 답변이 없습니다.</p></div>';
+                    return false;
+                }
+            	// 2. 렌더링 할 HTML을 저장할 변수
+                let commentHtml = '';
+
+                // 3. 댓글 HTML 추가 (row는 response에 담긴 각 객체를 의미함)
+                response.forEach(row => {
+                	const isAdmin = uNo === 6; // 관리자인지 확인
+                	const isCurrentUser = row.replyWriter === uNo;
+                	
+                    commentHtml += `
+                        <div>
+                            <p class="writer">
+                                <span class="writerName">${row.nickName}</span>
+                                <span class="date">${row.replyTime}</span>
+                            </p>
+                            <div class="cont"><div class="txt_con">${row.replyContent}</div></div>
+                            <p class="func_btns">
+                            ${isCurrentUser || isAdmin ? `<button type="button" onclick="enableCommentUpdate(this);" data-replyNo="${row.replyNo}" class="btns"><span class="icons icon_modify">수정</span></button>` : ''}
+                            ${isCurrentUser || isAdmin ? `<button type="button" onclick="deleteComment(${row.replyNo});" class="btns"><span class="icons icon_del">삭제</span></button>` : ''}
+                            </p>
+                        </div>
+                    `;
+                })
+                 // 4. class가 "cm_list"인 요소를 찾아 HTML을 렌더링
+                document.querySelector('.cm_list').innerHTML = commentHtml;
+            },
+            error : function (request, status, error) {
+                console.log(error)
             }
-
-            // 2. 렌더링 할 HTML을 저장할 변수
-            let commentHtml = '';
-
-            // 3. 댓글 HTML 추가 (row는 response에 담긴 각 객체를 의미함)
-            response.commentList.forEach(row => {
-                const isAdmin = uNo === 6; // 관리자인지 확인
-                const isCurrentUser = row.replyWriter === uNo;
-
-                commentHtml += `
-                    <div>
-                        <p class="writer">
-                            <span class="writerName">${row.nickName}</span>
-                            <span class="date">${row.replyTime}</span>
-                        </p>
-                        <div class="cont"><div class="txt_con">${row.replyContent}</div></div>
-                        <p class="func_btns">
-                        ${isCurrentUser || isAdmin ? `<button type="button" onclick="enableCommentUpdate(this);" data-replyNo="${row.replyNo}" class="btns"><span class="icons icon_modify">수정</span></button>` : ''}
-                        ${isCurrentUser || isAdmin ? `<button type="button" onclick="deleteComment(${row.replyNo});" class="btns"><span class="icons icon_del">삭제</span></button>` : ''}
-                        </p>
-                    </div>
-                `;
-            })
-            // 4. class가 "cm_list"인 요소를 찾아 HTML을 렌더링
-            document.querySelector('.cm_list').innerHTML = commentHtml;
-
-            // 페이징 처리
-            const paginationHtml = createPaginationHtml(response.pageInfo);
-            document.querySelector('.pagination').innerHTML = paginationHtml;
-        },
-        error: function (request, status, error) {
-            console.log(error)
-        }
-    })
-}
-
-//페이징 HTML 생성
-function createPaginationHtml(pageInfo) {
-    const currentPage = pageInfo.currentPage;
-    const maxPage = pageInfo.maxPage;
-    const pageLimit = pageInfo.pageLimit;
-    const startPage = pageInfo.startPage;
-    const endPage = pageInfo.endPage;
-
-    let paginationHtml = '';
-
-    // 이전 페이지 버튼
-    if (currentPage > 1) {
-        paginationHtml += `<a href="javascript:void(0);" onclick="changePage(${currentPage - 1})">&lt;</a>`;
-    } else {
-        paginationHtml += `<span class="disabled">&lt;</span>`;
-    }
-
-    // 페이지 번호 버튼
-    for (let page = startPage; page <= endPage; page++) {
-        if (page === currentPage) {
-            paginationHtml += `<span class="active">${page}</span>`;
-        } else {
-            paginationHtml += `<a href="javascript:void(0);" onclick="changePage(${page})">${page}</a>`;
-        }
-    }
-
-    // 다음 페이지 버튼
-    if (currentPage < maxPage) {
-        paginationHtml += `<a href="javascript:void(0);" onclick="changePage(${currentPage + 1})">&gt;</a>`;
-    } else {
-        paginationHtml += `<span class="disabled">&gt;</span>`;
-    }
-
-    return paginationHtml;
-}
-
-function changePage(page) {
-    const boardNo = /*[[ ${board.boardNo} ]]*/ 1; // 게시판 번호
-    const uNo = /*[[ ${session.loginUser.uNo} ]]*/ 1; // 사용자 번호
-    const currentPage = /*[[ ${page} ]]*/ 1; // 현재 페이지
-    findAllComment(boardNo, uNo, currentPage, page);
-}
-        
+        })
 		
-    
-    
+    }
     
     	// 댓글 수정
         function updateComment(replyNo) {
