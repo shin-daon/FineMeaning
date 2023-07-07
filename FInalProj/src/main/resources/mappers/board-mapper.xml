@@ -20,7 +20,8 @@
 	
 	<select id="getListCount" resultType="_int">
 		select count(*)
-		from board
+		from board b
+			join users u on(b.u_no = u.u_no)
 		where board_status='Y' and board_type=#{i}
 	</select>
 	
@@ -155,6 +156,8 @@
 	<select id="replyCount" resultType="_int">
 		select count(*)
 		from reply
+			 join users on(re_writer = u_no)
+			 join board using(board_no)
 		where board_no = #{boardNo} and re_status = 'Y'
 	</select>
 	
