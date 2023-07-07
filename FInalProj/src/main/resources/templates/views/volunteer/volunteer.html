@@ -42,19 +42,19 @@
                 <table>
                     <tr>
                         <td width="80px">봉사기간</td>
-                        <td><input type="date" id="startDate" name="vStartDate"/><span class="date-delimeter"></span><input type="date" id="endDate" name="vEndDate"/></td>
+                        <td><input type="date" id="startDate" name="vStartDate" th:value="${searchMap == null ? '' : searchMap.vStartDate}"/><span class="date-delimeter"></span><input type="date" id="endDate" name="vEndDate" th:value="${searchMap == null ? '' : searchMap.vEndDate}"/></td>
                     </tr>
                     <tr>
                         <td>봉사명</td>
                         <td>
-                        	<input type="search" id="volunteerName" name="vName" placeholder="봉사명을 입력해주세요."/>
+                        	<input type="search" id="volunteerName" name="vName" th:value="${searchMap == null ? '' : searchMap.vName}" placeholder="봉사명을 입력해주세요."/>
                         	<button class="btnClear"></button>
                         </td>
                     </tr>
                     <tr>
                         <td>수요처명</td>
                         <td>
-                        	<input type="search" id="recipientName" name="registrar" placeholder="수요처명을 입력해주세요.">
+                        	<input type="search" id="recipientName" name="registrar" th:value="${searchMap == null ? '' : searchMap.registrar}" placeholder="수요처명을 입력해주세요.">
                         	<button class="btnClear"></button>	
                         </td>
                     </tr>

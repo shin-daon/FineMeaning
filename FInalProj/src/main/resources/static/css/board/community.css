@@ -219,12 +219,13 @@ th, td {
 }
 
 /* 댓글 */
-.writer{
+.writerName{
+font-size: 17px;
 font-weight: bold;
 }
 
-em{
-font-size: 22px
+.date{
+font-size: 12px;
 }
 
 .btns{
@@ -248,19 +249,36 @@ font-size: 14px;
 padding: 7px;
 font-size: 14px;
 display: inline-block;
-width: 600px;
-height: 50px;
+width: 750px;
+height: 90px;
 border: 1px solid #609966;
 border-radius: 10px;
 background-color: #EDF1D6;
+overflow: auto;
+}
+
+.cont::-webkit-scrollbar {
+  width: 8px;
+  height: 3px;
+  border-radius: 3px;
+  background-color: #EDF1D6;
+}
+
+.cont::-webkit-scrollbar-thumb {
+  background-color: #609966;
+  border-radius: 4px;
+}
+
+.cont::-webkit-scrollbar-thumb:hover {
+  background-color: #A0A0A0;
 }
 
 .comment-update-textarea{
 padding: 7px;
 font-size: 14px;
 display: inline-block;
-width: 300px;
-height: 50px;
+width: 700px;
+height: 70px;
 border: 1px solid #609966;
 border-radius: 10px;
 background-color: white;
@@ -318,6 +336,25 @@ resize: none;
 .commTable > tbody > tr:hover{
     background-color: #f9fceb;
     cursor: pointer;
+}
+
+.replyFilter{
+float: right;
+display: flex;
+justify-content: center;
+align-items: center;
+border: 1px solid  #9DC08B;
+}
+
+.filterBtn{
+width: 80px;
+margin-top: 10px;
+margin-bottom: 5px;
+display: flex;
+justify-content: center;
+background-color: white;
+font-size: 14px;
+font-weight: bold;
 }
 
 .qaInfo{

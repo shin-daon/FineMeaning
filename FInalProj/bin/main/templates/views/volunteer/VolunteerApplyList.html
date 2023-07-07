@@ -67,7 +67,7 @@
 						<td>[[${#strings.substring(v.residentNo, 0, 4) + '.' + #strings.substring(v.residentNo, 4, 6) + '.' + #strings.substring(v.residentNo, 6)}]]</td>
 						<td>[[${v.address == null? '-' : v.address}]]</td>
 						<td>[[${v.phone == null? '-' : #strings.substring(v.phone, 0, 3) + '-' + #strings.substring(v.phone, 3, 7) + '-' + #strings.substring(v.phone, 7)}]]</td>
-						<td>[[${v.vHisDate}]]</td>
+						<td>[[${#strings.substring(#strings.arraySplit(v.vHisDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vHisDate, "-")[1]}]].[[${#strings.arraySplit(v.vHisDate, "-")[2]}]]</td>
 					</tr>
 				</tbody>
 			</table>
