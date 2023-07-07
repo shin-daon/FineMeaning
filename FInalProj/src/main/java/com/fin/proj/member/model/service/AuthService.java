@@ -119,17 +119,15 @@ public class AuthService {
 		makeRandomNumber();
 		
 		DefaultMessageService messageService =  NurigoApp.INSTANCE.initialize(apiKey, apiSecret, "https://api.coolsms.co.kr");
-		// Message 패키지가 중복될 경우 net.nurigo.sdk.message.model.Message로 치환하여 주세요
 		Message message = new Message();
 		message.setFrom(myPhoneNumber);
 		message.setTo(phone);
 		message.setText("🍀[선뜻] 인증 번호는 " + authNumber + " 입니다.");
 
 		try {
-		  // send 메소드로 ArrayList<Message> 객체를 넣어도 동작합니다!
 		  messageService.send(message);
 		} catch (NurigoMessageNotReceivedException exception) {
-		  // 발송에 실패한 메시지 목록을 확인할 수 있습니다!
+		  // 발송에 실패한 메시지 목록 확인
 		  System.out.println(exception.getFailedMessageList());
 		  System.out.println(exception.getMessage());
 		} catch (Exception exception) {

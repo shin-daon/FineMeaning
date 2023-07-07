@@ -315,6 +315,9 @@ public class MemberController {
 		System.out.println("findId 폼에서 넘어온 정보 : " + m);
 		
 		String email = emailId + "@" + emailDomain;
+		
+		email = email.replace(",", "");
+	
 		String uName = m.getuName();
 		String phone = m.getPhone();
 		
@@ -364,6 +367,7 @@ public class MemberController {
 							  @RequestParam("phone") String phone, Model model) {
 		
 		String email = emailId + "@" + emailDomain;
+		email = email.replace(",", "");
 		String uId = m.getuId();
 		
 		m.setEmail(email);
