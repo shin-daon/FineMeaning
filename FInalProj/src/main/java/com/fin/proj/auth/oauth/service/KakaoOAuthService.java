@@ -51,7 +51,6 @@ public class KakaoOAuthService implements OAuthService {
         // ex) 회원가입 했다면 로그인 시켜주기 등등
         
         Member m = new Member();
-        m.setuNickName(kakaoUserInfo.getNickname());
         m.setKakaoId(kakaoUserInfo.getId());
         m.setEmail(kakaoUserInfo.getEmail());
         
