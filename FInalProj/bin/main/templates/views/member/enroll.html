@@ -79,7 +79,7 @@
 			<label class="title">전화번호</label><br>
 			<span class="pwd-comment">하이픈(-)을 제외한 11자리 숫자를 입력해주세요.</span>
 			<div class="input">
-				<input type="text" id="normal-input" placeholder="전화번호" name="phone" maxlength="11" required/>
+				<input type="text" id="normal-input" placeholder="전화번호" name="phone" maxlength="11" oninput="filterNonNumeric(this)" required/>
 				<div class="check-div"><label id="phoneCheckResult"></label></div>
 			</div>
 		</div>
@@ -683,6 +683,12 @@
 				 form.submit();
 			 }
 		 })
+		 
+	// 전화번호
+	function filterNonNumeric(input) {
+	  const regex = /[^0-9]/g;
+	  input.value = input.value.replace(regex, '');
+	}
 		
 </script>
 </body>
