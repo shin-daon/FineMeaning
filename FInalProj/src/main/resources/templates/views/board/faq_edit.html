@@ -193,10 +193,14 @@
 			const submitBtn = document.querySelector('.writeFaqBtn');
 			submitBtn.addEventListener('click', function(){
 				const boardContent = document.getElementsByName('boardContent')[0].innerHTML;
+				const title = document.getElementById('title');
 				console.log(boardContent);
 				if(boardContent == '<p><br></p>'){
 					event.preventDefault(); // 폼 제출 막기
-					alert('글 작성 시 카테고리 선택은 필수입니다.');
+					alert('내용을 입력해주세요.');
+				} else if(title.value.trim() == ''){
+					event.preventDefault();
+					alert('제목을 입력해주세요.');
 				}
 			});
 			
