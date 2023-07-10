@@ -144,17 +144,19 @@
 				});
 			}
 			
-			/* <![CDATA[ */
 			// 카테고리 연관된 input="hidden"에 값이 없을 경우 submit 막기
-// 			const submitBtn = document.querySelector('.writeFaqBtn');
-// 			submitBtn.addEventListener('click', function(){
-// 				const boardCate = document.getElementsByName('boardCate')[0];
-// 				if(boardCate.value === "none"){
-// 					event.preventDefault(); // 폼 제출 막기
-// 					alert('글 수정 시 카테고리 재선택은 필수입니다.');
-// 				}
-// 			});
-			/* ]]> */
+			const submitBtn = document.querySelector('.writeFaqBtn');
+			submitBtn.addEventListener('click', function(){
+				const boardCate = document.getElementsByName('boardCate')[0];
+				const title = document.getElementById('title');
+				if(boardCate.value === "none"){
+					event.preventDefault(); // 폼 제출 막기
+					alert('글 수정 시 카테고리 재선택은 필수입니다.');
+				} else if(title.value.trim() == ''){
+					event.preventDefault();
+					alert('제목을 입력해주세요.');
+				}
+			});
 			
 			// 모달
 			const backBtn = document.getElementsByClassName('backBtn')[0];
