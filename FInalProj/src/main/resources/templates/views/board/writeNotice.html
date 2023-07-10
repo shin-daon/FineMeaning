@@ -39,7 +39,7 @@
 
 		<div id="faq_write_title2">공지사항 작성✏️</div>
 		<div id="formDiv">
-			<form method="post" action="insertNoticeBoard.bo">
+			<form method="post" action="insertNoticeBoard.bo" onsubmit="return validateForm()">
 				<input type="text" id="title" name="boardTitle"
 					placeholder="제목을 입력해주세요" required> <br>
 				<br>
@@ -70,5 +70,15 @@
 						[ 'insert', [ 'link', 'picture', 'video' ] ],
 						[ 'view', [ 'help' ] ] ]
 			});
+	
+	function validateForm() {
+        var title = document.getElementById("title").value.trim();
+        if (title === "") {
+            alert("제목을 입력해주세요.");
+            return false; // 폼 전송 중단
+        }
+        // 유효성 검사 통과한 경우 폼을 서버로 제출
+        return true;
+    }
 </script>
 </html>

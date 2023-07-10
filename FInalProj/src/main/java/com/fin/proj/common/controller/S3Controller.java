@@ -40,6 +40,9 @@ public class S3Controller {
             String imageName = S3Service.uploadFile(multipartFile); // multipartFile : 사용자가 업로드한 파일 자체를 가리킴
             String imageUrl = S3Service.getUrl(imageName);
             
+            System.out.println(imageName);
+            System.out.println(imageUrl);
+            
             // 여기부터 내 db 이미지 테이블에 접근!
             Image image = new Image(imageUrl, imageName);
             int result = iService.insertImage(image); // save : insert 하는 메소드
