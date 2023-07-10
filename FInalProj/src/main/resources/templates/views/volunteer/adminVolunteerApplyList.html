@@ -28,107 +28,109 @@
 		
 		<div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
 		
-		<section id="volunteerListSection">
-			<div>
-				<div id="volunteerList">봉사 신청 목록</div>
-			</div>
-
-			<div class="path">
-				<a class="middle" href="/"><img class="homeIconSize" src="../image/home.png"></a>
-				<img class="sub iconSize" src="../image/onenext.png">
-				<a class="middle" href="editUserInfo.me">관리자페이지</a>
-				<img class="sub iconSize" src="../image/onenext.png">
-				<a class="middle" href="adminVolunteerList.vo">봉사</a>
-				<img class="sub iconSize" src="../image/onenext.png">
-				<a class="middle">봉사 신청 목록</a>
-				<button type="button" class="btn-gradient mini v-list-btn" onclick="moveToList()" style="margin-top: 20px;">이전</button>
-			</div>
-			
-
-			<table class="v-history-table" style="margin-top: 10px">
-				<thead>
-					<tr>
-						<th width="6%">No</th>
-						<th width="16%">이름</th>
-						<th width="16%">생년월일</th>
-						<th width="30%">주소</th>
-						<th width="16%">전화번호</th>
-						<th width="16%">신청일</th>
-					</tr>
-				</thead>
+		<section style="display: flex; justify-content: center; width:80%">
+			<section id="volunteerListSection">
+				<div>
+					<div id="volunteerList">봉사 신청 목록</div>
+				</div>
+	
+				<div class="path">
+					<a class="middle" href="/"><img class="homeIconSize" src="../image/home.png"></a>
+					<img class="sub iconSize" src="../image/onenext.png">
+					<a class="middle" href="editUserInfo.me">관리자페이지</a>
+					<img class="sub iconSize" src="../image/onenext.png">
+					<a class="middle" href="adminVolunteerList.vo">봉사</a>
+					<img class="sub iconSize" src="../image/onenext.png">
+					<a class="middle">봉사 신청 목록</a>
+					<button type="button" class="btn-gradient mini v-list-btn" onclick="moveToList()" style="margin-top: 20px;">이전</button>
+				</div>
 				
-				<tbody style="font-size: 14px;">
-					<tr th:if="${vHistories.isEmpty()}">
-						<td colspan="8" style="padding: 50px; font-size: 15px; pointer-events: none;">신청자가 없습니다.</td>
-					</tr>
-					<tr th:each="v : ${vHistories}">
-						<td>[[${v.vHisNo}]]</td>
-						<td>[[${v.uName}]]</td>
-						<td>[[${#strings.substring(v.residentNo, 0, 4) + '.' + #strings.substring(v.residentNo, 4, 6) + '.' + #strings.substring(v.residentNo, 6)}]]</td>
-						<td>[[${v.address == null? '-' : v.address}]]</td>
-						<td>[[${v.phone == null? '-' : #strings.substring(v.phone, 0, 3) + '-' + #strings.substring(v.phone, 3, 7) + '-' + #strings.substring(v.phone, 7)}]]</td>
-						<td>[[${v.vHisDate}]]</td>
-					</tr>
-				</tbody>
-			</table>
-			
-			<div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
-	            <ul class="pagination">
-	            	<th:block th:if="${vNo == null}">
-		                <li th:if="${ pi.currentPage > 1 }">
-			                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
-			                	<img class="arrowKey" src="image/before.png">
-			                </a>
-		                </li>
-		                <li th:unless="${ pi.currentPage > 1 }">
-			                	<img class="arrowKey disabled" src="image/before.png">
-		                </li>
+	
+				<table class="v-history-table" style="margin-top: 10px">
+					<thead>
+						<tr>
+							<th width="6%">No</th>
+							<th width="16%">이름</th>
+							<th width="16%">생년월일</th>
+							<th width="30%">주소</th>
+							<th width="16%">전화번호</th>
+							<th width="16%">신청일</th>
+						</tr>
+					</thead>
+					
+					<tbody style="font-size: 14px;">
+						<tr th:if="${vHistories.isEmpty()}">
+							<td colspan="8" style="padding: 50px; font-size: 15px; pointer-events: none;">신청자가 없습니다.</td>
+						</tr>
+						<tr th:each="v : ${vHistories}">
+							<td>[[${v.vHisNo}]]</td>
+							<td>[[${v.uName}]]</td>
+							<td>[[${#strings.substring(v.residentNo, 0, 4) + '.' + #strings.substring(v.residentNo, 4, 6) + '.' + #strings.substring(v.residentNo, 6)}]]</td>
+							<td>[[${v.address == null? '-' : v.address}]]</td>
+							<td>[[${v.phone == null? '-' : #strings.substring(v.phone, 0, 3) + '-' + #strings.substring(v.phone, 3, 7) + '-' + #strings.substring(v.phone, 7)}]]</td>
+							<td>[[${v.vHisDate}]]</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<div class="page" th:with="loc=${#ctx.springRequestContext.requestUri}">
+		            <ul class="pagination">
+		            	<th:block th:if="${vNo == null}">
+			                <li th:if="${ pi.currentPage > 1 }">
+				                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 })}">
+				                	<img class="arrowKey" src="image/before.png">
+				                </a>
+			                </li>
+			                <li th:unless="${ pi.currentPage > 1 }">
+				                	<img class="arrowKey disabled" src="image/before.png">
+			                </li>
+			                
+			                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+			                	<th:block th:if="${p != 0}">
+			                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
+			                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+			                	</th:block>
+			                </li>
+			                
+			                <li th:if="${ pi.currentPage < pi.maxPage} ">
+				                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
+				                	<img class="arrowKey" src="image/next.png">
+				                </a>
+			                </li>
+			                <li th:unless="${ pi.currentPage < pi.maxPage }">
+				                	<img class="arrowKey disabled" src="image/next.png">
+			                </li>
+		                </th:block>
 		                
-		                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
-		                	<th:block th:if="${p != 0}">
-		                	<a th:href="@{${loc}(page=${p})}" th:text="${p}"
-		                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
-		                	</th:block>
-		                </li>
-		                
-		                <li th:if="${ pi.currentPage < pi.maxPage} ">
-			                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 })}">
-			                	<img class="arrowKey" src="image/next.png">
-			                </a>
-		                </li>
-		                <li th:unless="${ pi.currentPage < pi.maxPage }">
-			                	<img class="arrowKey disabled" src="image/next.png">
-		                </li>
-	                </th:block>
-	                
-	            	<th:block th:unless="${vNo == null}">
-		                <li th:if="${ pi.currentPage > 1 }">
-			                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 }, vNo= ${vNo})}">
-			                	<img class="arrowKey" src="image/before.png">
-			                </a>
-		                </li>
-		                <li th:unless="${ pi.currentPage > 1 }">
-			                	<img class="arrowKey disabled" src="image/before.png">
-		                </li>
-		                
-		                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
-		                	<th:block th:if="${p != 0}">
-		                	<a th:href="@{${loc}(page=${p}, vNo= ${vNo})}" th:text="${p}"
-		                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
-		                	</th:block>
-		                </li>
-		                
-		                <li th:if="${ pi.currentPage < pi.maxPage} ">
-			                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, vNo= ${vNo})}">
-			                	<img class="arrowKey" src="image/next.png">
-			                </a>
-		                </li>
-		                <li th:unless="${ pi.currentPage < pi.maxPage }">
-			                	<img class="arrowKey disabled" src="image/next.png">
-		                </li>
-	                </th:block>
-	            </ul>
-        	</div>
+		            	<th:block th:unless="${vNo == null}">
+			                <li th:if="${ pi.currentPage > 1 }">
+				                <a class="first" th:href="@{${loc}(page=${ pi.currentPage -1 }, vNo= ${vNo})}">
+				                	<img class="arrowKey" src="image/before.png">
+				                </a>
+			                </li>
+			                <li th:unless="${ pi.currentPage > 1 }">
+				                	<img class="arrowKey disabled" src="image/before.png">
+			                </li>
+			                
+			                <li th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage)}">
+			                	<th:block th:if="${p != 0}">
+			                	<a th:href="@{${loc}(page=${p}, vNo= ${vNo})}" th:text="${p}"
+			                		th:class="${p == pi.currentPage} ? 'num currentPage' : 'num'"></a>
+			                	</th:block>
+			                </li>
+			                
+			                <li th:if="${ pi.currentPage < pi.maxPage} ">
+				                <a class="last" th:href="@{${loc}(page=${ pi.currentPage + 1 }, vNo= ${vNo})}">
+				                	<img class="arrowKey" src="image/next.png">
+				                </a>
+			                </li>
+			                <li th:unless="${ pi.currentPage < pi.maxPage }">
+				                	<img class="arrowKey disabled" src="image/next.png">
+			                </li>
+		                </th:block>
+		            </ul>
+	        	</div>
+			</section>
 		</section>
 	</section>
 	
