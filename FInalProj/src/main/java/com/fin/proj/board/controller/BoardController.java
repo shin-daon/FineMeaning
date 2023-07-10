@@ -1225,7 +1225,6 @@ public class BoardController {
 	@ResponseBody
 	@GetMapping("/board/{boardNo}/comments")
     public List<Reply> findAllComment(@PathVariable int boardNo) {
-		System.out.println(boardNo);
         return bService.findAllComment(boardNo);
     }
 	
@@ -1234,7 +1233,6 @@ public class BoardController {
 	@PostMapping("/board/{boardNo}/comments")
     public List<Reply> saveComment(@PathVariable int boardNo, @RequestBody Reply params) {
         int id = bService.saveComment(params);
-        System.out.println("머가 넘어오는거니?" + params);
         return bService.findAllComment(boardNo);
     }
 	
