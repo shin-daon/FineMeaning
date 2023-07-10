@@ -414,7 +414,7 @@ select:focus {
 		</div>
 
 		<div class="insert enroll-btn">
-			<button class="learn-more" type="submit" id="enrollBtn">가입하기</button>
+			<button class="learn-more" type="submit" id="enrollBtn" onClick="checkAllConditions2()">가입하기</button>
 		</div>							
 	</form>	
 	</div>
@@ -859,7 +859,12 @@ select:focus {
 	        				event.preventDefault();
 	        				enrollButton.disabled = true;
 	        			} else {
-	        				enrollButton.disabled = false;
+	        				
+	        				if (emailBtn2.innerHTML === '인증 완료'){
+	        					enrollButton.disabled = false;
+	        			  	} else if (emailBtn2.innerHTML === '확인') {
+	        			  		enrollButton.disabled = true;
+	        			  	}
 	        				
 	        				// 이메일 폼
 	        				const form = document.getElementsByName('enrollForm')[0];
@@ -942,14 +947,38 @@ select:focus {
 			 
 			 if(id.value.trim() !== '' && regExp.test(id.value) &&
 				nickName.value.trim() !== '' && pwdRegex.test(pwdInputValue) &&
-				password === confirmPassword && emailBtn2.checked) {
+				password === confirmPassword && emailBtn2.innerHTML === '인증 완료') {
+				 
+				 if (emailBtn2.innerHTML === '확인'){
+					 enrollButton.addEventListener("click", function() {
+						 event.preventDefault();
+						 enrollButton.disabled = true;
+					 })
+				 }
+				 	
+				 enrollButton.disabled = false;
+				 
+			 } else {
+				 
+				 console.log(emailBtn2.innerHTML);
+				 
+				 if (emailBtn2.innerHTML === '확인'){
+					enrollButton.disabled = true;
+				 }
 				 
 				 enrollButton.disabled = true;
-			 } else {
-				 enrollButton.disabled = false;
 			 }
 				 	 
 		}
+		
+		enrollButton.addEventListener("click", function() {
+			 event.preventDefault();
+			 if (emailBtn2.innerHTML === '확인'){
+				 event.preventDefault();
+			 } else if (emailBtn2.innerHTML === '인증 완료') {
+				 form.submit();
+			 }
+		 })
 		
 </script>
 </body>
