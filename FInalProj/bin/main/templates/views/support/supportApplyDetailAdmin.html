@@ -38,54 +38,55 @@ ol, ul{
 	<div th:replace="~{../common/header :: header}"></div>
 	
 	<section style="display: flex;">
-    <div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
-    
-		<section id="supportListSection">
-
-        <div>
-            <div id="supportList">후원 신청 내역</div>
-        </div>
-
-        <div class="path">
-            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
-            <img class="sub iconSize" src="image/onenext.png">
-            <a class="middle" href="#">관리자페이지</a>
-            <img class="sub iconSize" src="image/onenext.png">
-            <a class="middle">후원 신청내역</a>
-            <img class="sub iconSize" src="image/onenext.png">
-            <a class="middle">후원 신청내역 상세보기</a>
-        </div>
-
-
-			<div class="detailSection">
-                    <div class="supportTitle" th:text="${s.supportTitle}"></div>
-                    <div class="supportSubTitle">모금함 소개</div>
-                    <div>
-                    	<img th:src="@{${s.imageUrl}}">
-                    </div>
-                    
-                    <div class="supportDetailContent" id="summernote"></div>
-
-					<div class="buttonArea">
-				        <div class="buttonSection">
-				        	<button class="learn-more">승인하기</button>
-				        	<button class="learn-more">미승인</button>
-						</div>
-			        </div>
-                    
-
-                </div>
-
-
-
-			
-			
-			
-			
-			
-			
-    </section>
-		
+    	<div th:replace="~{../common/adminSidebar :: adminSidebar}"></div>
+    	
+    	<section style="display: flex; justify-content: center; width:80%">
+			<section id="supportListSection" style="margin-left: 0">
+	
+	        <div>
+	            <div id="supportList">후원 신청 내역</div>
+	        </div>
+	
+	        <div class="path">
+	            <a class="middle" href="#"><img class="homeIconSize" src="image/home.png"></a>
+	            <img class="sub iconSize" src="image/onenext.png">
+	            <a class="middle" href="#">관리자페이지</a>
+	            <img class="sub iconSize" src="image/onenext.png">
+	            <a class="middle">후원 신청내역</a>
+	            <img class="sub iconSize" src="image/onenext.png">
+	            <a class="middle">후원 신청내역 상세보기</a>
+	        </div>
+	
+	
+				<div class="detailSection">
+	                    <div class="supportTitle" th:text="${s.supportTitle}"></div>
+	                    <div class="supportSubTitle">모금함 소개</div>
+	                    <div>
+	                    	<img th:src="@{${s.imageUrl}}">
+	                    </div>
+	                    
+	                    <div class="supportDetailContent" id="summernote"></div>
+	
+						<div class="buttonArea">
+					        <div class="buttonSection">
+					        	<button class="learn-more">승인하기</button>
+					        	<button class="learn-more">미승인</button>
+							</div>
+				        </div>
+	                    
+	
+	                </div>
+	
+	
+	
+				
+				
+				
+				
+				
+				
+	    </section>
+	</section>
 </section>
 
 <div th:replace="~{../common/footer :: footer}"></div>  
