@@ -155,9 +155,13 @@
 			
 			submitBtn.addEventListener('click', function(){
 				const boardCate = document.getElementsByName('boardCate')[0];
+				const title = document.getElementById('title');
 				if(boardCate.value === 'none'){
-					event.preventDefault(); // 폼 제출 막기
-					alert('글 작성 시 카테고리 선택은 필수입니다.');
+					event.preventDefault();
+					alert('카테고리는 필수 선택입니다💢');
+				} else if(title.value.trim() == ''){
+					event.preventDefault();
+					alert('제목을 입력하세요💢')
 				}
 			});
 			
