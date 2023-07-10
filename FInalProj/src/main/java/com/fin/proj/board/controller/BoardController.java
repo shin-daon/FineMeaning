@@ -1233,10 +1233,6 @@ public class BoardController {
 	@PostMapping("/board/{boardNo}/comments")
     public List<Reply> saveComment(@PathVariable int boardNo, @RequestBody Reply params) {
         int id = bService.saveComment(params);
-<<<<<<< HEAD
-=======
-//        System.out.println("머가 넘어오는거니?" + params);
->>>>>>> 1fdc1e22aefeec8105c27f7c847fa7a944ac7ce2
         return bService.findAllComment(boardNo);
     }
 	
