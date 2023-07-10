@@ -18,6 +18,7 @@
 			<label class="title">아이디</label>
 			<div class="input">
 				<input type="text" id="normal-input" placeholder="아이디" name="uId" required maxlength="20"/>
+				<input type="hidden" id="idCheck"/>
 				<div class="check-div"><label id="idCheckResult"></label></div>
 			</div>
 		</div>
@@ -106,6 +107,7 @@
 				<button class="short-btn" id="emailBtn">메일 전송</button>
 				<button class="short-btn" id="emailBtn2" style="display:none";>확인</button>
 				<div class="check-div"><label id="emailCheckResult"></label>&nbsp;<label id="emailCheckResult2"></label></div>
+				<input type="hidden" id="numCheck"/>
 			</div>					
 			</div>
 				
@@ -114,6 +116,7 @@
 			<div class="input">
 				<input type="text" id="normal-input" placeholder="닉네임" name="uNickName" maxlength="15" required/>
 				<div class="check-div"><label id="nickNameCheckResult"></label></div>
+				<input type="hidden" id="nickNameCheck"/>
 			</div>
 		</div>
 
@@ -133,6 +136,7 @@
 	const id = document.getElementsByName('uId')[0];
 	const idResult = document.getElementById('idCheckResult');
 	const regExp = /^[^ㄱ-ㅎㅏ-ㅣ가-힣]{5,20}$/
+	let idCheck = document.getElementById('idCheck');
 	
 	id.addEventListener('input', function(){
 		if(this.value.trim() == ''){
@@ -158,13 +162,14 @@
 						idResult.style.color = '#609966';
 						id.style.outline = '1px solid #609966';
 						id.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+						idCheck.value = 'Y';
 						
 					} else if(data == 'no'){
 						idResult.innerText = "사용 불가능한 아이디입니다.";
 						idResult.style.color = 'red';
 						id.style.outline = '1px solid red';
 						id.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-						
+						idCheck.value = 'N';
 					}
 				},
 				error: data => {
@@ -469,31 +474,19 @@
 	    		        emailCheckResult.innerHTML = '';
 	    		        emailCheckResult2.innerHTML = '';
 	                });
-	                
-	                enrollButton.addEventListener("click", function() {
-	        			event.preventDefault();
-	        			const randomNum = document.getElementsByName("randomNumInput")[0].value;
-	        			
-	        			if (data !== randomNum) {
-	        				event.preventDefault();
-	        			} else {
-	        				
-	        				// 이메일 폼
-	        				const form = document.getElementsByName('enrollForm')[0];
-	        				const emailSelect = document.getElementById('email-select');
-	        			    const customEmailInput = document.getElementById('custom-email-input');
+	                	        				
+       				// 이메일 폼
+       				const form = document.getElementsByName('enrollForm')[0];
+       				const emailSelect = document.getElementById('email-select');
+       			    const customEmailInput = document.getElementById('custom-email-input');
 
-	        			  		if (customEmailInput.value === '') {
-	        			  			customEmailInput.setAttribute('name', '');
-	        			    		emailSelect.setAttribute('name', 'emailDomain');
-	        			  		} else {
-	        			  			customEmailInput.setAttribute('name', 'emailDomain');
-	        			   			emailSelect.setAttribute('name', '');
-	        			  		}
-	        			}
-	                
-	        		});
-	                
+       			  		if (customEmailInput.value === '') {
+       			  			customEmailInput.setAttribute('name', '');
+       			    		emailSelect.setAttribute('name', 'emailDomain');
+       			  		} else {
+       			  			customEmailInput.setAttribute('name', 'emailDomain');
+       			   			emailSelect.setAttribute('name', '');
+       			  		}
    
 	            },
 	            error: function() {
@@ -514,6 +507,7 @@
 			const emailCheckResult2 = document.getElementById('emailCheckResult2');
 			const password = document.querySelector('input[name="uPwd"]').value;
 			const confirmPassword = document.querySelector('input[name="checkPwd"]').value;
+			let numCheck = document.getElementById('numCheck');
 			
 			if (data === randomNum) {
 		        emailCheckResult.innerText = '인증이 완료되었습니다.';
@@ -522,6 +516,7 @@
 		        randomNumInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
 		        emailBtn2.innerHTML = '인증 완료';
 		        emailCheckResult2.innerHTML = '';
+		        numCheck.value = 'Y';
 		        
 		    } else {
 		        emailCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
@@ -529,13 +524,14 @@
 		        randomNumInput.style.outline = '1px solid red';
 		        randomNumInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
 		        emailBtn2.innerHTML = '확인';
-
+				numCheck.value = 'N';
 		    }
 		});
 	
 	// 닉네임
 	const nickName = document.getElementsByName('uNickName')[0];
-    		const nickNameResult = document.getElementById('nickNameCheckResult');
+    const nickNameResult = document.getElementById('nickNameCheckResult');
+    let nickNameCheck = document.getElementById('nickNameCheck');
     		
     		nickName.addEventListener('input', function(){				
 				if(this.value.trim() == ''){
@@ -554,11 +550,13 @@
 								nickNameResult.style.color = '#609966';
 								nickName.style.outline = '1px solid #609966';
 								nickName.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+								nickNameCheck.value = 'Y';
 							} else if(data == 'no'){
 								nickNameResult.innerText = "사용 불가능한 닉네임입니다.";
 								nickNameResult.style.color = 'red';
 								nickName.style.outline = '1px solid red';
 								nickName.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+								nickNameCheck.value = 'N';
 							}
 						},
 						error: data => {
@@ -572,6 +570,7 @@
 	function checkAllConditions() {
 		const uId = document.getElementsByName('uId')[0];
 		const regExp = /^[^ㄱ-ㅎㅏ-ㅣ가-힣]{5,20}$/
+		let idCheck = document.getElementById('idCheck');
 		
 		const uPwd = document.getElementsByName('uPwd')[0];
 		const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
@@ -593,9 +592,11 @@
 		const emailId = document.getElementsByName('emailId')[0];
 		const emailDomain = document.getElementsByName('emailDomain')[0];
 		const randomNumInput = document.getElementsByName('randomNumInput')[0];
-		const emailBtn2 = document.getElementById('emailBtn2');	
+		const emailBtn2 = document.getElementById('emailBtn2');
+		let numCheck = document.getElementById('numCheck');
 		
 		const uNickName = document.getElementsByName('uNickName')[0];
+		let nickNameCheck = document.getElementById('nickNameCheck');
 		
 		if (uId.value.trim() == "") {
 			uId.focus();
@@ -679,6 +680,21 @@
 		
 		if (uNickName.value.trim() == "") {
 			uNickName.focus();
+			return false;
+		}
+		
+		if (idCheck.value === "N"){
+			uId.focus();
+			return false;
+		}
+		
+		if (nickNameCheck.value === "N"){
+			uNickName.focus();
+			return false;
+		}
+		
+		if (numCheck.value === "N"){
+			randomNumInput.focus();
 			return false;
 		}
 				  
