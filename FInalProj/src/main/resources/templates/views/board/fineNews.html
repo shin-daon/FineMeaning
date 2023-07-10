@@ -40,7 +40,9 @@
                 <div class="col-front">
                     <div class="card h-100">
                         <div class="cardImage">
-                            <img th:src="@{${b.imageUrl}}" class="card-img-top" alt="...">
+                            <img th:src="@{${b.imageUrl}}" class="card-img-top" th:if="${ #strings.containsIgnoreCase(b.imageUrl, 'jpg') or #strings.containsIgnoreCase(b.imageUrl, 'png') or #strings.containsIgnoreCase(b.imageUrl, 'jpeg')}">
+                            <img class="card-img-top" src="image/noImage.png"
+								th:if="${ !(#strings.containsIgnoreCase(b.imageUrl, 'jpg') or #strings.containsIgnoreCase(b.imageUrl, 'png') or #strings.containsIgnoreCase(b.imageUrl, 'jpeg')) }">
                         </div>
                         <div class="card-body">
                             <div class="textBox">
