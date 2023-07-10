@@ -171,7 +171,7 @@
 					const now = new Date();
 			    	const today = now.getFullYear() + "-" + ('0' + (now.getMonth() + 1)).slice(-2) + "-" + ('0' + now.getDate()).slice(-2);
 				</script>
-				
+
 	            <div class="v-apply-btn-div">
 	                <button type="button" id="applyBtn" class="learn-more v-apply-btn" th:if="${session.loginUser != null && v.vRecruitmentEndDate >= today && session.loginUser.uNo != v.uNo && session.loginUser.isAdmin != 0}">신청하기</button>
 	                <button type="button" id="deleteBtn" class="learn-more v-delete-btn" th:if="${session.loginUser != null && (session.loginUser.uNo == v.uNo || session.loginUser.isAdmin == 0)}">삭제</button>
@@ -271,7 +271,7 @@
 		    	    document.body.appendChild(form);
 		    	    form.submit();	 
 	    		} else {
-	    			if(beforeURL.includes('volunteerEdit.vo')) {
+	    			if(beforeURL.includes('volunteerEdit.vo') || beforeURL.includes('/')) {
 	    				location.href = 'volunteer.vo';
 	    			} else {
 	    				location.href = beforeURL;
