@@ -271,7 +271,7 @@
 		    	    document.body.appendChild(form);
 		    	    form.submit();	 
 	    		} else {
-	    			if(beforeURL.includes('volunteerEdit.vo') || beforeURL.includes('/')) {
+	    			if(beforeURL.includes('volunteerEdit.vo') || beforeURL == 'http://localhost:8080/') {
 	    				location.href = 'volunteer.vo';
 	    			} else {
 	    				location.href = beforeURL;
