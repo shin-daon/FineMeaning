@@ -149,9 +149,13 @@
 			const submitBtn = document.querySelector('.writeFaqBtn');
 			submitBtn.addEventListener('click', function(){
 				const boardCate = document.getElementsByName('boardCate')[0];
+				const title = document.getElementById('title');
 				if(boardCate.value === 'none'){
 					event.preventDefault(); // 폼 제출 막기
 					alert('글 작성 시 카테고리 선택은 필수입니다.');
+				} else if(title.value.trim() == ''){
+					event.preventDefault();
+					alert('제목을 입력해주세요.');
 				}
 			});
 			
