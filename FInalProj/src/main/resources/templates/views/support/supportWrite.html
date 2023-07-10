@@ -236,7 +236,7 @@ $(function(){
 			  alert("후원 기간 설정도 필수입니다.")
 			  $("#popup").fadeOut(); 
 			  startDate.focus();
-		  } else if(supportTitleInput.value==""){
+		  } else if(supportTitleInput.value.trim==""){
 			  alert("후원 제목을 작성하세요")
 			  $("#popup").fadeOut();
 			  supportTitleInput.focus();
@@ -244,7 +244,7 @@ $(function(){
 			  alert("모금 금액은 10,000원 이상이어야합니다.")
 			  $("#popup").fadeOut();
 			  supportAmount.focus();
-		  } else if(supportDetail.value ==""){
+		  } else if(supportDetail.value.trim ==""){
 			  alert("후원 내용을 작성하세요")
 			  $("#popup").fadeOut();
 			  supportDetail.focus();
