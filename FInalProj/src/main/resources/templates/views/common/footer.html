@@ -4,6 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
 	.footer-bg{background:#40513B; width: 100%; height:130px; margin-top:30px;}
 	.text{color: white;}
@@ -105,7 +106,7 @@
 						</p>
 					</div>
 					
-					<div id="anchor"><a onclick="scrollToElement('anchorPoint')" href="#"><img id="anchorImg" src="image/anchor.png"></a></div>
+					<div id="anchor"><img id="anchorImg" src="image/anchor.png"></div>
 					
 					<div class="footerContent footerContentE" style="margin-top:30px; display:block; padding-left:50px;">  
 				    	<ul class="footerIcon" style="margin-top: 30px;">
@@ -132,10 +133,11 @@
 	</div>
 	
 	<script>
-		function scrollToElement(id) {
-			const element = document.getElementById(id);
-			element.scrollIntoView({ behavior: 'auto' });
-		}
+		$('#anchor').click(function(e){
+		  $('html, body').animate({
+		        scrollTop: $('header').offset().top
+		    }, 500);
+		})
 	</script>
 </body>
 </html>
