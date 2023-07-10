@@ -27,7 +27,7 @@
 			<div class="insert name">
 				<label class="title">이름</label>
 				<div class="input">
-					<input type="text" id="normal-input" th:value="${ loginUser.uName }" name="uName"/>
+					<input type="text" id="normal-input" th:value="${ loginUser.uName }" name="uName" readonly/>
 				</div>
 			</div>
 			
@@ -60,7 +60,7 @@
 			<div class="insert phone">
 				<label class="title">전화번호</label>
 				<div class="input">
-					<input type="text" id="normal-input" th:value="${loginUser.phone}" name="phone" maxlength="11"/>
+					<input type="text" id="normal-input" th:value="${loginUser.phone}" name="phone" maxlength="11" oninput="filterNonNumeric(this)"/>
 				</div>
 			</div>
 			
@@ -287,6 +287,11 @@
 		}
 	}
 	
+	// 전화번호
+	function filterNonNumeric(input) {
+	  const regex = /[^0-9]/g;
+	  input.value = input.value.replace(regex, '');
+	}
 </script>
 </body>
 </html>
