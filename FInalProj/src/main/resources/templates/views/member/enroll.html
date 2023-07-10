@@ -129,139 +129,199 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	// 가입하기 버튼
-	const enrollButton = document.getElementById('enrollBtn');
-
-	// 이메일 버튼
-    const emailSelect = document.getElementById('email-select');
-    const customEmailInput = document.getElementById('custom-email-input');
-    const emailInput = document.getElementsByClassName('email-input')[0];
-    const xBtn = document.getElementsByClassName('x-btn')[0];
-
-    emailSelect.addEventListener('change', function() {
-        if (emailSelect.value === '직접입력') {
-            emailSelect.style.display = 'none';
-            customEmailInput.style.display = 'inline-block';
-            emailInput.style.display = 'block';
-            xBtn.style.display = 'block';
-        }
-    });
-
-    customEmailInput.addEventListener('input', function() {
-        if (customEmailInput.value === '') {
-            emailSelect.style.display = 'none';
-            emailSelect.selectedIndex = 0;
-        }
-    });
-    
-    xBtn.addEventListener('click', function() {
-            emailSelect.style.display = 'inline-block';
-            customEmailInput.style.display = 'none';
-            emailInput.style.display = 'block';
-            xBtn.style.display = 'none';
-            emailSelect.value = 'naver.com';
-            customEmailInput.value = '';
-    });
-    
-    // 아이디, 닉네임 유효성 검사   
-    window.onload = () => {
-    		const id = document.getElementsByName('uId')[0];
-    		const idResult = document.getElementById('idCheckResult');
-    		const regExp = /^[^ㄱ-ㅎㅏ-ㅣ가-힣]{5,20}$/
-    		
-    		id.addEventListener('input', function(){
-				if(this.value.trim() == ''){
-					idResult.innerText = '아이디를 입력해주세요.';
-					idResult.style.color = 'gray';
-					id.style.outline = '';
-					id.style.boxShadow = '';
-					enrollButton.disabled = true;
-				} else if(!regExp.test(id.value)) {
-					idResult.innerText = '아이디는 5자 이상의 영문자, 숫자만 입력 가능 합니다.';
-					idResult.style.color = 'red';
-					id.style.outline = '1px solid red';
-					id.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-					enrollButton.disabled = true;
-				} else {
-					$.ajax({
-						url: 'checkId.me',
-						data: {uId:this.value.trim()},
-						success: data => {
-							console.log(data);
-							if(data == 'yes'){
-								idResult.innerText = '사용 가능한 아이디입니다.';
-								idResult.style.color = '#609966';
-								id.style.outline = '1px solid #609966';
-								id.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
-								checkAllConditions();
-								enrollButton.disabled = false;
-							} else if(data == 'no'){
-								idResult.innerText = "사용 불가능한 아이디입니다.";
-								idResult.style.color = 'red';
-								id.style.outline = '1px solid red';
-								id.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-								enrollButton.disabled = true;
-							}
-						},
-						error: data => {
-							console.log(data);
-						}
-					});
+	// 아이디
+	const id = document.getElementsByName('uId')[0];
+	const idResult = document.getElementById('idCheckResult');
+	const regExp = /^[^ㄱ-ㅎㅏ-ㅣ가-힣]{5,20}$/
+	
+	id.addEventListener('input', function(){
+		if(this.value.trim() == ''){
+			idResult.innerText = '아이디를 입력해주세요.';
+			idResult.style.color = 'gray';
+			id.style.outline = '';
+			id.style.boxShadow = '';
+			
+		} else if(!regExp.test(id.value)) {
+			idResult.innerText = '아이디는 5자 이상의 영문자, 숫자만 입력 가능 합니다.';
+			idResult.style.color = 'red';
+			id.style.outline = '1px solid red';
+			id.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+			
+		} else {
+			$.ajax({
+				url: 'checkId.me',
+				data: {uId:this.value.trim()},
+				success: data => {
+					console.log(data);
+					if(data == 'yes'){
+						idResult.innerText = '사용 가능한 아이디입니다.';
+						idResult.style.color = '#609966';
+						id.style.outline = '1px solid #609966';
+						id.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+						
+					} else if(data == 'no'){
+						idResult.innerText = "사용 불가능한 아이디입니다.";
+						idResult.style.color = 'red';
+						id.style.outline = '1px solid red';
+						id.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+						
+					}
+				},
+				error: data => {
+					console.log(data);
 				}
-				
 			});
-    		
-    		const nickName = document.getElementsByName('uNickName')[0];
-    		const nickNameResult = document.getElementById('nickNameCheckResult');
-    		
-    		nickName.addEventListener('input', function(){				
-				if(this.value.trim() == ''){
-					nickNameResult.innerText = '닉네임을 입력해주세요.';
-					nickNameResult.style.color = 'gray';
-					nickName.style.outline = '';
-					nickName.style.boxShadow = '';
-					enrollButton.disabled = true;
-				} else {
-					$.ajax({
-						url: 'checkNickName.me',
-						data: {uNickName:this.value.trim()},
-						success: data => {
-							console.log(data);
-							if(data == 'yes'){
-								nickNameResult.innerText = '사용 가능한 닉네임입니다.';
-								nickNameResult.style.color = '#609966';
-								nickName.style.outline = '1px solid #609966';
-								nickName.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
-								checkAllConditions2();
-								enrollButton.disabled = false;
-							} else if(data == 'no'){
-								nickNameResult.innerText = "사용 불가능한 닉네임입니다.";
-								nickNameResult.style.color = 'red';
-								nickName.style.outline = '1px solid red';
-								nickName.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-								enrollButton.disabled = true;
-							}
-						},
-						error: data => {
-							console.log(data);
-						}
-					});
-				}
-				
-			});
-    	}
-    
-    // 이메일 폼
-	const form = document.getElementsByName('enrollForm')[0];
+		}
+		
+	});
+	
+	// 비밀번호
+	const pwdInput = document.querySelector('input[name="uPwd"]');
+	const pwdResult = document.getElementById('pwdResult');
+	
+	const passwordInput = document.querySelector('input[name="uPwd"]');
+	const confirmPasswordInput = document.querySelector('input[name="checkPwd"]');
+	const pwdCheckResult = document.getElementById('pwdCheckResult');
+	
+	pwdInput.addEventListener('input', validatePwd);
+	confirmPasswordInput.addEventListener('input', validatePwd);
+	
+	function validatePwd() {
+	  const pwdInputValue = pwdInput.value;
+	  const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
+	  const password = passwordInput.value;
+	  const confirmPassword = confirmPasswordInput.value;
+	
+	  if (pwdRegex.test(pwdInputValue)) {
+		pwdResult.textContent = '';
+		pwdResult.style.color = '#609966';
+		pwdInput.style.outline = '1px solid #609966';
+		pwdInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';	    
+	  } else {
+		pwdResult.textContent = '올바른 비밀번호를 입력해주세요.';
+		pwdResult.style.color = 'red';
+		pwdInput.style.outline = '1px solid red';
+		pwdInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  }
+	  
+	  if (confirmPassword.trim() == '') {
+		  	pwdCheckResult.textContent = '';
+		  	confirmPasswordInput.style.outline = '';
+		  	confirmPasswordInput.style.boxShadow = '';
+	  } else if (password === confirmPassword) {
+		  	pwdCheckResult.innerText = '';
+		  	pwdCheckResult.style.color = '#609966';
+		  	confirmPasswordInput.style.outline = '1px solid #609966';
+		  	confirmPasswordInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	  } else if (password !== confirmPassword) {
+	  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
+	  		pwdCheckResult.style.color = 'red';
+	  		confirmPasswordInput.style.outline = '1px solid red';
+	  		confirmPasswordInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  }  
+	}
+	
+	// 비밀번호 확인
+	confirmPasswordInput.addEventListener('input', validatePassword);
+	
+	function validatePassword() {
+	  const password = passwordInput.value;
+	  const confirmPassword = confirmPasswordInput.value;
 
-	form.addEventListener('submit', function(event) {
-  		if (customEmailInput.value === '') {
-  			customEmailInput.setAttribute('name', '');
-    		emailSelect.setAttribute('name', 'emailDomain');
-  		} else {
-  			customEmailInput.setAttribute('name', 'emailDomain');
-   			emailSelect.setAttribute('name', '');
-  		}
+	  if (confirmPassword.trim() == '') {
+		  	pwdCheckResult.textContent = '';
+		  	confirmPasswordInput.style.outline = '';
+		  	confirmPasswordInput.style.boxShadow = '';
+	  } else if (password === confirmPassword) {
+		  	pwdCheckResult.innerText = '';
+		  	pwdCheckResult.style.color = '#609966';
+		  	confirmPasswordInput.style.outline = '1px solid #609966';
+		  	confirmPasswordInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	  } else if (password !== confirmPassword) {
+	  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
+	  		pwdCheckResult.style.color = 'red';
+	  		confirmPasswordInput.style.outline = '1px solid red';
+	  		confirmPasswordInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  }
+	}
+	
+	// 이름
+	const nameInput = document.querySelector('input[name="uName"]');
+	
+	nameInput.addEventListener('input', () => {
+	  if (nameInput.value.trim() === '') {
+		nameInput.style.outline = '1px solid red';
+		nameInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  } else {
+		nameInput.style.outline = '1px solid #609966';
+		nameInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	  }
+	});
+	
+	// 회원 유형
+	const normalRadio = document.querySelector('input[name="uType"][value="일반"]');
+	const agencyRadio = document.querySelector('input[name="uType"][value="단체"]');
+	const agencyNameInput = document.getElementsByName('registrar')[0];
+	
+	normalRadio.addEventListener('change', toggleAgencyNameInput);
+	agencyRadio.addEventListener('change', toggleAgencyNameInput);
+	
+	function toggleAgencyNameInput() {
+	  if (agencyRadio.checked) {
+	    agencyNameInput.readOnly = false;	    
+	  } else {
+	    agencyNameInput.readOnly = true;
+	    agencyNameInput.value = '';
+	    agencyNameInput.style.outline = '';
+		agencyNameInput.style.boxShadow = '';
+	  }
+	}
+	
+	agencyNameInput.addEventListener('input', () => {
+	  if (agencyRadio.checked && agencyNameInput.value.trim() !== '') {
+		  agencyNameInput.style.outline = '1px solid #609966';
+		  agencyNameInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+		
+	  } else if (agencyRadio.checked && agencyNameInput.value.trim() === '') {
+		  agencyNameInput.style.outline = '1px solid red';
+		  agencyNameInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  }
+	});
+	
+	// 생년월일
+	const residentNo = document.querySelector('input[name="residentNo"]');
+	const ssnCheckResult = document.getElementById('ssnCheckResult');
+	
+	residentNo.addEventListener('input', validateSSN);
+	
+	function validateSSN() {
+	  const firstPart = residentNo.value;
+	  const ssnRegexFirst = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
+	
+	  if (ssnRegexFirst.test(firstPart)) {
+	    ssnCheckResult.textContent = '';
+	    residentNo.style.outline = '1px solid #609966';
+	    residentNo.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	  } else {
+	    ssnCheckResult.textContent = '올바른 생년월일을 입력해주세요.';
+	    ssnCheckResult.style.color = 'red';
+	    residentNo.style.outline = '1px solid red';
+	    residentNo.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  }
+	}
+	
+	// 주소
+	const addInput = document.querySelector('input[name="address"]');
+	const agencyInput = document.querySelector('input[name="registrar"]');
+
+	addInput.addEventListener('input', () => {
+	  if (addInput.value.trim() === '') {
+		addInput.style.outline = '1px solid red';
+		addInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  } else {
+		addInput.style.outline = '1px solid #609966';
+		addInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	  }
 	});
 	
 	// 주소 찾기
@@ -297,210 +357,68 @@
         });
     }
 	
-	// 비밀번호
-	const pwdInput = document.querySelector('input[name="uPwd"]');
-	const pwdResult = document.getElementById('pwdResult');
-	
-	const passwordInput = document.querySelector('input[name="uPwd"]');
-	const confirmPasswordInput = document.querySelector('input[name="checkPwd"]');
-	const pwdCheckResult = document.getElementById('pwdCheckResult');
-	
-	pwdInput.addEventListener('input', validatePwd);
-	confirmPasswordInput.addEventListener('input', validatePwd);
-	
-	function validatePwd() {
-	  const pwdInputValue = pwdInput.value;
-	  const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
-	  const password = passwordInput.value;
-	  const confirmPassword = confirmPasswordInput.value;
-	
-	  if (pwdRegex.test(pwdInputValue)) {
-		pwdResult.textContent = '';
-		pwdResult.style.color = '#609966';
-		pwdInput.style.outline = '1px solid #609966';
-		pwdInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
-	    
-	    if(password !== confirmPassword){
-	    	enrollButton.disabled = true;
-	    } else {
-	    	checkAllConditions2();
-	    	checkAllConditions();
-	    	enrollButton.disabled = false;
-	    }
-	    
-	    checkAllConditions();
-	    
-	  } else {
-		pwdResult.textContent = '올바른 비밀번호를 입력해주세요.';
-		pwdResult.style.color = 'red';
-		pwdInput.style.outline = '1px solid red';
-		pwdInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-	    enrollButton.disabled = true;
-	  }
-	  
-	  if (confirmPassword.trim() == '') {
-		  	pwdCheckResult.textContent = '';
-		  	confirmPasswordInput.style.outline = '';
-		  	confirmPasswordInput.style.boxShadow = '';
-		  	enrollButton.disabled = true;
-	  } else if (password === confirmPassword) {
-		  	pwdCheckResult.innerText = '';
-		  	pwdCheckResult.style.color = '#609966';
-		  	confirmPasswordInput.style.outline = '1px solid #609966';
-		  	confirmPasswordInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
-		  	checkAllConditions2();
-		  	enrollButton.disabled = false;
-	  } else if (password !== confirmPassword) {
-	  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
-	  		pwdCheckResult.style.color = 'red';
-	  		confirmPasswordInput.style.outline = '1px solid red';
-	  		confirmPasswordInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-	  		enrollButton.disabled = true;
-	  }  
-	}
-	
-	 function checkAllConditions() {
-		const passwordInput = document.querySelector('input[name="uPwd"]');
-		const confirmPasswordInput = document.querySelector('input[name="checkPwd"]');
-		const password = passwordInput.value;
-		const confirmPassword = confirmPasswordInput.value;
-		const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
-		const pwdInputValue = passwordInput.value;
-		 
-		 if(password.trim == '' || confirmPassword.trim() == '' ||
-		     !pwdRegex.test(pwdInputValue) || password !== confirmPassword) {
-			  enrollButton.disabled = true;
-		  }
-	 }
-	
-	// 비밀번호 확인	
-	
-	
-	confirmPasswordInput.addEventListener('input', validatePassword);
-	
-	function validatePassword() {
-	  const password = passwordInput.value;
-	  const confirmPassword = confirmPasswordInput.value;
-
-	  if (confirmPassword.trim() == '') {
-		  	pwdCheckResult.textContent = '';
-		  	confirmPasswordInput.style.outline = '';
-		  	confirmPasswordInput.style.boxShadow = '';
-		  	enrollButton.disabled = true;
-	  } else if (password === confirmPassword) {
-		  	pwdCheckResult.innerText = '';
-		  	pwdCheckResult.style.color = '#609966';
-		  	confirmPasswordInput.style.outline = '1px solid #609966';
-		  	confirmPasswordInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
-		  	checkAllConditions2();
-		  	enrollButton.disabled = false;
-	  } else if (password !== confirmPassword) {
-	  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
-	  		pwdCheckResult.style.color = 'red';
-	  		confirmPasswordInput.style.outline = '1px solid red';
-	  		confirmPasswordInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-	  		enrollButton.disabled = true;
-	  }
-	}
-	
-	
-	// 회원 유형
-	const normalRadio = document.querySelector('input[name="uType"][value="일반"]');
-	const agencyRadio = document.querySelector('input[name="uType"][value="단체"]');
-	const agencyNameInput = document.getElementsByName('registrar')[0];
-	
-	normalRadio.addEventListener('change', toggleAgencyNameInput);
-	agencyRadio.addEventListener('change', toggleAgencyNameInput);
-	
-	function toggleAgencyNameInput() {
-	  if (agencyRadio.checked) {
-	    agencyNameInput.readOnly = false;	    
-	  } else {
-	    agencyNameInput.readOnly = true;
-	    agencyNameInput.value = '';
-	    agencyNameInput.style.outline = '';
-		agencyNameInput.style.boxShadow = '';
-	  }
-	}
-	
-	// 페이지 로드 시 초기 상태 설정
-	toggleAgencyNameInput();
-	
-	// 주민등록번호
-	const residentNo = document.querySelector('input[name="residentNo"]');
-	const ssnCheckResult = document.getElementById('ssnCheckResult');
-	
-	residentNo.addEventListener('input', validateSSN);
-	
-	function validateSSN() {
-	  const firstPart = residentNo.value;
-	  const ssnRegexFirst = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
-	
-	  if (ssnRegexFirst.test(firstPart)) {
-	    ssnCheckResult.textContent = '';
-	    residentNo.style.outline = '1px solid #609966';
-	    residentNo.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
-	    checkAllConditions2();
-	    enrollButton.disabled = false;
-	  } else {
-	    ssnCheckResult.textContent = '올바른 생년월일을 입력해주세요.';
-	    ssnCheckResult.style.color = 'red';
-	    residentNo.style.outline = '1px solid red';
-	    residentNo.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-	    enrollButton.disabled = true;
-	  }
-	}
-	
-	// 이름, 주소, 전화번호
-	const nameInput = document.querySelector('input[name="uName"]');
-	const addInput = document.querySelector('input[name="address"]');
+	// 전화번호
 	const phoneInput = document.querySelector('input[name="phone"]');
-	const agencyInput = document.querySelector('input[name="registrar"]');
+
+	phoneInput.addEventListener('input', () => {
+	  if (phoneInput.value.trim() === '') {
+		phoneInput.style.outline = '1px solid red';
+		phoneInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  } else {
+		phoneInput.style.outline = '1px solid #609966';
+		phoneInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	  }
+	});
 	
-	nameInput.addEventListener('input', () => {
-		  if (nameInput.value.trim() === '') {
-			nameInput.style.outline = '1px solid red';
-			nameInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-		  } else {
-			nameInput.style.outline = '1px solid #609966';
-			nameInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
-		  }
-		});
+	function filterNonNumeric(input) {
+	  const regex = /[^0-9]/g;
+	  input.value = input.value.replace(regex, '');
+	}
+	
+	// 이메일 버튼
+    const emailSelect = document.getElementById('email-select');
+    const customEmailInput = document.getElementById('custom-email-input');
+    const emailInput = document.getElementsByClassName('email-input')[0];
+    const xBtn = document.getElementsByClassName('x-btn')[0];
 
-		addInput.addEventListener('input', () => {
-		  if (addInput.value.trim() === '') {
-			addInput.style.outline = '1px solid red';
-			addInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-		  } else {
-			addInput.style.outline = '1px solid #609966';
-			addInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
-		  }
-		});
+    emailSelect.addEventListener('change', function() {
+        if (emailSelect.value === '직접입력') {
+            emailSelect.style.display = 'none';
+            customEmailInput.style.display = 'inline-block';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'block';
+        }
+    });
 
-		phoneInput.addEventListener('input', () => {
-		  if (phoneInput.value.trim() === '') {
-			phoneInput.style.outline = '1px solid red';
-			phoneInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-		  } else {
-			phoneInput.style.outline = '1px solid #609966';
-			phoneInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
-		  }
-		});
-		
-		agencyInput.addEventListener('input', () => {
-			  if (agencyRadio.checked && agencyInput.value.trim() !== '') {
-				agencyInput.style.outline = '1px solid #609966';
-				agencyInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
-				checkAllConditions2();
-				enrollButton.disabled = false;
-				
-			  } else if (agencyRadio.checked && agencyInput.value.trim() === '') {
-				agencyInput.style.outline = '1px solid red';
-				agencyInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
-				enrollButton.disabled = true;
-			  }
-			});
-		
+    customEmailInput.addEventListener('input', function() {
+        if (customEmailInput.value === '') {
+            emailSelect.style.display = 'none';
+            emailSelect.selectedIndex = 0;
+        }
+    });
+    
+    xBtn.addEventListener('click', function() {
+            emailSelect.style.display = 'inline-block';
+            customEmailInput.style.display = 'none';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'none';
+            emailSelect.value = 'naver.com';
+            customEmailInput.value = '';
+    });
+    
+ 	// 이메일 폼
+	const form = document.getElementsByName('enrollForm')[0];
+
+	form.addEventListener('submit', function(event) {
+  		if (customEmailInput.value === '') {
+  			customEmailInput.setAttribute('name', '');
+    		emailSelect.setAttribute('name', 'emailDomain');
+  		} else {
+  			customEmailInput.setAttribute('name', 'emailDomain');
+   			emailSelect.setAttribute('name', '');
+  		}
+	});
+	
 	// 이메일 인증		
 	const emailBtn = document.getElementById('emailBtn');
 	const emailBtn2 = document.getElementById('emailBtn2');	
@@ -526,7 +444,6 @@
 		if(emailId.trim() == ''){
 			emailCheckResult.innerText = '이메일을 입력해주세요.';
 			emailCheckResult.style.color = 'gray';
-			enrollButton.disabled = true;
 		} else {
 			emailCheckResult.innerHTML = '메일 전송 중입니다. 잠시만 기다려주세요.';
 			console.log(emailAddress);
@@ -553,22 +470,13 @@
 	    		        emailCheckResult2.innerHTML = '';
 	                });
 	                
-	                enrollButton.disabled = true;
-	                
 	                enrollButton.addEventListener("click", function() {
 	        			event.preventDefault();
 	        			const randomNum = document.getElementsByName("randomNumInput")[0].value;
 	        			
 	        			if (data !== randomNum) {
 	        				event.preventDefault();
-	        				enrollButton.disabled = true;
 	        			} else {
-	        				
-	        				if (emailBtn2.innerHTML === '인증 완료'){
-	        					enrollButton.disabled = false;
-	        			  	} else if (emailBtn2.innerHTML === '확인') {
-	        			  		enrollButton.disabled = true;
-	        			  	}
 	        				
 	        				// 이메일 폼
 	        				const form = document.getElementsByName('enrollForm')[0];
@@ -582,9 +490,6 @@
 	        			  			customEmailInput.setAttribute('name', 'emailDomain');
 	        			   			emailSelect.setAttribute('name', '');
 	        			  		}
-	        				
-	        				form.submit();
-	        				alert('회원가입이 성공적으로 완료되었습니다.');
 	        			}
 	                
 	        		});
@@ -597,7 +502,7 @@
 	        });
 	    }        
 	});
-		enrollButton.disabled = true;
+	
 		emailBtn2.addEventListener("click", function() {
 			event.preventDefault();
 			const emailId = document.getElementsByName("emailId")[0];
@@ -617,13 +522,6 @@
 		        randomNumInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
 		        emailBtn2.innerHTML = '인증 완료';
 		        emailCheckResult2.innerHTML = '';
-		        checkAllConditions2();
-		        
-		        if(password !== confirmPassword){
-			    	enrollButton.disabled = true;
-			    } else {
-			    	enrollButton.disabled = false;
-			    }
 		        
 		    } else {
 		        emailCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
@@ -631,65 +529,163 @@
 		        randomNumInput.style.outline = '1px solid red';
 		        randomNumInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
 		        emailBtn2.innerHTML = '확인';
-		        enrollButton.disabled = true;
+
 		    }
 		});
+	
+	// 닉네임
+	const nickName = document.getElementsByName('uNickName')[0];
+    		const nickNameResult = document.getElementById('nickNameCheckResult');
+    		
+    		nickName.addEventListener('input', function(){				
+				if(this.value.trim() == ''){
+					nickNameResult.innerText = '닉네임을 입력해주세요.';
+					nickNameResult.style.color = 'gray';
+					nickName.style.outline = '';
+					nickName.style.boxShadow = '';
+				} else {
+					$.ajax({
+						url: 'checkNickName.me',
+						data: {uNickName:this.value.trim()},
+						success: data => {
+							console.log(data);
+							if(data == 'yes'){
+								nickNameResult.innerText = '사용 가능한 닉네임입니다.';
+								nickNameResult.style.color = '#609966';
+								nickName.style.outline = '1px solid #609966';
+								nickName.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+							} else if(data == 'no'){
+								nickNameResult.innerText = "사용 불가능한 닉네임입니다.";
+								nickNameResult.style.color = 'red';
+								nickName.style.outline = '1px solid red';
+								nickName.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+							}
+						},
+						error: data => {
+							console.log(data);
+						}
+					});
+				}
+				
+			});
+    	
+	function checkAllConditions() {
+		const uId = document.getElementsByName('uId')[0];
+		const regExp = /^[^ㄱ-ㅎㅏ-ㅣ가-힣]{5,20}$/
 		
+		const uPwd = document.getElementsByName('uPwd')[0];
+		const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
+		const checkPwd = document.getElementsByName('checkPwd')[0];
 		
-		function checkAllConditions2() {
-			const id = document.getElementsByName('uId')[0];
-    		const regExp = /^[^ㄱ-ㅎㅏ-ㅣ가-힣]{5,20}$/
-			const nickName = document.getElementsByName('uNickName')[0];
-			const pwdInput = document.querySelector('input[name="uPwd"]');
-			const pwdInputValue = pwdInput.value;
-			const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
-			const passwordInput = document.querySelector('input[name="uPwd"]');
-			const confirmPasswordInput = document.querySelector('input[name="checkPwd"]');
-			const password = passwordInput.value;
-			const confirmPassword = confirmPasswordInput.value;
-			const emailBtn2 = document.getElementById('emailBtn2');	
-			 
-			 if(id.value.trim() !== '' && regExp.test(id.value) &&
-				nickName.value.trim() !== '' && pwdRegex.test(pwdInputValue) &&
-				password === confirmPassword && emailBtn2.innerHTML === '인증 완료') {
-				 
-				 if (emailBtn2.innerHTML === '확인'){
-					 enrollButton.addEventListener("click", function() {
-						 event.preventDefault();
-						 enrollButton.disabled = true;
-					 })
-				 }
-				 	
-				 enrollButton.disabled = false;
-				 
-			 } else {
-				 
-				 console.log(emailBtn2.innerHTML);
-				 
-				 if (emailBtn2.innerHTML === '확인'){
-					enrollButton.disabled = true;
-				 }
-				 
-				 enrollButton.disabled = true;
-			 }
-				 	 
+		const uName = document.getElementsByName('uName')[0];
+		
+		const normalRadio = document.querySelector('input[name="uType"][value="일반"]');
+		const agencyRadio = document.querySelector('input[name="uType"][value="단체"]');
+		const registrar = document.getElementsByName('registrar')[0];
+		
+		const residentNo = document.getElementsByName('residentNo')[0];
+		const ssnRegexFirst = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
+		
+		const address = document.getElementsByName('address')[0];
+		
+		const phone = document.getElementsByName('phone')[0];
+		
+		const emailId = document.getElementsByName('emailId')[0];
+		const emailDomain = document.getElementsByName('emailDomain')[0];
+		const randomNumInput = document.getElementsByName('randomNumInput')[0];
+		const emailBtn2 = document.getElementById('emailBtn2');	
+		
+		const uNickName = document.getElementsByName('uNickName')[0];
+		
+		if (uId.value.trim() == "") {
+			uId.focus();
+			return false;
+		}
+			
+		if (!regExp.test(uId.value)) {
+			uId.focus();
+			return false;
+		}
+
+		if (uPwd.value.trim() == "") {
+		    uPwd.focus();
+		    return false;
 		}
 		
-		enrollButton.addEventListener("click", function() {
-			 event.preventDefault();
-			 if (emailBtn2.innerHTML === '확인'){
-				 event.preventDefault();
-			 } else if (emailBtn2.innerHTML === '인증 완료') {
-				 form.submit();
-			 }
-		 })
-		 
-	// 전화번호
-	function filterNonNumeric(input) {
-	  const regex = /[^0-9]/g;
-	  input.value = input.value.replace(regex, '');
-	}
+		if (!pwdRegex.test(uPwd.value)) {
+			uPwd.focus();
+			return false;
+		}
 		
+		if (checkPwd.value.trim() == "") {
+			checkPwd.focus();
+		    return false;
+		}
+		
+		if (uPwd.value !== checkPwd.value) {
+			checkPwd.focus();
+		    return false;
+		}
+		
+		if (uName.value.trim() == "") {
+			uName.focus();
+		    return false;
+		}
+		
+		if (!normalRadio.checked && !agencyRadio.checked) {
+			normalRadio.focus();
+			return false;
+		}
+		
+		if (agencyRadio.checked && registrar.value.trim() == '') {
+			registrar.focus();
+			return false;
+		}
+		
+		if (residentNo.value.trim() == "") {
+			residentNo.focus();
+		    return false;
+		}
+		
+		if (!ssnRegexFirst.test(residentNo.value)) {
+			residentNo.focus();
+			return false;
+		}
+		
+		if (address.value.trim() == "") {
+			address.focus();
+		    return false;
+		}
+		
+		if (phone.value.trim() == "") {
+			phone.focus();
+		    return false;
+		}
+		
+		if (emailId.value.trim() == "") {
+			emailId.focus();
+		    return false;
+		}
+		
+		if (randomNumInput.value.trim() == "") {
+			randomNumInput.focus();
+		    return false;
+		}
+		
+		if (emailBtn2.innerHTML === "확인") {
+			randomNumInput.focus();
+		    return false;
+		}
+		
+		if (uNickName.value.trim() == "") {
+			uNickName.focus();
+			return false;
+		}
+				  
+		document.enrollForm.submit();
+		alert("회원가입이 정상적으로 완료되었습니다.");
+
+	}
 </script>
 </body>
 </html>
