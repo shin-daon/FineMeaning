@@ -86,7 +86,7 @@
 	</select>
 	
 	<select id="selectSearchListAdmin" resultMap="supportResultSet">
-		select * from support join users using(u_no) where (s_status='Y' or s_status ='N') and sysdate &lt;= s_end_date and s_title like '%${searchWord}%' order by S_No desc
+		select * from support join users using(u_no) where s_status='Y' and sysdate &lt;= s_end_date and s_title like '%${searchWord}%' order by S_No desc
 	</select>
 	
 	<select id="getSupporterListCount" resultType="_int">
