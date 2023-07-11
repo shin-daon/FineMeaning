@@ -111,11 +111,13 @@ body img{
                 <div>
                     <div class="supportTitle">[[${s.supportTitle}]]</div>
                     
+                    <th:block th:if="${session.loginUser !=null}">
                     <th:block th:if="${session.loginUser.isAdmin==0}">
 	                    <div class="dropdown-content">
 	                    	<span class="selectCate" th:onclick="location.href='supportEdit.su?supportNo=[[${s.supportNo}]]'">수정</span> |
 	                    	<span class="selectCate" id="deleteButton">삭제</span>
 	                	</div>
+                	</th:block>
                 	</th:block>
                 	<div id="deleteModal"><br>
 						<img id="trash" src="image/trash2.png"/><br><br>
@@ -138,7 +140,9 @@ body img{
 					</script>
                 		<br>
                 	 <div>
-                    	<img th:src="@{${s.imageUrl}}">
+                        	<img th:src="@{${s.imageUrl}}" th:if="${#strings.containsIgnoreCase(s.imageUrl, 'jpg') or #strings.containsIgnoreCase(s.imageUrl, 'png') or #strings.containsIgnoreCase(s.imageUrl, 'jpeg')}">
+	                    	<img src="image/noImage.png" th:if="${!(#strings.containsIgnoreCase(s.imageUrl, 'jpg') or #strings.containsIgnoreCase(s.imageUrl, 'png') or #strings.containsIgnoreCase(s.imageUrl, 'jpeg'))}">
+	  	
                     </div>
                     <div class="supportSubTitle">모금함 소개</div>
 
