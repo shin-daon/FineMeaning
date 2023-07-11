@@ -14,7 +14,13 @@
 	<div th:replace="~{views/common/sidebar :: sidebar}"></div>
 	
 	<div class="enroll">
-		<div class="enroll-title">내 정보 수정</div>
+		<div>			
+			<div class="container">
+			  <div class="enroll-title">내 정보 수정</div>
+			  <img src="image/notice.png" alt="Notice" class="image">
+			  <blockquote class="tooltip">일부 항목은 수정이 불가능합니다.<br>수정을 원할 경우 [1:1문의]를 통해 요청해주세요.</blockquote>
+			</div>
+		</div>
 		
 		<form action="updateMyInfo.me" method="post">
 			<div class="insert id">
@@ -67,19 +73,19 @@
 			<div class="insert email-input">
 			    <label class="title">이메일</label>
 			    <div class="input email-input">
-			        <input type="text" id="email-input" name="emailId" th:value="${loginUser.email != null ? loginUser.email.substring(0, loginUser.email.indexOf('@')) : ''}"><span class="nothing">@</span>
+			        <input type="text" id="email-input" name="emailId" th:value="${loginUser.email != null ? loginUser.email.substring(0, loginUser.email.indexOf('@')) : ''}" readonly><span class="nothing">@</span>
 			        
 			        <th:block th:with="emailDomain=${loginUser.email != null ? loginUser.email.substring(loginUser.email.indexOf('@') + 1) : ''}">
-			            <select name="emailDomain" id="email-select">
-			                <option th:selected="${emailDomain == 'naver.com'}">naver.com</option>
-			                <option th:selected="${emailDomain == 'gmail.com'}">gmail.com</option>
-			                <option th:selected="${emailDomain == 'daum.net'}">daum.net</option>
-			                <option th:selected="${emailDomain == 'nate.com'}">nate.com</option>
-			                <option th:selected="${emailDomain == ''}">직접입력</option> <!-- 직접입력 옵션은 emailDomain이 비어 있을 때 선택되도록 수정 -->
-			            </select>
+<!-- 			            <select name="emailDomain" id="email-select"> -->
+<!-- 			                <option th:selected="${emailDomain == 'naver.com'}">naver.com</option> -->
+<!-- 			                <option th:selected="${emailDomain == 'gmail.com'}">gmail.com</option> -->
+<!-- 			                <option th:selected="${emailDomain == 'daum.net'}">daum.net</option> -->
+<!-- 			                <option th:selected="${emailDomain == 'nate.com'}">nate.com</option> -->
+<!-- 			                <option th:selected="${emailDomain == ''}">직접입력</option> 직접입력 옵션은 emailDomain이 비어 있을 때 선택되도록 수정 -->
+<!-- 			            </select> -->
 			
-			            <input type="text" id="custom-email-input" style="display: none;" name="emailDomain" th:value="${emailDomain}"/> <!-- emailDomain 값 설정 -->
-			            <span class="x-btn" style="display: none;"><img src="image/x.png"></span>
+			            <input type="text" id="custom-email-input" name="emailDomain" th:value="${emailDomain}" readonly/> <!-- emailDomain 값 설정 -->
+<!-- 			            <span class="x-btn" style="display: none;"><img src="image/x.png"></span> -->
 			        </th:block>
 			    </div>
 			</div>
@@ -137,50 +143,50 @@
 	});
 	
 	// 이메일
-    const emailSelect = document.getElementById('email-select');
-    const customEmailInput = document.getElementById('custom-email-input');
-    const emailInput = document.getElementsByClassName('email-input')[0];
-    const xBtn = document.getElementsByClassName('x-btn')[0];
+//     const emailSelect = document.getElementById('email-select');
+//     const customEmailInput = document.getElementById('custom-email-input');
+//     const emailInput = document.getElementsByClassName('email-input')[0];
+//     const xBtn = document.getElementsByClassName('x-btn')[0];
 	
-    /*<![CDATA[*/
-    const emailDomain = /*[[${loginUser.email != null ? loginUser.email.substring(loginUser.email.indexOf('@') + 1) : ''}]]*/'';
-    /*]]>*/
-    console.log(emailDomain);
+//     /*<![CDATA[*/
+//     const emailDomain = /*[[${loginUser.email != null ? loginUser.email.substring(loginUser.email.indexOf('@') + 1) : ''}]]*/'';
+//     /*]]>*/
+//     console.log(emailDomain);
     
-    if (!['naver.com', 'gmail.com', 'daum.net', 'nate.com'].includes(emailDomain)) {
-        customEmailInput.value = emailDomain;
-        emailSelect.style.display = 'none';
-        customEmailInput.style.display = 'inline-block';
-        emailInput.style.display = 'block';
-        xBtn.style.display = 'block';
-    } else {
-    	customEmailInput.value = '';
-    }
+//     if (!['naver.com', 'gmail.com', 'daum.net', 'nate.com'].includes(emailDomain)) {
+//         customEmailInput.value = emailDomain;
+//         emailSelect.style.display = 'none';
+//         customEmailInput.style.display = 'inline-block';
+//         emailInput.style.display = 'block';
+//         xBtn.style.display = 'block';
+//     } else {
+//     	customEmailInput.value = '';
+//     }
     
-    emailSelect.addEventListener('change', function() {
-        if (emailSelect.value === '직접입력') {
-            emailSelect.style.display = 'none';
-            customEmailInput.style.display = 'inline-block';
-            emailInput.style.display = 'block';
-            xBtn.style.display = 'block';
-        }
-    });
+//     emailSelect.addEventListener('change', function() {
+//         if (emailSelect.value === '직접입력') {
+//             emailSelect.style.display = 'none';
+//             customEmailInput.style.display = 'inline-block';
+//             emailInput.style.display = 'block';
+//             xBtn.style.display = 'block';
+//         }
+//     });
 
-    customEmailInput.addEventListener('input', function() {
-        if (customEmailInput.value === '') {
-            emailSelect.style.display = 'none';
-            emailSelect.selectedIndex = 0;
-        }
-    });
+//     customEmailInput.addEventListener('input', function() {
+//         if (customEmailInput.value === '') {
+//             emailSelect.style.display = 'none';
+//             emailSelect.selectedIndex = 0;
+//         }
+//     });
     
-    xBtn.addEventListener('click', function() {
-            emailSelect.style.display = 'inline-block';
-            customEmailInput.style.display = 'none';
-            emailInput.style.display = 'block';
-            xBtn.style.display = 'none';
-            emailSelect.value = 'naver.com';
-            customEmailInput.value = '';
-    });
+//     xBtn.addEventListener('click', function() {
+//             emailSelect.style.display = 'inline-block';
+//             customEmailInput.style.display = 'none';
+//             emailInput.style.display = 'block';
+//             xBtn.style.display = 'none';
+//             emailSelect.value = 'naver.com';
+//             customEmailInput.value = '';
+//     });
     
     // 유효성 검사   
     window.onload = () => {
