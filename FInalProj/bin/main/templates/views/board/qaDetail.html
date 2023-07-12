@@ -141,7 +141,7 @@ button.writeFaqBtn.learn-more {
 			</table>
 
 			<th:block
-				th:if="${session.loginUser != null && session.loginUser.uNo eq board.uNo || session.loginUser.isAdmin == 0}">
+				th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}">
 				<div class="actionArea">
 					<div class="writeArea">
 						<button class="writeFaqBtn learn-more"
