@@ -154,7 +154,7 @@
 			// 카테고리 연관된 input="hidden"에 값이 없을 경우 submit 막기
 			const submitBtn = document.querySelector('.writeFaqBtn');
 			
-			submitBtn.addEventListener('click', function(){
+			submitBtn.addEventListener('click', function(event){
 				const boardCate = document.getElementsByName('boardCate')[0];
 				const title = document.getElementById('title');
 				if(boardCate.value === 'none'){
@@ -163,8 +163,67 @@
 				} else if(title.value.trim() == ''){
 					event.preventDefault();
 					alert('제목을 입력하세요💢')
-				}
+				} else {
+			        // 글 내용
+			        var editorContent = $('#summernote').summernote('code');
+			        // 글 내용이 유효한지 확인해서 글 제출을 막거나 허용함
+			        var isContentValid = setContentsLength(editorContent);
+			        if (!isContentValid) {
+			            event.preventDefault();
+		        		alert("글 내용을 입력해주세요."); // 알림 표시
+			        }
+			    }
 			});
+			
+			// 썸머노트
+			$('#summernote').summernote({
+		        placeholder: '내용을 입력해주세요🍀',
+		        tabsize: 2,
+		        width: 660,
+		        minHeight: 350,
+		        maxHeight: 350,
+		        toolbar: [
+		          ['style', ['style']],
+		          ['font', ['bold', 'italic', 'underline', 'clear']],
+		          ['color', ['color']],
+		          ['para', ['paragraph']],
+		          ['insert', ['link', 'picture', 'video']],
+		          ['view', ['help']]
+		        ],
+		        callbacks: {
+		        	onChange:function(contents){ // 텍스트 글자수 및 이미지등록개수
+		                setContentsLength(contents);
+		            }
+		        }
+			});
+			
+			function setContentsLength(str) {
+				var status = false;
+				var textCnt = 0; // 총 글자수
+				var editorText = f_SkipTags_html(str);
+				editorText = editorText.replace(/\s/gi, '');
+				editorText = editorText.replace(/&nbsp;/gi, '');
+				editorText = editorText.replace(/<\/?[^>]+(>|$)/g, ''); // HTML 태그 제거
+				
+				if(editorText.length === 0) {
+			    	status = true;
+			    }
+				
+				if (status) {
+	        		return false; // 글 제출 막기
+    			}
+				
+				return true;
+			}
+			
+			function f_SkipTags_html(input, allowed) {
+			    allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
+			    var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
+			    var commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+			    return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+			        return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+			    });
+			}
 			
 			// 취소 버튼 모달
 			const backBtn = document.getElementsByClassName('backBtn')[0];
@@ -185,24 +244,6 @@
 			noBtn.addEventListener('click', () => {
 			    modal.style.display = 'none';
 			});
-			
-			// 썸머노트
-			$('#summernote').summernote({
-		        placeholder: '내용을 입력해주세요🍀',
-		        tabsize: 2,
-		        width: 660,
-		        minHeight: 350,
-		        maxHeight: 350,
-		        toolbar: [
-		          ['style', ['style']],
-		          ['font', ['bold', 'italic', 'underline', 'clear']],
-		          ['color', ['color']],
-		          ['para', ['paragraph']],
-		          ['insert', ['link', 'picture', 'video']],
-		          ['view', ['help']]
-		        ]
-			});
-			
 		});
 	</script>
 </body>

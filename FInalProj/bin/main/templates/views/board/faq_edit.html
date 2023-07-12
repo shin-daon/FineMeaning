@@ -188,21 +188,58 @@
 		          ['table', ['table']],
 		          ['insert', ['link', 'picture', 'video']],
 		          ['view', ['help']]
-		        ]
+		        ],
+		        callbacks: {
+		        	onChange:function(contents){ // 텍스트 글자수 및 이미지등록개수
+		                setContentsLength(contents);
+		            }
+		        }
 			});
+			
+			function setContentsLength(str) {
+				var status = false;
+				var textCnt = 0; // 총 글자수
+				var editorText = f_SkipTags_html(str);
+				editorText = editorText.replace(/\s/gi, '');
+				editorText = editorText.replace(/&nbsp;/gi, '');
+				editorText = editorText.replace(/<\/?[^>]+(>|$)/g, ''); // HTML 태그 제거
+				
+				if(editorText.length === 0) {
+			    	status = true;
+			    }
+				
+				if (status) {
+	        		return false; // 글 제출 막기
+    			}
+				
+				return true;
+			}
+			
+			function f_SkipTags_html(input, allowed) {
+			    allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
+			    var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
+			    var commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+			    return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+			        return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+			    });
+			}
 			
 			const submitBtn = document.querySelector('.writeFaqBtn');
 			submitBtn.addEventListener('click', function(){
-				const boardContent = document.getElementsByName('boardContent')[0].innerHTML;
 				const title = document.getElementById('title');
-				console.log(boardContent);
-				if(boardContent == '<p><br></p>'){
-					event.preventDefault(); // 폼 제출 막기
-					alert('내용을 입력해주세요.');
-				} else if(title.value.trim() == ''){
+				if(title.value.trim() == ''){
 					event.preventDefault();
 					alert('제목을 입력해주세요.');
-				}
+				} else {
+			        // 글 내용
+			        var editorContent = $('#summernote').summernote('code');
+			        // 글 내용이 유효한지 확인해서 글 제출을 막거나 허용함
+			        var isContentValid = setContentsLength(editorContent);
+			        if (!isContentValid) {
+			            event.preventDefault();
+		        		alert("글 내용을 입력해주세요."); // 알림 표시
+			        }
+			    }
 			});
 			
 		});

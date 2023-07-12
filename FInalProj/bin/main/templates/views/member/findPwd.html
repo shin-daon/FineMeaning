@@ -194,7 +194,6 @@
 	            url: 'findMyPwd.me',
 	            data: { uId: uId, emailAddress: emailAddress },
 	            success: data => {
-	                console.log("데이터 전송 성공: " + data);
 	                
 	                const [result, randomNum] = data.split(',');	                
 	                
@@ -205,7 +204,6 @@
 	                	nextBtn.disabled = false;     
 	                }
 	                
-	                console.log("인증번호: " + randomNum);
 	                
 	                nextBtn.addEventListener("click", function() {
 						const emailId = document.getElementsByName("emailId")[0];
@@ -233,7 +231,6 @@
 	            url: 'findMyPwd2.me',
 	            data: { uId: uId, phone: phone },
 	            success: data => {
-	                console.log("데이터 전송 성공: " + data);
 	                
 	                const [result, randomNum] = data.split(',');	                
 	                
@@ -244,7 +241,6 @@
 	                	nextBtn.disabled = false;     
 	                }
 	                
-	                console.log("인증번호: " + randomNum);
 	                
 	                nextBtn.addEventListener("click", function() {
 	                	const randomNumInput = document.getElementsByName("randomNumInput")[0].value;

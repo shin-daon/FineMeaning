@@ -44,7 +44,7 @@
 				<input type="hidden" name="boardNo" th:value="${ b.boardNo }">
 				<input type="hidden" name="page" th:value="${ page }"> <input
 					type="hidden" name="boardType" th:value="${ b.boardType }">
-				<input type="text" class="form-control" id="boardTitle"
+				<input type="text" class="form-control" id="title"
 					name="boardTitle" th:value="${ b.boardTitle }" required> <br>
 				<br>
 				<textarea id="summernote" name="boardContent" required>[[${ b.boardContent }]]</textarea>
@@ -58,21 +58,73 @@
 		</div>
 	</section>
 	<div th:replace="~{../common/footer :: footer}"></div>
-</body>
-
 <script>
-	$('#summernote').summernote(
-			{
-				placeholder : '내용을 입력해주세요. (욕설이나 비방은 금지 입니다)',
-				tabsize : 2,
-				width : 750,
-				height : 300,
-				toolbar : [ [ 'style', [ 'style' ] ],
-						[ 'font', [ 'bold', 'underline', 'clear' ] ],
-						[ 'color', [ 'color' ] ], [ 'para', [ 'paragraph' ] ],
-						[ 'table', [ 'table' ] ],
-						[ 'insert', [ 'link', 'picture', 'video' ] ],
-						[ 'view', [ 'help' ] ] ]
-			});
+window.onload = () => {
+	
+	const submitBtn = document.querySelector('.writeFaqBtn');
+	submitBtn.addEventListener('click', function(){
+		const title = document.getElementById('title');
+		if(title.value.trim() == ''){
+			event.preventDefault();
+			alert('제목을 입력해주세요.');
+		} else {
+	        var editorContent = $('#summernote').summernote('code');
+	        var isContentValid = setContentsLength(editorContent);
+	        if (!isContentValid) {
+	            event.preventDefault();
+        		alert("글 내용을 입력해주세요.");
+	        }
+	    }
+	});
+	
+$('#summernote').summernote(
+		{
+			placeholder : '문의할 내용을 입력해주세요.(자주 묻는 질문 게시판 확인 한번 부탁드립니다)',
+			tabsize : 2,
+			width : 750,
+			height : 300,
+			toolbar : [ [ 'style', [ 'style' ] ],
+					[ 'font', [ 'bold', 'underline', 'clear' ] ],
+					[ 'color', [ 'color' ] ], [ 'para', [ 'paragraph' ] ],
+					[ 'table', [ 'table' ] ],
+					[ 'insert', [ 'link', 'picture', 'video' ] ],
+					[ 'view', [ 'help' ] ] 
+			],
+			callbacks: {
+	        	onChange:function(contents){
+	                setContentsLength(contents);
+	            }
+	        }
+		});
+
+function setContentsLength(str) {
+	var status = false;
+	var textCnt = 0; // 총 글자수
+	var editorText = f_SkipTags_html(str);
+	editorText = editorText.replace(/\s/gi, '');
+	editorText = editorText.replace(/&nbsp;/gi, '');
+	editorText = editorText.replace(/<\/?[^>]+(>|$)/g, ''); // HTML 태그 제거
+	
+	if(editorText.length === 0) {
+    	status = true;
+    }
+	
+	if (status) {
+		return false; // 글 제출 막기
+	}
+	
+	return true;
+}
+
+function f_SkipTags_html(input, allowed) {
+    allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
+    var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
+    var commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+    return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+        return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+    });
+}
+}
 </script>
+</body>
 </html>
