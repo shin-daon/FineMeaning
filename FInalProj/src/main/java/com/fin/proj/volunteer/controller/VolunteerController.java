@@ -126,9 +126,12 @@ public class VolunteerController {
 		throw new VolunteerException("봉사 상세 조회에 실패하였습니다.");
 	}
 	
-	@PostMapping("volunteerApply.vo")
-	public String volunteerApply(@RequestParam("vNo") int vNo, @RequestParam("page") int page, @RequestParam(value="searchObject", required=false) String searchObject, HttpSession session, Model model) {
+	@RequestMapping("volunteerApply.vo")
+	public String volunteerApply(@RequestParam("vNo") int vNo, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="searchObject", required=false) String searchObject, HttpSession session, Model model) {
 		Volunteer v = vService.selectVolunteer(vNo);
+		if(page == null) {
+			page = 1;
+		}
 		model.addAttribute("v", v);
 		model.addAttribute("page", page);
 		model.addAttribute("u", ((Member)session.getAttribute("loginUser")));
@@ -158,7 +161,7 @@ public class VolunteerController {
 		return "volunteerApply";
 	}
 	
-	@PostMapping("applyVolunteer.vo")
+	@RequestMapping("applyVolunteer.vo")
 	public String applyVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
 		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
 		int result = vService.applyVolunteer(v);

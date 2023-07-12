@@ -209,7 +209,7 @@
        	    	const searchMap = /*[[${searchMap}]]*/null;
        	    	
        	    	const form  = document.createElement("form");
-	    	    form.setAttribute("method", "post");
+	    	    form.setAttribute("method", "get");
 	    	    form.setAttribute("action", "volunteerDetail.vo");
 	    	    
 	    	    const hiddenVNo = document.createElement("input");
@@ -224,24 +224,25 @@
 	    	    hiddenPage.setAttribute("value", page);
 	    	    form.appendChild(hiddenPage);
 	    	    
-				
-	    	    const searchObject = {
-		    	    	vStartDate: searchMap.vStartDate,
-		    	    	vEndDate: searchMap.vEndDate,
-		    	    	vName: searchMap.vName,
-		    	    	registrar: searchMap.registrar,
-		    	    	vArea: searchMap.vArea,
-		    	    	vMainCategoryName: searchMap.vMainCategoryName,
-		    	    	vActivityType: searchMap.vActivityType,
-		    	    	vTargetCategoryName: searchMap.vTargetCategoryName,
-		    	    	status: searchMap.status
-		    		};
-	    	    
-	    	    const hiddenSearchObject = document.createElement("input");
-	    	    hiddenSearchObject.setAttribute("type", "hidden");
-	    	    hiddenSearchObject.setAttribute("name", "searchObject");
-	    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchObject));
-	    	    form.appendChild(hiddenSearchObject);
+				if(searchMap != null) {
+					const searchObject = {
+			    	    	vStartDate: searchMap.vStartDate,
+			    	    	vEndDate: searchMap.vEndDate,
+			    	    	vName: searchMap.vName,
+			    	    	registrar: searchMap.registrar,
+			    	    	vArea: searchMap.vArea,
+			    	    	vMainCategoryName: searchMap.vMainCategoryName,
+			    	    	vActivityType: searchMap.vActivityType,
+			    	    	vTargetCategoryName: searchMap.vTargetCategoryName,
+			    	    	status: searchMap.status
+			    		};
+		    	    
+		    	    const hiddenSearchObject = document.createElement("input");
+		    	    hiddenSearchObject.setAttribute("type", "hidden");
+		    	    hiddenSearchObject.setAttribute("name", "searchObject");
+		    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchObject));
+		    	    form.appendChild(hiddenSearchObject);
+				}
 				
 	    	    document.body.appendChild(form);
 	    	    form.submit();	 

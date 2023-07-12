@@ -19,6 +19,7 @@
 				</div>
 			</header>
 			<form action="login.me" method="post" name="loginForm">
+			<input type="hidden" name="beforeURL" value=""/>
 			<section class="login-input-section-wrap">
 			
 				<div class="login-input-wrap">
@@ -65,45 +66,49 @@
 <div th:replace="~{views/common/footer :: footer}"></div>
 </body>
 <script th:inline="javascript">
-	// 유효성 검사
-	const uId = document.getElementsByName('uId')[0];
-	const uPwd = document.getElementsByName('uPwd')[0];
-	const loginBtn = document.querySelector('[name="loginBtn"]');
-	const loginForm = document.querySelector('[name="loginForm"]');
-	
-	loginBtn.addEventListener("click", function() {
-		event.preventDefault();
-		const idInput = uId.value;
-		const pwdInput = uPwd.value;
-		const loginCheckResult = document.getElementById('loginCheckResult');
-		let errorCount = 1;
+	window.onload = () => {
+		const beforeURL = document.referrer;
+		document.getElementsByName('beforeURL')[0].value = beforeURL;
 		
-		if(idInput.trim() == ''){
-			loginCheckResult.innerText = '아이디를 입력해주세요.';
-		} else if(pwdInput.trim() == '') {
-			loginCheckResult.innerText = '비밀번호를 입력해주세요.';	
-		} else {
+		// 유효성 검사
+		const uId = document.getElementsByName('uId')[0];
+		const uPwd = document.getElementsByName('uPwd')[0];
+		const loginBtn = document.querySelector('[name="loginBtn"]');
+		const loginForm = document.querySelector('[name="loginForm"]');
+		
+		loginBtn.addEventListener("click", function() {
+			event.preventDefault();
+			const idInput = uId.value;
+			const pwdInput = uPwd.value;
+			const loginCheckResult = document.getElementById('loginCheckResult');
+			let errorCount = 1;
 			
-			$.ajax({
-	            url: 'checkLogin.me',
-	            data: { uId:idInput.trim(), uPwd:pwdInput.trim() },
-	            success: data => {
-	                console.log("데이터 전송 성공: " + data);
-
-	                if(data.trim() !== ''){
-	                	loginCheckResult.innerHTML = '아이디 또는 비밀번호가 일치하지 않습니다.';
-
-	                } else {
-	                	loginForm.submit();
-	                }
-	            },
-	            error: data => {
-	                console.log("데이터 전송 실패");
-	            }
-	        });
-	    }        
-	});
-
+			if(idInput.trim() == ''){
+				loginCheckResult.innerText = '아이디를 입력해주세요.';
+			} else if(pwdInput.trim() == '') {
+				loginCheckResult.innerText = '비밀번호를 입력해주세요.';	
+			} else {
+				
+				$.ajax({
+		            url: 'checkLogin.me',
+		            data: { uId:idInput.trim(), uPwd:pwdInput.trim() },
+		            success: data => {
+		                console.log("데이터 전송 성공: " + data);
+	
+		                if(data.trim() !== ''){
+		                	loginCheckResult.innerHTML = '아이디 또는 비밀번호가 일치하지 않습니다.';
+	
+		                } else {
+		                	loginForm.submit();
+		                }
+		            },
+		            error: data => {
+		                console.log("데이터 전송 실패");
+		            }
+		        });
+		    }        
+		});
+	}
 
 </script>
 </html>

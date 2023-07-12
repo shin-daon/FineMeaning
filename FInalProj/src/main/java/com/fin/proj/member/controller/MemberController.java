@@ -50,7 +50,7 @@ public class MemberController {
 	}
 		
 	@PostMapping("login.me")
-	public String login(Member m, Model model, HttpSession session) {
+	public String login(Member m, Model model, HttpSession session, @RequestParam("beforeURL") String beforeURL) {
 		
 		Member loginUser = mService.login(m);
 		if(bcrypt.matches(m.getuPwd(), loginUser.getuPwd())) {
@@ -59,7 +59,7 @@ public class MemberController {
 			if(loginUser.getIsAdmin() == 0) {
 				return "redirect:/editUserInfo.me";
 			} else {
-				return "redirect:/";
+				return "redirect:" + beforeURL;
 			}
 			
 		} else {
