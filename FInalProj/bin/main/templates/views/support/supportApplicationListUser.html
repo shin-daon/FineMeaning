@@ -192,7 +192,7 @@
 	            		<tr th:if="${sList.isEmpty}">
 			               	<td colspan="6">후원 신청 내역이 없습니다.</td>
 			            <tr>
-		                <tr th:each="s : ${sList}" th:if="${ sList != null }">
+		                <tr th:each="s : ${sList}" th:if="${ !sList.isEmpty}">
 		                    <td th:text="${s.supportNo}"></td>
 		                    <td th:text="${s.supportCategory}"></td>
 		                    <td>[[${s.supportTitle}]]</td>
@@ -268,15 +268,19 @@
 
 <div th:replace="~{../common/footer :: footer}"></div>  
 <script>	
-	const trs = document.getElementsByClassName('supportTable')[0].querySelectorAll('tr');
+	const trs = document.getElementsByClassName('supportTable')[0].querySelector('tbody').querySelectorAll('tr');
 	for(const tr of trs){
-		if(tr.querySelector('td').innerText!='후원 신청 내역이 없습니다.'){
+		const td = tr.querySelectorAll('td')
+		console.log(td);
+		if(td.innerText !== '후원 신청 내역이 없습니다.'){
 				tr.addEventListener('click', function(){
-				const supportNo = this.querySelector('td').innerText;
-				location.href= "supportDetail.su?supportNo=" + supportNo;
-			})
+					const supportNo = this.querySelector('td').innerText;
+					location.href= "supportDetail.su?supportNo=" + supportNo;
+				})
 		}
 	}
+	
+	
 	const notLoginButton = document.getElementById('notLogin')
 	if(notLoginButton !=null) {
 		notLoginButton.addEventListener('click', ()=>{
