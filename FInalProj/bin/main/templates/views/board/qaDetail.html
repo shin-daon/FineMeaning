@@ -141,7 +141,7 @@ button.writeFaqBtn.learn-more {
 			</table>
 
 			<th:block
-				th:if="${session.loginUser != null && session.loginUser.isAdmin == 0}">
+				th:if="${session.loginUser != null && session.loginUser.uNo eq board.uNo || session.loginUser.isAdmin == 0}">
 				<div class="actionArea">
 					<div class="writeArea">
 						<button class="writeFaqBtn learn-more"
@@ -299,7 +299,7 @@ button.writeFaqBtn.learn-more {
         success : function (response) {
             console.log(response);
             if ( !response.length ) {
-                document.querySelector('.cm_list').innerHTML = '<div class="cm_none"><p>등록된 댓글이 없습니다.</p></div>';
+                document.querySelector('.cm_list').innerHTML = '<div class="cm_none"><p>등록된 답변이 없습니다. (보통 영업일 3일내로 답변등록 해드립니다.)</p></div>';
                 return false;
             }
         	// 2. 렌더링 할 HTML을 저장할 변수
@@ -382,7 +382,7 @@ button.writeFaqBtn.learn-more {
      // 댓글 삭제
         function deleteComment(replyNo) {
 
-            if ( !confirm('선택하신 댓글을 삭제할까요?') ) {
+            if ( !confirm('선택하신 답변을 삭제할까요?') ) {
                 return false;
             }
             
