@@ -57,7 +57,7 @@
 			<div class="insert address">
 				<label class="title">주소</label>
 				<div class="input">
-					<input type="text" id="sample6_address" th:value="${loginUser.address}" name="address"/>
+					<input type="text" id="sample6_address" th:value="${loginUser.address}" name="address" required/>
 				</div>
 				<div class="address-btn">
 					<button class="normal-btn" type="button" onclick="sample6_execDaumPostcode()" id="search-ad">주소 검색</button>
@@ -67,7 +67,7 @@
 			<div class="insert phone">
 				<label class="title">전화번호</label>
 				<div class="input">
-					<input type="text" id="normal-input" th:value="${loginUser.phone}" name="phone" maxlength="11" oninput="filterNonNumeric(this)"/>
+					<input type="text" id="normal-input" th:value="${loginUser.phone}" name="phone" maxlength="11" oninput="filterNonNumeric(this)" required/>
 				</div>
 			</div>
 			
@@ -201,6 +201,7 @@
 					nickNameResult.style.color = 'gray';
 					nickName.style.outline = '';
 					nickName.style.boxShadow = '';
+					modifyBtn.disabled = true;
 				} else {
 					$.ajax({
 						url: 'checkNickNameModify.me',
@@ -282,6 +283,7 @@
 	if(agencyRadio.checked && agencyNameInput.value.trim() !== ''){
 		agencyNameInput.readOnly = true;
 		normalRadio.disabled = true;
+		agencyNameInput.style.background = '#FFFFE0';
 	}
 	
 	function toggleAgencyNameInput() {
