@@ -175,7 +175,7 @@
 
 	            <div class="v-apply-btn-div">
 	                <button type="button" id="nullApplyBtn" class="learn-more v-apply-btn" th:if="${session.loginUser == null}">신청하기</button>
-	                <button type="button" id="applyBtn" class="learn-more v-apply-btn" th:if="${session.loginUser != null && v.vRecruitmentEndDate >= today && session.loginUser.uNo != v.uNo && session.loginUser.isAdmin != 0}">신청하기</button>
+	                <button type="button" id="applyBtn" class="learn-more v-apply-btn" th:if="${session.loginUser != null && session.loginUser.uNo != v.uNo && session.loginUser.isAdmin != 0}">신청하기</button>
 	                <button type="button" id="deleteBtn" class="learn-more v-delete-btn" th:if="${session.loginUser != null && (session.loginUser.uNo == v.uNo || session.loginUser.isAdmin == 0)}">삭제</button>
 	                <button type="button" id="modifyBtn" class="learn-more-green v-modify-btn" th:if="${session.loginUser != null && (session.loginUser.uNo == v.uNo || session.loginUser.isAdmin == 0)}">수정</button>
 	            </div>
@@ -244,7 +244,7 @@
 	    		
 	    		if(searchMap != null) {
 	    			const form  = document.createElement("form");
-		    	    form.setAttribute("method", "get");
+		    	    form.setAttribute("method", "post");
 		    	    form.setAttribute("action", "volunteer.vo");
 		    	    
 		    	    const hiddenVNo = document.createElement("input");
@@ -259,7 +259,6 @@
 		    	    hiddenPage.setAttribute("value", page);
 		    	    form.appendChild(hiddenPage);
 		    	    
-					
 		    	    const searchObject = {
 			    	    	vStartDate: searchMap.vStartDate,
 			    	    	vEndDate: searchMap.vEndDate,
@@ -292,7 +291,8 @@
 		    document.getElementById('summernote').innerHTML = /*[[${v.vContent}]]*/'내용';
 	    	
 	    	const recruitmentStatus = document.querySelector(".v-recruitment-status");
-		    const applyBtn = document.querySelector("#applyBtn");
+	    	let applyBtn = null;
+		    applyBtn = document.querySelector("#applyBtn");
 		    let check = false;
 		    
 	    	if(recruitmentStatus.innerText >= today) {
@@ -309,6 +309,10 @@
 	    	}
 		    
 	    	if(applyBtn != null) {
+				date = /*[[${v.vRecruitmentEndDate}]]*/0;
+	    		if(date < today) {
+					applyBtn.style.display = "none";	    			
+	    		}
 	    		applyBtn.addEventListener("click", () => {
 	    			const vCountAll = /*[[${v.vCountAll}]]*/1;
 	    			const vCount = /*[[${v.vCount}]]*/1;
@@ -318,6 +322,9 @@
 	        		} else if(recruitmentStatus.innerText == "모집전") {
 						alert("모집 기간에 신청해주세요.")        		
 						event.preventDefault();
+	        		} else if(recruitmentStatus.innerText == "모집종료") {
+	        			alert("모집 종료된 봉사입니다.");
+	        			event.preventDefault();
 	        		} else if(true) {
 	        			$.ajax({
 	        				url: 'checkVolunteerApply.vo',
@@ -330,19 +337,31 @@
 	        						alert("이미 신청한 봉사입니다.");
 	        					} else if(data === "yes") {
 	        						const searchMap = /*[[${searchMap}]]*/null;
+	        						const form = document.createElement("form");
+	        						form.setAttribute("action", "volunteerApply.vo");
+	        						form.setAttribute("method", "get");
 	        						
-	        						const detailForm = document.querySelector("#detailForm");
-	        						detailForm.setAttribute("action", "volunteerApply.vo");
-	        						detailForm.setAttribute("method", "get");
+	        						const hiddenVno = document.createElement("input");
+	        						hiddenVno.setAttribute("type", "hidden");
+	        						hiddenVno.setAttribute("name", "vNo");
+	        						hiddenVno.setAttribute("value", /*[[${v.vNo}]]*/0);
+        				    	    form.appendChild(hiddenVno);
+        				    	    
+        				    	    const hiddenPage = document.createElement("input");
+        				    	    hiddenPage.setAttribute("type", "hidden");
+        				    	    hiddenPage.setAttribute("name", "page");
+        				    	    hiddenPage.setAttribute("value", /*[[${page}]]*/0);
+        				    	    form.appendChild(hiddenPage);
 	        						
 	        						if(searchMap != null) {
 	        							const hiddenSearchObject = document.createElement("input");
 	        				    	    hiddenSearchObject.setAttribute("type", "hidden");
 	        				    	    hiddenSearchObject.setAttribute("name", "searchObject");
 	        				    	    hiddenSearchObject.setAttribute("value", JSON.stringify(searchMap));
-	        				    	    detailForm.appendChild(hiddenSearchObject);
+	        				    	    form.appendChild(hiddenSearchObject);
 	        						}
-	        						detailForm.submit();
+	        						document.body.appendChild(form);
+	        						form.submit();
 	        					}
 							}, error: data => {
 	        					

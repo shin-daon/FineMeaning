@@ -46,12 +46,16 @@ public interface VolunteerService {
 
 	ArrayList<Volunteer> selectSearchMyVolunteerHistory(PageInfo pi, HashMap<String, Object> myHistorySearchMap);
 
-	int getVolunteerApplyCount(Object vNo);
-
-	ArrayList<Volunteer> selectVolunteerApplyList(PageInfo pi, Object vNo);
+	ArrayList<Volunteer> selectVolunteerApplyList(HashMap<String, Object> applyMap);
 
 	int getAdminVolunteerApplyCount(Integer vNo);
 
 	ArrayList<Volunteer> selectAdminVolunteerApplyList(PageInfo pi, Integer vNo);
+
+	int updateVolunteerHistoryStatus(HashMap<String, Object> updateStatusMap);
+
+	ArrayList<Integer> selectVolunteerApplicantCount(PageInfo pi, Integer uNo);
+
+	ArrayList<Integer> selectSearchVolunteerApplicantCount(PageInfo pi, HashMap<String, Object> searchEnrollHisMap);
 
 }
