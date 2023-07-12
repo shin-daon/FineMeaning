@@ -164,8 +164,8 @@
 	        const formAction = (form, page) => {
 	    		const startDate = document.querySelector("#startDate").value;
 	    	    const endDate = document.querySelector("#endDate").value;
-	    	    const volunteerName = document.querySelector("#volunteerName").value;
-	    	    const registrar = document.querySelector("#recipientName").value;
+	    	    const volunteerName = document.querySelector("#volunteerName").value.trim();
+	    	    const registrar = document.querySelector("#recipientName").value.trim();
 	    	    const locationInput = document.querySelector("#locationInput").value;
 	    	    const categoryInput = document.querySelector("#categoryInput").value;
 	    	    const onoffLineInput = document.querySelector("#onoffLineInput").value;
@@ -477,8 +477,8 @@
 		    const searchAjax = () => {
 		    	const startDate = document.querySelector("#startDate").value;
 	    	    const endDate = document.querySelector("#endDate").value;
-	    	    const volunteerName = document.querySelector("#volunteerName").value;
-	    	    const registrar = document.querySelector("#recipientName").value;
+	    	    const volunteerName = document.querySelector("#volunteerName").value.trim();
+	    	    const registrar = document.querySelector("#recipientName").value.trim();
 	    	    const locationInput = document.querySelector("#locationInput").value;
 	    	    const categoryInput = document.querySelector("#categoryInput").value;
 	    	    const onoffLineInput = document.querySelector("#onoffLineInput").value;
@@ -504,6 +504,9 @@
 	    				searchObject: JSON.stringify(searchObject)
 	    			},
 	 				success: data => {
+	 					document.querySelector("#volunteerName").value = volunteerName;
+	 					document.querySelector("#recipientName").value = registrar;
+	 					
 	 					pi.currentPage = 1;
 	 					const vList = document.querySelector(".v-list");
 	 					vList.innerHTML = '';

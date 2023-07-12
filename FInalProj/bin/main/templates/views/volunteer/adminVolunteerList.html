@@ -41,7 +41,7 @@
 					<img class="sub iconSize" src="../image/onenext.png">
 					<a class="middle">봉사 목록</a>
 					
-					<div style="font-size: 14px; color: gray; float: right; margin-top: 40px;">초기화 후 검색 버튼을 클릭해야 적용됩니다.</div>
+					<div style="font-size: 14px; color: gray; float: right; margin-top: 40px;">초기화 후 <span style="color: #4f9739; font-weight: bold;">검색 버튼</span>을 클릭해야 적용됩니다.</div>
 				</div>
 	
 				<section class="v-search" style="margin-top: 5px;">
@@ -134,14 +134,15 @@
 					<thead>
 						<tr>
 							<th>No</th>
-							<th width="35%">봉사활동 명</th>
+							<th width="30%">봉사활동 명</th>
+							<th width="8%">수요처</th>
 							<th width="12%">대분류</th>
 							<th width="10%">대상분류</th>
-							<th width="14%">모집일</th>
+							<th width="13%">모집일</th>
 							<th width="5%">접수</th>
 							<th width="5%">신청</th>
 							<th width="5%">승인</th>
-							<th width="8%">작성일</th>
+							<th width="7%">작성일</th>
 							<th width="7%">상태</th>
 						</tr>
 					</thead>
@@ -153,6 +154,7 @@
 						<tr th:each="v : ${vHistories}">
 							<td th:text="${v.vNo}"></td>
 							<td th:text="${v.vName}"></td>
+							<td th:text="${v.registrar}"></td>
 							<td th:text="${v.vMainCategoryName}"></td>
 							<td th:text="${v.vTargetCategoryName}"></td>
 							<td>[[${#strings.substring(#strings.arraySplit(v.vStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vStartDate, "-")[2]}]]~[[${#strings.substring(#strings.arraySplit(v.vEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vEndDate, "-")[2]}]]</td>
@@ -351,15 +353,15 @@
             const tds = tbody.querySelectorAll('td');
             
             for(let i=0; i<tds.length; i++) {
-            	if(i%10 == 1) {
+            	if(i%11 == 1) {
             		tds[i].addEventListener("click", function() {
             			location.href="volunteerDetail.vo?vNo=" + this.parentElement.children[0].innerText;
             		});
             	}
             	
-            	if(i%10 == 5 || i%10 == 6 || i%10 == 7) {
+            	if(i%11 == 6 || i%11 == 7 || i%11 == 8) {
             		tds[i].addEventListener("click", function() {
-            			location.href="adminVolunteerApplyList.vo?vNo=" + this.parentElement.children[0].innerText + "&vHisStatus=" + this.parentElement.parentElement.parentElement.querySelectorAll("th")[i%10].innerText + "&applicant=" + this.parentElement.children[7].innerText.split("/")[0];
+            			location.href="adminVolunteerApplyList.vo?vNo=" + this.parentElement.children[0].innerText + "&vHisStatus=" + this.parentElement.parentElement.parentElement.querySelectorAll("th")[i%11].innerText + "&applicant=" + this.parentElement.children[8].innerText.split("/")[0];
             		});
             	}
             }
@@ -390,6 +392,11 @@
             		});
             	});
             }
+            
+            document.querySelector("#v-search-btn").addEventListener("click", () => {
+				document.querySelector("#vName").value = document.querySelector("#vName").value.trim();
+				document.querySelector("#registrar").value = document.querySelector("#registrar").value.trim();
+			});
 		}
 	</script>
 </body>

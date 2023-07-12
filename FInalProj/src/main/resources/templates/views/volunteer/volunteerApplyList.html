@@ -63,7 +63,7 @@
 					
 					<tbody style="font-size: 14px;">
 						<tr th:if="${vHistories.isEmpty()}">
-							<td colspan="8" style="padding: 50px; font-size: 15px; pointer-events: none;">신청자가 없습니다.</td>
+							<td colspan="8" style="padding: 50px; font-size: 15px; pointer-events: none;">[[${vHisStatus}]] 인원이 없습니다.</td>
 						</tr>
 						<tr th:each="v : ${vHistories}">
 							<input type="hidden" th:value="${v.vCountAll}">
@@ -99,7 +99,7 @@
 		});
 		
 		/*<![CDATA[*/
-		const applicant = /*[[${applicant}]]*/null;
+		let applicant = /*[[${applicant}]]*/null;
 		let applyCount = 0;
 		const trs = document.querySelector("tbody").querySelectorAll("tr");
 		
@@ -123,7 +123,31 @@
 				const statusTextElement = this.parentElement.previousElementSibling;
 				const btns = this.parentElement.children;
 				
-				if(status != '반려' && (applyCount > this.parentElement.parentElement.children[0].value -1 || applyCount > this.parentElement.parentElement.children[0].value - 1 -applicant)) {
+				if(status == '반려' && this.parentElement.parentElement.children[7].innerText == '승인') {
+					applicant--;
+					$.ajax({
+						url: 'updateVolunteerHistoryStatus.vo',
+						data: {
+							vHisNo: vHisNo,
+							status: status
+						},
+						success: data => {
+							if(data == 'success') {
+								statusTextElement.innerText = status;
+								for(const btn of btns) {
+									if(btn.innerText == status) {
+										btn.classList.remove("no");
+										btn.classList.add("yes");
+									} else {
+										btn.classList.remove("yes");
+										btn.classList.add("no");
+									}
+								}								
+							}
+						},
+	        			error: data => console.log(data)
+					});
+				} else if(status != '반려' && (applyCount > this.parentElement.parentElement.children[0].value -1 || applyCount > this.parentElement.parentElement.children[0].value - applicant)) {
 					alert("모집 인원을 모두 모집하셨습니다.");
 				} else {
 					$.ajax({

@@ -41,7 +41,7 @@
 					<img class="sub iconSize" src="../image/onenext.png">
 					<a class="middle">봉사 등록 내역</a>
 					
-					<div style="font-size: 14px; color: gray; float: right; margin-top: 40px;">초기화 후 검색 버튼을 클릭해야 적용됩니다.</div>
+					<div style="font-size: 14px; color: gray; float: right; margin-top: 40px;">초기화 후 <span style="color: #4f9739; font-weight: bold;">검색 버튼</span>을 클릭해야 적용됩니다.</div>
 				</div>
 	
 				<section class="v-search" style="margin-top: 5px;">
@@ -382,6 +382,10 @@
             		});
             	});
             }
+            
+            document.querySelector("#v-search-btn").addEventListener("click", () => {
+				document.querySelector("#vName").value = document.querySelector("#vName").value.trim();
+			});
 		}
 	</script>
 </body>
