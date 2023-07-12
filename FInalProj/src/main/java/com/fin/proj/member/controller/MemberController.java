@@ -58,6 +58,8 @@ public class MemberController {
 			
 			if(loginUser.getIsAdmin() == 0) {
 				return "redirect:/editUserInfo.me";
+			} else if(beforeURL.contains("enroll.me")) {
+				return "redirect:/";
 			} else {
 				return "redirect:" + beforeURL;
 			}
@@ -176,11 +178,9 @@ public class MemberController {
 			m.setEmail(null);
 		}
 		
-		System.out.println("이메일 : " + m.getEmail());
+		m.setuNickName(m.getuNickName().trim());
 		
 		int result = mService.updateMyInfo(m);
-		System.out.println(loginUser);
-		System.out.println(m);
 		
 		if(result > 0) {
 			if(m.getLoginType() == "일반" || m.getKakaoId() == null) {
@@ -231,7 +231,7 @@ public class MemberController {
 		
 		Integer uNo = ((Member)model.getAttribute("loginUser")).getuNo();
 		m.setuNo(uNo);
-		m.setuNickName(uNickName);
+		m.setuNickName(uNickName.trim());
 		
 		int count = mService.checkNickNameModify(m);
 		

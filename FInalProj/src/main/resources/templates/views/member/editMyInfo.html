@@ -206,7 +206,6 @@
 						url: 'checkNickNameModify.me',
 						data: {uNickName:nickName.value.trim()},
 						success: data => {
-							console.log(data);
 							if(data == 'yes'){
 								nickNameResult.innerText = '사용 가능한 닉네임입니다.';
 								nickNameResult.style.color = '#609966';
