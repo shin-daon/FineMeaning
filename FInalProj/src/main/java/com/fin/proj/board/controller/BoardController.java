@@ -1259,7 +1259,17 @@ public class BoardController {
 		String decode = new String(byteArr);
 		int bId = Integer.parseInt(decode);
 		
+		int replyCount = bService.replyCount(bId);
+		
+		if(replyCount > 0) {
+			int replyResult = bService.deleteReplyAll(bId);
+			if(replyResult == 0) {
+				throw new BoardException("게시글 내 댓글 삭제 실패");
+			}
+		}
+		
 		int result = bService.deleteBoard(bId);
+		
 		if(result > 0) {
 			return "redirect:qaList.bo";
 		} else {
