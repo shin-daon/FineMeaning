@@ -27,14 +27,14 @@
 			<div class="insert id">
 				<label class="title" th:text="${loginUser.uId == null ? 'kakao 아이디' : '아이디'}"></label>
 				<div class="input">
-					<input type="text" id="normal-input" th:value="${loginUser.uId != null ? loginUser.uId : loginUser.kakaoId}" readonly/>
+					<input type="text" id="normal-input" th:value="${loginUser.uId != null ? loginUser.uId : loginUser.kakaoId}" style="background:#FFFFE0" readonly/>
 				</div>
 			</div>
 			
 			<div class="insert name">
 				<label class="title">이름</label>
 				<div class="input">
-					<input type="text" id="normal-input" th:value="${ loginUser.uName }" name="uName" readonly/>
+					<input type="text" id="normal-input" th:value="${ loginUser.uName }" name="uName" style="background:#FFFFE0" readonly/>
 				</div>
 			</div>
 			
@@ -50,7 +50,7 @@
 			<div class="insert ssn">
 				<label class="title">생년월일</label>
 				<div class="input">
-					<input type="text" id="normal-input" name="residentNo" th:value="${loginUser.residentNo}" th:readonly="${loginUser.residentNo != null}" />
+					<input type="text" id="normal-input" name="residentNo" th:value="${loginUser.residentNo}" th:readonly="${loginUser.residentNo != null}" style="background:#FFFFE0"/>
 				</div>
 			</div>
 			
@@ -74,7 +74,7 @@
 			<div class="insert email-input">
 			    <label class="title">이메일</label>
 			    <div class="input email-input">
-			        <input type="text" id="email-input" name="emailId" th:value="${loginUser.email != null ? loginUser.email.substring(0, loginUser.email.indexOf('@')) : ''}" readonly><span class="nothing">@</span>
+			        <input type="text" id="email-input" name="emailId" th:value="${loginUser.email != null ? loginUser.email.substring(0, loginUser.email.indexOf('@')) : ''}" style="background:#FFFFE0" readonly><span class="nothing">@</span>
 			        
 			        <th:block th:with="emailDomain=${loginUser.email != null ? loginUser.email.substring(loginUser.email.indexOf('@') + 1) : ''}">
 <!-- 			            <select name="emailDomain" id="email-select"> -->
@@ -85,7 +85,7 @@
 <!-- 			                <option th:selected="${emailDomain == ''}">직접입력</option> 직접입력 옵션은 emailDomain이 비어 있을 때 선택되도록 수정 -->
 <!-- 			            </select> -->
 			
-			            <input type="text" id="custom-email-input" name="emailDomain" th:value="${emailDomain}" readonly/> <!-- emailDomain 값 설정 -->
+			            <input type="text" id="custom-email-input" name="emailDomain" th:value="${emailDomain}" readonly style="background:#FFFFE0" /> <!-- emailDomain 값 설정 -->
 <!-- 			            <span class="x-btn" style="display: none;"><img src="image/x.png"></span> -->
 			        </th:block>
 			    </div>
@@ -94,7 +94,7 @@
 			<div class="insert nickName">
 				<label class="title">닉네임</label>
 				<div class="input">
-					<input type="text" id="normal-input" name="uNickName" th:value="${loginUser.uNickName}" maxlength="15"/>
+					<input type="text" id="normal-input" name="uNickName" th:value="${loginUser.uNickName}" maxlength="15" required/>
 					<div class="check-div"><label id="nickNameCheckResult"></label></div>
 				</div>
 			</div>

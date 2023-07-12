@@ -158,17 +158,18 @@ button.writeFaqBtn.learn-more {
 		
 			<div class="cm_write">
 				<fieldset>
+					<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0}">
 					<legend class="skipinfo">
 						답변 등록
-						<h6>(관리자만 이용가능합니다)</h6>
 					</legend>
 					<div class="cm_input">
+					
 						<p>
 							<textarea id="content" name="content"
 								onkeyup="countingLength(this);" onkeydown="handleEnter(event);" cols="90" rows="4"
 								placeholder="답변을 입력해 주세요." required></textarea>
 						</p>
-			<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0}">
+			
 						<span><button type="button" class="btns"
 								th:onclick="saveComment();">등록</button> 
 								<i id="counter">0/300자</i>
