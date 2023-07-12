@@ -203,7 +203,7 @@
 	    	const pageEvent = page => {
 	    		return function() {
 	    			const form  = document.createElement("form");
-		    	    form.setAttribute("method", "post");
+		    	    form.setAttribute("method", "get");
 		    	    form.setAttribute("action", "volunteer.vo"); 
 		    	    
 		    	    formAction(form, page);
@@ -458,7 +458,7 @@
 			    		const page = /*[[${pi.currentPage}]]*/1;
 			    	    
 			    	    const form  = document.createElement("form");
-			    	    form.setAttribute("method", "post");
+			    	    form.setAttribute("method", "get");
 			    	    form.setAttribute("action", "volunteerDetail.vo");
 			    	    
 			    	    const hiddenVNo = document.createElement("input");
