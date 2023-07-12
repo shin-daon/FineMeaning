@@ -162,9 +162,9 @@ button.writeFaqBtn.learn-more {
 					<p>
 						<textarea id="content" name="content"
 							onkeyup="countingLength(this);" onkeydown="handleEnter(event);" cols="90" rows="4"
-							th:attr="placeholder=${session.loginUser == null ? '로그인 후 이용해주세요.' : '댓글을 입력해 주세요.'}"></textarea>
+							required></textarea>
 					</p>
-					<span><button type="button" class="btns" th:if="${session.loginUser != null}" th:onclick="saveComment();">등록</button>
+					<span><button type="button" class="btns" th:if="${ session.loginUser != null}" th:onclick="saveComment();">등록</button>
 					<i id="counter">0/300자</i></span>
 				</div>
 				<br>
@@ -172,15 +172,21 @@ button.writeFaqBtn.learn-more {
 				<br>
 			</fieldset>
 			
-			<script>
+			<script th:inline="javascript">
+				/* <![CDATA[ */
+				var placeholderText = /*[[${session.loginUser == null ? "로그인 후 이용해주세요." : "댓글을 입력해 주세요." }]]*/ '';
+
+			    document.getElementById('content').setAttribute('placeholder', placeholderText);
+				
 			    function handleEnter(event) {
-			        if (event.keyCode === 13) { // 13은 엔터 키의 keyCode입니다.
-			            event.preventDefault(); // 기본 동작(새 줄 추가)을 막습니다.
-			            saveComment(); // 댓글 등록 함수를 호출합니다.
+			        if (event.keyCode === 13) {
+			            event.preventDefault();
+			            saveComment();
 			        }
 			    }
+			    /* ]]> */
 			</script>
-			
+
 
 			<!--/* 댓글 렌더링 영역 */-->
 			<div class="cm_list"></div>
@@ -239,7 +245,7 @@ button.writeFaqBtn.learn-more {
         findAllComment();
     }
   			/* <![CDATA[ */
-  		// 댓글 길이 카운팅
+//   		댓글 길이 카운팅
     function countingLength(content) {
         if (content.value.length > 300) {
             alert('댓글을 300자 이하로 입력해 주세요.');
@@ -281,7 +287,7 @@ button.writeFaqBtn.learn-more {
             	console.log(response);
                 alert('등록되었습니다.');
                 content.value = '';
-                document.getElementById('counter').innerText = '0/300자';
+             	document.getElementById('counter').innerText = '0/300자';
                 findAllComment();
             },
             error : function (request, status, error) {
@@ -415,16 +421,8 @@ button.writeFaqBtn.learn-more {
             })
         }
      
-     	//댓글 유효성 검사
-        function countingLength(textarea) {
-            var content = textarea.value.trim(); // 입력된 텍스트를 양쪽 공백을 제거하여 가져옵니다.
-            var submitBtn = document.getElementById("submitBtn");
-
-        }
         /* ]]> */
   			
-	
-		
 		const deleteModal = document.getElementById('deleteModal');
 		if(deleteModal != null){
 			deleteModal.addEventListener('click', ()=>{
