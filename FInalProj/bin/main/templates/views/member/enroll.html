@@ -457,8 +457,7 @@
 	            url: 'checkEmail.me',
 	            data: { emailAddress: emailAddress },
 	            success: function(response) {
-	                data = response; // 데이터 변수에 서버 응답값을 할당합니다.
-	                console.log("데이터 전송 성공: " + data);		    
+	                data = response;
 	                
 	                emailBtn.style.display = 'none';
 	                emailBtn2.style.display = 'inline-block';
