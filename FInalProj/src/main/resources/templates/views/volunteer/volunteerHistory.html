@@ -27,12 +27,12 @@
 				<a class="middle" href="editMyInfo.me">마이페이지</a>
 				<img class="sub iconSize" src="../image/onenext.png">
 				<a class="middle">봉사 내역</a>
-				<div style="font-size: 14px; color: gray; float: right; margin-top: 40px;">초기화 후 검색 버튼을 클릭해야 적용됩니다.</div>
+				<div style="font-size: 14px; color: gray; float: right; margin-top: 40px;">초기화 후 <span style="color: #4f9739; font-weight: bold;">검색 버튼</span>을 클릭해야 적용됩니다.</div>
 			</div>
 
 			<section class="v-search" style="margin-top: 5px">
 				<div class="v-search-inner">
-					<form action="searchMyVolunteerHistory.vo">
+					<form id="searchForm" action="searchMyVolunteerHistory.vo">
 						<table>
 							<tr>
 								<td width="20%">봉사활동 기간</td>
@@ -234,7 +234,6 @@
 						const date = new Date(new Date().setMonth(now.getMonth() - data));
 						const changedDate = date.getFullYear() + "-" + ('0' + (date.getMonth() + 1)).slice(-2) + "-" + ('0' + date.getDate()).slice(-2);
 						startDate.value = changedDate;
-						endDate.value = today;
 					}        	
             	});
             }
@@ -315,6 +314,11 @@
 					location.href="volunteerDetail.vo?vNo=" + vNo; 
 				});
 			}
+			
+			document.querySelector("#v-search-btn").addEventListener("click", () => {
+				document.querySelector("#vName").value = document.querySelector("#vName").value.trim();
+				document.querySelector("#registrar").value = document.querySelector("#registrar").value.trim();
+			});
 		}
 	</script>
 </body>

@@ -29,6 +29,7 @@ import com.fin.proj.member.model.service.MemberService;
 import com.fin.proj.member.model.vo.Member;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @SessionAttributes("loginUser")
@@ -50,7 +51,7 @@ public class MemberController {
 	}
 		
 	@PostMapping("login.me")
-	public String login(Member m, Model model, HttpSession session, @RequestParam("beforeURL") String beforeURL) {
+	public String login(Member m, Model model, HttpSession session, @RequestParam("beforeURL") String beforeURL, HttpServletResponse response) {
 		
 		Member loginUser = mService.login(m);
 		if(bcrypt.matches(m.getuPwd(), loginUser.getuPwd())) {
@@ -60,6 +61,14 @@ public class MemberController {
 				return "redirect:/editUserInfo.me";
 			} else if(beforeURL.contains("enroll.me")) {
 				return "redirect:/";
+			} else if(beforeURL.toLowerCase().contains("insert") || beforeURL.toLowerCase().contains("update")){
+				try {
+					response.setContentType("text/html; charset=UTF-8");
+					response.getWriter().write("<script>location.href=history.go(-2);</script>");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return null;
 			} else {
 				return "redirect:" + beforeURL;
 			}
