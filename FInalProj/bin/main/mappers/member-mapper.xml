@@ -255,6 +255,9 @@
 	<update id="updateUserInfo">
 		update users
 		set ${column} = #{data}
+		<if test="column == 'u_type' and data == '일반'">
+		, registrar = null
+		</if>
 		where u_no = #{uNo} 
 	</update>
 	
