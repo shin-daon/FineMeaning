@@ -72,16 +72,26 @@
 						[ 'table', [ 'table' ] ],
 						[ 'insert', [ 'link', 'picture', 'video' ] ],
 						[ 'view', [ 'help' ] ] ]
+			
+			
 			});
 	
 	function validateForm() {
-        var title = document.getElementById("title").value.trim();
-        if (title === "") {
-            alert("제목을 입력해주세요.");
-            return false; // 폼 전송 중단
-        }
-        // 유효성 검사 통과한 경우 폼을 서버로 제출
-        return true;
-    }
+	    var title = document.getElementById("title").value.trim();
+	    var content = $('#summernote').summernote('code').trim();
+	    
+	    if (title === "") {
+	        alert("제목을 입력해주세요.");
+	        return false; // 폼 전송 중단
+	    }
+	    
+	    if (content === "") {
+	        alert("내용을 입력해주세요.");
+	        return false; // 폼 전송 중단
+	    }
+	    
+	    // 유효성 검사 통과한 경우 폼을 서버로 제출
+	    return true;
+	}
 </script>
 </html>

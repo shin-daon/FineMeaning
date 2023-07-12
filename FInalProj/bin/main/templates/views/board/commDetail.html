@@ -161,7 +161,7 @@ button.writeFaqBtn.learn-more {
 				<div class="cm_input">
 					<p>
 						<textarea id="content" name="content"
-							onkeyup="countingLength(this);" cols="90" rows="4"
+							onkeyup="countingLength(this);" onkeydown="handleEnter(event);" cols="90" rows="4"
 							th:attr="placeholder=${session.loginUser == null ? '로그인 후 이용해주세요.' : '댓글을 입력해 주세요.'}"></textarea>
 					</p>
 					<span><button type="button" class="btns" th:if="${session.loginUser != null}" th:onclick="saveComment();">등록</button>
@@ -171,6 +171,16 @@ button.writeFaqBtn.learn-more {
 				<hr>
 				<br>
 			</fieldset>
+			
+			<script>
+			    function handleEnter(event) {
+			        if (event.keyCode === 13) { // 13은 엔터 키의 keyCode입니다.
+			            event.preventDefault(); // 기본 동작(새 줄 추가)을 막습니다.
+			            saveComment(); // 댓글 등록 함수를 호출합니다.
+			        }
+			    }
+			</script>
+			
 
 			<!--/* 댓글 렌더링 영역 */-->
 			<div class="cm_list"></div>
@@ -247,8 +257,8 @@ button.writeFaqBtn.learn-more {
         const boardNo = /*[[ ${board.boardNo} ]]*/1;
         const replyWriter = /*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/ 1;
         
-        if (!content.value) {
-            alert('댓글을 입력해주세요.');
+        if (!content.value.trim()) {
+            alert('내용을 입력해주세요.');
             return;
         }
         
@@ -337,6 +347,11 @@ button.writeFaqBtn.learn-more {
         	const textarea = document.querySelector('.comment-update-textarea');
             const boardNo = /*[[ ${board.boardNo} ]]*/1;
             
+            if (!textarea.value.trim()) { // 내용을 입력하지 않았을 때
+                alert('수정할 내용을 입력해주세요.');
+                return;
+            }
+            
             const params = {
             	replyNo : replyNo,
             	boardNo : boardNo,
@@ -398,6 +413,13 @@ button.writeFaqBtn.learn-more {
                     console.log(error)
                 }
             })
+        }
+     
+     	//댓글 유효성 검사
+        function countingLength(textarea) {
+            var content = textarea.value.trim(); // 입력된 텍스트를 양쪽 공백을 제거하여 가져옵니다.
+            var submitBtn = document.getElementById("submitBtn");
+
         }
         /* ]]> */
   			
