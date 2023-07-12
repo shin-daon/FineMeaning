@@ -17,7 +17,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 				.addPathPatterns("/*.su", "/*.bo", "/*.vo", "/editMyInfo.me", "/editMyPwd.me")
 				.excludePathPatterns("/supportMain.su", "/mainCategory.su", "/mainSearch.su", "/supportDetail.su",
 									 "/faqMain.bo", "/faqDetail.bo", "/fineNewsMain.bo", "/finePeopleMain.bo", "/fruitMain.bo", "/fruitDetail.bo",
-									 "/noticeList.bo", "/commList.bo",
+									 "/noticeList.bo", "/commList.bo", "/commDetailPage.bo",
 									 "/volunteer.vo", "/volunteerDetail.vo", "/volunteerAjax.vo");
 		
 		registry.addInterceptor(new CheckAdminInterceptor())

@@ -142,7 +142,7 @@ button.writeFaqBtn.learn-more {
 
 
 			<th:block
-				th:if="${session.loginUser != null && session.loginUser.uNo eq board.uNo || session.loginUser.isAdmin == 0}">
+				th:if="${session.loginUser == null ? false : session.loginUser != null && session.loginUser.uNo eq board.uNo || session.loginUser.isAdmin == 0}">
 				<div class="actionArea">
 					<div class="writeArea">
 						<button class="writeFaqBtn learn-more"
@@ -162,10 +162,10 @@ button.writeFaqBtn.learn-more {
 					<p>
 						<textarea id="content" name="content"
 							onkeyup="countingLength(this);" cols="90" rows="4"
-							placeholder="댓글을 입력해 주세요."></textarea>
+							th:attr="placeholder=${session.loginUser == null ? '로그인 후 이용해주세요.' : '댓글을 입력해 주세요.'}"></textarea>
 					</p>
-					<span><button type="button" class="btns"
-							th:onclick="saveComment();">등록</button> <i id="counter">0/300자</i></span>
+					<span><button type="button" class="btns" th:if="${session.loginUser != null}" th:onclick="saveComment();">등록</button>
+					<i id="counter">0/300자</i></span>
 				</div>
 				<br>
 				<hr>
@@ -285,7 +285,8 @@ button.writeFaqBtn.learn-more {
     	function findAllComment() {
     	
         const boardNo = /*[[ ${board.boardNo} ]]*/1;
-        const uNo = /*[[ ${session.loginUser.uNo} ]]*/1;
+        const uNo = /*[[ ${session.loginUser == null ? '' : session.loginUser.uNo} ]]*/1;
+        const isAdminConfirm = /*[[ ${session.loginUser == null ? '' : session.loginUser.isAdmin} ]]*/1;
 
         $.ajax({
             url : `/board/${boardNo}/comments`,
@@ -303,7 +304,7 @@ button.writeFaqBtn.learn-more {
 
                 // 3. 댓글 HTML 추가 (row는 response에 담긴 각 객체를 의미함)
                 response.forEach(row => {
-                	const isAdmin = uNo === 6; // 관리자인지 확인
+                	const isAdmin = isAdminConfirm === 0; // 관리자인지 확인
                 	const isCurrentUser = row.replyWriter === uNo;
                 	
                     commentHtml += `
