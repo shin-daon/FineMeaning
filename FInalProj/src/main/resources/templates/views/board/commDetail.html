@@ -174,10 +174,15 @@ button.writeFaqBtn.learn-more {
 			
 			<script th:inline="javascript">
 				/* <![CDATA[ */
+				const loginUser = /*[[${session.loginUser == null ? null : session.loginUser}]]*/null;
 				var placeholderText = /*[[${session.loginUser == null ? "로그인 후 이용해주세요." : "댓글을 입력해 주세요." }]]*/ '';
 
 			    document.getElementById('content').setAttribute('placeholder', placeholderText);
-				
+
+			    if(loginUser == null) {
+			    	document.getElementById('content').setAttribute('readonly', 'readonly');
+			    }
+			    
 			    function handleEnter(event) {
 			        if (event.keyCode === 13) {
 			            event.preventDefault();
