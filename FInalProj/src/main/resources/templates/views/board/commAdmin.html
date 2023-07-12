@@ -173,7 +173,7 @@ button.writeFaqBtn.learn-more {
 
 					<li th:if="${ pi.currentPage < pi.maxPage && !map.isEmpty()}">
 						<a class="last"
-						th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${map.keyword}, category=${map.category})}">
+						th:href="@{${loc}(page=${ pi.currentPage + 1 }, keyword=${map.keyword})}">
 							<img class="arrowKey" src="image/next.png">
 					</a>
 					</li>

@@ -165,7 +165,7 @@ button.writeFaqBtn.learn-more {
 					<div class="cm_input">
 						<p>
 							<textarea id="content" name="content"
-								onkeyup="countingLength(this);" cols="90" rows="4"
+								onkeyup="countingLength(this);" onkeydown="handleEnter(event);" cols="90" rows="4"
 								placeholder="답변을 입력해 주세요." required></textarea>
 						</p>
 			<th:block th:if="${ session.loginUser != null && session.loginUser.isAdmin == 0}">
@@ -176,6 +176,16 @@ button.writeFaqBtn.learn-more {
 					<hr>
 					<br>
 				</fieldset>
+				
+				<script>
+			    function handleEnter(event) {
+			        if (event.keyCode === 13) {
+			            event.preventDefault();
+			            saveComment();
+			        }
+			    }
+			</script>
+				
 		</th:block>
 		<!--/* 댓글 렌더링 영역 */-->
 
@@ -251,7 +261,7 @@ button.writeFaqBtn.learn-more {
         const boardNo = /*[[ ${board.boardNo} ]]*/1;
         const replyWriter = /*[[${session.loginUser == null ? '' : session.loginUser.uNo}]]*/ 1;
         
-        if (!content.value) {
+        if (!content.value.trim()) {
             alert('답변을 입력해주세요.');
             return;
         }
@@ -339,6 +349,11 @@ button.writeFaqBtn.learn-more {
 		
         	const textarea = document.querySelector('.comment-update-textarea');
             const boardNo = /*[[ ${board.boardNo} ]]*/1;
+            
+            if (!textarea.value.trim()) {
+                alert('수정할 내용을 입력해주세요.');
+                return;
+            }
             
             const params = {
             	replyNo : replyNo,
