@@ -46,7 +46,9 @@
 	                    <div class="supportTitle" th:text="${s.supportTitle}"></div>
 	                    <div class="supportSubTitle">모금함 소개</div>
 	                    <div>
-	                    	<img th:src="@{${s.imageUrl}}">
+	                    	<img th:src="@{${s.imageUrl}}" th:if="${#strings.containsIgnoreCase(s.imageUrl, 'jpg') or #strings.containsIgnoreCase(s.imageUrl, 'png') or #strings.containsIgnoreCase(s.imageUrl, 'jpeg')}">
+	                    	<img src="image/noImage.png" th:if="${!(#strings.containsIgnoreCase(s.imageUrl, 'jpg') or #strings.containsIgnoreCase(s.imageUrl, 'png') or #strings.containsIgnoreCase(s.imageUrl, 'jpeg'))}">
+	  	
 	                    </div>
 	                    
 	                    <div class="supportDetailContent" id="summernote"></div>

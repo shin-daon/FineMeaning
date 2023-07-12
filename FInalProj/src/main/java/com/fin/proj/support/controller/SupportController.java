@@ -61,21 +61,32 @@ public class SupportController {
 		Support s = suService.supportDetail(supportNo);
 		int dDay = suService.getDday(supportNo);
 		ArrayList<SupportHistory> shList = suService.currentSupporter(supportNo);
+
 		
-		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
-		int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
-		
-		
-		model.addAttribute("s", s);
-		model.addAttribute("dDay", dDay);
-		model.addAttribute("shList", shList);
-		if (s.getStatus() == 'Y') {
-			return "supportDetail";
-		} else {
-			if (uNo == s.getUserNo() || isAdmin == 0) {
-				return "supportApplyDetail";
+		if((Member)session.getAttribute("loginUser")!= null) {			
+			System.out.println("지금 여기로 들어오는거니?");
+			int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
+			int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
+			model.addAttribute("s", s);
+			model.addAttribute("dDay", dDay);
+			model.addAttribute("shList", shList);
+			if (s.getStatus() == 'Y') {
+				return "supportDetail";
 			} else {
-				throw new SupportException("잘못된 접근입니다.");
+				if (uNo == s.getUserNo() || isAdmin == 0) {
+					return "supportApplyDetail";
+				} else {
+					throw new SupportException("잘못된 접근입니다.");
+				}
+			}
+		} else {
+			if(s.getStatus() == 'Y') {
+				model.addAttribute("s", s);
+				model.addAttribute("dDay", dDay);
+				model.addAttribute("shList", shList);
+				return "supportDetail";
+			} else {
+				throw new SupportException("열람할 수 없습니다. ");
 			}
 		}
 
