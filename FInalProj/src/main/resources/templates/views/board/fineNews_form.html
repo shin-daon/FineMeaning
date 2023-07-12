@@ -209,14 +209,18 @@
 // 			console.log(document.getElementById('groupReprePic').value);
         }
 
-     // 이미지 없을 때 안 넘어가게 하기
+     // 이미지, 내용 없을 때 안 넘어가게 하기
         document.querySelector('.writeFaqBtn').addEventListener('click', ()=>{
 	        const imageValue = document.querySelector('#imageUrl').value;
+	        const content = document.querySelector('.fineNewsContent');
 	        const yesBtn = document.getElementById('withdrawal-btn2');
 	        const modal = document.getElementById('modal2');
         	if(imageValue == ''){
         		event.preventDefault();
         		modal.style.display = 'block';
+        	} else if (content.value.trim() ==''){
+        		event.preventDefault();
+        		alert('글 내용을 입력해주세요.');
         	}
        		yesBtn.addEventListener('click', () => {
    			    modal.style.display = 'none';
