@@ -286,6 +286,8 @@
 		    const endMonth = /*[[${#strings.arraySplit(v.vEndDate, '-')[1]}]]*/1;
 		    const startDate = /*[[${#strings.arraySplit(v.vStartDate, '-')[2]}]]*/1;
 		    const endDate = /*[[${#strings.arraySplit(v.vEndDate, '-')[2]}]]*/1;
+		    const vDay = /*[[${#strings.arraySplit(v.vDay, ', ')}]]*/1;
+		    console.log(vDay);
 		    const dates = document.querySelector(".dates").querySelectorAll(".current");
 		    for(const date of dates) {
 		    	if(startMonth == endMonth) {
@@ -353,7 +355,7 @@
 		        var nextDate = endDay.getDate();
 		        var nextDay = endDay.getDay();
 		
-		        // console.log(prevDate, prevDay, nextDate, nextDay);
+// 		        console.log(prevDate, prevDay, nextDate, nextDay);
 		
 		        // 현재 월 표기
 		        $('.year-month').text(currentYear + '년 ' + (currentMonth + 1) + '월');
@@ -389,7 +391,7 @@
 		    $('.go-prev').on('click', function() {
 		        thisMonth = new Date(currentYear, currentMonth - 1, 1);
 		        renderCalender(thisMonth);
-		        calendarColor(currentMonth + 1);
+		        calendarColor(currentMonth - 1);
 		    });
 		
 		    // 다음달로 이동
