@@ -40,7 +40,7 @@
 
 		<div id="faq_write_title2">일반게시글 작성✏️</div>
 		<div id="formDiv">
-			<form method="post" action="insertCommBoard.bo" onsubmit="return validateForm()">
+			<form method="post" action="insertCommBoard.bo">
 				<input type="text" id="title" name="boardTitle"
 					placeholder="제목을 입력해주세요" required> <br>
 				<br>
@@ -55,9 +55,25 @@
 		</div>
 	</section>
 	<div th:replace="~{../common/footer :: footer}"></div>
-</body>
-
-<script>
+	<script>
+	window.onload = () => {
+		
+		const submitBtn = document.querySelector('.writeFaqBtn');
+		submitBtn.addEventListener('click', function(){
+			const title = document.getElementById('title');
+			if(title.value.trim() == ''){
+				event.preventDefault();
+				alert('제목을 입력해주세요.');
+			} else {
+		        var editorContent = $('#summernote').summernote('code');
+		        var isContentValid = setContentsLength(editorContent);
+		        if (!isContentValid) {
+		            event.preventDefault();
+	        		alert("글 내용을 입력해주세요.");
+		        }
+		    }
+		});
+		
 	$('#summernote').summernote(
 			{
 				placeholder : '내용을 입력해주세요. (욕설이나 비방은 금지 입니다)',
@@ -69,17 +85,43 @@
 						[ 'color', [ 'color' ] ], [ 'para', [ 'paragraph' ] ],
 						[ 'table', [ 'table' ] ],
 						[ 'insert', [ 'link', 'picture', 'video' ] ],
-						[ 'view', [ 'help' ] ] ]
+						[ 'view', [ 'help' ] ] 
+				],
+				callbacks: {
+		        	onChange:function(contents){
+		                setContentsLength(contents);
+		            }
+		        }
 			});
 	
-	function validateForm() {
-        var title = document.getElementById("title").value.trim();
-        if (title === "") {
-            alert("제목을 입력해주세요.");
-            return false; // 폼 전송 중단
-        }
-        // 유효성 검사 통과한 경우 폼을 서버로 제출
-        return true;
-    }
+	function setContentsLength(str) {
+		var status = false;
+		var textCnt = 0; // 총 글자수
+		var editorText = f_SkipTags_html(str);
+		editorText = editorText.replace(/\s/gi, '');
+		editorText = editorText.replace(/&nbsp;/gi, '');
+		editorText = editorText.replace(/<\/?[^>]+(>|$)/g, '');
+		
+		if(editorText.length === 0) {
+	    	status = true;
+	    }
+		
+		if (status) {
+    		return false;
+		}
+		
+		return true;
+	}
+	
+	function f_SkipTags_html(input, allowed) {
+	    allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
+	    var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
+	    var commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+	    return input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+	        return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+	    });
+	}
+}
 </script>
+</body>
 </html>
