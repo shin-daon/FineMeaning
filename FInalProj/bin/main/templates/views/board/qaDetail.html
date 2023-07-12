@@ -284,54 +284,55 @@ button.writeFaqBtn.learn-more {
     }
   		
   		
-    // 전체 댓글 조회
-    	function findAllComment() {
-    	
-        const boardNo = /*[[ ${board.boardNo} ]]*/1;
-        const uNo = /*[[ ${session.loginUser.uNo} ]]*/1;
+ // 전체 댓글 조회
+	function findAllComment() {
+	
+    const boardNo = /*[[ ${board.boardNo} ]]*/1;
+    const uNo = /*[[ ${session.loginUser.uNo} ]]*/1;
+    const isAdminConfirm = /*[[ ${session.loginUser.isAdmin} ]]*/1;
 
-        $.ajax({
-            url : `/board/${boardNo}/comments`,
-            type : 'get',
-            dataType : 'json',
-            async : false,
-            success : function (response) {
-                console.log(response);
-                if ( !response.length ) {
-                    document.querySelector('.cm_list').innerHTML = '<div class="cm_none"><p>등록된 답변이 없습니다.</p></div>';
-                    return false;
-                }
-            	// 2. 렌더링 할 HTML을 저장할 변수
-                let commentHtml = '';
-
-                // 3. 댓글 HTML 추가 (row는 response에 담긴 각 객체를 의미함)
-                response.forEach(row => {
-                	const isAdmin = uNo === 6; // 관리자인지 확인
-                	const isCurrentUser = row.replyWriter === uNo;
-                	
-                    commentHtml += `
-                        <div>
-                            <p class="writer">
-                                <span class="writerName">${row.nickName}</span>
-                                <span class="date">${row.replyTime}</span>
-                            </p>
-                            <div class="cont"><div class="txt_con">${row.replyContent}</div></div>
-                            <p class="func_btns">
-                            ${isCurrentUser || isAdmin ? `<button type="button" onclick="enableCommentUpdate(this);" data-replyNo="${row.replyNo}" class="btns"><span class="icons icon_modify">수정</span></button>` : ''}
-                            ${isCurrentUser || isAdmin ? `<button type="button" onclick="deleteComment(${row.replyNo});" class="btns"><span class="icons icon_del">삭제</span></button>` : ''}
-                            </p>
-                        </div>
-                    `;
-                })
-                 // 4. class가 "cm_list"인 요소를 찾아 HTML을 렌더링
-                document.querySelector('.cm_list').innerHTML = commentHtml;
-            },
-            error : function (request, status, error) {
-                console.log(error)
+    $.ajax({
+        url : `/board/${boardNo}/comments`,
+        type : 'get',
+        dataType : 'json',
+        async : false,
+        success : function (response) {
+            console.log(response);
+            if ( !response.length ) {
+                document.querySelector('.cm_list').innerHTML = '<div class="cm_none"><p>등록된 댓글이 없습니다.</p></div>';
+                return false;
             }
-        })
-		
-    }
+        	// 2. 렌더링 할 HTML을 저장할 변수
+            let commentHtml = '';
+
+            // 3. 댓글 HTML 추가 (row는 response에 담긴 각 객체를 의미함)
+            response.forEach(row => {
+            	const isAdmin = isAdminConfirm === 0; // 관리자인지 확인
+            	const isCurrentUser = row.replyWriter === uNo;
+            	
+                commentHtml += `
+                    <div>
+                        <p class="writer">
+                            <span class="writerName">${row.nickName}</span>
+                            <span class="date">${row.replyTime}</span>
+                        </p>
+                        <div class="cont"><div class="txt_con">${row.replyContent}</div></div>
+                        <p class="func_btns">
+                        ${isCurrentUser || isAdmin ? `<button type="button" onclick="enableCommentUpdate(this);" data-replyNo="${row.replyNo}" class="btns"><span class="icons icon_modify">수정</span></button>` : ''}
+                        ${isCurrentUser || isAdmin ? `<button type="button" onclick="deleteComment(${row.replyNo});" class="btns"><span class="icons icon_del">삭제</span></button>` : ''}
+                        </p>
+                    </div>
+                `;
+            })
+             // 4. class가 "cm_list"인 요소를 찾아 HTML을 렌더링
+            document.querySelector('.cm_list').innerHTML = commentHtml;
+        },
+        error : function (request, status, error) {
+            console.log(error)
+        }
+    })
+	
+}
     
 		// 댓글 수정
         function updateComment(replyNo) {
