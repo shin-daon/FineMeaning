@@ -51,12 +51,15 @@ public interface VolunteerDAO {
 
 	ArrayList<Volunteer> selectSearchMyVolunteerHistory(HashMap<String, Object> myHistorySearchMap, RowBounds rowBounds);
 
-	int getVolunteerApplyCount(Object vNo);
-
-	ArrayList<Volunteer> selectVolunteerApplyList(Object vNo, RowBounds rowBounds);
+	ArrayList<Volunteer> selectVolunteerApplyList(Object vNo);
 	
 	int getAdminVolunteerApplyCount(Integer vNo);
 	
 	ArrayList<Volunteer> selectAdminVolunteerApplyList(Integer vNo, RowBounds rowBounds);
-	
+
+	int updateVolunteerHistoryStatus(HashMap<String, Object> updateStatusMap);
+
+	ArrayList<Integer> selectVolunteerApplicantCount(Integer uNo, RowBounds rowBounds);
+
+	ArrayList<Integer> selectSearchVolunteerApplicantCount(HashMap<String, Object> searchEnrollHisMap, RowBounds rowBounds);
 }

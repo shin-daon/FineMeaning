@@ -120,7 +120,7 @@
 						<button type="button" id="v-enroll-btn" class="learn-more" onclick="location.href='volunteerEnroll.vo'" style="width: 80px; margin-top: 40px;">등록하기</button>
 					</div>
 					<div>
-						<div style="text-align: right; font-size: 14px; color: gray; margin-top: 30px;">인원 선택시 <span style="color: #4f9739; font-weight: bold;">신청자 목록</span>으로 이동합니다.</div>
+						<div style="text-align: right; font-size: 14px; color: gray; margin-top: 30px;">접수, 신청, 승인 선택시 <span style="color: #4f9739; font-weight: bold;">신청자 목록</span>으로 이동합니다.</div>
 						<div style="text-align: right; font-size: 14px; color: gray;">게시 여부 선택 시 <span style="color: #4f9739; font-weight: bold;">게시 상태</span>가 변경됩니다.</div>
 						<div style="text-align: right; font-size: 14px; color: gray; margin-bottom: 5px;">봉사활동 명 선택 시 <span style="color: #4f9739; font-weight: bold;">봉사 상세 조회 화면</span>으로 이동합니다.</div>
 					</div>
@@ -133,26 +133,28 @@
 							<th width="35%">봉사활동 명</th>
 							<th width="12%">대분류</th>
 							<th width="10%">대상분류</th>
-							<th width="10%">모집시작일</th>
-							<th width="10%">모집종료일</th>
-							<th width="8%">인원</th>
-							<th width="10%">작성일</th>
+							<th width="14%">모집일</th>
+							<th width="5%">접수</th>
+							<th width="5%">신청</th>
+							<th width="5%">승인</th>
+							<th width="8%">작성일</th>
 							<th width="7%">상태</th>
 						</tr>
 					</thead>
 					
 					<tbody style="font-size: 14px;">
 						<tr th:if="${vHistories.isEmpty()}">
-							<td colspan="8" style="padding: 50px; font-size: 15px; pointer-events: none;">조회 결과가 없습니다.</td>
+							<td colspan="10" style="padding: 50px; font-size: 15px; pointer-events: none;">조회 결과가 없습니다.</td>
 						</tr>
-						<tr th:each="v : ${vHistories}">
+						<tr th:each="v, vStat : ${vHistories}">
 							<td th:text="${v.vNo}"></td>
 							<td th:text="${v.vName}"></td>
 							<td th:text="${v.vMainCategoryName}"></td>
 							<td th:text="${v.vTargetCategoryName}"></td>
-							<td>[[${#strings.substring(#strings.arraySplit(v.vStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vStartDate, "-")[2]}]]</td>
-							<td>[[${#strings.substring(#strings.arraySplit(v.vEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vEndDate, "-")[2]}]]</td>
-							<td>[[${v.vCount}]]/[[${v.vCountAll}]]</td>
+							<td>[[${#strings.substring(#strings.arraySplit(v.vStartDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vStartDate, "-")[1]}]].[[${#strings.arraySplit(v.vStartDate, "-")[2]}]]~[[${#strings.substring(#strings.arraySplit(v.vEndDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vEndDate, "-")[1]}]].[[${#strings.arraySplit(v.vEndDate, "-")[2]}]]</td>
+							<td>[[${peopleCount[vStat.index].reception_count}]]</td>
+							<td>[[${v.vCount}]]</td>
+							<td>[[${peopleCount[vStat.index].applicant_count}]]/[[${v.vCountAll}]]</td>
 							<td>[[${#strings.substring(#strings.arraySplit(v.vCreateDate, "-")[0], 2)}]].[[${#strings.arraySplit(v.vCreateDate, "-")[1]}]].[[${#strings.arraySplit(v.vCreateDate, "-")[2]}]]</td>
 							<td><button type="button" th:class="${v.vStatus == 'Y'? 'state-btn state-y' : 'state-btn state-n'}"></button></td>
 						</tr>
@@ -342,14 +344,14 @@
             const tds = tbody.querySelectorAll('td');
             
             for(let i=0; i<tds.length; i++) {
-            	if(i%9 == 1) {
+            	if(i%10 == 1) {
             		tds[i].addEventListener("click", function() {
             			location.href="volunteerDetail.vo?vNo=" + this.parentElement.children[0].innerText;
             		});
             	}
-            	if(i%9 == 6) {
+            	if(i%10 == 5 || i%10 == 6 || i%10 == 7) {
             		tds[i].addEventListener("click", function() {
-            			location.href="volunteerApplyList.vo?vNo=" + this.parentElement.children[0].innerText;
+            			location.href="volunteerApplyList.vo?vNo=" + this.parentElement.children[0].innerText + "&vHisStatus=" + this.parentElement.parentElement.parentElement.querySelectorAll("th")[i%10].innerText + "&applicant=" + this.parentElement.children[7].innerText.split("/")[0];
             		});
             	}
             }

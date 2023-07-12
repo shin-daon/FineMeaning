@@ -33,6 +33,7 @@
 		<result column="V_CHARGE_PHONE" property="vChargePhone"/>
 		<result column="V_HIS_NO" property="vHisNo"/>
  		<result column="V_HIS_DATE" property="vHisDate"/>
+ 		<result column="V_HIS_STATUS" property="vHisStatus"/>
  		<result column="RESIDENT_NO" property="residentNo"/>
  		<result column="ADDRESS" property="address"/>
  		<result column="PHONE" property="phone"/>
@@ -245,15 +246,8 @@
 		<if test="registrar != null and !registrar.equals('')">
 			 and registrar like '%${registrar}%'
 		</if>
-		<if test="status != null and !status.equals('') and status.equals('신청')">
-			and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) > to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
-		</if>
-		<if test="status != null and !status.equals('') and status.equals('진행')">
-			and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) <= to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
-			and <![CDATA[to_date(to_char(v_end_date, 'yyyy-mm-dd')) >= to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
-		</if>
-		<if test="status != null and !status.equals('') and status.equals('종료')">
-			and <![CDATA[to_date(to_char(v_end_date, 'yyyy-mm-dd')) < to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
+		<if test="status != null and !status.equals('')">
+			and v_his_status like '%${status}%'
 		</if>
 		order by v_his_no desc
 	</select>
@@ -282,15 +276,8 @@
 		<if test="registrar != null and !registrar.equals('')">
 			 and registrar like '%${registrar}%'
 		</if>
-		<if test="status != null and !status.equals('') and status.equals('신청')">
-			and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) > to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
-		</if>
-		<if test="status != null and !status.equals('') and status.equals('진행')">
-			and <![CDATA[to_date(to_char(v_start_date, 'yyyy-mm-dd')) <= to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
-			and <![CDATA[to_date(to_char(v_end_date, 'yyyy-mm-dd')) >= to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
-		</if>
-		<if test="status != null and !status.equals('') and status.equals('종료')">
-			and <![CDATA[to_date(to_char(v_end_date, 'yyyy-mm-dd')) < to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
+		<if test="status != null and !status.equals('')">
+			and v_his_status like '%${status}%'
 		</if>
 		order by v_his_no desc
 	</select>
@@ -420,17 +407,6 @@
 		where v_no = #{vNo}
 	</update>
 	
-	<select id="getVolunteerApplyCount" resultType="_int">
-		select count(*)
-		from v_history
-			 join users using(u_no)
-			 join volunteer on (v_history.v_no = volunteer.v_no)
-			 join v_main_category using(v_main_category_no)
-			 join v_sub_category using(v_sub_category_no)
-			 join v_target_category using(v_target_category_no)
-		where v_history.v_no = #{vNo}
-	</select>
-	
 	<select id="selectVolunteerApplyList" resultMap="volunteerResultSet">
 		select *
 		from v_history
@@ -440,8 +416,17 @@
 			 join v_sub_category using(v_sub_category_no)
 			 join v_target_category using(v_target_category_no)
 		where v_history.v_no = #{vNo}
+		<if test="vHisStatus != null and !vHisStatus.equals('신청')">
+			and v_his_status = #{vHisStatus}
+		</if>
 		order by v_his_no desc
 	</select>
+	
+	<update id="updateVolunteerHistoryStatus">
+		update v_history
+		set v_his_status = #{status}
+		where v_his_no = #{vHisNo}
+	</update>
 	
 	<select id="getAdminVolunteerApplyCount" resultType="_int">
 		select count(*) 
@@ -461,7 +446,7 @@
 	<select id="selectAdminVolunteerApplyList" resultMap="volunteerResultSet">
 		select v.v_no, v_area, v_name, v_content, v_start_date, v_end_date, v_start_time, v_end_time, v_recruitment_start_date,
 	       	   v_recruitment_end_date, v_day, v_countall, v_count, v_location, v_activity_type, v_create_date, v_status, v_charge_name, 
-	           v_charge_phone, v_main_category_name, v_sub_category_name, v_target_category_name, registrar, vh.u_no, v_his_no, v_his_date
+	           v_charge_phone, v_main_category_name, v_sub_category_name, v_target_category_name, registrar, vh.u_no, v_his_no, v_his_date, v_his_status
 	    from volunteer v
 		     join users u on (v.u_no = u.u_no)
 			 join v_main_category vmc on (v.v_main_category_no = vmc.v_main_category_no)
@@ -474,5 +459,63 @@
 			</if>
 		</where>
 		order by v_his_no desc
+	</select>
+	
+	<select id="selectVolunteerApplicantCount" resultType="map">
+		select (select count(*) from v_history where volunteer.v_no = v_history.v_no and v_his_status = '접수') as "reception_count",
+			   (select count(*) from v_history where volunteer.v_no = v_history.v_no and v_his_status = '승인') as "applicant_count"
+		from volunteer
+		<where>
+			<if test="uNo != null">
+				u_no = #{uNo}
+			</if>
+		</where>
+		order by v_no desc
+	</select>
+	
+	<select id="selectSearchVolunteerApplicantCount" resultType="map">
+		select (select count(*) from v_history where volunteer.v_no = v_history.v_no and v_his_status = '접수') as "reception_count",
+			   (select count(*) from v_history where volunteer.v_no = v_history.v_no and v_his_status = '승인') as "applicant_count"
+		from volunteer
+			 join users using(u_no)
+			 join v_main_category using(v_main_category_no)
+			 join v_sub_category using(v_sub_category_no)
+			 join v_target_category using(v_target_category_no)
+		<where>
+			<if test="startDate != null and !startDate.equals('')">
+				and <![CDATA[to_date(to_char(${column}, 'yyyy-mm-dd')) >= #{startDate}]]>
+			</if>
+			<if test="endDate != null and !endDate.equals('')">
+				and <![CDATA[to_date(to_char(${column}, 'yyyy-mm-dd')) <= #{endDate}]]>
+			</if>
+			<if test="vMainCategoryName != null and !vMainCategoryName.equals('')">
+				and v_main_category_name like '%${vMainCategoryName}%'
+			</if>
+			<if test="vName != null and !vName.equals('')">
+				and v_name like '%${vName}%'
+			</if>
+			<if test="vTargetCategoryName != null and !vTargetCategoryName.equals('')">
+				and v_target_category_name like '%${vTargetCategoryName}%'
+			</if>
+			<if test="uNo != null and !uNo.equals('')">
+				and u_no = #{uNo}
+			</if>
+			<if test="status != null and !status.equals('')">
+				<if test="status.equals('모집전')">
+					<![CDATA[and to_date(v_recruitment_start_date) > to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
+				</if>
+				<if test="status.equals('모집중')">
+					<![CDATA[and to_date(v_recruitment_start_date) <= to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
+					<![CDATA[and to_date(v_recruitment_end_date) >= to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
+				</if>
+				<if test="status.equals('모집종료')">
+					<![CDATA[and to_date(v_recruitment_end_date) < to_date(to_char(sysdate, 'yyyy-mm-dd'))]]>
+				</if>
+			</if>
+			<if test="registrar != null">
+				and registrar like '%${registrar}%'
+			</if>
+		</where>
+		order by v_no desc
 	</select>
 </mapper>

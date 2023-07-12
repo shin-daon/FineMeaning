@@ -111,6 +111,11 @@ public class VolunteerServiceImpl implements VolunteerService {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return vDAO.selectMyVolunteerHistory(uNo, rowBounds);
 	}
+	
+	@Override
+	public int updateVolunteerHistoryStatus(HashMap<String, Object> updateStatusMap) {
+		return vDAO.updateVolunteerHistoryStatus(updateStatusMap);
+	}
 
 	@Override
 	public int getSearchMyVolunteerHistoryCount(HashMap<String, Object> myHistorySearchMap) {
@@ -125,15 +130,8 @@ public class VolunteerServiceImpl implements VolunteerService {
 	}
 
 	@Override
-	public int getVolunteerApplyCount(Object vNo) {
-		return vDAO.getVolunteerApplyCount(vNo);
-	}
-
-	@Override
-	public ArrayList<Volunteer> selectVolunteerApplyList(PageInfo pi, Object vNo) {
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return vDAO.selectVolunteerApplyList(vNo, rowBounds);
+	public ArrayList<Volunteer> selectVolunteerApplyList(HashMap<String, Object> applyMap) {
+		return vDAO.selectVolunteerApplyList(applyMap);
 	}
 
 	@Override
@@ -146,6 +144,20 @@ public class VolunteerServiceImpl implements VolunteerService {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return vDAO.selectAdminVolunteerApplyList(vNo, rowBounds);
+	}
+
+	@Override
+	public ArrayList<Integer> selectVolunteerApplicantCount(PageInfo pi, Integer uNo) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return vDAO.selectVolunteerApplicantCount(uNo, rowBounds);
+	}
+
+	@Override
+	public ArrayList<Integer> selectSearchVolunteerApplicantCount(PageInfo pi, HashMap<String, Object> searchEnrollHisMap) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return vDAO.selectSearchVolunteerApplicantCount(searchEnrollHisMap, rowBounds);
 	}
 
 }
