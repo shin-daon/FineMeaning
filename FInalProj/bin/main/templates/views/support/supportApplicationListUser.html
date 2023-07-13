@@ -270,10 +270,12 @@
 <script>	
 	const trs = document.getElementsByClassName('supportTable')[0].querySelectorAll('tr');
 	for(const tr of trs){
-		tr.addEventListener('click', function(){
-			const supportNo = this.querySelector('td').innerText;
-			location.href= "supportDetail.su?supportNo=" + supportNo;
-		})
+		if(tr.querySelector('td').innerText!='후원 신청 내역이 없습니다.'){
+				tr.addEventListener('click', function(){
+				const supportNo = this.querySelector('td').innerText;
+				location.href= "supportDetail.su?supportNo=" + supportNo;
+			})
+		}
 	}
 	const notLoginButton = document.getElementById('notLogin')
 	if(notLoginButton !=null) {
