@@ -237,7 +237,7 @@ $(function(){
 			  alert("후원 기간 설정도 필수입니다.")
 			  $("#popup").fadeOut(); 
 			  startDate.focus();
-		  } else if(supportTitleInput.value.trim==""){
+		  } else if(supportTitleInput.value.trim()==""){
 			  alert("후원 제목을 작성하세요")
 			  $("#popup").fadeOut();
 			  supportTitleInput.focus();
@@ -245,7 +245,7 @@ $(function(){
 			  alert("모금 금액은 10,000원 이상이어야합니다.")
 			  $("#popup").fadeOut();
 			  supportAmount.focus();
-		  } else if(supportDetail.value.trim ==""){
+		  } else if(supportDetail.value.trim() ==""){
 			  alert("후원 내용을 작성하세요")
 			  $("#popup").fadeOut();
 			  supportDetail.focus();
@@ -253,8 +253,8 @@ $(function(){
 		  
 		  
 		  if(supportPic.value!="none" && categoryButton.innerText !="카테고리" 
-				  && startDateInput.value!="" && endDateInput.value!="" && supportTitleInput.value !="" 
-				  && supportAmount.value >=100000 && supportDetail.value !=""){
+				  && startDateInput.value!="" && endDateInput.value!="" && supportTitleInput.value.trim() !="" 
+				  && supportAmount.value >=100000 && supportDetail.value.trim() !=""){
 			  document.getElementById('supportApply').submit();
 		  }
 		  
