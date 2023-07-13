@@ -225,7 +225,25 @@ $(function(){
 		  const supportTitleInput = document.getElementById('supportTitleInput')
 		  const supportAmount = document.getElementById('vCountAll')
 		  const supportDetail = document.getElementById('summernote')
-		  if(supportPic.value =="none"){
+		  
+		  const content = $('#summernote').summernote('code');
+		  let space = true;
+          const cleanContent = content.replace(/<\/?[^>]+(>|$)/g, ''); // HTML 태그 제거
+		  const cleanSpace = cleanContent.replace(/ /gi,"");
+          const cleanSpace2 = cleanContent.replace(/\s/gi,"");
+          const cleanSpace3 = cleanContent.replace(/&nbsp;/gi, '').replace(/\s/gi, ''); // &nbsp; 및 공백 제거
+          if(cleanContent.trim().length ===0){
+			  alert('후원 내용을 입력하세요')
+			  space = false;
+			  $("#popup").fadeOut();
+		  } else if(cleanSpace.trim().length===0 || cleanSpace2.trim()=="" || cleanSpace3.trim()==""){
+			  alert('후원 내용을 입력하세요')
+			  space = false;
+			  $("#popup").fadeOut();
+		  }
+          
+          
+          if(supportPic.value =="none"){
 			  alert("후원 대표사진 설정은 필수입니다.")
 			  $("#popup").fadeOut();
 			  document.getElementById('groupReprePic').click();
@@ -251,10 +269,9 @@ $(function(){
 			  supportDetail.focus();
 		  }
 		  
-		  
 		  if(supportPic.value!="none" && categoryButton.innerText !="카테고리" 
 				  && startDateInput.value!="" && endDateInput.value!="" && supportTitleInput.value.trim() !="" 
-				  && supportAmount.value >=100000 && supportDetail.value.trim() !=""){
+				  && supportAmount.value >=100000 && supportDetail.value.trim() !="" && cleanContent.trim().length !== 0 && space){
 			  document.getElementById('supportApply').submit();
 		  }
 		  
