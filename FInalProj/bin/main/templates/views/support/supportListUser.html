@@ -93,11 +93,19 @@
 						const category = document.getElementById('area').value;
 						console.log(category)
 						if(category=='none'){
-							const searchWord = document.getElementsByClassName('searchInput')[0].value
-							location.href="searchMyList.su?searchWord="+searchWord
+							const searchWord = document.getElementsByClassName('searchInput')[0].value.trim()
+							if(searchWord!=""){
+								location.href="searchMyList.su?searchWord="+searchWord
+							} else{
+								alert('검색어를 입력해주세요.')
+							}
 						} else{
-							const searchWord = document.getElementsByClassName('searchInput')[0].value
-							location.href="categorySupportListUser.su?searchWord=" + searchWord + "&category="+category;
+							const searchWord = document.getElementsByClassName('searchInput')[0].value.trim();
+							if(searchWord.trim()!=""){
+								location.href="categorySupportListUser.su?searchWord=" + searchWord + "&category="+category;
+							} else{
+								alert('검색어를 입력해주세요.')
+							}
 						}
 					})
 					
@@ -132,7 +140,7 @@
 	            		<tr th:if="${shList.isEmpty}">
 			                	<td colspan="7">후원 내역이 없습니다.</td>
 			             <tr>
-		                <tr th:each="sh:${shList}" th:if="${shList!=null}">
+		                <tr th:each="sh:${shList}" th:if="${!shList.isEmpty}">
 		                    <td>[[${sh.supportNo}]]</td>
 		                    <td>[[${sh.category}]]</td>
 		                    <td>[[${sh.supportTitle}]]</td>
@@ -153,9 +161,10 @@
 	        
 	        
 	        <script>
-	        	const trs = document.getElementsByClassName('supportTable')[0].querySelectorAll('tr');
+	        	const trs = document.getElementsByClassName('supportTable')[0].querySelector('tbody').querySelectorAll('tr');
 	        	for(const tr of trs){
-	        		if(tr.querySelector('td').innerText!='후원 내역이 없습니다.'){	        			
+	        		const td = tr.querySelectorAll('td')
+	        		if(td.innerText!=='후원 내역이 없습니다.'){	        			
 		        		tr.addEventListener('click', function(){
 		        			const supportNo = this.querySelector('td').innerText;
 		        			location.href="supportDetail.su?supportNo=" + supportNo;
