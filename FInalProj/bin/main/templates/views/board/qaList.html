@@ -205,23 +205,25 @@ button.writeFaqBtn.learn-more {
 			const tbody = document.querySelector('tbody');
 			const tds = tbody.querySelectorAll('td');
 			for(const td of tds){
-				td.addEventListener('click', function() {
-					const trTds = this.parentElement.children;
-					const boardNo = trTds[0].innerText;
-					const writer = /*[[ ${session.loginUser.uNickName} ]]*/1;
-					const map = /*[[${map}]]*/0;
-					const page = /*[[${pi.currentPage}]]*/0;
-					
-					let url = '';
-					
-					if(map != null){
-						if(map.hasOwnProperty('keyword')){
-							url += '&keyword=' + map.keyword;
+				if(td.innerText!='게시글이 없습니다'){
+						td.addEventListener('click', function() {
+						const trTds = this.parentElement.children;
+						const boardNo = trTds[0].innerText;
+						const writer = /*[[ ${session.loginUser.uNickName} ]]*/1;
+						const map = /*[[${map}]]*/0;
+						const page = /*[[${pi.currentPage}]]*/0;
+						
+						let url = '';
+						
+						if(map != null){
+							if(map.hasOwnProperty('keyword')){
+								url += '&keyword=' + map.keyword;
+							}
 						}
-					}
-					location.href='qaDetailPage.bo?bNo=' + boardNo 
-							+ '&writer=' + writer + '&page=' + page + url;
-				});
+						location.href='qaDetailPage.bo?bNo=' + boardNo 
+								+ '&writer=' + writer + '&page=' + page + url;
+					});
+				}
 			}
 			/* ]]> */
 			
