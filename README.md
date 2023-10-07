@@ -24,7 +24,7 @@
 <br>
 
 ## 🌐 DB 설계
-<p align="center"><img width="70%" src="https://github.com/shin-daon/finalProj/assets/126737580/18b334ea-f053-4d1e-b7d7-7f935e6187cf"/></p>
+<p align="center"><img width="80%" src="https://github.com/shin-daon/finalProj/assets/126737580/18b334ea-f053-4d1e-b7d7-7f935e6187cf"/></p>
 
 <br>
 
@@ -47,8 +47,8 @@
 <br>
 
 ## 🖥️ 웹 화면
-<p align="center"><img width="70%" src="https://github.com/shin-daon/finalProj/assets/126737580/91c233e3-455a-4746-8b35-8f1daa71123b"/></p>
-<p align="center"><img width="70%" src="https://github.com/shin-daon/finalProj/assets/126737580/dd0217b5-ed33-40cb-8ca9-d6ddef7dcaf9"/></p>
+<p align="center"><img width="80%" src="https://github.com/shin-daon/finalProj/assets/126737580/91c233e3-455a-4746-8b35-8f1daa71123b"/></p>
+<p align="center"><img width="80%" src="https://github.com/shin-daon/finalProj/assets/126737580/dd0217b5-ed33-40cb-8ca9-d6ddef7dcaf9"/></p>
 
 <br>
 
