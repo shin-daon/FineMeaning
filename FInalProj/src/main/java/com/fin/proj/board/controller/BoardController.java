@@ -30,7 +30,7 @@ import com.fin.proj.board.model.vo.Board;
 import com.fin.proj.board.model.vo.Reply;
 import com.fin.proj.common.Pagination;
 import com.fin.proj.common.model.vo.PageInfo;
-import com.fin.proj.member.model.vo.Member;
+import com.fin.proj.user.model.vo.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -98,7 +98,7 @@ public class BoardController {
 		// 상세보기의 경우 조회수 +1, but 내 글 클릭 시 조회수 +0 (로그인 유저 정보 가져와서 비교)
 		// 파라미터로 받은 page를 통해 목록으로 돌아갔을 시 원래 보던 페이지 노출
 		
-		Member m = (Member)session.getAttribute("loginUser");
+		User m = (User)session.getAttribute("loginUser");
 //		System.out.println(m);
 		
 		String readerNickName = null;
@@ -140,7 +140,7 @@ public class BoardController {
 	@PostMapping("insertFaq.bo")
 	public String insertFaq(@ModelAttribute Board b, HttpSession session) {
 		
-		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		int uNo = ((User)session.getAttribute("loginUser")).getuNo();
 		b.setuNo(uNo);
 		b.setBoardType("자주 묻는 질문");
 		
@@ -220,7 +220,7 @@ public class BoardController {
 		int result = bService.updateBoard(b);
 		
 		if(result > 0) {
-			ra.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuNickName());
+			ra.addAttribute("writer", ((User)session.getAttribute("loginUser")).getuNickName());
 			ra.addAttribute("bNo", b.getBoardNo());
 			ra.addAttribute("page", page);
 			return "redirect:faqDetail.bo";
@@ -279,7 +279,7 @@ public class BoardController {
 	@PostMapping("insertFinePeople.bo")
 	public String insertFinePeople(@ModelAttribute Board b, HttpSession session) {
 		
-		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		int uNo = ((User)session.getAttribute("loginUser")).getuNo();
 		b.setuNo(uNo);
 		b.setBoardType("선뜻한 사람");
 		
@@ -426,7 +426,7 @@ public class BoardController {
 							  @RequestParam(value="keyword", required=false) String keyword, @RequestParam(value="category", required=false) Integer category) {
 		
 		
-		Member m = (Member)session.getAttribute("loginUser");
+		User m = (User)session.getAttribute("loginUser");
 //		System.out.println(m);
 		
 		boolean countYN = false;
@@ -474,7 +474,7 @@ public class BoardController {
 	public String insertFruit(@ModelAttribute Board b, HttpSession session) {
 		
 //		System.out.println(b);
-		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		int uNo = ((User)session.getAttribute("loginUser")).getuNo();
 		b.setuNo(uNo);
 		b.setBoardType("결실");
 		
@@ -558,7 +558,7 @@ public class BoardController {
 		int result = bService.updateBoard(b);
 		
 		if(result > 0) {
-			ra.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuNickName());
+			ra.addAttribute("writer", ((User)session.getAttribute("loginUser")).getuNickName());
 			ra.addAttribute("bNo", b.getBoardNo());
 			ra.addAttribute("page", page);
 			
@@ -624,7 +624,7 @@ public class BoardController {
 	@PostMapping("insertFineNews.bo")
 	public String insertFineNews(@ModelAttribute Board b, HttpSession session, Model model) {
 		
-		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		int uNo = ((User)session.getAttribute("loginUser")).getuNo();
 		b.setuNo(uNo);
 		b.setBoardType("선한 뉴스");
 		
@@ -800,7 +800,7 @@ public class BoardController {
 			currentPage = 1;
 		}
 		
-		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		int uNo = ((User)session.getAttribute("loginUser")).getuNo();
 		
 		listCount = bService.myReplyCount(uNo);
 		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
@@ -828,7 +828,7 @@ public class BoardController {
 			currentPage = 1;
 		}
 		
-		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		int uNo = ((User)session.getAttribute("loginUser")).getuNo();
 		listCount = bService.myBoardCount(uNo);
 		pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Board> list = bService.selectMyBoard(pageInfo, uNo);
@@ -908,7 +908,7 @@ public class BoardController {
 							  HttpSession session, Model model, 
 							  @RequestParam(value="keyword", required=false) String keyword) {
 		
-		Member m = (Member)session.getAttribute("loginUser");
+		User m = (User)session.getAttribute("loginUser");
 		
 		String me = null;
 		if(m != null) {
@@ -939,7 +939,7 @@ public class BoardController {
 	
 	@PostMapping("insertCommBoard.bo")
 	public String insertCommBoard(@ModelAttribute Board b, HttpSession session) {
-		int id = ((Member)session.getAttribute("loginUser")).getuNo();
+		int id = ((User)session.getAttribute("loginUser")).getuNo();
 		System.out.println("id=" + id);
 		b.setuNo(id);
 		b.setBoardType("일반");
@@ -971,7 +971,7 @@ public class BoardController {
 		
 		if(result > 0) {
 			ra.addAttribute("bNo", b.getBoardNo());
-			ra.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuNickName());
+			ra.addAttribute("writer", ((User)session.getAttribute("loginUser")).getuNickName());
 			ra.addAttribute("page", page);
 			return "redirect:commDetailPage.bo";
 		} else {
@@ -1045,7 +1045,7 @@ public class BoardController {
 	
 	@PostMapping("insertNoticeBoard.bo")
 	public String insertNoticeBoard(@ModelAttribute Board b, HttpSession session) {
-		int id = ((Member)session.getAttribute("loginUser")).getuNo();
+		int id = ((User)session.getAttribute("loginUser")).getuNo();
 		System.out.println("id=" + id);
 		b.setuNo(id);
 		b.setBoardType("공지");
@@ -1115,7 +1115,7 @@ public class BoardController {
 	        currentPage = 1;
 	    }
 	    
-	    int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+	    int uNo = ((User)session.getAttribute("loginUser")).getuNo();
 	    int listCount = bService.getListMyQaCount(uNo);
 
 	    PageInfo pageInfo = Pagination.getPageInfo(currentPage, listCount, 10);
@@ -1160,7 +1160,7 @@ public class BoardController {
 							  HttpSession session, Model model,
 							  @RequestParam(value="keyword", required=false) String keyword) {
 		
-		Member m = (Member)session.getAttribute("loginUser");
+		User m = (User)session.getAttribute("loginUser");
 		
 		String me = null;
 		if(m != null) {
@@ -1192,7 +1192,7 @@ public class BoardController {
 	
 	@PostMapping("insertQaBoard.bo")
 	public String insertQaBoard(@ModelAttribute Board b, HttpSession session) {
-		int id = ((Member)session.getAttribute("loginUser")).getuNo();
+		int id = ((User)session.getAttribute("loginUser")).getuNo();
 		System.out.println("id=" + id);
 		b.setuNo(id);
 		b.setBoardType("QA");
@@ -1215,7 +1215,7 @@ public class BoardController {
 		
 		if(result > 0) {
 			ra.addAttribute("bNo", b.getBoardNo());
-			ra.addAttribute("writer", ((Member)session.getAttribute("loginUser")).getuId());
+			ra.addAttribute("writer", ((User)session.getAttribute("loginUser")).getuId());
 			ra.addAttribute("page", page);
 			return "redirect:qaDetailPage.bo";
 			

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fin.proj.auth.oauth.info.KakaoUserInfo;
 import com.fin.proj.auth.oauth.info.OAuthUserInfo;
-import com.fin.proj.member.model.vo.Member;
+import com.fin.proj.user.model.vo.User;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -42,7 +42,7 @@ public class KakaoOAuthService implements OAuthService {
     private String kakaoUserInfoUri;
 
     @Override
-    public Member login(String code) {
+    public User login(String code) {
         String accessToken = this.getAccessToken(code);
         OAuthUserInfo kakaoUserInfo = this.getOAuthUserInfo(accessToken);
 
@@ -50,19 +50,15 @@ public class KakaoOAuthService implements OAuthService {
         // ex) 회원가입 안 한 유저라면 회원가입 페이지로 넘기기 (여기서 if 문으로 처리하고 controller에서 회원가입 되어 있는지 로그인인지 확인해서 페이지 보내기)
         // ex) 회원가입 했다면 로그인 시켜주기 등등
         
-        Member m = new Member();
-        m.setKakaoId(kakaoUserInfo.getId());
-        m.setEmail(kakaoUserInfo.getEmail());
-        
-        System.out.println("m = " + m);
-        
-        // 이런 식으로 정보를 가져오면 됩니다.
-        // 정보는 카카오 developers 콘솔에서 동의 항목 설정한 것들만 가져올 수 있습니다.
+        User u = new User();
+        u.setKakaoId(kakaoUserInfo.getId());
+        u.setEmail(kakaoUserInfo.getEmail());
+
         System.out.println("nickname = " + kakaoUserInfo.getNickname());
         System.out.println("id = " + kakaoUserInfo.getId());
         System.out.println("Email() = " + kakaoUserInfo.getEmail());
         
-        return m;
+        return u;
     }
 
     @Override

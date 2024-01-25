@@ -16,9 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fin.proj.auth.oauth.service.KakaoOAuthService;
-import com.fin.proj.member.model.exception.MemberException;
-import com.fin.proj.member.model.service.MemberService;
-import com.fin.proj.member.model.vo.Member;
+import com.fin.proj.user.model.exception.UserException;
+import com.fin.proj.user.model.service.UserService;
+import com.fin.proj.user.model.vo.User;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -31,7 +31,7 @@ public class OAuthController {
     private KakaoOAuthService kakaoOAuthService;
     
     @Autowired
-    private MemberService mService;
+    private UserService uService;
 
     @ResponseBody
     @GetMapping("/login/oauth2/kakao")
@@ -40,49 +40,44 @@ public class OAuthController {
     								   HttpServletResponse response) throws IOException {
     	ModelAndView mv = new ModelAndView();
     	
-        Member m = kakaoOAuthService.login(code);     
-        Member loginUser = mService.kakaoLogin(m);
+        User u = kakaoOAuthService.login(code);     
+        User loginUser = uService.kakaoLogin(u);
        
         if(loginUser != null) {
-        	//mv.addObject("loginUser", loginUser);
-        	//session.setAttribute("loginUser", loginUser);
         	model.addAttribute("loginUser", loginUser);
         	mv.setViewName("redirect:/");        	
         } else {
         	redirectAttributes.addFlashAttribute("alertMessage", "카카오 아이디가 존재하지 않아 추가 정보를 등록해야 합니다.");
-        	redirectAttributes.addFlashAttribute("newUser", m);
-        	model.addAttribute("newUser", m);
-        	System.out.println("newUser : " + m);
+        	redirectAttributes.addFlashAttribute("newUser", u);
+        	model.addAttribute("newUser", u);
+        	System.out.println("newUser : " + u);
         	mv.setViewName("redirect:/kakaoEnroll.me");
         }
 
         return mv;
     }
     
-    @GetMapping("kakaoEnroll.me")
-    public String kakaoEnroll(Model model, @ModelAttribute("newUser") Member newUser, HttpSession session) {
+    @GetMapping("kakaoEnroll.us")
+    public String kakaoEnroll(Model model, @ModelAttribute("newUser") User newUser, HttpSession session) {
     	session.setAttribute("newUser", newUser);
-    	System.out.println("newUser : " + newUser);
+    	
     	return "kakaoEnroll";
     }
     
-    @PostMapping("kakaoEnrollForm.me")
-    public String kakaoEnrollForm(Model model, HttpSession session, @ModelAttribute Member m) {
+    @PostMapping("kakaoEnrollForm.us")
+    public String kakaoEnrollForm(Model model, HttpSession session, @ModelAttribute User u) {
     	
-    	Member newUser = (Member)session.getAttribute("newUser");
+    	User newUser = (User)session.getAttribute("newUser");
     	
-    	System.out.println("newUser : " + newUser);
-    	m.setKakaoId(newUser.getKakaoId());
-    	m.setEmail(newUser.getEmail());
-    	
-    	System.out.println(m);
+    	u.setKakaoId(newUser.getKakaoId());
+    	u.setEmail(newUser.getEmail());
 
-		int result = mService.kakaoEnroll(m);
+		int result = uService.kakaoEnroll(u);
 		
 		if(result > 0) {	
 			return "redirect:/";
 		} else {
-			throw new MemberException("회원가입 실패");
+			throw new UserException("회원가입 실패");
 		}
     }
     

@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="css/user/enroll.css">
+<title>선뜻</title>
+<link rel="shortcut icon" type="image/x-icon" href="image/heart.png"/>
+</head>
+<body>
+<div th:replace="~{views/common/header :: header}"></div>
+<br><br><br><br>
+
+<div class="enroll">
+	<div class="enroll-title">회원가입</div>
+	
+	<form action="insertUser.me" method="post" name="enrollForm">
+		<div class="insert id">
+			<label class="title">아이디</label>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="아이디" name="uId" required maxlength="20"/>
+				<input type="hidden" id="idCheck"/>
+				<div class="check-div"><label id="idCheckResult"></label></div>
+			</div>
+		</div>
+		
+		<div class="insert pwd">
+			<label class="title">비밀번호</label><br>
+			<span class="pwd-comment">영문, 숫자를 포함한 8 - 16자의 비밀번호를 입력해주세요.</span>
+			<div class="input">
+				<input type="password" id="normal-input" placeholder="비밀번호" name="uPwd" required/>
+				<div class="check-div"><label id="pwdResult"></label></div>
+			</div>
+		</div>
+		
+		<div class="insert pwd">
+			<label class="title">비밀번호 확인</label>
+			<div class="input">
+				<input type="password" id="normal-input" placeholder="비밀번호 확인" name="checkPwd" required/>
+				<div class="check-div"><label id="pwdCheckResult"></label></div>
+			</div>
+		</div>
+		
+		<div class="insert name">
+			<label class="title">이름</label>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="이름" name="uName" maxlength="50" required/>
+			</div>
+		</div>
+	
+		<div class="insert agency-name">
+			<label class="title">회원 유형</label><br>
+			<span class="pwd-comment">단체 회원일 경우 기관명을 입력해주세요.</span>
+			<div class="input">
+				<input type="radio" id="user-type" name="uType" value="일반" required/><span class="radio-comment">일반</span>
+				<input type="radio" id="user-type" name="uType" value="단체"/><span class="radio-comment">단체</span>
+				<input type="text" id="short-input" name="registrar" placeholder="기관명" maxlength="50"/>
+			</div>
+		</div>
+	
+		<div class="insert ssn">
+			<label class="title">생년월일</label><br>
+			<span class="pwd-comment">8자리로 입력해주세요.</span>
+			<div class="input">
+				<input type="text" id="normal-input" name="residentNo" placeholder="생년월일" maxlength="8" required> 
+				<div class="check-div"><label id="ssnCheckResult"></label></div>
+			</div>
+		</div>
+		
+		<div class="insert address">
+			<label class="title">주소</label>
+			<div class="input">
+				<input type="text" placeholder="주소" name="address" id="sample6_address" required/>
+			</div>
+			<div class="address-btn">
+				<button class="normal-btn" type="button" onclick="sample6_execDaumPostcode()" id="search-ad">주소 검색</button>
+			</div>
+		</div>
+		
+		<div class="insert phone">
+			<label class="title">전화번호</label><br>
+			<span class="pwd-comment">하이픈(-)을 제외한 11자리 숫자를 입력해주세요.</span>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="전화번호" name="phone" maxlength="11" oninput="filterNonNumeric(this)" required/>
+				<div class="check-div"><label id="phoneCheckResult"></label></div>
+			</div>
+		</div>
+		
+		<div class="insert email">
+			<label class="title">이메일</label>
+			<div class="input email-input">
+				<input type="text" id="email-input" placeholder="이메일" name="emailId" required/><span class="nothing">@</span>
+				
+				<select name="emailDomain" id="email-select">
+					<option>naver.com</option>
+					<option>gmail.com</option>
+					<option>daum.net</option>
+					<option>nate.com</option>
+					<option>직접입력</option>
+				</select>
+				
+           		<input type="text" id="custom-email-input" style="display: none;" name="emailDomain"/>
+           		<span class="x-btn" style="display: none;"><img src="image/x.png"></span>
+			</div>
+       						
+			<div class="input">
+				<input type="text" id="number-input" placeholder="인증번호" name="randomNumInput" required/>
+				<button class="short-btn" id="emailBtn">메일 전송</button>
+				<button class="short-btn" id="emailBtn2" style="display:none";>확인</button>
+				<div class="check-div"><label id="emailCheckResult"></label>&nbsp;<label id="emailCheckResult2"></label></div>
+				<input type="hidden" id="numCheck"/>
+			</div>					
+			</div>
+				
+		<div class="insert nickName">
+			<label class="title">닉네임</label>
+			<div class="input">
+				<input type="text" id="normal-input" placeholder="닉네임" name="uNickName" maxlength="15" required/>
+				<div class="check-div"><label id="nickNameCheckResult"></label></div>
+				<input type="hidden" id="nickNameCheck"/>
+			</div>
+		</div>
+
+		<div class="insert enroll-btn">
+			<button class="learn-more" type="button" id="enrollBtn" onClick="checkAllConditions();">가입하기</button>
+		</div>							
+	</form>	
+	</div>
+		<div class="enroll-comment">이미 아이디가 있으신가요? <a href="loginView.me">로그인</a></div>
+
+	<br><br><br><br>
+<div th:replace="~{views/common/footer :: footer}"></div>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+	// 아이디
+	const id = document.getElementsByName('uId')[0];
+	const idResult = document.getElementById('idCheckResult');
+	const regExp = /^[^ㄱ-ㅎㅏ-ㅣ가-힣]{5,20}$/
+	let idCheck = document.getElementById('idCheck');
+	
+	id.addEventListener('input', function(){
+		if(this.value.trim() == ''){
+			idResult.innerText = '아이디를 입력해주세요.';
+			idResult.style.color = 'gray';
+			id.style.outline = '';
+			id.style.boxShadow = '';
+			
+		} else if(!regExp.test(id.value)) {
+			idResult.innerText = '아이디는 5자 이상의 영문자, 숫자만 입력 가능 합니다.';
+			idResult.style.color = 'red';
+			id.style.outline = '1px solid red';
+			id.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+			
+		} else {
+			$.ajax({
+				url: 'checkId.me',
+				data: {uId:this.value.trim()},
+				success: data => {
+					console.log(data);
+					if(data == 'yes'){
+						idResult.innerText = '사용 가능한 아이디입니다.';
+						idResult.style.color = '#609966';
+						id.style.outline = '1px solid #609966';
+						id.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+						idCheck.value = 'Y';
+						
+					} else if(data == 'no'){
+						idResult.innerText = "사용 불가능한 아이디입니다.";
+						idResult.style.color = 'red';
+						id.style.outline = '1px solid red';
+						id.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+						idCheck.value = 'N';
+					}
+				},
+				error: data => {
+					console.log(data);
+				}
+			});
+		}
+		
+	});
+	
+	// 비밀번호
+	const pwdInput = document.querySelector('input[name="uPwd"]');
+	const pwdResult = document.getElementById('pwdResult');
+	
+	const passwordInput = document.querySelector('input[name="uPwd"]');
+	const confirmPasswordInput = document.querySelector('input[name="checkPwd"]');
+	const pwdCheckResult = document.getElementById('pwdCheckResult');
+	
+	pwdInput.addEventListener('input', validatePwd);
+	confirmPasswordInput.addEventListener('input', validatePwd);
+	
+	function validatePwd() {
+	  const pwdInputValue = pwdInput.value;
+	  const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
+	  const password = passwordInput.value;
+	  const confirmPassword = confirmPasswordInput.value;
+	
+	  if (pwdRegex.test(pwdInputValue)) {
+		pwdResult.textContent = '';
+		pwdResult.style.color = '#609966';
+		pwdInput.style.outline = '1px solid #609966';
+		pwdInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';	    
+	  } else {
+		pwdResult.textContent = '올바른 비밀번호를 입력해주세요.';
+		pwdResult.style.color = 'red';
+		pwdInput.style.outline = '1px solid red';
+		pwdInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  }
+	  
+	  if (confirmPassword.trim() == '') {
+		  	pwdCheckResult.textContent = '';
+		  	confirmPasswordInput.style.outline = '';
+		  	confirmPasswordInput.style.boxShadow = '';
+	  } else if (password === confirmPassword) {
+		  	pwdCheckResult.innerText = '';
+		  	pwdCheckResult.style.color = '#609966';
+		  	confirmPasswordInput.style.outline = '1px solid #609966';
+		  	confirmPasswordInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	  } else if (password !== confirmPassword) {
+	  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
+	  		pwdCheckResult.style.color = 'red';
+	  		confirmPasswordInput.style.outline = '1px solid red';
+	  		confirmPasswordInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  }  
+	}
+	
+	// 비밀번호 확인
+	confirmPasswordInput.addEventListener('input', validatePassword);
+	
+	function validatePassword() {
+	  const password = passwordInput.value;
+	  const confirmPassword = confirmPasswordInput.value;
+
+	  if (confirmPassword.trim() == '') {
+		  	pwdCheckResult.textContent = '';
+		  	confirmPasswordInput.style.outline = '';
+		  	confirmPasswordInput.style.boxShadow = '';
+	  } else if (password === confirmPassword) {
+		  	pwdCheckResult.innerText = '';
+		  	pwdCheckResult.style.color = '#609966';
+		  	confirmPasswordInput.style.outline = '1px solid #609966';
+		  	confirmPasswordInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	  } else if (password !== confirmPassword) {
+	  		pwdCheckResult.textContent = '비밀번호가 일치하지 않습니다.';
+	  		pwdCheckResult.style.color = 'red';
+	  		confirmPasswordInput.style.outline = '1px solid red';
+	  		confirmPasswordInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  }
+	}
+	
+	// 이름
+	const nameInput = document.querySelector('input[name="uName"]');
+	
+	nameInput.addEventListener('input', () => {
+	  if (nameInput.value.trim() === '') {
+		nameInput.style.outline = '1px solid red';
+		nameInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  } else {
+		nameInput.style.outline = '1px solid #609966';
+		nameInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	  }
+	});
+	
+	// 회원 유형
+	const normalRadio = document.querySelector('input[name="uType"][value="일반"]');
+	const agencyRadio = document.querySelector('input[name="uType"][value="단체"]');
+	const agencyNameInput = document.getElementsByName('registrar')[0];
+	
+	normalRadio.addEventListener('change', toggleAgencyNameInput);
+	agencyRadio.addEventListener('change', toggleAgencyNameInput);
+	
+	function toggleAgencyNameInput() {
+	  if (agencyRadio.checked) {
+	    agencyNameInput.readOnly = false;	    
+	  } else {
+	    agencyNameInput.readOnly = true;
+	    agencyNameInput.value = '';
+	    agencyNameInput.style.outline = '';
+		agencyNameInput.style.boxShadow = '';
+	  }
+	}
+	
+	agencyNameInput.addEventListener('input', () => {
+	  if (agencyRadio.checked && agencyNameInput.value.trim() !== '') {
+		  agencyNameInput.style.outline = '1px solid #609966';
+		  agencyNameInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+		
+	  } else if (agencyRadio.checked && agencyNameInput.value.trim() === '') {
+		  agencyNameInput.style.outline = '1px solid red';
+		  agencyNameInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  }
+	});
+	
+	// 생년월일
+	const residentNo = document.querySelector('input[name="residentNo"]');
+	const ssnCheckResult = document.getElementById('ssnCheckResult');
+	
+	residentNo.addEventListener('input', validateSSN);
+	
+	function validateSSN() {
+	  const firstPart = residentNo.value;
+	  const ssnRegexFirst = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
+	
+	  if (ssnRegexFirst.test(firstPart)) {
+	    ssnCheckResult.textContent = '';
+	    residentNo.style.outline = '1px solid #609966';
+	    residentNo.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	  } else {
+	    ssnCheckResult.textContent = '올바른 생년월일을 입력해주세요.';
+	    ssnCheckResult.style.color = 'red';
+	    residentNo.style.outline = '1px solid red';
+	    residentNo.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  }
+	}
+	
+	// 주소
+	const addInput = document.querySelector('input[name="address"]');
+	const agencyInput = document.querySelector('input[name="registrar"]');
+
+	addInput.addEventListener('input', () => {
+	  if (addInput.value.trim() === '') {
+		addInput.style.outline = '1px solid red';
+		addInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  } else {
+		addInput.style.outline = '1px solid #609966';
+		addInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	  }
+	});
+	
+	// 주소 찾기
+    function sample6_execDaumPostcode() {
+    	var width = 500; //팝업의 너비
+    	var height = 600; //팝업의 높이
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;                  
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById("sample6_address").value = addr;
+                
+                const addInput = document.querySelector('input[name="address"]');
+                addInput.style.outline = '1px solid #609966';
+        		addInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+            }
+        }).open({
+            left: (window.screen.width / 1.35) - (width / 2), 
+            top: (window.screen.height / 2) - (height / 2)
+        });
+    }
+	
+	// 전화번호
+	const phoneInput = document.querySelector('input[name="phone"]');
+
+	phoneInput.addEventListener('input', () => {
+	  if (phoneInput.value.trim() === '') {
+		phoneInput.style.outline = '1px solid red';
+		phoneInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+	  } else {
+		phoneInput.style.outline = '1px solid #609966';
+		phoneInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+	  }
+	});
+	
+	function filterNonNumeric(input) {
+	  const regex = /[^0-9]/g;
+	  input.value = input.value.replace(regex, '');
+	}
+	
+	// 이메일 버튼
+    const emailSelect = document.getElementById('email-select');
+    const customEmailInput = document.getElementById('custom-email-input');
+    const emailInput = document.getElementsByClassName('email-input')[0];
+    const xBtn = document.getElementsByClassName('x-btn')[0];
+
+    emailSelect.addEventListener('change', function() {
+        if (emailSelect.value === '직접입력') {
+            emailSelect.style.display = 'none';
+            customEmailInput.style.display = 'inline-block';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'block';
+        }
+    });
+
+    customEmailInput.addEventListener('input', function() {
+        if (customEmailInput.value === '') {
+            emailSelect.style.display = 'none';
+            emailSelect.selectedIndex = 0;
+        }
+    });
+    
+    xBtn.addEventListener('click', function() {
+            emailSelect.style.display = 'inline-block';
+            customEmailInput.style.display = 'none';
+            emailInput.style.display = 'block';
+            xBtn.style.display = 'none';
+            emailSelect.value = 'naver.com';
+            customEmailInput.value = '';
+    });
+    
+ 	// 이메일 폼
+	const form = document.getElementsByName('enrollForm')[0];
+
+	form.addEventListener('submit', function(event) {
+  		if (customEmailInput.value === '') {
+  			customEmailInput.setAttribute('name', '');
+    		emailSelect.setAttribute('name', 'emailDomain');
+  		} else {
+  			customEmailInput.setAttribute('name', 'emailDomain');
+   			emailSelect.setAttribute('name', '');
+  		}
+	});
+	
+	// 이메일 인증		
+	const emailBtn = document.getElementById('emailBtn');
+	const emailBtn2 = document.getElementById('emailBtn2');	
+	
+	emailBtn.addEventListener("click", function() {
+		event.preventDefault();
+		const emailId = document.getElementsByName("emailId")[0].value;
+		const emailDomain = document.getElementById("email-select").value;
+		const customEmailDomain = document.getElementById("custom-email-input").value;
+		const randomNumInput = document.getElementsByName("randomNumInput")[0].value;
+		const randomNum = document.getElementsByName("randomNumInput")[0];
+		const emailCheckResult = document.getElementById('emailCheckResult');
+		const emailCheckResult2 = document.getElementById('emailCheckResult2');
+		
+		let emailAddress;
+
+		if (emailDomain === "직접입력") {
+			emailAddress = emailId + "@" + customEmailDomain;
+		} else {
+			emailAddress = emailId + "@" + emailDomain;
+		}
+		
+		if(emailId.trim() == ''){
+			emailCheckResult.innerText = '이메일을 입력해주세요.';
+			emailCheckResult.style.color = 'gray';
+		} else {
+			emailCheckResult.innerHTML = '메일 전송 중입니다. 잠시만 기다려주세요.';
+			console.log(emailAddress);
+			$.ajax({
+	            url: 'checkEmail.me',
+	            data: { emailAddress: emailAddress },
+	            success: function(response) {
+	                data = response;
+	                
+	                emailBtn.style.display = 'none';
+	                emailBtn2.style.display = 'inline-block';
+	                emailCheckResult.innerHTML = '메일이 전송되었습니다. 인증번호를 입력한 뒤 <br> 확인 버튼을 클릭해주세요.';
+	                emailCheckResult2.innerHTML = '재전송받기';
+	                emailCheckResult2.style.fontWeight = 'bold';
+	                
+	                emailCheckResult2.addEventListener("click", function() {
+	                	emailBtn2.style.display = 'none';
+	                	emailBtn.style.display = 'inline-block';
+	                	emailCheckResult.style.color = '';
+	                	randomNum.style.outline = '';
+	    		        randomNum.style.boxShadow = '';
+	    		        emailCheckResult.innerHTML = '';
+	    		        emailCheckResult2.innerHTML = '';
+	                });
+	                	        				
+       				// 이메일 폼
+       				const form = document.getElementsByName('enrollForm')[0];
+       				const emailSelect = document.getElementById('email-select');
+       			    const customEmailInput = document.getElementById('custom-email-input');
+
+       			  		if (customEmailInput.value === '') {
+       			  			customEmailInput.setAttribute('name', '');
+       			    		emailSelect.setAttribute('name', 'emailDomain');
+       			  		} else {
+       			  			customEmailInput.setAttribute('name', 'emailDomain');
+       			   			emailSelect.setAttribute('name', '');
+       			  		}
+   
+	            },
+	            error: function() {
+	                console.log("데이터 전송 실패");
+	            }
+	        });
+	    }        
+	});
+	
+		emailBtn2.addEventListener("click", function() {
+			event.preventDefault();
+			const emailId = document.getElementsByName("emailId")[0];
+			const emailDomain = document.getElementById("email-select");
+			const customEmailDomain = document.getElementById("custom-email-input");
+			const randomNum = document.getElementsByName("randomNumInput")[0].value;
+			const randomNumInput = document.getElementsByName("randomNumInput")[0];
+			const emailCheckResult = document.getElementById('emailCheckResult');
+			const emailCheckResult2 = document.getElementById('emailCheckResult2');
+			const password = document.querySelector('input[name="uPwd"]').value;
+			const confirmPassword = document.querySelector('input[name="checkPwd"]').value;
+			let numCheck = document.getElementById('numCheck');
+			
+			if (data === randomNum) {
+		        emailCheckResult.innerText = '인증이 완료되었습니다.';
+		        emailCheckResult.style.color = '#609966';
+		        randomNumInput.style.outline = '1px solid #609966';
+		        randomNumInput.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+		        emailBtn2.innerHTML = '인증 완료';
+		        emailCheckResult2.innerHTML = '';
+		        numCheck.value = 'Y';
+		        
+		    } else {
+		        emailCheckResult.innerText = "올바르지 않은 인증번호 입니다.";
+		        emailCheckResult.style.color = 'red';
+		        randomNumInput.style.outline = '1px solid red';
+		        randomNumInput.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+		        emailBtn2.innerHTML = '확인';
+				numCheck.value = 'N';
+		    }
+		});
+	
+	// 닉네임
+	const nickName = document.getElementsByName('uNickName')[0];
+    const nickNameResult = document.getElementById('nickNameCheckResult');
+    let nickNameCheck = document.getElementById('nickNameCheck');
+    		
+    		nickName.addEventListener('input', function(){				
+				if(this.value.trim() == ''){
+					nickNameResult.innerText = '닉네임을 입력해주세요.';
+					nickNameResult.style.color = 'gray';
+					nickName.style.outline = '';
+					nickName.style.boxShadow = '';
+				} else {
+					$.ajax({
+						url: 'checkNickName.me',
+						data: {uNickName:this.value.trim()},
+						success: data => {
+							console.log(data);
+							if(data == 'yes'){
+								nickNameResult.innerText = '사용 가능한 닉네임입니다.';
+								nickNameResult.style.color = '#609966';
+								nickName.style.outline = '1px solid #609966';
+								nickName.style.boxShadow = '0px 0px 10px rgba(96, 153, 102, 0.15)';
+								nickNameCheck.value = 'Y';
+							} else if(data == 'no'){
+								nickNameResult.innerText = "사용 불가능한 닉네임입니다.";
+								nickNameResult.style.color = 'red';
+								nickName.style.outline = '1px solid red';
+								nickName.style.boxShadow = '0px 0px 8px rgba(255, 0, 0, 0.15)';
+								nickNameCheck.value = 'N';
+							}
+						},
+						error: data => {
+							console.log(data);
+						}
+					});
+				}
+				
+			});
+    	
+	function checkAllConditions() {
+		const uId = document.getElementsByName('uId')[0];
+		const regExp = /^[^ㄱ-ㅎㅏ-ㅣ가-힣]{5,20}$/
+		let idCheck = document.getElementById('idCheck');
+		
+		const uPwd = document.getElementsByName('uPwd')[0];
+		const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
+		const checkPwd = document.getElementsByName('checkPwd')[0];
+		
+		const uName = document.getElementsByName('uName')[0];
+		
+		const normalRadio = document.querySelector('input[name="uType"][value="일반"]');
+		const agencyRadio = document.querySelector('input[name="uType"][value="단체"]');
+		const registrar = document.getElementsByName('registrar')[0];
+		
+		const residentNo = document.getElementsByName('residentNo')[0];
+		const ssnRegexFirst = /^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
+		
+		const address = document.getElementsByName('address')[0];
+		
+		const phone = document.getElementsByName('phone')[0];
+		
+		const emailId = document.getElementsByName('emailId')[0];
+		const emailDomain = document.getElementsByName('emailDomain')[0];
+		const randomNumInput = document.getElementsByName('randomNumInput')[0];
+		const emailBtn2 = document.getElementById('emailBtn2');
+		let numCheck = document.getElementById('numCheck');
+		
+		const uNickName = document.getElementsByName('uNickName')[0];
+		let nickNameCheck = document.getElementById('nickNameCheck');
+		
+		if (uId.value.trim() == "") {
+			uId.focus();
+			return false;
+		}
+			
+		if (!regExp.test(uId.value)) {
+			uId.focus();
+			return false;
+		}
+
+		if (uPwd.value.trim() == "") {
+		    uPwd.focus();
+		    return false;
+		}
+		
+		if (!pwdRegex.test(uPwd.value)) {
+			uPwd.focus();
+			return false;
+		}
+		
+		if (checkPwd.value.trim() == "") {
+			checkPwd.focus();
+		    return false;
+		}
+		
+		if (uPwd.value !== checkPwd.value) {
+			checkPwd.focus();
+		    return false;
+		}
+		
+		if (uName.value.trim() == "") {
+			uName.focus();
+		    return false;
+		}
+		
+		if (!normalRadio.checked && !agencyRadio.checked) {
+			normalRadio.focus();
+			return false;
+		}
+		
+		if (agencyRadio.checked && registrar.value.trim() == '') {
+			registrar.focus();
+			return false;
+		}
+		
+		if (residentNo.value.trim() == "") {
+			residentNo.focus();
+		    return false;
+		}
+		
+		if (!ssnRegexFirst.test(residentNo.value)) {
+			residentNo.focus();
+			return false;
+		}
+		
+		if (address.value.trim() == "") {
+			address.focus();
+		    return false;
+		}
+		
+		if (phone.value.trim() == "") {
+			phone.focus();
+		    return false;
+		}
+		
+		if (emailId.value.trim() == "") {
+			emailId.focus();
+		    return false;
+		}
+		
+		if (randomNumInput.value.trim() == "") {
+			randomNumInput.focus();
+		    return false;
+		}
+		
+		if (emailBtn2.innerHTML === "확인") {
+			randomNumInput.focus();
+		    return false;
+		}
+		
+		if (uNickName.value.trim() == "") {
+			uNickName.focus();
+			return false;
+		}
+		
+		if (idCheck.value === "N"){
+			uId.focus();
+			return false;
+		}
+		
+		if (nickNameCheck.value === "N"){
+			uNickName.focus();
+			return false;
+		}
+		
+		if (numCheck.value === "N"){
+			randomNumInput.focus();
+			return false;
+		}
+				  
+		document.enrollForm.submit();
+		alert("회원가입이 정상적으로 완료되었습니다.");
+
+	}
+</script>
+</body>
+</html>

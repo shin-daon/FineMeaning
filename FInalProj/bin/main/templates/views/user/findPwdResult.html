@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>선뜻</title>
+<link rel="shortcut icon" type="image/x-icon" href="image/heart.png"/>
+</head>
+<link rel="stylesheet" href="css/user/findPwdResult.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<body>
+<div th:replace="~{views/common/header :: header}"></div>
+<br><br><br><br>
+
+<div class="enroll">
+	<div class="enroll-title">비밀번호 찾기</div>
+
+	<div class="insert result-div">
+		<label class="title new-pwd-title">비밀번호 재설정</label><br>
+		<span class="pwd-comment">영문, 숫자를 포함한 8 - 16자의 비밀번호를 입력해주세요.</span>
+		<form action="changePwd.us" method="post" id="">
+			<div class="pwd-area">
+				새 비밀번호 <input type="password" id="normal-input" class="new-pwd" name="newPwd" placeholder="비밀번호"/><br><br>
+				비밀번호 확인 <input type="password" id="normal-input" class="new-pwd" name="newPwdCheck" placeholder="비밀번호 확인"/><br>
+				
+				<div class="check-div"><label id="pwdCheckResult"></label></div>
+				
+				<div class="address-btn">
+					<button type="submit" id="nextBtn" class="learn-more">설정하기</button>
+				</div>
+			</div>	
+		</form>
+	</div>
+	
+	
+</div>
+
+<br><br><br><br>
+<div th:replace="~{views/common/footer :: footer}"></div>
+<script>
+	//비밀번호
+	const pwdInput = document.querySelector('input[name="newPwd"]');
+	const confirmPwdInput = document.querySelector('input[name="newPwdCheck"]');
+	const pwdResult = document.getElementById('pwdCheckResult');
+	const nextBtn = document.getElementById('nextBtn');
+	
+	nextBtn.disabled = true;
+	
+	pwdInput.addEventListener('input', validatePassword);
+	confirmPwdInput.addEventListener('input', validatePassword);
+	
+	function validatePassword() {
+	  const pwdValue = pwdInput.value;
+	  const confirmPwdValue = confirmPwdInput.value;
+	
+	  const isPwdEmpty = pwdValue.trim() === '';
+	  const isConfirmPwdEmpty = confirmPwdValue.trim() === '';
+	  const isPwdValid = !isPwdEmpty && /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/.test(pwdValue);
+	  const isConfirmPwdValid = !isConfirmPwdEmpty && pwdValue === confirmPwdValue;
+	
+	  if (isPwdEmpty || isConfirmPwdEmpty) {
+	    pwdResult.textContent = '비밀번호를 입력해주세요.';
+	    nextBtn.disabled = true;
+	  } else if (!isPwdValid) {
+	    pwdResult.textContent = '올바른 비밀번호 형식이 아닙니다.';
+	    nextBtn.disabled = true;
+	  } else if (!isConfirmPwdValid) {
+		pwdResult.textContent = '입력된 비밀번호가 일치하지 않습니다.';
+		nextBtn.disabled = true;
+	  } else if(isPwdValid && isConfirmPwdValid) {
+	    pwdResult.textContent = '';
+	    nextBtn.disabled = false;
+	  }
+	}
+	
+	nextBtn.addEventListener('click', function() {
+	  alert('비밀번호가 성공적으로 변경되었습니다.');
+	});
+
+
+
+</script>
+</body>
+</html>

@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fin.proj.common.Pagination;
 import com.fin.proj.common.model.vo.PageInfo;
-import com.fin.proj.member.model.vo.Member;
+import com.fin.proj.user.model.vo.User;
 import com.fin.proj.volunteer.Map;
 import com.fin.proj.volunteer.model.exception.VolunteerException;
 import com.fin.proj.volunteer.model.service.VolunteerService;
@@ -134,7 +134,7 @@ public class VolunteerController {
 		}
 		model.addAttribute("v", v);
 		model.addAttribute("page", page);
-		model.addAttribute("u", ((Member)session.getAttribute("loginUser")));
+		model.addAttribute("u", ((User)session.getAttribute("loginUser")));
 		
 		if(searchObject != null) {
 			HashMap<String, String> searchMap = new Gson().fromJson(String.valueOf(searchObject), new TypeToken<HashMap<String, Object>>(){}.getType());
@@ -163,7 +163,7 @@ public class VolunteerController {
 	
 	@RequestMapping("applyVolunteer.vo")
 	public String applyVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
-		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
+		v.setuNo(((User)session.getAttribute("loginUser")).getuNo());
 		int result = vService.applyVolunteer(v);
 		if(result > 0) {
 			return "redirect:volunteerHistory.vo";
@@ -223,7 +223,7 @@ public class VolunteerController {
 			currentPage = 1;
 		}
 		
-		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		int uNo = ((User)session.getAttribute("loginUser")).getuNo();
 		
 		int vHistoryCount = vService.getMyVolunteerHistoryCount(uNo);
 		PageInfo pi = Pagination.getPageInfo(currentPage, vHistoryCount, 10);
@@ -254,7 +254,7 @@ public class VolunteerController {
 			status = "";
 		}
 		
-		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		int uNo = ((User)session.getAttribute("loginUser")).getuNo();
 		HashMap<String, Object> myHistorySearchMap = new HashMap<String, Object>();
 		myHistorySearchMap.put("uNo", uNo);
 		myHistorySearchMap.put("startDate", startDate);
@@ -290,7 +290,7 @@ public class VolunteerController {
 			currentPage = 1;
 		}
 		
-		int uNo = ((Member)session.getAttribute("loginUser")).getuNo();
+		int uNo = ((User)session.getAttribute("loginUser")).getuNo();
 		
 		int vEnrollHistoryCount = vService.getVolunteerEnrollHistoryCount(uNo);
 		PageInfo pi = Pagination.getPageInfo(currentPage, vEnrollHistoryCount, 10);
@@ -334,7 +334,7 @@ public class VolunteerController {
 		searchEnrollHisMap.put("status", status);
 		searchEnrollHisMap.put("vName", vName);
 		searchEnrollHisMap.put("vTargetCategoryName", vTargetCategoryName);
-		searchEnrollHisMap.put("uNo", ((Member)session.getAttribute("loginUser")).getuNo());
+		searchEnrollHisMap.put("uNo", ((User)session.getAttribute("loginUser")).getuNo());
 		
 		int searchVolunteerHistoryCount = vService.getSearchVolunteerHistoryCount(searchEnrollHisMap);
 		
@@ -386,7 +386,7 @@ public class VolunteerController {
 	
 	@PostMapping("insertVolunteer.vo")
 	public String insertVolunteer(@ModelAttribute Volunteer v, HttpSession session) {
-		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
+		v.setuNo(((User)session.getAttribute("loginUser")).getuNo());
 		int result = vService.insertVolunteer(v);
 		if(result > 0) {
 			return "redirect:volunteerEnrollHistory.vo";
@@ -396,7 +396,7 @@ public class VolunteerController {
 	
 	@PostMapping("updateVolunteer.vo")
 	public String updateVolunteer(@ModelAttribute Volunteer v, @RequestParam("page") int page, @RequestParam(value="searchObject", required=false) String searchObject, HttpSession session, RedirectAttributes ra) {
-		v.setuNo(((Member)session.getAttribute("loginUser")).getuNo());
+		v.setuNo(((User)session.getAttribute("loginUser")).getuNo());
 		
 		int result = vService.updateVolunteer(v);
 		if(result > 0) {

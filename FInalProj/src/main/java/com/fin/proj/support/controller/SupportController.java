@@ -15,11 +15,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fin.proj.common.Pagination;
 import com.fin.proj.common.model.vo.PageInfo;
-import com.fin.proj.member.model.vo.Member;
 import com.fin.proj.support.model.exception.SupportException;
 import com.fin.proj.support.model.service.SupportService;
 import com.fin.proj.support.model.vo.Support;
 import com.fin.proj.support.model.vo.SupportHistory;
+import com.fin.proj.user.model.vo.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -63,10 +63,10 @@ public class SupportController {
 		ArrayList<SupportHistory> shList = suService.currentSupporter(supportNo);
 
 		
-		if((Member)session.getAttribute("loginUser")!= null) {			
+		if((User)session.getAttribute("loginUser")!= null) {			
 			System.out.println("지금 여기로 들어오는거니?");
-			int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
-			int isAdmin = ((Member) session.getAttribute("loginUser")).getIsAdmin();
+			int uNo = ((User) session.getAttribute("loginUser")).getuNo();
+			int isAdmin = ((User) session.getAttribute("loginUser")).getIsAdmin();
 			model.addAttribute("s", s);
 			model.addAttribute("dDay", dDay);
 			model.addAttribute("shList", shList);
@@ -116,7 +116,7 @@ public class SupportController {
 			currentPage = 1;
 		}
 
-		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
+		int uNo = ((User) session.getAttribute("loginUser")).getuNo();
 
 		System.out.println(uNo);
 
@@ -134,7 +134,7 @@ public class SupportController {
 
 	@RequestMapping("supportApplicationListUser.su")
 	public String supportApplicationListUser(HttpSession session, Model model,@RequestParam(value = "page", required = false) Integer currentPage) {
-		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
+		int uNo = ((User) session.getAttribute("loginUser")).getuNo();
 
 		if (currentPage == null) {
 			currentPage = 1;
@@ -159,8 +159,8 @@ public class SupportController {
 	@RequestMapping("supportApply.su")
 	public String supportApply(HttpSession session, @ModelAttribute Support s,@RequestParam("imageUrl") String imageUrl) {
 
-		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
-		String registar = ((Member) session.getAttribute("loginUser")).getRegistrar();
+		int uNo = ((User) session.getAttribute("loginUser")).getuNo();
+		String registar = ((User) session.getAttribute("loginUser")).getRegistrar();
 		s.setUserNo(uNo);
 		s.setRegistar(registar);
 		s.setImageUrl(imageUrl);
@@ -337,7 +337,7 @@ public class SupportController {
 		s.setSupportTitle(searchWord);
 		s.setStatus(status.charAt(0));
 		
-		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
+		int uNo = ((User) session.getAttribute("loginUser")).getuNo();
 
 		if (currentPage == null) {
 			currentPage = 1;
@@ -400,7 +400,7 @@ public class SupportController {
 	@ResponseBody
 	public String insertSupporter(HttpSession session, @ModelAttribute SupportHistory sh) {
 
-		Integer uNo = ((Member) session.getAttribute("loginUser")).getuNo();
+		Integer uNo = ((User) session.getAttribute("loginUser")).getuNo();
 
 		sh.setUserNo(uNo);
 
@@ -426,7 +426,7 @@ public class SupportController {
 	public String searchMyList(@RequestParam(value = "page", required = false) Integer currentPage,
 			@RequestParam("searchWord") String searchWord, Model model, HttpSession session) {
 
-		Integer uNo = ((Member) session.getAttribute("loginUser")).getuNo();
+		Integer uNo = ((User) session.getAttribute("loginUser")).getuNo();
 
 		SupportHistory sh = new SupportHistory();
 
@@ -612,7 +612,7 @@ public class SupportController {
 			currentPage = 1;
 		}
 
-		int uNo = ((Member) session.getAttribute("loginUser")).getuNo();
+		int uNo = ((User) session.getAttribute("loginUser")).getuNo();
 		SupportHistory sh = new SupportHistory();
 		sh.setUserNo(uNo);
 		sh.setCategory(category);

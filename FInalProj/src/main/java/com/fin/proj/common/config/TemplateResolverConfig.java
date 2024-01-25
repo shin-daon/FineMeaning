@@ -53,18 +53,18 @@ public class TemplateResolverConfig {
 	}
 
 	@Bean
-	public ClassLoaderTemplateResolver dotMeResolver() {
-		ClassLoaderTemplateResolver dotMe = new ClassLoaderTemplateResolver();
+	public ClassLoaderTemplateResolver dotUsResolver() {
+		ClassLoaderTemplateResolver dotUs = new ClassLoaderTemplateResolver();
 		
-		dotMe.setPrefix("templates/views/member/");
-		dotMe.setSuffix(".html");
-		dotMe.setTemplateMode(TemplateMode.HTML);
-		dotMe.setCharacterEncoding("UTF-8");
-		dotMe.setOrder(1);
-		dotMe.setCacheable(false);
-		dotMe.setCheckExistence(true);
+		dotUs.setPrefix("templates/views/user/");
+		dotUs.setSuffix(".html");
+		dotUs.setTemplateMode(TemplateMode.HTML);
+		dotUs.setCharacterEncoding("UTF-8");
+		dotUs.setOrder(1);
+		dotUs.setCacheable(false);
+		dotUs.setCheckExistence(true);
 		
-		return dotMe;
+		return dotUs;
 	}
 	
 }

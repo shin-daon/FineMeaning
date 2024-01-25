@@ -2,7 +2,7 @@ package com.fin.proj.common.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.fin.proj.member.model.vo.Member;
+import com.fin.proj.user.model.vo.User;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,12 +14,12 @@ public class CheckKakaoInterceptor implements HandlerInterceptor{
 			throws Exception {
 		
 		HttpSession session = request.getSession();
-		Member loginUser = (Member)session.getAttribute("loginUser");
+		User loginUser = (User)session.getAttribute("loginUser");
 		
 		if( loginUser.getuId() == null ) {
 						
 			response.setContentType("text/html; charset=UTF-8");
-			response.getWriter().write("<script>alert('카카오 회원은 비밀번호를 변경 할 수 없습니다.'); location.href='editMyInfo.me';</script>");
+			response.getWriter().write("<script>alert('카카오 회원은 비밀번호를 변경 할 수 없습니다.'); location.href='editMyInfo.us';</script>");
 			
 			return false;
 		}

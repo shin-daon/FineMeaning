@@ -2,7 +2,7 @@ package com.fin.proj.common.interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.fin.proj.member.model.vo.Member;
+import com.fin.proj.user.model.vo.User;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,7 +14,7 @@ public class CheckAdminInterceptor implements HandlerInterceptor{
 			throws Exception {
 		
 		HttpSession session = request.getSession();
-		Member loginUser = (Member)session.getAttribute("loginUser");
+		User loginUser = (User)session.getAttribute("loginUser");
 		
 		if( loginUser == null || loginUser.getIsAdmin() != 0 ) {
 						
