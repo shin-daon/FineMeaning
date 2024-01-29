@@ -191,7 +191,7 @@
 			pwdCheckResult.innerText = '메일 전송 중입니다. 잠시만 기다려주세요.';
 			console.log(emailAddress);
 			$.ajax({
-	            url: 'findMyPwdByEmail.me',
+	            url: 'findMyPwdByEmail.us',
 	            data: { uId: uId, emailAddress: emailAddress },
 	            success: data => {
 	                
@@ -228,7 +228,7 @@
 	        });
 	    } else if (phoneRadio.checked && !(uId.trim() == '') && !(phone.trim() == '')){
 	    	$.ajax({
-	            url: 'findMyPwdByPhone.me',
+	            url: 'findMyPwdByPhone.us',
 	            data: { uId: uId, phone: phone },
 	            success: data => {
 	                

@@ -126,7 +126,7 @@
 	                </tr>
 	            </thead>
 	            <tbody>
-	            		<tr th:if="${mList == null or mList.size() == 0}">
+	            		<tr th:if="${uList == null or uList.size() == 0}">
 			                <td colspan="8">해당하는 회원이 없습니다.</td>
 			            <tr>
 		                <tr th:each="u : ${uList}" th:if="${uList!=null}">

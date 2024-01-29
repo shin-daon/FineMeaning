@@ -212,7 +212,7 @@ public class UserController {
     	out.print(result + "," + randomNum);   	
 	}
 	
-	@PostMapping("findUserId.me")
+	@PostMapping("findUserId.us")
 	public String findUserId(@ModelAttribute User u,
 							 @RequestParam("emailId") String emailId,
 							 @RequestParam("emailDomain") String emailDomain, Model model) {
@@ -251,7 +251,7 @@ public class UserController {
 	    return "findPwdResult";
 	}
 	
-	@RequestMapping(value="findMyPwdByEmail.me")
+	@RequestMapping(value="findMyPwdByEmail.us")
 	public void findMyPwdByEmail(@RequestParam("uId") String uId,
 					      		 @RequestParam("emailAddress") String emailAddress, PrintWriter out) {
 		
@@ -270,7 +270,7 @@ public class UserController {
     	out.print(result + "," + randomNum);  	
 	}
 	
-	@RequestMapping(value="findMyPwdByPhone.me")
+	@RequestMapping(value="findMyPwdByPhone.us")
 	public void findMyPwdByPhone(@RequestParam("uId") String uId,
 					       		 @RequestParam("phone") String phone, PrintWriter out) {
 		
@@ -313,7 +313,7 @@ public class UserController {
 		}
 	}
 	
-	@PostMapping("changePwd.me") // 해당 유저의 비밀번호 재설정
+	@PostMapping("changePwd.us") // 해당 유저의 비밀번호 재설정
 	public String changePwd(HttpSession session, @RequestParam("newPwd") String newPwd, Model model) {
 		
 		User foundUser = (User) session.getAttribute("foundUser");
@@ -479,7 +479,7 @@ public class UserController {
 
 		if (uList != null) {
 			model.addAttribute("pi", pi);
-			model.addAttribute("mList", uList);
+			model.addAttribute("uList", uList);
 			return "editUserInfo";
 		} else {
 			throw new UserException("회원 목록 조회에 실패했습니다.");
