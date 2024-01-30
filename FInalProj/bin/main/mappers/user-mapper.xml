@@ -266,4 +266,10 @@
 		set u_status = #{status}
 		where u_no = #{uNo} 
 	</update>
+	
+	<select id="findUser" resultMap="userResultSet">
+		select *
+		from users
+		where u_id = #{username} 
+	</select>
 </mapper>

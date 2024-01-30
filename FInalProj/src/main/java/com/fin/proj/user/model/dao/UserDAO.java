@@ -3,6 +3,7 @@ package com.fin.proj.user.model.dao;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -76,4 +77,6 @@ public interface UserDAO {
 	int updateState(Properties prop);
 
 	int checkLogin(String uId);
+
+	List<User> findUser(String username);
 }

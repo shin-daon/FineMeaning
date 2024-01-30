@@ -3,6 +3,7 @@ package com.fin.proj.user.model.service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.ibatis.session.RowBounds;
@@ -12,9 +13,10 @@ import org.springframework.stereotype.Service;
 import com.fin.proj.common.model.vo.PageInfo;
 import com.fin.proj.user.model.dao.UserDAO;
 import com.fin.proj.user.model.vo.User;
+import com.fin.proj.user.security.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserRepository {
 	
 	@Autowired
 	private UserDAO uDAO;
@@ -186,5 +188,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int checkLogin(String uId) {
 		return uDAO.checkLogin(uId);
+	}
+
+	@Override
+	public List<User> findUser(String username) {
+		return uDAO.findUser(username);
 	}
 }

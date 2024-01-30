@@ -73,6 +73,4 @@ public interface UserService {
 	int updateState(Properties prop);
 
 	int checkLogin(String uId);
-	
-
 }
