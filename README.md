@@ -1,11 +1,11 @@
 ## 🍀 선뜻 (Fine Meaning)
 - 봉사, 후원 및 커뮤니티 웹 서비스
-- kh정보교육원 파이널 프로젝트 (인원: 5명)
+-  프로젝트 (인원: 5명)
 - 개발기간: 2023.06 ~ 2023.07
 
 <br>
 
-## 🙋‍♀️ 사용자
+## 🙋‍♀️ 적합한 사용자
 - 흩어져있는 봉사, 후원 정보들을 한데 모아 보고자 하는 유저
 - 진행하고 있는 후원에 대한 투명성을 보장하는 사이트를 원하는 유저
 - 회원들과의 자유로운 소통을 원하는 유저
@@ -16,7 +16,7 @@
 - Front-End
   - HTML5, CSS3, JavaScript, jQuery
 - Back-End
-  - Java 11, Servlet, SQL, Ajax
+  - Java 17, Servlet, SQL, Ajax
   - Spring Boot, Oracle 19c
 - Tools
   - STS4, VS Code
@@ -24,7 +24,7 @@
 <br>
 
 ## 🌐 DB 설계
-<p align="center"><img width="80%" src="https://github.com/shin-daon/finalProj/assets/126737580/18b334ea-f053-4d1e-b7d7-7f935e6187cf"/></p>
+<p align="center"><img width="80%" src="https://github.com/shin-daon/FineMeaning/assets/126737580/ef159444-c41f-474d-853e-ecf71dd2c4d1"/></p>
 
 <br>
 
@@ -39,7 +39,7 @@
 - 커뮤니티
   - 공지사항 게시판
   - 회원간 자유 소통 게시판
-- 유저 (본인 담당)
+- 유저
   - 로그인 및 회원가입
   - 카카오 로그인
   - 아이디·비밀번호 찾기
@@ -55,7 +55,6 @@
 ## 🕹️ 실행방법
 ```
 $ git clone https://github.com/shin-daon/finalProj.git
-프로그램 실행 ▷ Import Projects ▷ finalProj 선택 ▷ Run
 ```
 
 <br><br>
